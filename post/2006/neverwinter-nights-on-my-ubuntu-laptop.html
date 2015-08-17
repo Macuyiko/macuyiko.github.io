@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Neverwinter Nights On My Ubuntu-Laptop</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">ma 11 september 2006, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html" rel="bookmark"
+			title="Permalink to Neverwinter Nights On My Ubuntu-Laptop">Neverwinter Nights On My&nbsp;Ubuntu-Laptop</a></div>
+		</header>
+	
+	    <p>Today I finally decided to spend some time and try to install Neverwinter Nights on my laptop, since I absolutely still love that game. Of course: you could follow <a href="http://ubuntuforums.org/showthread.php?t=113259">this howto</a>, but since I don&#8217;t have <span class="caps">NWN</span> Platinum or Diamond, I had to follow other instructions. I didn&#8217;t want to pirate the game (I legally own the original and the two expansions, so I figured that would work too).<br />
+Instead I followed the <a href="http://nwn.bioware.com/downloads/linuxclient.html">instructions from Bioware</a>, congrats to them for making this game available on a Linux (and Mac)&nbsp;platform!  </p>
+<h3>Step 1: &#8220;Installing Using Downloaded Linux Client&nbsp;Resources&#8221;</h3>
+<p>Download the <a href="http://files.bioware.com/neverwinternights/updates/linux/nwresources129.tar.gz">Linux Client Resources v1.29</a> (from BioWare). Extract this archive somewhere (e.g.: /home/user/Programs/nwn). 
+We will do the English install, for other languages: follow the Bioware instructions, these instructions are just narrowed down and compressed&#8230;
+Also download the <a href="http://files.bioware.com/neverwinternights/updates/linux/nwclient129.tar.gz">Linux Client 1.29 binaries</a> (tar.gz, 5.3 <span class="caps">MB</span>). (Make sure you are logged in into the Bioware site, registering is free.) And also extract these into your installation folder. Make sure you overwrite all existing files - this is a rule for all further archives, unless stated otherwise.<br />
+If you have SoU and HoU, don&#8217;t update to the latest version yet. And wait with playing the game&nbsp;;).</p>
+<h3>Step 2: &#8220;Installing Shadows of Undrentide Expansion&nbsp;Pack&#8221;</h3>
+<p>Make sure step 1 completed successfully. Since the Linux installer on the disk is broken, we will do it ourselves.<br />
+Make sure you can access the following files, they are in the CDs root folder.<br />
+- <code>Data_Shared.zip</code>
+- <code>Language_data.zip</code>
+- <code>Language_update.zip</code>
+- <code>Data_Linux.zip</code>
+Extract them into your installation folder in the above order (overwrite)!<br />
+Then delete the following files from your installation folder if they exist:<br />
+- <code>/INSTALL/data/patch.bif</code>
+- <code>/INSTALL/patch.key</code>
+And then execute the following command from a terminal:<br />&nbsp;./fixinstall  </p>
+<h3>Step 3: &#8220;Installing Hordes of the Underdark Expansion&nbsp;Pack&#8221;</h3>
+<p>Make sure you completed steps 1 and 2.<br />
+Remove the following files if they exist:<br />
+- <code>/INSTALL/patch.key</code>
+- <code>/INSTALL/data/patch.bif</code>
+- <code>/INSTALL/ xp1patch.key</code>
+- <code>/INSTALL/data/xp1patch.bif</code>
+Again: get the following archives from the HoU <span class="caps">CD</span> root and unzip them into your installation folder in the following order:<br />
+- <code>Data_Shared.zip</code>
+- <code>Language_data.zip</code>
+- <code>Language_update.zip</code>
+Download <a href="http://nwdownloads.bioware.com/neverwinternights/linux/161/nwclienthotu.tar.gz">nwclienthotu.tar.gz</a> and also extract it into your nwn directory, overwriting all.<br />
+Again, run ./fixinstall from your installation&nbsp;directory.  </p>
+<h3>Step 4:&nbsp;updating</h3>
+<p>Now update the game, <a href="http://nwn.bioware.com/support/patch.html">download the patch here</a>. To update, just overwrite-extract the archive you have downloaded in the installation&nbsp;map.  </p>
+<h3>Step 5:&nbsp;fixing</h3>
+<p>I got the following error when starting Neverwinter with the <code>./nwn</code> command:<br />
+    mcop warning: user defined signal handler found for SIG_PIPE, overriding<br />
+    Creating link /home/username/.kde/socket-hostname.<br />
+    can&#8217;t create mcop directory<br />
+To fix this, I executed:<br />
+    mkdir ~/.kde/socket-hostname<br />
+Replace hostname with your own hostname, of course (it is mentioned in the error).<br />
+Then everything worked perfectly fine: <span class="caps">NWN</span> starts and I can enter my <span class="caps">CD</span> keys, the game doesn&#8217;t run like it does on my gaming machine, but I&#8217;m satisfied that it runs at all with such a small Thinkpad X60 with quite a crappy graphics&nbsp;chip.</p>
+<p>Again: thanks to Bioware for making this available (which other game company would host a one-gigabyte file on their servers?).<br />
+Happy&nbsp;adventuring! </p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2006/neverwinter-nights-on-my-ubuntu-laptop.html';
+	    var disqus_title = 'Neverwinter Nights On My Ubuntu-Laptop';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

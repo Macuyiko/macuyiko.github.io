@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Thinkpad Stories (5 already): “Bluetooth and Nokia phones.”</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">ma 14 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html" rel="bookmark"
+			title="Permalink to Thinkpad Stories (5 already): “Bluetooth and Nokia phones.”">Thinkpad Stories (5 already): &#8220;Bluetooth and Nokia&nbsp;phones.&#8221;</a></div>
+		</header>
+	
+	    <p>Story number 5 already.<br />
+Here is the background talk: now that I finally have bluetooth support (I never had an <span class="caps">USB</span> dongle) I could finally copy my pictures over from my Nokia phone (since I don&#8217;t want to invest in an expensive non-standard <span class="caps">USB</span> cable).<br />
+I followed some advice from the forums and other Internet resources&#8230; here is how I did it.<br />
+Make sure the following packages are installed on your system:<br />
+    sudo apt-get install gnome-bluetooth<br />
+    sudo apt-get install obexserver<br />
+    sudo apt-get install bluez-utils<br />
+Then load the following modules into the kernel (I could skip this step).<br />
+    sudo modprobe l2cap<br />
+    sudo modprobe rfcomm<br />
+Also, start your <code>bluez-utils</code>:<br />
+    sudo /etc/init.d/bluez-utils start<br />
+Since I am using my Thinkpad, I active the integrated bluetooth device:<br />
+    sudo su<br />
+    echo enable &gt; /proc/acpi/ibm/bluetooth<br />
+Activate bluetooth in your phone. Make sure it is visible to other devices.<br />
+Now do:<br />
+    hcitool scan<br />
+You should see something like this:<br />
+    Scanning &#8230;<br />
+    00:11:22:<span class="caps">DD</span>:<span class="caps">EE</span>:<span class="caps">FF</span> YOUR_PHONE_NAME<br />
+Copy the address to the clipboard, you&#8217;ll use it later.<br />
+Now we edit a simple configuration file:<br />
+    sudo gedit /etc/bluetooth/rfcomm.conf<br />
+And save this (use your own address, leave the channel to 10):<br />
+    rfcomm0 {<br />
+    device ADDRESS_OF_YOUR_PHONE;<br />
+    channel 10;<br />
+    comment &#8220;Your description&#8221;;<br />
+    }<br />
+You may wonder how we got this channel, you can find out by entering this command:<br />
+    sdptool browse ADDRESS_OF_YOUR_PHONE<br />
+Somewhere in the output you find the following:<br />
+    Service Name: <span class="caps">OBEX</span> File Transfer<br />
+    Service RecHandle: 0x1000f<br />
+    Service Class <span class="caps">ID</span> List:<br />
+    &#8220;<span class="caps">OBEX</span> File Transfer&#8221; (0x1106)<br />
+    Protocol Descriptor List:<br />
+    &#8220;<span class="caps">L2CAP</span>&#8221; (0x0100)<br />
+    &#8220;<span class="caps">RFCOMM</span>&#8221; (0x0003)<br />
+    Channel: 10<br />
+    &#8220;<span class="caps">OBEX</span>&#8221; (0x0008)<br />
+    Language Base Attr List:<br />
+    code_ISO639: 0x656e<br />
+    encoding: 0x6a<br />
+    base_offset: 0x100<br />
+    Profile Descriptor List:<br />
+    &#8220;<span class="caps">OBEX</span> File Transfer&#8221; (0x1106)<br />
+    Version: 0x0100<br />
+See?<br />
+Now add the Nokia channel to communicate with the phone:<br />
+    sudo sdptool add &#8212;channel=10 <span class="caps">OPUSH</span><br />
+And bind it with <code>rfcomm</code>:<br />
+    sudo rfcomm bind /dev/rfcomm0 ADDRESS_OF_YOUR_PHONE 10<br />
+You&#8217;re all set up&#8230; now you can:<br />
+<strong>Send a file from your phone:</strong>
+(1) Start the obexserver with (stores files in /tmp, you must enter this command after every file send):<br />
+    obexserver<br />
+or (stays open, should store in your home dir, but didn&#8217;t work with me):<br />
+    gnome-obex-server<br />
+(2) Use your phone, select a picture or video file, then Options -&gt; Send -&gt; Via Bluetooth, it should find your <span class="caps">PC</span>.
+<strong>Send a file to your phone:</strong>
+(1) <code>gnome-obex-send /path/to/file</code><br />
+It should find your phone and prompt you.
+Don&#8217;t forget that you must use these commands every reboot again (or you could make a script):<br />
+    sudo modprobe l2cap<br />
+    sudo modprobe rfcomm<br />
+    # (re)start (if necessary):
+    sudo /etc/init.d/bluez-utils
+    echo enable &gt; /proc/acpi/ibm/bluetooth<br />
+    sudo mknod /dev/rfcomm0 c 216 0<br />
+    sdptool add &#8212;channel=10 <span class="caps">OPUSH</span><br />
+    sudo rfcomm bind /dev/rfcomm0 YOUR_PHONE_ADDRESS 10<br />
+When you&#8217;re done, I find it neat the disable the integrated bluetooth device (let&#8217;s conserve power) this is easy as pie:<br />
+    echo disable &gt; /proc/acpi/ibm/bluetooth<br />
+and you could also stop <code>bluez-utils</code>:<br />
+    sudo /etc/init.d/bluez-utils stop<br />
+if you want.<br />
+This was one of my reasons why I kept a Windows partition. Now that I have figured out how to do this in Ubuntu, one partition has a greater change of being wiped and&nbsp;merged.</p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html';
+	    var disqus_title = 'Thinkpad Stories (5 already): “Bluetooth and Nokia phones.”';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

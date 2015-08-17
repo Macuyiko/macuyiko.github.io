@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Game: Dreamfall: The Longest Journey</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">ma 01 mei 2006, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/game-dreamfall-the-longest-journey.html" rel="bookmark"
+			title="Permalink to Game: Dreamfall: The Longest Journey">Game: Dreamfall: The Longest&nbsp;Journey</a></div>
+		</header>
+	
+	    <p>I&#8217;ve finished Dreamfall yesterday (after a long-night-session). It was great.<br />
+I am not going to give any spoilers, but if you like science-fiction, fantasy, adventure games, or even movies (since you will feel you are playing a movie) you should pick up this game and play it until you see the (fantastic) ending.<br />
+The graphics are great too. Be warned though that you need a fairly recent <span class="caps">PC</span> to be able to play it. Various users have reported graphical glitches. I haven&#8217;t had any problems with it however (running in 1600x1200 in full <span class="caps">AA</span> and quality).<br />
+The music is amazing too. There might be a soundtrack out soon, but until then I&#8217;ve been ripping the 300Mb worth of <span class="caps">MP3</span> music out of the <span class="caps">PAK</span> files (use Dragon Unpacker 5 with Hyperripper).<br />
+I have provided a mirror for <a href="http://www.student.kuleuven.be/%7Es0172696/other/Ringtone.wav">Zoe&#8217;s ringtone</a>. (The last 4 hex values were added: the ringtone will loop and play correctly.)<br />
+If you want a full, better-written review, check out **<a href="http://www.gamespot.com/pc/adventure/longestjourney2wt/review.html?sid=6147844&amp;print=1">Greg Kasavin&#8217;s article</a>.<br />
+As you can notice, I&#8217;ve added a small video advertisement on the right, there even is a <a href="http://spreaddreamfall.ducaet.be/">Spread Dreamfall website</a>, you should help them sell 500000 copies!<br />
+Pros:<br />
+  - Amazing story, you will play this from beginning to end with awe.
+  - Beautiful setting and graphics. You will want to live in Casablanca of the future.
+  - Music is fantastic (some of it by the group Magnet). I&#8217;ve spend the whole afternoon extracting it from the game, and I will certainly buy the soundtrack.
+  - Finally: another good adventure game.
+Cons:<br />
+  - You may experience graphical glitches.
+  - You need a lot of space on your main partition if you&#8217;re running Windows x64, this is a known bug and will probably be patched.
+  - It&#8217;s not an action game, it may not be your thing.
+  - A tad short, alas.
+  - A lot of questions remain unanswered, so we will have to wait until the third (and probably final) part comes out&#8230; the waiting will be&nbsp;hard.</p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2006/game-dreamfall-the-longest-journey.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2006/game-dreamfall-the-longest-journey.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2006/game-dreamfall-the-longest-journey.html';
+	    var disqus_title = 'Game: Dreamfall: The Longest Journey';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2006/game-dreamfall-the-longest-journey.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Bed Against The Wall</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div class="large-9 columns">
+        
+		<article>
+			<header>
+				<div class="article-info">ma 19 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html" rel="bookmark"
+				title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 4 - Simulated Annealing">Modern Genetic (And Other) Algorithms Explained: Part 4 - Simulated&nbsp;Annealing</a></div>
+			</header>
+			<div class="article-summary">
+					<p>(This is part 4 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this post.)<br />
+First of all: Simulated Annealing is not a genetic algorithm, but it is a ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 19 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/testing-css-for-code-tag.html" rel="bookmark"
+				title="Permalink to Testing CSS For Code Tag">Testing <span class="caps">CSS</span> For Code&nbsp;Tag</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Just ignore this&#8230; I&#8217;m testing the <span class="caps">CSS</span> for my&nbsp;code.  </p>
+<div class="highlight"><pre><span class="nc">.code</span><span class="p">{</span>  
+  <span class="k">width</span><span class="o">:</span> <span class="m">464px</span><span class="p">;</span>  
+  <span class="k">overflow</span><span class="o">:</span> <span class="k">auto</span><span class="p">;</span>  
+  <span class="k">background</span><span class="o">:</span> <span class="m">#f8f8f8</span><span class="p">;</span>  
+  <span class="k">border-right</span><span class="o">:</span> <span class="m">1px</span> <span class="k">dashed</span> <span class="m">#e6e6e6</span><span class="p">;</span>  
+  <span class="k">border-top</span><span class="o">:</span> <span class="m">1px</span> <span class="k">dashed</span> <span class="m">#e6e6e6</span><span class="p">;</span>  
+  <span class="k">border-bottom</span><span class="o">:</span> <span class="m">1px</span> <span class="k">dashed</span> <span class="m">#e6e6e6</span><span class="p">;</span>  
+  <span class="k">border-left</span><span class="o">:</span> <span class="m">4px</span> <span class="k">solid</span> <span class="m">#e6e6e6</span><span class="p">;</span>  
+  <span class="k">margin-left</span><span class="o">:</span> <span class="m">10px</span><span class="p">;</span>  
+  <span class="k">padding</span><span class="o">:</span> <span class="m">4px</span><span class="p">;</span>  
+<span class="p">}</span>  
+<span class="nt">pre</span><span class="o">,</span><span class="nt">code</span><span class="o">,</span><span class="nt">tt</span> <span class="p">{</span>  
+  <span class="k">font</span><span class="o">:</span> <span class="s1">&#39;Liberation Mono&#39;</span><span class="o">,</span> <span class="s1">&#39;lucida console&#39;</span><span class="o">,</span> <span class="s1">&#39;courier new&#39;</span><span class="o">,</span> <span class="k">monospace</span><span class="p">;</span>  
+  <span class="k">line-height ...</span></pre></div>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/testing-css-for-code-tag.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">vr 16 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html" rel="bookmark"
+				title="Permalink to Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering Howto">Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering&nbsp;Howto</a></div>
+			</header>
+			<div class="article-summary">
+					<p>The following steps are instructions to surf the web using a Nokia N95 with 3G, connected to your Intrepid laptop via&nbsp;Bluetooth.  </p>
+<h4>1. Make sure you have the required packages&nbsp;installed:</h4>
+<div class="highlight"><pre>sudo apt-get install bluez-utils bluez-pin ppp
+</pre></div>
+
+
+<h4>2. Find out the phone&#8217;s <span class="caps">MAC</span> address. Enable Bluetooth on phone and ...</h4>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">di 13 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html" rel="bookmark"
+				title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 3 - CHC Eshelman">Modern Genetic (And Other) Algorithms Explained: Part 3 - <span class="caps">CHC</span>&nbsp;Eshelman</a></div>
+			</header>
+			<div class="article-summary">
+					<p>(This is part 3 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this post.)<br />
+In this part, we will look at a &#8220;special&#8221; genetic algorithm, <span class="caps">CHC</span> by Eshelman ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">za 10 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html" rel="bookmark"
+				title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 2 - Genetic Algorithms">Modern Genetic (And Other) Algorithms Explained: Part 2 - Genetic&nbsp;Algorithms</a></div>
+			</header>
+			<div class="article-summary">
+					<p>(This is part 2 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this post.)<br />
+Let&#8217;s take another look at <a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/">the blog post</a> on which we will base ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">wo 07 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html" rel="bookmark"
+				title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 1 - Introduction">Modern Genetic (And Other) Algorithms Explained: Part 1 -&nbsp;Introduction</a></div>
+			</header>
+			<div class="article-summary">
+					<p>A few days ago I saw <a href="http://www.reddit.com/r/programming/comments/7n1zl/genetic_algorithms_cool_name_amp_damn_simple_best/">this on reddit</a>, linking to a <a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/">well-written article</a> about genetic algorithms (<span class="caps">GA</span>):  </p>
+<blockquote>
+<p>Genetic algorithms are a mysterious sounding technique in mysterious sounding field&#8212;artificial intelligence. This is the problem with naming things appropriately. When the field was labeled artificial intelligence, it meant using mathematics ...</p></blockquote>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 05 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/blog-updates.html" rel="bookmark"
+				title="Permalink to Blog Updates!">Blog&nbsp;Updates!</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I&#8217;ve made some small tweaks to this&nbsp;blog:  </p>
+<ul>
+<li>Social widget added with latest Twitter status, and link to Friendfeed account. Completely clientsided with Javascript. Using <a href="http://remysharp.com/2007/05/18/add-twitter-to-your-blog-step-by-step/">twitter.js</a>.</li>
+<li>Was getting bored of the black theme, so I made a white one, made two css files and added a switcher &#8212; using ...</li></ul>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/blog-updates.html">Read more</a></p>
+			</div>
+		</article>
+
+<div class="pagination-centered">
+
+<h6 class="subheader">
+		<a href="http://blog.macuyiko.com/category/2009.html">&laquo; Prev</a>
+	Page 2 of 2	
+	Next &raquo;
+</h6>
+
+</div>
+</div>
+		
+ 
+<aside class="large-3 columns">
+	<div style="text-align: center;">
+		<img src="/images/avatar.jpg" width="100" class="avatar" />
+	</div>
+
+	<div class="sidebar-title">Site</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/">Home</a></li>
+		<li><a href="http://blog.macuyiko.com/archives.html">Archives</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/atom.xml" rel="alternate">Atom feed</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/rss.xml" rel="alternate">RSS feed</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Pages</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/pages/palettestealersuspender.html">PalettestealerSuspender</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Links</div>
+	<ul class="side-nav">
+		<li><a href="http://bedagainstthewall.blogspot.com">Old Blog Location</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Social</div>
+	<ul class="side-nav">
+		<li><a href="http://twitter.com/macuyiko">Twitter</a></li>
+		<li><a href="http://seppe.net">Personal Site</a></li>
+		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
+		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
+		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
+		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Search</div>
+	<div style="text-align: center; margin-top: 4px;">
+		<form method="get" action="http://www.google.com/search">
+			<input type="text" name="q" style="float: left; width: 130px;" maxlength="255" value="" />
+			<input type="submit" value="Go" />
+			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
+		</form>
+	</div>
+	
+</aside>
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

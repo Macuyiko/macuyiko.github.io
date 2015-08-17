@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering Howto</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">vr 16 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html" rel="bookmark"
+			title="Permalink to Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering Howto">Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering&nbsp;Howto</a></div>
+		</header>
+	
+	    <p>The following steps are instructions to surf the web using a Nokia N95 with 3G, connected to your Intrepid laptop via&nbsp;Bluetooth.  </p>
+<h4>1. Make sure you have the required packages&nbsp;installed:</h4>
+<div class="highlight"><pre>sudo apt-get install bluez-utils bluez-pin ppp
+</pre></div>
+
+
+<h4>2. Find out the phone&#8217;s <span class="caps">MAC</span> address. Enable Bluetooth on phone and laptop, and enter the following&nbsp;command:</h4>
+<div class="highlight"><pre>hcitool scan
+</pre></div>
+
+
+<p>Output&nbsp;example:  </p>
+<div class="highlight"><pre><span class="nv">$ </span>hcitool scan  
+Scanning ...  
+00:1C:9A:26:F5:DD Macuyiko N95
+</pre></div>
+
+
+<p>And note your <span class="caps">MAC</span>-address of your&nbsp;phone.  </p>
+<h4>3. Find out the phone&#8217;s channel, with the N95, this might change from time to&nbsp;time:</h4>
+<div class="highlight"><pre>sdptool search --bdaddr MAC DUN | grep Channel
+</pre></div>
+
+
+<p>Replace <span class="caps">MAC</span> with your phone&#8217;s <span class="caps">MAC</span> address.<br />
+Output example:<br />
+    $ sudo sdptool search &#8212;bdaddr 00:1C:9A:26:F5:<span class="caps">DD</span> <span class="caps">DUN</span> | grep Channel<br />
+    Channel: 4
+Note this&nbsp;channel.</p>
+<h4>4. Edit <code>/etc/ppp/peers/BluetoothDialup</code>:</h4>
+<div class="highlight"><pre>sudo gedit /etc/ppp/peers/BluetoothDialup
+</pre></div>
+
+
+<p>Paste the following:<br />
+    /dev/rfcomm1 115200
+    local
+    nocrtscts<br />
+    connect &#8220;/usr/sbin/chat -v -f /etc/chatscripts/proximus-gprs&#8221;<br />
+    noauth<br />
+    defaultroute<br />
+    usepeerdns<br />
+    novj<br />
+    remotename proximus<br />
+    debug<br />
+    #user<br />
+    lcp-restart 5<br />
+    ms-dns&nbsp;195.238.2.21</p>
+<p>There are a few lines which you might need to change. I&#8217;m using the Belgium Proximus operator.<br />
+First of all, change <code>/etc/chatscripts/proximus-gprs</code> to something more related to your provider (e.g.: <code>/etc/chatscripts/myprovider-gprs</code>). We&#8217;re going to create this script in the next step. Also: you might need to change the <code>ms-dns</code> entry as well (in most cases you can leave it out, but I had to add it though). Also notice that I have used <code>/dev/rfcomm1</code> as the used device, we&#8217;ll use this in the next steps as&nbsp;well.  </p>
+<h4>5. Create a chatscript at <code>/etc/chatscripts/proximus-gprs</code></h4>
+<div class="highlight"><pre>sudo gedit /etc/chatscripts/proximus-gprs
+</pre></div>
+
+
+<p>Note that you may have chosen a different name for your chatscript in the previous&nbsp;step. </p>
+<p>Paste:  </p>
+<div class="highlight"><pre>ABORT BUSY  
+ABORT &#39;NO CARRIER&#39;  
+ABORT VOICE  
+ABORT &#39;NO DIALTONE&#39;  
+ABORT &#39;NO DIAL TONE&#39;  
+ABORT &#39;NO ANSWER&#39;  
+&quot;&quot; ATZ  
+OK AT+CGDCONT=1,&quot;IP&quot;,&quot;internet.proximus.be&quot;  
+OK ATDT*99#  
+CONNECT &quot;&quot;
+</pre></div>
+
+
+<p>You need to change these entries for your provider. Look up your <span class="caps">APN</span> and data profile number. If you google for &#8220;<span class="caps">APN</span> 3g [yourprovider]&#8221; you will often find the correct results, or look <a href="http://www.iphoneuserguide.com/apple/2008/06/04/iphone3g/apn-settings-for-iphone-3g/">here</a> for APNs for many providers. The data profile number line will often be <code>OK ATDT*99#</code> or <code>OK ATDT*99***1#</code>, so try them&nbsp;both.  </p>
+<h4>6. Try it&nbsp;out</h4>
+<p>Enter the following&nbsp;command:  </p>
+<div class="highlight"><pre>rfcomm connect RFCOMM# MAC CHANNEL
+</pre></div>
+
+
+<p>Replace <code>RFCOMM#</code> with the <code>/dev/rfcomm</code>-number you&#8217;ve used before (only the number!), I&#8217;ve used 1. <code>MAC</code> is your phone&#8217;s <span class="caps">MAC</span> address again, and <code>CHANNEL</code> is the channel you found earlier.<br />
+If all went well it should&nbsp;say:  </p>
+<div class="highlight"><pre><span class="nv">$ </span>rfcomm connect <span class="m">1</span> 00:1C:9A:26:F5:DD <span class="m">4</span>  
+Connected /dev/rfcomm1 to 00:1C:9A:26:F5:DD on channel <span class="m">4</span>  
+Press CTRL-C <span class="k">for</span> hangup
+</pre></div>
+
+
+<p>Now we&#8217;re going to enable the <span class="caps">PPP</span> connection, in a <em>new</em> terminal window (keep the &#8220;<span class="caps">CTRL</span>-C for hangup&#8221;-one open), enter:<br />
+    pon BluetoothDialup
+<code>BluetoothDialup</code> is the filename of the file we have created in <code>/etc/ppp/peers/</code> earlier in step 4.<br />
+If all went well you should see an entry now in your ifconfig&nbsp;output:  </p>
+<div class="highlight"><pre><span class="nv">$ </span>ifconfig  
+  ppp0      Link encap:Point-to-Point Protocol  
+    inet addr:81.169.31.99  P-t-P:10.6.6.6  Mask:255.255.255.255  
+    UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1  
+    RX packets:3 errors:0 dropped:0 overruns:0 frame:0  
+    TX packets:4 errors:0 dropped:0 overruns:0 carrier:0  
+    collisions:0 txqueuelen:3  
+    RX bytes:54 <span class="o">(</span>54.0 B<span class="o">)</span>  TX bytes:69 <span class="o">(</span>69.0 B<span class="o">)</span><span class="sb">`</span>
+</pre></div>
+
+
+<p>If you&#8217;re done surfing the internet, turn off <span class="caps">PPP</span>:  </p>
+<div class="highlight"><pre>poff
+</pre></div>
+
+
+<p>Press <span class="caps">CTRL</span>-C in that other terminal window to break the Bluetooth/3G-connection.<br />
+<strong>Note:</strong> if you&#8217;ve done something wrong (e.g.: used the wrong channel), you can release rfcomm&#8217;s with:<br />
+    rfcomm release <span class="caps">RFCOMM</span>#
+With <code>RFCOMM#</code> equal to the <code>/dev/rfcomm</code>-number you&#8217;ve used&nbsp;before.  </p>
+<h4>Optional steps: use gnome-ppp to&nbsp;connect</h4>
+<p>If you have <code>gnome-ppp</code> installed, you can also use a graphical interface to configure the above steps.<br />
+First of all, you still have to&nbsp;execute:  </p>
+<div class="highlight"><pre>rfcomm connect RFCOMM# MAC CHANNEL
+</pre></div>
+
+
+<p>But you <em>don&#8217;t</em> have to create the files from steps 4 and 5. We could automate the connect-step as well, but since the N95&#8217;s channel changes from time to time, this wouldn&#8217;t be very convenient. Also, I like having a terminal open to notify me that I&#8217;m still surfing via my phone.<br />
+Then open up <code>gnome-ppp</code>. If you have to enter a blank username and password for your provider, just enter some dummy values. I used &#8220;blank&#8221; and &#8220;blank&#8221;.<br />
+Phone number: I tried <code>*99***1#</code> this time. And it also seemed to work, great!<br />
+Then press <code>Setup</code>. Enter the following values:<br />
+  - Device: <code>/dev/rfcomm1</code> (or the other rfcomm you defined earlier)
+  - Type: <code>USB Modem</code> (yes, <span class="caps">USB</span>!)
+  - Speed: <code>460800</code> works here, this probably means I could have used this value in the previous configuration files as well, instead of <code>115200</code>
+  - Phone Line: <code>Tone</code> (default)
+  - Volume: <code>High</code> (default)
+Then press <code>Init Strings</code>.<br />
+  - Leave <code>Init 2</code> unchanged (<code>ATQ0 V1 E1 S0=0 &amp;C1 &amp;D2 +FCLASS=0</code>)
+  - Enter this in <code>Init 3</code>: <code>AT+CGDCONT=1,"IP","internet.proximus.be"</code><br />
+Again, change this for your provider! I also had to manually define a <span class="caps">DNS</span> in the <code>Networking</code> tab, just like in the previous steps. This might not be the case for you.
+You&#8217;re done, make sure you&#8217;re not wired or wirelessly connected to test this :).<br />
+Screenshot:<br />
+<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/SXD_Jdo-kuI/AAAAAAAAPIg/k5UvfUx-Gv4/s400/97214235_6ee4d4a9c4_o.png" />
+Final note: some people have to add <code>novj</code> to <code>/etc/ppp/options</code> as well. I didn&#8217;t, tho. Check the Ubuntu forums/Google for information about your specific operator and/or hardware.<br />
+These instructions were only tested with my Thinkpad, my N95, and my operator. I&#8217;ve set up laptops with Vodafone cards before, and you can use <code>gnome-ppp</code> for those as well, just make sure you&#8217;re using the correct device. Often the device will be at <code>/dev/ttyS0</code>, but use <code>dmesg</code> to find out the exact&nbsp;location.</p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html';
+	    var disqus_title = 'Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering Howto';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

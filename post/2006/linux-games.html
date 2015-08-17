@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Linux Games</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">di 29 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/linux-games.html" rel="bookmark"
+			title="Permalink to Linux Games">Linux&nbsp;Games</a></div>
+		</header>
+	
+	    <p>I&#8217;ve been checking out some games for my Linux machine recently (that almost sounds like an oxymoron). I&#8217;m not going to go all whiny on you with a &#8220;Linux does have games!&#8221;-post, but will just review a few of them (the most popular ones).<br />
+- <a href="http://projects.planetpenguin.de/racer/">Planet Penguin Racer</a> (a fork of Tux Racer): I never wanted this game, when all those Linux-sites/posts/magazines said: &#8220;hey look we have a racing game with a penguin&#8221; it just looked too kidish. However: it is quite entertainable, and making some maps is quite fun. This is a nice quickie-game for the people with direct 3d rendering enabled ;).
+- <a href="http://www.icculus.org/neverball/">Neverball</a>: a game where you tilt the play field to make a ball roll and pick up coins. It&#8217;s fun and looks quite nice but I suck at it.
+- Freecraft: it&#8217;s an <span class="caps">RTS</span>, with poor graphics (sorry), I didn&#8217;t like it that much and wish there was a good <span class="caps">RTS</span> game for Linux. I don&#8217;t have anything against sprites (I loved Age of Empires 1 and 2, Age of Wonders, Starcraft, Kohan, etc&#8230;), but this can look better.<br />
+- <a href="http://globulation2.org/wiki/Main_Page">Globulation 2</a>: also an <span class="caps">RTS</span>. Also not bad but I don&#8217;t like it that much.
+- <a href="http://tuxkart.sourceforge.net/">Tuxkart</a>: fun for a while but not fantastic.
+- <a href="http://www.frozen-bubble.org/">Frozen Bubble</a>: the game everyone knows, and still great fun too!
+- <a href="http://pingus.seul.org/welcome.html">Pingus</a>: a Lemmings clone. Well done game, will keep the oldskool puzzlers really entertained!
+- <a href="http://www.artsoft.org/rocksndiamonds/">Rocks And Diamonds</a>: an all-in-one Boulderdash clone. Which I absolutely love because I can even play the Supaplex levels.
+- <a href="http://www.wesnoth.org/">Wesnoth</a>: another instant-classic, hexgrid fantasy strategy game, well done graphics and great tactical fun both online and offline.
+- <a href="http://crimson.seul.org/index2.php">Crimson Fields</a>: Battle Isle clone, not bad but the graphics aren&#8217;t that great.
+- <a href="http://www.asc-hq.org/">Advanced Strategic Command</a>: also a Battle Isle clone: better (traditional) graphics and <span class="caps">AI</span>, but the interface/polishing could be better.
+- <a href="http://www.scummvm.org/"><span class="caps">SCUMMVM</span></a>: absolute favorite. Grab this program together with some fat old-Lucasarts-adventures torrents and relive all those classics&#8230; A fantastic game for those long train-trips. Ah&#8230; the memories of playing Broken Sword 2 and really diggin&#8217; the characters and story. They don&#8217;t make such games anymore since Grim Fandago [1].
+That&#8217;s it. It&#8217;s not <span class="caps">F.E.A.</span>R., no Civilization 4, no <span class="caps">GTA</span> and no Age of Empires 3, but it is enough to kill a few minutes. After all, my Linux computer is my work machine, so the less I play, the more work I get done&#8230;<br />
+[1]: Actually I&#8217;m lying: Dreamfall, Fahrenheit (a.k.a. Indigo Prophecy) and others are great recent adventure&nbsp;games. </p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2006/linux-games.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2006/linux-games.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2006/linux-games.html';
+	    var disqus_title = 'Linux Games';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2006/linux-games.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

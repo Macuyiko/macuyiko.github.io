@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Visiting AIGLX/Compix And Back Again</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">di 22 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html" rel="bookmark"
+			title="Permalink to Visiting AIGLX/Compix And Back Again">Visiting <span class="caps">AIGLX</span>/Compix And Back&nbsp;Again</a></div>
+		</header>
+	
+	    <p>Here it is, as promised&#8230;<br />
+Yesterday I decided to &#8220;quickly give <span class="caps">AIGLX</span>/Compiz a go&#8221;. I use <span class="caps">AIGLX</span> because I do this on my Thinkpad and it has an Intel card. <span class="caps">AIGLX</span> gives better performance with these cards.<br />
+There are already nice how-to&#8217;s at <a href="http://doc.gwos.org/index.php/Xorg_Aiglx_Compiz">this</a> and <a href="http://corvillus.com/2006/08/03/how-to-set-up-aiglx-and-compiz-on-ubuntu-606-running-gnome/">this</a> location, but I just wanted to share my experience, but also add some additional remarks. And: we will even revert back to the normal Gnome&nbsp;desktop&#8230;  </p>
+<h3>1. Add the following to your sources&nbsp;list:</h3>
+<div class="highlight"><pre>sudo gedit /etc/apt/sources.list
+</pre></div>
+
+
+<p>and&nbsp;add:</p>
+<div class="highlight"><pre><span class="c">## AIGLX + COMPIZ...  </span>
+<span class="k">deb</span> <span class="s">http://ubuntu.compiz.net/</span> <span class="kp">dapper</span> <span class="kp">aiglx</span>   
+<span class="kp">deb</span> <span class="kp">http://ubuntu.compiz.net/</span> <span class="kp">dapper</span> <span class="kp">main</span>  
+<span class="kp">deb</span> <span class="kp">http://xgl.compiz.info/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>  
+<span class="kp">deb-src</span> <span class="kp">http://xgl.compiz.info/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>  
+<span class="kp">deb</span> <span class="kp">http://www.beerorkid.com/compiz</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>  
+<span class="kp">deb</span> <span class="kp">http://media.blutkind.org/xgl/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>
+</pre></div>
+
+
+<p>You might be wondering why I add a lot of repos here. In my configuration, apt-get complained about some missing packages when I used the repos mentioned in the wiki/docs.<br />
+The following steps are exactly the same as the docs/wiki&#8230;<br />
+    sudo apt-get update sudo apt-get&nbsp;dist-upgrade</p>
+<h3>2. Install the latest dri&nbsp;modules:</h3>
+<div class="highlight"><pre>sudo apt-get install linux-dri-modules-common linux-dri-modules-`uname -r`
+</pre></div>
+
+
+<h3>3. First purge&nbsp;Aiglx/Compiz:</h3>
+<div class="highlight"><pre>sudo aptitude purge compiz-aiglx compiz-aiglx-gnome
+</pre></div>
+
+
+<h3>4. Then install (I installed the Quinn packages, because I randomly read somewhere they were&nbsp;better):</h3>
+<div class="highlight"><pre>sudo apt-get install compiz-quinn-aiglx compiz compiz-gnome
+</pre></div>
+
+
+<h3>5. Now&nbsp;let&#8217;s</h3>
+<div class="highlight"><pre>sudo gedit /etc/X11/xorg.conf
+</pre></div>
+
+
+<p>Edit the Screen section to 24bit mode:<br />
+    DefaultDepth 24
+Make sure your Modules section has the following loaded:<br />
+    Section &#8220;Module&#8221;<br />
+      # Load &#8220;GLcore&#8221;<br />
+      Load &#8220;bitmap&#8221;<br />
+      Load &#8220;ddc&#8221;<br />
+      Load &#8220;dbe&#8221;<br />
+      Load &#8220;dri&#8221;<br />
+      Load &#8220;extmod&#8221;<br />
+      Load &#8220;freetype&#8221;<br />
+      Load &#8220;glx&#8221;<br />
+      Load &#8220;int10&#8221;<br />
+      Load &#8220;type1&#8221;<br />
+      Load &#8220;vbe&#8221;<br />
+    EndSection<br />
+If you happen to have other modules: you may probably leave them in (I had one).<br />
+Make sure there is only one option in the Device section:<br />
+    Section &#8220;Device&#8221;<br />
+      Identifier &#8220;Intel Corporation Intel Default Card&#8221;<br />
+      Driver &#8220;i810&#8221;<br />
+      Option &#8220;XAANoOffscreenPixmaps&#8221;<br />
+      BusID &#8220;<span class="caps">PCI</span>:0:2:0&#8221;
+    EndSection<br />
+Add Aiglx to your server layout:<br />
+    Section &#8220;ServerLayout&#8221;<br />
+      Option &#8220;<span class="caps">AIGLX</span>&#8221; &#8220;true&#8221; <br />
+      Identifier &#8220;Default Layout&#8221;<br />
+      Screen &#8220;Default Screen&#8221;<br />
+      InputDevice &#8220;Generic Keyboard&#8221;<br />
+      InputDevice &#8220;Configured Mouse&#8221;<br />
+      InputDevice &#8220;Synaptics Touchpad&#8221;<br />
+    EndSection<br />
+Uncomment the <span class="caps">DRI</span> section:<br />
+    Section &#8220;<span class="caps">DRI</span>&#8221;<br />
+      Mode 0666<br />
+    EndSection<br />
+Finally, you must have:<br />
+    Section &#8220;Extensions&#8221;<br />
+      Option &#8220;Composite&#8221; &#8220;Enable&#8221;<br />&nbsp;EndSection  </p>
+<h3>6. Configure&nbsp;gdm:</h3>
+<div class="highlight"><pre>sudo gedit /etc/gdm/gdm.conf-custom
+</pre></div>
+
+
+<p>It must contain the following:<br />
+    [servers]<br />&nbsp;0=aiglx  </p>
+<div class="highlight"><pre>[server-aiglx]  
+name=aiglx server  
+command=/usr/bin/Xorg-air :0  
+flexible=true
+</pre></div>
+
+
+<p>And restart gdm (pray):<br />
+   sudo /etc/init.d/gdm restart<br />
+Note: my gdm restart did not seem to work (it just gave me the cli). If this happens to you, just do a simple sudo gdm, it will work when you reboot of course.<br />
+The following information is not in the docs/wiki&#8230;
+Yes! It seems to boot. But my windows have no borders&#8230; see that new Compiz icon in the &#8220;taskbar&#8221; (top right), it looks like a red cube. Right click it, edit preferences, plugins, and enable most of them (test it out which ones work fine on your system). Make sure the first ones (<code>gconf</code>) are enabled. Save. Right click again and choose Restart Compiz. Your windows will now show borders and be wobbly and so (if you enabled the plugins).<br />
+Now let&#8217;s fix Totem. I had gstreamer so:<br />
+    totem-gstreamer<br />
+And then select on default video playback &#8220;XWindow (NoXv)&#8221; in video tab.<br />
+Now for some themes, make sure the following is installed:<br />
+    sudo apt-get install gcompizthemer<br />
+    sudo apt-get install cgwd<br />
+    sudo apt-get install cgwd-themes<br />
+Note, you might also need to edit <code>/usr/bin/compiz-start</code> and replace all instances of gnome-window-decorator with cgwd (I had to do this). And restart Compiz.<br />
+Now right click the Compiz-cube again and choose Themes. You will now see: themes. Use them.<br />
+Some of the following information is in the docs/wiki&#8230;<br />
+After playing with it a few days I notices I liked old ways better. My system was performing well but the idea of using these experimental packages on my work laptop was a bit scary&#8230; let&#8217;s go back&nbsp;now.  </p>
+<h3>Let&#8217;s revert all we did. Speed&nbsp;style.</h3>
+<ul>
+<li>Uncomment all the repos you added in <code>/etc/apt/sources.list</code>.  </li>
+<li>Open the totem properties again and set the Video back to&nbsp;auto.  </li>
+<li>
+<p>Open <code>/etc/gdm/gdm.conf-custom</code> and remove everything you added, it will probably just&nbsp;contain:</p>
+<p>[servers] </p>
+</li>
+<li>
+<p>Open <code>xorg.conf</code> and uncomment/revert all your&nbsp;changes.  </p>
+</li>
+<li>
+<p>Uninstall&nbsp;Compiz: </p>
+<p>sudo apt-get remove compiz-quinn-aiglx compiz compiz-gnome<br />
+sudo apt-get remove cgwd cgwd-themes<br />
+sudo apt-get remove xserver-xgl compiz compiz-gnome&nbsp;gset-compiz</p>
+</li>
+</ul>
+<p>Yes there are doubles. Yes it will complain about downgrading, just choose yes&#8230; don&#8217;t worry.<br />
+- Make a file in <code>/etc/apt/preferences</code> and put the following in it:<br />
+    Package: *
+    Pin: release o=Ubuntu
+    Pin-Priority: 1001
+save it.
+- Run:<br />
+    sudo aptitude update<br />
+    sudo aptitude upgrade<br />
+It will downgrade all your packages.<br />
+- Open <code>/etc/apt/preferences</code> again and remove the lines from step 6.<br />
+- Open synaptic, go to Status: Local or Obsolete and remove all Compiz or Quinn or Aiglx related packages.<br />
+Note: synaptic doesn&#8217;t load? Probably a libcairo problem if I remember correctly (I had the same problem after installing Compiz Quinn). Make sure you followed the above steps correctly and do:<br />
+sudo apt-get install libcairo2-dev libxft-dev libfontconfig1-dev<br />
+- Reboot and hope that all goes well :).<br />
+Wasn&#8217;t that fun? And it only took 10 minutes&#8230;<br />
+Does anyone however know a similar alt-tab feature and the &#8220;I move my mouse to the upper right and get a nice window overview&#8221; feature for Ubuntu without using Ubuntu? Because I liked those two&#8230;<br />
+Didn&#8217;t have the time for screenshots or screencasts. There are enough of them already. And you really have to experience it for yourself to really enjoy the full power. Compiz will be great when it&#8217;s fully stable and in the main repos and easy&nbsp;installable&#8230;  </p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2006/visiting-aiglxcompix-and-back-again.html';
+	    var disqus_title = 'Visiting AIGLX/Compix And Back Again';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

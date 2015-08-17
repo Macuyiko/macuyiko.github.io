@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Bed Against The Wall - Articles by Seppe "Macuyiko" vanden Broucke</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div class="large-9 columns">
+        
+		<article>
+			<header>
+				<div class="article-info">do 28 juni 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/game-call-of-juarez.html" rel="bookmark"
+				title="Permalink to Game: Call Of Juarez">Game: Call Of&nbsp;Juarez</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I started playing Call of Juarez today and&#8230; wait, I just finished it too.<br />
+All in all a nice game, I only had a small problem playing it on my computer, the game started with an Exception error. Installing the latest patch didn&#8217;t help either.<br />
+I was ready to ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/game-call-of-juarez.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">do 24 mei 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/tumblr.html" rel="bookmark"
+				title="Permalink to Tumblr">Tumblr</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I&#8217;ve had a Tumblelog for some time now. I absolutely love its keep-it-simple style. Updated almost daily. Go check it out at:<br />
+<a href="http://macuyiko.tumblr.com/">http://macuyiko.tumblr.com/</a><br />
+P.S.: if you want to run your own, I recommend <a href="http://nothingconcept.com/bazooka/">Bazooka</a>. </p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/tumblr.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">di 01 mei 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/the-number.html" rel="bookmark"
+				title="Permalink to The Number">The&nbsp;Number</a></div>
+			</header>
+			<div class="article-summary">
+					<p>The Internet is going crazy about some random number (and it&#8217;s not&nbsp;23).</p>
+<p>Apparently, typing out an hexadecimal value will get you killed / deleted / censored / jailed / destroyed / ignored / access to <span class="caps">HD</span>-<span class="caps">DVD</span> content. It goes something like: <code>09 F9 11 02</code>. But it also has <code>9D 74 E3 5B ...</code></p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/the-number.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 30 april 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/feisty-upgrade-first-problem.html" rel="bookmark"
+				title="Permalink to Feisty Upgrade - First Problem">Feisty Upgrade - First&nbsp;Problem</a></div>
+			</header>
+			<div class="article-summary">
+					<p>We recently updated all our Ubuntu machines from Edgy to Feisty. Updating went smooth, apart from a few problems.<br />
+The first problem was that X was freezing at random intervals. Xorg log mentioned nothing special, but the <span class="caps">GDM</span> log&nbsp;did:  </p>
+<blockquote>
+<p>Error in I830WaitLpRing(), now is 7023360, start is 7021359<br />
+pgetbl_ctl ...</p></blockquote>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/feisty-upgrade-first-problem.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 30 april 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/top-10-presentations-on-scaling-websites.html" rel="bookmark"
+				title="Permalink to Top 10 Presentations On Scaling Websites">Top 10 Presentations On Scaling&nbsp;Websites</a></div>
+			</header>
+			<div class="article-summary">
+					<p>A <a href="http://poorbuthappy.com/ease/archives/2007/04/29/3616/the-top-10-presentation-on-scaling-websites-twitter-flickr-bloglines-vox-and-more">great blog post</a> listing all those great scaling presentations. I really enjoy watching those (most of them are on Youtube too).<br />
+Here&#8217;s one of them (about Twitter):<br />
+<object type="application/x-shockwave-flash" data="https://s3.amazonaws.com:443/slideshare/ssplayer.swf?id=41197&amp;doc=scaling-twitter-12758" height="348" width="425"><param name="movie" value="https://s3.amazonaws.com:443/slideshare/ssplayer.swf?id=41197&amp;doc=scaling-twitter-12758"></object></p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/top-10-presentations-on-scaling-websites.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 30 april 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/ubuntu-feisty-second-problem.html" rel="bookmark"
+				title="Permalink to Ubuntu Feisty - Second Problem">Ubuntu Feisty - Second&nbsp;Problem</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Another problem (on another machine) was that it refused booting the new kernel.<br />
+Also: the live cd didn&#8217;t work either, with the same error. A lot of people have problems of this kind, and most of the times they get the following errors:<br />
+    ata2 is slow to respond, please ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/ubuntu-feisty-second-problem.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">za 07 april 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/games-supreme-commander-and-command-and-conquer-3.html" rel="bookmark"
+				title="Permalink to Games: Supreme Commander And Command And Conquer 3">Games: Supreme Commander And Command And Conquer&nbsp;3</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I&#8217;ve just finished all the campaigns of Command And Conquer 3. I must say I am pretty impressed.<br />
+I also played a bit of Supreme Commander but I didn&#8217;t really like that game and I&#8217;ve already uninstalled it.<br />
+Supreme Commander is good because:<br />
+  - Huge maps.
+  - Cool units ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/games-supreme-commander-and-command-and-conquer-3.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">wo 04 april 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/huh-or-where-have-my-past-two-days-gone.html" rel="bookmark"
+				title="Permalink to “Huh?” Or “Where have my past two days gone?”"><span class="dquo">&#8220;</span>Huh?&#8221; Or &#8220;Where have my past two days&nbsp;gone?&#8221;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I&#8217;ve been kinda bored lately. I enjoy playing a game when I stop working. The problem is that lately I haven&#8217;t been able to find a really good game which kept me hooked. Where are the times of those good atmospheric games like Half Life 2 (Episode 1 ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/huh-or-where-have-my-past-two-days-gone.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 26 maart 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/game-stalker.html" rel="bookmark"
+				title="Permalink to Game: S.T.A.L.K.E.R.">Game: <span class="caps">S.T.A.L.K.E.R.</span></a></div>
+			</header>
+			<div class="article-summary">
+					<p>Played a bit of Stalker yesterday. It&#8217;s a nice first-person shooter but has some issues (don&#8217;t try playing it on Vista, neither did I).<br />
+Good:<br />
+  - Atmospheric: great graphics, huge maps, great architecture and maps!
+  - Immersive, open-ended&#8230; it seems there are 7 different endings.
+  - Survival - you get attacked by ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/game-stalker.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">di 20 maart 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/back-from-cebit.html" rel="bookmark"
+				title="Permalink to Back From CeBIT">Back From&nbsp;CeBIT</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I&#8217;m back from CeBIT. And again: it was a great Messe (not: mess). I&#8217;ll upload pictures later when I&#8217;ve some spare time. <br />
+P.S.: having &#8216;Austeller/Exhibitor&#8217; written on your ticket feels great&nbsp;;).</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/back-from-cebit.html">Read more</a></p>
+			</div>
+		</article>
+
+<div class="pagination-centered">
+
+<h6 class="subheader">
+		<a href="http://blog.macuyiko.com/author/seppe-macuyiko-vanden-broucke8.html">&laquo; Prev</a>
+	Page 9 of 21	
+	<a href="http://blog.macuyiko.com/author/seppe-macuyiko-vanden-broucke10.html">Next &raquo;</a>
+</h6>
+
+</div>
+</div>
+		
+ 
+<aside class="large-3 columns">
+	<div style="text-align: center;">
+		<img src="/images/avatar.jpg" width="100" class="avatar" />
+	</div>
+
+	<div class="sidebar-title">Site</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/">Home</a></li>
+		<li><a href="http://blog.macuyiko.com/archives.html">Archives</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/atom.xml" rel="alternate">Atom feed</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/rss.xml" rel="alternate">RSS feed</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Pages</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/pages/palettestealersuspender.html">PalettestealerSuspender</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Links</div>
+	<ul class="side-nav">
+		<li><a href="http://bedagainstthewall.blogspot.com">Old Blog Location</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Social</div>
+	<ul class="side-nav">
+		<li><a href="http://twitter.com/macuyiko">Twitter</a></li>
+		<li><a href="http://seppe.net">Personal Site</a></li>
+		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
+		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
+		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
+		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Search</div>
+	<div style="text-align: center; margin-top: 4px;">
+		<form method="get" action="http://www.google.com/search">
+			<input type="text" name="q" style="float: left; width: 130px;" maxlength="255" value="" />
+			<input type="submit" value="Go" />
+			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
+		</form>
+	</div>
+	
+</aside>
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

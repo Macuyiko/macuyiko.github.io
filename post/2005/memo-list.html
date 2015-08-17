@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Memo List</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">vr 08 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/memo-list.html" rel="bookmark"
+			title="Permalink to Memo List">Memo&nbsp;List</a></div>
+		</header>
+	
+	    <p>Because I was bored and my memory is having problems remembering things lately, I&#8217;ve put together a list for me with all the games I should keep an eye on. Please only read this if you&#8217;re interested in my gaming needs, otherwise just ignore ;).<br />
+<em> </em>Call of Duty 2<em>: it should be clear why, looks stunning and story will be immense again, too!
+</em> <em>Brothers in Arms 2</em>: maybe&#8230;
+<em> </em>Bet on Soldier<em>: again maybe, if I&#8217;m bored at the time of release.
+</em> <em><span class="caps">F.E.A.R.</span></em>: graphics looks amaaaazing!
+<em> </em>Half Life 2 Aftermath<em>: just one to have to complete the collection.
+</em> <em>Quake 4</em>: grew up with Quake 1, so&#8230; (Actually, that&#8217;s a lie, I grew up with Jill of the Jungle and later Duke Nukem. That&#8217;s Duke Nukem 1, mind you.)
+<em> </em>Unreal Tournament 2007<em>: woot, more killin&#8217;.
+</em> <em>Star Wars Battlefront 2</em>: maybe.
+<em> </em>Commandos Strike Force<em>: maybe.
+</em> <em>Hellgate London</em>: this is a weird one, could be interesting.
+<em> </em>Prince of Persia 3<em>: definitely!
+</em> <em>Battlestations Midway</em>: could be fun.
+<em> </em>Star Wars Empire at War<em>: must&#8230; Have&#8230; This! This is what Force commander should&#8217;ve been!
+</em> <em>Age of Empires 3</em>: also really necessary.
+<em> </em>Paraworld<em>: looks nice.
+</em> <em>Outfront 2</em>: the sequel to the extremely hard Soldiers, which I loved!
+<em> </em>Fable<em>: yes yes yes yes yes! A must-have in my opinion.
+</em> <em>The Elder Scrolls 4</em>: yes, that&#8217;s Oblivion, &#8216;nuff said.
+<em> </em>Dungeon Siege 2<em>: oh well, make it quick.
+</em> <em>X3 Reunion</em>: I hope this one will be better, because I still love space games.
+<em> </em>Black and White 2<em>: yup, also a must-have.
+</em> <em>Spore</em>: now this is a weird game, I must definitely try this one out. 
+This nice long list really fills the page. Of course I could make this list go on and on and on&#8230; you get the&nbsp;point.</p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2005/memo-list.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2005/memo-list.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2005/memo-list.html';
+	    var disqus_title = 'Memo List';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2005/memo-list.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

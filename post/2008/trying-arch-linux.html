@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Trying Arch Linux</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">zo 07 december 2008, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2008/trying-arch-linux.html" rel="bookmark"
+			title="Permalink to Trying Arch Linux">Trying Arch&nbsp;Linux</a></div>
+		</header>
+	
+	    <p>I&#8217;ve been hearing some good things about <a href="http://www.archlinux.org/">Arch Linux</a> lately, and I wanted to see how it compares to Ubuntu, which I&#8217;ve been using for a few years now. I loaded up a new VMWare virtual machine and mounted the iso. Let&#8217;s see how this goes&#8230;<br />
+I&#8217;ll be following directions from <a href="http://wiki.archlinux.org/index.php/Beginners_Guide#Tweaks.2FFinishing_touches">this wiki page</a>. So that I&#8217;m not completely lost.<br />
+  1. Boot menu comes up. Install? Okay. no graphical installer. We&#8217;re going oldskool. Log in as root and run setup.
+  2. Installation steps aren&#8217;t too hard to follow. Partition the hard disk, let&#8217;s use <span class="caps">JFS</span> for the first time (why not).
+  3. Select packages, core packages are selected automatically, I press enter a few times, installation begins.
+  4. Time to configure the system <em>yuck</em>, configuration files. Editing <code>/etc/rc.conf</code>. Make sure that <code>eth0="dhcp"</code>. All done.
+  5. Reboot. Login? Works. <code>ping google.com</code>? Works.
+  6. <code>pacman</code> is the package manager. <code>pacman -Syu</code> to sync and update. <code>klibc</code> is complaining: file exists. I check the forums. Turns out I have to do <code>rm /usr/lib/klibc/include/asm</code>. Minus one for user-friendliness.
+  7. Update works now. Time to add a user. <code>useradd -m -G users,audio,lp,optical,storage,video,wheel,power -s /bin/bash archie</code>. <code>passwd archie</code>.
+  8. <code>pacman -S sudo</code> (we want sudo). <code>EDITOR=nano visudo</code>. Add <code>archie ALL=(ALL) ALL</code>.
+  9. Install Alsa, works (seems like Arch isn&#8217;t using <code>pulseaudio</code> in their tutorials/beginner&#8217;s guide).
+  10. On to Xorg - installing lots of stuff. <code>Xorg -configure</code> should do the trick for the configuration. Copy example <code>xinitrc</code> to my home, add <code>exec xterm</code>. Test.
+  11. Mouse and keyboard aren&#8217;t working. Let&#8217;s try <code>xorgconfig</code>.
+  12. Even worse, <code>xorgcfg</code>? Nope, still nothing. Starting to miss Ubuntu.
+  13. Oops! I&#8217;m stupid, forgot to copy new config file to <code>/etc/X11/xorg.conf</code>&#8230;
+  14. &#8230; but still nothing. Forums again. Looks like someone else had this problem (also using VMWare). Install <code>xf64-input-vmmouse</code>, and execute <code>hwd -x</code>.
+  15. <code>hwd</code> generates wrong <code>xorg.conf</code> files. Remove the line with <code>RgbPath</code>.
+  16. Still nothing. Add Option <code>"AllowEmptyInput" "false"</code> to <code>ServerLayout</code> section.
+  17. Finally! X works, I&#8217;m learning stuff already, but still: again one minus point for friendliness (although the community seems nice, and the documentation is actually not bad for a fairly small distro).
+  18. Worst part is over, on to installing a desktop environment. Let&#8217;s keep it simple and try Gnome.
+  19. First some fonts. I add <code>ttf-liberation</code> into the mix, glad to see it&#8217;s there.
+  20. <code>gnome</code>, <code>gnome-extra</code>, <code>gdm</code>, downloading and installing. Takes a while.
+  21. <code>/etc/rc.conf</code> again: adding <code>hal</code>, <code>fam</code> and <code>gdm</code> to daemons, and fuse to modules.
+  22. Installing a bunch of gnome themes.
+  23. Installing vlc, firefox, flash, and some other things.
+  24. Login as user, <code>edit xinit</code>, <code>exec gnome-session</code>. And: <code>startx</code>!
+  25. Gnome pops up, clean background, very minimalistic. But fast indeed.
+Screenshot:
+<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/STsJWIjqvJI/AAAAAAAALIc/59jmigmYngc/s400/arch.jpg" />
+Would I use it instead of Ubuntu for everyday tasks? Not at the moment.
+Would I recommend it to novice friends and family? No.
+Would I use it as a server? Perhaps.
+Is it fast? Yes.
+Would I use it on an outdated machine? Yes.
+Does is show potential?&nbsp;Yes.</p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2008/trying-arch-linux.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2008/trying-arch-linux.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2008/trying-arch-linux.html';
+	    var disqus_title = 'Trying Arch Linux';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2008/trying-arch-linux.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

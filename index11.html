@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Bed Against The Wall</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div class="large-9 columns">
+        
+		<article>
+			<header>
+				<div class="article-info">ma 18 december 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/game-warhammer-40000-dawn-of-war-dark-crusade.html" rel="bookmark"
+				title="Permalink to Game: Warhammer 40,000: Dawn of War - Dark Crusade">Game: Warhammer 40,000: Dawn of War - Dark&nbsp;Crusade</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I&#8217;ve playing a bit of W40k-DoW-<span class="caps">DC</span> over the past few days. It&#8217;s still a great game with fast-paced action. It&#8217;s especially enjoyable when playing quick skirmish or multiplayer battles. (&#8220;Okay&#8230; one more game.&#8221;) But the single player campaign is nice too.<br />
+If you&#8217;ve picked up ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/game-warhammer-40000-dawn-of-war-dark-crusade.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">zo 03 december 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/been-a-while.html" rel="bookmark"
+				title="Permalink to Been A While">Been A&nbsp;While</a></div>
+			</header>
+			<div class="article-summary">
+					<p>It&#8217;s been a while, I know, but it&#8217;s been busy busy busy during the week&#8230; And in the weekends I&#8217;ve been playing Neverwinter Nights 2 far too much.<br />
+I have to restate some of my opinions about the game: the story turned out to be quite good ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/been-a-while.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">zo 19 november 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/game-neverwinter-nights-2.html" rel="bookmark"
+				title="Permalink to Game: Neverwinter Nights 2">Game: Neverwinter Nights&nbsp;2</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I finally found some time to spend some time on the sequel of what was a fantastic game: Neverwinter Nights&#8230;<br />
+People who played the first game will not feel right at home immediatly, lucky there&#8217;s a friendly tutorial to make you feel at home. The story is nice so ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/game-neverwinter-nights-2.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">do 02 november 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/game-sid-meiers-railroads-and-trackmania-sunrise-extreme.html" rel="bookmark"
+				title="Permalink to Game: Sid Meier’s Railroads And Trackmania Sunrise Extreme">Game: Sid Meier&#8217;s Railroads And Trackmania Sunrise&nbsp;Extreme</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I picked up two games recently: Sid Meier&#8217;s Railroads and Trackmania Sunrise Extreme edition too. Trackmania is a nice game but quickly gets boring in my opinion: you have to play the tracks over and over again to unlock new ones. Multiplayer and the editor are fun, though.<br />
+I ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/game-sid-meiers-railroads-and-trackmania-sunrise-extreme.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">do 02 november 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/personality-disorder-test.html" rel="bookmark"
+				title="Permalink to Personality Disorder Test">Personality Disorder&nbsp;Test</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I&#8217;ve been doing a fun little <a href="http://www.4degreez.com/misc/personality_disorder_test.mv">personality disorder</a> test. What strange results I get&#8230;<br />
+<strong>Disorder: Rating</strong>
+<a href="http://www.4degreez.com/disorder/paranoid.html">Paranoid Personality Disorder</a>: High
+<a href="http://www.4degreez.com/disorder/schizoid.html">Schizoid Personality Disorder</a>: Moderate
+<a href="http://www.4degreez.com/disorder/schizotypal.html">Schizotypal Personality Disorder</a>: Very High
+<a href="http://www.4degreez.com/disorder/antisocial.html">Antisocial Personality Disorder</a>: High
+<a href="http://www.4degreez.com/disorder/borderline.html">Borderline Personality Disorder</a>: Moderate
+<a href="http://www.4degreez.com/disorder/histrionic.html">Histrionic Personality Disorder</a>: High
+<a href="http://www.4degreez.com/disorder/narcissistic.html">Narcissistic Personality Disorder</a>: High
+<a href="http://www.4degreez.com/disorder/avoidant.html">Avoidant Personality Disorder</a>: Moderate ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/personality-disorder-test.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">di 31 oktober 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/few-things.html" rel="bookmark"
+				title="Permalink to Few Things">Few&nbsp;Things</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Beautiful <span class="caps">CG</span> water by Scanline Flowline <span class="caps">VFX</span>:<br />
+<object height="350" width="425"><param name="movie" value="http://www.youtube.com/v/8Pmm9UKqc5I"><param name="wmode" value="transparent"><embed src="http://www.youtube.com/v/8Pmm9UKqc5I" type="application/x-shockwave-flash" wmode="transparent" height="350" width="425"></object>
+Converting Pi to binary: <a href="http://www.netfunny.com/rhf/jokes/01/Jun/pi.html">do not do it</a>.<br />
+On the Edge of Blade Runner: <a href="http://video.google.com/videoplay?docid=3807826142091223684&amp;?refer=idi0">documentary</a>. </p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/few-things.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">do 26 oktober 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/finished.html" rel="bookmark"
+				title="Permalink to Finished">Finished</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Just updated to Edgy and installed Beryl following <a href="http://doc.gwos.org/index.php/BerylOnEdgy">these instructions</a>.<br />
+Added these to my sources:<br />
+    deb http://www.beerorkid.com/compiz edgy main-edgy<br />
+    deb http://media.blutkind.org/xgl/ edgy main-edgy<br />
+    deb http://compiz-mirror.lupine.me.uk/ edgy main-edgy<br />
+    deb http://ubuntu.compiz.net/ edgy main-edgy<br />
+Then:<br />
+    sudo apt-get update ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/finished.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">wo 25 oktober 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/edgy-tomorrow.html" rel="bookmark"
+				title="Permalink to Edgy Tomorrow!">Edgy&nbsp;Tomorrow!</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Ah the suspense&#8230; Edgy Eft is coming out tomorrow (if all goes&nbsp;well).  </p>
+<p>Here are the update instructions once&nbsp;more:  </p>
+<ol>
+<li>(Backup.)</li>
+<li><code>gksu "update-manager -c -d"</code> for the masses: quick and&nbsp;easy.</li>
+<li>Or replace <code>dapper</code> with <code>edgy</code> in <code>/etc/apt/sources.list</code> and do a <code>sudo apt-get update &amp;&amp; sudo apt-get dist-upgrade ...</code></li></ol>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/edgy-tomorrow.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">wo 25 oktober 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/oki-printers-in-ubuntu.html" rel="bookmark"
+				title="Permalink to Oki Printers In Ubuntu">Oki Printers In&nbsp;Ubuntu</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Just wanted to share this quick story: recently I had to install Oki C5700 drivers on an Ubuntu machine. A quick look at the web panel revealed that it was not supporting ipp (Cups). So you have to set it up as a Unix Printer (<span class="caps">LPR</span>).<br />
+After that it seems ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/oki-printers-in-ubuntu.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">vr 13 oktober 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/a-linkdump.html" rel="bookmark"
+				title="Permalink to A Linkdump">A&nbsp;Linkdump</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Here are some links I found to be interesting the past few&nbsp;days:  </p>
+<ul>
+<li>Google <a href="http://www.google.com/intl/en/press/pressrel/google_youtube.html">acquires</a> YouTube. This didn&#8217;t exactly came as a&nbsp;surprise.</li>
+<li>
+<p><span class="dquo">&#8220;</span><a href="http://reluctantnomad.blogspot.com/2006/09/insults-they-just-dont-make-them-as.html">Insults - they just don&#8217;t make them as they used to</a>&#8221; - via Reluctant Nomad, a great post with - indeed - some great &#8220;insults&#8221;. For&nbsp;example:  </p>
+<blockquote>
+<p>He uses ...</p></blockquote></li></ul>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/a-linkdump.html">Read more</a></p>
+			</div>
+		</article>
+
+<div class="pagination-centered">
+
+<h6 class="subheader">
+		<a href="http://blog.macuyiko.com/index10.html">&laquo; Prev</a>
+	Page 11 of 21	
+	<a href="http://blog.macuyiko.com/index12.html">Next &raquo;</a>
+</h6>
+
+</div>
+</div>
+		
+ 
+<aside class="large-3 columns">
+	<div style="text-align: center;">
+		<img src="/images/avatar.jpg" width="100" class="avatar" />
+	</div>
+
+	<div class="sidebar-title">Site</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/">Home</a></li>
+		<li><a href="http://blog.macuyiko.com/archives.html">Archives</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/atom.xml" rel="alternate">Atom feed</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/rss.xml" rel="alternate">RSS feed</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Pages</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/pages/palettestealersuspender.html">PalettestealerSuspender</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Links</div>
+	<ul class="side-nav">
+		<li><a href="http://bedagainstthewall.blogspot.com">Old Blog Location</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Social</div>
+	<ul class="side-nav">
+		<li><a href="http://twitter.com/macuyiko">Twitter</a></li>
+		<li><a href="http://seppe.net">Personal Site</a></li>
+		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
+		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
+		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
+		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Search</div>
+	<div style="text-align: center; margin-top: 4px;">
+		<form method="get" action="http://www.google.com/search">
+			<input type="text" name="q" style="float: left; width: 130px;" maxlength="255" value="" />
+			<input type="submit" value="Go" />
+			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
+		</form>
+	</div>
+	
+</aside>
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

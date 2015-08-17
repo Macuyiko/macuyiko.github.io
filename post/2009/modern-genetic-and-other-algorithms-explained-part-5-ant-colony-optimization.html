@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Modern Genetic (And Other) Algorithms Explained: Part 5 - Ant Colony Optimization</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">do 22 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html" rel="bookmark"
+			title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 5 - Ant Colony Optimization">Modern Genetic (And Other) Algorithms Explained: Part 5 - Ant Colony&nbsp;Optimization</a></div>
+		</header>
+	
+	    <p>(This is part 5 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this post.)<br />
+First, let&#8217;s go to <a href="http://en.wikipedia.org/wiki/Ant_colony_optimization">Wikipedia</a> for a&nbsp;definition:  </p>
+<blockquote>
+<p>The ant colony optimization algorithm (<span class="caps">ACO</span>), is a probabilistic technique for solving computational problems which can be reduced to finding good paths through graphs.<br />
+This algorithm is a member of Ant colony algorithms family, in Swarm intelligence methods, and it constitutes some metaheuristic optimizations. Initially proposed by Marco Dorigo in 1992 in his PhD thesis [1] [2] , the first algorithm was aiming to search for an optimal path in a graph; based on the behavior of ants seeking a path between their colony and a source of food. The original idea has since diversified to solve a wider class of Numerical problems, and as a result, several problems have emerged, drawing on various aspects of the behavior of ants.
+&#8220;Good paths through graphs&#8221;. I have not converted our sample problem from the previous posts to a graphing problem. So no Python sample this time, sorry.<br />
+You do get to see some pseudocode though:<br />
+    Given a number of nodes<br />
+    Given some edges between nodes (paths)<br />
+    Given <span class="caps">BT</span> := {}, this will contain our best tour<br />
+    Randomly construct a tour T<br />
+    Create a number of &#8220;ants&#8221; (often equal to number of nodes)<br />
+    Associate a distance, pheromone value, and delta pheromone value to every edge<br />
+    Iterate until time limit hit or satisfiable solution found:<br />
+      For each ant do:<br />
+        Do until tour constructed:<br />
+        Next node is chosen depending on visibility (e.g. 1/distance) and pheromone trail<br />
+        E.g. choose next node with probability (visibility^a)*(pheromone trail^b)<br />
+        Calculate fitness of this tour<br />
+        Copy this tour to the best tour if fitness is better<br />
+        Update the pheromone trail of each edge of this ant&#8217;s tour:<br />
+        E.g. delta pheromone for edge := 1/(tour cost)<br />
+      For each edge:<br />
+        Lower pheromone value by a factor<br />
+        Add delta pheromone value to pheromone value<br />
+        Set delta pheromone := 0<br />
+<span class="caps">ACO</span> is an interesting method, again, we see certain aspects already used in the previous posts, like using pheromone trails to avoid local maxima. Since the algorithm is closely tied to graphs, nodes and paths, it&#8217;s no wonder it&#8217;s often used to find shortest paths, or to solve the traveling salesman problem.<br />
+There are some interesting links on the Wikipedia page, one of them is this application:<br />
+<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SWPli1U789I/AAAAAAAAPIA/NNpjK0IHnKE/s400/a1.png" />
+After a while, an ant finds a path to the food and places pheromones:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/SWPlkhL3QjI/AAAAAAAAPII/YdulhWMn9vs/s400/a2.png" />
+Those who are interested can read more about <a href="http://en.wikipedia.org/wiki/Swarm_intelligence">Swarm intelligence</a> or <a href="http://en.wikipedia.org/wiki/Particle_swarm_optimization">Particle swarm optimization</a>.  </p>
+</blockquote>
+<hr />
+<p>Table Of Contents (click a link to jump to that&nbsp;post)</p>
+<ol>
+<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
+2. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
+3. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
+4. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
+5. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a> 
+6. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
+<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a> </li>
+</ol>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html';
+	    var disqus_title = 'Modern Genetic (And Other) Algorithms Explained: Part 5 - Ant Colony Optimization';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

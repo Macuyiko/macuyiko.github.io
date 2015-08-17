@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Bed Against The Wall</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div class="large-9 columns">
+        
+		<article>
+			<header>
+				<div class="article-info">di 22 mei 2012, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html" rel="bookmark"
+				title="Permalink to Ubuntu 12.04: “fixed channel mon0: -1”">Ubuntu 12.04: &#8220;fixed channel mon0:&nbsp;-1&#8221;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Still having problems in Ubuntu with the fixed channel being -1 when using <code>aircrack</code> and friends? Luckily, the solution does not require patching this time (as it <a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">used to</a>), as the following solution (obtained from <a href="http://ubuntuforums.org/showpost.php?p=10550806&amp;postcount=6">this forum post</a>) now works for me. The problem is basically that the channel can ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">zo 13 mei 2012, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2012/an-attempt-at-making-a-javascripthtml5-sliceit-clone-and-a-failed-attempt-at-a-genetic-algorithm-based-solver.html" rel="bookmark"
+				title="Permalink to An Attempt At Making A Javascript/HTML5 SliceIt! Clone, And A (Failed) Attempt At A Genetic Algorithm Based Solver">An Attempt At Making A Javascript/<span class="caps">HTML5</span> SliceIt! Clone, And A (Failed) Attempt At A Genetic Algorithm Based&nbsp;Solver</a></div>
+			</header>
+			<div class="article-summary">
+					<p>One of the niceties of owning a smartphone is the huge amount of apps available for download, many of which games.<br />
+Some time ago, one of these games which was keeping me occupied was <a href="https://play.google.com/store/apps/details?id=com.com2us.sliceit&amp;hl=en">SliceIt!</a> from Com2uS. Don&#8217;t worry if you don&#8217;t know the game or haven&#8217;t ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2012/an-attempt-at-making-a-javascripthtml5-sliceit-clone-and-a-failed-attempt-at-a-genetic-algorithm-based-solver.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">za 24 maart 2012, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2012/gibbeds-mass-effect-3-audio-extractor-iopathcombine-path1-cannot-be-null.html" rel="bookmark"
+				title="Permalink to Gibbed’s Mass Effect 3 Audio Extractor: “IO.Path.Combine path1 cannot be null”">Gibbed&#8217;s Mass Effect 3 Audio Extractor: &#8220;<span class="caps">IO</span>.Path.Combine path1 cannot be&nbsp;null&#8221;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I was trying to use Gibbed&#8217;s Mass Effect 3 Audio Extractor recently, but it failed&nbsp;with:</p>
+<blockquote>
+<p><span class="caps">IO</span>.Path.Combine path1 cannot be&nbsp;null</p>
+</blockquote>
+<p>To fix this, use <code>regedit</code> to go to<br />
+  - <code>HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\BioWare\Mass Effect 3</code> (on 64 bit machines)
+  - <code>HKEY_LOCAL_MACHINE\SOFTWARE\BioWare\Mass Effect 3</code> (on ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2012/gibbeds-mass-effect-3-audio-extractor-iopathcombine-path1-cannot-be-null.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">di 28 februari 2012, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2012/the-nvmcp64sys-blue-screen.html" rel="bookmark"
+				title="Permalink to The nvmcp64.sys Blue Screen">The nvmcp64.sys Blue&nbsp;Screen</a></div>
+			</header>
+			<div class="article-summary">
+					<p>This issue has been plaguing my Windows 7 installation since the beginning of time, or, well &#8212; the beginning of this particular Windows 7 installation&#8230;<br />
+Every once in a while, my computer would blue screen displaying a <code>DRIVER_IRQL_NOT_LESS_OR_EQUAL</code> error due to a certain <code>nvmcp64.sys</code>, often with any playing audio looping ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2012/the-nvmcp64sys-blue-screen.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">zo 12 februari 2012, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2012/games-ill-keep-an-eye-on-in-2012.html" rel="bookmark"
+				title="Permalink to Games I’ll Keep An Eye On In 2012">Games I&#8217;ll Keep An Eye On In&nbsp;2012</a></div>
+			</header>
+			<div class="article-summary">
+					<h3>Big-budget&nbsp;releases</h3>
+<p>In order of release date. Some release dates are an estimate. Unannounced games are not listed here.<br />
+<strong>January</strong>
+<img alt="" src="http://1.bp.blogspot.com/-ZQB2xOIMgeI/TzgPDR850GI/AAAAAAAASlo/vVD2fY04eLc/s1600/01swtor.png" /> Star Wars: The Old Republic
+<strong>February</strong>
+<img alt="" src="http://4.bp.blogspot.com/-HVmysJ6WBto/TzgPDgAAZUI/AAAAAAAASls/vbZd0YGq_uc/s1600/02amalur.png" /> Kingdoms of Amalur: Reckoning
+<img alt="" src="http://1.bp.blogspot.com/-ne2uxgW49D0/TzgPEPaFh1I/AAAAAAAASl0/a3ZP-1gAWzo/s1600/03binary.png" /> Binary Domain
+<img alt="" src="http://1.bp.blogspot.com/-M0z7j0hN5hk/TzgPEtNIzaI/AAAAAAAASl8/UL8nKwCjGpI/s1600/04ssx.png" /> <span class="caps">SSX</span>
+<img alt="" src="http://3.bp.blogspot.com/-7PLziSv_SKs/TzgPFIeT7-I/AAAAAAAASmA/GqSFEVoSaHw/s1600/05syndicate.png" /> Syndicate
+<img alt="" src="http://4.bp.blogspot.com/-s2DgVjpcl9g/TzgPFWTYVPI/AAAAAAAASmM/dlxN_GOnu7w/s1600/06jakdaxter.png" /> Jak and Daxter Collection
+<img alt="" src="http://3.bp.blogspot.com/-HuqqOjauCjk/TzgPGrIoqEI/AAAAAAAASmY/XvDFXeCKSqY/s1600/06thedarkness2.png" />The Darkness 2
+<strong>March</strong>
+<img alt="" src="http://2.bp.blogspot.com/-bZjGNEBIo7U/TzgPH72jdyI/AAAAAAAASmc/JFkvkvrTNG8/s1600/07iamalive.png" /> I am Alive
+<img alt="" src="http://4.bp.blogspot.com/-TAohiAHuRyo/TzgPIY0FGuI/AAAAAAAASmo/cDKseuSJIjY/s1600/08me3.png" /> Mass Effect 3
+<img alt="" src="http://2.bp.blogspot.com/-ZP9PTLY4D2I/TzgPJfFIojI/AAAAAAAASms/znx-5cPZpoo/s1600/09diablo3.png" /> Diablo <span class="caps">III ...</span></p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2012/games-ill-keep-an-eye-on-in-2012.html">Read more</a></p>
+			</div>
+		</article>
+
+<div class="pagination-centered">
+
+<h6 class="subheader">
+	&laquo; Prev
+	Page 1 of 1	
+	Next &raquo;
+</h6>
+
+</div>
+</div>
+		
+ 
+<aside class="large-3 columns">
+	<div style="text-align: center;">
+		<img src="/images/avatar.jpg" width="100" class="avatar" />
+	</div>
+
+	<div class="sidebar-title">Site</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/">Home</a></li>
+		<li><a href="http://blog.macuyiko.com/archives.html">Archives</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/atom.xml" rel="alternate">Atom feed</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/rss.xml" rel="alternate">RSS feed</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Pages</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/pages/palettestealersuspender.html">PalettestealerSuspender</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Links</div>
+	<ul class="side-nav">
+		<li><a href="http://bedagainstthewall.blogspot.com">Old Blog Location</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Social</div>
+	<ul class="side-nav">
+		<li><a href="http://twitter.com/macuyiko">Twitter</a></li>
+		<li><a href="http://seppe.net">Personal Site</a></li>
+		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
+		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
+		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
+		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Search</div>
+	<div style="text-align: center; margin-top: 4px;">
+		<form method="get" action="http://www.google.com/search">
+			<input type="text" name="q" style="float: left; width: 130px;" maxlength="255" value="" />
+			<input type="submit" value="Go" />
+			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
+		</form>
+	</div>
+	
+</aside>
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

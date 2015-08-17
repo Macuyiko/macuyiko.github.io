@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Bed Against The Wall</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div class="large-9 columns">
+        
+		<article>
+			<header>
+				<div class="article-info">di 22 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/close-call.html" rel="bookmark"
+				title="Permalink to Close Call">Close&nbsp;Call</a></div>
+			</header>
+			<div class="article-summary">
+					<p><a href="http://digg.com/linux_unix/Latest_Ubuntu_xorg_core_update_breaks_X">Latest Ubuntu xorg-core update breaks X</a>. Oh boy&#8230;<br />
+If you are already in trouble just want some general info: head over to <a href="http://ubuntuforums.org/showthread.php?t=241254">this thread</a>. The package itself has been fixed (already). Be sure to download the point 4 and not the point 3 release.<br />
+So what&#8217;s this all about ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/close-call.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">di 22 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html" rel="bookmark"
+				title="Permalink to Visiting AIGLX/Compix And Back Again">Visiting <span class="caps">AIGLX</span>/Compix And Back&nbsp;Again</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Here it is, as promised&#8230;<br />
+Yesterday I decided to &#8220;quickly give <span class="caps">AIGLX</span>/Compiz a go&#8221;. I use <span class="caps">AIGLX</span> because I do this on my Thinkpad and it has an Intel card. <span class="caps">AIGLX</span> gives better performance with these cards.<br />
+There are already nice how-to&#8217;s at <a href="http://doc.gwos.org/index.php/Xorg_Aiglx_Compiz">this</a> and <a href="http://corvillus.com/2006/08/03/how-to-set-up-aiglx-and-compiz-on-ubuntu-606-running-gnome/">this</a> location, but ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">zo 20 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/moved-a-long-time-ago.html" rel="bookmark"
+				title="Permalink to Moved a long time ago…">Moved a long time&nbsp;ago&#8230;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Just to let you know in case you didn&#8217;t know already: I&#8217;ve moved my blog location. New address is <a href="http://bedagainstthewall.blogspot.com">http://bedagainstthewall.blogspot.com</a>. </p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/moved-a-long-time-ago.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">za 19 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/combat-new-blogger-and-a-farewell.html" rel="bookmark"
+				title="Permalink to Combat, New Blogger And A Farewell…">Combat, New Blogger And A&nbsp;Farewell&#8230;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>A farewell to Windows that is. Which I removed now from my laptop (since I&#8217;m so pleased with&nbsp;Ubuntu).</p>
+<p>Of course I still run Windows on my gaming-slash-desktop machine. Playing a bit of Flatout 2 lately. I tried to download the <span class="caps">F.E.A.R.</span> Combat installer (multiplayer component ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/combat-new-blogger-and-a-farewell.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 14 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html" rel="bookmark"
+				title="Permalink to Thinkpad Stories (5 already): “Bluetooth and Nokia phones.”">Thinkpad Stories (5 already): &#8220;Bluetooth and Nokia&nbsp;phones.&#8221;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Story number 5 already.<br />
+Here is the background talk: now that I finally have bluetooth support (I never had an <span class="caps">USB</span> dongle) I could finally copy my pictures over from my Nokia phone (since I don&#8217;t want to invest in an expensive non-standard <span class="caps">USB</span> cable).<br />
+I followed some advice ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">za 12 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/realtime-monitoring-with-php.html" rel="bookmark"
+				title="Permalink to Realtime Monitoring With PHP">Realtime Monitoring With <span class="caps">PHP</span></a></div>
+			</header>
+			<div class="article-summary">
+					<p>If you&#8217;re a <a href="http://digg.com/">Digg</a>&#8216;er, you&#8217;ll probably know the <a href="http://labs.digg.com/">Digg Labs</a>: the site where you can track how users are digging stories. In realtime.<br />
+Most of you will know that Digg is programmed in <span class="caps">PHP</span>. The two Flash applications provided in Digg labs have to get their data ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/realtime-monitoring-with-php.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">vr 11 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-1-so-ya-wanna-boot-ubuntu.html" rel="bookmark"
+				title="Permalink to Thinkpad Stories 1: “So ya wanna boot Ubuntu?”">Thinkpad Stories 1: &#8220;So ya wanna boot&nbsp;Ubuntu?&#8221;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>After quickly setting up Windows <span class="caps">XP</span> and removing all the unnecessary software (who wants Symantec for God&#8217;s sake?) it was time to think about booting the Ubuntu installer.<br />
+This would be a non-trivial task for me, because my <span class="caps">CD</span>/<span class="caps">DVD</span>-burner/reader has not arrived yet and I could ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-1-so-ya-wanna-boot-ubuntu.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">vr 11 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-2-partitioning-woes.html" rel="bookmark"
+				title="Permalink to Thinkpad Stories 2: “Partitioning woes.”">Thinkpad Stories 2: &#8220;Partitioning&nbsp;woes.&#8221;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>It was getting late when I finally figured out how to properly boot. Now: it was time for the actual install&#8230;<br />
+Of course: I had to partition, but I wanted to keep Windows <span class="caps">XP</span> (on a smaller partition) and my Recovery partition. I was happy to see a resize option ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-2-partitioning-woes.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">vr 11 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-3-now-for-some-colours.html" rel="bookmark"
+				title="Permalink to Thinkpad Stories 3: “Now for some colours…”">Thinkpad Stories 3: &#8220;Now for some&nbsp;colours&#8230;&#8221;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Ubuntu&#8217;s finished installing. It all looks nice.<br />
+I picked a nice <a href="http://interfacelift.com/wallpaper/index.php">wallpaper,</a> set my workspaces to 8, and installed gnome-art (sudo apt-get install gnome-art). Picked some nice decorations (I like the Human theme but not that much) and sat back for a few seconds to admire my new desktop ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-3-now-for-some-colours.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">vr 11 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-4-render-it-dammit.html" rel="bookmark"
+				title="Permalink to Thinkpad Stories 4: “Render it dammit!”">Thinkpad Stories 4: &#8220;Render it&nbsp;dammit!&#8221;</a></div>
+			</header>
+			<div class="article-summary">
+					<p>i810&#8230; <code>glxinfo | grep direct</code> nothing. Not enabled because it has problems. (Something about 1.5.0 expected but 1.4.* found. I cannot remember it anymore but you will find users with similar problems on the forums).<br />
+Anyhow: I could not get it to work. It seemed fine however, but ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/thinkpad-stories-4-render-it-dammit.html">Read more</a></p>
+			</div>
+		</article>
+
+<div class="pagination-centered">
+
+<h6 class="subheader">
+		<a href="http://blog.macuyiko.com/category/20063.html">&laquo; Prev</a>
+	Page 4 of 7	
+	<a href="http://blog.macuyiko.com/category/20065.html">Next &raquo;</a>
+</h6>
+
+</div>
+</div>
+		
+ 
+<aside class="large-3 columns">
+	<div style="text-align: center;">
+		<img src="/images/avatar.jpg" width="100" class="avatar" />
+	</div>
+
+	<div class="sidebar-title">Site</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/">Home</a></li>
+		<li><a href="http://blog.macuyiko.com/archives.html">Archives</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/atom.xml" rel="alternate">Atom feed</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/rss.xml" rel="alternate">RSS feed</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Pages</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/pages/palettestealersuspender.html">PalettestealerSuspender</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Links</div>
+	<ul class="side-nav">
+		<li><a href="http://bedagainstthewall.blogspot.com">Old Blog Location</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Social</div>
+	<ul class="side-nav">
+		<li><a href="http://twitter.com/macuyiko">Twitter</a></li>
+		<li><a href="http://seppe.net">Personal Site</a></li>
+		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
+		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
+		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
+		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Search</div>
+	<div style="text-align: center; margin-top: 4px;">
+		<form method="get" action="http://www.google.com/search">
+			<input type="text" name="q" style="float: left; width: 130px;" maxlength="255" value="" />
+			<input type="submit" value="Go" />
+			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
+		</form>
+	</div>
+	
+</aside>
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

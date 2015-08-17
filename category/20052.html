@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Bed Against The Wall</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div class="large-9 columns">
+        
+		<article>
+			<header>
+				<div class="article-info">vr 08 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/memo-list.html" rel="bookmark"
+				title="Permalink to Memo List">Memo&nbsp;List</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Because I was bored and my memory is having problems remembering things lately, I&#8217;ve put together a list for me with all the games I should keep an eye on. Please only read this if you&#8217;re interested in my gaming needs, otherwise just ignore ;).<br />
+<em> </em>Call of Duty 2 ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/memo-list.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">do 07 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/project-gizmo.html" rel="bookmark"
+				title="Permalink to Project Gizmo">Project&nbsp;Gizmo</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Project <a href="http://www.gizmoproject.com/">Gizmo</a> is a new piece of software just like <a href="http://www.skype.com/">Skype</a>. Add contact, make a profile, start talking.<br />
+I&#8217;ve used it for some time now, I must say it looks very clean and crisp, and is as easy to use as Skype (which seems to have updated it&#8217;s ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/project-gizmo.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">di 05 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/whoops.html" rel="bookmark"
+				title="Permalink to Whoops">Whoops</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Oh God! Custom badly written img tags messing up the template aaaaah!<br />
+It&#8217;s fixed now.<br />
+Too bad I had to resize the Sloganizer banner&#8230; Oh well.<br />
+Since I was on a Microsoft-rant in my previous post, I&#8217;m currently downloading the latest Lonhorn built (checks) 5048. Just to look ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/whoops.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">di 05 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/why-do-i-have-to-press-start-to-shut-down-my-computer.html" rel="bookmark"
+				title="Permalink to Why Do I Have To Press Start To Shut Down My Computer?">Why Do I Have To Press Start To Shut Down My&nbsp;Computer?</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Mess has a nice post somewhere about those &#8216;What I&#8217;m Listening To&#8217;-messages you see in <span class="caps">MSN</span> Messenger, it seems that there are two other icons (apart from the headphones) too.<br />
+You can download a program which enables you to change your personal message and use these new icons ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/why-do-i-have-to-press-start-to-shut-down-my-computer.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 04 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/busy-days.html" rel="bookmark"
+				title="Permalink to Busy Days">Busy&nbsp;Days</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Here&#8217;s a quick linkdump for y&#8217;all&#8230; 
+&#8220;A dog named fish&#8221; has a nice <a href="http://www.adognamedfish.com/archives/2003/01/lego_star_destroyer/">blog entry</a> which shows how they built the Lego Star Destroyer in 10 hours, you can also download a cool stop motion video which shows the whole process in around 4 minutes.<br />
+Wired News has ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/busy-days.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 04 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/slogans.html" rel="bookmark"
+				title="Permalink to Slogans">Slogans</a></div>
+			</header>
+			<div class="article-summary">
+					<p>This is funny.<br />
+<img alt="" src="http://www.sloganizer.net/en/style3,Muzeron.png" /></p>
+<p>From <a href="http://www.sloganizer.net">sloganizer</a>.net.</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/slogans.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">za 02 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/daily-habbits.html" rel="bookmark"
+				title="Permalink to Daily Habbits">Daily&nbsp;Habbits</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Whoops, forgot to mention that I actually passed for my exams&#8230; Not that it really&nbsp;matters.</p>
+<p>In other news, <a href="http://sdp.ppona.com/"><span class="caps">SDP</span> Multimedia</a> is <em>the</em> best tool on Windows to save <span class="caps">MMS</span> streams, Alcohol 120% still remains the best tool for making <span class="caps">ISO</span>&#8217;s, and Slashdot tells me that Science has put ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/daily-habbits.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">vr 01 juli 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/back-and-right-into-summer.html" rel="bookmark"
+				title="Permalink to Back And Right Into Summer">Back And Right Into&nbsp;Summer</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Finally, exams have ended. Still, I had a lot of things to do before finally starting normal life again: cleaning stuff in the house as well on the computer, install latest drivers, check all the webcomics I&#8217;d missed, etc&#8230;<br />
+After all this I was finally able to start playing ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/back-and-right-into-summer.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">ma 06 juni 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/counting-down.html" rel="bookmark"
+				title="Permalink to Counting Down">Counting&nbsp;Down</a></div>
+			</header>
+			<div class="article-summary">
+					<blockquote>
+<p>The Pirate Bay states: <strong>[&#8230;]</strong>
+They&#8217;re back; of course they are back. They had said before that their shutdown was only rumored. It was a nice joke to give them some spare time for preparing the launch of version 2 of their tracker and website (which is really impressive now ...</p></blockquote>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/counting-down.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">wo 01 juni 2005, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/im-no-good-at-inventing-titles.html" rel="bookmark"
+				title="Permalink to I’m No Good At Inventing Titles">I&#8217;m No Good At Inventing&nbsp;Titles</a></div>
+			</header>
+			<div class="article-summary">
+					<p>The Pirate Bay&nbsp;states: </p>
+<blockquote>
+<p>Today the swedish anti-piracy organisations raided The Pirate Bay and confiscated the computers running the tracker. This probably means the end of The Pirate Bay and we, the crew, apologize for all loss of income caused by our activity over the years.
+Poor Piratebay, I thought ...</p></blockquote>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2005/im-no-good-at-inventing-titles.html">Read more</a></p>
+			</div>
+		</article>
+
+<div class="pagination-centered">
+
+<h6 class="subheader">
+		<a href="http://blog.macuyiko.com/category/2005.html">&laquo; Prev</a>
+	Page 2 of 4	
+	<a href="http://blog.macuyiko.com/category/20053.html">Next &raquo;</a>
+</h6>
+
+</div>
+</div>
+		
+ 
+<aside class="large-3 columns">
+	<div style="text-align: center;">
+		<img src="/images/avatar.jpg" width="100" class="avatar" />
+	</div>
+
+	<div class="sidebar-title">Site</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/">Home</a></li>
+		<li><a href="http://blog.macuyiko.com/archives.html">Archives</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/atom.xml" rel="alternate">Atom feed</a></li>
+		<li><a href="http://blog.macuyiko.com/feeds/rss.xml" rel="alternate">RSS feed</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Pages</div>
+	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/pages/palettestealersuspender.html">PalettestealerSuspender</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Links</div>
+	<ul class="side-nav">
+		<li><a href="http://bedagainstthewall.blogspot.com">Old Blog Location</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Social</div>
+	<ul class="side-nav">
+		<li><a href="http://twitter.com/macuyiko">Twitter</a></li>
+		<li><a href="http://seppe.net">Personal Site</a></li>
+		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
+		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
+		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
+		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
+	</ul>
+	
+	<div class="sidebar-title">Search</div>
+	<div style="text-align: center; margin-top: 4px;">
+		<form method="get" action="http://www.google.com/search">
+			<input type="text" name="q" style="float: left; width: 130px;" maxlength="255" value="" />
+			<input type="submit" value="Go" />
+			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
+		</form>
+	</div>
+	
+</aside>
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>May Is The Sunny Promise That Summer Is Bound To Keep…</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">ma 30 mei 2005, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2005/may-is-the-sunny-promise-that-summer-is-bound-to-keep.html" rel="bookmark"
+			title="Permalink to May Is The Sunny Promise That Summer Is Bound To Keep…">May Is The Sunny Promise That Summer Is Bound To&nbsp;Keep&#8230;</a></div>
+		</header>
+	
+	    <p>&#8230;at least it says so on my Coca-Cola calendar. Here, it&#8217;s raining again.<br />
+Which means that we have a good reason to stay inside and play Psychonauts, for example. At first sight I thought &#8220;Oh god, not another kids game!&#8221; (Altough Lego Star Wars wasn&#8217;t that bad either.) But I must say I&#8217;ve been really enjoying this platform game (the last good platform game I played was Prince of Persia: The Sands of Time, not the second one). It contains a nice deal of humor, and the gameplay is done really well! Camera movement is perfect, control is as well. Also, you can&#8217;t really die. Like, Game Over, which is also a plus for me (I hate reloading and redoing stuff).<br />
+The only thing I hate is the ongoing search for figments (which give you a better rank, and thus power) and arrowheads (think gold or credits), which can consume time. I want to get on with the story (best before those exams start) and see the ending, I will collect all these rare items when I&#8217;m done with the story (I did the same with Neverwinter Nights)&#8230;<br />
+Extra long post&#8230; I&#8217;ve downloaded Netscape today. As you could probably suspect, I grew up with Netscape. And seeing that N-logo with the passing&#8230; comet (?) again was so nostalgic. Opera is a good browser, but too crowded. Internet Explorer is too old and too unsecure. Firefox is nice but Netscape is even better since you can surf pages with either the Firefox (Gecko) or <span class="caps">IE</span> engine! Nice&#8230; (though I mostly use the Gecko&nbsp;engine).  </p>
+<p>Still, I&#8217;ve been using <span class="caps">IE</span> for years, always updated, never clicked on stupid ads (those who try to look like a Windows window), and disabled ActiveX. Problems? Never. Spyware? Nothing too bad (only cookies and &#8220;normal&#8221; stuff). Viruses, nope. Toolbars? Forget it.<br />
+I mean what&#8217;s wrong with people that they keep want to know what the weither is like on their traybar, or want to earn money while they sleep. Or want a bigger&#8230; paycheck. Whatever, I might do a nice prank-special-haha-funny-page with the most stupid ads and adware. Should be fun. 
+I&#8217;m downloading Fedora right now, I can&#8217;t decide to use <span class="caps">FC3</span> or SuSE Pro 9.latest&#8230;<br />
+I&#8217;ve also downloaded the latest Knoppix and Whoppix. Whoppix has such a nice video about <a href="http://whoppix.hackingdefined.com/Whoppix-wepcrack.html"><span class="caps">WEP</span> cracking</a> (you know, the in 3 minutes or more thing). I love it, I&#8217;m going to make my whole city wireless, mainly for comforting my soon to be acquired <span class="caps">PSP</span>, but also to crack the <span class="caps">WEP</span> key I set&#8230; Should be rewarding. Should give the possibility to surf anywhere I want ;).<br />
+Bye for&nbsp;now&#8230;  </p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2005/may-is-the-sunny-promise-that-summer-is-bound-to-keep.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2005/may-is-the-sunny-promise-that-summer-is-bound-to-keep.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2005/may-is-the-sunny-promise-that-summer-is-bound-to-keep.html';
+	    var disqus_title = 'May Is The Sunny Promise That Summer Is Bound To Keep…';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2005/may-is-the-sunny-promise-that-summer-is-bound-to-keep.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

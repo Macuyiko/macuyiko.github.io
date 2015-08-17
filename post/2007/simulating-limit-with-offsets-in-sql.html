@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Simulating LIMIT with offsets in SQL</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">zo 29 juli 2007, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/simulating-limit-with-offsets-in-sql.html" rel="bookmark"
+			title="Permalink to Simulating LIMIT with offsets in SQL">Simulating <span class="caps">LIMIT</span> with offsets in <span class="caps">SQL</span></a></div>
+		</header>
+	
+	    <p>How can you do this (x is number of rows to fetch, y is offset) (Mysql):<br />
+    <span class="caps">SELECT</span> * <span class="caps">FROM</span> my_table <span class="caps">LIMIT</span> x, y
+or this (PostgreSQL)&nbsp;:  </p>
+<div class="highlight"><pre>SELECT * FROM my_table LIMIT x OFFSET y
+</pre></div>
+
+
+<p>in a <span class="caps">DBMS</span> that doesn&#8217;t support <span class="caps">LIMIT</span> statements (take Oracle for example).<br />
+In Oracle, you can use <span class="caps">ROWNUM</span>, which holds the current row number:<br />
+    <span class="caps">SELECT</span> * <span class="caps">FROM</span><br />
+      (<span class="caps">SELECT</span> <span class="caps">ROWNUM</span> limit, * <span class="caps">FROM</span> my_table <span class="caps">ORDER</span> <span class="caps">BY</span> order_field)<br />
+    <span class="caps">WHERE</span> limit <span class="caps">BETWEEN</span> x <span class="caps">AND</span> y
+In <span class="caps">SQL</span> Server (&gt;2005), you can use a similar trick, using the ROW_NUMBER function:<br />
+    <span class="caps">WITH</span> ordered <span class="caps">AS</span> (<br />
+      <span class="caps">SELECT</span> ROW_NUMBER() <span class="caps">OVER</span> (<span class="caps">ORDER</span> <span class="caps">BY</span> order_field) <span class="caps">AS</span> limit, <em><br />
+      <span class="caps">FROM</span> my_table)<br />
+    <span class="caps">SELECT</span> </em><br />
+    <span class="caps">FROM</span> ordered<br />
+    <span class="caps">WHERE</span> limit <span class="caps">BETWEEN</span> x <span class="caps">AND</span>&nbsp;y  </p>
+<p>When using another database (Access for example), you can use <span class="caps">TOP</span> when available:<br />
+    <span class="caps">SELECT</span> * <span class="caps">FROM</span><br />
+      (<span class="caps">SELECT</span> <span class="caps">TOP</span> x * <span class="caps">FROM</span><br />
+      (<span class="caps">SELECT</span> <span class="caps">TOP</span> x+y * <span class="caps">FROM</span> my_table <span class="caps">ORDER</span> <span class="caps">BY</span> order_field)<br />
+    <span class="caps">AS</span> innerT<br />
+    <span class="caps">ORDER</span> <span class="caps">BY</span> order_field <span class="caps">DESC</span>) <span class="caps">AS</span> outerT<br />
+    <span class="caps">ORDER</span> <span class="caps">BY</span>&nbsp;order_field</p>
+<p>Or, another&nbsp;option:  </p>
+<div class="highlight"><pre>SELECT TOP x * FROM my_table  
+WHERE order_field NOT IN  
+(SELECT TOP y * FROM my_table ORDER BY order_field)
+</pre></div>
+
+
+<p>Some databases don&#8217;t allow <span class="caps">TOP</span> in subselects, so we have to use yet another method:<br />
+    <span class="caps">SELECT</span> * <span class="caps">FROM</span> my_table outerT<br />
+    <span class="caps">WHERE</span><br />
+    (<span class="caps">SELECT</span> <span class="caps">COUNT</span>(*)<br />
+    <span class="caps">FROM</span> my_table innerT<br />
+    <span class="caps">WHERE</span> innerT.order_field order_field)<br />
+    <span class="caps">BETWEEN</span> y+1 <span class="caps">AND</span> x+y<br />
+    <span class="caps">ORDER</span> <span class="caps">BY</span> outerT.order_field <span class="caps">ASC</span>;
+Should that fail too, you can always&nbsp;do:  </p>
+<div class="highlight"><pre>SELECT TOP x * FROM my_table WHERE order_field &gt; z
+</pre></div>
+
+
+<p>With z the last fetched order_field value from the previous&nbsp;page.  </p>
+<p>You can also find a handy article on the <span class="caps">IBM</span> site describing how you can <a href="http://www-1.ibm.com/support/docview.wss?rs=64&amp;uid=swg27005359">simulate row numbers</a>.  </p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2007/simulating-limit-with-offsets-in-sql.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2007/simulating-limit-with-offsets-in-sql.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2007/simulating-limit-with-offsets-in-sql.html';
+	    var disqus_title = 'Simulating LIMIT with offsets in SQL';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2007/simulating-limit-with-offsets-in-sql.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

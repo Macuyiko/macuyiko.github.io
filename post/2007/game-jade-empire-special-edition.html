@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Game: Jade Empire - Special Edition</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">vr 27 juli 2007, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/game-jade-empire-special-edition.html" rel="bookmark"
+			title="Permalink to Game: Jade Empire - Special Edition">Game: Jade Empire - Special&nbsp;Edition</a></div>
+		</header>
+	
+	    <p>So I picked up Jade Empire for the <span class="caps">PC</span> a few days ago. I was astonished because I didn&#8217;t even know it was released for the <span class="caps">PC</span>. (I&#8217;ve been jealous of console owners who could play the game and then I even miss the <span class="caps">PC</span> release!)<br />
+So after I quick install I was ready to go. I was more than happy to experience a new Bioware-experience. As coincidence would have it, I had been playing a few Neverwinter Nights premium modules the days before just because I wanted a Bioware experience. (And no, KotOR 2 and <span class="caps">NWN</span> 2 just aren&#8217;t the same.)<br />
+And the game didn&#8217;t disappoint. I you haven&#8217;t played it yet: you should. The whole story was fantastic. The characters were well though out, and the combat was fun without being frustrating (I didn&#8217;t die a single time on the easiest difficulty level).<br />
+If you are a hardcore <span class="caps">PC</span> <span class="caps">RPG</span> gamer you will notice that this game is a tad linear. Of course there are quite a lot of side quests but you can&#8217;t roam very freely. This seems to be a typical characteristic of more &#8216;modern&#8217; RPGs, like Fable, or even Overlord. On the other hand, this also has pros: at least you don&#8217;t get lost or distracted. Also: Fable could learn a few things from Jade Empire, this is how a console <span class="caps">RPG</span> should be done: it&#8217;s all about the story and the atmosphere. The game is fun, quick to pick up and you don&#8217;t have to manage your inventory and character every two steps while still keeping enough numbers, statistics and options for you to look at.<br />
+I think I&#8217;m going to rest for a bit now after this marathon-gaming-session. But I think I&#8217;m going to replay the game with another character later.<br />
+Let&#8217;s hope that <a href="http://masseffect.bioware.com/">Mass Effect</a> <a href="http://kotaku.com/gaming/pc/rumor-mass-effect-coming-to-pc-209258.php">comes to</a> <a href="http://www.johng.co.uk/2006/10/21/breaking-news-mass-effect-coming-to-pc-in-2007/">the <span class="caps">PC</span></a> <a href="http://www.joystiq.com/2006/10/22/mass-effect-rumored-for-the-pc/">as well</a>.<br />
+Pros:<br />
+  - Another Bioware classic.
+  - Amazing atmosphere.
+  - Great story.
+  - Cool styles and techniques.
+  - Original oriental setting of the game.
+  - A right amount of side quests.
+  - Well ported: no crashes, no control problems.
+  - Graphics are still good.
+  - Music.
+Cons:<br />
+  - Camera misbehaves sometimes .
+  - Leaves you wanting much more&nbsp;;).</p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2007/game-jade-empire-special-edition.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2007/game-jade-empire-special-edition.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2007/game-jade-empire-special-edition.html';
+	    var disqus_title = 'Game: Jade Empire - Special Edition';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2007/game-jade-empire-special-edition.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

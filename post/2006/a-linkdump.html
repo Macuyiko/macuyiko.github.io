@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>A Linkdump</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">vr 13 oktober 2006, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/a-linkdump.html" rel="bookmark"
+			title="Permalink to A Linkdump">A&nbsp;Linkdump</a></div>
+		</header>
+	
+	    <p>Here are some links I found to be interesting the past few&nbsp;days:  </p>
+<ul>
+<li>Google <a href="http://www.google.com/intl/en/press/pressrel/google_youtube.html">acquires</a> YouTube. This didn&#8217;t exactly came as a&nbsp;surprise.</li>
+<li>
+<p><span class="dquo">&#8220;</span><a href="http://reluctantnomad.blogspot.com/2006/09/insults-they-just-dont-make-them-as.html">Insults - they just don&#8217;t make them as they used to</a>&#8221; - via Reluctant Nomad, a great post with - indeed - some great &#8220;insults&#8221;. For&nbsp;example:  </p>
+<blockquote>
+<p>He uses statistics as a drunken man uses lamp-posts&#8230;for support rather than illumination. &#8212; Andrew&nbsp;Lang</p>
+</blockquote>
+</li>
+<li>
+<p><span class="dquo">&#8220;</span><a href="http://backingwinds.blogspot.com/2006/10/how-to-create-professional-hdr-images.html">How to create professional <span class="caps">HDR</span> images</a>&#8221; - via Backing&nbsp;Winds.</p>
+</li>
+<li><a href="http://www-inst.eecs.berkeley.edu/~maratb/readings/NoSilverBullet.html">No silver bullet, by Brooks</a>. I had to read this last year in an &#8220;informatics&#8221; class and saw it mentioned on Delicious. It still is a good&nbsp;read.</li>
+<li><a href="http://www.simplehelp.net/2006/10/11/10-windows-explorer-alternatives-compared-and-reviewed/">10 Windows Explorer alternatives compared and reviewed</a>. A lot of people I know love Total&nbsp;Commander.</li>
+<li><a href="http://www.securityfocus.com/infocus/1879/1">Hacking Web 2.0 applications with Firefox</a>.</li>
+<li>Lifehacker special: <a href="http://www.lifehacker.com/software/kaizen/practice-your-personal-kaizen-207029.php">Practice your personal Kaizen</a>.</li>
+<li><a href="http://lmnop.blogs.com/lauren/2006/10/americas_most_f.html">The 7 worst fonts</a>. I fully agree. Especially with number&nbsp;one.</li>
+<li><a href="http://www.gtfineart.com/upcoming/tiell_frame.html">Kevin Tiell photographs</a> pinball&nbsp;games.</li>
+<li><a href="http://www.feedforall.com/social-bookmarking-icons.htm">Social bookmarking icons</a>. So that&#8217;s where you found them! A great&nbsp;list.</li>
+<li>Have some fun with these <a href="http://www.alanwood.net/unicode/block_elements.html">Unicode block elements</a>. Or even better: <a href="http://www.mikebinns.net/blockwriting.php">use this</a>.</li>
+<li><a href="http://www.gnucitizen.org/blog/javascript-spider">A Javascript web spider</a>&#8230;</li>
+<li><a href="http://www.jackslocum.com/yui/2006/10/02/3-easy-steps-to-avoid-javascript-memory-leaks/">3 easy steps to avoid Javascript memory leaks</a>.</li>
+<li><a href="http://mir.aculo.us/articles/2006/09/16/adventures-in-javascript-testing">Adventures in Javascript testing</a>.</li>
+<li><a href="http://beeography.wordpress.com/2006/09/27/and-here-is-her-cousin/">Lazarus review</a>. (Also: an Ubuntu .deb of Lazarus in multi/uni-verse would be really nice&#8230; pretty&nbsp;please?)</li>
+<li><a href="http://www.physorg.com/news79891568.html">How the immune system avoids attacking itself</a>.</li>
+<li><a href="http://www.miketaber.net/articles/SoftwareStartupMythsDebunked.aspx">Software startup myths debunked</a>.</li>
+<li>Samsung is doing very well these days and is about to release a <a href="http://www.dailytech.com/article.aspx?newsid=4516">10 Megapixel phone</a>.</li>
+<li><a href="http://www.classiccat.net/">Free classical music</a>.</li>
+<li>The <a href="http://www.sydlexia.com/top100nes.htm">top 100 <span class="caps">NES</span> games</a> &#8212;&nbsp;ever.</li>
+<li><a href="http://www.pelourinho.com/movies/c003702/">A woman drawn from inside out</a>. A well-done&nbsp;animation.</li>
+<li><a href="http://www.problogger.net/archives/2006/10/12/10-techniques-to-get-more-comments-on-your-blog/">10 techniques to get more comments on your blog</a>.</li>
+<li><a href="http://healthbolt.net/2006/07/19/what-happens-to-your-body-if-you-stop-smoking-right-now/">What happens if you stop smoking now</a>?</li>
+<li><a href="http://www.planetharry.at/rpg/rpg_warhammer.htm">Warhammer <span class="caps">RPG</span> article</a> (in&nbsp;German).</li>
+<li><a href="http://www.infectiousvideos.com/index.php?p=showvid&amp;a=playvid&amp;sid=1813&amp;cr=hotplay">Original Transformers movie</a>, with original adverts&nbsp;too.</li>
+<li><a href="http://docs.google.com/">Google Docs <span class="amp">&amp;</span> Spreadsheets launches</a>, completing the integration between Writely and Spreadsheets. A few days before, I was wondering when this would happen.
+I&#8217;m out. Stay tuned for more&nbsp;posts.</li>
+</ul>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2006/a-linkdump.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2006/a-linkdump.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2006/a-linkdump.html';
+	    var disqus_title = 'A Linkdump';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2006/a-linkdump.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

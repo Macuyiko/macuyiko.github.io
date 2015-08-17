@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Ubuntu 10.10: “fixed channel mon0: -1” Aircrack Problem With iwl3945</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">wo 03 november 2010, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html" rel="bookmark"
+			title="Permalink to Ubuntu 10.10: “fixed channel mon0: -1” Aircrack Problem With iwl3945">Ubuntu 10.10: &#8220;fixed channel mon0: -1&#8221; Aircrack Problem With&nbsp;iwl3945</a></div>
+		</header>
+	
+	    <p><strong>Update for Ubuntu 12.04 users:</strong> <a href="http://blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html">see this post</a>.  </p>
+<p>After upgrading to Ubuntu Maverick recently, the Aircrack suite stopped working for&nbsp;me.  </p>
+<p>After setting <code>airodump</code> to a channel (like&nbsp;usual):  </p>
+<div class="highlight"><pre>airodump --channel **X**
+</pre></div>
+
+
+<p>It still displayed its status&nbsp;as:  </p>
+<div class="highlight"><pre>fixed channel mon0: -1
+</pre></div>
+
+
+<p>Some forum users advised to&nbsp;use:  </p>
+<div class="highlight"><pre>airodump --channel X,X
+</pre></div>
+
+
+<p>But this didn&#8217;t work. For the record, I&#8217;m using a Thinkpad X60, with the <code>iwl3945</code> driver. <code>lshw</code> output:  </p>
+<div class="highlight"><pre><span class="o">*-</span><span class="n">network</span>
+       <span class="nl">description</span><span class="p">:</span> <span class="n">Wireless</span> <span class="n">interface</span>
+       <span class="nl">product</span><span class="p">:</span> <span class="n">PRO</span><span class="o">/</span><span class="n">Wireless</span> <span class="mi">3945</span><span class="n">ABG</span> <span class="p">[</span><span class="n">Golan</span><span class="p">]</span> <span class="n">Network</span> <span class="n">Connection</span>
+       <span class="nl">vendor</span><span class="p">:</span> <span class="n">Intel</span> <span class="n">Corporation</span>
+       <span class="n">physical</span> <span class="kt">id</span><span class="o">:</span> <span class="mi">0</span>
+       <span class="n">bus</span> <span class="nl">info</span><span class="p">:</span> <span class="n">pci</span><span class="mo">@0000</span><span class="o">:</span><span class="mo">03</span><span class="o">:</span><span class="mf">00.0</span>
+       <span class="n">logical</span> <span class="nl">name</span><span class="p">:</span> <span class="n">eth1</span>
+       <span class="nl">version</span><span class="p">:</span> <span class="mo">02</span>
+       <span class="nl">width</span><span class="p">:</span> <span class="mi">32</span> <span class="n">bits</span>
+       <span class="nl">clock</span><span class="p">:</span> <span class="mi">33</span><span class="n">MHz</span>
+       <span class="nl">capabilities</span><span class="p">:</span> <span class="n">bus_master</span> <span class="n">cap_list</span> <span class="n">ethernet</span> <span class="n">physical</span> <span class="n">wireless</span>
+</pre></div>
+
+
+<p>Luckily, there is an easy to follow <a href="http://ubuntuforums.org/showthread.php?t=1598930">thread</a> on the forums which fixes the problem for a similar card. This solution also worked with my <span class="caps">3945ABG</span>.  </p>
+<p>Here are the&nbsp;commands:  </p>
+<div class="highlight"><pre>wget http://wireless.kernel.org/download/compat-wireless-2.6/compat-wireless-2010-10-16.tar.bz2
+tar -jxf compat-wireless-2010-10-16.tar.bz2
+cd compat-wireless-2010-10-16
+wget http://patches.aircrack-ng.org/mac80211.compat08082009.wl_frag+ack_v1.patch
+patch -p1 &lt; mac80211.compat08082009.wl_frag+ack_v1.patch
+wget http://patches.aircrack-ng.org/channel-negative-one-maxim.patch
+patch ./net/wireless/chan.c channel-negative-one-maxim.patch
+gedit scripts/update-initramfs
+
+#*** FIND LINE 13: KLIB=/lib/modules/2.6.31-wl/build
+#*** REPLACE WITH: KLIB=/lib/modules/$(uname -r)/build
+
+make
+sudo make install
+sudo make unload
+sudo modprobe iwl3945
+</pre></div>
+
+
+<p>Alternatively you can also use <code>sudo reboot</code> instead of <code>sudo modprobe</code> if you&#8217;re unsure which driver module you need to&nbsp;load.  </p>
+<p>Aircrack should work fine again now. Note that kernel updates might overwrite the module again (and, hopefully, fix the bug at the same&nbsp;time). </p>
+	</article>
+
+		<hr  class="gradient"/>
+<div class="article-comments">Care to Comment?</div>
+
+<!--
+<div>
+<ul id="commenttabs" style="clear: both;">
+    <li class="active"><a href="#googleplus">Google+</a></li>
+    <li><a href="#facebook">Facebook</a></li>
+    <li><a href="#disqus">Disqus</a></li>
+</ul>
+</div>
+
+<div style="clear: both;"> </div>
+
+<div class="commenttab" id="googleplus">
+	<div class="g-comments" data-href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html" data-first_party_property="BLOGGER" data-view_type="FILTERED_POSTMOD">Loading Google+ comments...</div>
+</div>
+
+<div class="commenttab" id="facebook">
+	<div id="fb-root"><div class="fb-comments" data-href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html" data-num-posts="20" data-colorscheme="light" data-mobile="auto"></div></div>
+</div>
+-->
+
+<div class="commenttab" id="disqus">
+	<div id="disqus_thread"></div>
+		<script type="text/javascript">
+	    var disqus_shortname = 'macuyiko';
+	    var disqus_identifier = 'post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html';
+	    var disqus_title = 'Ubuntu 10.10: “fixed channel mon0: -1” Aircrack Problem With iwl3945';
+	    var disqus_url = 'http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html';
+
+	    (function() {
+	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+	    })();
+	</script>
+</div></div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 
