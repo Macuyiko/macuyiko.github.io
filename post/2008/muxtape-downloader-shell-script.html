@@ -84,7 +84,7 @@ wget -O /tmp/muxtape_html.out http://$1.muxtape.com
 #Fetch titles  
 sed -n &#39;/<span class="nt">&lt;div</span> <span class="na">class=</span><span class="s">&quot;name&quot;</span><span class="nt">&gt;</span>/,/<span class="err">&lt;</span>\/div&gt;/p&#39; /tmp/muxtape_html.out &gt; /tmp/muxtape_titles.out  
 titles=`cat /tmp/muxtape_titles.out`  
-echo <span class="cp">${</span><span class="n">titles</span><span class="o">//&lt;</span><span class="n">div</span>\ <span class="n">class</span><span class="o">=</span><span class="s">&quot;</span><span class="se">\&quot;</span><span class="s">&gt;/</span><span class="cp">}</span> &gt; /tmp/muxtape_titles.out  
+echo <span class="cp">${</span><span class="n">titles</span><span class="o">//&lt;</span><span class="n">div</span>\ <span class="n">class</span><span class="o">=</span><span class="s2">&quot;</span><span class="se">\&quot;</span><span class="s2">&gt;/</span><span class="cp">}</span> &gt; /tmp/muxtape_titles.out  
 titles=`cat /tmp/muxtape_titles.out`  
 echo <span class="cp">${</span><span class="n">titles</span><span class="o">//</span>\ <span class="o">&lt;</span>\<span class="o">/</span><span class="n">div</span><span class="o">&gt;/</span><span class="p">;</span><span class="cp">}</span> &gt; /tmp/muxtape_titles.out  
 #Fetch kettle  
@@ -101,9 +101,9 @@ titlesa=(<span class="nv">$titles</span>)
 foo=`cat /tmp/muxtape_links.out`  
 IFS=&quot;,&quot;  
 bar=(<span class="nv">$foo</span>)  
-compar=$(( <span class="cp">${</span><span class="c">#bar[@]</span><span class="cp">}</span>/2 ))  
+compar=$(( <span class="cp">${</span><span class="c1">#bar[@]</span><span class="cp">}</span>/2 ))  
 #Get songs  
-for (( i = 0 ; i <span class="err">&lt;</span> <span class="cp">${</span><span class="c">#bar[@]</span><span class="cp">}</span> ; i++ )) do  
+for (( i = 0 ; i <span class="err">&lt;</span> <span class="cp">${</span><span class="c1">#bar[@]</span><span class="cp">}</span> ; i++ )) do  
   if [ <span class="nv">$i</span> -lt <span class="nv">$compar</span> ]  
   then  
     k=&#39;http://muxtape.s3.amazonaws.com/songs/&#39;  
@@ -111,7 +111,7 @@ for (( i = 0 ; i <span class="err">&lt;</span> <span class="cp">${</span><span c
     b=<span class="cp">${</span><span class="n">k</span><span class="cp">}</span><span class="nv">$a</span>  
     q=&quot;?&quot;  
     k=<span class="cp">${</span><span class="n">b</span><span class="cp">}</span><span class="nv">$q</span>  
-    e=<span class="cp">${</span><span class="n">bar</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="o">+</span><span class="err">$</span><span class="p">{</span><span class="c">#bar[@]</span><span class="cp">}</span>/2]}  
+    e=<span class="cp">${</span><span class="n">bar</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="o">+</span><span class="err">$</span><span class="p">{</span><span class="c1">#bar[@]</span><span class="cp">}</span>/2]}  
     z=<span class="cp">${</span><span class="n">k</span><span class="cp">}</span><span class="nv">$e</span>  
     echo <span class="cp">${</span><span class="n">titlesa</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span><span class="cp">}</span>  
     wget -O <span class="cp">${</span><span class="n">titlesa</span><span class="p">[</span><span class="err">$</span><span class="n">i</span><span class="p">]</span><span class="cp">}</span>.mp3 <span class="nv">$z</span>  
@@ -123,25 +123,7 @@ done
 <p>Yuck! But it works, save it in <code>script.sh</code>, make it executable and then <code>./script.sh muxtape_username</code>.<br />
 This will save all mp3s. It took me an hour to figure this out, and I&#8217;m sure lots of you could do this much better. Still, it was cool to build&#8230; but in Perl or <span class="caps">PHP</span> I could&#8217;ve done this much quicker and cleaner. Oh and by the way: don&#8217;t abuse this&#8230; Muxtape are friendly&nbsp;people. </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2008/muxtape-downloader-shell-script.html';
-	    var disqus_title = 'Muxtape Downloader Shell Script';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2008/muxtape-downloader-shell-script.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

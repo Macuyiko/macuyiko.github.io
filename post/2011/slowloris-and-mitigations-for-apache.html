@@ -310,25 +310,7 @@ I use the following filter in combination with the modified mod_antiloris above:
 I do set the <code>bantime</code> to a low value and <code>maxretry</code> parameter to a high amount however, as the module tends to generate a lot of error lines and legitimate, aggressive browsers sometimes like to make a lot of concurrent requests as well (mod_limitipconn did have the added benefit of specifying mime type to ignore, although its recognition is based on a reduced <span class="caps">URI</span> request string from the Apache scoreboard). Fail2Ban uses IPTables, which has the added benefit that once an <span class="caps">IP</span> is banned, Apache can stop dealing with its flooding altogether.<br />
 That concludes this blog post. I hope you&#8217;ve found the material helpful. Feel free to use any code here and on Github as you see&nbsp;fit. </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2011/slowloris-and-mitigations-for-apache.html';
-	    var disqus_title = 'Slowloris And Mitigations For Apache';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2011/slowloris-and-mitigations-for-apache.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

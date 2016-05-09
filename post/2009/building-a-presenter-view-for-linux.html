@@ -135,21 +135,21 @@ Then: <code>dual.sh</code> &#8212; a simple script to enable dualscreen (same re
   <span class="k">global</span> <span class="n">DocumentTitle</span>  
   <span class="k">global</span> <span class="n">Pcurrent</span><span class="p">,</span> <span class="n">Pnext</span><span class="p">,</span> <span class="n">Tcurrent</span><span class="p">,</span> <span class="n">Tnext</span><span class="p">,</span> <span class="n">InitialPage</span>  
   <span class="k">global</span> <span class="n">RTrunning</span><span class="p">,</span> <span class="n">RTrestart</span><span class="p">,</span> <span class="n">StartTime</span><span class="p">,</span> <span class="n">PageEnterTime</span><span class="p">,</span> <span class="n">CurrentTime</span>  
-  <span class="n">io</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;./Presentation/json.txt&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>  
-  <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(({</span><span class="s">&quot;page_count&quot;</span><span class="p">:</span> <span class="n">PageCount</span><span class="p">,</span> <span class="s">&quot;current_page&quot;</span><span class="p">:</span> <span class="n">Pcurrent</span><span class="p">,</span> <span class="s">&quot;previous_page&quot;</span><span class="p">:</span> <span class="n">Pnext</span><span class="p">,</span> <span class="s">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">StartTime</span><span class="p">,</span> <span class="s">&quot;pageenter_time&quot;</span><span class="p">:</span> <span class="n">PageEnterTime</span><span class="p">,</span> <span class="s">&quot;current_time&quot;</span><span class="p">:</span> <span class="n">CurrentTime</span><span class="p">}),</span> <span class="n">io</span><span class="p">)</span>  
+  <span class="n">io</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./Presentation/json.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>  
+  <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(({</span><span class="s2">&quot;page_count&quot;</span><span class="p">:</span> <span class="n">PageCount</span><span class="p">,</span> <span class="s2">&quot;current_page&quot;</span><span class="p">:</span> <span class="n">Pcurrent</span><span class="p">,</span> <span class="s2">&quot;previous_page&quot;</span><span class="p">:</span> <span class="n">Pnext</span><span class="p">,</span> <span class="s2">&quot;start_time&quot;</span><span class="p">:</span> <span class="n">StartTime</span><span class="p">,</span> <span class="s2">&quot;pageenter_time&quot;</span><span class="p">:</span> <span class="n">PageEnterTime</span><span class="p">,</span> <span class="s2">&quot;current_time&quot;</span><span class="p">:</span> <span class="n">CurrentTime</span><span class="p">}),</span> <span class="n">io</span><span class="p">)</span>  
   <span class="n">io</span><span class="o">.</span><span class="n">close</span>
 
   <span class="n">PageProps</span> <span class="o">=</span> <span class="p">{</span>  
     <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="k">for</span><span class="p">(</span><span class="err">$</span><span class="n">page</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="err">$</span><span class="n">page</span> <span class="o">&lt;=</span> <span class="err">$</span><span class="n">nrpages</span><span class="p">;</span> <span class="err">$</span><span class="n">page</span><span class="o">++</span><span class="p">):</span> <span class="err">?</span><span class="o">&gt;</span>  
       <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="n">echo</span> <span class="err">$</span><span class="n">page</span><span class="p">;</span> <span class="err">?</span><span class="o">&gt;</span><span class="p">:</span> <span class="p">{</span>  
-      <span class="s">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>  
-      <span class="s">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>  
+      <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>  
+      <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>  
       <span class="p">},</span>  
     <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="n">endfor</span><span class="p">;</span> <span class="err">?</span><span class="o">&gt;</span>  
   <span class="p">}</span>
 
 <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>  
-<span class="n">file_put_contents</span><span class="p">(</span><span class="s">&quot;./Presentation/presentation.pdf.info&quot;</span><span class="p">,</span> <span class="n">ob_get_contents</span><span class="p">());</span>  
+<span class="n">file_put_contents</span><span class="p">(</span><span class="s2">&quot;./Presentation/presentation.pdf.info&quot;</span><span class="p">,</span> <span class="n">ob_get_contents</span><span class="p">());</span>  
 <span class="n">ob_end_clean</span><span class="p">();</span>  
 <span class="err">?</span><span class="o">&gt;</span>
 </pre></div>
@@ -340,25 +340,7 @@ And on the projector, everything looks nice:<br />
 Also note that Impressive captures the mouse pointer. So once the presentation is going you won&#8217;t have nasty situations when your mouse pointer leaves the screen and you press the button to advance a slide.<br />
 I&#8217;ve packed all the scripts, files, and a test presentation into a zip. You can download it <a href="http://static.macuyiko.com/files/presenterview/Impressive-PresenterScreen.zip">here</a>.</p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/building-a-presenter-view-for-linux.html';
-	    var disqus_title = 'Building A Presenter View For Linux';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/building-a-presenter-view-for-linux.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

@@ -90,19 +90,19 @@ But first things first. There are a few ways you could solve this, but first, le
 <strong>Detour: Recursive backtracking in general</strong><br />
 Let&#8217;s see what a recursive backtracking function generally looks&nbsp;like:  </p>
 </blockquote>
-<div class="highlight"><pre><span class="nx">recursive_funtion</span><span class="p">(</span><span class="nx">level</span><span class="p">)</span> <span class="p">{</span>  
-  <span class="k">for</span> <span class="nx">all</span> <span class="nx">possible</span> <span class="nx">ways</span> <span class="k">for</span> <span class="nx">something</span> <span class="p">{</span>  
-    <span class="k">try</span> <span class="nx">it</span>  
-    <span class="k">if</span> <span class="nx">solution</span> <span class="nx">valid</span> <span class="p">{</span>  
-      <span class="k">if</span> <span class="nx">solution</span> <span class="nx">complete</span> <span class="p">{</span>  
-        <span class="nx">done</span><span class="p">,</span> <span class="nx">show</span> <span class="nx">solution</span>  
-      <span class="p">}</span><span class="k">else</span><span class="p">{</span>  
-        <span class="nx">recursive_function</span><span class="p">(</span><span class="nx">next_level</span><span class="p">)</span>  
-      <span class="p">}</span>  
-    <span class="p">}</span>  
-    <span class="p">(</span><span class="nx">revert</span> <span class="k">this</span> <span class="k">try</span><span class="p">)</span>  
-  <span class="p">}</span>  
-<span class="p">}</span>
+<div class="highlight"><pre>recursive_funtion(level) {  
+  for all possible ways for something {  
+    try it  
+    if solution valid {  
+      if solution complete {  
+        done, show solution  
+      }else{  
+        recursive_function(next_level)  
+      }  
+    }  
+    (revert this try)  
+  }  
+}
 </pre></div>
 
 
@@ -371,25 +371,7 @@ Picking 10, has 2
 <img alt="" src="http://static.macuyiko.com/files/tetriscube/animatecube.gif" /><br />
 Ha, gotcha! If we would use Dancing Links as well, and a faster/better suited language, this would go even&nbsp;faster. </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/solving-a-tetris-cube-recursive-backtracking-algorithm-x-oh-my.html';
-	    var disqus_title = 'Solving A Tetris Cube, Recursive Backtracking, Algorithm X, Oh My!';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/solving-a-tetris-cube-recursive-backtracking-algorithm-x-oh-my.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

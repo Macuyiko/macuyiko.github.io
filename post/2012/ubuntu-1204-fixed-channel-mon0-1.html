@@ -89,42 +89,24 @@
  9
 10
 11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/bin/bash  </span>
-<span class="c"># Change this to the interface you wish to change:  </span>
+12</pre></div></td><td class="code"><div class="highlight"><pre><span class="ch">#!/bin/bash  </span>
+<span class="c1"># Change this to the interface you wish to change:  </span>
 <span class="nv">IFACE</span><span class="o">=</span><span class="s2">&quot;wlan0&quot;</span>
 
-ifconfig <span class="nv">$IFACE</span> down  
-iwconfig <span class="nv">$IFACE</span> mode managed  
-ifconfig <span class="nv">$IFACE</span> up  
-iwconfig <span class="nv">$IFACE</span> channel <span class="nv">$@</span>  
-ifconfig <span class="nv">$IFACE</span> down  
-iwconfig <span class="nv">$IFACE</span> mode monitor  
-ifconfig <span class="nv">$IFACE</span> up  
-iwconfig <span class="nv">$IFACE</span>
+ifconfig $IFACE down  
+iwconfig $IFACE mode managed  
+ifconfig $IFACE up  
+iwconfig $IFACE channel <span class="nv">$@</span>  
+ifconfig $IFACE down  
+iwconfig $IFACE mode monitor  
+ifconfig $IFACE up  
+iwconfig $IFACE
 </pre></div>
 </td></tr></table>
 
 <p>And everything should work just fine. Just continue to use <code>$IFACE</code> (e.g. <code>wlan0</code>) in all subsequent commands (<code>airodump</code>,&#8230;) you use. Naturally, you do not need to use <code>airmon-ng</code> anymore to put the network card in monitor mode (as <code>$IFACE</code> now already is in monitor&nbsp;mode). </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2012/ubuntu-1204-fixed-channel-mon0-1.html';
-	    var disqus_title = 'Ubuntu 12.04: “fixed channel mon0: -1”';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

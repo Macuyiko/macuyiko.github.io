@@ -1377,9 +1377,9 @@ Looking at the intercepted logs (see above) reveals the used channels. Joining t
 <span class="n">just</span> <span class="nb">shift</span> <span class="n">away</span> <span class="nb">from</span> <span class="n">screen</span>. <span class="n">Such</span> <span class="n">a</span> <span class="s">&quot;algorithm&quot;</span> <span class="n">doesn&#39;t</span> <span class="n">needs</span> <span class="n">neither</span> <span class="n">rootkits</span>,
 <span class="n">neither</span> <span class="n">special</span> <span class="n">privilegies</span>! <span class="nb">Any</span> <span class="n">user</span> <span class="nb">can</span> <span class="k">do</span> <span class="n">that</span> <span class="n">at</span> <span class="nb">any</span> <span class="nb">time</span>!!! *<span class="n">That&#39;s</span>* <span class="s">&quot;psf&quot;</span>
 <span class="nb">does</span>. <span class="n">Try</span> <span class="n">this:</span>
-<span class="c-Singleline"># psf -s &quot;pine -i&quot; sleep 30 &amp;</span>
+<span class="c c-Singleline"># psf -s &quot;pine -i&quot; sleep 30 &amp;</span>
 [<span class="mi">1</span>] <span class="mi">440</span>
-<span class="c-Singleline"># ps auwx</span>
+<span class="c c-Singleline"># ps auwx</span>
 ...
 <span class="n">stas</span>        <span class="mi">84</span>  <span class="mf">0.0</span>  <span class="mf">0.6</span>  <span class="mi">2012</span> <span class="mi">1232</span> <span class="n">pts</span><span class="o">/</span><span class="mi">0</span>    <span class="n">S</span>    <span class="mi">19</span>:<span class="mi">12</span>   <span class="mi">0</span>:<span class="mo">00</span> <span class="n">bash</span> -<span class="n">rcfile</span> .<span class="n">bashrc</span>
 <span class="n">stas</span>       <span class="mi">440</span>  <span class="mf">0.0</span>  <span class="mf">0.1</span>  <span class="mi">1204</span>  <span class="mi">376</span> <span class="n">tty2</span>     <span class="n">S</span>    <span class="mi">20</span>:<span class="mi">09</span>   <span class="mi">0</span>:<span class="mo">00</span> <span class="n">pine</span> -<span class="n">i</span>
@@ -1517,25 +1517,7 @@ The main lesson to take away from this post is this: keep your servers secure. T
 While analyzing cute honeypot logs is by no means doing what one would call &#8220;advanced security research&#8221;, I did have a lot of fun with it, especially when trying to investigate <span class="caps">IRC</span> channels and trailing the hackers.
 Some time ago (actually: years and years ago), I myself was (indirectly) involved with a botnet, containing not hundred but thousands of bots, which is a story for another time. I understand the thrill of gaining your first rooted shell, but being on the opposite side of things (that is: running a server instead of hacking one) also shows how script kiddies operate without any regard for privacy, property or data. It is a valuable, but sad&nbsp;lesson.</p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2011/running-a-ssh-honeypot-with-kippo-lets-catch-some-script-kiddies.html';
-	    var disqus_title = 'Running A SSH Honeypot With Kippo: Let’s Catch Some Script Kiddies';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2011/running-a-ssh-honeypot-with-kippo-lets-catch-some-script-kiddies.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

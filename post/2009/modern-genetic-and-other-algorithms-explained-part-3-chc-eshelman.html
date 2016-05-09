@@ -128,7 +128,7 @@ My Python - again, based on the <a href="http://lethain.com/entry/2009/jan/02/ge
       <span class="n">nr_hamming</span> <span class="o">+=</span> <span class="mi">1</span>  
   <span class="k">return</span> <span class="n">nr_hamming</span>  
 <span class="k">def</span> <span class="nf">cataclysm</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
-  <span class="c">#keep the best individual, flip 35% of bits to get new individuals  </span>
+  <span class="c1">#keep the best individual, flip 35% of bits to get new individuals  </span>
   <span class="n">pop</span><span class="o">.</span><span class="n">sort</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="nb">cmp</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">fitness</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="p">)))</span>  
   <span class="n">firstind</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
   <span class="n">newpop</span> <span class="o">=</span> <span class="p">[</span><span class="n">firstind</span><span class="p">]</span>  
@@ -195,7 +195,7 @@ This reminds me: I should really work on a css class for code (update: done), in
 (3) We do crossover by randomly swapping different values with a 0.5 chance, until half of the values are swapped. Probability-wise, this is not the same as randomly picking half of the different bits. This doesn&#8217;t matter that much for this example, though.<br />
 Let&#8217;s test&nbsp;it:  </p>
 <div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>  
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
 <span class="kn">from</span> <span class="nn">chc_eshelman</span> <span class="kn">import</span> <span class="o">*</span>  
 <span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>  
 <span class="n">p_count</span> <span class="o">=</span> <span class="mi">50</span>  
@@ -204,7 +204,7 @@ Let&#8217;s test&nbsp;it:  </p>
 <span class="n">i_max</span> <span class="o">=</span> <span class="mi">100</span>  
 <span class="n">treshold</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_length</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">]</span>  
 <span class="n">p</span> <span class="o">=</span> <span class="n">population</span><span class="p">(</span><span class="n">p_count</span><span class="p">,</span> <span class="n">i_length</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">)</span>  
-<span class="k">print</span> <span class="s">&quot;First grade: &quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  
+<span class="k">print</span> <span class="s2">&quot;First grade: &quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>  
   <span class="n">p</span><span class="o">=</span><span class="n">evolve</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">treshold</span><span class="p">)</span><span class="err">`</span>
 </pre></div>
@@ -341,25 +341,7 @@ If you want to download the source code used in this post, you can find it <a hr
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a> </li>
 </ol>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html';
-	    var disqus_title = 'Modern Genetic (And Other) Algorithms Explained: Part 3 - CHC Eshelman';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

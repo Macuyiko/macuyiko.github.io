@@ -160,28 +160,28 @@ Interactive interpreter&nbsp;mode</p>
 
 <span class="n">public</span> <span class="k">class</span> <span class="nc">MainPlugin</span> <span class="n">extends</span> <span class="n">JavaPlugin</span> <span class="p">{</span>
     <span class="n">public</span> <span class="n">void</span> <span class="n">onEnable</span><span class="p">(){</span>
-        <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;BukkitConsole: Loading libs&quot;</span><span class="p">);</span>
+        <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;BukkitConsole: Loading libs&quot;</span><span class="p">);</span>
         <span class="k">try</span> <span class="p">{</span>
-            <span class="n">File</span> <span class="n">dependencyDirectory</span> <span class="o">=</span> <span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s">&quot;lib/&quot;</span><span class="p">);</span>
+            <span class="n">File</span> <span class="n">dependencyDirectory</span> <span class="o">=</span> <span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;lib/&quot;</span><span class="p">);</span>
             <span class="n">File</span><span class="p">[]</span> <span class="n">files</span> <span class="o">=</span> <span class="n">dependencyDirectory</span><span class="o">.</span><span class="n">listFiles</span><span class="p">();</span>
-            <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;BukkitConsole: JARs found: &quot;</span><span class="o">+</span><span class="n">files</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
+            <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;BukkitConsole: JARs found: &quot;</span><span class="o">+</span><span class="n">files</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
             <span class="k">for</span> <span class="p">(</span><span class="nb">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">files</span><span class="o">.</span><span class="n">length</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
-                <span class="k">if</span> <span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s">&quot;.jar&quot;</span><span class="p">))</span> <span class="p">{</span>
-                    <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;BukkitConsole:  - &quot;</span><span class="o">+</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getName</span><span class="p">());</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getName</span><span class="p">()</span><span class="o">.</span><span class="n">endsWith</span><span class="p">(</span><span class="s2">&quot;.jar&quot;</span><span class="p">))</span> <span class="p">{</span>
+                    <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;BukkitConsole:  - &quot;</span><span class="o">+</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getName</span><span class="p">());</span>
                     <span class="p">((</span><span class="n">PluginClassLoader</span><span class="p">)</span> <span class="n">this</span><span class="o">.</span><span class="n">getClassLoader</span><span class="p">())</span><span class="o">.</span><span class="n">addURL</span><span class="p">(</span>
-                        <span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s">&quot;lib/&quot;</span><span class="o">+</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span><span class="o">.</span><span class="n">toURI</span><span class="p">()</span><span class="o">.</span><span class="n">toURL</span><span class="p">());</span>
+                        <span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;lib/&quot;</span><span class="o">+</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span><span class="o">.</span><span class="n">toURI</span><span class="p">()</span><span class="o">.</span><span class="n">toURL</span><span class="p">());</span>
                 <span class="p">}</span>
             <span class="p">}</span>
         <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="ne">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> 
             <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
         <span class="p">}</span>
 
-        <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;BukkitConsole: Starting Jython console&quot;</span><span class="p">);</span>
+        <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;BukkitConsole: Starting Jython console&quot;</span><span class="p">);</span>
         <span class="n">new</span> <span class="n">PythonConsole</span><span class="p">();</span>
     <span class="p">}</span>
 
     <span class="n">public</span> <span class="n">void</span> <span class="n">onDisable</span><span class="p">(){</span>
-        <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s">&quot;BukkitConsole: Plugin was disabled&quot;</span><span class="p">);</span>
+        <span class="n">getLogger</span><span class="p">()</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;BukkitConsole: Plugin was disabled&quot;</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
 </pre></div>
@@ -203,10 +203,10 @@ Interactive interpreter&nbsp;mode</p>
                 <span class="n">new</span> <span class="n">PySystemState</span><span class="p">());</span>
 
         <span class="n">PySystemState</span> <span class="n">sys</span> <span class="o">=</span> <span class="n">Py</span><span class="o">.</span><span class="n">getSystemState</span><span class="p">();</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span> <span class="n">PyString</span><span class="p">(</span><span class="s">&quot;.&quot;</span><span class="p">));</span>
-        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span> <span class="n">PyString</span><span class="p">(</span><span class="s">&quot;python/&quot;</span><span class="p">));</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span> <span class="n">PyString</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">));</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new</span> <span class="n">PyString</span><span class="p">(</span><span class="s2">&quot;python/&quot;</span><span class="p">));</span>
 
-        <span class="n">String</span> <span class="n">scriptname</span> <span class="o">=</span> <span class="s">&quot;python/start.py&quot;</span><span class="p">;</span>
+        <span class="n">String</span> <span class="n">scriptname</span> <span class="o">=</span> <span class="s2">&quot;python/start.py&quot;</span><span class="p">;</span>
         <span class="n">interp</span><span class="o">.</span><span class="n">execfile</span><span class="p">(</span><span class="n">scriptname</span><span class="p">);</span>
     <span class="p">}</span>
 <span class="p">}</span>
@@ -255,7 +255,7 @@ PAUSE
 <div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">org.bukkit.Bukkit</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">getWorlds</span><span class="p">()</span>
 <span class="p">[</span><span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world</span><span class="p">},</span> <span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world_nether</span><span class="p">},</span> <span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world_the_end</span><span class="p">}]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">w</span> <span class="o">=</span> <span class="n">getWorld</span><span class="p">(</span><span class="s">&quot;world&quot;</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">w</span> <span class="o">=</span> <span class="n">getWorld</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">w</span><span class="o">.</span><span class="n">getTemperature</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
 <span class="mf">0.800000011920929</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">w</span><span class="o">.</span><span class="n">getBiome</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span>
@@ -278,13 +278,13 @@ PAUSE
     <span class="n">p</span> <span class="o">=</span> <span class="n">getPlayer</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="n">p</span><span class="o">.</span><span class="n">getWorld</span><span class="p">()</span><span class="o">.</span><span class="n">strikeLightning</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getLocation</span><span class="p">())</span>
     <span class="n">p</span><span class="o">.</span><span class="n">getWorld</span><span class="p">()</span><span class="o">.</span><span class="n">createExplosion</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">getLocation</span><span class="p">(),</span> <span class="n">power</span><span class="p">)</span>
-    <span class="n">broadcastMessage</span><span class="p">(</span><span class="s">&quot;Player </span><span class="si">%s</span><span class="s"> has been punished!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">))</span>
+    <span class="n">broadcastMessage</span><span class="p">(</span><span class="s2">&quot;Player </span><span class="si">%s</span><span class="s2"> has been punished!&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">))</span>
 </pre></div>
 
 
 <p>Now, in the console, we&nbsp;can:</p>
 <div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">scripts</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">scripts</span><span class="o">.</span><span class="n">punishPlayer</span><span class="p">(</span><span class="s">&quot;Macuyiko&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">scripts</span><span class="o">.</span><span class="n">punishPlayer</span><span class="p">(</span><span class="s2">&quot;Macuyiko&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 </pre></div>
 
 
@@ -366,17 +366,17 @@ public class ConnectionThread implements Runnable {
 <div class="highlight"><pre><span class="o">~</span><span class="err">$</span> <span class="n">telnet</span> <span class="n">localhost</span> <span class="mi">44444</span>
 <span class="n">Trying</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="o">...</span>
 <span class="n">Connected</span> <span class="n">to</span> <span class="n">localhost</span><span class="o">.</span>
-<span class="n">Escape</span> <span class="n">character</span> <span class="ow">is</span> <span class="s">&#39;^]&#39;</span><span class="o">.</span>
+<span class="n">Escape</span> <span class="n">character</span> <span class="ow">is</span> <span class="s1">&#39;^]&#39;</span><span class="o">.</span>
 
 <span class="n">Python</span> <span class="n">Interpreter</span> <span class="n">Server</span>
 <span class="o">-------------------------</span>
 <span class="n">PASSWORD</span><span class="p">:</span> <span class="n">swordfish</span>
-<span class="n">You</span><span class="s">&#39;re in</span>
+<span class="n">You</span><span class="s1">&#39;re in</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">org.bukkit</span> <span class="kn">import</span> <span class="n">Bukkit</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorlds</span><span class="p">()</span> 
 <span class="p">[</span><span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world</span><span class="p">},</span> <span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world_nether</span><span class="p">},</span> <span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world_the_end</span><span class="p">}]</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorld</span><span class="p">(</span><span class="s">&quot;world&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setTime</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorld</span><span class="p">(</span><span class="s">&quot;world&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setTime</span><span class="p">(</span><span class="mi">1400</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorld</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setTime</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorld</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setTime</span><span class="p">(</span><span class="mi">1400</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="nb">exit</span><span class="err">!</span>
 <span class="n">Bye</span>
 <span class="n">Connection</span> <span class="n">closed</span> <span class="n">by</span> <span class="n">foreign</span> <span class="n">host</span><span class="o">.</span>
@@ -391,25 +391,7 @@ public class ConnectionThread implements Runnable {
 <p>Finally, if you&#8217;re interested, the following video shows some more tinkering. (Protip: I&#8217;m a bit awkwardly using alt-tab and the inventory screen here. If you press <code>T</code> to start typing in chat, you can alt-tab out of the game without pausing or having the inventory screen opened, which allows you to better see what&#8217;s going&nbsp;on.)</p>
 <div class="videowrapper"><iframe src="//www.youtube.com/embed/rI3PfgCSI7Y" frameborder="0" allowfullscreen></iframe></div>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2013/a-bukkit-jython-console-plugin-for-minecraft.html';
-	    var disqus_title = 'A Bukkit Jython Console Plugin for Minecraft';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2013/a-bukkit-jython-console-plugin-for-minecraft.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 
