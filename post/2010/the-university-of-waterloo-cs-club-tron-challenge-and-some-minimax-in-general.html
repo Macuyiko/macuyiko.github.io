@@ -109,7 +109,7 @@ After the first move, the board looks like this:<br />
     #     ##<br />
     ########
 See how they both leave a wall behind them? Note that diagonal moves are forbidden. A few moves later, the situation looks like&nbsp;this:  </p>
-<div class="highlight"><pre>########  
+<div class="highlight"><pre><span></span>########  
 ##     #  
 ##     #  
 ##     #  
@@ -121,7 +121,7 @@ See how they both leave a wall behind them? Note that diagonal moves are forbidd
 
 
 <p>If player 1 now decides to go right, and player 2 decides to go up, they will crash into each other and the game will end with a draw. This actual run turns out to be a bit more&nbsp;dramatic:  </p>
-<div class="highlight"><pre>########  
+<div class="highlight"><pre><span></span>########  
 ##     #  
 ##     #  
 ##     #  
@@ -133,7 +133,7 @@ See how they both leave a wall behind them? Note that diagonal moves are forbidd
 
 
 <p>Player 1 has gone left, and 2 has gone up and the players are now separated from each other. Unless player 2 does something really stupid, it is clear that 1 will&nbsp;lose&#8230;  </p>
-<div class="highlight"><pre>########  
+<div class="highlight"><pre><span></span>########  
 ##     #  
 ##     #  
 ##     #  
@@ -190,7 +190,7 @@ The website also mentions near and far strategies, but we&#8217;ll take a look a
   - When we&#8217;re not separated from the opponent: try to separate him into a space so that we have more remaining moves than him.
   - Once we are separated: try to fill our available moves in the best possible way.
 To find out if we&#8217;re separated (and our available spaces), we can use a <a href="http://en.wikipedia.org/wiki/Flood_fill">flood fill algorithm</a>. An implementation in Python could look like&nbsp;this:  </p>
-<div class="highlight"><pre>def flood_fill(board, startpos):  
+<div class="highlight"><pre><span></span>def flood_fill(board, startpos):  
   expand = [startpos]  
   done = []  
   while len(expand) is not 0:  
@@ -257,7 +257,7 @@ To speed up iterating the tree, we can use a technique called alpha-beta pruning
       int index[2];<br />
       int dis_forward,  dis_left, dis_right;<br />
       dis_forward = dis_left = dis_right =&nbsp;1;  </p>
-<div class="highlight"><pre>  switch (p[p_num].plr_dir) {  
+<div class="highlight"><pre><span></span>  switch (p[p_num].plr_dir) {  
   case left:  
     /* forward flags */  
     flags[0] = -1;  
@@ -389,7 +389,7 @@ The code is easily converted to a Python bot:<br />
         dis_forward+=1<br />
         index[0] += flags[1]<br />
         index[1] +=&nbsp;flags[0]  </p>
-<div class="highlight"><pre>  if dis_forward &lt; LookAHEAD:  
+<div class="highlight"><pre><span></span>  if dis_forward &lt; LookAHEAD:  
     dis_forward = 100 - (100/dis_forward)  
     index[0] = board.me()[0]+flags[3];  
     index[1] = board.me()[1]+flags[2];  

@@ -84,7 +84,7 @@ Instead I opted to use Impressive - a Python-powered presenter with some unique 
 Note: you can follow along with the instructions and perform them yourself, or you can read on and download a packaged <span class="caps">ZIP</span>-file at the end if this post.<br />
 Test drive Impressive by running the following command in a terminal (make sure you&#8217;re in the correct directory):<br />
     ~/Desktop/Impressive-0.10.2$ ./impressive.py&nbsp;demo.pdf</p>
-<div class="highlight"><pre><span class="n">Welcome</span> <span class="n">to</span> <span class="n">Impressive</span> <span class="n">version</span> <span class="mf">0.10</span><span class="o">.</span><span class="mi">2</span>  
+<div class="highlight"><pre><span></span><span class="n">Welcome</span> <span class="n">to</span> <span class="n">Impressive</span> <span class="n">version</span> <span class="mf">0.10</span><span class="o">.</span><span class="mi">2</span>  
 <span class="o">./</span><span class="n">impressive</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">94</span><span class="p">:</span> <span class="ne">DeprecationWarning</span><span class="p">:</span> <span class="n">the</span> <span class="n">md5</span> <span class="n">module</span> <span class="ow">is</span> <span class="n">deprecated</span><span class="p">;</span> <span class="n">use</span> <span class="n">hashlib</span> <span class="n">instead</span>  
 <span class="kn">import</span> <span class="nn">random</span><span class="o">,</span> <span class="nn">getopt</span><span class="o">,</span> <span class="nn">os</span><span class="o">,</span> <span class="nn">types</span><span class="o">,</span> <span class="nn">re</span><span class="o">,</span> <span class="nn">codecs</span><span class="o">,</span> <span class="nn">tempfile</span><span class="o">,</span> <span class="nn">glob</span><span class="o">,</span> <span class="nn">StringIO</span><span class="o">,</span> <span class="nn">md5</span><span class="o">,</span> <span class="nn">re</span>  
 <span class="n">Detected</span> <span class="n">screen</span> <span class="n">size</span><span class="p">:</span> <span class="mi">1024</span><span class="n">x768</span> <span class="n">pixels</span>  
@@ -129,7 +129,7 @@ Then: <code>dual.sh</code> &#8212; a simple script to enable dualscreen (same re
       die (&#8220;Provide number of pages\n&#8221;);<br />
     $nrpages = $argv[1];<br />
     ob_start();<br />&nbsp;?&gt;  </p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">json</span>  
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>  
 <span class="k">def</span> <span class="nf">UpdateInfo</span><span class="p">():</span>  
   <span class="k">global</span> <span class="n">FileName</span><span class="p">,</span> <span class="n">FileList</span><span class="p">,</span> <span class="n">PageCount</span>  
   <span class="k">global</span> <span class="n">DocumentTitle</span>  
@@ -160,7 +160,7 @@ Then: <code>dual.sh</code> &#8212; a simple script to enable dualscreen (same re
 <h3>Step 4: create the <span class="caps">HTML</span>&nbsp;page</h3>
 <p>In the Presentation-folder, we&#8217;ll create an <span class="caps">HTML</span> page.<br />
 <code>PresenterView.html</code>:</p>
-<div class="highlight"><pre><span class="nt">&lt;html&gt;</span>
+<div class="highlight"><pre><span></span><span class="nt">&lt;html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;title&gt;</span>Presenter View<span class="nt">&lt;/title&gt;</span>
 <span class="nt">&lt;style&gt;</span>
@@ -285,7 +285,7 @@ And we&#8217;re done. We can now start preparing and giving our&nbsp;presentatio
 <img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SxqN-negDAI/AAAAAAAAPRw/o4inpHJvLZ4/s1600/Screenshot-2.png" />
 <strong>(2 - Make thumbnails)</strong> Open a terminal, cd to your top-folder, and execute the converter.sh-script:<br />
     ~/Desktop/Impressive-0.10.2$&nbsp;./converter.sh  </p>
-<div class="highlight"><pre>Removing old images...  
+<div class="highlight"><pre><span></span>Removing old images...  
 Converting...  
 Moving slide-0.png  
 Moving slide-1.png  
@@ -296,7 +296,7 @@ Moving slide-2.png
 <p>Your Presentation/Slides-folder should now contain a bunch of <span class="caps">PNG</span>-files.<br />
 <strong>(3 - Make notes)</strong> In the Presentation/Text folder, create <code>text-n.txt</code> files where <em>n</em> is the number of the slide. In the text file: write short notes you want to see for that slide (you may use <span class="caps">HTML</span> formatting).<br />
 <strong>(4 - Create the Impress info script)</strong> Run the <span class="caps">PHP</span>&nbsp;file:  </p>
-<div class="highlight"><pre>~/Desktop/Impressive-0.10.2$ php makeinfo.php 3
+<div class="highlight"><pre><span></span>~/Desktop/Impressive-0.10.2$ php makeinfo.php 3
 </pre></div>
 
 
@@ -310,7 +310,7 @@ This will have created a <code>presentation.pdf.info</code> file in the Presenta
       global RTrunning, RTrestart, StartTime, PageEnterTime, CurrentTime<br />
       io = open(&#8216;./Presentation/json.txt&#8217;, &#8216;w&#8217;)<br />
       json.dump(({&#8220;page_count&#8221;: PageCount, &#8220;current_page&#8221;: Pcurrent, &#8220;previous_page&#8221;: Pnext, &#8220;start_time&#8221;: StartTime, &#8220;pageenter_time&#8221;: PageEnterTime, &#8220;current_time&#8221;: CurrentTime}), io)<br />&nbsp;io.close  </p>
-<div class="highlight"><pre>  PageProps = {  
+<div class="highlight"><pre><span></span>  PageProps = {  
     1: {  
       &#39;transition&#39;: None,  
       &#39;OnEnter&#39;: UpdateInfo  

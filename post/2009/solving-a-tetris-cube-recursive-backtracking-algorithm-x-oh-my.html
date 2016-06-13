@@ -90,7 +90,7 @@ But first things first. There are a few ways you could solve this, but first, le
 <strong>Detour: Recursive backtracking in general</strong><br />
 Let&#8217;s see what a recursive backtracking function generally looks&nbsp;like:  </p>
 </blockquote>
-<div class="highlight"><pre>recursive_funtion(level) {  
+<div class="highlight"><pre><span></span>recursive_funtion(level) {  
   for all possible ways for something {  
     try it  
     if solution valid {  
@@ -224,7 +224,7 @@ The problem involves many choices, one for each way to place a pentomino on the 
     {L, 12, 22, 32, 42, 43}<br />
      &#8230;<br />
 One of many solutions of this exact cover problem is the following set of 12&nbsp;choices:  </p>
-<div class="highlight"><pre>{I, 11, 12, 13, 14, 15}  
+<div class="highlight"><pre><span></span>{I, 11, 12, 13, 14, 15}  
 {N, 16, 26, 27, 37, 47}  
 {L, 17, 18, 28, 38, 48}  
 {U, 21, 22, 31, 41, 42}  
@@ -252,7 +252,7 @@ Now our columns: we have 12 blocks, and 64 positions these blocks can occupy. 12
 (1) set a one (1) in one of the first twelve columns according to the block this row uses;<br />
 (2) set a one (1) in every &#8220;position&#8221; this row occupies.<br />
 After quickly throwing some ugly code together, I ran the program. First, it constructs the choices and the&nbsp;matrix:  </p>
-<div class="highlight"><pre>Constructing choices:  
+<div class="highlight"><pre><span></span>Constructing choices:  
 0: ................................................................  
 1: ................................................................  
 2: ................................................................  
@@ -272,7 +272,7 @@ Done, number of rows: 4488 and cols: 76`
 
 
 <p>The matrix itself is a bit large to display here. But here are the first few&nbsp;rows:  </p>
-<div class="highlight"><pre>OUTPUTTING MATRIX:  
+<div class="highlight"><pre><span></span>OUTPUTTING MATRIX:  
 0 {0; 0; 1; 2; 6; 7; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
 1 {0; 0; 1; 2; 18; 19; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
 2 {0; 0; 4; 8; 9; 13; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
@@ -298,7 +298,7 @@ Done, number of rows: 4488 and cols: 76`
 
 <p>As you can see, in these rows, the first block (number zero) is used, so the first column is one (1), the next eleven columns are zero (0). The next 64 columns are one if the row uses that position.<br />
 The program then gives some verbose&nbsp;information:  </p>
-<div class="highlight"><pre>==&gt; (0) Number of rows: 4488 and cols: 76  
+<div class="highlight"><pre><span></span>==&gt; (0) Number of rows: 4488 and cols: 76  
 Picking 12, has 117  
 117 rows to do for column  
 ==&gt; (1) Number of rows: 3414 and cols: 70  

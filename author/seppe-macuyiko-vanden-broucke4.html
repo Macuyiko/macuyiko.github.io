@@ -72,6 +72,21 @@
         
 		<article>
 			<header>
+				<div class="article-info">di 18 januari 2011, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2011/motioninjoy-appcrash-when-loading-driver.html" rel="bookmark"
+				title="Permalink to MotionInJoy Appcrash When Loading Driver">MotionInJoy Appcrash When Loading&nbsp;Driver</a></div>
+			</header>
+			<div class="article-summary">
+					<p>When trying to install the MotioninJoy driver using the <span class="caps">GUI</span>, the program crashes.<br />
+Manually running the driver installation works. To do this, open a <code>cmd</code> window with administrative privileges. Make sure you have followed the other MotioninJoy steps and the controller is plugged in.<br />
+cd to the &#8220;ds3&#8221; directory, located ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2011/motioninjoy-appcrash-when-loading-driver.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">wo 12 januari 2011, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2011/slowloris-and-mitigations-for-apache.html" rel="bookmark"
 				title="Permalink to Slowloris And Mitigations For Apache">Slowloris And Mitigations For&nbsp;Apache</a></div>
@@ -110,7 +125,7 @@ This has been possible for a long time (some ...</p>
 					<p>Speaking of <a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">wireless</a>&#8230;</p>
 <p>The following is just a quick note-to-self, because I always forget the exact commands and end up crawling around the <a href="http://www.aircrack-ng.org/doku.php">Aircrack wiki</a> for a bit. I though I&#8217;d posted this before, but I can&#8217;t seem to find&nbsp;it.  </p>
 <h3><span class="caps">TTY1</span></h3>
-<div class="highlight"><pre>sudo airmon-ng start eth1  
+<div class="highlight"><pre><span></span>sudo airmon-ng start eth1  
 # Assume monitor ...</pre></div>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/aircrack-quick-tutorial-wireless-wep-cracking.html">Read more</a></p>
 			</div>
@@ -127,17 +142,17 @@ This has been possible for a long time (some ...</p>
 					<p><strong>Update for Ubuntu 12.04 users:</strong> <a href="http://blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html">see this post</a>.  </p>
 <p>After upgrading to Ubuntu Maverick recently, the Aircrack suite stopped working for&nbsp;me.  </p>
 <p>After setting <code>airodump</code> to a channel (like&nbsp;usual):  </p>
-<div class="highlight"><pre>airodump --channel **X**
+<div class="highlight"><pre><span></span>airodump --channel **X**
 </pre></div>
 
 
 <p>It still displayed its status&nbsp;as:  </p>
-<div class="highlight"><pre>fixed channel mon0: -1
+<div class="highlight"><pre><span></span>fixed channel mon0: -1
 </pre></div>
 
 
 <p>Some forum users advised to&nbsp;use:  </p>
-<div class="highlight"><pre>airodump ...</pre></div>
+<div class="highlight"><pre><span></span>airodump ...</pre></div>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">Read more</a></p>
 			</div>
 		</article>
@@ -197,13 +212,13 @@ Restart. At the login screen press &#8220;Shift&#8221; five ...</p>
 			<div class="article-summary">
 					<p>Because I always forget these commands and end up double checking&nbsp;them&#8230;  </p>
 <h4>Client (Me) -&nbsp;Listening:</h4>
-<div class="highlight"><pre>vncviewer -listen PORT
+<div class="highlight"><pre><span></span>vncviewer -listen PORT
 </pre></div>
 
 
 <p>(Using UltraVNC on&nbsp;Windows.)   </p>
 <h4>Server -&nbsp;Initiating:</h4>
-<div class="highlight"><pre>x11vnc -connect IP:PORT
+<div class="highlight"><pre><span></span>x11vnc -connect IP:PORT
 </pre></div>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/note-to-self-remote-vnc-listen-connection.html">Read more</a></p>
 			</div>
@@ -218,7 +233,7 @@ Restart. At the login screen press &#8220;Shift&#8221; five ...</p>
 			</header>
 			<div class="article-summary">
 					<p>Using Python and Beautiful Soup. This updates the previous script posted on this&nbsp;blog.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>  
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>  
 <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlopen</span>  
 <span class="kn">import</span> <span class="nn">re</span>
 
@@ -231,23 +246,6 @@ Restart. At the login screen press &#8220;Shift&#8221; five ...</p>
 
 <span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode ...</span></pre></div>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">vr 14 mei 2010, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/python-web-scraping-tools.html" rel="bookmark"
-				title="Permalink to Python Web Scraping Tools">Python Web Scraping&nbsp;Tools</a></div>
-			</header>
-			<div class="article-summary">
-					<p>Just a note for myself, a list of interesting Python tools for my next web scraping project:<br />
-  - <a href="http://docs.python.org/library/urllib2.html">urllib2</a>: extensible library for opening URLs.
-  - <a href="http://pyquery.org/">PyQuery</a>: jQuery-like traversing and selecting for Python.
-  - <a href="http://wwwsearch.sourceforge.net/mechanize/">mechanize</a>: stateful programmatic web browsing in Python.
-  - <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>: not supported/maintained that much anymore. Latest versions are rather slow ...</p>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/python-web-scraping-tools.html">Read more</a></p>
 			</div>
 		</article>
 

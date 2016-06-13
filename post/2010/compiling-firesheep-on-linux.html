@@ -84,7 +84,7 @@ The site mentions that Linux support is on the way, and recently it has become p
     ./autogen.sh &#8212;with-xulrunner-sdk=/usr/lib/xulrunner-devel-1.9.2.12
 This will configure the makefile and will probably fail until you have installed all the right dependencies. Below are the ones I was missing, yours might differ! Check the output for hints on which package you need to install.<br />
     sudo apt-get install libxul-dev xulrunner-devsudo libpcap-devsudo&nbsp;libhal-dev</p>
-<div class="highlight"><pre># Now configure should succeed:  
+<div class="highlight"><pre><span></span># Now configure should succeed:  
 ./autogen.sh --with-xulrunner-sdk=/usr/lib/xulrunner-devel-1.9.2.12
 </pre></div>
 
@@ -96,7 +96,7 @@ Change the <code>MOZ_CFLAGS = ...</code> line to:<br />
 Now we start compiling.<br />
     make
 This will probably fail too with the&nbsp;message:  </p>
-<div class="highlight"><pre>make[1]: *** No rule to make target `deps/http-parser/http_parser.c&#39;, needed by `../xpi/platform/.../firesheep-backend&#39;.  Stop.
+<div class="highlight"><pre><span></span>make[1]: *** No rule to make target `deps/http-parser/http_parser.c&#39;, needed by `../xpi/platform/.../firesheep-backend&#39;.  Stop.
 </pre></div>
 
 

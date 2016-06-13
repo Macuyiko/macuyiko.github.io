@@ -101,7 +101,7 @@
 <p>Combine the two aspects above (modding and teaching), and you ultimately start wondering whether Minecraft could also be used to teach programming. When the Raspberry Pi put online <a href="http://www.raspberrypi.org/archives/2565">their announcement</a> that a special Minecraft version would be available for their miniature, cheap computer, the answer to this question indeed seems to be: yes, since their &#8220;Minecraft: Pi Edition&#8221; would come with a programming Python  <span class="caps">API</span> built in, as shown by the following screen&nbsp;shot.</p>
 <p><img alt="Minecraft running on the Raspberry Pi" src="http://i.imgur.com/ieZYEn2.jpg" /></p>
 <p>Back on the <span class="caps">PC</span>-side, the great interest in modding Minecraft eventually led to the <a href="http://bukkit.org/">Bukkit</a> project &#8212; a community-created Minecraft server with a comprehensive <span class="caps">API</span> to allow others to create plugins, extending the world, gameplay and rules of the vanilla Minecraft experience. Minecraft server administrators also enjoy having some sort of console available to be able to modify a Minecraft world at runtime. Banning players, erecting or destroying structures or changing the time of day without having to restart indeed comes in handy when you&#8217;re running a server. The Bukkit development <span class="caps">API</span> makes it very easy to create such kinds of plugins, but they often require the list of possible commands to be specified beforehand (in the Java plugin), which are then made available through the game&#8217;s chat window. For instance, issuing the&nbsp;command:</p>
-<div class="highlight"><pre>/weather sunny
+<div class="highlight"><pre><span></span>/weather sunny
 </pre></div>
 
 
@@ -125,7 +125,7 @@
 <p>ScriptCraft is a Minecraft Mod that lets you extend Minecraft using the Javascript Programming Language. ScriptCraft makes modding Minecraft easier. It includes a logo-like &#8220;Drone&#8221; object that can be used to build complex buildings, roads, villages, even entire cities. It also includes many other features that make modding Minecraft&nbsp;easier.</p>
 </blockquote>
 <p>You can find more information about ScriptCraft <a href="http://walterhiggins.net/blog/YoungPersonProgrammingMinecraft">here</a> and <a href="http://walterhiggins.net/blog/ScriptCraft">here</a>. It&#8217;s certainly a great project to teach programming, but comes with the drawback that it offers programmers its own <span class="caps">API</span> (implemented in a Bukkit plugin), meaning that you&#8217;ll have to program using Bukkit chat commands, for&nbsp;instance:</p>
-<div class="highlight"><pre>/js box(&quot;5&quot;).up(3).left(4).box(&quot;1&quot;).turn(3).fwd(5).right().box(&quot;1&quot;).move(&quot;start&quot;)
+<div class="highlight"><pre><span></span>/js box(&quot;5&quot;).up(3).left(4).box(&quot;1&quot;).turn(3).fwd(5).right().box(&quot;1&quot;).move(&quot;start&quot;)
 </pre></div>
 
 
@@ -152,7 +152,7 @@ Interactive interpreter&nbsp;mode</p>
 <p><a href="http://1.bp.blogspot.com/-XB56VYI6GOQ/UdBQCu1IYfI/AAAAAAAAXhc/JoQm1mL0C90/s280/04.gif"><img alt="" src="http://1.bp.blogspot.com/-XB56VYI6GOQ/UdBQCu1IYfI/AAAAAAAAXhc/JoQm1mL0C90/s320/04.gif" /></a></p>
 <p>Next, we&#8217;ll create the plugin classes themselves. Create a package under <code>src</code> called <code>com.macuyiko.bukkitconsole</code>. We&#8217;re going to add two&nbsp;classes.</p>
 <p><code>MainPlugin.java</code>, this class just loads the libraries from the <code>lib</code> folder and spawns a <code>PythonConsole</code> window:</p>
-<div class="highlight"><pre><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">bukkitconsole</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">bukkitconsole</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">java.io.File</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.bukkit.plugin.java.JavaPlugin</span><span class="p">;</span>
@@ -188,7 +188,7 @@ Interactive interpreter&nbsp;mode</p>
 
 
 <p><code>PythonConsole.java</code>, this class employs Jython to execute <code>start.py</code> in the <code>python</code> directory:</p>
-<div class="highlight"><pre><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">bukkitconsole</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">bukkitconsole</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">org.python.core.Py</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">org.python.core.PyString</span><span class="p">;</span>
@@ -218,7 +218,7 @@ Interactive interpreter&nbsp;mode</p>
 <p>That&#8217;s it for the Java side! Export your project to <code>bukkitconsole.jar</code>.</p>
 <p>We&#8217;re now going to setup the server. Create a folder <code>server</code> somewhere. Next, download <code>craftbukkit-*.jar</code> from <a href="http://dl.bukkit.org/latest-rb/craftbukkit.jar">here</a> (Bukkit is the development <span class="caps">API</span>, &#8220;CraftBukkit&#8221; is the actual server; again, more info on the <a href="http://wiki.bukkit.org/Setting_up_a_server">Wiki</a>) and put it in this&nbsp;folder.</p>
 <p>We&#8217;re also going to create a simple <code>run.bat</code> in this&nbsp;folder:</p>
-<div class="highlight"><pre>java -Xmx1024M -jar craftbukkit-*.jar -o true
+<div class="highlight"><pre><span></span>java -Xmx1024M -jar craftbukkit-*.jar -o true
 PAUSE
 </pre></div>
 
@@ -238,7 +238,7 @@ PAUSE
 <li><code>tip.py</code></li>
 </ul>
 <p>We&#8217;ll also create a file <code>start.py</code> in this location with the following&nbsp;content:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">console</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">console</span>
 <span class="n">console</span><span class="o">.</span><span class="n">main</span><span class="p">()</span>
 </pre></div>
 
@@ -252,7 +252,7 @@ PAUSE
 <p>That&#8217;s it. Try executing <code>run.bat</code> again. If all goes right, Bukkit should be able to load in our console plugin and will present you with an&nbsp;interpreter:</p>
 <p><a href="http://2.bp.blogspot.com/-l78RCAZbo74/UdBQEKYM78I/AAAAAAAAXhU/m5a1z_klzr0/s987/10.gif"><img alt="" src="http://2.bp.blogspot.com/-l78RCAZbo74/UdBQEKYM78I/AAAAAAAAXhU/m5a1z_klzr0/s400/10.gif" /></a></p>
 <p>We can try out some commands. Note that you&#8217;ll have to <code>from org.bukkit.Bukkit import *</code> to get access to the Bukkit <span class="caps">API</span> (or <code>from org.bukkit import Bukkit</code> &#8212; you&#8217;ll have to use <code>Bukkit.*</code> but will allow&nbsp;autocompletion)!</p>
-<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">org.bukkit.Bukkit</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">org.bukkit.Bukkit</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">getWorlds</span><span class="p">()</span>
 <span class="p">[</span><span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world</span><span class="p">},</span> <span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world_nether</span><span class="p">},</span> <span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world_the_end</span><span class="p">}]</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">w</span> <span class="o">=</span> <span class="n">getWorld</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span>
@@ -270,7 +270,7 @@ PAUSE
 
 <p>The <a href="http://jd.bukkit.org/rb/apidocs/">Bukkit <span class="caps">API</span> docs</a> provide a full overview of all that is possible with the complete <span class="caps">API</span>. Broadcasting messages, changing inventories, changing worlds, spawning lightning, all is&nbsp;possible.</p>
 <p>You can also save functions in Python scripts if you want to. For example, try creating a <code>scripts.py</code> in the <code>server</code> folder:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">random</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">time</span>
 <span class="kn">from</span> <span class="nn">org.bukkit.Bukkit</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -283,7 +283,7 @@ PAUSE
 
 
 <p>Now, in the console, we&nbsp;can:</p>
-<div class="highlight"><pre><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">scripts</span>
+<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">scripts</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">scripts</span><span class="o">.</span><span class="n">punishPlayer</span><span class="p">(</span><span class="s2">&quot;Macuyiko&quot;</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span>
 </pre></div>
 
@@ -306,7 +306,7 @@ PAUSE
 </ul>
 <p>The <em>real</em> solution consists of editing the plugin code itself and once again haressing the power of&nbsp;Jython&#8230;</p>
 <p>As such, we create two new Java classes. <code>SocketServer.java</code> handles the incoming client connections and creates a <code>ConnectionThread.java</code> thread per client. For each client, a new <code>InteractiveInterpreter</code> is&nbsp;spawned:</p>
-<div class="highlight"><pre>// ...
+<div class="highlight"><pre><span></span>// ...
 
 public class ConnectionThread implements Runnable {
     //...
@@ -351,7 +351,7 @@ public class ConnectionThread implements Runnable {
 
 
 <p>Finally, <code>MainPlugin.java</code> is modified to read in config values from a <code>config.yml</code> file with following&nbsp;defaults:</p>
-<div class="highlight"><pre><span class="n">bukkitconsole</span><span class="o">:</span>
+<div class="highlight"><pre><span></span><span class="n">bukkitconsole</span><span class="o">:</span>
  <span class="n">guiconsole</span><span class="o">:</span> 
   <span class="n">enabled</span><span class="o">:</span> <span class="kc">true</span>
  <span class="n">serverconsole</span><span class="o">:</span>
@@ -363,7 +363,7 @@ public class ConnectionThread implements Runnable {
 
 
 <p>Once done, the plugin is able to start both a <span class="caps">GUI</span> interpreter locally on the server, or bind a remote interpreter server to a chosen port, waiting for clients to connect. A session (using <code>telnet</code> might look as&nbsp;follows):</p>
-<div class="highlight"><pre><span class="o">~</span><span class="err">$</span> <span class="n">telnet</span> <span class="n">localhost</span> <span class="mi">44444</span>
+<div class="highlight"><pre><span></span><span class="o">~</span><span class="err">$</span> <span class="n">telnet</span> <span class="n">localhost</span> <span class="mi">44444</span>
 <span class="n">Trying</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span><span class="o">...</span>
 <span class="n">Connected</span> <span class="n">to</span> <span class="n">localhost</span><span class="o">.</span>
 <span class="n">Escape</span> <span class="n">character</span> <span class="ow">is</span> <span class="s1">&#39;^]&#39;</span><span class="o">.</span>

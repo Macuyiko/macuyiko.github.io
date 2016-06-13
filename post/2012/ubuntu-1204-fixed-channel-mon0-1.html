@@ -89,18 +89,18 @@
  9
 10
 11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span class="ch">#!/bin/bash  </span>
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash  </span>
 <span class="c1"># Change this to the interface you wish to change:  </span>
 <span class="nv">IFACE</span><span class="o">=</span><span class="s2">&quot;wlan0&quot;</span>
 
-ifconfig $IFACE down  
-iwconfig $IFACE mode managed  
-ifconfig $IFACE up  
-iwconfig $IFACE channel <span class="nv">$@</span>  
-ifconfig $IFACE down  
-iwconfig $IFACE mode monitor  
-ifconfig $IFACE up  
-iwconfig $IFACE
+ifconfig <span class="nv">$IFACE</span> down  
+iwconfig <span class="nv">$IFACE</span> mode managed  
+ifconfig <span class="nv">$IFACE</span> up  
+iwconfig <span class="nv">$IFACE</span> channel <span class="nv">$@</span>  
+ifconfig <span class="nv">$IFACE</span> down  
+iwconfig <span class="nv">$IFACE</span> mode monitor  
+ifconfig <span class="nv">$IFACE</span> up  
+iwconfig <span class="nv">$IFACE</span>
 </pre></div>
 </td></tr></table>
 

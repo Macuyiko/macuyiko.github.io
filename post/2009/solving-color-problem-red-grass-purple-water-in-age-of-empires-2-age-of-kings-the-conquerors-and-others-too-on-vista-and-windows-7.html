@@ -164,7 +164,7 @@ I googled a bit around to see if I could find any clues. <a href="http://stackov
 <p>The game itself, <code>explorer.exe</code>, and <code>csrss.exe</code>.<br />
 I then wanted to make a program which would change the palette back every time an outside process tried to change it. A had a whole list of functions loaded and code written, but it just didn&#8217;t work out and turned out to be too difficult. Also, I was beginning to suspect that this method could work, but would still result in flickering while changing palettes. I was browsing around at the Worms Armageddon <a href="http://forum.team17.com/showthread.php?t=38762">forums</a>, and found out that somebody wrote a <span class="caps">DLL</span> with source code for this problem. The code was written in Delphi and easy enough to read: grab a process, find every thread, and send the suspend message to every thread. I converted this code to <span class="caps">VB</span>.<span class="caps">NET</span> and slapped it on a form which would grab every <code>WM_PALETTECHANGED</code> message to update its list of processes.<br />
 Note that there is actually also a lesser known way to suspend a process with one <span class="caps">API</span> call, without iterating all the threads, which is used in the PsSuspend- and Process Explorer tools made by&nbsp;SysInternals:  </p>
-<div class="highlight"><pre>Public Shared Function NtSuspendProcess(ByVal ProcessHandle As IntPtr) As Integer  
+<div class="highlight"><pre><span></span>Public Shared Function NtSuspendProcess(ByVal ProcessHandle As IntPtr) As Integer  
 End Function
 
 Public Shared Function NtResumeProcess(ByVal ProcessHandle As IntPtr) As Integer  

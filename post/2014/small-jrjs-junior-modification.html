@@ -80,7 +80,7 @@
 <p>Basically, it allows you to set up a static website with minimal theming, but with the content rendering offloaded to the browser (in Javascript) instead of relying on some script or program (such as I&#8217;m doing on this blog now with Pelican). It&#8217;s a refreshingly simple way to set up something quickly, but also avoiding html tag soup at the same&nbsp;time.</p>
 <p>I&#8217;ve made a fork of the repository which I&#8217;ve uploaded <a href="https://github.com/Macuyiko/jr">here</a>.</p>
 <p>The reason for this is that an initial &#8220;page&#8221; looks like&nbsp;this:</p>
-<div class="highlight"><pre>[Please enable Javascript to render MarkDown]: <span class="nt">&lt;pre&gt;</span>
+<div class="highlight"><pre><span></span>[Please enable Javascript to render MarkDown]: <span class="nt">&lt;pre&gt;</span>
 # My first Markdown page
 
 Enter you Markdown code here...
@@ -91,7 +91,7 @@ Enter you Markdown code here...
 
 <p>Which allows for a fallback in <em>most</em> browsers, but depending on how they render pre tags might look more or less nice. In addition, I kind of miss a simple html&nbsp;skeleton.</p>
 <p>So after my minor modifications, I can write the above like&nbsp;this:</p>
-<div class="highlight"><pre><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<div class="highlight"><pre><span></span><span class="cp">&lt;!DOCTYPE html&gt;</span>
 <span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
 <span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
     <span class="p">&lt;</span><span class="nt">meta</span> <span class="na">charset</span><span class="o">=</span><span class="s">utf-8</span> <span class="p">/&gt;</span>

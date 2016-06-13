@@ -79,7 +79,7 @@
 	    <p>How can you do this (x is number of rows to fetch, y is offset) (Mysql):<br />
     <span class="caps">SELECT</span> * <span class="caps">FROM</span> my_table <span class="caps">LIMIT</span> x, y
 or this (PostgreSQL)&nbsp;:  </p>
-<div class="highlight"><pre>SELECT * FROM my_table LIMIT x OFFSET y
+<div class="highlight"><pre><span></span>SELECT * FROM my_table LIMIT x OFFSET y
 </pre></div>
 
 
@@ -103,7 +103,7 @@ In <span class="caps">SQL</span> Server (&gt;2005), you can use a similar trick,
     <span class="caps">ORDER</span> <span class="caps">BY</span> order_field <span class="caps">DESC</span>) <span class="caps">AS</span> outerT<br />
     <span class="caps">ORDER</span> <span class="caps">BY</span>&nbsp;order_field</p>
 <p>Or, another&nbsp;option:  </p>
-<div class="highlight"><pre>SELECT TOP x * FROM my_table  
+<div class="highlight"><pre><span></span>SELECT TOP x * FROM my_table  
 WHERE order_field NOT IN  
 (SELECT TOP y * FROM my_table ORDER BY order_field)
 </pre></div>
@@ -118,7 +118,7 @@ WHERE order_field NOT IN
     <span class="caps">BETWEEN</span> y+1 <span class="caps">AND</span> x+y<br />
     <span class="caps">ORDER</span> <span class="caps">BY</span> outerT.order_field <span class="caps">ASC</span>;
 Should that fail too, you can always&nbsp;do:  </p>
-<div class="highlight"><pre>SELECT TOP x * FROM my_table WHERE order_field &gt; z
+<div class="highlight"><pre><span></span>SELECT TOP x * FROM my_table WHERE order_field &gt; z
 </pre></div>
 
 

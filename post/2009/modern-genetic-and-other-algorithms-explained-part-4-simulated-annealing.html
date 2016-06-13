@@ -95,7 +95,7 @@ Often, the new solution is accepted with an exponential distribution: <code>exp(
 Note: the pseudocode at the Wikipedia page doesn&#8217;t use trials, for some problems, this is good enough.<br />
 Let&#8217;s see some Python code (again, based on the code mentioned in the previous&nbsp;posts):  </p>
 </blockquote>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>  
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>  
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>  
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>  
 <span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
@@ -149,7 +149,7 @@ Let&#8217;s see some Python code (again, based on the code mentioned in the prev
 <p>If the fitness of the neighbour is better (remember: that means lower), we immediately accept it. We don&#8217;t really need a chance of rejection for this problem. Otherwise, we use <code>exp( (n_fitness-o_fitness) / temperature)</code>.<br />
 We use a separate function to calculate the temperature for each step. This function is kept fairly simple <code>(max steps - this step)</code>, but non-linear temperature can also be implemented.<br />
 Let&#8217;s try it, our starting temperature becomes 100, using 1000 trials per&nbsp;temperature:  </p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>  
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>  
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
 <span class="kn">from</span> <span class="nn">annealing</span> <span class="kn">import</span> <span class="o">*</span>  
 <span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>  
@@ -168,7 +168,7 @@ Let&#8217;s try it, our starting temperature becomes 100, using 1000 trials per&
 
 
 <p>The&nbsp;output:</p>
-<div class="highlight"><pre>Best fitness this evolution: 34  
+<div class="highlight"><pre><span></span>Best fitness this evolution: 34  
 Temperature this evolution: 100  
 Best fitness this evolution: 7  
 Temperature this evolution: 99  

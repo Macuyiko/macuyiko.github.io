@@ -3,7 +3,7 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width" />
 
-	<title>Vice City (And Perhaps Other Games) In Wine - CD Error With ISO</title>
+	<title>Programming Languages to Try</title>
 
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
@@ -71,29 +71,25 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">di 28 april 2009, by Seppe "Macuyiko" vanden Broucke</div>
-			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/vice-city-and-perhaps-other-games-in-wine-cd-error-with-iso.html" rel="bookmark"
-			title="Permalink to Vice City (And Perhaps Other Games) In Wine - CD Error With ISO">Vice City (And Perhaps Other Games) In Wine - <span class="caps">CD</span> Error With <span class="caps">ISO</span></a></div>
+			<div class="article-info">ma 13 juni 2016, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2016/programming-languages-to-try.html" rel="bookmark"
+			title="Permalink to Programming Languages to Try">Programming Languages to&nbsp;Try</a></div>
 		</header>
 	
-	    <p>So, you&#8217;ve just gotten yourself two .iso&#8217;s for Grand Theft Auto: Vice City (your backups, of course), which you want to play in Wine. What do you do?<br />
-That&#8217;s easy, you&nbsp;say:  </p>
-<div class="highlight"><pre><span></span>sudo mkdir /media/isoimag
-sudo mount -o loop ./cd1.iso /media/isoimage
-</pre></div>
-
-
-<p>And start the setup with Wine.<br />
-Now the installer asks for the second <span class="caps">CD</span>, what do you do? Here we have to &#8220;eject&#8221; our &#8220;cd&#8221; first&#8230;<br />
-    wine eject<br />
-    sudo umount /media/isoimage<br />
-    sudo mount -o loop ./cd2.iso /media/isoimage
-And we&#8217;re done. You want to start the game, but it requires the play disk, even although you&#8217;re sure you&#8217;ve mounted it. Thing is, Vice City isn&#8217;t looking at your <code>/media/isoimage</code> mount point, but it&#8217;s looking at your drive letters&#8230; where could the cd be?<br />
-Take a look in <code>~/.wine/dosdevices</code> (it&#8217;s a hidden directory in your home folder). We&#8217;re going to create two symbolic links there (in my case, there were a lot of symbolic, broken links already there, I deleted every one of them except c: and z:). One for the mount point, and one for the actual device (or in our case: the image).<br />
-    ln -sf /media/isoimage ~/.wine/dosdevices/e:<br />
-    ln -sf ~/cd2.iso&nbsp;~/.wine/dosdevices/e::</p>
-<p>Note the double colons (e::) in the second line. That&#8217;s it, the game should start fine now.<br />
-Be sure to replace <code>/media/isoimage</code>, <code>e:</code>, <code>e::</code>, <code>~/cd1.iso</code>, <code>~/cd2.iso</code> and other displayed paths/locations with the ones relevant for&nbsp;you. </p>
+	    <p>I routinely use Python, R and Java during my day-to-day tasks, but have been itching recently to get up to speed or try out some of the following&nbsp;languages.</p>
+<p>This list basically serves as a note to myself to start experimenting with some of&nbsp;them:</p>
+<ul>
+<li><a href="http://haxe.org/">Haxe</a> &#8212; basically in combination with OpenFL and Flixel to try my hand at recreational Android game&nbsp;programming.</li>
+<li><a href="https://www.rust-lang.org/">Rust</a> &#8212; hearing great things about Rust&nbsp;lately.</li>
+<li><a href="https://golang.org/">Go</a> &#8212; one of the favorites these days, were it not for the lack of&nbsp;generics.</li>
+<li><a href="http://nim-lang.org/">Nim</a> &#8212; not sure how this stacks up to Go and Rust, but it looks to be an interesting project as&nbsp;well.</li>
+<li><a href="https://kotlinlang.org/">Kotlin</a> &#8212; as someone who&#8217;s been scarred by Java for a long time, Kotlin seems like the absolutely best way towards improving upon the language. Looks really&nbsp;fun!</li>
+<li><a href="https://racket-lang.org/">Racket</a> &#8212; looks like a very solid Lisp/Scheme dialect, with an awesome programming environment and community. I especially like how people have been using the language in the typesetting&nbsp;ecosphere.</li>
+<li><a href="http://www.scala-lang.org/">Scala</a> &#8212; not really &#8220;new&#8221;, as I&#8217;ve been using Scala before (together with Spark), but I definitely need to grok it&nbsp;more.</li>
+<li>Erlang and <a href="http://elixir-lang.org/">Elexir</a> &#8212; which look like being an incredible robust solution towards building server&nbsp;apps.</li>
+<li><a href="http://iolanguage.org/">Io</a> &#8212; more as a research&nbsp;exercise.</li>
+<li><a href="https://www.lua.org/">Lua</a> &#8212; in a similar realm as Haxe, to use in combination with the <a href="https://love2d.org/">LÖVE</a> framework, though I always find the language to be messy to work with once projects get&nbsp;large.</li>
+</ul>
 	</article>
 </div>
 		

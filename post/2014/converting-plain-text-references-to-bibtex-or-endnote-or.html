@@ -101,7 +101,7 @@ Some customers have had success at converting an existing text file into a tagge
 <p>Next possibility: Google Scholar. A few test runs with some edited queries came up with the right articles alright, and Google Scholar allows to export Endnote, BibTeX and other files. Even though the quality of the entry is not always perfect, this seemed like a good starting&nbsp;point.</p>
 <h2>Hours 2-3: Finding an <span class="caps">API</span></h2>
 <p>First issue: Google Scholar does not provide an <span class="caps">API</span>. Luckily, there&#8217;s <code>scholar.py</code> on <a href="https://github.com/ckreibich/scholar.py">GitHub</a> which seems to be working fine (as long as you don&#8217;t hammer Google&#8217;s servers too&nbsp;much):</p>
-<div class="highlight"><pre>macuyiko$ python scholar.py -c 3 --author &quot;vanden broucke&quot; --txt &quot;artificial&quot;
+<div class="highlight"><pre><span></span>macuyiko$ python scholar.py -c 3 --author &quot;vanden broucke&quot; --txt &quot;artificial&quot;
             ID PktWS3Llix8J
          Title Improved artificial negative event generation to enhance process event logs
            URL http://link.springer.com/chapter/10.1007/978-3-642-31095-9_17
@@ -601,7 +601,7 @@ Citations list None
 459
 460
 461
-462</pre></div></td><td class="code"><div class="highlight"><pre><span class="ch">#! /usr/bin/env python</span>
+462</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#! /usr/bin/env python</span>
 <span class="c1"># Copyright 2010--2013 Christian Kreibich. All rights reserved.</span>
 <span class="c1">#</span>
 <span class="c1"># Redistribution and use in source and binary forms, with or without</span>
@@ -1067,7 +1067,7 @@ Citations list None
 </td></tr></table>
 
 <p>So now, we are able to get&nbsp;this:</p>
-<div class="highlight"><pre><span class="s s-Atom">macuyiko$</span> <span class="s s-Atom">python</span> <span class="s s-Atom">scholar</span><span class="p">.</span><span class="s s-Atom">py</span> <span class="o">-</span><span class="s s-Atom">c</span> <span class="mi">1</span> <span class="s s-Atom">--cite</span> <span class="mi">1</span> <span class="s s-Atom">--author</span> <span class="s2">&quot;vanden broucke&quot;</span> <span class="s s-Atom">--txt</span> <span class="s2">&quot;artificial&quot;</span> <span class="s s-Atom">&amp;&amp;</span> <span class="s s-Atom">cat</span> <span class="s s-Atom">end</span><span class="p">.</span><span class="s s-Atom">enw</span>
+<div class="highlight"><pre><span></span><span class="s s-Atom">macuyiko$</span> <span class="s s-Atom">python</span> <span class="s s-Atom">scholar</span><span class="p">.</span><span class="s s-Atom">py</span> <span class="o">-</span><span class="s s-Atom">c</span> <span class="mi">1</span> <span class="s s-Atom">--cite</span> <span class="mi">1</span> <span class="s s-Atom">--author</span> <span class="s2">&quot;vanden broucke&quot;</span> <span class="s s-Atom">--txt</span> <span class="s2">&quot;artificial&quot;</span> <span class="s s-Atom">&amp;&amp;</span> <span class="s s-Atom">cat</span> <span class="s s-Atom">end</span><span class="p">.</span><span class="s s-Atom">enw</span>
 <span class="s s-Atom">------------</span><span class="nv">Article</span> <span class="s s-Atom">#</span><span class="mi">1</span><span class="p">:-</span><span class="s s-Atom">-----------</span>
             <span class="nv">ID</span> <span class="nv">PktWS3Llix8J</span>
          <span class="nv">Title</span> <span class="nv">Improved</span> <span class="s s-Atom">artificial</span> <span class="s s-Atom">negative</span> <span class="s s-Atom">event</span> <span class="s s-Atom">generation</span> <span class="s s-Atom">to</span> <span class="s s-Atom">enhance</span> <span class="s s-Atom">process</span> <span class="s s-Atom">event</span> <span class="s s-Atom">logs</span>
@@ -1097,7 +1097,7 @@ Citations list None
 <h2>Hours 6-11: Wasting Time with Google&#8217;s&nbsp;Appengine</h2>
 <p>Almost done. The final part which remains is to automate iterating through the plain references list, finding a way to extract a good search query for each entry, and getting out the Endnote (or BibTeX from Google&nbsp;Scholar).</p>
 <p>In an impulse, I decided to try to whip up a Google Appengine page to provide this great service to the world. After creating a basic <code>index.html</code> with some jQuery on top off it I created a quick <code>Flask</code> app with the &#8220;magic&#8221; part looking something like this (disclaimer: not really that&nbsp;magical):</p>
-<div class="highlight"><pre>@app.route(&#39;/guess&#39;, methods=[&#39;POST&#39;])
+<div class="highlight"><pre><span></span>@app.route(&#39;/guess&#39;, methods=[&#39;POST&#39;])
 def guess():
     f = string.ascii_lowercase + &#39; &#39;
     q = request.form[&#39;t&#39;]
@@ -1115,7 +1115,7 @@ def guess():
 <h2>Hour 12: Let&#8217;s Just Finish&nbsp;This</h2>
 <p>After contemplating whether I should host this on my own server, I just decided to move on and built a quick and dirty script to do the work, as the likelihood of me getting popular/rich/famous/insert-attribute-here by a service like this one is small anyway, especially since Google&#8217;s banhammer would strike&nbsp;quickly.</p>
 <p>So the final &#8220;convertor&#8221; script looks like&nbsp;this:</p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">import</span> <span class="nn">scholar</span>
 <span class="kn">import</span> <span class="nn">string</span>
@@ -1181,7 +1181,7 @@ def guess():
 
 <p>Note that I had to include two querying strategies: <code>make_query</code> and <code>make_query_year</code>. The latter combines the year with the title but leaves out authors, this is to retrieve some problematic articles where the author name was formatted differently in Google Scholar than in my list. A hacky approach which could be improved, but it gets the point&nbsp;across.</p>
 <p>Anyway, running this script returns a BibTeX list like&nbsp;this:</p>
-<div class="highlight"><pre>macuyiko$ cat ./bibliography.bib
+<div class="highlight"><pre><span></span>macuyiko$ cat ./bibliography.bib
 
 %%% mr4JHn2auF8J  Theory, algorithms and applications
 @article{bang2007theory,

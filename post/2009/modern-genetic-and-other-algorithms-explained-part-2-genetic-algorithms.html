@@ -91,7 +91,7 @@ How do we construct individuals? Certainly a simple (and popular choice) is the 
     0110 0111 0001 1011 &#8230;<br />
 When evaluating the individuals, those bits are converted in something meaningful, be it numbers, strings, or other symbols, depending on the problem.<br />
 If we had used this representation, an individual for the problem described in the article (find x numbers each between a and b so that the summation of those numbers equal z) would look like this (e.g. x =&nbsp;4):  </p>
-<div class="highlight"><pre>01100111 01000101 11010101 11010111
+<div class="highlight"><pre><span></span>01100111 01000101 11010101 11010111
 </pre></div>
 
 
@@ -105,7 +105,7 @@ Why would we use this representation? As we will see in the following steps, a c
     01100111 010 | 00101 11010101 11010111<br />
     01101111 000 | 00100 10010111 10011100
 When we use a list of integers, we place the crossover point between two numbers, this is different from the previous example, where the crossover point could be arbitrarily placed &#8220;in the middle of a&nbsp;number&#8221;:  </p>
-<div class="highlight"><pre>    v  
+<div class="highlight"><pre><span></span>    v  
 103 | 69 , 213 , 215  
 13  | 22 , 123 , 76
 </pre></div>
@@ -121,7 +121,7 @@ In the article, a second (2) method is used:<br />
     Use those as parents for a child
 This is certainly a better option, but this way, we completely abandon the lower scoring individuals. It is always better to give even the worst individuals a little chance to be a parent, to maintain a higher level of possible diversity.<br />
 With that remark in mind, we arrive at a third (3) solution, the roulette-wheel selection method: the chance of each individual to be selected becomes: <code>fitness of that individual / total of fitness scores of every individual in the population</code>. For example, consider the following population of five individuals, ordered by their score (let&#8217;s say that higher is&nbsp;better).  </p>
-<div class="highlight"><pre><span class="n">i3</span><span class="o">:</span> <span class="mi">9</span>  
+<div class="highlight"><pre><span></span><span class="n">i3</span><span class="o">:</span> <span class="mi">9</span>  
 <span class="n">i2</span><span class="o">:</span> <span class="mi">7</span>  
 <span class="n">i5</span><span class="o">:</span> <span class="mi">6</span>  
 <span class="n">i4</span><span class="o">:</span> <span class="mi">3</span>  
@@ -140,7 +140,7 @@ Another selection method (4) is called tournament selection:<br />
 Note that p can be = 1. Then the best out of k individuals is chosen, this is fairly common. For k, often 2, 3, or 4 is used. This is an often-used method because it is easy to implement, and can be used in parallel environments. Note that when p = 1, k = 1 this method essentially becomes a pure random&nbsp;selection.  </p>
 <h3>Crossover</h3>
 <p>Now that we know how to select two parents, how do we create children? Again, there are many techniques here. The first one (1) is the one-point crossover (simple crossover). I will illustrate the following examples with bit-represented&nbsp;individuals.  </p>
-<div class="highlight"><pre>                    v  
+<div class="highlight"><pre><span></span>                    v  
 0000 0000 0000 0000 | 0000 0000  
 1111 1111 1111 1111 | 1111 1111
 </pre></div>
@@ -152,14 +152,14 @@ Note that p can be = 1. Then the best out of k individuals is chosen, this is fa
     1111 1111 1111 1111 | 0000 0000
 The crossover point can be randomly chosen, or can be a fixed location (1/4, 1/3, 1/2 are commonly used). After the crossover point, two children are created by swapping their bits.<br />
 The second (2) crossover method is two-point crossover, and looks a lot like the previous&nbsp;method:  </p>
-<div class="highlight"><pre>     v                v  
+<div class="highlight"><pre><span></span>     v                v  
 0000 | 0000 0000 0000 | 0000 0000  
 1111 | 1111 1111 1111 | 1111 1111
 </pre></div>
 
 
 <p>Creates two&nbsp;children:  </p>
-<div class="highlight"><pre>     v                v  
+<div class="highlight"><pre><span></span>     v                v  
 0000 | 1111 1111 1111 | 0000 0000  
 1111 | 0000 0000 0000 | 1111 1111
 </pre></div>
@@ -207,13 +207,13 @@ Finally, using the code from the article:<br />
       for i in xrange(100):<br />
         p = evolve(p, target)<br />
         fitness_history.append(grade(p,&nbsp;target))  </p>
-<div class="highlight"><pre>  for datum in fitness_history:  
+<div class="highlight"><pre><span></span>  for datum in fitness_history:  
     print datum
 </pre></div>
 
 
 <p>Outputs:  </p>
-<div class="highlight"><pre>66.51  
+<div class="highlight"><pre><span></span>66.51  
 28.84  
 19.41  
 18.66  

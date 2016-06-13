@@ -72,6 +72,29 @@
         
 		<article>
 			<header>
+				<div class="article-info">zo 20 januari 2008, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html" rel="bookmark"
+				title="Permalink to Javascript browser detection using DOM capabilities">Javascript browser detection using <span class="caps">DOM</span>&nbsp;capabilities</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Just found this, pretty handy!
+    // browser detection<br />
+    var isIE = document.all;<br />
+    var isIE7 = isIE &amp;&amp; window.XMLHttpRequest &amp;&amp; window.ActiveXObject;<br />
+    var isIE6 = isIE &amp;&amp; document.implementation;<br />
+    var isgteIE6 = isIE7 isIE6;<br />
+    var isIE5 = isIE &amp;&amp; window.print &amp;&amp; !isgteIE6;<br />
+    var isIEDOM2 = isIE5 isgteIE6;<br />
+    var isIE4 = isIE &amp;&amp; !isIEDOM2 &amp;&amp; navigator.cookieEnabled;<br />
+    var isIE3 = isIE &amp;&amp; !isIE4 &amp;&amp; !isIEDOM2;<br />
+    var isNS ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">di 23 oktober 2007, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/game-half-life-2-episode-2.html" rel="bookmark"
 				title="Permalink to Game: Half Life 2 - Episode 2">Game: Half Life 2 - Episode&nbsp;2</a></div>
@@ -162,7 +185,7 @@ I don&#8217;t need to adapt my ways to Rails. I tell <span class="caps">PHP</spa
 			</header>
 			<div class="article-summary">
 					<p>Instead of&nbsp;this:  </p>
-<div class="highlight"><pre>IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0
+<div class="highlight"><pre><span></span>IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0
 </pre></div>
 
 
@@ -213,27 +236,6 @@ I can say though that this game is fantastic, both story- and graphic-wise. Also
 			<div class="article-summary">
 					<p>I&#8217;ve been looking for a way to do this for some time now: scrolling unfocused windows, in Windows. You can do it with a Mac (<a href="http://macromates.com/movies/move_inactive_window.mov">movie here</a>) and on Linux. I became accustomed to it after prolonged Ubuntu-use on my laptop. (It&#8217;s incredibly handy on lower resolutions too ...</p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/scrolling-unfocused-windows.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">zo 29 juli 2007, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/simulating-limit-with-offsets-in-sql.html" rel="bookmark"
-				title="Permalink to Simulating LIMIT with offsets in SQL">Simulating <span class="caps">LIMIT</span> with offsets in <span class="caps">SQL</span></a></div>
-			</header>
-			<div class="article-summary">
-					<p>How can you do this (x is number of rows to fetch, y is offset) (Mysql):<br />
-    <span class="caps">SELECT</span> * <span class="caps">FROM</span> my_table <span class="caps">LIMIT</span> x, y
-or this (PostgreSQL)&nbsp;:  </p>
-<div class="highlight"><pre>SELECT * FROM my_table LIMIT x OFFSET y
-</pre></div>
-
-
-<p>in a <span class="caps">DBMS</span> that doesn&#8217;t support <span class="caps">LIMIT</span> statements (take Oracle for example).<br />
-In Oracle, you can use ...</p>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/simulating-limit-with-offsets-in-sql.html">Read more</a></p>
 			</div>
 		</article>
 
