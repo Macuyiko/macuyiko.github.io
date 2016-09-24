@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">di 23 juni 2009, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Tue 23 June 2009, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/solving-a-tetris-cube-recursive-backtracking-algorithm-x-oh-my.html" rel="bookmark"
 			title="Permalink to Solving A Tetris Cube, Recursive Backtracking, Algorithm X, Oh My!">Solving A Tetris Cube, Recursive Backtracking, Algorithm X, Oh&nbsp;My!</a></div>
 		</header>
@@ -90,19 +90,19 @@ But first things first. There are a few ways you could solve this, but first, le
 <strong>Detour: Recursive backtracking in general</strong><br />
 Let&#8217;s see what a recursive backtracking function generally looks&nbsp;like:  </p>
 </blockquote>
-<div class="highlight"><pre><span class="nx">recursive_funtion</span><span class="p">(</span><span class="nx">level</span><span class="p">)</span> <span class="p">{</span>  
-  <span class="k">for</span> <span class="nx">all</span> <span class="nx">possible</span> <span class="nx">ways</span> <span class="k">for</span> <span class="nx">something</span> <span class="p">{</span>  
-    <span class="k">try</span> <span class="nx">it</span>  
-    <span class="k">if</span> <span class="nx">solution</span> <span class="nx">valid</span> <span class="p">{</span>  
-      <span class="k">if</span> <span class="nx">solution</span> <span class="nx">complete</span> <span class="p">{</span>  
-        <span class="nx">done</span><span class="p">,</span> <span class="nx">show</span> <span class="nx">solution</span>  
-      <span class="p">}</span><span class="k">else</span><span class="p">{</span>  
-        <span class="nx">recursive_function</span><span class="p">(</span><span class="nx">next_level</span><span class="p">)</span>  
-      <span class="p">}</span>  
-    <span class="p">}</span>  
-    <span class="p">(</span><span class="nx">revert</span> <span class="k">this</span> <span class="k">try</span><span class="p">)</span>  
-  <span class="p">}</span>  
-<span class="p">}</span>
+<div class="highlight"><pre><span></span>recursive_funtion(level) {  
+  for all possible ways for something {  
+    try it  
+    if solution valid {  
+      if solution complete {  
+        done, show solution  
+      }else{  
+        recursive_function(next_level)  
+      }  
+    }  
+    (revert this try)  
+  }  
+}
 </pre></div>
 
 
@@ -224,7 +224,7 @@ The problem involves many choices, one for each way to place a pentomino on the 
     {L, 12, 22, 32, 42, 43}<br />
      &#8230;<br />
 One of many solutions of this exact cover problem is the following set of 12&nbsp;choices:  </p>
-<div class="highlight"><pre>{I, 11, 12, 13, 14, 15}  
+<div class="highlight"><pre><span></span>{I, 11, 12, 13, 14, 15}  
 {N, 16, 26, 27, 37, 47}  
 {L, 17, 18, 28, 38, 48}  
 {U, 21, 22, 31, 41, 42}  
@@ -252,7 +252,7 @@ Now our columns: we have 12 blocks, and 64 positions these blocks can occupy. 12
 (1) set a one (1) in one of the first twelve columns according to the block this row uses;<br />
 (2) set a one (1) in every &#8220;position&#8221; this row occupies.<br />
 After quickly throwing some ugly code together, I ran the program. First, it constructs the choices and the&nbsp;matrix:  </p>
-<div class="highlight"><pre>Constructing choices:  
+<div class="highlight"><pre><span></span>Constructing choices:  
 0: ................................................................  
 1: ................................................................  
 2: ................................................................  
@@ -272,7 +272,7 @@ Done, number of rows: 4488 and cols: 76`
 
 
 <p>The matrix itself is a bit large to display here. But here are the first few&nbsp;rows:  </p>
-<div class="highlight"><pre>OUTPUTTING MATRIX:  
+<div class="highlight"><pre><span></span>OUTPUTTING MATRIX:  
 0 {0; 0; 1; 2; 6; 7; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
 1 {0; 0; 1; 2; 18; 19; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
 2 {0; 0; 4; 8; 9; 13; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0  
@@ -298,7 +298,7 @@ Done, number of rows: 4488 and cols: 76`
 
 <p>As you can see, in these rows, the first block (number zero) is used, so the first column is one (1), the next eleven columns are zero (0). The next 64 columns are one if the row uses that position.<br />
 The program then gives some verbose&nbsp;information:  </p>
-<div class="highlight"><pre>==&gt; (0) Number of rows: 4488 and cols: 76  
+<div class="highlight"><pre><span></span>==&gt; (0) Number of rows: 4488 and cols: 76  
 Picking 12, has 117  
 117 rows to do for column  
 ==&gt; (1) Number of rows: 3414 and cols: 70  
@@ -371,25 +371,7 @@ Picking 10, has 2
 <img alt="" src="http://static.macuyiko.com/files/tetriscube/animatecube.gif" /><br />
 Ha, gotcha! If we would use Dancing Links as well, and a faster/better suited language, this would go even&nbsp;faster. </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/solving-a-tetris-cube-recursive-backtracking-algorithm-x-oh-my.html';
-	    var disqus_title = 'Solving A Tetris Cube, Recursive Backtracking, Algorithm X, Oh My!';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/solving-a-tetris-cube-recursive-backtracking-algorithm-x-oh-my.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

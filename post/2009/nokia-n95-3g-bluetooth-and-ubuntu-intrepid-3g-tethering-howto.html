@@ -71,24 +71,24 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">vr 16 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Fri 16 January 2009, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html" rel="bookmark"
 			title="Permalink to Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering Howto">Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering&nbsp;Howto</a></div>
 		</header>
 	
 	    <p>The following steps are instructions to surf the web using a Nokia N95 with 3G, connected to your Intrepid laptop via&nbsp;Bluetooth.  </p>
 <h4>1. Make sure you have the required packages&nbsp;installed:</h4>
-<div class="highlight"><pre>sudo apt-get install bluez-utils bluez-pin ppp
+<div class="highlight"><pre><span></span>sudo apt-get install bluez-utils bluez-pin ppp
 </pre></div>
 
 
 <h4>2. Find out the phone&#8217;s <span class="caps">MAC</span> address. Enable Bluetooth on phone and laptop, and enter the following&nbsp;command:</h4>
-<div class="highlight"><pre>hcitool scan
+<div class="highlight"><pre><span></span>hcitool scan
 </pre></div>
 
 
 <p>Output&nbsp;example:  </p>
-<div class="highlight"><pre><span class="nv">$ </span>hcitool scan  
+<div class="highlight"><pre><span></span>$ hcitool scan  
 Scanning ...  
 00:1C:9A:26:F5:DD Macuyiko N95
 </pre></div>
@@ -96,7 +96,7 @@ Scanning ...
 
 <p>And note your <span class="caps">MAC</span>-address of your&nbsp;phone.  </p>
 <h4>3. Find out the phone&#8217;s channel, with the N95, this might change from time to&nbsp;time:</h4>
-<div class="highlight"><pre>sdptool search --bdaddr MAC DUN | grep Channel
+<div class="highlight"><pre><span></span>sdptool search --bdaddr MAC DUN | grep Channel
 </pre></div>
 
 
@@ -106,7 +106,7 @@ Output example:<br />
     Channel: 4
 Note this&nbsp;channel.</p>
 <h4>4. Edit <code>/etc/ppp/peers/BluetoothDialup</code>:</h4>
-<div class="highlight"><pre>sudo gedit /etc/ppp/peers/BluetoothDialup
+<div class="highlight"><pre><span></span>sudo gedit /etc/ppp/peers/BluetoothDialup
 </pre></div>
 
 
@@ -127,13 +127,13 @@ Note this&nbsp;channel.</p>
 <p>There are a few lines which you might need to change. I&#8217;m using the Belgium Proximus operator.<br />
 First of all, change <code>/etc/chatscripts/proximus-gprs</code> to something more related to your provider (e.g.: <code>/etc/chatscripts/myprovider-gprs</code>). We&#8217;re going to create this script in the next step. Also: you might need to change the <code>ms-dns</code> entry as well (in most cases you can leave it out, but I had to add it though). Also notice that I have used <code>/dev/rfcomm1</code> as the used device, we&#8217;ll use this in the next steps as&nbsp;well.  </p>
 <h4>5. Create a chatscript at <code>/etc/chatscripts/proximus-gprs</code></h4>
-<div class="highlight"><pre>sudo gedit /etc/chatscripts/proximus-gprs
+<div class="highlight"><pre><span></span>sudo gedit /etc/chatscripts/proximus-gprs
 </pre></div>
 
 
 <p>Note that you may have chosen a different name for your chatscript in the previous&nbsp;step. </p>
 <p>Paste:  </p>
-<div class="highlight"><pre>ABORT BUSY  
+<div class="highlight"><pre><span></span>ABORT BUSY  
 ABORT &#39;NO CARRIER&#39;  
 ABORT VOICE  
 ABORT &#39;NO DIALTONE&#39;  
@@ -149,13 +149,13 @@ CONNECT &quot;&quot;
 <p>You need to change these entries for your provider. Look up your <span class="caps">APN</span> and data profile number. If you google for &#8220;<span class="caps">APN</span> 3g [yourprovider]&#8221; you will often find the correct results, or look <a href="http://www.iphoneuserguide.com/apple/2008/06/04/iphone3g/apn-settings-for-iphone-3g/">here</a> for APNs for many providers. The data profile number line will often be <code>OK ATDT*99#</code> or <code>OK ATDT*99***1#</code>, so try them&nbsp;both.  </p>
 <h4>6. Try it&nbsp;out</h4>
 <p>Enter the following&nbsp;command:  </p>
-<div class="highlight"><pre>rfcomm connect RFCOMM# MAC CHANNEL
+<div class="highlight"><pre><span></span>rfcomm connect RFCOMM# MAC CHANNEL
 </pre></div>
 
 
 <p>Replace <code>RFCOMM#</code> with the <code>/dev/rfcomm</code>-number you&#8217;ve used before (only the number!), I&#8217;ve used 1. <code>MAC</code> is your phone&#8217;s <span class="caps">MAC</span> address again, and <code>CHANNEL</code> is the channel you found earlier.<br />
 If all went well it should&nbsp;say:  </p>
-<div class="highlight"><pre><span class="nv">$ </span>rfcomm connect <span class="m">1</span> 00:1C:9A:26:F5:DD <span class="m">4</span>  
+<div class="highlight"><pre><span></span>$ rfcomm connect <span class="m">1</span> 00:1C:9A:26:F5:DD <span class="m">4</span>  
 Connected /dev/rfcomm1 to 00:1C:9A:26:F5:DD on channel <span class="m">4</span>  
 Press CTRL-C <span class="k">for</span> hangup
 </pre></div>
@@ -165,7 +165,7 @@ Press CTRL-C <span class="k">for</span> hangup
     pon BluetoothDialup
 <code>BluetoothDialup</code> is the filename of the file we have created in <code>/etc/ppp/peers/</code> earlier in step 4.<br />
 If all went well you should see an entry now in your ifconfig&nbsp;output:  </p>
-<div class="highlight"><pre><span class="nv">$ </span>ifconfig  
+<div class="highlight"><pre><span></span>$ ifconfig  
   ppp0      Link encap:Point-to-Point Protocol  
     inet addr:81.169.31.99  P-t-P:10.6.6.6  Mask:255.255.255.255  
     UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1  
@@ -177,7 +177,7 @@ If all went well you should see an entry now in your ifconfig&nbsp;output:  </p>
 
 
 <p>If you&#8217;re done surfing the internet, turn off <span class="caps">PPP</span>:  </p>
-<div class="highlight"><pre>poff
+<div class="highlight"><pre><span></span>poff
 </pre></div>
 
 
@@ -188,7 +188,7 @@ With <code>RFCOMM#</code> equal to the <code>/dev/rfcomm</code>-number you&#821
 <h4>Optional steps: use gnome-ppp to&nbsp;connect</h4>
 <p>If you have <code>gnome-ppp</code> installed, you can also use a graphical interface to configure the above steps.<br />
 First of all, you still have to&nbsp;execute:  </p>
-<div class="highlight"><pre>rfcomm connect RFCOMM# MAC CHANNEL
+<div class="highlight"><pre><span></span>rfcomm connect RFCOMM# MAC CHANNEL
 </pre></div>
 
 
@@ -211,25 +211,7 @@ Screenshot:<br />
 Final note: some people have to add <code>novj</code> to <code>/etc/ppp/options</code> as well. I didn&#8217;t, tho. Check the Ubuntu forums/Google for information about your specific operator and/or hardware.<br />
 These instructions were only tested with my Thinkpad, my N95, and my operator. I&#8217;ve set up laptops with Vodafone cards before, and you can use <code>gnome-ppp</code> for those as well, just make sure you&#8217;re using the correct device. Often the device will be at <code>/dev/ttyS0</code>, but use <code>dmesg</code> to find out the exact&nbsp;location.</p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html';
-	    var disqus_title = 'Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering Howto';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

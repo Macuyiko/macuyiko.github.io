@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">ma 19 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Mon 19 January 2009, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html" rel="bookmark"
 			title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 4 - Simulated Annealing">Modern Genetic (And Other) Algorithms Explained: Part 4 - Simulated&nbsp;Annealing</a></div>
 		</header>
@@ -95,11 +95,11 @@ Often, the new solution is accepted with an exponential distribution: <code>exp(
 Note: the pseudocode at the Wikipedia page doesn&#8217;t use trials, for some problems, this is good enough.<br />
 Let&#8217;s see some Python code (again, based on the code mentioned in the previous&nbsp;posts):  </p>
 </blockquote>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>  
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>  
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>  
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>  
 <span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
-  <span class="s">&#39;Create a member of the population.&#39;</span>  
+  <span class="s1">&#39;Create a member of the population.&#39;</span>  
   <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>  
 <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>  
   <span class="sd">&quot;&quot;&quot;  </span>
@@ -136,11 +136,11 @@ Let&#8217;s see some Python code (again, based on the code mentioned in the prev
     <span class="n">n_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">n_ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>    
   <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">best_fit</span><span class="p">:</span>  
     <span class="n">best_fit</span> <span class="o">=</span> <span class="n">n_fitness</span>  
-  <span class="c">#move to new state?  </span>
+  <span class="c1">#move to new state?  </span>
   <span class="k">if</span> <span class="n">probability</span><span class="p">(</span><span class="n">o_fitness</span><span class="p">,</span> <span class="n">n_fitness</span><span class="p">,</span> <span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">random</span><span class="p">():</span>  
     <span class="n">ind</span> <span class="o">=</span> <span class="n">n_ind</span>  
-    <span class="k">print</span> <span class="s">&quot;Best fitness this evolution:&quot;</span><span class="p">,</span><span class="n">best_fit</span>  
-    <span class="k">print</span> <span class="s">&quot;Temperature this evolution:&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s2">&quot;Best fitness this evolution:&quot;</span><span class="p">,</span><span class="n">best_fit</span>  
+    <span class="k">print</span> <span class="s2">&quot;Temperature this evolution:&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">)</span>
 
   <span class="k">return</span> <span class="n">ind</span><span class="err">`</span>
 </pre></div>
@@ -149,8 +149,8 @@ Let&#8217;s see some Python code (again, based on the code mentioned in the prev
 <p>If the fitness of the neighbour is better (remember: that means lower), we immediately accept it. We don&#8217;t really need a chance of rejection for this problem. Otherwise, we use <code>exp( (n_fitness-o_fitness) / temperature)</code>.<br />
 We use a separate function to calculate the temperature for each step. This function is kept fairly simple <code>(max steps - this step)</code>, but non-linear temperature can also be implemented.<br />
 Let&#8217;s try it, our starting temperature becomes 100, using 1000 trials per&nbsp;temperature:  </p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>  
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>  
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
 <span class="kn">from</span> <span class="nn">annealing</span> <span class="kn">import</span> <span class="o">*</span>  
 <span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>  
 <span class="n">i_length</span> <span class="o">=</span> <span class="mi">6</span>  
@@ -168,7 +168,7 @@ Let&#8217;s try it, our starting temperature becomes 100, using 1000 trials per&
 
 
 <p>The&nbsp;output:</p>
-<div class="highlight"><pre>Best fitness this evolution: 34  
+<div class="highlight"><pre><span></span>Best fitness this evolution: 34  
 Temperature this evolution: 100  
 Best fitness this evolution: 7  
 Temperature this evolution: 99  
@@ -224,25 +224,7 @@ Another Java applet to look at: solving a <a href="http://www.heatonresearch.com
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a> </li>
 </ol>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html';
-	    var disqus_title = 'Modern Genetic (And Other) Algorithms Explained: Part 4 - Simulated Annealing';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

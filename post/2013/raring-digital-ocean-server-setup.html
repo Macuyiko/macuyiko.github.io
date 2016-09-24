@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">do 20 juni 2013, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Thu 20 June 2013, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2013/raring-digital-ocean-server-setup.html" rel="bookmark"
 			title="Permalink to Raring / Digital Ocean Server Setup">Raring / Digital Ocean Server&nbsp;Setup</a></div>
 		</header>
@@ -101,25 +101,25 @@
 <h2>1. Install&nbsp;Ubuntu</h2>
 <p>This is a single-click process with DigitalOcean. I&#8217;m using Ubuntu Server 13.04 x64. You will get a root account with&nbsp;password.</p>
 <h2>2. Always be updating and&nbsp;upgrading</h2>
-<div class="highlight"><pre>apt-get update  
+<div class="highlight"><pre><span></span>apt-get update  
 apt-get upgrade
 </pre></div>
 
 
 <h2>3. Synchronize the system&nbsp;clock</h2>
 <p>Synchronize the system clock with an <span class="caps">NTP</span> server over the&nbsp;Internet.</p>
-<div class="highlight"><pre>apt-get install ntp ntpdate
+<div class="highlight"><pre><span></span>apt-get install ntp ntpdate
 </pre></div>
 
 
 <p><span class="caps">SSH</span> is installed already, so we skip this. We also don&#8217;t have to configure our network, but you can check the hostname&nbsp;with: </p>
-<div class="highlight"><pre>hostname
+<div class="highlight"><pre><span></span>hostname
 </pre></div>
 
 
 <h2>4. Add&nbsp;users</h2>
 <p>Add some users. Adding a <code>webmaster</code> is&nbsp;recommended:</p>
-<div class="highlight"><pre>useradd -d /home/webmaster -m webmaster  
+<div class="highlight"><pre><span></span>useradd -d /home/webmaster -m webmaster  
 passwd webmaster
 adduser webmaster sudo
 </pre></div>
@@ -127,7 +127,7 @@ adduser webmaster sudo
 
 <h2>5. Secure <span class="caps">SSH</span></h2>
 <p>Edit <code>/etc/ssh/sshd_config</code>:</p>
-<div class="highlight"><pre># Always a good idea to not listen at the default port  
+<div class="highlight"><pre><span></span># Always a good idea to not listen at the default port  
 Port    44422
 
 # Prohibit root logins
@@ -136,56 +136,56 @@ PermitRootLogin no
 
 
 <p>Then restart <span class="caps">SSH</span> and login again with a normal&nbsp;user:</p>
-<div class="highlight"><pre>service ssh restart
+<div class="highlight"><pre><span></span>service ssh restart
 </pre></div>
 
 
 <p>Using <code>sudo su</code> should allow you to continue as&nbsp;root.</p>
 <h2>6.&nbsp;MySQL</h2>
 <p>Install MySQL. You will be asked for a root&nbsp;password.</p>
-<div class="highlight"><pre>apt-get install mysql-server mysql-client
+<div class="highlight"><pre><span></span>apt-get install mysql-server mysql-client
 </pre></div>
 
 
 <p>We keep <code>bind-address = 127.0.0.1</code> in <code>/etc/mysql/my.cnf</code>.</p>
 <p>If you wish, you can also opt to use MariaDB&nbsp;instead.</p>
 <h2>7. Postfix for <span class="caps">SMTP</span>&nbsp;support</h2>
-<div class="highlight"><pre>apt-get install postfix procmail
+<div class="highlight"><pre><span></span>apt-get install postfix procmail
 </pre></div>
 
 
 <p>Make sure to pick the&nbsp;following:</p>
-<div class="highlight"><pre>General type of configuration?
+<div class="highlight"><pre><span></span>General type of configuration?
  --&gt; Internet Site
 </pre></div>
 
 
 <p>Run:</p>
-<div class="highlight"><pre>dpkg-reconfigure postfix
+<div class="highlight"><pre><span></span>dpkg-reconfigure postfix
 </pre></div>
 
 
 <p>And would through the questions. Defaults are fine, but you can disable IPv6 if you want&nbsp;to.</p>
 <p>Next, we make sure to listen to local interface&nbsp;only:</p>
-<div class="highlight"><pre>postconf -e &#39;inet_interfaces = loopback-only&#39;
+<div class="highlight"><pre><span></span>postconf -e &#39;inet_interfaces = loopback-only&#39;
 </pre></div>
 
 
 <p>Restart&nbsp;Postfix:</p>
-<div class="highlight"><pre>service postfix restart
+<div class="highlight"><pre><span></span>service postfix restart
 </pre></div>
 
 
 <h2>8. Apache/<span class="caps">PHP5</span></h2>
 <p>Install:</p>
-<div class="highlight"><pre>apt-get install apache2 apache2-mpm-prefork apache2-utils ssl-cert
+<div class="highlight"><pre><span></span>apt-get install apache2 apache2-mpm-prefork apache2-utils ssl-cert
 
 apt-get install libapache2-mod-php5 php5 php5-common php5-curl php5-dev php5-gd php5-idn php-pear php5-imagick php5-imap php5-json php5-mcrypt php5-memcache php5-mhash php5-ming php5-mysql php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
 </pre></div>
 
 
 <p>Enable some&nbsp;modules:</p>
-<div class="highlight"><pre>a2enmod ssl  
+<div class="highlight"><pre><span></span>a2enmod ssl  
 a2enmod rewrite  
 a2enmod suexec  
 a2enmod status  
@@ -196,7 +196,7 @@ a2enmod include
 
 
 <p>Adding subdomains is done with vhosts in <code>/etc/apache2/sites-enabled</code>:</p>
-<div class="highlight"><pre><span class="nt">&lt;VirtualHost</span> <span class="err">*</span><span class="nt">&gt;</span>  
+<div class="highlight"><pre><span></span><span class="nt">&lt;VirtualHost</span> <span class="err">*</span><span class="nt">&gt;</span>  
   ServerAdmin info@sitename.com  
   ServerName sitename.com   
   ServerAlias *.sitename.com  
@@ -228,32 +228,32 @@ a2enmod include
 <p>Also, edit <code>php.ini</code> if&nbsp;needed.</p>
 <h2>9.&nbsp;Proftpd</h2>
 <p>Install&nbsp;Proftpd:</p>
-<div class="highlight"><pre>apt-get install proftpd ucf
+<div class="highlight"><pre><span></span>apt-get install proftpd ucf
 </pre></div>
 
 
 <p>Make sure to pick <code>standalone</code>.</p>
 <p>Edit <code>/etc/proftpd/proftpd.conf</code>:</p>
-<div class="highlight"><pre>DefaultRoot /  
+<div class="highlight"><pre><span></span>DefaultRoot /  
 UseIPv6 off
 </pre></div>
 
 
 <p>And:</p>
-<div class="highlight"><pre>service proftpd restart
+<div class="highlight"><pre><span></span>service proftpd restart
 </pre></div>
 
 
 <p>We don&#8217;t install phpMyAdmin anymore. <code>apt-get install phpmyadmin</code> if you want&nbsp;to.</p>
 <h2>10. Set <code>/var/www</code> permissions</h2>
 <p>Making it easy for our&nbsp;&#8220;webmaster&#8221;:</p>
-<div class="highlight"><pre>chown -R webmaster:www-data /var/www  
+<div class="highlight"><pre><span></span>chown -R webmaster:www-data /var/www  
 chmod 775 -R /var/www
 </pre></div>
 
 
 <h2>11. Install&nbsp;fail2ban</h2>
-<div class="highlight"><pre>apt-get install fail2ban
+<div class="highlight"><pre><span></span>apt-get install fail2ban
 </pre></div>
 
 
@@ -269,32 +269,14 @@ chmod 775 -R /var/www
 <li>Move <span class="caps">SSL</span>&nbsp;keys</li>
 </ul>
 <p>Backup&nbsp;script:</p>
-<div class="highlight"><pre>tar cvpzf backup.tgz --exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/usr --exclude=/bin --exclude=/sbin --exclude=/backup.tgz /
+<div class="highlight"><pre><span></span>tar cvpzf backup.tgz --exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/usr --exclude=/bin --exclude=/sbin --exclude=/backup.tgz /
 </pre></div>
 
 
 <p>It&#8217;s a pity this last step can&#8217;t be automated. I guess it would be possible to create an image and move it over the another <span class="caps">VPS</span>, but this will bring along all the extra filler you maybe don&#8217;t want&nbsp;anymore.</p>
 <p>My experience with DigitalOcean was pleasant so far. The <span class="caps">SSD</span> drives make installing <code>apt</code> packages a real breeze. I&#8217;m not migrating completely from Linode yet (hosting too many sites at the moment with them), but I&#8217;ll definitely launch new projects over&nbsp;there.</p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2013/raring-digital-ocean-server-setup.html';
-	    var disqus_title = 'Raring / Digital Ocean Server Setup';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2013/raring-digital-ocean-server-setup.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

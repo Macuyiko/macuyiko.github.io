@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">di 22 augustus 2006, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Tue 22 August 2006, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html" rel="bookmark"
 			title="Permalink to Visiting AIGLX/Compix And Back Again">Visiting <span class="caps">AIGLX</span>/Compix And Back&nbsp;Again</a></div>
 		</header>
@@ -80,12 +80,12 @@
 Yesterday I decided to &#8220;quickly give <span class="caps">AIGLX</span>/Compiz a go&#8221;. I use <span class="caps">AIGLX</span> because I do this on my Thinkpad and it has an Intel card. <span class="caps">AIGLX</span> gives better performance with these cards.<br />
 There are already nice how-to&#8217;s at <a href="http://doc.gwos.org/index.php/Xorg_Aiglx_Compiz">this</a> and <a href="http://corvillus.com/2006/08/03/how-to-set-up-aiglx-and-compiz-on-ubuntu-606-running-gnome/">this</a> location, but I just wanted to share my experience, but also add some additional remarks. And: we will even revert back to the normal Gnome&nbsp;desktop&#8230;  </p>
 <h3>1. Add the following to your sources&nbsp;list:</h3>
-<div class="highlight"><pre>sudo gedit /etc/apt/sources.list
+<div class="highlight"><pre><span></span>sudo gedit /etc/apt/sources.list
 </pre></div>
 
 
 <p>and&nbsp;add:</p>
-<div class="highlight"><pre><span class="c">## AIGLX + COMPIZ...  </span>
+<div class="highlight"><pre><span></span><span class="c">## AIGLX + COMPIZ...  </span>
 <span class="k">deb</span> <span class="s">http://ubuntu.compiz.net/</span> <span class="kp">dapper</span> <span class="kp">aiglx</span>   
 <span class="kp">deb</span> <span class="kp">http://ubuntu.compiz.net/</span> <span class="kp">dapper</span> <span class="kp">main</span>  
 <span class="kp">deb</span> <span class="kp">http://xgl.compiz.info/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>  
@@ -99,22 +99,22 @@ There are already nice how-to&#8217;s at <a href="http://doc.gwos.org/index.php/
 The following steps are exactly the same as the docs/wiki&#8230;<br />
     sudo apt-get update sudo apt-get&nbsp;dist-upgrade</p>
 <h3>2. Install the latest dri&nbsp;modules:</h3>
-<div class="highlight"><pre>sudo apt-get install linux-dri-modules-common linux-dri-modules-`uname -r`
+<div class="highlight"><pre><span></span>sudo apt-get install linux-dri-modules-common linux-dri-modules-`uname -r`
 </pre></div>
 
 
 <h3>3. First purge&nbsp;Aiglx/Compiz:</h3>
-<div class="highlight"><pre>sudo aptitude purge compiz-aiglx compiz-aiglx-gnome
+<div class="highlight"><pre><span></span>sudo aptitude purge compiz-aiglx compiz-aiglx-gnome
 </pre></div>
 
 
 <h3>4. Then install (I installed the Quinn packages, because I randomly read somewhere they were&nbsp;better):</h3>
-<div class="highlight"><pre>sudo apt-get install compiz-quinn-aiglx compiz compiz-gnome
+<div class="highlight"><pre><span></span>sudo apt-get install compiz-quinn-aiglx compiz compiz-gnome
 </pre></div>
 
 
 <h3>5. Now&nbsp;let&#8217;s</h3>
-<div class="highlight"><pre>sudo gedit /etc/X11/xorg.conf
+<div class="highlight"><pre><span></span>sudo gedit /etc/X11/xorg.conf
 </pre></div>
 
 
@@ -159,13 +159,13 @@ Finally, you must have:<br />
     Section &#8220;Extensions&#8221;<br />
       Option &#8220;Composite&#8221; &#8220;Enable&#8221;<br />&nbsp;EndSection  </p>
 <h3>6. Configure&nbsp;gdm:</h3>
-<div class="highlight"><pre>sudo gedit /etc/gdm/gdm.conf-custom
+<div class="highlight"><pre><span></span>sudo gedit /etc/gdm/gdm.conf-custom
 </pre></div>
 
 
 <p>It must contain the following:<br />
     [servers]<br />&nbsp;0=aiglx  </p>
-<div class="highlight"><pre>[server-aiglx]  
+<div class="highlight"><pre><span></span>[server-aiglx]  
 name=aiglx server  
 command=/usr/bin/Xorg-air :0  
 flexible=true
@@ -225,25 +225,7 @@ Wasn&#8217;t that fun? And it only took 10 minutes&#8230;<br />
 Does anyone however know a similar alt-tab feature and the &#8220;I move my mouse to the upper right and get a nice window overview&#8221; feature for Ubuntu without using Ubuntu? Because I liked those two&#8230;<br />
 Didn&#8217;t have the time for screenshots or screencasts. There are enough of them already. And you really have to experience it for yourself to really enjoy the full power. Compiz will be great when it&#8217;s fully stable and in the main repos and easy&nbsp;installable&#8230;  </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2006/visiting-aiglxcompix-and-back-again.html';
-	    var disqus_title = 'Visiting AIGLX/Compix And Back Again';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

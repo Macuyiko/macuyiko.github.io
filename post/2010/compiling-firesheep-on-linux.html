@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">vr 19 november 2010, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Fri 19 November 2010, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/compiling-firesheep-on-linux.html" rel="bookmark"
 			title="Permalink to Compiling Firesheep on Linux">Compiling Firesheep on&nbsp;Linux</a></div>
 		</header>
@@ -84,7 +84,7 @@ The site mentions that Linux support is on the way, and recently it has become p
     ./autogen.sh &#8212;with-xulrunner-sdk=/usr/lib/xulrunner-devel-1.9.2.12
 This will configure the makefile and will probably fail until you have installed all the right dependencies. Below are the ones I was missing, yours might differ! Check the output for hints on which package you need to install.<br />
     sudo apt-get install libxul-dev xulrunner-devsudo libpcap-devsudo&nbsp;libhal-dev</p>
-<div class="highlight"><pre># Now configure should succeed:  
+<div class="highlight"><pre><span></span># Now configure should succeed:  
 ./autogen.sh --with-xulrunner-sdk=/usr/lib/xulrunner-devel-1.9.2.12
 </pre></div>
 
@@ -96,7 +96,7 @@ Change the <code>MOZ_CFLAGS = ...</code> line to:<br />
 Now we start compiling.<br />
     make
 This will probably fail too with the&nbsp;message:  </p>
-<div class="highlight"><pre>make[1]: *** No rule to make target `deps/http-parser/http_parser.c&#39;, needed by `../xpi/platform/.../firesheep-backend&#39;.  Stop.
+<div class="highlight"><pre><span></span>make[1]: *** No rule to make target `deps/http-parser/http_parser.c&#39;, needed by `../xpi/platform/.../firesheep-backend&#39;.  Stop.
 </pre></div>
 
 
@@ -113,25 +113,7 @@ Go to <code>Tools -&gt; Add-ons</code>, and open the Firesheep <code>Preferenc
 Press <code>CTRL+SHIFT+S</code> to open the Firesheep sidebar and to start capturing.<br />
 Good luck. Also, be sure to check out <a href="http://research.zscaler.com/2010/11/blacksheep-tool-to-detect-firesheep.html">Blacksheep</a>, a tool to detect Firesheep tampering on your&nbsp;network. </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2010/compiling-firesheep-on-linux.html';
-	    var disqus_title = 'Compiling Firesheep on Linux';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2010/compiling-firesheep-on-linux.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

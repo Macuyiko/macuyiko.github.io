@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">di 13 januari 2009, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Tue 13 January 2009, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html" rel="bookmark"
 			title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 3 - CHC Eshelman">Modern Genetic (And Other) Algorithms Explained: Part 3 - <span class="caps">CHC</span>&nbsp;Eshelman</a></div>
 		</header>
@@ -83,7 +83,7 @@ The pseudocode looks like this (thanks to the commenters for sorting some proble
     L := length of an individual chromosome<br />
     N := population size<br />
     Threshold := MutProb * (1.0-MutProb) * L (or L/4 is also&nbsp;used)  </p>
-<div class="highlight"><pre>Evolution until time limit hit or satisfying solution found:  
+<div class="highlight"><pre><span></span>Evolution until time limit hit or satisfying solution found:  
   CPop := {}  
   For i := 1 to N/2 do:  
     Choose two random parents: P1 and P2  
@@ -109,7 +109,7 @@ The pseudocode looks like this (thanks to the commenters for sorting some proble
 (5) A &#8220;cataclysmic event&#8221; occurs when there are no children created for a certain period of time. New children can only be made between parents which are different enough. Basically this means: whenever the population converges towards a certain points, a cataclysm occurs.<br />
 (6) What this cataclysm will do depends on the actual implementation. Originally, and often, the following method is used: take the single best individual, and put it in the new population. Now, mutate each of its bits with a 35% chance, this will be the second individual. Repeat this to create a new population of size N. Sometimes, the mutation chance is set to a higher value.<br />
 My Python - again, based on the <a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/">code found here</a> - implementation looks as follows (the original problem was&nbsp;unchanged):  </p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>  
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>  
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>  
 <span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
   <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>  
@@ -128,7 +128,7 @@ My Python - again, based on the <a href="http://lethain.com/entry/2009/jan/02/ge
       <span class="n">nr_hamming</span> <span class="o">+=</span> <span class="mi">1</span>  
   <span class="k">return</span> <span class="n">nr_hamming</span>  
 <span class="k">def</span> <span class="nf">cataclysm</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
-  <span class="c">#keep the best individual, flip 35% of bits to get new individuals  </span>
+  <span class="c1">#keep the best individual, flip 35% of bits to get new individuals  </span>
   <span class="n">pop</span><span class="o">.</span><span class="n">sort</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="nb">cmp</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">fitness</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="p">)))</span>  
   <span class="n">firstind</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
   <span class="n">newpop</span> <span class="o">=</span> <span class="p">[</span><span class="n">firstind</span><span class="p">]</span>  
@@ -194,8 +194,8 @@ This reminds me: I should really work on a css class for code (update: done), in
 (2) I&#8217;ll use L/4 as the threshold; and I still use a 35% mutate rate, although we are not using bit encoded individuals, though we could set this a bit higher if we wanted.<br />
 (3) We do crossover by randomly swapping different values with a 0.5 chance, until half of the values are swapped. Probability-wise, this is not the same as randomly picking half of the different bits. This doesn&#8217;t matter that much for this example, though.<br />
 Let&#8217;s test&nbsp;it:  </p>
-<div class="highlight"><pre><span class="kn">import</span> <span class="nn">sys</span>  
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>  
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
 <span class="kn">from</span> <span class="nn">chc_eshelman</span> <span class="kn">import</span> <span class="o">*</span>  
 <span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>  
 <span class="n">p_count</span> <span class="o">=</span> <span class="mi">50</span>  
@@ -204,7 +204,7 @@ Let&#8217;s test&nbsp;it:  </p>
 <span class="n">i_max</span> <span class="o">=</span> <span class="mi">100</span>  
 <span class="n">treshold</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_length</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">]</span>  
 <span class="n">p</span> <span class="o">=</span> <span class="n">population</span><span class="p">(</span><span class="n">p_count</span><span class="p">,</span> <span class="n">i_length</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">)</span>  
-<span class="k">print</span> <span class="s">&quot;First grade: &quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  
+<span class="k">print</span> <span class="s2">&quot;First grade: &quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>  
   <span class="n">p</span><span class="o">=</span><span class="n">evolve</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">treshold</span><span class="p">)</span><span class="err">`</span>
 </pre></div>
@@ -267,7 +267,7 @@ Let&#8217;s test&nbsp;it:  </p>
     32 children<br />
     50 new population, grade: 0.0
 Another run only takes four evolutions to reach a perfect population, with a beautiful&nbsp;convergence:  </p>
-<div class="highlight"><pre>First grade: 51.16  
+<div class="highlight"><pre><span></span>First grade: 51.16  
 46 children  
 50 new population, grade: 24.26  
 46 children  
@@ -284,7 +284,7 @@ Another run only takes four evolutions to reach a perfect population, with a bea
 
 
 <p>Sometimes however, the algorithm gets stuck in a&nbsp;loop:  </p>
-<div class="highlight"><pre>...  
+<div class="highlight"><pre><span></span>...  
 18 children  
 50 new population, grade: 1.0  
 22 children  
@@ -314,7 +314,7 @@ Another run only takes four evolutions to reach a perfect population, with a bea
 
 <p>This has something to do with the way the hamming distance is calculated. Sometimes, a pool of two different solutions will be made, but with more than one different values, thus this will always be above the hamming threshold, but will always create the same children, and the same resulting new population.<br />
 For example, the algorithm can get stuck in a pool with two types of&nbsp;parents:  </p>
-<div class="highlight"><pre>1: [83, 19, 67, 64, 23, 44], sum 300   
+<div class="highlight"><pre><span></span>1: [83, 19, 67, 64, 23, 44], sum 300   
 (the target was 300, so fitness: 300-300 = 0: perfect)
 
 2: [38, 28, 67, 64, 6, 97], sum 300`
@@ -341,25 +341,7 @@ If you want to download the source code used in this post, you can find it <a hr
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a> </li>
 </ol>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html';
-	    var disqus_title = 'Modern Genetic (And Other) Algorithms Explained: Part 3 - CHC Eshelman';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

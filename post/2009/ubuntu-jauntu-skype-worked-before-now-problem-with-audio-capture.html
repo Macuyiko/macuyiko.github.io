@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">di 28 april 2009, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Tue 28 April 2009, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/ubuntu-jauntu-skype-worked-before-now-problem-with-audio-capture.html" rel="bookmark"
 			title="Permalink to Ubuntu Jauntu: Skype Worked Before, Now: “Problem with audio capture”">Ubuntu Jauntu: Skype Worked Before, Now: &#8220;Problem with audio&nbsp;capture&#8221;</a></div>
 		</header>
@@ -104,14 +104,14 @@ Again, provided when you use a normal Skype (non static, non <span class="caps">
 Your Sound Out/Ringing devices are already correct, they need to be pulse. Sound In will be set to an hw-device.<br />
 Before reading further, try making a test call with every listed hw-device (I had four, you can have more or less).<br />
 If none of them are working or if you&#8217;re sure which hw-device you need (and it isn&#8217;t working), try this: edit <code>/etc/pulse/daemon.conf</code> (don&#8217;t forget to sudo) and make sure the following lines are present and uncommented, with the following&nbsp;values:  </p>
-<div class="highlight"><pre>default-fragments = 8  
+<div class="highlight"><pre><span></span>default-fragments = 8  
 default-fragment-size-msec = 5
 </pre></div>
 
 
 <p>This is an optional step however, but it seems to help with the Skype sound quality (an other option is setting <code>default-fragment-size-msec</code> to 10).<br />
 <strong>(!)</strong> Now,  edit <code>~/.asoundrc</code> (no need to be root here, it&#8217;s a file in your home directory). And make sure the following lines are&nbsp;there:  </p>
-<div class="highlight"><pre>pcm.pulse { type pulse }  
+<div class="highlight"><pre><span></span>pcm.pulse { type pulse }  
 ctl.pulse { type pulse }
 </pre></div>
 
@@ -120,31 +120,13 @@ ctl.pulse { type pulse }
 Then, just to be sure, I reinstalled  the <code>libasound2-plugins</code> package.<br />
 Reboot, or restart pulseaudio (kill it, then start it in i.e. a Terminal window). Restart Skype. Skype was working fine now. If it is not, make sure you try every plughw-device.<br />
 Still not working, no matter how much you try? You&#8217;re out of luck. If sound-recorder and sound playback is working, you can try an emergency solution. Install the static, <span class="caps">OSS</span> version of Skype (you can find it with Medibuntu or floating around in a tarball somewhere). and start it&nbsp;with:  </p>
-<div class="highlight"><pre>padsp skype
+<div class="highlight"><pre><span></span>padsp skype
 </pre></div>
 
 
 <p>To route the sounds through the PulseAudio sink. Sound devices in this Skype should all be set to default (or <span class="caps">OSS</span>). Calls should work now. Be warned though: always try this as a last resort, routing <span class="caps">OSS</span> sound through PulseAudio is slow and bloated, ugly and old. Your record voice will sound like&#8230; well,&nbsp;crap. </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/ubuntu-jauntu-skype-worked-before-now-problem-with-audio-capture.html';
-	    var disqus_title = 'Ubuntu Jauntu: Skype Worked Before, Now: “Problem with audio capture”';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/ubuntu-jauntu-skype-worked-before-now-problem-with-audio-capture.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">do 20 juni 2013, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Thu 20 June 2013, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2013/i-almost-switched-to-pelican-a-static-blog-engine.html" rel="bookmark"
 			title="Permalink to I Almost Switched to Pelican, a Static Blog Engine">I Almost Switched to Pelican, a Static Blog&nbsp;Engine</a></div>
 		</header>
@@ -179,42 +179,42 @@
 33
 34
 35
-36</pre></div></td><td class="code"><div class="highlight"><pre><span class="c">#!/usr/bin/env python</span>
-<span class="c"># -*- coding: utf-8 -*- #</span>
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+<span class="c1"># -*- coding: utf-8 -*- #</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
 
-<span class="n">AUTHOR</span> <span class="o">=</span> <span class="s">u&#39;Your Name Here&#39;</span>
-<span class="n">SITENAME</span> <span class="o">=</span> <span class="s">u&#39;Your Title Here&#39;</span>
-<span class="n">SITEURL</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+<span class="n">AUTHOR</span> <span class="o">=</span> <span class="s1">u&#39;Your Name Here&#39;</span>
+<span class="n">SITENAME</span> <span class="o">=</span> <span class="s1">u&#39;Your Title Here&#39;</span>
+<span class="n">SITEURL</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
-<span class="n">TIMEZONE</span> <span class="o">=</span> <span class="s">&#39;Europe/Brussels&#39;</span>
-<span class="n">DEFAULT_LANG</span> <span class="o">=</span> <span class="s">u&#39;en&#39;</span>
+<span class="n">TIMEZONE</span> <span class="o">=</span> <span class="s1">&#39;Europe/Brussels&#39;</span>
+<span class="n">DEFAULT_LANG</span> <span class="o">=</span> <span class="s1">u&#39;en&#39;</span>
 <span class="n">TYPOGRIFY</span> <span class="o">=</span> <span class="bp">True</span>
 
-<span class="c"># Generation</span>
-<span class="n">DIRECT_TEMPLATES</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;index&#39;</span><span class="p">,</span> <span class="s">&#39;archives&#39;</span><span class="p">)</span>
-<span class="n">MONTH_ARCHIVE_SAVE_AS</span> <span class="o">=</span> <span class="s">&#39;archives/{date:%Y}/{date:%m}/index.html&#39;</span>
-<span class="n">YEAR_ARCHIVE_SAVE_AS</span> <span class="o">=</span> <span class="s">&#39;archives/{date:%Y}/index.html&#39;</span>
+<span class="c1"># Generation</span>
+<span class="n">DIRECT_TEMPLATES</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;index&#39;</span><span class="p">,</span> <span class="s1">&#39;archives&#39;</span><span class="p">)</span>
+<span class="n">MONTH_ARCHIVE_SAVE_AS</span> <span class="o">=</span> <span class="s1">&#39;archives/{date:%Y}/{date:%m}/index.html&#39;</span>
+<span class="n">YEAR_ARCHIVE_SAVE_AS</span> <span class="o">=</span> <span class="s1">&#39;archives/{date:%Y}/index.html&#39;</span>
 
-<span class="c"># Feeds</span>
-<span class="n">FEED_ATOM</span> <span class="o">=</span> <span class="s">&#39;feeds/atom.xml&#39;</span>
-<span class="n">FEED_RSS</span> <span class="o">=</span> <span class="s">&#39;feeds/rss.xml&#39;</span>
+<span class="c1"># Feeds</span>
+<span class="n">FEED_ATOM</span> <span class="o">=</span> <span class="s1">&#39;feeds/atom.xml&#39;</span>
+<span class="n">FEED_RSS</span> <span class="o">=</span> <span class="s1">&#39;feeds/rss.xml&#39;</span>
 <span class="n">FEED_ALL_ATOM</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">CATEGORY_FEED_ATOM</span> <span class="o">=</span> <span class="bp">None</span>
 <span class="n">TRANSLATION_FEED_ATOM</span> <span class="o">=</span> <span class="bp">None</span>
 
-<span class="c"># Blogroll</span>
-<span class="n">LINKS</span> <span class="o">=</span>  <span class="p">((</span><span class="s">&#39;Name&#39;</span><span class="p">,</span> <span class="s">&#39;http://url.com/&#39;</span><span class="p">),</span>
+<span class="c1"># Blogroll</span>
+<span class="n">LINKS</span> <span class="o">=</span>  <span class="p">((</span><span class="s1">&#39;Name&#39;</span><span class="p">,</span> <span class="s1">&#39;http://url.com/&#39;</span><span class="p">),</span>
     <span class="p">)</span>
 
-<span class="c"># Social widget</span>
-<span class="n">SOCIAL</span> <span class="o">=</span> <span class="p">((</span><span class="s">&#39;Twitter&#39;</span><span class="p">,</span> <span class="s">&#39;http://twitter.com/username&#39;</span><span class="p">),</span>
+<span class="c1"># Social widget</span>
+<span class="n">SOCIAL</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;Twitter&#39;</span><span class="p">,</span> <span class="s1">&#39;http://twitter.com/username&#39;</span><span class="p">),</span>
      <span class="p">)</span>
 
 <span class="n">DEFAULT_PAGINATION</span> <span class="o">=</span> <span class="mi">10</span>
 
-<span class="c"># Template</span>
-<span class="n">THEME</span> <span class="o">=</span> <span class="s">&quot;themes/custom_theme&quot;</span>
+<span class="c1"># Template</span>
+<span class="n">THEME</span> <span class="o">=</span> <span class="s2">&quot;themes/custom_theme&quot;</span>
 </pre></div>
 </td></tr></table>
 
@@ -226,7 +226,7 @@
 <li><code>html2text.py</code> from&nbsp;https://raw.github.com/aaronsw/html2text/master/html2text.py</li>
 </ul>
 <p>You&#8217;ll need to install <code>lxml</code> to get everything to work. This didn&#8217;t work for me using <code>pip</code>, but <code>easy_install</code> did the job. Once this is setup, create a new directory <code>posts</code> and&nbsp;run:</p>
-<div class="highlight"><pre>blogger2md.py --html2text --output-dir posts blogger-export.xml
+<div class="highlight"><pre><span></span>blogger2md.py --html2text --output-dir posts blogger-export.xml
 </pre></div>
 
 
@@ -250,25 +250,7 @@
 <p>On the plus side, I&#8217;m now able to write and keep posts as Markdown (using StackEdit with Google Drive) and host at Blogger. The theme doesn&#8217;t look too bad (will need some further fine tuning) either. Still, if it turns out that I&#8217;d rather go to Pelican anyway (or maybe one of the services mentioned above), I now have a collection of Markdown posts at the&nbsp;ready.</p>
 <p>I realize this post didn&#8217;t really offer any information. I guess this was an exercise in keeping things the same while still putting in lots of work. Still, it was nice reading up about static blog engines, and I&#8217;m still pretty intrigued by these hip, new services (Blogger certainly feels like the old guy in the block). In addition, the refresh of the Blogger theme has been inspiring in trying to conjure up some new content, so the remainder of the year will see the arrival of some other posts as well &#8212; so long as this experiment goes right, this is a first test post after all. I should still go through the older posts to clean them up, but we&#8217;ll see what we can&nbsp;manage.</p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2013/i-almost-switched-to-pelican-a-static-blog-engine.html';
-	    var disqus_title = 'I Almost Switched to Pelican, a Static Blog Engine';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2013/i-almost-switched-to-pelican-a-static-blog-engine.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

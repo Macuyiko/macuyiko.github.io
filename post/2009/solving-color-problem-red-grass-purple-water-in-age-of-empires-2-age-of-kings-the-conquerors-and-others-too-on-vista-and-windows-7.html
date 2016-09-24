@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">wo 29 juli 2009, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Wed 29 July 2009, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html" rel="bookmark"
 			title="Permalink to Solving Color Problem (Red Grass, Purple Water) In Age Of Empires 2: Age Of Kings (The Conquerors And Others Too) On Vista And Windows 7">Solving Color Problem (Red Grass, Purple Water) In Age Of Empires 2: Age Of Kings (The Conquerors And Others Too) On Vista And Windows&nbsp;7</a></div>
 		</header>
@@ -164,7 +164,7 @@ I googled a bit around to see if I could find any clues. <a href="http://stackov
 <p>The game itself, <code>explorer.exe</code>, and <code>csrss.exe</code>.<br />
 I then wanted to make a program which would change the palette back every time an outside process tried to change it. A had a whole list of functions loaded and code written, but it just didn&#8217;t work out and turned out to be too difficult. Also, I was beginning to suspect that this method could work, but would still result in flickering while changing palettes. I was browsing around at the Worms Armageddon <a href="http://forum.team17.com/showthread.php?t=38762">forums</a>, and found out that somebody wrote a <span class="caps">DLL</span> with source code for this problem. The code was written in Delphi and easy enough to read: grab a process, find every thread, and send the suspend message to every thread. I converted this code to <span class="caps">VB</span>.<span class="caps">NET</span> and slapped it on a form which would grab every <code>WM_PALETTECHANGED</code> message to update its list of processes.<br />
 Note that there is actually also a lesser known way to suspend a process with one <span class="caps">API</span> call, without iterating all the threads, which is used in the PsSuspend- and Process Explorer tools made by&nbsp;SysInternals:  </p>
-<div class="highlight"><pre>Public Shared Function NtSuspendProcess(ByVal ProcessHandle As IntPtr) As Integer  
+<div class="highlight"><pre><span></span>Public Shared Function NtSuspendProcess(ByVal ProcessHandle As IntPtr) As Integer  
 End Function
 
 Public Shared Function NtResumeProcess(ByVal ProcessHandle As IntPtr) As Integer  
@@ -174,25 +174,7 @@ End Function
 
 <p>The full source code for my PalettestealerSuspender program can be found on <a href="http://blog.macuyiko.com/pages/palettestealersuspender.html">this page on my blog</a>. Consider it a reward for reading all the way to the&nbsp;end.  </p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html';
-	    var disqus_title = 'Solving Color Problem (Red Grass, Purple Water) In Age Of Empires 2: Age Of Kings (The Conquerors And Others Too) On Vista And Windows 7';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

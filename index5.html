@@ -72,7 +72,67 @@
         
 		<article>
 			<header>
-				<div class="article-info">do 01 april 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-info">Sun 16 May 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html" rel="bookmark"
+				title="Permalink to Get A List Of Steam Games (As Of May 2010)">Get A List Of Steam Games (As Of May&nbsp;2010)</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Using Python and Beautiful Soup. This updates the previous script posted on this&nbsp;blog.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>  
+<span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlopen</span>  
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">CATEGORY_GAMES</span>     <span class="o">=</span> <span class="s1">&#39;998&#39;</span>  
+<span class="n">CATEGORY_VIDEOS</span>    <span class="o">=</span> <span class="s1">&#39;999&#39;</span>  
+<span class="n">CATEGORY_DEMOS</span>     <span class="o">=</span> <span class="s1">&#39;10&#39;</span>  
+<span class="n">CATEGORY_MODS</span>      <span class="o">=</span> <span class="s1">&#39;997&#39;</span>  
+<span class="n">CATEGORY_PACKS</span>     <span class="o">=</span> <span class="s1">&#39;996&#39;</span>  
+<span class="n">CATEGORY_DLC</span>       <span class="o">=</span> <span class="s1">&#39;21&#39;</span>
+
+<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode ...</span></pre></div>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">Fri 14 May 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/python-web-scraping-tools.html" rel="bookmark"
+				title="Permalink to Python Web Scraping Tools">Python Web Scraping&nbsp;Tools</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Just a note for myself, a list of interesting Python tools for my next web scraping project:<br />
+  - <a href="http://docs.python.org/library/urllib2.html">urllib2</a>: extensible library for opening URLs.
+  - <a href="http://pyquery.org/">PyQuery</a>: jQuery-like traversing and selecting for Python.
+  - <a href="http://wwwsearch.sourceforge.net/mechanize/">mechanize</a>: stateful programmatic web browsing in Python.
+  - <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>: not supported/maintained that much anymore. Latest versions are rather slow ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/python-web-scraping-tools.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">Fri 23 April 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/installing-heroes-of-might-and-magic-iii-3-on-linux-ubuntu.html" rel="bookmark"
+				title="Permalink to Installing Heroes Of Might And Magic III (3) On Linux (Ubuntu)">Installing Heroes Of Might And Magic <span class="caps">III</span> (3) On Linux&nbsp;(Ubuntu)</a></div>
+			</header>
+			<div class="article-summary">
+					<p>&#8230;to remind myself because I always seem to forget how to.
+<strong>1.</strong> Put the contents of the <span class="caps">CD</span> somewhere (e.g. <code>/tmp/heroes</code>).
+<strong>2.</strong> Install:
+    /tmp/heroes$ ./setup.sh
+<strong>3.</strong> Download and run patch with <code>--keep</code>:
+    /tmp/heroes$ wget ftp://mirrors.dotsrc.org/lokigames/updates/heroes3/heroes3-1.3.1a-unified-x86.run ...</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/installing-heroes-of-might-and-magic-iii-3-on-linux-ubuntu.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">Thu 01 April 2010, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/new-theme-testing-1-2-3.html" rel="bookmark"
 				title="Permalink to New Theme, Testing 1, 2, 3…">New Theme, Testing 1, 2,&nbsp;3&#8230;</a></div>
 			</header>
@@ -85,7 +145,7 @@
         
 		<article>
 			<header>
-				<div class="article-info">di 02 maart 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-info">Tue 02 March 2010, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html" rel="bookmark"
 				title="Permalink to The University Of Waterloo CS Club Tron Challenge, And Some Minimax In General - Part 2">The University Of Waterloo <span class="caps">CS</span> Club Tron Challenge, And Some Minimax In General - Part&nbsp;2</a></div>
 			</header>
@@ -103,7 +163,7 @@ winner: a1k0n, well&nbsp;done!  </p>
         
 		<article>
 			<header>
-				<div class="article-info">do 25 februari 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-info">Thu 25 February 2010, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general.html" rel="bookmark"
 				title="Permalink to The University Of Waterloo CS Club Tron Challenge, And Some Minimax In General">The University Of Waterloo <span class="caps">CS</span> Club Tron Challenge, And Some Minimax In&nbsp;General</a></div>
 			</header>
@@ -117,19 +177,19 @@ The Computer Science Club of the University of Waterloo is currently organizing 
         
 		<article>
 			<header>
-				<div class="article-info">do 31 december 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-info">Thu 31 December 2009, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/get-a-list-of-steam-games.html" rel="bookmark"
 				title="Permalink to Get A List Of Steam Games">Get A List Of Steam&nbsp;Games</a></div>
 			</header>
 			<div class="article-summary">
 					<p><strong>Update</strong>: see <a href="http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html">here</a>for a new version which works on the new steam&nbsp;site.  </p>
 <p>Using Python and <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>. Just a quick (ugly) script thrown together for future&nbsp;reference.  </p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlopen</span>  
 <span class="kn">import</span> <span class="nn">re</span>  
 <span class="kn">import</span> <span class="nn">codecs</span>
 
-<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://store.steampowered.com/search/?advanced=0 ...</span></pre></div>
+<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?advanced=0 ...</span></pre></div>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/get-a-list-of-steam-games.html">Read more</a></p>
 			</div>
 		</article>
@@ -137,7 +197,7 @@ The Computer Science Club of the University of Waterloo is currently organizing 
         
 		<article>
 			<header>
-				<div class="article-info">za 05 december 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-info">Sat 05 December 2009, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/building-a-presenter-view-for-linux.html" rel="bookmark"
 				title="Permalink to Building A Presenter View For Linux">Building A Presenter View For&nbsp;Linux</a></div>
 			</header>
@@ -151,7 +211,7 @@ Powerpoint comes with this option built-in ...</p>
         
 		<article>
 			<header>
-				<div class="article-info">ma 02 november 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-info">Mon 02 November 2009, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/dont-get-caught-in-this-steam-phishing-scam-how-phishers-work.html" rel="bookmark"
 				title="Permalink to Don’t Get Caught In This Steam Phishing Scam - How Phishers Work">Don&#8217;t Get Caught In This Steam Phishing Scam - How Phishers&nbsp;Work</a></div>
 			</header>
@@ -166,7 +226,7 @@ Needless to say, I was pretty surprised, I didn&#8217;t know Steam accounts coul
         
 		<article>
 			<header>
-				<div class="article-info">wo 29 juli 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-info">Wed 29 July 2009, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html" rel="bookmark"
 				title="Permalink to Solving Color Problem (Red Grass, Purple Water) In Age Of Empires 2: Age Of Kings (The Conquerors And Others Too) On Vista And Windows 7">Solving Color Problem (Red Grass, Purple Water) In Age Of Empires 2: Age Of Kings (The Conquerors And Others Too) On Vista And Windows&nbsp;7</a></div>
 			</header>
@@ -175,55 +235,6 @@ Needless to say, I was pretty surprised, I didn&#8217;t know Steam accounts coul
 <ul>
 <li>Update (30-Jul-2011): A new update for the Palettestealersuspender program is up. This release brings some significant <span class="caps">UI</span> changes. The tool now loads and saves settings and hides to the notification area so it can run and monitor games in the background. I&#8217;ve restructured the accompanying blog post to ...</li></ul>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">di 23 juni 2009, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/solving-a-tetris-cube-recursive-backtracking-algorithm-x-oh-my.html" rel="bookmark"
-				title="Permalink to Solving A Tetris Cube, Recursive Backtracking, Algorithm X, Oh My!">Solving A Tetris Cube, Recursive Backtracking, Algorithm X, Oh&nbsp;My!</a></div>
-			</header>
-			<div class="article-summary">
-					<p>A few days ago I got my hands on one of these:<br />
-<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SsWhepcG4cI/AAAAAAAAPPw/Q4bKUWnAUL4/s200/41j38E8H-5L._SL500_AA280_.jpg" /><br />
-A Tetris Cube. Twelve pieces, and a box of 4 by 4 by 4. Your task: to put the pieces neatly in the box again. The box said there are more than 9000 solutions, but I knew nonetheless ...</p>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/solving-a-tetris-cube-recursive-backtracking-algorithm-x-oh-my.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">di 28 april 2009, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/ubuntu-jauntu-skype-worked-before-now-problem-with-audio-capture.html" rel="bookmark"
-				title="Permalink to Ubuntu Jauntu: Skype Worked Before, Now: “Problem with audio capture”">Ubuntu Jauntu: Skype Worked Before, Now: &#8220;Problem with audio&nbsp;capture&#8221;</a></div>
-			</header>
-			<div class="article-summary">
-					<p>There are two things I currently not like about Ubuntu or Linux in general: the whole sound mess, and the whole graphics mess (but both are getting better). This problem is about the first mess.<br />
-Skype was working perfectly in Interprid, now in Jaunty it was telling me that there ...</p>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/ubuntu-jauntu-skype-worked-before-now-problem-with-audio-capture.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">di 28 april 2009, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/vice-city-and-perhaps-other-games-in-wine-cd-error-with-iso.html" rel="bookmark"
-				title="Permalink to Vice City (And Perhaps Other Games) In Wine - CD Error With ISO">Vice City (And Perhaps Other Games) In Wine - <span class="caps">CD</span> Error With <span class="caps">ISO</span></a></div>
-			</header>
-			<div class="article-summary">
-					<p>So, you&#8217;ve just gotten yourself two .iso&#8217;s for Grand Theft Auto: Vice City (your backups, of course), which you want to play in Wine. What do you do?<br />
-That&#8217;s easy, you&nbsp;say:  </p>
-<div class="highlight"><pre>sudo mkdir /media/isoimag
-sudo mount -o loop ./cd1.iso /media/isoimage
-</pre></div>
-
-
-<p>And start the ...</p>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/vice-city-and-perhaps-other-games-in-wine-cd-error-with-iso.html">Read more</a></p>
 			</div>
 		</article>
 

@@ -71,7 +71,7 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">zo 18 december 2011, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Sun 18 December 2011, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2011/oneiric-linode-server-migration.html" rel="bookmark"
 			title="Permalink to Oneiric / Linode Server Migration">Oneiric / Linode Server&nbsp;Migration</a></div>
 		</header>
@@ -84,13 +84,13 @@ The reason why I&#8217;ve been putting off the move is because it involves setti
 The steps below serve as a reminder, mainly aimed at my (future) self, for setting up an Ubuntu (Oneiric) server. I&#8217;m looking forward to seeing how Linode&nbsp;performs&#8230;</p>
 <h2>1. Install&nbsp;Ubuntu</h2>
 <h2>2. Edit /etc/apt/sources.list and&nbsp;update</h2>
-<div class="highlight"><pre>apt-get update  
+<div class="highlight"><pre><span></span>apt-get update  
 apt-get upgrade`
 </pre></div>
 
 
 <h2>3. Enable the root&nbsp;account</h2>
-<div class="highlight"><pre>sudo passwd root
+<div class="highlight"><pre><span></span>sudo passwd root
 </pre></div>
 
 
@@ -105,7 +105,7 @@ apt-get upgrade`
 <p>A server should have a static <span class="caps">IP</span> address; edit <code>/etc/network/interfaces</code>:
     #This file describes the network interfaces available on your system<br />
     # and how to activate them. For more information, see&nbsp;interfaces(5).  </p>
-<div class="highlight"><pre># The loopback network interface  
+<div class="highlight"><pre><span></span># The loopback network interface  
 auto lo  
 iface lo inet loopback  
 # The primary network interface  
@@ -150,7 +150,7 @@ Both should show your chosen&nbsp;hostname.</p>
     apt-get install mysql-server mysql-client
 We keep <code>bind-address = 127.0.0.1</code> in <code>/etc/mysql/my.cnf</code>.</p>
 <h2>9. Postfix for <span class="caps">SMTP</span>&nbsp;support</h2>
-<div class="highlight"><pre>apt-get install postfix procmail
+<div class="highlight"><pre><span></span>apt-get install postfix procmail
 </pre></div>
 
 
@@ -172,24 +172,24 @@ Again, you&#8217;ll be asked some questions:
     Mailbox size limit &lt;&#8212; 0<br />
     Local address extension character? &lt;&#8212; +<br />
     Internet protocols to use? &lt;&#8212; ipv4&nbsp;Next:</p>
-<div class="highlight"><pre>postconf -e &#39;inet_interfaces = loopback-only&#39;
+<div class="highlight"><pre><span></span>postconf -e &#39;inet_interfaces = loopback-only&#39;
 </pre></div>
 
 
 <p>We do not create certificates any more. Only using postfix as a local-only <span class="caps">SMTP</span> handler. <span class="caps">IMAP</span> and others not handled with Google Apps.
 Restart&nbsp;Postfix:</p>
-<div class="highlight"><pre>/etc/init.d/postfix restart
+<div class="highlight"><pre><span></span>/etc/init.d/postfix restart
 </pre></div>
 
 
 <h2>10. Apache/<span class="caps">PHP5</span></h2>
 <h3>10.1.&nbsp;Installation</h3>
-<div class="highlight"><pre>apt-get install apache2 apache2-mpm-prefork apache2-utils ssl-cert
+<div class="highlight"><pre><span></span>apt-get install apache2 apache2-mpm-prefork apache2-utils ssl-cert
 </pre></div>
 
 
 <p>Install <span class="caps">PHP5</span>:</p>
-<div class="highlight"><pre>apt-get install libapache2-mod-php5 php5 php5-common php5-curl php5-dev php5-gd php5-idn php-pear php5-imagick php5-imap php5-json php5-mcrypt php5-memcache php5-mhash php5-ming php5-mysql php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+<div class="highlight"><pre><span></span>apt-get install libapache2-mod-php5 php5 php5-common php5-curl php5-dev php5-gd php5-idn php-pear php5-imagick php5-imap php5-json php5-mcrypt php5-memcache php5-mhash php5-ming php5-mysql php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
 </pre></div>
 
 
@@ -205,7 +205,7 @@ Now we have to enable some Apache modules:
     a2enmod status<br />
     a2enmod include
 Reload the Apache&nbsp;configuration: </p>
-<div class="highlight"><pre>/etc/init.d/apache2 force-reload
+<div class="highlight"><pre><span></span>/etc/init.d/apache2 force-reload
 </pre></div>
 
 
@@ -217,7 +217,7 @@ Reload the Apache&nbsp;configuration: </p>
       ServerName sitename.com <br />
       ServerAlias *.sitename.com<br />
       DocumentRoot&nbsp;/var/www/sitename.com/  </p>
-<div class="highlight"><pre>  <span class="nt">&lt;Directory</span> <span class="nt">/&gt;</span>  
+<div class="highlight"><pre><span></span>  <span class="nt">&lt;Directory</span> <span class="nt">/&gt;</span>  
     Options FollowSymLinks  
     AllowOverride All  
   <span class="nt">&lt;/Directory&gt;</span>  
@@ -251,7 +251,7 @@ Reload the Apache&nbsp;configuration: </p>
 <p>Install Proftpd:
     apt-get install proftpd ucf
 You will be asked a&nbsp;question:</p>
-<div class="highlight"><pre>Run proftpd from inetd or standalone? &lt;-- standalone`
+<div class="highlight"><pre><span></span>Run proftpd from inetd or standalone? &lt;-- standalone`
 </pre></div>
 
 
@@ -259,13 +259,13 @@ You will be asked a&nbsp;question:</p>
     DefaultRoot /<br />
     UseIPv6 off<br />
 Then restart&nbsp;Proftpd:</p>
-<div class="highlight"><pre>/etc/init.d/proftpd restart
+<div class="highlight"><pre><span></span>/etc/init.d/proftpd restart
 </pre></div>
 
 
 <h2>12.&nbsp;PHPMyAdmin</h2>
 <p>Install&nbsp;PHPMyAdmin:</p>
-<div class="highlight"><pre>apt-get install phpmyadmin
+<div class="highlight"><pre><span></span>apt-get install phpmyadmin
 </pre></div>
 
 
@@ -275,13 +275,13 @@ Then restart&nbsp;Proftpd:</p>
     Port 4444 #Other than 22<br />
     PermitRootLogin no #Make sure other user can&nbsp;login/sudo`</p>
 <h2>14. Set /var/www&nbsp;permissions</h2>
-<div class="highlight"><pre>chown -R webmaster:www-data /var/www  
+<div class="highlight"><pre><span></span>chown -R webmaster:www-data /var/www  
 chmod 775 -R /var/www
 </pre></div>
 
 
 <h2>15. Install slowloris&nbsp;protection</h2>
-<div class="highlight"><pre>apt-get install gcc apache2-threaded-dev  
+<div class="highlight"><pre><span></span>apt-get install gcc apache2-threaded-dev  
 wget https://gist.github.com/raw/773464/4e7250692c34f55725384525b513e71be7541f5a/mod_muantiloris.c  
 apxs2 -a -i -c mod_muantiloris.c  
 /etc/init.d/apache2 restart
@@ -293,7 +293,7 @@ apxs2 -a -i -c mod_muantiloris.c
     IPReadLimit 5<br />
     IPPostLimit&nbsp;10  </p>
 <h2>16. Install&nbsp;fail2ban</h2>
-<div class="highlight"><pre>apt-get install fail2ban
+<div class="highlight"><pre><span></span>apt-get install fail2ban
 </pre></div>
 
 
@@ -304,25 +304,7 @@ Install openjdk-6-jre, davmail if needed.
 Backup script:
     tar cvpzf backup.tgz &#8212;exclude=/proc &#8212;exclude=/lost+found &#8212;exclude=/mnt &#8212;exclude=/sys &#8212;exclude=/dev &#8212;exclude=/usr &#8212;exclude=/bin &#8212;exclude=/sbin &#8212;exclude=/backup.tgz&nbsp;/</p>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2011/oneiric-linode-server-migration.html';
-	    var disqus_title = 'Oneiric / Linode Server Migration';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2011/oneiric-linode-server-migration.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 

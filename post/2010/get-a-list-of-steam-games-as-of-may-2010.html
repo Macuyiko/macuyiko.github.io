@@ -71,35 +71,35 @@
 <div id="articlecontainer" class="large-9 columns large-centered">
 	<article>
 		<header>
-			<div class="article-info">zo 16 mei 2010, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-info">Sun 16 May 2010, by Seppe "Macuyiko" vanden Broucke</div>
 			<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html" rel="bookmark"
 			title="Permalink to Get A List Of Steam Games (As Of May 2010)">Get A List Of Steam Games (As Of May&nbsp;2010)</a></div>
 		</header>
 	
 	    <p>Using Python and Beautiful Soup. This updates the previous script posted on this&nbsp;blog.</p>
-<div class="highlight"><pre><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>  
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>  
 <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlopen</span>  
 <span class="kn">import</span> <span class="nn">re</span>
 
-<span class="n">CATEGORY_GAMES</span>     <span class="o">=</span> <span class="s">&#39;998&#39;</span>  
-<span class="n">CATEGORY_VIDEOS</span>    <span class="o">=</span> <span class="s">&#39;999&#39;</span>  
-<span class="n">CATEGORY_DEMOS</span>     <span class="o">=</span> <span class="s">&#39;10&#39;</span>  
-<span class="n">CATEGORY_MODS</span>      <span class="o">=</span> <span class="s">&#39;997&#39;</span>  
-<span class="n">CATEGORY_PACKS</span>     <span class="o">=</span> <span class="s">&#39;996&#39;</span>  
-<span class="n">CATEGORY_DLC</span>       <span class="o">=</span> <span class="s">&#39;21&#39;</span>
+<span class="n">CATEGORY_GAMES</span>     <span class="o">=</span> <span class="s1">&#39;998&#39;</span>  
+<span class="n">CATEGORY_VIDEOS</span>    <span class="o">=</span> <span class="s1">&#39;999&#39;</span>  
+<span class="n">CATEGORY_DEMOS</span>     <span class="o">=</span> <span class="s1">&#39;10&#39;</span>  
+<span class="n">CATEGORY_MODS</span>      <span class="o">=</span> <span class="s1">&#39;997&#39;</span>  
+<span class="n">CATEGORY_PACKS</span>     <span class="o">=</span> <span class="s1">&#39;996&#39;</span>  
+<span class="n">CATEGORY_DLC</span>       <span class="o">=</span> <span class="s1">&#39;21&#39;</span>
 
-<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>
+<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
 
 <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_text</span><span class="p">)</span>
 
-<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s">&#39;./output.txt&#39;</span><span class="p">,</span> <span class="s">&#39;w&#39;</span><span class="p">)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;./output.txt&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span>
 
 <span class="n">pages</span> <span class="o">=</span> <span class="mi">1</span>  
 <span class="n">games</span> <span class="o">=</span> <span class="mi">0</span>
 
-<span class="k">print</span> <span class="s">&quot;-- Retrieving number of pages...&quot;</span>
+<span class="k">print</span> <span class="s2">&quot;-- Retrieving number of pages...&quot;</span>
 
-<span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;href&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&quot;http://store.steampowered.com/search/.*&amp;page=\d+&quot;</span><span class="p">)}):</span>  
+<span class="k">for</span> <span class="n">link</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;href&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s2">r&quot;http://store.steampowered.com/search/.*&amp;page=\d+&quot;</span><span class="p">)}):</span>  
  <span class="k">try</span><span class="p">:</span>  
   <span class="n">page</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">link</span><span class="o">.</span><span class="n">string</span><span class="p">)</span>  
   <span class="k">if</span> <span class="n">page</span> <span class="o">&gt;</span> <span class="n">pages</span><span class="p">:</span>  
@@ -107,56 +107,38 @@
  <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>  
   <span class="k">pass</span>
 
-<span class="k">print</span> <span class="s">&quot;-- Pages found:&quot;</span><span class="p">,</span><span class="n">pages</span>
+<span class="k">print</span> <span class="s2">&quot;-- Pages found:&quot;</span><span class="p">,</span><span class="n">pages</span>
 
 <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">pages</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span>  
- <span class="k">print</span> <span class="s">&quot;-- Retrieving page:&quot;</span><span class="p">,</span><span class="n">page</span>  
- <span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="o">+</span><span class="s">&#39;&amp;page=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s">&#39;utf-8&#39;</span><span class="p">)</span>  
+ <span class="k">print</span> <span class="s2">&quot;-- Retrieving page:&quot;</span><span class="p">,</span><span class="n">page</span>  
+ <span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="o">+</span><span class="s1">&#39;&amp;page=&#39;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">page</span><span class="p">))</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>  
  <span class="n">soup</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">html_text</span><span class="p">)</span>  
- <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s">&#39;a&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\bsearch_result_row\b&#39;</span><span class="p">)}):</span>  
+ <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">soup</span><span class="o">.</span><span class="n">findAll</span><span class="p">(</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\bsearch_result_row\b&#39;</span><span class="p">)}):</span>  
   <span class="n">games</span> <span class="o">+=</span> <span class="mi">1</span>  
-  <span class="c">#get information  </span>
-  <span class="n">appname</span>      <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\bsearch_name\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">h4</span><span class="o">.</span><span class="n">string</span>  
-  <span class="n">appprice</span>     <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\bsearch_price\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">string</span>  
-  <span class="n">appscore</span>     <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\bsearch_metascore\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">string</span>  
-  <span class="n">apprelease</span>   <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\bsearch_released\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">string</span>  
-  <span class="n">appurl</span>       <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s">&#39;href&#39;</span><span class="p">]</span>  
-  <span class="n">appid</span>        <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s">r&quot;http://store.steampowered.com/(\w+)/(\d+)/&quot;</span><span class="p">,</span> <span class="n">appurl</span><span class="p">)</span>  
-  <span class="n">appimage</span>     <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s">r&quot;\?t=\d+&quot;</span><span class="p">,</span><span class="s">&quot;&quot;</span><span class="p">,</span><span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s">r&#39;\bsearch_capsule\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">img</span><span class="p">[</span><span class="s">&#39;src&#39;</span><span class="p">])</span>
+  <span class="c1">#get information  </span>
+  <span class="n">appname</span>      <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\bsearch_name\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">h4</span><span class="o">.</span><span class="n">string</span>  
+  <span class="n">appprice</span>     <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\bsearch_price\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">string</span>  
+  <span class="n">appscore</span>     <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\bsearch_metascore\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">string</span>  
+  <span class="n">apprelease</span>   <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\bsearch_released\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">string</span>  
+  <span class="n">appurl</span>       <span class="o">=</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;href&#39;</span><span class="p">]</span>  
+  <span class="n">appid</span>        <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="s2">r&quot;http://store.steampowered.com/(\w+)/(\d+)/&quot;</span><span class="p">,</span> <span class="n">appurl</span><span class="p">)</span>  
+  <span class="n">appimage</span>     <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s2">r&quot;\?t=\d+&quot;</span><span class="p">,</span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="n">item</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;class&#39;</span> <span class="p">:</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\bsearch_capsule\b&#39;</span><span class="p">)})</span><span class="o">.</span><span class="n">img</span><span class="p">[</span><span class="s1">&#39;src&#39;</span><span class="p">])</span>
 
-  <span class="c">#write information to file  </span>
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appname</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>   
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appprice</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>   
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appurl</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>   
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appimage</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>   
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">apprelease</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>   
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appscore</span><span class="p">)</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>   
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appid</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">+</span><span class="s">&quot;/&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">appid</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>  
-  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\r\n</span><span class="s">&#39;</span><span class="p">)</span>
+  <span class="c1">#write information to file  </span>
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appname</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>   
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appprice</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>   
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appurl</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>   
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appimage</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>   
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">apprelease</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>   
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appscore</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>   
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">appid</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span><span class="o">+</span><span class="s2">&quot;/&quot;</span><span class="o">+</span><span class="nb">str</span><span class="p">(</span><span class="n">appid</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>  
+  <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
-<span class="k">print</span> <span class="s">&quot;-- Games found:&quot;</span><span class="p">,</span><span class="n">games</span>  
+<span class="k">print</span> <span class="s2">&quot;-- Games found:&quot;</span><span class="p">,</span><span class="n">games</span>  
 <span class="n">f</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 	</article>
-
-		<hr  class="gradient"/>
-<div class="article-comments">Care to Comment?</div>
-
-<div class="commenttab" id="disqus">
-	<div id="disqus_thread"></div>
-	<script type="text/javascript">
-	    var disqus_shortname = 'macuyiko';
-	    var disqus_identifier = 'post/2010/get-a-list-of-steam-games-as-of-may-2010.html';
-	    var disqus_title = 'Get A List Of Steam Games (As Of May 2010)';
-	    var disqus_url = 'http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html';
-
-	    (function() {
-	        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-	        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-	        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-	    })();
-	</script>
-</div></div>
+</div>
 		
 	</div>
 
