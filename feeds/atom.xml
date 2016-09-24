@@ -1,5 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2016-09-24T15:31:00+02:00</updated><entry><title>Replacing BibTeX References with DBLP Entries, Updated</title><link href="http://blog.macuyiko.com/post/2016/replacing-bibtex-references-with-dblp-entries-updated.html" rel="alternate"></link><published>2016-09-24T15:31:00+02:00</published><updated>2016-09-24T15:31:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2016-09-24:post/2016/replacing-bibtex-references-with-dblp-entries-updated.html</id><summary type="html">&lt;p&gt;This blog post is an update for &lt;a href="http://blog.macuyiko.com/post/2014/converting-plain-text-references-to-bibtex-or-endnote-or.html"&gt;this one&lt;/a&gt;. I was recently contacted regarding the original post no longer working. Indeed, the &lt;code&gt;scholar.py&lt;/code&gt; version used there is being blocked by Google&amp;nbsp;Scholar.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2016-09-24T15:57:00+02:00</updated><entry><title>Fun with Audiosurf 2 and Mitmproxy</title><link href="http://blog.macuyiko.com/post/2016/fun-with-audiosurf-2-and-mitmproxy.html" rel="alternate"></link><published>2016-09-24T15:57:00+02:00</published><updated>2016-09-24T15:57:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2016-09-24:post/2016/fun-with-audiosurf-2-and-mitmproxy.html</id><summary type="html">&lt;p&gt;I enjoy firing up &lt;a href="http://audiosurf2.com/"&gt;Audiosurf 2&lt;/a&gt; from time to time to have some rythmic musical fun. One of the things that has been bothering me, however, is the fact that Audiosurf 2 only integrates with Soundcloud for its music streaming. You can use local files, but since I stream all of my music from YouTube or Spotify, this always leaves me with a limited collection of songs to choose from, and I wondered whether there was a way to circumvent&amp;nbsp;this.&lt;/p&gt;
+&lt;p&gt;Enter &lt;a href="https://mitmproxy.org/"&gt;&lt;code&gt;mitmproxy&lt;/code&gt;&lt;/a&gt;, a powerful interactive console program that allows network traffic to be intercepted, inspected, modified and replayed. &lt;code&gt;mitmproxy&lt;/code&gt; has a powerful &lt;a href="http://docs.mitmproxy.org/en/stable/scripting/inlinescripts.html"&gt;scripting &lt;span class="caps"&gt;API&lt;/span&gt;&lt;/a&gt; that allows you to modify traffic on the fly using simple Python scripts. Perhaps we could use this to make Audiosurf 2 think it is connected to Soundcloud whilst we actually query and download music from YouTube&amp;nbsp;instead.&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s go through the script from top to bottom. First, we set up our imports and some&amp;nbsp;constants&amp;#8230;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;youtube_dl&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;copy&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;json&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;requests&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;sleep&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;urlparse&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;urlparse&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;parse_qs&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;urllib&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;quote&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;mitmproxy.models&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;HTTPResponse&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;netlib.http&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Headers&lt;/span&gt;
+
+&lt;span class="n"&gt;ENABLED&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;span class="n"&gt;YOUTUBE_SHORT_ONLY&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;
+&lt;span class="n"&gt;YDL_OPTS&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;format&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;bestaudio[ext=mp3]/bestaudio[ext=m4a]/bestaudio&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+    &lt;span class="s1"&gt;&amp;#39;progress_hooks&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="p"&gt;[],&lt;/span&gt;
+&lt;span class="c1"&gt;#   &amp;#39;postprocessors&amp;#39;: [{&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;#39;key&amp;#39;: &amp;#39;FFmpegExtractAudio&amp;#39;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;#39;preferredcodec&amp;#39;: &amp;#39;mp3&amp;#39;,&lt;/span&gt;
+&lt;span class="c1"&gt;#       &amp;#39;preferredquality&amp;#39;: &amp;#39;192&amp;#39;,&lt;/span&gt;
+&lt;span class="c1"&gt;#   }],&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You can enable a postprocessor in &lt;code&gt;youtube_dl&lt;/code&gt; (the Python library we&amp;#8217;ll be using to handle the actual downloads from YouTube) to convert any movie to an &lt;span class="caps"&gt;MP3&lt;/span&gt; with FFmpeg, though this can take up a lot of time. The &lt;code&gt;'bestaudio[ext=mp3]/bestaudio[ext=m4a]/bestaudio'&lt;/code&gt; format setting works&amp;nbsp;better.&lt;/p&gt;
+&lt;p&gt;Next up, we need to set up a YouTube &lt;span class="caps"&gt;API&lt;/span&gt; key and a fake response dict representing a track as it would come from the Soundcloud &lt;span class="caps"&gt;API&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;YOUTUBE_API_KEY = &amp;#39;--- get a youtube api key and set this here ---&amp;#39;
+SOUNDCLOUD_TRACK_TEMPLATE = {
+    &amp;quot;download_url&amp;quot;:None,
+    &amp;quot;key_signature&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;user_favorite&amp;quot;:False,
+    &amp;quot;likes_count&amp;quot;:1,
+    &amp;quot;release&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;attachments_uri&amp;quot;:&amp;quot;https://api.soundcloud.com/tracks/{}/attachments&amp;quot;,
+    &amp;quot;waveform_url&amp;quot;:&amp;quot;https://api.soundcloud.com/tracks/{}/waveform&amp;quot;,
+    &amp;quot;purchase_url&amp;quot;:None,
+    &amp;quot;video_url&amp;quot;:None,
+    &amp;quot;streamable&amp;quot;:True,
+    &amp;quot;artwork_url&amp;quot;:&amp;quot;https://api.soundcloud.com/tracks/{}/artwork&amp;quot;,
+    &amp;quot;comment_count&amp;quot;:1,
+    &amp;quot;commentable&amp;quot;:True,
+    &amp;quot;description&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;download_count&amp;quot;:0,
+    &amp;quot;downloadable&amp;quot;:False,
+    &amp;quot;embeddable_by&amp;quot;:&amp;quot;all&amp;quot;,
+    &amp;quot;favoritings_count&amp;quot;:0,
+    &amp;quot;genre&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;isrc&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;label_id&amp;quot;:None,
+    &amp;quot;label_name&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;license&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;original_content_size&amp;quot;:10000,
+    &amp;quot;original_format&amp;quot;:&amp;quot;mp3&amp;quot;,
+    &amp;quot;playback_count&amp;quot;:10000,
+    &amp;quot;purchase_title&amp;quot;:None,
+    &amp;quot;release_day&amp;quot;:None,
+    &amp;quot;release_month&amp;quot;:None,
+    &amp;quot;release_year&amp;quot;:None,
+    &amp;quot;reposts_count&amp;quot;:10000,
+    &amp;quot;state&amp;quot;:&amp;quot;finished&amp;quot;,
+    &amp;quot;tag_list&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;track_type&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;user&amp;quot;:{
+        &amp;quot;avatar_url&amp;quot;:&amp;quot;&amp;quot;,
+        &amp;quot;id&amp;quot;:111111,
+        &amp;quot;kind&amp;quot;:&amp;quot;user&amp;quot;,
+        &amp;quot;permalink_url&amp;quot;:&amp;quot;https://soundcloud.com/&amp;quot;,
+        &amp;quot;uri&amp;quot;:&amp;quot;https://api.soundcloud.com/users/111111&amp;quot;,
+        &amp;quot;username&amp;quot;:&amp;quot;&amp;quot;,
+        &amp;quot;permalink&amp;quot;:&amp;quot;&amp;quot;,
+        &amp;quot;last_modified&amp;quot;:&amp;quot;2010/02/16 17:41:26 +0000&amp;quot;},
+    &amp;quot;bpm&amp;quot;:None,
+    &amp;quot;user_playback_count&amp;quot;:None,
+    &amp;quot;id&amp;quot;:1,
+    &amp;quot;kind&amp;quot;:&amp;quot;track&amp;quot;,
+    &amp;quot;created_at&amp;quot;:&amp;quot;2010/04/14 20:46:00 +0000&amp;quot;,
+    &amp;quot;last_modified&amp;quot;:&amp;quot;2016/08/09 23:59:27 +0000&amp;quot;,
+    &amp;quot;permalink&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;permalink_url&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;title&amp;quot;:&amp;quot;&amp;quot;,
+    &amp;quot;duration&amp;quot;:253300,
+    &amp;quot;sharing&amp;quot;:&amp;quot;public&amp;quot;,
+    &amp;quot;stream_url&amp;quot;:&amp;quot;https://api.soundcloud.com/tracks/{}/stream&amp;quot;,
+    &amp;quot;uri&amp;quot;:&amp;quot;https://api.soundcloud.com/tracks/{}&amp;quot;,
+    &amp;quot;user_id&amp;quot;:111111
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next, we set up the actual hook to intercept all requests to &lt;code&gt;api.soundcloud.com&lt;/code&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def request(context, flow):
+    YDL_OPTS[&amp;#39;progress_hooks&amp;#39;].append(lambda d: youtube_download_hook(context, d))
+    if ENABLED and flow.request.pretty_host.endswith(&amp;quot;api.soundcloud.com&amp;quot;):
+        context.log(flow.request.pretty_host + flow.request.path)
+        if &amp;#39;/stream&amp;#39; in flow.request.path:
+            flow.reply(make_reply_stream(context, flow))
+        elif &amp;#39;q=&amp;#39; in flow.request.path:
+            flow.reply(make_reply_query(context, flow))
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If the request contains &lt;code&gt;q=&lt;/code&gt;, Audiosurf is performing a query. The other option we handle is &lt;code&gt;/stream&lt;/code&gt; which whill stream back the&amp;nbsp;track:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def download_youtube_video(id):
+    with youtube_dl.YoutubeDL(YDL_OPTS) as ydl:
+        result = ydl.extract_info(&amp;#39;http://www.youtube.com/watch?v=&amp;#39;+id, download=True)
+        video = result[&amp;#39;entries&amp;#39;][0] if &amp;#39;entries&amp;#39; in result else result
+    return result, video
+
+
+def youtube_download_hook(context, d):
+    if d[&amp;#39;status&amp;#39;] == &amp;#39;finished&amp;#39;:
+        context.__filename = d[&amp;#39;filename&amp;#39;]
+
+
+def make_reply_stream(context, flow):
+    resp = HTTPResponse(b&amp;quot;HTTP/1.1&amp;quot;, 200, b&amp;quot;OK&amp;quot;, 
+            Headers(Content_Type=&amp;quot;audio/mpeg&amp;quot;), b&amp;quot;&amp;quot;)
+    id = flow.request.path.split(&amp;#39;/&amp;#39;)[2]
+    context.__filename = None
+    context.log(id)
+    result, video = download_youtube_video(id)
+    while not context.__filename:
+        sleep(200)
+    context.log(context.__filename)
+    resp.content = open(context.__filename, &amp;#39;rb&amp;#39;).read()
+    return resp
+
+
+def make_reply_query(context, flow):
+    resp = HTTPResponse(b&amp;quot;HTTP/1.1&amp;quot;, 200, b&amp;quot;OK&amp;quot;,
+            Headers(Content_Type=&amp;quot;application/json&amp;quot;), b&amp;quot;&amp;quot;)
+    bits = urlparse(flow.request.path)
+    query = parse_qs(bits.query)[&amp;#39;q&amp;#39;][0]
+    list = make_song_list(query, context)
+    resp.content = json.dumps(list).encode(&amp;#39;utf-8&amp;#39;)
+    return resp
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Note that we use some &lt;code&gt;youtube_dl&lt;/code&gt; hook trickery to make sure we wait until the file is downloaded. (&lt;code&gt;youtube_dl&lt;/code&gt; will spawn a separate&amp;nbsp;process.)&lt;/p&gt;
+&lt;p&gt;Finally, we need to implement two more&amp;nbsp;functions:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def make_song_dict(id, title, artist, description=&amp;#39;&amp;#39;, artwork_url=None):
+    d = copy.deepcopy(SOUNDCLOUD_TRACK_TEMPLATE)
+    d[&amp;#39;id&amp;#39;] = id
+    d[&amp;#39;title&amp;#39;] = title
+    d[&amp;#39;description&amp;#39;] = description
+    d[&amp;#39;attachments_uri&amp;#39;] = d[&amp;#39;attachments_uri&amp;#39;].format(id)
+    d[&amp;#39;waveform_url&amp;#39;] = d[&amp;#39;waveform_url&amp;#39;].format(id)
+    d[&amp;#39;artwork_url&amp;#39;] = d[&amp;#39;artwork_url&amp;#39;].format(id)
+    if artwork_url is not None:
+        d[&amp;#39;artwork_url&amp;#39;] = artwork_url
+    d[&amp;#39;stream_url&amp;#39;] = d[&amp;#39;stream_url&amp;#39;].format(id)
+    d[&amp;#39;uri&amp;#39;] = d[&amp;#39;uri&amp;#39;].format(id)
+    d[&amp;#39;user&amp;#39;][&amp;#39;username&amp;#39;] = artist
+    return d
+
+
+def make_song_list(query, context):
+    q = quote(query)
+    vd = &amp;#39;short&amp;#39; if YOUTUBE_SHORT_ONLY else &amp;#39;any&amp;#39;
+    url = &amp;#39;https://www.googleapis.com/youtube/v3/search?part=snippet&amp;amp;maxResults=50&amp;amp;q={q}&amp;amp;type=video&amp;amp;videoCategoryId=10&amp;amp;videoDuration={vd}&amp;amp;key={key}&amp;#39;.format(q=q, vd=vd, key=YOUTUBE_API_KEY)
+    reply = requests.get(url).json()
+    list = []
+    for item in reply[&amp;#39;items&amp;#39;]:
+        d = make_song_dict(item[&amp;#39;id&amp;#39;][&amp;#39;videoId&amp;#39;],
+            title=item[&amp;#39;snippet&amp;#39;][&amp;#39;title&amp;#39;],
+            artist=item[&amp;#39;snippet&amp;#39;][&amp;#39;channelTitle&amp;#39;],
+            description=item[&amp;#39;snippet&amp;#39;][&amp;#39;description&amp;#39;],
+            artwork_url=item[&amp;#39;snippet&amp;#39;][&amp;#39;thumbnails&amp;#39;][&amp;#39;default&amp;#39;][&amp;#39;url&amp;#39;])
+        list.append(d)
+    return list
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And we&amp;#8217;re done! We can use Proxifier &lt;span class="caps"&gt;PE&lt;/span&gt; or another program to force connections from Audiosurf 2 to go through our man in the middle server. You can see the result in action&amp;nbsp;here:&lt;/p&gt;
+&lt;iframe width="560" height="315" src="https://www.youtube.com/embed/K3LDeERn9Jw" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Final warning: this is meant to be a fun weekend experiment and in no way provided to circumvent YouTube or other streaming provider&amp;#8217;s policies. Just as using &lt;code&gt;youtube_dl&lt;/code&gt;, use this at your own&amp;nbsp;risk!&lt;/p&gt;</summary></entry><entry><title>Replacing BibTeX References with DBLP Entries, Updated</title><link href="http://blog.macuyiko.com/post/2016/replacing-bibtex-references-with-dblp-entries-updated.html" rel="alternate"></link><published>2016-09-24T15:31:00+02:00</published><updated>2016-09-24T15:31:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2016-09-24:post/2016/replacing-bibtex-references-with-dblp-entries-updated.html</id><summary type="html">&lt;p&gt;This blog post is an update for &lt;a href="http://blog.macuyiko.com/post/2014/converting-plain-text-references-to-bibtex-or-endnote-or.html"&gt;this one&lt;/a&gt;. I was recently contacted regarding the original post no longer working. Indeed, the &lt;code&gt;scholar.py&lt;/code&gt; version used there is being blocked by Google&amp;nbsp;Scholar.&lt;/p&gt;
 &lt;p&gt;Looking at the &lt;a href="https://github.com/ckreibich/scholar.py"&gt;scholar.py&lt;/a&gt; GitHub page, we do find an updated version from about 8 months ago, with apparently support for fetching a plain text citation&amp;nbsp;built-in.&lt;/p&gt;
 &lt;p&gt;Sadly, upon trying out the new library, Google Scholar was quickly throwing captcha checks up our face. The issue seems to be the way cookie handling is performed in the&amp;nbsp;library.&lt;/p&gt;
 &lt;p&gt;Instead of trying to fix the library once more, I realized that we don&amp;#8217;t need its full feature-set in order to accomplish what we&amp;#8217;re trying to do here. The reason why I went hunting for such a library in the original post is probably due to a mixture of tiredness and/or having plans to do more with it in the future. &lt;code&gt;BeautifulSoup&lt;/code&gt; and &lt;code&gt;requests&lt;/code&gt; are enough to get the job&amp;nbsp;done.&lt;/p&gt;

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Fun with Audiosurf 2 and Mitmproxy</title>
+
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="http://blog.macuyiko.com/theme/js/jquery-2.0.3.min.js"></script>
+	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	
+	<script type="text/javascript">
+	var waitForFinalEvent = (function () {
+		var timers = {};
+		return function (callback, ms, uniqueId) {
+			if (!uniqueId) uniqueId = "_";
+			if (timers[uniqueId]) clearTimeout (timers[uniqueId]);
+			timers[uniqueId] = setTimeout(callback, ms);
+		};
+	})();
+	var insertCaptions = function() {
+		$('#articlecontainer .caption').remove();
+		var width = $(window).width();
+		var onmobile = width < 960; //>
+		var capclass = onmobile ? 'caption-below' : 'caption-aside';
+		$.each($('#articlecontainer img'), function(index, value) {
+			if ($(value).attr('alt') != undefined) {
+				var elem = $('<div class="caption '+capclass+'">'+$(value).attr('alt')+'</div>');
+				if (onmobile) elem.insertAfter(value);
+				else elem.insertBefore(value);
+			}
+		});
+	};
+	$(function() {
+		$(window).resize(function () {
+			waitForFinalEvent(function(){
+				insertCaptions();
+			}, 500, "window.resize");
+		});
+		insertCaptions();
+	});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function() {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+<nav>
+	<div class="top-bar large-12 columns">
+		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</div>
+</nav>
+
+
+<div class="row contentwrapper">
+	<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Sat 24 September 2016, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="http://blog.macuyiko.com/post/2016/fun-with-audiosurf-2-and-mitmproxy.html" rel="bookmark"
+			title="Permalink to Fun with Audiosurf 2 and Mitmproxy">Fun with Audiosurf 2 and&nbsp;Mitmproxy</a></div>
+		</header>
+	
+	    <p>I enjoy firing up <a href="http://audiosurf2.com/">Audiosurf 2</a> from time to time to have some rythmic musical fun. One of the things that has been bothering me, however, is the fact that Audiosurf 2 only integrates with Soundcloud for its music streaming. You can use local files, but since I stream all of my music from YouTube or Spotify, this always leaves me with a limited collection of songs to choose from, and I wondered whether there was a way to circumvent&nbsp;this.</p>
+<p>Enter <a href="https://mitmproxy.org/"><code>mitmproxy</code></a>, a powerful interactive console program that allows network traffic to be intercepted, inspected, modified and replayed. <code>mitmproxy</code> has a powerful <a href="http://docs.mitmproxy.org/en/stable/scripting/inlinescripts.html">scripting <span class="caps">API</span></a> that allows you to modify traffic on the fly using simple Python scripts. Perhaps we could use this to make Audiosurf 2 think it is connected to Soundcloud whilst we actually query and download music from YouTube&nbsp;instead.</p>
+<p>Let&#8217;s go through the script from top to bottom. First, we set up our imports and some&nbsp;constants&#8230;</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">youtube_dl</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">from</span> <span class="nn">time</span> <span class="kn">import</span> <span class="n">sleep</span>
+<span class="kn">from</span> <span class="nn">urlparse</span> <span class="kn">import</span> <span class="n">urlparse</span><span class="p">,</span> <span class="n">parse_qs</span>
+<span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">quote</span>
+<span class="kn">from</span> <span class="nn">mitmproxy.models</span> <span class="kn">import</span> <span class="n">HTTPResponse</span>
+<span class="kn">from</span> <span class="nn">netlib.http</span> <span class="kn">import</span> <span class="n">Headers</span>
+
+<span class="n">ENABLED</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">YOUTUBE_SHORT_ONLY</span> <span class="o">=</span> <span class="bp">True</span>
+<span class="n">YDL_OPTS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;format&#39;</span><span class="p">:</span> <span class="s1">&#39;bestaudio[ext=mp3]/bestaudio[ext=m4a]/bestaudio&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;progress_hooks&#39;</span><span class="p">:</span> <span class="p">[],</span>
+<span class="c1">#   &#39;postprocessors&#39;: [{</span>
+<span class="c1">#       &#39;key&#39;: &#39;FFmpegExtractAudio&#39;,</span>
+<span class="c1">#       &#39;preferredcodec&#39;: &#39;mp3&#39;,</span>
+<span class="c1">#       &#39;preferredquality&#39;: &#39;192&#39;,</span>
+<span class="c1">#   }],</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>You can enable a postprocessor in <code>youtube_dl</code> (the Python library we&#8217;ll be using to handle the actual downloads from YouTube) to convert any movie to an <span class="caps">MP3</span> with FFmpeg, though this can take up a lot of time. The <code>'bestaudio[ext=mp3]/bestaudio[ext=m4a]/bestaudio'</code> format setting works&nbsp;better.</p>
+<p>Next up, we need to set up a YouTube <span class="caps">API</span> key and a fake response dict representing a track as it would come from the Soundcloud <span class="caps">API</span>:</p>
+<div class="highlight"><pre><span></span>YOUTUBE_API_KEY = &#39;--- get a youtube api key and set this here ---&#39;
+SOUNDCLOUD_TRACK_TEMPLATE = {
+    &quot;download_url&quot;:None,
+    &quot;key_signature&quot;:&quot;&quot;,
+    &quot;user_favorite&quot;:False,
+    &quot;likes_count&quot;:1,
+    &quot;release&quot;:&quot;&quot;,
+    &quot;attachments_uri&quot;:&quot;https://api.soundcloud.com/tracks/{}/attachments&quot;,
+    &quot;waveform_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/waveform&quot;,
+    &quot;purchase_url&quot;:None,
+    &quot;video_url&quot;:None,
+    &quot;streamable&quot;:True,
+    &quot;artwork_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/artwork&quot;,
+    &quot;comment_count&quot;:1,
+    &quot;commentable&quot;:True,
+    &quot;description&quot;:&quot;&quot;,
+    &quot;download_count&quot;:0,
+    &quot;downloadable&quot;:False,
+    &quot;embeddable_by&quot;:&quot;all&quot;,
+    &quot;favoritings_count&quot;:0,
+    &quot;genre&quot;:&quot;&quot;,
+    &quot;isrc&quot;:&quot;&quot;,
+    &quot;label_id&quot;:None,
+    &quot;label_name&quot;:&quot;&quot;,
+    &quot;license&quot;:&quot;&quot;,
+    &quot;original_content_size&quot;:10000,
+    &quot;original_format&quot;:&quot;mp3&quot;,
+    &quot;playback_count&quot;:10000,
+    &quot;purchase_title&quot;:None,
+    &quot;release_day&quot;:None,
+    &quot;release_month&quot;:None,
+    &quot;release_year&quot;:None,
+    &quot;reposts_count&quot;:10000,
+    &quot;state&quot;:&quot;finished&quot;,
+    &quot;tag_list&quot;:&quot;&quot;,
+    &quot;track_type&quot;:&quot;&quot;,
+    &quot;user&quot;:{
+        &quot;avatar_url&quot;:&quot;&quot;,
+        &quot;id&quot;:111111,
+        &quot;kind&quot;:&quot;user&quot;,
+        &quot;permalink_url&quot;:&quot;https://soundcloud.com/&quot;,
+        &quot;uri&quot;:&quot;https://api.soundcloud.com/users/111111&quot;,
+        &quot;username&quot;:&quot;&quot;,
+        &quot;permalink&quot;:&quot;&quot;,
+        &quot;last_modified&quot;:&quot;2010/02/16 17:41:26 +0000&quot;},
+    &quot;bpm&quot;:None,
+    &quot;user_playback_count&quot;:None,
+    &quot;id&quot;:1,
+    &quot;kind&quot;:&quot;track&quot;,
+    &quot;created_at&quot;:&quot;2010/04/14 20:46:00 +0000&quot;,
+    &quot;last_modified&quot;:&quot;2016/08/09 23:59:27 +0000&quot;,
+    &quot;permalink&quot;:&quot;&quot;,
+    &quot;permalink_url&quot;:&quot;&quot;,
+    &quot;title&quot;:&quot;&quot;,
+    &quot;duration&quot;:253300,
+    &quot;sharing&quot;:&quot;public&quot;,
+    &quot;stream_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/stream&quot;,
+    &quot;uri&quot;:&quot;https://api.soundcloud.com/tracks/{}&quot;,
+    &quot;user_id&quot;:111111
+}
+</pre></div>
+
+
+<p>Next, we set up the actual hook to intercept all requests to <code>api.soundcloud.com</code>:</p>
+<div class="highlight"><pre><span></span>def request(context, flow):
+    YDL_OPTS[&#39;progress_hooks&#39;].append(lambda d: youtube_download_hook(context, d))
+    if ENABLED and flow.request.pretty_host.endswith(&quot;api.soundcloud.com&quot;):
+        context.log(flow.request.pretty_host + flow.request.path)
+        if &#39;/stream&#39; in flow.request.path:
+            flow.reply(make_reply_stream(context, flow))
+        elif &#39;q=&#39; in flow.request.path:
+            flow.reply(make_reply_query(context, flow))
+</pre></div>
+
+
+<p>If the request contains <code>q=</code>, Audiosurf is performing a query. The other option we handle is <code>/stream</code> which whill stream back the&nbsp;track:</p>
+<div class="highlight"><pre><span></span>def download_youtube_video(id):
+    with youtube_dl.YoutubeDL(YDL_OPTS) as ydl:
+        result = ydl.extract_info(&#39;http://www.youtube.com/watch?v=&#39;+id, download=True)
+        video = result[&#39;entries&#39;][0] if &#39;entries&#39; in result else result
+    return result, video
+
+
+def youtube_download_hook(context, d):
+    if d[&#39;status&#39;] == &#39;finished&#39;:
+        context.__filename = d[&#39;filename&#39;]
+
+
+def make_reply_stream(context, flow):
+    resp = HTTPResponse(b&quot;HTTP/1.1&quot;, 200, b&quot;OK&quot;, 
+            Headers(Content_Type=&quot;audio/mpeg&quot;), b&quot;&quot;)
+    id = flow.request.path.split(&#39;/&#39;)[2]
+    context.__filename = None
+    context.log(id)
+    result, video = download_youtube_video(id)
+    while not context.__filename:
+        sleep(200)
+    context.log(context.__filename)
+    resp.content = open(context.__filename, &#39;rb&#39;).read()
+    return resp
+
+
+def make_reply_query(context, flow):
+    resp = HTTPResponse(b&quot;HTTP/1.1&quot;, 200, b&quot;OK&quot;,
+            Headers(Content_Type=&quot;application/json&quot;), b&quot;&quot;)
+    bits = urlparse(flow.request.path)
+    query = parse_qs(bits.query)[&#39;q&#39;][0]
+    list = make_song_list(query, context)
+    resp.content = json.dumps(list).encode(&#39;utf-8&#39;)
+    return resp
+</pre></div>
+
+
+<p>Note that we use some <code>youtube_dl</code> hook trickery to make sure we wait until the file is downloaded. (<code>youtube_dl</code> will spawn a separate&nbsp;process.)</p>
+<p>Finally, we need to implement two more&nbsp;functions:</p>
+<div class="highlight"><pre><span></span>def make_song_dict(id, title, artist, description=&#39;&#39;, artwork_url=None):
+    d = copy.deepcopy(SOUNDCLOUD_TRACK_TEMPLATE)
+    d[&#39;id&#39;] = id
+    d[&#39;title&#39;] = title
+    d[&#39;description&#39;] = description
+    d[&#39;attachments_uri&#39;] = d[&#39;attachments_uri&#39;].format(id)
+    d[&#39;waveform_url&#39;] = d[&#39;waveform_url&#39;].format(id)
+    d[&#39;artwork_url&#39;] = d[&#39;artwork_url&#39;].format(id)
+    if artwork_url is not None:
+        d[&#39;artwork_url&#39;] = artwork_url
+    d[&#39;stream_url&#39;] = d[&#39;stream_url&#39;].format(id)
+    d[&#39;uri&#39;] = d[&#39;uri&#39;].format(id)
+    d[&#39;user&#39;][&#39;username&#39;] = artist
+    return d
+
+
+def make_song_list(query, context):
+    q = quote(query)
+    vd = &#39;short&#39; if YOUTUBE_SHORT_ONLY else &#39;any&#39;
+    url = &#39;https://www.googleapis.com/youtube/v3/search?part=snippet&amp;maxResults=50&amp;q={q}&amp;type=video&amp;videoCategoryId=10&amp;videoDuration={vd}&amp;key={key}&#39;.format(q=q, vd=vd, key=YOUTUBE_API_KEY)
+    reply = requests.get(url).json()
+    list = []
+    for item in reply[&#39;items&#39;]:
+        d = make_song_dict(item[&#39;id&#39;][&#39;videoId&#39;],
+            title=item[&#39;snippet&#39;][&#39;title&#39;],
+            artist=item[&#39;snippet&#39;][&#39;channelTitle&#39;],
+            description=item[&#39;snippet&#39;][&#39;description&#39;],
+            artwork_url=item[&#39;snippet&#39;][&#39;thumbnails&#39;][&#39;default&#39;][&#39;url&#39;])
+        list.append(d)
+    return list
+</pre></div>
+
+
+<p>And we&#8217;re done! We can use Proxifier <span class="caps">PE</span> or another program to force connections from Audiosurf 2 to go through our man in the middle server. You can see the result in action&nbsp;here:</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/K3LDeERn9Jw" frameborder="0" allowfullscreen></iframe>
+
+<p>Final warning: this is meant to be a fun weekend experiment and in no way provided to circumvent YouTube or other streaming provider&#8217;s policies. Just as using <code>youtube_dl</code>, use this at your own&nbsp;risk!</p>
+	</article>
+</div>
+		
+	</div>
+
+	<footer class="row">
+		<div class="large-12 columns">
+			<hr />
+			<div class="row">
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
+				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
+				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+			</div>
+		</div>
+	</footer>
+</div>
+ 
