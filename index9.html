@@ -72,6 +72,26 @@
         
 		<article>
 			<header>
+				<div class="article-info">za 15 september 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html" rel="bookmark"
+				title="Permalink to SQL: Check Existing Rows Matching A Condition"><span class="caps">SQL</span>: Check Existing Rows Matching A&nbsp;Condition</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Instead of&nbsp;this:  </p>
+<div class="highlight"><pre><span></span>IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0
+</pre></div>
+
+
+<p>use this:<br />
+    <span class="caps">IF</span> <span class="caps">EXISTS</span>(<span class="caps">SELECT</span> * <span class="caps">FROM</span> Table1 <span class="caps">WHERE</span> &#8230;)<br />
+Great tip provided <a href="http://weblogs.sqlteam.com/mladenp/archive/2007/09/13/SQL-Server-The-proper-and-fastest-way-to-check-if.aspx">by this article</a>. </p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">wo 12 september 2007, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/programming-can-ruin-your-life.html" rel="bookmark"
 				title="Permalink to Programming Can Ruin Your Life">Programming Can Ruin Your&nbsp;Life</a></div>
@@ -208,23 +228,6 @@ P.S.: if you want to run your own, I recommend <a href="http://nothingconcept.co
 					<p>The Internet is going crazy about some random number (and it&#8217;s not&nbsp;23).</p>
 <p>Apparently, typing out an hexadecimal value will get you killed / deleted / censored / jailed / destroyed / ignored / access to <span class="caps">HD</span>-<span class="caps">DVD</span> content. It goes something like: <code>09 F9 11 02</code>. But it also has <code>9D 74 E3 5B ...</code></p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/the-number.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">ma 30 april 2007, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/feisty-upgrade-first-problem.html" rel="bookmark"
-				title="Permalink to Feisty Upgrade - First Problem">Feisty Upgrade - First&nbsp;Problem</a></div>
-			</header>
-			<div class="article-summary">
-					<p>We recently updated all our Ubuntu machines from Edgy to Feisty. Updating went smooth, apart from a few problems.<br />
-The first problem was that X was freezing at random intervals. Xorg log mentioned nothing special, but the <span class="caps">GDM</span> log&nbsp;did:  </p>
-<blockquote>
-<p>Error in I830WaitLpRing(), now is 7023360, start is 7021359<br />
-pgetbl_ctl ...</p></blockquote>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/feisty-upgrade-first-problem.html">Read more</a></p>
 			</div>
 		</article>
 
