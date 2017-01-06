@@ -76,26 +76,26 @@
 			title="Permalink to Rooting Kindle Fire">Rooting Kindle&nbsp;Fire</a></div>
 		</header>
 	
-	    <p>The following overview is just a reminder, mainly aimed at myself in the future, on how to root the kindle fire.<br />
-<strong>1. Install Android <span class="caps">SDK</span></strong><br />
+	    <p>The following overview is just a reminder, mainly aimed at myself in the future, on how to root the kindle fire.<br>
+<strong>1. Install Android <span class="caps">SDK</span></strong><br>
   - Download from http://developer.android.com/sdk/index.html
   - Update packages
-<strong>2. In Kindle: &#8220;Allow Installation of Applications From Unknown Sources&#8221;</strong><br />
-<strong>3. Edit <code>android_winusb.inf</code> in <code>usb_driver</code> in Android install path</strong><br />
+<strong>2. In Kindle: &#8220;Allow Installation of Applications From Unknown Sources&#8221;</strong><br>
+<strong>3. Edit <code>android_winusb.inf</code> in <code>usb_driver</code> in Android install path</strong><br>
   - Copy and paste right beneath [Google.NTx86] and [Google.NTamd64] line:
-    ;Kindle Fire<br />
-    %SingleAdbInterface% = USB_Install, <span class="caps">USB</span>\VID_1949&amp;PID_0006<br />
+    ;Kindle Fire<br>
+    %SingleAdbInterface% = USB_Install, <span class="caps">USB</span>\VID_1949&amp;PID_0006<br>
     %CompositeAdbInterface% = USB_Install, <span class="caps">USB</span>\VID_1949&amp;PID_0006&amp;MI_01
-<strong>4. Edit <code>adb_usb.ini</code> in <code>.android</code></strong><br />
+<strong>4. Edit <code>adb_usb.ini</code> in <code>.android</code></strong><br>
   - Add 0x1949
-<strong>5. Update <span class="caps">USB</span> driver</strong><br />
+<strong>5. Update <span class="caps">USB</span> driver</strong><br>
   - &#8220;Update Driver Software&#8221; in Device Manager with <code>android_winusb.inf</code>
-<strong>6. (Optional) test <span class="caps">USB</span></strong><br />
+<strong>6. (Optional) test <span class="caps">USB</span></strong><br>
   - In <code>platform-tools</code>, issue <code>adb kill-server</code> and <code>adb devices</code>
-<strong>7. SuperOneClick root</strong><br />
+<strong>7. SuperOneClick root</strong><br>
   - Download from ftp://shortfuse.org/SuperOneClick/Packages/SuperOneClickv2.2-ShortFuse.zip
-<strong>8. Get <code>Root Explorer v2.17.1.apk</code> and <code>Vending.3.3.12.apk</code>, together with Google Services Framework apk</strong><br />
-<strong>9. Finalisation</strong><br />
+<strong>8. Get <code>Root Explorer v2.17.1.apk</code> and <code>Vending.3.3.12.apk</code>, together with Google Services Framework apk</strong><br>
+<strong>9. Finalisation</strong><br>
   - Install Google Service Framework apk and Root Explorer apk
   - &#8220;Move&#8221; Vending apk to <code>/system/app</code> with Root Explorer
   - Mount as <span class="caps">RW</span> and set Vending apk filepermissions to <code>rw-r-r-</code>

@@ -76,13 +76,13 @@
 			title="Permalink to Building A Presenter View For Linux">Building A Presenter View For&nbsp;Linux</a></div>
 		</header>
 	
-	    <p>Recently, I had to give a presentation and wanted to use a &#8220;presenter screen&#8221;, allowing to view a clock, current and next slide, and slide notes on my laptop screen. Of course, the audience only sees the current slide fullscreened on the projector screen.<br />
-Powerpoint comes with this option built-in, but Openoffice users are out of luck. There&#8217;s a <a href="http://wiki.services.openoffice.org/wiki/Presenter_Screen">presenter screen plugin</a> in development, which works fine if you&#8217;re using a recent version of Openoffice. I couldn&#8217;t get it to work on my machine, however (I use xrandr to configure my dual screens). Users in <a href="http://user.services.openoffice.org/en/forum/viewtopic.php?f=10&amp;t=23863&amp;start=0">this forum</a> report that Ubuntu requires some fiddling with the display options or installing Sun&#8217;s packaged version of Openoffice. I didn&#8217;t want to do that.<br />
+	    <p>Recently, I had to give a presentation and wanted to use a &#8220;presenter screen&#8221;, allowing to view a clock, current and next slide, and slide notes on my laptop screen. Of course, the audience only sees the current slide fullscreened on the projector screen.<br>
+Powerpoint comes with this option built-in, but Openoffice users are out of luck. There&#8217;s a <a href="http://wiki.services.openoffice.org/wiki/Presenter_Screen">presenter screen plugin</a> in development, which works fine if you&#8217;re using a recent version of Openoffice. I couldn&#8217;t get it to work on my machine, however (I use xrandr to configure my dual screens). Users in <a href="http://user.services.openoffice.org/en/forum/viewtopic.php?f=10&amp;t=23863&amp;start=0">this forum</a> report that Ubuntu requires some fiddling with the display options or installing Sun&#8217;s packaged version of Openoffice. I didn&#8217;t want to do that.<br>
 Instead I opted to use Impressive - a Python-powered presenter with some unique features (OpenGL transitions, zoom, spotlight, overview page,&#8230;). It also provides an option to Python-script your presentation. We will use that to build a custom made presenter&nbsp;screen.  </p>
 <h3>Step 1: download and test drive&nbsp;Impressive</h3>
 <p>Download Impressive from the <a href="http://impressive.sourceforge.net/">official web page</a>. Make sure you have Python installed. Extract it somewhere.
-Note: you can follow along with the instructions and perform them yourself, or you can read on and download a packaged <span class="caps">ZIP</span>-file at the end if this post.<br />
-Test drive Impressive by running the following command in a terminal (make sure you&#8217;re in the correct directory):<br />
+Note: you can follow along with the instructions and perform them yourself, or you can read on and download a packaged <span class="caps">ZIP</span>-file at the end if this post.<br>
+Test drive Impressive by running the following command in a terminal (make sure you&#8217;re in the correct directory):<br>
     ~/Desktop/Impressive-0.10.2$ ./impressive.py&nbsp;demo.pdf</p>
 <div class="highlight"><pre><span></span><span class="n">Welcome</span> <span class="n">to</span> <span class="n">Impressive</span> <span class="n">version</span> <span class="mf">0.10</span><span class="o">.</span><span class="mi">2</span>  
 <span class="o">./</span><span class="n">impressive</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">94</span><span class="p">:</span> <span class="ne">DeprecationWarning</span><span class="p">:</span> <span class="n">the</span> <span class="n">md5</span> <span class="n">module</span> <span class="ow">is</span> <span class="n">deprecated</span><span class="p">;</span> <span class="n">use</span> <span class="n">hashlib</span> <span class="n">instead</span>  
@@ -95,24 +95,24 @@ Test drive Impressive by running the following command in a terminal (make sure 
 </pre></div>
 
 
-<p>Press <span class="caps">ESC</span> to close the presentation. Do you see the demo presentation? Good. Take some time to familiarize yourself with the features (they&#8217;re explained in the demo slide, so you can test them out on the fly.<br />
+<p>Press <span class="caps">ESC</span> to close the presentation. Do you see the demo presentation? Good. Take some time to familiarize yourself with the features (they&#8217;re explained in the demo slide, so you can test them out on the fly.<br>
 Don&#8217;t worry about the DeprecationWarning and the pdftk error. We won&#8217;t be using&nbsp;hyperlinks.  </p>
 <h3>Step 2: prepare our folder&nbsp;structure</h3>
-<p>We&#8217;ll be doing some housekeeping now. In the Impressive folder (where you extracted into), delete everything except <code>impressive.py</code>.<br />
-Then create a new folder: <code>Presentation</code>.<br />
-In the Presentation-folder, create two new folders: <code>Slides</code> and <code>Text</code>.<br />
-You now have the following folder structure:<br />
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/SxqIGELL2AI/AAAAAAAAPRo/RxflM5iPh5o/s320/Screenshot.png" /></p>
+<p>We&#8217;ll be doing some housekeeping now. In the Impressive folder (where you extracted into), delete everything except <code>impressive.py</code>.<br>
+Then create a new folder: <code>Presentation</code>.<br>
+In the Presentation-folder, create two new folders: <code>Slides</code> and <code>Text</code>.<br>
+You now have the following folder structure:<br>
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/SxqIGELL2AI/AAAAAAAAPRo/RxflM5iPh5o/s320/Screenshot.png"></p>
 <h3>Step 3: create support&nbsp;scripts</h3>
-<p>In the top-folder (where <code>impressive.py</code> resides), we&#8217;ll create some simple support scripts.<br />
-First: <code>start.sh</code> &#8212; a simple script to start our presentation:<br />
-    #!/bin/bash<br />
+<p>In the top-folder (where <code>impressive.py</code> resides), we&#8217;ll create some simple support scripts.<br>
+First: <code>start.sh</code> &#8212; a simple script to start our presentation:<br>
+    #!/bin/bash<br>
     python impressive.py ./Presentation/presentation.pdf
-Next: <code>clone.sh</code> &#8212; a simple script to clone our two screens:<br />
-    #!/bin/bash<br />
+Next: <code>clone.sh</code> &#8212; a simple script to clone our two screens:<br>
+    #!/bin/bash<br>
     xrandr &#8212;output <span class="caps">LVDS1</span> &#8212;mode 1024x768 &#8212;output <span class="caps">VGA1</span> &#8212;same-as <span class="caps">LVDS1</span> &#8212;mode 1024x768
-Then: <code>dual.sh</code> &#8212; a simple script to enable dualscreen (same resolution, screens above each other, which works best on most configurations):<br />
-    #!/bin/bash<br />
+Then: <code>dual.sh</code> &#8212; a simple script to enable dualscreen (same resolution, screens above each other, which works best on most configurations):<br>
+    #!/bin/bash<br>
     xrandr &#8212;output <span class="caps">LVDS1</span> &#8212;mode 1024x768 &#8212;output <span class="caps">VGA1</span> &#8212;above <span class="caps">LVDS1</span> &#8212;mode 1024x768<code></code>converter.sh<code>-- script to make thumbnails for our presenter view, this needs ImageMagick:  
     #!/bin/bash  
     echo Removing old images...;  
@@ -123,12 +123,12 @@ Then: <code>dual.sh</code> &#8212; a simple script to enable dualscreen (same re
     do  
       echo Moving $filename;  
       mv $filename ./Presentation/Slides/$filename;  
-    done</code>makeinfo.php` &#8212; <span class="caps">PHP</span> script to generate our info file Impress will use, needs <span class="caps">PHP</span> <span class="caps">CLI</span>:<br />
-    &lt;?php<br />
-    if (count($argv) != 2)<br />
-      die (&#8220;Provide number of pages\n&#8221;);<br />
-    $nrpages = $argv[1];<br />
-    ob_start();<br />&nbsp;?&gt;  </p>
+    done</code>makeinfo.php` &#8212; <span class="caps">PHP</span> script to generate our info file Impress will use, needs <span class="caps">PHP</span> <span class="caps">CLI</span>:<br>
+    &lt;?php<br>
+    if (count($argv) != 2)<br>
+      die (&#8220;Provide number of pages\n&#8221;);<br>
+    $nrpages = $argv[1];<br>
+    ob_start();<br>&nbsp;?&gt;  </p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>  
 <span class="k">def</span> <span class="nf">UpdateInfo</span><span class="p">():</span>  
   <span class="k">global</span> <span class="n">FileName</span><span class="p">,</span> <span class="n">FileList</span><span class="p">,</span> <span class="n">PageCount</span>  
@@ -155,10 +155,10 @@ Then: <code>dual.sh</code> &#8212; a simple script to enable dualscreen (same re
 </pre></div>
 
 
-<p>You now have the following folder structure:<br />
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/SxqK6fLyQEI/AAAAAAAAPRs/nFVKeMvDz_U/s320/Screenshot-1.png" /></p>
+<p>You now have the following folder structure:<br>
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/SxqK6fLyQEI/AAAAAAAAPRs/nFVKeMvDz_U/s320/Screenshot-1.png"></p>
 <h3>Step 4: create the <span class="caps">HTML</span>&nbsp;page</h3>
-<p>In the Presentation-folder, we&#8217;ll create an <span class="caps">HTML</span> page.<br />
+<p>In the Presentation-folder, we&#8217;ll create an <span class="caps">HTML</span> page.<br>
 <code>PresenterView.html</code>:</p>
 <div class="highlight"><pre><span></span><span class="nt">&lt;html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
@@ -278,12 +278,12 @@ function make_call(){
 </pre></div>
 
 
-<p>This page uses <a href="http://docs.jquery.com/Downloading_jQuery#Current_Release">jQuery</a> for a bit of <span class="caps">AJAX</span>-magic. So make sure <code>jquery-1.3.2.min.js</code> is placed in the Presentation-folder as well.<br />
+<p>This page uses <a href="http://docs.jquery.com/Downloading_jQuery#Current_Release">jQuery</a> for a bit of <span class="caps">AJAX</span>-magic. So make sure <code>jquery-1.3.2.min.js</code> is placed in the Presentation-folder as well.<br>
 And we&#8217;re done. We can now start preparing and giving our&nbsp;presentation&#8230;  </p>
 <h3>Step 5: preparing your&nbsp;presentation</h3>
-<p><strong>(1 - Convert to <span class="caps">PDF</span>)</strong> Create a nice presentation in Openoffice or Powerpoint. Save it as <span class="caps">PDF</span>-slides. Rename your <span class="caps">PDF</span>-file to <code>presentation.pdf</code> and put it in the Presentation-folder. You now have the following folder structure:<br />
-<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SxqN-negDAI/AAAAAAAAPRw/o4inpHJvLZ4/s1600/Screenshot-2.png" />
-<strong>(2 - Make thumbnails)</strong> Open a terminal, cd to your top-folder, and execute the converter.sh-script:<br />
+<p><strong>(1 - Convert to <span class="caps">PDF</span>)</strong> Create a nice presentation in Openoffice or Powerpoint. Save it as <span class="caps">PDF</span>-slides. Rename your <span class="caps">PDF</span>-file to <code>presentation.pdf</code> and put it in the Presentation-folder. You now have the following folder structure:<br>
+<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SxqN-negDAI/AAAAAAAAPRw/o4inpHJvLZ4/s1600/Screenshot-2.png">
+<strong>(2 - Make thumbnails)</strong> Open a terminal, cd to your top-folder, and execute the converter.sh-script:<br>
     ~/Desktop/Impressive-0.10.2$&nbsp;./converter.sh  </p>
 <div class="highlight"><pre><span></span>Removing old images...  
 Converting...  
@@ -293,23 +293,23 @@ Moving slide-2.png
 </pre></div>
 
 
-<p>Your Presentation/Slides-folder should now contain a bunch of <span class="caps">PNG</span>-files.<br />
-<strong>(3 - Make notes)</strong> In the Presentation/Text folder, create <code>text-n.txt</code> files where <em>n</em> is the number of the slide. In the text file: write short notes you want to see for that slide (you may use <span class="caps">HTML</span> formatting).<br />
+<p>Your Presentation/Slides-folder should now contain a bunch of <span class="caps">PNG</span>-files.<br>
+<strong>(3 - Make notes)</strong> In the Presentation/Text folder, create <code>text-n.txt</code> files where <em>n</em> is the number of the slide. In the text file: write short notes you want to see for that slide (you may use <span class="caps">HTML</span> formatting).<br>
 <strong>(4 - Create the Impress info script)</strong> Run the <span class="caps">PHP</span>&nbsp;file:  </p>
 <div class="highlight"><pre><span></span>~/Desktop/Impressive-0.10.2$ php makeinfo.php 3
 </pre></div>
 
 
-<p>In my example, I have three slides, so I use <code>3</code> as the argument. Make sure the number you use is equal (or higher) than your number of slides!<br />
-This will have created a <code>presentation.pdf.info</code> file in the Presentation-folder:<br />
-    import json<br />
-    def UpdateInfo():<br />
-      global FileName, FileList, PageCount<br />
-      global DocumentTitle<br />
-      global Pcurrent, Pnext, Tcurrent, Tnext, InitialPage<br />
-      global RTrunning, RTrestart, StartTime, PageEnterTime, CurrentTime<br />
-      io = open(&#8216;./Presentation/json.txt&#8217;, &#8216;w&#8217;)<br />
-      json.dump(({&#8220;page_count&#8221;: PageCount, &#8220;current_page&#8221;: Pcurrent, &#8220;previous_page&#8221;: Pnext, &#8220;start_time&#8221;: StartTime, &#8220;pageenter_time&#8221;: PageEnterTime, &#8220;current_time&#8221;: CurrentTime}), io)<br />&nbsp;io.close  </p>
+<p>In my example, I have three slides, so I use <code>3</code> as the argument. Make sure the number you use is equal (or higher) than your number of slides!<br>
+This will have created a <code>presentation.pdf.info</code> file in the Presentation-folder:<br>
+    import json<br>
+    def UpdateInfo():<br>
+      global FileName, FileList, PageCount<br>
+      global DocumentTitle<br>
+      global Pcurrent, Pnext, Tcurrent, Tnext, InitialPage<br>
+      global RTrunning, RTrestart, StartTime, PageEnterTime, CurrentTime<br>
+      io = open(&#8216;./Presentation/json.txt&#8217;, &#8216;w&#8217;)<br>
+      json.dump(({&#8220;page_count&#8221;: PageCount, &#8220;current_page&#8221;: Pcurrent, &#8220;previous_page&#8221;: Pnext, &#8220;start_time&#8221;: StartTime, &#8220;pageenter_time&#8221;: PageEnterTime, &#8220;current_time&#8221;: CurrentTime}), io)<br>&nbsp;io.close  </p>
 <div class="highlight"><pre><span></span>  PageProps = {  
     1: {  
       &#39;transition&#39;: None,  
@@ -327,17 +327,17 @@ This will have created a <code>presentation.pdf.info</code> file in the Presenta
 </pre></div>
 
 
-<p>This script provides Impressive with the necessary actions: every time we enter a script, we write some <span class="caps">JSON</span>-information (time, current slide, next slide,&#8230;) to <code>json.txt</code>. This file will be polled continuously by jQuery in our <span class="caps">HTML</span>-page. Also note that I&#8217;m not using transitions. (You can change that if you want.)<br />
-One last time, your structure should look like this:<br />
-<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SxqQQAFnEHI/AAAAAAAAPR0/aKyzBwRB7-U/s400/Screenshot-3.png" /></p>
+<p>This script provides Impressive with the necessary actions: every time we enter a script, we write some <span class="caps">JSON</span>-information (time, current slide, next slide,&#8230;) to <code>json.txt</code>. This file will be polled continuously by jQuery in our <span class="caps">HTML</span>-page. Also note that I&#8217;m not using transitions. (You can change that if you want.)<br>
+One last time, your structure should look like this:<br>
+<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SxqQQAFnEHI/AAAAAAAAPR0/aKyzBwRB7-U/s400/Screenshot-3.png"></p>
 <h3>Step 6: giving your&nbsp;presentation</h3>
-<p><strong>(1 - Dual screen)</strong> Open a terminal in your top-folder. And run the <code>dual.sh</code> script to switch to dual screen.<br />
-<strong>(2 - Open web browser)</strong> Open <code>PresenterView.html</code> in a web browser (I like Chromium best). Move it to your laptop screen. Then set it to always stay on top (you can do that by right clicking on the browser-item in the window switcher applet on the Gnome panel). The put it on full screen (F11 in most browsers). Your presenter view is running.<br />
-<strong>(3 - Start presentation)</strong> On the main screen, run <code>start.sh</code> to start the presentation. The page in the web browser will automatically update depending on which slide you&#8217;re on. This is what it looks like on the laptop screen:<br />
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/SxqRjx77BOI/AAAAAAAAPR4/i7pI19c3iFo/s400/Screenshot-4.png" />
-And on the projector, everything looks nice:<br />
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/SxqRqMLsE_I/AAAAAAAAPR8/YWXlCUV8nOQ/s400/Screenshot-5.png" />
-Also note that Impressive captures the mouse pointer. So once the presentation is going you won&#8217;t have nasty situations when your mouse pointer leaves the screen and you press the button to advance a slide.<br />
+<p><strong>(1 - Dual screen)</strong> Open a terminal in your top-folder. And run the <code>dual.sh</code> script to switch to dual screen.<br>
+<strong>(2 - Open web browser)</strong> Open <code>PresenterView.html</code> in a web browser (I like Chromium best). Move it to your laptop screen. Then set it to always stay on top (you can do that by right clicking on the browser-item in the window switcher applet on the Gnome panel). The put it on full screen (F11 in most browsers). Your presenter view is running.<br>
+<strong>(3 - Start presentation)</strong> On the main screen, run <code>start.sh</code> to start the presentation. The page in the web browser will automatically update depending on which slide you&#8217;re on. This is what it looks like on the laptop screen:<br>
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/SxqRjx77BOI/AAAAAAAAPR4/i7pI19c3iFo/s400/Screenshot-4.png">
+And on the projector, everything looks nice:<br>
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/SxqRqMLsE_I/AAAAAAAAPR8/YWXlCUV8nOQ/s400/Screenshot-5.png">
+Also note that Impressive captures the mouse pointer. So once the presentation is going you won&#8217;t have nasty situations when your mouse pointer leaves the screen and you press the button to advance a slide.<br>
 I&#8217;ve packed all the scripts, files, and a test presentation into a zip. You can download it <a href="http://static.macuyiko.com/files/presenterview/Impressive-PresenterScreen.zip">here</a>.</p>
 	</article>
 </div>

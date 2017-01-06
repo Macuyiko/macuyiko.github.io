@@ -76,32 +76,32 @@
 			title="Permalink to An Attempt At Making A Javascript/HTML5 SliceIt! Clone, And A (Failed) Attempt At A Genetic Algorithm Based Solver">An Attempt At Making A Javascript/<span class="caps">HTML5</span> SliceIt! Clone, And A (Failed) Attempt At A Genetic Algorithm Based&nbsp;Solver</a></div>
 		</header>
 	
-	    <p>One of the niceties of owning a smartphone is the huge amount of apps available for download, many of which games.<br />
+	    <p>One of the niceties of owning a smartphone is the huge amount of apps available for download, many of which games.<br>
 Some time ago, one of these games which was keeping me occupied was <a href="https://play.google.com/store/apps/details?id=com.com2us.sliceit&amp;hl=en">SliceIt!</a> from Com2uS. Don&#8217;t worry if you don&#8217;t know the game or haven&#8217;t played it, I&#8217;ll quickly explain it&nbsp;below.  </p>
 <h3>The&nbsp;Game</h3>
-<p>SliceIt! is presented in a cute crayon-looking style:<br />
-<img alt="" src="http://2.bp.blogspot.com/-zSqnCJJ-sfM/T653to_HcCI/AAAAAAAAUio/k_KAzrHU430/s1600/sliceit01.png" />
+<p>SliceIt! is presented in a cute crayon-looking style:<br>
+<img alt="" src="http://2.bp.blogspot.com/-zSqnCJJ-sfM/T653to_HcCI/AAAAAAAAUio/k_KAzrHU430/s1600/sliceit01.png">
 A typical SliceIt! level. Players draw lines (as shown here) to split a given shape into equally sized areas.
 The goal of the game is to draw a number of lines to divide (&#8220;slice&#8221;) the given area into a number of pieces. Both the number of lines and required pieces are fixed and given beforehand. You have to use all the strokes given, and have to match exactly the number of needed pieces. No more, no less. The final requirement of the game is that the resulting pieces need to have about the same area. While their form may differ, their area (size) has to match. This means for example that if the goal is to get four pieces, all these four pieces need to have a size around 25% (100%/4) of the original area. Pieces don&#8217;t have to be of exactly the same size. If their areas differ slightly, the level is still won. This allows for levels which have straightforward but not-quite-perfect solutions and perfect but hard-to-find solutions as&nbsp;well.  </p>
 <h3>The&nbsp;Idea</h3>
-<p>So far, so good. After playing the game for a while, I encountered the following level:<br />
-<img alt="" src="http://1.bp.blogspot.com/-4NkoKGfPQeM/T66FDAhSHYI/AAAAAAAAUi4/TonZ8ZOOD0A/s200/sliceit02.png" />
+<p>So far, so good. After playing the game for a while, I encountered the following level:<br>
+<img alt="" src="http://1.bp.blogspot.com/-4NkoKGfPQeM/T66FDAhSHYI/AAAAAAAAUi4/TonZ8ZOOD0A/s200/sliceit02.png">
 Another SliceIt level (goal: 5 strokes, 10 areas),
-This level introduces another gameplay concept: blocked areas. Drawing lines which crosses these areas is forbidden, so this solution won&#8217;t work:<br />
-<img alt="" src="http://1.bp.blogspot.com/-HIIFUpg4wEk/T66FFMoOdVI/AAAAAAAAUjE/0GXX28R_7Ww/s200/sliceit03.png" />
+This level introduces another gameplay concept: blocked areas. Drawing lines which crosses these areas is forbidden, so this solution won&#8217;t work:<br>
+<img alt="" src="http://1.bp.blogspot.com/-HIIFUpg4wEk/T66FFMoOdVI/AAAAAAAAUjE/0GXX28R_7Ww/s200/sliceit03.png">
 This solution would use 5 lines to form 10 equal areas, but the red areas forbids the player to draw the final line.
-After fiddling for a bit, we find the following acceptable solution:<br />
-<img alt="A solution" src="http://4.bp.blogspot.com/-4-j4IJOIRH4/T66FCYBdrMI/AAAAAAAAUi0/tiyCrSrAnBk/s200/sliceit04.png" />
-While messing around with this, a thought popped into my head: could a genetic algorithm be used to solve a SliceIt! puzzle? At first sight, this seems like a good idea. The game itself is pretty easy. A chromosome representation can easily be established (since we know the list of strokes beforehand, so a population member can be represented simply as an array of coordinate-pairs:<br />
+After fiddling for a bit, we find the following acceptable solution:<br>
+<img alt="A solution" src="http://4.bp.blogspot.com/-4-j4IJOIRH4/T66FCYBdrMI/AAAAAAAAUi0/tiyCrSrAnBk/s200/sliceit04.png">
+While messing around with this, a thought popped into my head: could a genetic algorithm be used to solve a SliceIt! puzzle? At first sight, this seems like a good idea. The game itself is pretty easy. A chromosome representation can easily be established (since we know the list of strokes beforehand, so a population member can be represented simply as an array of coordinate-pairs:<br>
     [
        ((l1x1,l1y1), (l1x2,l1y2)),
        ((l2x1,l2y1), (l2x2,l2y2)),
        ((l3x1,l3y1), (l3x2,l3y2)),
        ((l4x1,l4y1), (l4x2,l4y2)),
        ((l5x1,l5y1), (l5x2,l5y2))
-    ]<br />
-And finally, the solutions can be easily checked (just compare areas with a known goal).<br />
-And so I set out to test this theory as a weekend project.<br />
+    ]<br>
+And finally, the solutions can be easily checked (just compare areas with a known goal).<br>
+And so I set out to test this theory as a weekend project.<br>
 While lines, areas, points and polygons can all be expressed and compared mathematically, I wanted to create a graphical representation of the game as well. Moreover, I wanted to build a playable version, before implementing a genetic algorithm. Finally, I wanted to do this with <span class="caps">HTML5</span> (canvas) and Javascript, as I&#8217;ve been pretty jealous of all these other cool genetic algorithm implementations available on the&nbsp;web:  </p>
 <ul>
 <li>Shortest path:  <a href="http://tomokas.com/apps/pathfinding-using-a-genetic-algorithm-html5-canvas-javascript">http://tomokas.com/apps/pathfinding-using-a-genetic-algorithm-html5-canvas-javascript</a></li>
@@ -132,15 +132,15 @@ For the game logic, I created the following&nbsp;types:</li>
 <li>The level: contains level data, such as the number of allowed strokes and required pieces. The definition of the polygons making up the level, and the list of rectangles defining the forbidden areas. 
 The level object type also contains some methods for handling the harder game logic. E.g., methods which take a line, and figure out how the current list of level polygons should be cut.
 The way levels are cut after drawing a line works like this. First, compare the drawn line with all the edges defined by all the polygons to get a list of intersects. Then, some basic checking is performed to figure out if the line is valid. Finally, if the line is valid, polygons are split up, and a list of new polygons is created.
-An example can help here. The following figure shows how a line &#8220;splits&#8221; a single convex polygon:<br />
-<img alt="" src="http://4.bp.blogspot.com/-T4VnRr2ZgFI/T6_TxhMpVTI/AAAAAAAAUlA/Q93xwFLfMTs/s1600/sliceit10.png" />
+An example can help here. The following figure shows how a line &#8220;splits&#8221; a single convex polygon:<br>
+<img alt="" src="http://4.bp.blogspot.com/-T4VnRr2ZgFI/T6_TxhMpVTI/AAAAAAAAUlA/Q93xwFLfMTs/s1600/sliceit10.png">
 When a new line is drawn, the procedure is repeated for each polygon &#8220;crossed&#8221;:
-<img alt="" src="http://4.bp.blogspot.com/-RcAuGVhNBCs/T6_TyGTt56I/AAAAAAAAUlE/Zjcr5qgPjTM/s1600/sliceit11.png" />
+<img alt="" src="http://4.bp.blogspot.com/-RcAuGVhNBCs/T6_TyGTt56I/AAAAAAAAUlE/Zjcr5qgPjTM/s1600/sliceit11.png">
 The basic check mentioned above to see if a line is valid is thus implemented in a very simple manner: check if the number of intersect points is even. For convex polygons, this is all we have to do, since each line drawn through a convex polygon will always create two other convex polygons. When dealing with concave polygons, things can get a bit harder:
-<img alt="" src="http://1.bp.blogspot.com/-0GHO9lZPMZw/T6_Tyv_6t5I/AAAAAAAAUlQ/y38LhQLu_9w/s1600/sliceit12.png" />
+<img alt="" src="http://1.bp.blogspot.com/-0GHO9lZPMZw/T6_Tyv_6t5I/AAAAAAAAUlQ/y38LhQLu_9w/s1600/sliceit12.png">
 To solve this problem, we should either adapt our method in order to &#8220;clip&#8221; the drawn line with the given polygon. Instead of doing so, I opted to work with convex levels only.
-As a side note, you might be tempted to think that the following adaptation of the &#8220;line validity&#8221; check could work as well, i.e.: find the intersect points, and check if &#8212; for each polygon p containing an intersect point &#8212; that p has two intersect points (one entry and one exit). This prevents the line in the example above from being drawn (there are four intersects for the single given polygon). This also restricts the number of possibilities to splice a polygon with a given stroke (which might be the desired behavior). Still, it should be noted that this doesn&#8217;t work either, since it can&#8217;t be guaranteed that the two intersect indeed &#8220;enter&#8221; and &#8220;exit&#8221; the polygon in the right order:<br />
-<img alt="" src="http://3.bp.blogspot.com/-R-2g_AKmU7E/T6_bOb2P_tI/AAAAAAAAUlg/7QzJIhU5I6A/s1600/sliceit13.png" />
+As a side note, you might be tempted to think that the following adaptation of the &#8220;line validity&#8221; check could work as well, i.e.: find the intersect points, and check if &#8212; for each polygon p containing an intersect point &#8212; that p has two intersect points (one entry and one exit). This prevents the line in the example above from being drawn (there are four intersects for the single given polygon). This also restricts the number of possibilities to splice a polygon with a given stroke (which might be the desired behavior). Still, it should be noted that this doesn&#8217;t work either, since it can&#8217;t be guaranteed that the two intersect indeed &#8220;enter&#8221; and &#8220;exit&#8221; the polygon in the right order:<br>
+<img alt="" src="http://3.bp.blogspot.com/-R-2g_AKmU7E/T6_bOb2P_tI/AAAAAAAAUlg/7QzJIhU5I6A/s1600/sliceit13.png">
 So convex-only levels for now. If someone wants to hack in support for complex polygons (concave and/or holes): links to the code will be posted at the end.
 The last thing which was added were methods to check if a level is solved correctly.To avoid that the player has to have ultra-precise eye-hand coordination, very small polygons (e.g. less than one percent of the original area of the level) created by drawn lines are disregarded when checking the areas and number of goal areas. Now that the game was playable, I converted the level which was giving me difficulties to coordinates, and started working on the genetic&nbsp;algorithm.  </li>
 </ul>
@@ -154,13 +154,13 @@ As with many applications of evolutionary computing, the definition of fitness f
 - The sizes of the areas created.
 - The number of areas created. 
 - The number of valid lines drawn.
-The first point is quite simple, just compute sum of the the (squared) differences between each area and the optimal target area. For example, if a level has an area size of 1000, and 10 areas have to be created, then we compute the fitness as:<br />
-<img alt="" src="http://2.bp.blogspot.com/-A0BUx4SGLaw/T7ADk0HqSyI/AAAAAAAAUl4/DuJVUPV_-NE/s1600/slice21.png" />
+The first point is quite simple, just compute sum of the the (squared) differences between each area and the optimal target area. For example, if a level has an area size of 1000, and 10 areas have to be created, then we compute the fitness as:<br>
+<img alt="" src="http://2.bp.blogspot.com/-A0BUx4SGLaw/T7ADk0HqSyI/AAAAAAAAUl4/DuJVUPV_-NE/s1600/slice21.png">
 Using this function alone, however, often leads to the algorithm getting stuck in local optima. Therefore, we need to punish for missing lines/areas as well. The problem is finding a function which drives the algorithm towards adding/moving a line when it is invalid, while still remaining able to &#8220;escape&#8221; local optima by making a line or the number of areas temporarily invalid.
 I&#8217;ve tried different fitness functions, but none of them seem to be particularly efficient (feel free to modify the code in &#8220;Candidate.prototype.calcFitness&#8221;, I&#8217;ve left the code&nbsp;uncompressed).  </p>
 <h3>The Retry (Using the Watchmaker&nbsp;library)</h3>
 <p>As an extra exercise, I rewrote a <a href="https://github.com/Macuyiko/sliceit-genetic-java">very basic version of the algorithm using Java</a>. To implement the genetic algorithm, I opted to give the excellent, thorough <a href="http://watchmaker.uncommons.org/">Watchmaker library</a> a go.
-Just for fun, I recorded a timelapse of some of my coding:<br />
+Just for fun, I recorded a timelapse of some of my coding:<br>
 <iframe allowfullscreen="" frameborder="0" height="315" src="http://www.youtube.com/embed/t39UaG9JZlg" width="560"></iframe></p>
 <p>This version works a bit better, mainly since there are no &#8220;forbidden areas&#8221; and the mutation operators are a bit more fine-tuned. See the suggestions below for more ideas if you want to try this experiment&nbsp;yourself.  </p>
 <h3>Conclusions and&nbsp;Suggestions</h3>
