@@ -76,30 +76,30 @@
 			title="Permalink to Thinkpad Stories 4: “Render it dammit!”">Thinkpad Stories 4: &#8220;Render it&nbsp;dammit!&#8221;</a></div>
 		</header>
 	
-	    <p>i810&#8230; <code>glxinfo | grep direct</code> nothing. Not enabled because it has problems. (Something about 1.5.0 expected but 1.4.* found. I cannot remember it anymore but you will find users with similar problems on the forums).<br>
-Anyhow: I could not get it to work. It seemed fine however, but glgears proved otherwise: slow as hell.<br>
-I was giving up on it and decided to try and install <span class="caps">AIGLX</span>, so I followed the first steps on the forums: add this to /etc/apt/sources.list:<br>
-    deb http://xgl.compiz.info/ dapper aiglx<br>
-    deb http://xgl.compiz.info/ dapper main<br>
+	    <p>i810&#8230; <code>glxinfo | grep direct</code> nothing. Not enabled because it has problems. (Something about 1.5.0 expected but 1.4.* found. I cannot remember it anymore but you will find users with similar problems on the forums).<br />
+Anyhow: I could not get it to work. It seemed fine however, but glgears proved otherwise: slow as hell.<br />
+I was giving up on it and decided to try and install <span class="caps">AIGLX</span>, so I followed the first steps on the forums: add this to /etc/apt/sources.list:<br />
+    deb http://xgl.compiz.info/ dapper aiglx<br />
+    deb http://xgl.compiz.info/ dapper main<br />
 then do&nbsp;an  </p>
 <div class="highlight"><pre><span></span>sudo apt-get update
 </pre></div>
 
 
-<p>I was reading on what to do now when suddenly the &#8220;There are updates&#8221; notifier came up: I looked at it and it showed some <span class="caps">ATI</span> and Intel driver updates for my i910&#8230;<br>
-Why not? Install.<br>
-Then someone on the forums said doing an <code>dpkg-reconfigure xserver-xorg</code> could help. I did and followed all the steps (answering default, 1024x768 and 24bit, leaving everything else like it was). But pay extra attention when it asks you about kernel frame buffering (it is a yes or no question). It seems sometimes it works without it and sometimes with it. I went with what looked best and choose yes.<br>
-Then I restarted my x-server (ctrl-alt-backspace). Did a <code>glxinfo | grep direct</code> again and (&#8220;what the hell?&#8221;) direct rendering is enabled. Glgears goes really fast now too ;).<br>
-All this without really installing <span class="caps">AIGLX</span> nor manual editing my xorg config. You should try it too.<br>
-Now I&#8217;m completely happy, <span class="caps">ACPI</span> works like it should too, with a nice icon in the taskbar and all.<br>
-I also installed SciTE (use apt-get) and <a href="http://www.aptana.com/">Aptana</a> as my favorite editors.<br>
-Be warned when you use Aptana in Ubuntu (see their docs). I wrote a script like this:<br>
-    #!/bin/sh<br>
-    export MOZILLA_FIVE_HOME=/usr/lib/mozilla<br>
-    ./aptana<br>
-And execute that when I want to start Aptana.<br>
-Simple stuff - I know, but as a Linux/Ubuntu noob (well, not a complete noob but fairly noobish) I am proud that I have accomplished all this. It looks and runs nice and fast now, playing music in the background, a nice theme, a nice login screen&#8230; I&#8217;m loving Ubuntu in general and looking at my Windows desktop on my other computer just looks&#8230; ugly&#8230;<br>
-I should still install Flash Player tho. But I&#8217;ll probably wait until Player 8 (or was that 9 already?) finally gets released (hurry up guys).<br>
+<p>I was reading on what to do now when suddenly the &#8220;There are updates&#8221; notifier came up: I looked at it and it showed some <span class="caps">ATI</span> and Intel driver updates for my i910&#8230;<br />
+Why not? Install.<br />
+Then someone on the forums said doing an <code>dpkg-reconfigure xserver-xorg</code> could help. I did and followed all the steps (answering default, 1024x768 and 24bit, leaving everything else like it was). But pay extra attention when it asks you about kernel frame buffering (it is a yes or no question). It seems sometimes it works without it and sometimes with it. I went with what looked best and choose yes.<br />
+Then I restarted my x-server (ctrl-alt-backspace). Did a <code>glxinfo | grep direct</code> again and (&#8220;what the hell?&#8221;) direct rendering is enabled. Glgears goes really fast now too ;).<br />
+All this without really installing <span class="caps">AIGLX</span> nor manual editing my xorg config. You should try it too.<br />
+Now I&#8217;m completely happy, <span class="caps">ACPI</span> works like it should too, with a nice icon in the taskbar and all.<br />
+I also installed SciTE (use apt-get) and <a href="http://www.aptana.com/">Aptana</a> as my favorite editors.<br />
+Be warned when you use Aptana in Ubuntu (see their docs). I wrote a script like this:<br />
+    #!/bin/sh<br />
+    export MOZILLA_FIVE_HOME=/usr/lib/mozilla<br />
+    ./aptana<br />
+And execute that when I want to start Aptana.<br />
+Simple stuff - I know, but as a Linux/Ubuntu noob (well, not a complete noob but fairly noobish) I am proud that I have accomplished all this. It looks and runs nice and fast now, playing music in the background, a nice theme, a nice login screen&#8230; I&#8217;m loving Ubuntu in general and looking at my Windows desktop on my other computer just looks&#8230; ugly&#8230;<br />
+I should still install Flash Player tho. But I&#8217;ll probably wait until Player 8 (or was that 9 already?) finally gets released (hurry up guys).<br />
 Well there it is: my &#8220;switching&#8221; story. That&#8217;s right, this will be the first time I actually will use Linux for a desktop pc for more than a few days&#8230; I&#8217;m looking forward to&nbsp;it.  </p>
 	</article>
 </div>

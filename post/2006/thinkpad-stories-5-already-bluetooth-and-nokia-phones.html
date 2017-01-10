@@ -76,84 +76,84 @@
 			title="Permalink to Thinkpad Stories (5 already): “Bluetooth and Nokia phones.”">Thinkpad Stories (5 already): &#8220;Bluetooth and Nokia&nbsp;phones.&#8221;</a></div>
 		</header>
 	
-	    <p>Story number 5 already.<br>
-Here is the background talk: now that I finally have bluetooth support (I never had an <span class="caps">USB</span> dongle) I could finally copy my pictures over from my Nokia phone (since I don&#8217;t want to invest in an expensive non-standard <span class="caps">USB</span> cable).<br>
-I followed some advice from the forums and other Internet resources&#8230; here is how I did it.<br>
-Make sure the following packages are installed on your system:<br>
-    sudo apt-get install gnome-bluetooth<br>
-    sudo apt-get install obexserver<br>
-    sudo apt-get install bluez-utils<br>
-Then load the following modules into the kernel (I could skip this step).<br>
-    sudo modprobe l2cap<br>
-    sudo modprobe rfcomm<br>
-Also, start your <code>bluez-utils</code>:<br>
-    sudo /etc/init.d/bluez-utils start<br>
-Since I am using my Thinkpad, I active the integrated bluetooth device:<br>
-    sudo su<br>
-    echo enable &gt; /proc/acpi/ibm/bluetooth<br>
-Activate bluetooth in your phone. Make sure it is visible to other devices.<br>
-Now do:<br>
-    hcitool scan<br>
-You should see something like this:<br>
-    Scanning &#8230;<br>
-    00:11:22:<span class="caps">DD</span>:<span class="caps">EE</span>:<span class="caps">FF</span> YOUR_PHONE_NAME<br>
-Copy the address to the clipboard, you&#8217;ll use it later.<br>
-Now we edit a simple configuration file:<br>
-    sudo gedit /etc/bluetooth/rfcomm.conf<br>
-And save this (use your own address, leave the channel to 10):<br>
-    rfcomm0 {<br>
-    device ADDRESS_OF_YOUR_PHONE;<br>
-    channel 10;<br>
-    comment &#8220;Your description&#8221;;<br>
-    }<br>
-You may wonder how we got this channel, you can find out by entering this command:<br>
-    sdptool browse ADDRESS_OF_YOUR_PHONE<br>
-Somewhere in the output you find the following:<br>
-    Service Name: <span class="caps">OBEX</span> File Transfer<br>
-    Service RecHandle: 0x1000f<br>
-    Service Class <span class="caps">ID</span> List:<br>
-    &#8220;<span class="caps">OBEX</span> File Transfer&#8221; (0x1106)<br>
-    Protocol Descriptor List:<br>
-    &#8220;<span class="caps">L2CAP</span>&#8221; (0x0100)<br>
-    &#8220;<span class="caps">RFCOMM</span>&#8221; (0x0003)<br>
-    Channel: 10<br>
-    &#8220;<span class="caps">OBEX</span>&#8221; (0x0008)<br>
-    Language Base Attr List:<br>
-    code_ISO639: 0x656e<br>
-    encoding: 0x6a<br>
-    base_offset: 0x100<br>
-    Profile Descriptor List:<br>
-    &#8220;<span class="caps">OBEX</span> File Transfer&#8221; (0x1106)<br>
-    Version: 0x0100<br>
-See?<br>
-Now add the Nokia channel to communicate with the phone:<br>
-    sudo sdptool add &#8212;channel=10 <span class="caps">OPUSH</span><br>
-And bind it with <code>rfcomm</code>:<br>
-    sudo rfcomm bind /dev/rfcomm0 ADDRESS_OF_YOUR_PHONE 10<br>
-You&#8217;re all set up&#8230; now you can:<br>
+	    <p>Story number 5 already.<br />
+Here is the background talk: now that I finally have bluetooth support (I never had an <span class="caps">USB</span> dongle) I could finally copy my pictures over from my Nokia phone (since I don&#8217;t want to invest in an expensive non-standard <span class="caps">USB</span> cable).<br />
+I followed some advice from the forums and other Internet resources&#8230; here is how I did it.<br />
+Make sure the following packages are installed on your system:<br />
+    sudo apt-get install gnome-bluetooth<br />
+    sudo apt-get install obexserver<br />
+    sudo apt-get install bluez-utils<br />
+Then load the following modules into the kernel (I could skip this step).<br />
+    sudo modprobe l2cap<br />
+    sudo modprobe rfcomm<br />
+Also, start your <code>bluez-utils</code>:<br />
+    sudo /etc/init.d/bluez-utils start<br />
+Since I am using my Thinkpad, I active the integrated bluetooth device:<br />
+    sudo su<br />
+    echo enable &gt; /proc/acpi/ibm/bluetooth<br />
+Activate bluetooth in your phone. Make sure it is visible to other devices.<br />
+Now do:<br />
+    hcitool scan<br />
+You should see something like this:<br />
+    Scanning &#8230;<br />
+    00:11:22:<span class="caps">DD</span>:<span class="caps">EE</span>:<span class="caps">FF</span> YOUR_PHONE_NAME<br />
+Copy the address to the clipboard, you&#8217;ll use it later.<br />
+Now we edit a simple configuration file:<br />
+    sudo gedit /etc/bluetooth/rfcomm.conf<br />
+And save this (use your own address, leave the channel to 10):<br />
+    rfcomm0 {<br />
+    device ADDRESS_OF_YOUR_PHONE;<br />
+    channel 10;<br />
+    comment &#8220;Your description&#8221;;<br />
+    }<br />
+You may wonder how we got this channel, you can find out by entering this command:<br />
+    sdptool browse ADDRESS_OF_YOUR_PHONE<br />
+Somewhere in the output you find the following:<br />
+    Service Name: <span class="caps">OBEX</span> File Transfer<br />
+    Service RecHandle: 0x1000f<br />
+    Service Class <span class="caps">ID</span> List:<br />
+    &#8220;<span class="caps">OBEX</span> File Transfer&#8221; (0x1106)<br />
+    Protocol Descriptor List:<br />
+    &#8220;<span class="caps">L2CAP</span>&#8221; (0x0100)<br />
+    &#8220;<span class="caps">RFCOMM</span>&#8221; (0x0003)<br />
+    Channel: 10<br />
+    &#8220;<span class="caps">OBEX</span>&#8221; (0x0008)<br />
+    Language Base Attr List:<br />
+    code_ISO639: 0x656e<br />
+    encoding: 0x6a<br />
+    base_offset: 0x100<br />
+    Profile Descriptor List:<br />
+    &#8220;<span class="caps">OBEX</span> File Transfer&#8221; (0x1106)<br />
+    Version: 0x0100<br />
+See?<br />
+Now add the Nokia channel to communicate with the phone:<br />
+    sudo sdptool add &#8212;channel=10 <span class="caps">OPUSH</span><br />
+And bind it with <code>rfcomm</code>:<br />
+    sudo rfcomm bind /dev/rfcomm0 ADDRESS_OF_YOUR_PHONE 10<br />
+You&#8217;re all set up&#8230; now you can:<br />
 <strong>Send a file from your phone:</strong>
-(1) Start the obexserver with (stores files in /tmp, you must enter this command after every file send):<br>
-    obexserver<br>
-or (stays open, should store in your home dir, but didn&#8217;t work with me):<br>
-    gnome-obex-server<br>
+(1) Start the obexserver with (stores files in /tmp, you must enter this command after every file send):<br />
+    obexserver<br />
+or (stays open, should store in your home dir, but didn&#8217;t work with me):<br />
+    gnome-obex-server<br />
 (2) Use your phone, select a picture or video file, then Options -&gt; Send -&gt; Via Bluetooth, it should find your <span class="caps">PC</span>.
 <strong>Send a file to your phone:</strong>
-(1) <code>gnome-obex-send /path/to/file</code><br>
+(1) <code>gnome-obex-send /path/to/file</code><br />
 It should find your phone and prompt you.
-Don&#8217;t forget that you must use these commands every reboot again (or you could make a script):<br>
-    sudo modprobe l2cap<br>
-    sudo modprobe rfcomm<br>
+Don&#8217;t forget that you must use these commands every reboot again (or you could make a script):<br />
+    sudo modprobe l2cap<br />
+    sudo modprobe rfcomm<br />
     # (re)start (if necessary):
     sudo /etc/init.d/bluez-utils
-    echo enable &gt; /proc/acpi/ibm/bluetooth<br>
-    sudo mknod /dev/rfcomm0 c 216 0<br>
-    sdptool add &#8212;channel=10 <span class="caps">OPUSH</span><br>
-    sudo rfcomm bind /dev/rfcomm0 YOUR_PHONE_ADDRESS 10<br>
-When you&#8217;re done, I find it neat the disable the integrated bluetooth device (let&#8217;s conserve power) this is easy as pie:<br>
-    echo disable &gt; /proc/acpi/ibm/bluetooth<br>
-and you could also stop <code>bluez-utils</code>:<br>
-    sudo /etc/init.d/bluez-utils stop<br>
-if you want.<br>
+    echo enable &gt; /proc/acpi/ibm/bluetooth<br />
+    sudo mknod /dev/rfcomm0 c 216 0<br />
+    sdptool add &#8212;channel=10 <span class="caps">OPUSH</span><br />
+    sudo rfcomm bind /dev/rfcomm0 YOUR_PHONE_ADDRESS 10<br />
+When you&#8217;re done, I find it neat the disable the integrated bluetooth device (let&#8217;s conserve power) this is easy as pie:<br />
+    echo disable &gt; /proc/acpi/ibm/bluetooth<br />
+and you could also stop <code>bluez-utils</code>:<br />
+    sudo /etc/init.d/bluez-utils stop<br />
+if you want.<br />
 This was one of my reasons why I kept a Windows partition. Now that I have figured out how to do this in Ubuntu, one partition has a greater change of being wiped and&nbsp;merged.</p>
 	</article>
 </div>

@@ -76,37 +76,37 @@
 			title="Permalink to The University Of Waterloo CS Club Tron Challenge, And Some Minimax In General">The University Of Waterloo <span class="caps">CS</span> Club Tron Challenge, And Some Minimax In&nbsp;General</a></div>
 		</header>
 	
-	    <p>(This is the first part in the University Of Waterloo <span class="caps">CS</span> Club Tron Challenge post series. You can find the second part <a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html">here</a>.)<br>
-The Computer Science Club of the University of Waterloo is currently organizing an <a href="http://csclub.uwaterloo.ca/contest/index.php"><span class="caps">AI</span> challenge</a>, sponsored by Google. I&#8217;m (as always) a bit late with my write-up and the contest will be ending soon (26th of February), so you will have to be quick if you still want to enter. However, I can imagine that many of you are already familiar with the contest&#8230;<br>
+	    <p>(This is the first part in the University Of Waterloo <span class="caps">CS</span> Club Tron Challenge post series. You can find the second part <a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html">here</a>.)<br />
+The Computer Science Club of the University of Waterloo is currently organizing an <a href="http://csclub.uwaterloo.ca/contest/index.php"><span class="caps">AI</span> challenge</a>, sponsored by Google. I&#8217;m (as always) a bit late with my write-up and the contest will be ending soon (26th of February), so you will have to be quick if you still want to enter. However, I can imagine that many of you are already familiar with the contest&#8230;<br />
 Since this challenge combines some interesting topics: <span class="caps">AI</span>, a game, a contest and optimization, I thought it might be interesting to post some conclusions here. Note that many of the topics here are already discussed at other websites and blogs. I will post references and links to those. Consider this as a general overview, a journal of my own tries, and a closer look at some common&nbsp;pitfalls.  </p>
 <h3>Introduction</h3>
-<p>The challenge this year was all about Tron. Tron is like two-player Snake, where your objective is to box in your opponent to force him to crash into a wall (or your or his own tail) before you do. Of course, this game was first introduced in the movie with the similar name: Tron.<br>
-In this version of the game, some things are a bit simpler then what we see in the movie above:<br>
+<p>The challenge this year was all about Tron. Tron is like two-player Snake, where your objective is to box in your opponent to force him to crash into a wall (or your or his own tail) before you do. Of course, this game was first introduced in the movie with the similar name: Tron.<br />
+In this version of the game, some things are a bit simpler then what we see in the movie above:<br />
   - Only two teams, with one player per team. In other words: one versus one.
   - No acceleration: everyone moves at the same speed.
   - No breaking the boundaries.
   - Your tail doesn&#8217;t vanish once you crash. Even if this would happen, it wouldn&#8217;t matter (once you&#8217;ve crashed you&#8217;ve lost anyway and the game ends).
   - The playfield doesn&#8217;t necessarily start empty.
-(Note: it is possible to find many (free) games on the internet which do include some of these features.)<br>
-For example, one of the maps provided in the package looks like this:<br>
-    ########<br>
-    #1     #<br>
-    #      #<br>
-    #      #<br>
-    #      #<br>
-    #      #<br>
-    #     2#<br>
+(Note: it is possible to find many (free) games on the internet which do include some of these features.)<br />
+For example, one of the maps provided in the package looks like this:<br />
+    ########<br />
+    #1     #<br />
+    #      #<br />
+    #      #<br />
+    #      #<br />
+    #      #<br />
+    #     2#<br />
     ########
-<code>#</code> stands for a wall, and <code>1</code> and <code>2</code> are our two players on their starting positions.<br>
-Let&#8217;s pit them against each other and see how they fare. We provide them with a very basic mode of intelligence: just pick any random direction if the space is free if possible.<br>
-After the first move, the board looks like this:<br>
-    ########<br>
-    ##     #<br>
-    #1     #<br>
-    #      #<br>
-    #      #<br>
-    #     2#<br>
-    #     ##<br>
+<code>#</code> stands for a wall, and <code>1</code> and <code>2</code> are our two players on their starting positions.<br />
+Let&#8217;s pit them against each other and see how they fare. We provide them with a very basic mode of intelligence: just pick any random direction if the space is free if possible.<br />
+After the first move, the board looks like this:<br />
+    ########<br />
+    ##     #<br />
+    #1     #<br />
+    #      #<br />
+    #      #<br />
+    #     2#<br />
+    #     ##<br />
     ########
 See how they both leave a wall behind them? Note that diagonal moves are forbidden. A few moves later, the situation looks like&nbsp;this:  </p>
 <div class="highlight"><pre><span></span>########  
@@ -153,40 +153,40 @@ See how they both leave a wall behind them? Note that diagonal moves are forbidd
 </pre></div>
 
 
-<p>Player 1 is completely trapped and crashes into a wall. Player 2 wins.<br>
+<p>Player 1 is completely trapped and crashes into a wall. Player 2 wins.<br />
 The objective of each participant is to write an <span class="caps">AI</span> which will have to play against the bots of the other players. The more you win, the higher you&nbsp;score&#8230;  </p>
 <h3>Basic&nbsp;strategies</h3>
-<p>To help players start off, the website gives some <a href="http://csclub.uwaterloo.ca/contest/xiao_strategy.php">basic strategies</a> for your bot:<br>
+<p>To help players start off, the website gives some <a href="http://csclub.uwaterloo.ca/contest/xiao_strategy.php">basic strategies</a> for your bot:<br />
 <strong>Random selection:</strong> as seen in the introduction: just pick an open space at random and move there. This is a bad strategy because often you will seperate yourself from your opponent, with less space to move&nbsp;in.  </p>
-<p><strong>Ordered selection:</strong> make a list of directions, e.g. [north, east, south, west]. Pick the first possible direction from the list. This will not seperate you from your opponent as quick (or foolish) as random selection, but will eventually end up in a bad seperation otherwise.<br>
-<strong>Wall hugging:</strong> always try to stay close to a wall. This strategy is interesting because it makes good use of the available space. However, it is not often perfect. Take for example a red player who finds himself in this position:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wo_DA67QI/AAAAAAAAPTA/ZJSQx6vgOGw/s200/image1.png">
-Now let&#8217;s assume that the player is a wall hugger: he prefers to be close to a wall at all times. Let&#8217;s also assume that if there are more available choices, he follows the left hand rule. After a few moves, the situation thus looks like (grey squares are the &#8220;tail&#8221; of the player):<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png">
-When we continue following the left hand rule (and still being close to a wall), we end up with:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpOnDewQI/AAAAAAAAPTI/S-tuZM9VBCU/s1600/image3.png">
-Which is of course, not the optimal choice here. It is trivial to find other maps which break the left (or right, or ordered direction) wall hugging method.<br>
-<strong>Wall hugging - another try:</strong> let&#8217;s see if we can fix the above problem. Let&#8217;s wallhug while following a rule (left or right hand, ordered direction or even random), but when we notice that a move would lead us into a new separate space which results in less possible moves than the other separated space, try the next move.<br>
-E.g., moving left in this scenario:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png">
-&#8230;would lead us into a new separated space with less empty cells than when we would have gone right. Will this strategy work? Let&#8217;s start again:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wo_DA67QI/AAAAAAAAPTA/ZJSQx6vgOGw/s200/image1.png">
-Let&#8217;s say we follow the left hand rule again. We just keep following the wall until:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png">
-Now, with our new rule in place, we will not go left, as this would separate us in a bad way from the other empty squares. We thus pick the next possible move, which is right. Note that this also separates us from the squares to our left, but since we have more moves in our space, this is no problem:<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4Wp56sQuYI/AAAAAAAAPTM/9ohhSflKMA0/s1600/image4.png">
-We continue following the wall until we see this:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WqDhl8vdI/AAAAAAAAPTQ/CJaAZ8SPdjo/s1600/image5.png">
-The left hand rule suggests us to go left. This separates our possibilities once again, but since left results in more empty spaces than going up, we can safely go left. This continues until we have no more moves left:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WqJQ_L8lI/AAAAAAAAPTU/cAzlHeWWPeA/s1600/image6.png">
-Not bad at all, the board was quite nicely filled. Still, we can do better. In fact, it is possible to end up like this:<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WqS7mfFmI/AAAAAAAAPTY/cZgKSM-TMZE/s1600/image7.png">
-This is clearly a much better way of filling the board (in fact, it is the best). Can you figure out how to do it? Can you figure out an algorithm to describe the behavior? Do you think your algorithm will work in all maps? Keep these questions in mind for later&#8230;<br>
-<strong>Enemy avoidance or chasing:</strong> run away from the enemy. Pick the direction which is farthest away from the opponent. We can also reverse this strategy: move as close to the opponent as possible. Both are easy to implement, so which one do we pick? In most maps, chasing will result in a draw against other chasers (suicidal behavior), and in a win against runners. Runners on the other hand will often draw against runners. Most player pick a chasing, aggressive bot. And since drawing is better than losing, we have no choice but to use an aggressive bot ourselves to increase our chances.<br>
-<strong>Most open destination:</strong> uses some simple rules to pick the direction which ends up giving us the most open spaces. We already used this a bit in our improvement of our wall hugging algorithm.<br>
+<p><strong>Ordered selection:</strong> make a list of directions, e.g. [north, east, south, west]. Pick the first possible direction from the list. This will not seperate you from your opponent as quick (or foolish) as random selection, but will eventually end up in a bad seperation otherwise.<br />
+<strong>Wall hugging:</strong> always try to stay close to a wall. This strategy is interesting because it makes good use of the available space. However, it is not often perfect. Take for example a red player who finds himself in this position:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wo_DA67QI/AAAAAAAAPTA/ZJSQx6vgOGw/s200/image1.png" />
+Now let&#8217;s assume that the player is a wall hugger: he prefers to be close to a wall at all times. Let&#8217;s also assume that if there are more available choices, he follows the left hand rule. After a few moves, the situation thus looks like (grey squares are the &#8220;tail&#8221; of the player):<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png" />
+When we continue following the left hand rule (and still being close to a wall), we end up with:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpOnDewQI/AAAAAAAAPTI/S-tuZM9VBCU/s1600/image3.png" />
+Which is of course, not the optimal choice here. It is trivial to find other maps which break the left (or right, or ordered direction) wall hugging method.<br />
+<strong>Wall hugging - another try:</strong> let&#8217;s see if we can fix the above problem. Let&#8217;s wallhug while following a rule (left or right hand, ordered direction or even random), but when we notice that a move would lead us into a new separate space which results in less possible moves than the other separated space, try the next move.<br />
+E.g., moving left in this scenario:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png" />
+&#8230;would lead us into a new separated space with less empty cells than when we would have gone right. Will this strategy work? Let&#8217;s start again:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wo_DA67QI/AAAAAAAAPTA/ZJSQx6vgOGw/s200/image1.png" />
+Let&#8217;s say we follow the left hand rule again. We just keep following the wall until:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png" />
+Now, with our new rule in place, we will not go left, as this would separate us in a bad way from the other empty squares. We thus pick the next possible move, which is right. Note that this also separates us from the squares to our left, but since we have more moves in our space, this is no problem:<br />
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4Wp56sQuYI/AAAAAAAAPTM/9ohhSflKMA0/s1600/image4.png" />
+We continue following the wall until we see this:<br />
+<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WqDhl8vdI/AAAAAAAAPTQ/CJaAZ8SPdjo/s1600/image5.png" />
+The left hand rule suggests us to go left. This separates our possibilities once again, but since left results in more empty spaces than going up, we can safely go left. This continues until we have no more moves left:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WqJQ_L8lI/AAAAAAAAPTU/cAzlHeWWPeA/s1600/image6.png" />
+Not bad at all, the board was quite nicely filled. Still, we can do better. In fact, it is possible to end up like this:<br />
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WqS7mfFmI/AAAAAAAAPTY/cZgKSM-TMZE/s1600/image7.png" />
+This is clearly a much better way of filling the board (in fact, it is the best). Can you figure out how to do it? Can you figure out an algorithm to describe the behavior? Do you think your algorithm will work in all maps? Keep these questions in mind for later&#8230;<br />
+<strong>Enemy avoidance or chasing:</strong> run away from the enemy. Pick the direction which is farthest away from the opponent. We can also reverse this strategy: move as close to the opponent as possible. Both are easy to implement, so which one do we pick? In most maps, chasing will result in a draw against other chasers (suicidal behavior), and in a win against runners. Runners on the other hand will often draw against runners. Most player pick a chasing, aggressive bot. And since drawing is better than losing, we have no choice but to use an aggressive bot ourselves to increase our chances.<br />
+<strong>Most open destination:</strong> uses some simple rules to pick the direction which ends up giving us the most open spaces. We already used this a bit in our improvement of our wall hugging algorithm.<br />
 The website also mentions near and far strategies, but we&#8217;ll take a look at those&nbsp;later.  </p>
 <h3>First&nbsp;conclusions</h3>
-<p>After evaluating the strategies above, we can already draft out a good simple strategy:<br>
+<p>After evaluating the strategies above, we can already draft out a good simple strategy:<br />
   - When we&#8217;re not separated from the opponent: try to separate him into a space so that we have more remaining moves than him.
   - Once we are separated: try to fill our available moves in the best possible way.
 To find out if we&#8217;re separated (and our available spaces), we can use a <a href="http://en.wikipedia.org/wiki/Flood_fill">flood fill algorithm</a>. An implementation in Python could look like&nbsp;this:  </p>
@@ -206,37 +206,37 @@ To find out if we&#8217;re separated (and our available spaces), we can use a <a
 
 <p>However, figuring out the number of empty squares is not enough. Once we know that we have more space, how do we proceed to fill this space in an optimal way. As we saw in the wall hugging strategy above, it turns out this is deceptively difficult. The Waterloo strategy page describes it&nbsp;best:  </p>
 <blockquote>
-<p>However, there are situations where flood-fill can be tricked into entering a trap: an area that looks big, but in which your bot cannot move freely. So, while this strategy works for most situations and is an easy addition to a good near strategy, it doesn&#8217;t cover all situations.<br>
-<strong>Longest-path approximation</strong><br>
-What your bot is effectively trying to do in a survival situation is to find the longest path in the board starting at your current position.<br>
-Unfortunately, the longest-path problem itself is <span class="caps">NP</span>-complete, which means that, barring a miracle in Computer Science (namely, the unlikely result that P=<span class="caps">NP</span>), it is very difficult in general to find this longest path.<br>
-All hope is not lost, however: there are some decent approximations you can make which run reasonably quickly and avoid traps like those described above.<br>
+<p>However, there are situations where flood-fill can be tricked into entering a trap: an area that looks big, but in which your bot cannot move freely. So, while this strategy works for most situations and is an easy addition to a good near strategy, it doesn&#8217;t cover all situations.<br />
+<strong>Longest-path approximation</strong><br />
+What your bot is effectively trying to do in a survival situation is to find the longest path in the board starting at your current position.<br />
+Unfortunately, the longest-path problem itself is <span class="caps">NP</span>-complete, which means that, barring a miracle in Computer Science (namely, the unlikely result that P=<span class="caps">NP</span>), it is very difficult in general to find this longest path.<br />
+All hope is not lost, however: there are some decent approximations you can make which run reasonably quickly and avoid traps like those described above.<br />
 One such approach is based on <a href="http://en.wikipedia.org/wiki/Articulation_vertex">articulation vertices</a> on the board. An articulation vertex on a Tron board is a space which, if it were filled in by a wall or trail, would cut the area it is in into two or more disconnected areas. For a given square, if it is an articulation vertex which cuts the area into three or more disconnected areas, then it is impossible for your bot to visit all three areas, which gives you an easy way to determine how many squares are impossible to visit. By computing the articulation vertices in the board, you can obtain a better approximation of the number of free squares which can be visited, and thus fill your space more efficiently.
-Keep the definition of articulation vertices in mind, we will mention this again later. I decided to use a simple but quick heuristic to figure out a way of filling the board. It&#8217;s quick and works good enough most of the times (meaning that once we&#8217;re seperated and have more empty space, we have a high chance of actually winning).<br>
+Keep the definition of articulation vertices in mind, we will mention this again later. I decided to use a simple but quick heuristic to figure out a way of filling the board. It&#8217;s quick and works good enough most of the times (meaning that once we&#8217;re seperated and have more empty space, we have a high chance of actually winning).<br />
 Now: what do we do if we&#8217;re not seperated&#8230;? On option is to use a minimax&nbsp;strategy.  </p>
 </blockquote>
 <h3>Battle strategy: using&nbsp;minimax</h3>
-<p><a href="http://en.wikipedia.org/wiki/Minimax">Minimax</a> is a decision rule which maximizes our potential gain while minimizing our possible loss. It can be used in two player games where it is possible to assign a value (or score) to each decision for each player.<br>
-For example, let&#8217;s say we need to choose between two possible moves A or B, in a given game. If we think three levels deep, we might end up with something like this:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wq1RAzqeI/AAAAAAAAPTc/W1b2uQzKhmQ/s400/image8.png">
-As you see in the search tree above, for each of our two moves A or B, our opponent can also make two moves. Then we move again. The strategy we&#8217;ll be following is max(imize our gain). Our opponent will try to min(imize our gain).<br>
-Once we&#8217;re at our desired (lowest) level in the tree, we assign a score to all the possible outcomes:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wq9T4a5MI/AAAAAAAAPTg/i_uZGIMPrlY/s400/image9.png">
-Our opponent knows that we will always pick the best (max) choice (in yellow) when confronted with a specific situation:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WrFD_GX4I/AAAAAAAAPTk/G1FrP6hwYjg/s400/image10.png">
-Our opponent will thus try to minimize our gains (he wants us to lose), so we know what he&#8217;ll pick for each of our moves (yellow):<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WrPbZCKAI/AAAAAAAAPTo/2Ub-YpapiFQ/s400/image11.png">
-At the top level it is now clear that, to maximize our gain we pick move A with a resulting score of 7, provided that our opponent will react in the smartest way possible:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WrWjOCBhI/AAAAAAAAPTs/PxnFIc6ggus/s400/image12.png">
+<p><a href="http://en.wikipedia.org/wiki/Minimax">Minimax</a> is a decision rule which maximizes our potential gain while minimizing our possible loss. It can be used in two player games where it is possible to assign a value (or score) to each decision for each player.<br />
+For example, let&#8217;s say we need to choose between two possible moves A or B, in a given game. If we think three levels deep, we might end up with something like this:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wq1RAzqeI/AAAAAAAAPTc/W1b2uQzKhmQ/s400/image8.png" />
+As you see in the search tree above, for each of our two moves A or B, our opponent can also make two moves. Then we move again. The strategy we&#8217;ll be following is max(imize our gain). Our opponent will try to min(imize our gain).<br />
+Once we&#8217;re at our desired (lowest) level in the tree, we assign a score to all the possible outcomes:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wq9T4a5MI/AAAAAAAAPTg/i_uZGIMPrlY/s400/image9.png" />
+Our opponent knows that we will always pick the best (max) choice (in yellow) when confronted with a specific situation:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WrFD_GX4I/AAAAAAAAPTk/G1FrP6hwYjg/s400/image10.png" />
+Our opponent will thus try to minimize our gains (he wants us to lose), so we know what he&#8217;ll pick for each of our moves (yellow):<br />
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WrPbZCKAI/AAAAAAAAPTo/2Ub-YpapiFQ/s400/image11.png" />
+At the top level it is now clear that, to maximize our gain we pick move A with a resulting score of 7, provided that our opponent will react in the smartest way possible:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WrWjOCBhI/AAAAAAAAPTs/PxnFIc6ggus/s400/image12.png" />
 Since alternating between minimizing and maximizing the scores between each level of the search tree can be tedious to program, we can use the following observation to keep things&nbsp;simpler:  </p>
 <blockquote>
 <p>max(a,b) = -min(-a,-b)
-Our example tree thus becomes:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4Wrdn7FBsI/AAAAAAAAPTw/b7lcyKhBYBA/s400/image13.png">
-By inverting the score each time we propagate upwards, we can use max at every level.<br>
-The strategy page recommends following a minimax strategy to avoid traps or dead ends. It is clear that, to create a winning minimax strategy, we must give sensible scores to each of the game states. A lot of players are thus using minimax strategies and doing well to very well with them.<br>
-It&#8217;s also fairly logical that the more levels you search, the higher your chance of winning becomes. However, since bots are only given one second to think before each move, exploring a high number of levels is impossible, especially in interpreted languages. It&#8217;s no wonder that many high-ranked players are using C++.<br>
-To speed up iterating the tree, we can use a technique called alpha-beta pruning. We can also use iterative deepening. I won&#8217;t explain those into detail here, but I can give you a handy list of resources:<br>
+Our example tree thus becomes:<br />
+<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4Wrdn7FBsI/AAAAAAAAPTw/b7lcyKhBYBA/s400/image13.png" />
+By inverting the score each time we propagate upwards, we can use max at every level.<br />
+The strategy page recommends following a minimax strategy to avoid traps or dead ends. It is clear that, to create a winning minimax strategy, we must give sensible scores to each of the game states. A lot of players are thus using minimax strategies and doing well to very well with them.<br />
+It&#8217;s also fairly logical that the more levels you search, the higher your chance of winning becomes. However, since bots are only given one second to think before each move, exploring a high number of levels is impossible, especially in interpreted languages. It&#8217;s no wonder that many high-ranked players are using C++.<br />
+To speed up iterating the tree, we can use a technique called alpha-beta pruning. We can also use iterative deepening. I won&#8217;t explain those into detail here, but I can give you a handy list of resources:<br />
   - The Wikipedia page on <a href="http://en.wikipedia.org/wiki/Minimax">Minimax</a> gives examples and pseudocode.
   - The Wikipedia page on <a href="http://en.wikipedia.org/wiki/Alpha-beta_pruning">alpha-beta pruning</a> does the same for this technique. The pseudocode is not hard to implement once you understand minimax, and does speed things up a lot!
   - Also <a href="http://en.wikipedia.org/wiki/Iterative_deepening">iterative deepening</a> is explained on Wikipedia; it&#8217;s easy to understand, but a bit harder to implement.
@@ -245,17 +245,17 @@ To speed up iterating the tree, we can use a technique called alpha-beta pruning
   - A quick Google search finds some <a href="http://www.koders.com/python/fid4C35447AD9C6BC8F83710DE2FFAD58D3418F0997.aspx?s=game#L3">interesting minimax and alpha beta pruning code written in Python</a>. It plays Othello, but the <span class="caps">AI</span> and game logic are cleanly&nbsp;separated.</p>
 </blockquote>
 <h3>Before we continue: a quick look at some other&nbsp;projects</h3>
-<p>Now that we have a basic understanding of the workings of a Tron bot and strategy, we can Google around to see if we come up with some interesting projects using these methods. Let&#8217;s see what some of the open source Tron games are using as a strategy.<br>
-<strong>KTron</strong>&#8216;s source can be <a href="http://websvn.kde.org/trunk/KDE/kdegames/ktron/intelligence.cpp?view=markup">viewed online</a>. We notice the following comment:<br>
-    // This part is partly ported from<br>
-    // xtron-1.1 by Rhett D. Jacobs (rhett@hotel.[&#8230;])<code>We thus take a look at **xtron**, you can find the source package [here](http://packages.debian.org/source/squeeze/xtron).</code>main.c<code>contains the</code>think` routine:<br>
-    /<em> artificial intelligence routines for computer player </em>/<br>
-    void think(int p_num)<br>
-    {<br>
-      enum directions sides[2];<br>
-      int flags[6] = {0,0,0,0,0,0};<br>
-      int index[2];<br>
-      int dis_forward,  dis_left, dis_right;<br>
+<p>Now that we have a basic understanding of the workings of a Tron bot and strategy, we can Google around to see if we come up with some interesting projects using these methods. Let&#8217;s see what some of the open source Tron games are using as a strategy.<br />
+<strong>KTron</strong>&#8216;s source can be <a href="http://websvn.kde.org/trunk/KDE/kdegames/ktron/intelligence.cpp?view=markup">viewed online</a>. We notice the following comment:<br />
+    // This part is partly ported from<br />
+    // xtron-1.1 by Rhett D. Jacobs (rhett@hotel.[&#8230;])<code>We thus take a look at **xtron**, you can find the source package [here](http://packages.debian.org/source/squeeze/xtron).</code>main.c<code>contains the</code>think` routine:<br />
+    /<em> artificial intelligence routines for computer player </em>/<br />
+    void think(int p_num)<br />
+    {<br />
+      enum directions sides[2];<br />
+      int flags[6] = {0,0,0,0,0,0};<br />
+      int index[2];<br />
+      int dis_forward,  dis_left, dis_right;<br />
       dis_forward = dis_left = dis_right =&nbsp;1;  </p>
 <div class="highlight"><pre><span></span>  switch (p[p_num].plr_dir) {  
   case left:  
@@ -328,66 +328,66 @@ To speed up iterating the tree, we can use a technique called alpha-beta pruning
 </pre></div>
 
 
-<p>It turns out this code is using a simple strategy. The difficulty of the game lies in the fact that player can move slow (easy) or very fast (very hard). The <span class="caps">AI</span> looks at the distance before reaching a wall while heading in its current direction. The closer it comes, the higher the chance of turning. When we&#8217;re next to a wall, the chance is, of course, 100%.<br>
-The code is easily converted to a Python bot:<br>
-    #!/usr/bin/python<br>
-    import tron<br>
-    import random<br>
-    import sys<br>
-    import time<br>
-    import math<br>
-    from copy import deepcopy<br>
-    <span class="caps">DIRECTION</span> = tron.<span class="caps">NORTH</span><br>
-    def which_move(board):<br>
-      global <span class="caps">DIRECTION</span><br>
-      LookAHEAD = 6<br>
-      sides = [0,0]<br>
-      flags = [0,0,0,0,0,0]<br>
-      index = [0,0]<br>
-      dis_forward = 1<br>
-      dis_left = 1<br>
-      dis_right = 1<br>
-      if <span class="caps">DIRECTION</span> == tron.<span class="caps">WEST</span>:<br>
-        flags[0] = -1<br>
-        flags[1] = 0<br>
-        flags[2] = 0<br>
-        flags[3] = 1<br>
-        flags[4] = 0<br>
-        flags[5] = -1<br>
-        sides[0] = tron.<span class="caps">SOUTH</span><br>
-        sides[1] = tron.<span class="caps">NORTH</span><br>
-      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">EAST</span>:<br>
-        flags[0] = 1<br>
-        flags[1] = 0<br>
-        flags[2] = 0<br>
-        flags[3] = -1<br>
-        flags[4] = 0<br>
-        flags[5] = 1<br>
-        sides[0] = tron.<span class="caps">NORTH</span>;<br>
-        sides[1] = tron.<span class="caps">SOUTH</span>;<br>
-      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">NORTH</span>:<br>
-        flags[0] = 0<br>
-        flags[1] = -1<br>
-        flags[2] = -1<br>
-        flags[3] = 0<br>
-        flags[4] = 1<br>
-        flags[5] = 0<br>
-        sides[0] = tron.<span class="caps">WEST</span><br>
-        sides[1] = tron.<span class="caps">EAST</span><br>
-      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">SOUTH</span>:<br>
-        flags[0] = 0<br>
-        flags[1] = 1<br>
-        flags[2] = 1<br>
-        flags[3] = 0<br>
-        flags[4] = -1<br>
-        flags[5] = 0<br>
-        sides[0] = tron.<span class="caps">EAST</span><br>
-        sides[1] = tron.<span class="caps">WEST</span><br>
-      index[0] = board.me()[0]+flags[1];<br>
-      index[1] = board.me()[1]+flags[0];<br>
-      while index[0] &lt; board.height and index[0] &gt;= 0 and index[1] &lt; board.width and index[1] &gt;= 0 and board[index[0],index[1]] == tron.<span class="caps">FLOOR</span>:<br>
-        dis_forward+=1<br>
-        index[0] += flags[1]<br>
+<p>It turns out this code is using a simple strategy. The difficulty of the game lies in the fact that player can move slow (easy) or very fast (very hard). The <span class="caps">AI</span> looks at the distance before reaching a wall while heading in its current direction. The closer it comes, the higher the chance of turning. When we&#8217;re next to a wall, the chance is, of course, 100%.<br />
+The code is easily converted to a Python bot:<br />
+    #!/usr/bin/python<br />
+    import tron<br />
+    import random<br />
+    import sys<br />
+    import time<br />
+    import math<br />
+    from copy import deepcopy<br />
+    <span class="caps">DIRECTION</span> = tron.<span class="caps">NORTH</span><br />
+    def which_move(board):<br />
+      global <span class="caps">DIRECTION</span><br />
+      LookAHEAD = 6<br />
+      sides = [0,0]<br />
+      flags = [0,0,0,0,0,0]<br />
+      index = [0,0]<br />
+      dis_forward = 1<br />
+      dis_left = 1<br />
+      dis_right = 1<br />
+      if <span class="caps">DIRECTION</span> == tron.<span class="caps">WEST</span>:<br />
+        flags[0] = -1<br />
+        flags[1] = 0<br />
+        flags[2] = 0<br />
+        flags[3] = 1<br />
+        flags[4] = 0<br />
+        flags[5] = -1<br />
+        sides[0] = tron.<span class="caps">SOUTH</span><br />
+        sides[1] = tron.<span class="caps">NORTH</span><br />
+      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">EAST</span>:<br />
+        flags[0] = 1<br />
+        flags[1] = 0<br />
+        flags[2] = 0<br />
+        flags[3] = -1<br />
+        flags[4] = 0<br />
+        flags[5] = 1<br />
+        sides[0] = tron.<span class="caps">NORTH</span>;<br />
+        sides[1] = tron.<span class="caps">SOUTH</span>;<br />
+      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">NORTH</span>:<br />
+        flags[0] = 0<br />
+        flags[1] = -1<br />
+        flags[2] = -1<br />
+        flags[3] = 0<br />
+        flags[4] = 1<br />
+        flags[5] = 0<br />
+        sides[0] = tron.<span class="caps">WEST</span><br />
+        sides[1] = tron.<span class="caps">EAST</span><br />
+      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">SOUTH</span>:<br />
+        flags[0] = 0<br />
+        flags[1] = 1<br />
+        flags[2] = 1<br />
+        flags[3] = 0<br />
+        flags[4] = -1<br />
+        flags[5] = 0<br />
+        sides[0] = tron.<span class="caps">EAST</span><br />
+        sides[1] = tron.<span class="caps">WEST</span><br />
+      index[0] = board.me()[0]+flags[1];<br />
+      index[1] = board.me()[1]+flags[0];<br />
+      while index[0] &lt; board.height and index[0] &gt;= 0 and index[1] &lt; board.width and index[1] &gt;= 0 and board[index[0],index[1]] == tron.<span class="caps">FLOOR</span>:<br />
+        dis_forward+=1<br />
+        index[0] += flags[1]<br />
         index[1] +=&nbsp;flags[0]  </p>
 <div class="highlight"><pre><span></span>  if dis_forward &lt; LookAHEAD:  
     dis_forward = 100 - (100/dis_forward)  
@@ -422,99 +422,99 @@ for board in tron.Board.generate():
 </pre></div>
 
 
-<p>Uploading the converted code to the contest server quickly confirms the fact that this bot is not doing well (in blue):<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_lose.gif">
-In this case, it&#8217;s lucky (in red):<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_win.gif">
+<p>Uploading the converted code to the contest server quickly confirms the fact that this bot is not doing well (in blue):<br />
+<img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_lose.gif" />
+In this case, it&#8217;s lucky (in red):<br />
+<img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_win.gif" />
 A final search on Google code turns up some source code written for an <strong><span class="caps">AI</span> class at Rutgers University</strong>. They provide <a href="http://code.google.com/p/tron/source/browse/trunk/Tron/Tron/Players/">C# code</a> for different players and strategies, including a <a href="http://code.google.com/p/tron/source/browse/trunk/Tron/Tron/Players/Search/IDSMiniMaxSearchPlayer.cs">minimax</a>&nbsp;player.  </p>
 <h3>&#8230;but we&#8217;re not using&nbsp;minimax</h3>
-<p>On a random hunch I decided to try writing a bot without using minimax. I wanted to see how far I would get with (simple) heuristics and sound thinking.<br>
-A first sketch of the battle plan looked like this:<br>
-- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br>
-- If we&#8217;re not seperated:<br>
-  - If there&#8217;s a move which does seperate us<br>
-  - And will result in us having more space<br>
-  - Make that move<br>
-- Otherwise: move towards the opponent<br>
-- Avoid draws if possible:<br>
-  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br>
+<p>On a random hunch I decided to try writing a bot without using minimax. I wanted to see how far I would get with (simple) heuristics and sound thinking.<br />
+A first sketch of the battle plan looked like this:<br />
+- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br />
+- If we&#8217;re not seperated:<br />
+  - If there&#8217;s a move which does seperate us<br />
+  - And will result in us having more space<br />
+  - Make that move<br />
+- Otherwise: move towards the opponent<br />
+- Avoid draws if possible:<br />
+  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br />
   - If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact us`
-Surprisingly, this code was working fairly well&#8230; A minute later I had implemented a small improvement:<br>
-- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br>
-- If we&#8217;re not seperated:<br>
-  - If there&#8217;s a move which does seperate us<br>
-  - And will result in us having more space<br>
-  - Make that move<br>
-- Otherwise: move towards the opponent:<br>
-  - <em>Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our opponent</em><br>
-- Avoid draws if possible:<br>
-  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br>
+Surprisingly, this code was working fairly well&#8230; A minute later I had implemented a small improvement:<br />
+- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br />
+- If we&#8217;re not seperated:<br />
+  - If there&#8217;s a move which does seperate us<br />
+  - And will result in us having more space<br />
+  - Make that move<br />
+- Otherwise: move towards the opponent:<br />
+  - <em>Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our opponent</em><br />
+- Avoid draws if possible:<br />
+  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br />
   - If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact us
-And as a final edge, I added:<br>
-- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br>
-- If we&#8217;re not seperated:<br>
-  - If there&#8217;s a move which does seperate us<br>
-  - And will result in us having more space<br>
-  - Make that move<br>
-- Otherwise: move towards the opponent:<br>
-  - Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our opponent<br>
+And as a final edge, I added:<br />
+- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br />
+- If we&#8217;re not seperated:<br />
+  - If there&#8217;s a move which does seperate us<br />
+  - And will result in us having more space<br />
+  - Make that move<br />
+- Otherwise: move towards the opponent:<br />
+  - Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our opponent<br />
   - <em>Check in all four directions: where is the nearest wall?</em>
-  - What would happen if we go to this wall, would this seperate us from our opponent?<br>
-  - And would we get more moves in our space?<br>
-  - And can we get to that wall faster than our opponent?<br>
+  - What would happen if we go to this wall, would this seperate us from our opponent?<br />
+  - And would we get more moves in our space?<br />
+  - And can we get to that wall faster than our opponent?<br />
   - Go to that wall and trap him!
-- Avoid draws if possible:<br>
-  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br>
+- Avoid draws if possible:<br />
+  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br />
   - If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact us
-Thanks to this trick, when we&#8217;re faced with a situation like this (we&#8217;re blue):<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WsnYy8aZI/AAAAAAAAPT8/IBkQaO42Wxk/s1600/towall1.png">
-We will react accordingly:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WsvEZpLcI/AAAAAAAAPUA/ouLKlXKGVME/s1600/towall2.png"></p>
+Thanks to this trick, when we&#8217;re faced with a situation like this (we&#8217;re blue):<br />
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WsnYy8aZI/AAAAAAAAPT8/IBkQaO42Wxk/s1600/towall1.png" />
+We will react accordingly:<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WsvEZpLcI/AAAAAAAAPUA/ouLKlXKGVME/s1600/towall2.png" /></p>
 <blockquote>
 <p><span class="dquo">&#8220;</span>Ha ha, trapped you&#8230;&#8221;
 This rudimentary bot has been doing very well and even scored in the top 30 for some time (alas, the ranking graphs have been taken offline, otherwise I would embed it here). However, a lot of players have been improving their code lately, causing me to drop back in the&nbsp;100s.  </p>
 </blockquote>
 <h3>Some peculiar&nbsp;problems</h3>
-<p>Lately I&#8217;ve been observing some interesting cases which can occur. You could call the first one the <strong>chamber</strong> or <strong>gateway problem</strong>.<br>
-Take the following map (we&#8217;re blue):<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Ws5A_cLKI/AAAAAAAAPUE/X4p_zCk7lXo/s320/gateway1.png">
-Since moving to the left would not seperate us from the opponent (he can still reach us by going around below), the old code would make us close in on him by going right:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtB5HU3-I/AAAAAAAAPUI/OjD4-smFdv8/s320/gateway2.png">
-However, once this happened, smarter opponent bots would rush to the little hole:<br>
-<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/S4WtGHcNgLI/AAAAAAAAPUM/aTKWxvJm0x0/s320/gateway3.png"></p>
+<p>Lately I&#8217;ve been observing some interesting cases which can occur. You could call the first one the <strong>chamber</strong> or <strong>gateway problem</strong>.<br />
+Take the following map (we&#8217;re blue):<br />
+<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Ws5A_cLKI/AAAAAAAAPUE/X4p_zCk7lXo/s320/gateway1.png" />
+Since moving to the left would not seperate us from the opponent (he can still reach us by going around below), the old code would make us close in on him by going right:<br />
+<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtB5HU3-I/AAAAAAAAPUI/OjD4-smFdv8/s320/gateway2.png" />
+However, once this happened, smarter opponent bots would rush to the little hole:<br />
+<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/S4WtGHcNgLI/AAAAAAAAPUM/aTKWxvJm0x0/s320/gateway3.png" /></p>
 <blockquote>
 <p><span class="dquo">&#8220;</span>Drats! I&#8217;m trapped now.&#8221;
-Remember the definition of articulation vertices above? A final check I implemented looks at those little &#8220;gateways&#8221; and checks if our opponent can reach those faster than us, and if this would result in us being blocked off with less moves. If such a gateway exists, it&#8217;s better to go the other way.<br>
-A nice example (on a difficult map) of the bot in action, the map starts of like this (we&#8217;re blue):<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtNhEhMeI/AAAAAAAAPUQ/61UWWeuGw8M/s320/gatewaydemo1.png">
-A few moves later, and our bot has to make a choice:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtTblJCeI/AAAAAAAAPUU/nMOO5a37Pts/s320/gatewaydemo2.png">
-It avoids the bad choice, as does our opponent. Not that the old version of the code would move us closer towards our opponent as well, as there is now possible separating move. (You might think that moving left separated us from our opponent, but this is only the case when our opponent is stupid enough to move right. Our bot now avoids &#8220;being trapped in a little box together&#8221;.)<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WtWrP1lxI/AAAAAAAAPUY/Otzo_mjZUuU/s320/gatewaydemo3.png">
-A few moves later, and we make a choice again:<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WtZzxjE5I/AAAAAAAAPUc/A_-fQpDhWp8/s320/gatewaydemo4.png">
-Again, we pick the best choice, and a few moves later:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtdenaCwI/AAAAAAAAPUg/1P4KCPsud2c/s320/gatewaydemo5.png">
-This is a sure win.<br>
-A second problem deals with avoiding <strong>obvious stupid mistakes</strong>. The following game demonstrates some good fighting between the two players, but at the end, my bot (red, don&#8217;t worry, the gifs are repeating) makes a horrible mistake:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/stupidmistake.gif">
-I modified the code once more to avoid this situation.<br>
-You could call the last problem the <strong>game of chicken</strong> problem. If you don&#8217;t know what the game of chicken is, the description from <a href="http://en.wikipedia.org/wiki/Chicken_(game)">Wikipedia</a> might help:<br>
+Remember the definition of articulation vertices above? A final check I implemented looks at those little &#8220;gateways&#8221; and checks if our opponent can reach those faster than us, and if this would result in us being blocked off with less moves. If such a gateway exists, it&#8217;s better to go the other way.<br />
+A nice example (on a difficult map) of the bot in action, the map starts of like this (we&#8217;re blue):<br />
+<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtNhEhMeI/AAAAAAAAPUQ/61UWWeuGw8M/s320/gatewaydemo1.png" />
+A few moves later, and our bot has to make a choice:<br />
+<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtTblJCeI/AAAAAAAAPUU/nMOO5a37Pts/s320/gatewaydemo2.png" />
+It avoids the bad choice, as does our opponent. Not that the old version of the code would move us closer towards our opponent as well, as there is now possible separating move. (You might think that moving left separated us from our opponent, but this is only the case when our opponent is stupid enough to move right. Our bot now avoids &#8220;being trapped in a little box together&#8221;.)<br />
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WtWrP1lxI/AAAAAAAAPUY/Otzo_mjZUuU/s320/gatewaydemo3.png" />
+A few moves later, and we make a choice again:<br />
+<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WtZzxjE5I/AAAAAAAAPUc/A_-fQpDhWp8/s320/gatewaydemo4.png" />
+Again, we pick the best choice, and a few moves later:<br />
+<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtdenaCwI/AAAAAAAAPUg/1P4KCPsud2c/s320/gatewaydemo5.png" />
+This is a sure win.<br />
+A second problem deals with avoiding <strong>obvious stupid mistakes</strong>. The following game demonstrates some good fighting between the two players, but at the end, my bot (red, don&#8217;t worry, the gifs are repeating) makes a horrible mistake:<br />
+<img alt="" src="http://static.macuyiko.com/files/tronbot/stupidmistake.gif" />
+I modified the code once more to avoid this situation.<br />
+You could call the last problem the <strong>game of chicken</strong> problem. If you don&#8217;t know what the game of chicken is, the description from <a href="http://en.wikipedia.org/wiki/Chicken_(game)">Wikipedia</a> might help:<br />
 The name &#8220;Chicken&#8221; has its origins in a game in which two drivers drive towards each other on a collision course: one must swerve, or both may die in the crash, but if one driver swerves and the other does not, the one who swerved will be called a &#8220;chicken,&#8221; meaning a coward; this terminology is most prevalent in political science and economics.
-The following game demonstrates the problem:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/chicken.gif">
+The following game demonstrates the problem:<br />
+<img alt="" src="http://static.macuyiko.com/files/tronbot/chicken.gif" />
 Can you see what&#8217;s happening here? The blue player plays it safe and moves out of the way early on. However, this causes the red player to end up with more space. If one of them moves out of the way, the other one wins. If they both don&#8217;t move, they draw. Figuring out when to crash (and draw), or when it&#8217;s better to move is a difficult challenge, especially for minimax strategies which often try to play it safe, as shown&nbsp;above.  </p>
 </blockquote>
 <h3>In&nbsp;conclusion</h3>
-<p>Many strategies I&#8217;ve discussed before and others are posted on the <a href="http://csclub.uwaterloo.ca/contest/forums/viewforum.php?f=8">contest&#8217;s forum</a>.<br>
-Let&#8217;s look at a few more games to close things off&#8230;<br>
-In this game: my bot (blue) loses, but it puts up a good fight:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/final1.gif">
-Here is a game where our bot does well. The opponent moves upwards and our bot confidently moves forward, trapping him in less space:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/final2.gif">
-In this game, our opponent &#8220;chickens out&#8221; and moves away from us. We use this opportunity to trap him, knowing that we can use more space. Once trapped, the opponent doesn&#8217;t use his space optimally as well:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/final3.gif">
-All in all this was an interesting and fun journey. My high rankings seem completely behind me though, but I&#8217;m glad I tried something different instead of following the obvious road. If you&#8217;ve been trying to write a bot as well: I hope you had a great experience as well, otherwise I hope you&#8217;ve enjoyed reading this little overview. I might talk about minimax and other mentioned topics again some time. Also: I should&#8217;ve started sooner taking a serious look at this contest. I get distracted too quickly :).<br>
+<p>Many strategies I&#8217;ve discussed before and others are posted on the <a href="http://csclub.uwaterloo.ca/contest/forums/viewforum.php?f=8">contest&#8217;s forum</a>.<br />
+Let&#8217;s look at a few more games to close things off&#8230;<br />
+In this game: my bot (blue) loses, but it puts up a good fight:<br />
+<img alt="" src="http://static.macuyiko.com/files/tronbot/final1.gif" />
+Here is a game where our bot does well. The opponent moves upwards and our bot confidently moves forward, trapping him in less space:<br />
+<img alt="" src="http://static.macuyiko.com/files/tronbot/final2.gif" />
+In this game, our opponent &#8220;chickens out&#8221; and moves away from us. We use this opportunity to trap him, knowing that we can use more space. Once trapped, the opponent doesn&#8217;t use his space optimally as well:<br />
+<img alt="" src="http://static.macuyiko.com/files/tronbot/final3.gif" />
+All in all this was an interesting and fun journey. My high rankings seem completely behind me though, but I&#8217;m glad I tried something different instead of following the obvious road. If you&#8217;ve been trying to write a bot as well: I hope you had a great experience as well, otherwise I hope you&#8217;ve enjoyed reading this little overview. I might talk about minimax and other mentioned topics again some time. Also: I should&#8217;ve started sooner taking a serious look at this contest. I get distracted too quickly :).<br />
 The contest organizers also put together a Youtube video showing some matches. It&#8217;s interesting to see how bots either try (or fail) to trap each other, and how the use the available&nbsp;space.  </p>
 	</article>
 </div>

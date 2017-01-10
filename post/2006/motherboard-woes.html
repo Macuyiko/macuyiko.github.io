@@ -77,17 +77,17 @@
 		</header>
 	
 	    <p>Recenty I added a second Opteron <span class="caps">CPU</span> and <span class="caps">2GB</span> more <span class="caps">RAM</span> to my Tyan Thunder motherboard, bringing the total to <span class="caps">4GB</span>.
-Windows however, decided that it would only detect 2,<span class="caps">75GB</span>. While booting, the <span class="caps">BIOS</span> nicely displayed <span class="caps">4GB</span>. What the&#8230;?<br>
-Booting with Linux live <span class="caps">CD</span>: same problem.<br>
+Windows however, decided that it would only detect 2,<span class="caps">75GB</span>. While booting, the <span class="caps">BIOS</span> nicely displayed <span class="caps">4GB</span>. What the&#8230;?<br />
+Booting with Linux live <span class="caps">CD</span>: same problem.<br />
 Searching a lot with Google: &#8216;memory hole&#8217; setting in the &#8216;hammer configuration&#8217;. A lot of people are having this problem and proposing various solutions.
 What worked for&nbsp;me:</p>
 <ol>
 <li>Flash motherboard to latest version, finding a working Win98 boot disk was a real&nbsp;pain</li>
 <li>If your <span class="caps">CPU</span> has a stepping &#8216;Cx&#8217; (&#8216;x&#8217; standing for any letter), put &#8216;memory hole&#8217; option in <span class="caps">BIOS</span> on &#8216;software&#8217;, otherwise, put it on&nbsp;&#8216;hardware&#8217;  </li>
 <li>After booting Windows <span class="caps">XP</span> Professional: same problem. Trying with an Ubuntu 64 bit live <span class="caps">CD</span>&#8230; it works! Installing Windows x64. Now it works in Windows too
-So main problem was a 32 bit <span class="caps">OS</span>. Bottom line: if you have a 64bit <span class="caps">CPU</span>, do not bother to install a 32 bit <span class="caps">OS</span> anymore (like I did).<br>
-I hope my experience was useful to anyone (I had a much nicer post written out, but due to Internet Explorer&#8217;s popup blocker while spell-checking, I&#8217;ve lost it. Firefox&#8217; blocker is much better, it doesn&#8217;t automatically reload the page after allowing popups, but silently waits until you try again.)<br>
-P.S.: indeed, my Windows x64 came with pre-baked <span class="caps">SP2</span>&#8230; Damn. Patching <span class="caps">TCP</span> half-open connection limit, completely disabling security center. Stupid new Internet Explorer settings&#8230; I hate <span class="caps">SP2</span>.<br>
+So main problem was a 32 bit <span class="caps">OS</span>. Bottom line: if you have a 64bit <span class="caps">CPU</span>, do not bother to install a 32 bit <span class="caps">OS</span> anymore (like I did).<br />
+I hope my experience was useful to anyone (I had a much nicer post written out, but due to Internet Explorer&#8217;s popup blocker while spell-checking, I&#8217;ve lost it. Firefox&#8217; blocker is much better, it doesn&#8217;t automatically reload the page after allowing popups, but silently waits until you try again.)<br />
+P.S.: indeed, my Windows x64 came with pre-baked <span class="caps">SP2</span>&#8230; Damn. Patching <span class="caps">TCP</span> half-open connection limit, completely disabling security center. Stupid new Internet Explorer settings&#8230; I hate <span class="caps">SP2</span>.<br />
 I also had to but the &#8216;<span class="caps">MAC</span> <span class="caps">LAN</span> Bridge&#8217; options to &#8216;Enable&#8217; in the <span class="caps">BIOS</span> for the Windows drivers to detect my Ethernet controllers. I had not to do this in Windows <span class="caps">XP</span> (32&nbsp;bit).  </li>
 </ol>
 	</article>

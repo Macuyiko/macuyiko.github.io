@@ -73,6 +73,23 @@
 		<article>
 			<header>
 				<div class="article-info">wo 03 november 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/aircrack-quick-tutorial-wireless-wep-cracking.html" rel="bookmark"
+				title="Permalink to Aircrack Quick Tutorial (Wireless WEP Cracking)">Aircrack Quick Tutorial (Wireless <span class="caps">WEP</span>&nbsp;Cracking)</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Speaking of <a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">wireless</a>&#8230;</p>
+<p>The following is just a quick note-to-self, because I always forget the exact commands and end up crawling around the <a href="http://www.aircrack-ng.org/doku.php">Aircrack wiki</a> for a bit. I though I&#8217;d posted this before, but I can&#8217;t seem to find&nbsp;it.  </p>
+<h3><span class="caps">TTY1</span></h3>
+<div class="highlight"><pre><span></span>sudo airmon-ng start eth1  
+# Assume monitor ...</pre></div>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/aircrack-quick-tutorial-wireless-wep-cracking.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">wo 03 november 2010, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html" rel="bookmark"
 				title="Permalink to Ubuntu 10.10: “fixed channel mon0: -1” Aircrack Problem With iwl3945">Ubuntu 10.10: &#8220;fixed channel mon0: -1&#8221; Aircrack Problem With&nbsp;iwl3945</a></div>
 			</header>
@@ -90,7 +107,7 @@
 
 
 <p>Some forum users advised to&nbsp;use:  </p>
-<div class="highlight"><pre><span></span>airodump …</pre></div>
+<div class="highlight"><pre><span></span>airodump ...</pre></div>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">Read more</a></p>
 			</div>
 		</article>
@@ -105,7 +122,7 @@
 			<div class="article-summary">
 					<p>I&#8217;ve received a few more e-mails and blog comments containing input and information about the famous DirectDraw palette problem which messes up colors in older&nbsp;games.  </p>
 <p>In particular, Windows contains <a href="http://go.hopx.net/2010/05/256-color-issues-with-directdraw-and.html">compatibility entries in the registry</a>, and <a href="http://sol.gfxile.net/ddhack/">Jari Komppa</a> has written a ddraw.dll which wraps&nbsp;DirectDraw.  </p>
-<p>I&#8217;ve updated …</p>
+<p>I&#8217;ve updated ...</p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/solving-color-problem-in-directdraw-games-update.html">Read more</a></p>
 			</div>
 		</article>
@@ -118,9 +135,9 @@
 				title="Permalink to Missing Icons In Notification Area (Tray Bar)">Missing Icons In Notification Area (Tray&nbsp;Bar)</a></div>
 			</header>
 			<div class="article-summary">
-					<p>A few days ago some of my programs stopped showing their icons in the Windows (7) notification area. A quick peek at the Task Manager revealed that they were, in fact, running.<br>
+					<p>A few days ago some of my programs stopped showing their icons in the Windows (7) notification area. A quick peek at the Task Manager revealed that they were, in fact, running.<br />
 Changing the notification settings and peeking around in the task bar configuration revealed nothing.
-It turns out that …</p>
+It turns out that ...</p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/missing-icons-in-notification-area-tray-bar.html">Read more</a></p>
 			</div>
 		</article>
@@ -134,8 +151,8 @@ It turns out that …</p>
 			</header>
 			<div class="article-summary">
 					<h3>Number&nbsp;One:</h3>
-<p>Replace <code>C:\Windows\system32\sethc.exe</code> with <code>cmd.exe</code> (e.g. by renaming and/or using a repair <span class="caps">CD</span>: with the Vista repair <span class="caps">CD</span> you can open &#8220;<code>notepad</code>&#8221; in the command prompt and execute file manipulations from the Open Dialog).<br>
-Restart. At the login screen press &#8220;Shift&#8221; five …</p>
+<p>Replace <code>C:\Windows\system32\sethc.exe</code> with <code>cmd.exe</code> (e.g. by renaming and/or using a repair <span class="caps">CD</span>: with the Vista repair <span class="caps">CD</span> you can open &#8220;<code>notepad</code>&#8221; in the command prompt and execute file manipulations from the Open Dialog).<br />
+Restart. At the login screen press &#8220;Shift&#8221; five ...</p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/oldie-but-goodie-privilege-escalation-in-windows.html">Read more</a></p>
 			</div>
 		</article>
@@ -182,7 +199,7 @@ Restart. At the login screen press &#8220;Shift&#8221; five …</p>
 <span class="n">CATEGORY_PACKS</span>     <span class="o">=</span> <span class="s1">&#39;996&#39;</span>  
 <span class="n">CATEGORY_DLC</span>       <span class="o">=</span> <span class="s1">&#39;21&#39;</span>
 
-<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode …</span></pre></div>
+<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode ...</span></pre></div>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html">Read more</a></p>
 			</div>
 		</article>
@@ -195,11 +212,11 @@ Restart. At the login screen press &#8220;Shift&#8221; five …</p>
 				title="Permalink to Python Web Scraping Tools">Python Web Scraping&nbsp;Tools</a></div>
 			</header>
 			<div class="article-summary">
-					<p>Just a note for myself, a list of interesting Python tools for my next web scraping project:<br>
+					<p>Just a note for myself, a list of interesting Python tools for my next web scraping project:<br />
   - <a href="http://docs.python.org/library/urllib2.html">urllib2</a>: extensible library for opening URLs.
   - <a href="http://pyquery.org/">PyQuery</a>: jQuery-like traversing and selecting for Python.
   - <a href="http://wwwsearch.sourceforge.net/mechanize/">mechanize</a>: stateful programmatic web browsing in Python.
-  - <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>: not supported/maintained that much anymore. Latest versions are rather slow …</p>
+  - <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>: not supported/maintained that much anymore. Latest versions are rather slow ...</p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/python-web-scraping-tools.html">Read more</a></p>
 			</div>
 		</article>
@@ -217,7 +234,7 @@ Restart. At the login screen press &#8220;Shift&#8221; five …</p>
 <strong>2.</strong> Install:
     /tmp/heroes$ ./setup.sh
 <strong>3.</strong> Download and run patch with <code>--keep</code>:
-    /tmp/heroes$ wget ftp://mirrors.dotsrc.org/lokigames/updates/heroes3/heroes3-1.3.1a-unified-x86.run …</p>
+    /tmp/heroes$ wget ftp://mirrors.dotsrc.org/lokigames/updates/heroes3/heroes3-1.3.1a-unified-x86.run ...</p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/installing-heroes-of-might-and-magic-iii-3-on-linux-ubuntu.html">Read more</a></p>
 			</div>
 		</article>
@@ -230,26 +247,8 @@ Restart. At the login screen press &#8220;Shift&#8221; five …</p>
 				title="Permalink to New Theme, Testing 1, 2, 3…">New Theme, Testing 1, 2,&nbsp;3&#8230;</a></div>
 			</header>
 			<div class="article-summary">
-					<p>I&#8217;ve been planning to redesign this blog for a while now. I was going to write up the changes myself (I even built a small <span class="caps">PHP</span>-based static blog generator engine I might put online later) before finding out Blogger now comes with a great new template designer sporting …</p>
+					<p>I&#8217;ve been planning to redesign this blog for a while now. I was going to write up the changes myself (I even built a small <span class="caps">PHP</span>-based static blog generator engine I might put online later) before finding out Blogger now comes with a great new template designer sporting ...</p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/new-theme-testing-1-2-3.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">di 02 maart 2010, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html" rel="bookmark"
-				title="Permalink to The University Of Waterloo CS Club Tron Challenge, And Some Minimax In General - Part 2">The University Of Waterloo <span class="caps">CS</span> Club Tron Challenge, And Some Minimax In General - Part&nbsp;2</a></div>
-			</header>
-			<div class="article-summary">
-					<p>(This is the second and final part in the University Of Waterloo <span class="caps">CS</span> Club Tron
-Challenge post series. You can find the first part
-<a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general.html">here</a>.)  </p>
-<p>Now that the contest is finished, congratulations go out to the first place
-winner: a1k0n, well&nbsp;done!  </p>
-<p>I also wanted to pass on a few …</p>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -280,6 +279,7 @@ winner: a1k0n, well&nbsp;done!  </p>
 	
 	<div class="sidebar-title">Pages</div>
 	<ul class="side-nav">
+		<li><a href="http://blog.macuyiko.com/pages/palettestealersuspender.html">PalettestealerSuspender</a></li>
 	</ul>
 	
 	<div class="sidebar-title">Links</div>

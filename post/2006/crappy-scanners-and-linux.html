@@ -76,16 +76,16 @@
 			title="Permalink to Crappy Scanners And Linux">Crappy Scanners And&nbsp;Linux</a></div>
 		</header>
 	
-	    <p>Recently we got a new <span class="caps">HP</span> Scanner. It&#8217;s a good, nice, and generally works without any complaints.<br>
+	    <p>Recently we got a new <span class="caps">HP</span> Scanner. It&#8217;s a good, nice, and generally works without any complaints.<br />
 The scanner I used before was a crappy scanner with a no-name brand nobody knows, picked up for almost nothing at some cheapskate-store (since I very rarely need to scan something). The installation of the drivers for the thing was always a pain, including copying files around, right clicking .inf files, reciting incantations and whatnot&#8230; And then hoping that it wouldn&#8217;t throw a general &#8220;<span class="caps">TWAIN</span> error&#8221; at&nbsp;me.</p>
-<p>Seriously, what is that anyway? People who know something about this whole <span class="caps">TWAIN</span> thing know it&#8217;s a pain. According to Wikipedia, it stands for <strong>T</strong>echnology (or Toolkit or Thing) <strong>W</strong>ithout <strong>A</strong>n (or Any) <strong>I</strong>ntelligent (or Important or Interesting) <strong>N</strong>ame, which is just cheesy. Hell, I even think that Microsoft&#8217;s new <span class="caps">WIA</span> (or: Windows Imaging Acquisition) is better.<br>
-Anyway: a few weeks ago, my Windows machine gave up scanning, maybe it had something to do with the fact that I was running Windows x64, I don&#8217;t know. Reinstalling drivers: no dice. Moving files around: no dice. Installing drivers for other scanners (one can try): no dice. Unplugging the damn thing and throwing it out of the window&#8230; err&#8230; no dice.<br>
-Until now. I was thinking: &#8220;Hey look, there&#8217;s that stupid old scanner, maybe this will work on Linux&#8230;&#8221; So I promised myself that I would spent a few minutes (not more) trying to get this to work, before dumping it completely.<br>
-I connect the scanner to a free <span class="caps">USB</span> port&#8230; nothing happens. No worries, after fiddling around I find out about <code>xsane</code> (hey, go easy on me, I&#8217;m still a bit of a Linux noob), so I try that, and get a nice bunch of error messages&#8230; perfect.<br>
-    Failed to open device &#8216;artec_eplus48u:libusb:001:002&#8217;: invalid argument<br>
-Really? So my crappy brand scanner is actually an Artec. Fine, after searching a bit on Google I find the following suggestions, export this:<br>
-   export SANE_DEBUG_ARTEC_EPLUS48U=9<br>
-And then run again, we now get some more information:<br>
+<p>Seriously, what is that anyway? People who know something about this whole <span class="caps">TWAIN</span> thing know it&#8217;s a pain. According to Wikipedia, it stands for <strong>T</strong>echnology (or Toolkit or Thing) <strong>W</strong>ithout <strong>A</strong>n (or Any) <strong>I</strong>ntelligent (or Important or Interesting) <strong>N</strong>ame, which is just cheesy. Hell, I even think that Microsoft&#8217;s new <span class="caps">WIA</span> (or: Windows Imaging Acquisition) is better.<br />
+Anyway: a few weeks ago, my Windows machine gave up scanning, maybe it had something to do with the fact that I was running Windows x64, I don&#8217;t know. Reinstalling drivers: no dice. Moving files around: no dice. Installing drivers for other scanners (one can try): no dice. Unplugging the damn thing and throwing it out of the window&#8230; err&#8230; no dice.<br />
+Until now. I was thinking: &#8220;Hey look, there&#8217;s that stupid old scanner, maybe this will work on Linux&#8230;&#8221; So I promised myself that I would spent a few minutes (not more) trying to get this to work, before dumping it completely.<br />
+I connect the scanner to a free <span class="caps">USB</span> port&#8230; nothing happens. No worries, after fiddling around I find out about <code>xsane</code> (hey, go easy on me, I&#8217;m still a bit of a Linux noob), so I try that, and get a nice bunch of error messages&#8230; perfect.<br />
+    Failed to open device &#8216;artec_eplus48u:libusb:001:002&#8217;: invalid argument<br />
+Really? So my crappy brand scanner is actually an Artec. Fine, after searching a bit on Google I find the following suggestions, export this:<br />
+   export SANE_DEBUG_ARTEC_EPLUS48U=9<br />
+And then run again, we now get some more information:<br />
     [artec_eplus48u] Try to open firmware file:&nbsp;&#8220;/usr/share/sane/artec_eplus48u/Artec48.usb&#8221;  </p>
 <div class="highlight"><pre><span></span>[artec_eplus48u] Cannot open firmware file &quot;/usr/share/sane/artec_eplus48u/1200.usb&quot;
 
@@ -93,9 +93,9 @@ And then run again, we now get some more information:<br>
 </pre></div>
 
 
-<p>Apparently, .usb is a Windows driver, so good luck getting it. Luckily, the drivers where still on my other machine, so I do a search for every .usb I can find. <code>Artec48.usb</code> gets found and copied over to the directory <code>xsane</code> suggests: <code>/usr/share/sane/artec_eplus48</code> (had to create it).<br>
-I tried again&#8230; And it frickin&#8217; works! What a piece of cake.<br>
-If you happen to have the same problem, and want the <code>Artec48.usb</code> driver, you may drop me a note.<br>
+<p>Apparently, .usb is a Windows driver, so good luck getting it. Luckily, the drivers where still on my other machine, so I do a search for every .usb I can find. <code>Artec48.usb</code> gets found and copied over to the directory <code>xsane</code> suggests: <code>/usr/share/sane/artec_eplus48</code> (had to create it).<br />
+I tried again&#8230; And it frickin&#8217; works! What a piece of cake.<br />
+If you happen to have the same problem, and want the <code>Artec48.usb</code> driver, you may drop me a note.<br />
 I&#8217;m happy, now this scanner still can be a little bit of use. This is what I like about Linux: if you have a problem: continue fiddling and trying without giving up. In the end it&#8217;ll work out and you&#8217;ll have learned a lot of things (which is&nbsp;great). </p>
 	</article>
 </div>

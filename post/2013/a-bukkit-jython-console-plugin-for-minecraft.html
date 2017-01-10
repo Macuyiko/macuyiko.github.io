@@ -99,7 +99,7 @@
 <p>Minecraft has been wildly successful. Not only because of the <span class="caps">LEGO</span>-like main gameplay, but also thanks to the developers&#8217; friendly stance towards modding, causing an incredible amount of modifications being released, ranging from <a href="http://www.pcgamesn.com/minecraft/twenty-best-minecraft-mods">additional creatures to custom biomes</a>.</p>
 <p><a href="http://kotaku.com/5981660/a-short-but-wonderful-documentary-about-why-kids-play-minecraft">Lots</a> of people have also emphasized the fact that Minecraft is a great way for parents to bond with their children. Also in the <a href="http://www.studentadvisor.com/pages/5-ways-minecraft-can-help-improve-your-sat-score">classroom</a>, Minecraft has been used as a teaching aid to inspire&nbsp;children.</p>
 <p>Combine the two aspects above (modding and teaching), and you ultimately start wondering whether Minecraft could also be used to teach programming. When the Raspberry Pi put online <a href="http://www.raspberrypi.org/archives/2565">their announcement</a> that a special Minecraft version would be available for their miniature, cheap computer, the answer to this question indeed seems to be: yes, since their &#8220;Minecraft: Pi Edition&#8221; would come with a programming Python  <span class="caps">API</span> built in, as shown by the following screen&nbsp;shot.</p>
-<p><img alt="Minecraft running on the Raspberry Pi" src="http://i.imgur.com/ieZYEn2.jpg"></p>
+<p><img alt="Minecraft running on the Raspberry Pi" src="http://i.imgur.com/ieZYEn2.jpg" /></p>
 <p>Back on the <span class="caps">PC</span>-side, the great interest in modding Minecraft eventually led to the <a href="http://bukkit.org/">Bukkit</a> project &#8212; a community-created Minecraft server with a comprehensive <span class="caps">API</span> to allow others to create plugins, extending the world, gameplay and rules of the vanilla Minecraft experience. Minecraft server administrators also enjoy having some sort of console available to be able to modify a Minecraft world at runtime. Banning players, erecting or destroying structures or changing the time of day without having to restart indeed comes in handy when you&#8217;re running a server. The Bukkit development <span class="caps">API</span> makes it very easy to create such kinds of plugins, but they often require the list of possible commands to be specified beforehand (in the Java plugin), which are then made available through the game&#8217;s chat window. For instance, issuing the&nbsp;command:</p>
 <div class="highlight"><pre><span></span>/weather sunny
 </pre></div>
@@ -134,22 +134,22 @@
 <p><a href="http://www.rockpapershotgun.com/2013/01/07/coding-in-minecraft/#more-137060">ComputerCraft</a> also inspires people to learn coding, but is even more high level. It actually provides a &#8220;console block&#8221; in the game offering a rudimentary shell which has nothing to do with the inner workings of either Bukkit or&nbsp;Minecraft.</p>
 <p>Finally, plugins such as <a href="http://dev.bukkit.org/bukkit-plugins/pydevtools/">PyDevTool</a> and <a href="http://dev.bukkit.org/bukkit-plugins/redstonetorch/">RedstoneTorch</a> come closer to what we want to achieve. For instance, PyDevTools allows&nbsp;to:</p>
 <blockquote>
-<p>Execute arbitrary python code from console or ingame  <br>
-Execute saved python scripts  <br>
+<p>Execute arbitrary python code from console or ingame  <br />
+Execute saved python scripts  <br />
 Interactive interpreter&nbsp;mode</p>
 </blockquote>
 <p>This is almost exactly what I wanted to build, but still requires to log into the game to execute <code>/py &lt;statement&gt;</code> commands. Yes, these can also be entered in the Bukkit console (offering some kind of interactive shell), but I wanted to remove the <code>/py</code> clutter. A simple trick indeed will allow us to do so, let&#8217;s get right to&nbsp;it&#8230;</p>
 <h3>Making the&nbsp;Plugin</h3>
 <p>We&#8217;ll be using Eclipse to make our Bukkit plugin. I&#8217;ll assume you know how this <span class="caps">IDE</span> works already. If you&#8217;re not familiar with Java and just want to try the plugin, you can skip this section. Otherwise, follow&nbsp;along.</p>
 <p>First of all, we&#8217;re going to create a new Java project in Eclipse. I&#8217;ll call this <code>BukkitConsole</code>. We create a <code>plugin.yml</code> file in the project root with some basic&nbsp;information:</p>
-<p><a href="http://2.bp.blogspot.com/-i5hB1gwGemM/UdBQCbfc4mI/AAAAAAAAXgw/ZEHixo85VDE/s566/03.gif"><img alt="" src="http://2.bp.blogspot.com/-i5hB1gwGemM/UdBQCbfc4mI/AAAAAAAAXgw/ZEHixo85VDE/s320/03.gif"></a></p>
+<p><a href="http://2.bp.blogspot.com/-i5hB1gwGemM/UdBQCbfc4mI/AAAAAAAAXgw/ZEHixo85VDE/s566/03.gif"><img alt="" src="http://2.bp.blogspot.com/-i5hB1gwGemM/UdBQCbfc4mI/AAAAAAAAXgw/ZEHixo85VDE/s320/03.gif" /></a></p>
 <p>Next up, we create a <code>lib</code> folder in which we&#8217;re going to place two&nbsp;libraries:</p>
 <ul>
 <li><code>jython-standalone-*.jar</code>: to be downloaded from the <a href="http://www.jython.org/downloads.html">Jython</a> web&nbsp;site</li>
 <li><code>bukkit-*.jar</code>: the Bukkit development <span class="caps">API</span>, which can be downloaded from <a href="http://dl.bukkit.org/latest-dev/bukkit.jar">here</a> (more information on <a href="http://wiki.bukkit.org/Plugin_Tutorial">their Wiki</a>). I&#8217;m using the 1.5.2&nbsp;branch.</li>
 </ul>
 <p>Add these libraries to the build path. You&#8217;ll now have the following&nbsp;structure:</p>
-<p><a href="http://1.bp.blogspot.com/-XB56VYI6GOQ/UdBQCu1IYfI/AAAAAAAAXhc/JoQm1mL0C90/s280/04.gif"><img alt="" src="http://1.bp.blogspot.com/-XB56VYI6GOQ/UdBQCu1IYfI/AAAAAAAAXhc/JoQm1mL0C90/s320/04.gif"></a></p>
+<p><a href="http://1.bp.blogspot.com/-XB56VYI6GOQ/UdBQCu1IYfI/AAAAAAAAXhc/JoQm1mL0C90/s280/04.gif"><img alt="" src="http://1.bp.blogspot.com/-XB56VYI6GOQ/UdBQCu1IYfI/AAAAAAAAXhc/JoQm1mL0C90/s320/04.gif" /></a></p>
 <p>Next, we&#8217;ll create the plugin classes themselves. Create a package under <code>src</code> called <code>com.macuyiko.bukkitconsole</code>. We&#8217;re going to add two&nbsp;classes.</p>
 <p><code>MainPlugin.java</code>, this class just loads the libraries from the <code>lib</code> folder and spawns a <code>PythonConsole</code> window:</p>
 <div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">bukkitconsole</span><span class="p">;</span>
@@ -214,7 +214,7 @@ Interactive interpreter&nbsp;mode</p>
 
 
 <p>Things&#8217;ll now look as&nbsp;follows:</p>
-<p><a href="http://1.bp.blogspot.com/-vT2ZBTYSk0Y/UdBQC2ZRQ1I/AAAAAAAAXg4/R-bQgiHScvk/s1064/05.gif"><img alt="" src="http://1.bp.blogspot.com/-vT2ZBTYSk0Y/UdBQC2ZRQ1I/AAAAAAAAXg4/R-bQgiHScvk/s320/05.gif"></a></p>
+<p><a href="http://1.bp.blogspot.com/-vT2ZBTYSk0Y/UdBQC2ZRQ1I/AAAAAAAAXg4/R-bQgiHScvk/s1064/05.gif"><img alt="" src="http://1.bp.blogspot.com/-vT2ZBTYSk0Y/UdBQC2ZRQ1I/AAAAAAAAXg4/R-bQgiHScvk/s320/05.gif" /></a></p>
 <p>That&#8217;s it for the Java side! Export your project to <code>bukkitconsole.jar</code>.</p>
 <p>We&#8217;re now going to setup the server. Create a folder <code>server</code> somewhere. Next, download <code>craftbukkit-*.jar</code> from <a href="http://dl.bukkit.org/latest-rb/craftbukkit.jar">here</a> (Bukkit is the development <span class="caps">API</span>, &#8220;CraftBukkit&#8221; is the actual server; again, more info on the <a href="http://wiki.bukkit.org/Setting_up_a_server">Wiki</a>) and put it in this&nbsp;folder.</p>
 <p>We&#8217;re also going to create a simple <code>run.bat</code> in this&nbsp;folder:</p>
@@ -224,9 +224,9 @@ PAUSE
 
 
 <p>Execute <code>run.bat</code> to see whether CraftBukkit works fine and if you can connect with your Minecraft client (note: if you&#8217;re running the current snapshot, the launcher should allow you to create a profile with version 1.5.2, which is what we&#8217;re using here). Normally, you should get something&nbsp;like:</p>
-<p><a href="http://4.bp.blogspot.com/-TNlVvsT2NW0/UdBQC7ZZiNI/AAAAAAAAXhE/Vn9H0l9E1wI/s988/07.gif"><img alt="" src="http://4.bp.blogspot.com/-TNlVvsT2NW0/UdBQC7ZZiNI/AAAAAAAAXhE/Vn9H0l9E1wI/s400/07.gif"></a></p>
+<p><a href="http://4.bp.blogspot.com/-TNlVvsT2NW0/UdBQC7ZZiNI/AAAAAAAAXhE/Vn9H0l9E1wI/s988/07.gif"><img alt="" src="http://4.bp.blogspot.com/-TNlVvsT2NW0/UdBQC7ZZiNI/AAAAAAAAXhE/Vn9H0l9E1wI/s400/07.gif" /></a></p>
 <p>Enter <code>stop</code> to stop the server. CraftBukkit will have created some new folders in your <code>server</code> directory:</p>
-<p><a href="http://4.bp.blogspot.com/-MNFmUy2ojro/UdBQMLKeBQI/AAAAAAAAXhw/svw9WscYSDo/s400/08.gif"><img alt="" src="http://4.bp.blogspot.com/-MNFmUy2ojro/UdBQMLKeBQI/AAAAAAAAXhw/svw9WscYSDo/s598/08.gif"></a></p>
+<p><a href="http://4.bp.blogspot.com/-MNFmUy2ojro/UdBQMLKeBQI/AAAAAAAAXhw/svw9WscYSDo/s400/08.gif"><img alt="" src="http://4.bp.blogspot.com/-MNFmUy2ojro/UdBQMLKeBQI/AAAAAAAAXhw/svw9WscYSDo/s598/08.gif" /></a></p>
 <p>Next, we&#8217;re going to download a Jython console. I picked <a href="http://don.freeshell.org/jython/">this one by Don Coleman</a>, since it is simple and offers fairly robust code completion. Note that I had to make some changes to it which can be found on the <a href="https://github.com/Macuyiko/minecraft-bukkit-console">GitHub repository</a> I&#8217;ve created for this project. Not using these changes is okay but will lead to some error spam on the Bukkit&nbsp;console.</p>
 <p>Create a folder called <code>python</code> in <code>server</code> and extract the Jython console. <code>python</code> should&nbsp;contain:</p>
 <ul>
@@ -250,7 +250,7 @@ PAUSE
 </ul>
 <p>Yes&#8230; the same ones we&#8217;ve included in our Eclipse project. It would have been possible to package these into the <span class="caps">JAR</span>, but loading in resources from <span class="caps">JAR</span> files is a bit of a pain which I didn&#8217;t want to go through. Feel free to add <code>lib</code> and <code>python</code> to the <span class="caps">JAR</span> and submit a pull request on GitHub if you get things&nbsp;working.</p>
 <p>That&#8217;s it. Try executing <code>run.bat</code> again. If all goes right, Bukkit should be able to load in our console plugin and will present you with an&nbsp;interpreter:</p>
-<p><a href="http://2.bp.blogspot.com/-l78RCAZbo74/UdBQEKYM78I/AAAAAAAAXhU/m5a1z_klzr0/s987/10.gif"><img alt="" src="http://2.bp.blogspot.com/-l78RCAZbo74/UdBQEKYM78I/AAAAAAAAXhU/m5a1z_klzr0/s400/10.gif"></a></p>
+<p><a href="http://2.bp.blogspot.com/-l78RCAZbo74/UdBQEKYM78I/AAAAAAAAXhU/m5a1z_klzr0/s987/10.gif"><img alt="" src="http://2.bp.blogspot.com/-l78RCAZbo74/UdBQEKYM78I/AAAAAAAAXhU/m5a1z_klzr0/s400/10.gif" /></a></p>
 <p>We can try out some commands. Note that you&#8217;ll have to <code>from org.bukkit.Bukkit import *</code> to get access to the Bukkit <span class="caps">API</span> (or <code>from org.bukkit import Bukkit</code> &#8212; you&#8217;ll have to use <code>Bukkit.*</code> but will allow&nbsp;autocompletion)!</p>
 <div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">org.bukkit.Bukkit</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">getWorlds</span><span class="p">()</span>
@@ -289,7 +289,7 @@ PAUSE
 
 
 <p>Which will explode a player with a lightning strike to warn other outlaws. The server administrator&#8217;s &#8220;command center&#8221; now looks like&nbsp;this:</p>
-<p><a href="http://3.bp.blogspot.com/-GXdBI19OpZ0/UdBQFHSyxSI/AAAAAAAAXho/ou6ZpIs9xCw/s1600/11.gif"><img alt="" src="http://3.bp.blogspot.com/-GXdBI19OpZ0/UdBQFHSyxSI/AAAAAAAAXho/ou6ZpIs9xCw/s640/11.gif"></a></p>
+<p><a href="http://3.bp.blogspot.com/-GXdBI19OpZ0/UdBQFHSyxSI/AAAAAAAAXho/ou6ZpIs9xCw/s1600/11.gif"><img alt="" src="http://3.bp.blogspot.com/-GXdBI19OpZ0/UdBQFHSyxSI/AAAAAAAAXho/ou6ZpIs9xCw/s640/11.gif" /></a></p>
 <h3>Adding a Remote Interpreter&nbsp;Server</h3>
 <p>We&#8217;ve now created a Bukkit plugin spawning a Jython interactive console which is able to use the full Bukkit <span class="caps">API</span>. This is a nice starting point to create administrative support scripts, in-game games, or course material for a Minecraft Python programming&nbsp;course.</p>
 <p><strong>(Added 2013-07-16)</strong> There is still &#8220;one more thing&#8221;, however, which prevents our plugin from being useful for &#8220;real&#8221; server administrators: the fact that it relies on <span class="caps">GUI</span> capabilities being present. It would be nice if we would be able the just spawn an interpreter on the console. Doing so, however, is not particularly trivial. One might be tempted to just start a <code>code.interact()</code> loop to do so, but this method comes with several&nbsp;drawbacks:</p>
@@ -383,7 +383,7 @@ public class ConnectionThread implements Runnable {
 </pre></div>
 
 
-<p><a href="http://i.imgur.com/XpR5Um7.png"><img alt="Screengrab showing remote interpreter functionality" src="http://i.imgur.com/XpR5Um7.png"></a></p>
+<p><a href="http://i.imgur.com/XpR5Um7.png"><img alt="Screengrab showing remote interpreter functionality" src="http://i.imgur.com/XpR5Um7.png" /></a></p>
 <p>Two special commands exist. <code>exit!</code> exits the session whereas <code>stop!</code> will completely stop the socket server (not allowing any new connections until Bukkit is restarted). Just as with the <span class="caps">GUI</span> interpreter, it makes sense to <code>from org.bukkit import Bukkit</code> before entering other commands for convenience&#8217;&nbsp;sake.</p>
 <h3>Wrapping&nbsp;Up</h3>
 <p>The source code for this project can be found on the <a href="https://github.com/Macuyiko/minecraft-bukkit-console">following GitHub repo</a>. The repository also hosts everything you need to get running without having to code/compile anything. Feel free to modify both the Python and Java sources and submit pull requests with improvements. I&#8217;d also love to hear about any cool or interesting things you do with&nbsp;this.</p>

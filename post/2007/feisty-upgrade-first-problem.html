@@ -76,19 +76,19 @@
 			title="Permalink to Feisty Upgrade - First Problem">Feisty Upgrade - First&nbsp;Problem</a></div>
 		</header>
 	
-	    <p>We recently updated all our Ubuntu machines from Edgy to Feisty. Updating went smooth, apart from a few problems.<br>
+	    <p>We recently updated all our Ubuntu machines from Edgy to Feisty. Updating went smooth, apart from a few problems.<br />
 The first problem was that X was freezing at random intervals. Xorg log mentioned nothing special, but the <span class="caps">GDM</span> log&nbsp;did:  </p>
 <blockquote>
-<p>Error in I830WaitLpRing(), now is 7023360, start is 7021359<br>
-pgetbl_ctl: 0x3ffc0001 pgetbl_err: 0x0<br>
-ipeir: 0 iphdr: 1810000<br>
-<span class="caps">LP</span> ring tail: 9b38 head: 938c len: 1f801 start 0<br>
-eir: 0 esr: 0 emr: ffff<br>
-instdone: ffc0 instpm: 0<br>
-memmode: 306 instps: f0000<br>
-hwstam: ffff ier: 0 imr: ffff iir: 0<br>
+<p>Error in I830WaitLpRing(), now is 7023360, start is 7021359<br />
+pgetbl_ctl: 0x3ffc0001 pgetbl_err: 0x0<br />
+ipeir: 0 iphdr: 1810000<br />
+<span class="caps">LP</span> ring tail: 9b38 head: 938c len: 1f801 start 0<br />
+eir: 0 esr: 0 emr: ffff<br />
+instdone: ffc0 instpm: 0<br />
+memmode: 306 instps: f0000<br />
+hwstam: ffff ier: 0 imr: ffff iir: 0<br />
 space: 129100 wanted&nbsp;131064</p>
-<p>Fatal server error:<br>
+<p>Fatal server error:<br />
 lockup
 So I did the only thing I could think of: I removed the Videoram lines from xorg.conf. And the freezes seem to have&nbsp;stopped. </p>
 </blockquote>

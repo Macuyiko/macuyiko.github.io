@@ -103,7 +103,7 @@ apt-get upgrade`
     apt-get install ssh&nbsp;openssh-server</p>
 <h2>6. Configure the&nbsp;network</h2>
 <p>A server should have a static <span class="caps">IP</span> address; edit <code>/etc/network/interfaces</code>:
-    #This file describes the network interfaces available on your system<br>
+    #This file describes the network interfaces available on your system<br />
     # and how to activate them. For more information, see&nbsp;interfaces(5).  </p>
 <div class="highlight"><pre><span></span># The loopback network interface  
 auto lo  
@@ -122,28 +122,28 @@ gateway 192.168.0.1`
 <p>Then restart your network:
     /etc/init.d/networking restart
 Then edit <code>/etc/hosts</code>:
-    127.0.0.1 localhost.localdomain localhost<br>
-    192.168.0.100 server1.example.com server1<br>
-    # The following lines are desirable for IPv6 capable hosts<br>
-    ::1 ip6-localhost ip6-loopback<br>
-    fe00::0 ip6-localnet<br>
-    ff00::0 ip6-mcastprefix<br>
-    ff02::1 ip6-allnodes<br>
-    ff02::2 ip6-allrouters<br>
+    127.0.0.1 localhost.localdomain localhost<br />
+    192.168.0.100 server1.example.com server1<br />
+    # The following lines are desirable for IPv6 capable hosts<br />
+    ::1 ip6-localhost ip6-loopback<br />
+    fe00::0 ip6-localnet<br />
+    ff00::0 ip6-mcastprefix<br />
+    ff02::1 ip6-allnodes<br />
+    ff02::2 ip6-allrouters<br />
     ff02::3 ip6-allhosts`
 Now run:
     echo server1.example.com &gt; /etc/hostname
 Reboot the system:
     reboot
 Afterwards, run:
-    hostname<br>
+    hostname<br />
     hostname -f
 Both should show your chosen&nbsp;hostname.</p>
 <h2>7. Add&nbsp;users</h2>
 <p>Add some users. Adding a &#8220;webmaster&#8221; is recommended:
-    sudo useradd -d /home/webmaster -m webmaster<br>
-    sudo passwd webmaster<br>
-    # Set /bin/bash as shell<br>
+    sudo useradd -d /home/webmaster -m webmaster<br />
+    sudo passwd webmaster<br />
+    # Set /bin/bash as shell<br />
     # Edit&nbsp;/etc/sudoers  </p>
 <h2>8.&nbsp;MySQL</h2>
 <p>Install MySQL. You will be asked for a root password.
@@ -162,15 +162,15 @@ We keep <code>bind-address = 127.0.0.1</code> in <code>/etc/mysql/my.cnf</code>.
 Run:
     dpkg-reconfigure postfix
 Again, you&#8217;ll be asked some questions:
-    General type of configuration? &lt;&#8212; Internet Site<br>
-    Where should mail for root go &lt;&#8212; [blank]<br>
-    Mail name? &lt;&#8212; server1.example.com<br>
-    Other destinations to accept mail for? (blank for none) &lt;&#8212; server1.example.com, localhost.example.com, localhost.localdomain, localhost<br>
-    Force synchronous updates on mail queue? &lt;&#8212; No<br>
-    Local networks? &lt;&#8212; 127.0.0.0/8<br>
-    Use procmail for local delivery? &lt;&#8212; Yes<br>
-    Mailbox size limit &lt;&#8212; 0<br>
-    Local address extension character? &lt;&#8212; +<br>
+    General type of configuration? &lt;&#8212; Internet Site<br />
+    Where should mail for root go &lt;&#8212; [blank]<br />
+    Mail name? &lt;&#8212; server1.example.com<br />
+    Other destinations to accept mail for? (blank for none) &lt;&#8212; server1.example.com, localhost.example.com, localhost.localdomain, localhost<br />
+    Force synchronous updates on mail queue? &lt;&#8212; No<br />
+    Local networks? &lt;&#8212; 127.0.0.0/8<br />
+    Use procmail for local delivery? &lt;&#8212; Yes<br />
+    Mailbox size limit &lt;&#8212; 0<br />
+    Local address extension character? &lt;&#8212; +<br />
     Internet protocols to use? &lt;&#8212; ipv4&nbsp;Next:</p>
 <div class="highlight"><pre><span></span>postconf -e &#39;inet_interfaces = loopback-only&#39;
 </pre></div>
@@ -194,15 +194,15 @@ Restart&nbsp;Postfix:</p>
 
 
 <p>Edit <code>/etc/apache2/mods-available/dir.conf</code>:
-    <IfModule mod_dir.c> <br>
-      #DirectoryIndex index.html index.cgi index.pl index.php index.xhtml <br>
-      DirectoryIndex index.html index.htm index.shtml index.cgi index.php index.xhtml<br>
+    <IfModule mod_dir.c> <br />
+      #DirectoryIndex index.html index.cgi index.pl index.php index.xhtml <br />
+      DirectoryIndex index.html index.htm index.shtml index.cgi index.php index.xhtml<br />
     </IfModule>`
 Now we have to enable some Apache modules: 
-    a2enmod ssl<br>
-    a2enmod rewrite<br>
-    a2enmod suexec<br>
-    a2enmod status<br>
+    a2enmod ssl<br />
+    a2enmod rewrite<br />
+    a2enmod suexec<br />
+    a2enmod status<br />
     a2enmod include
 Reload the Apache&nbsp;configuration: </p>
 <div class="highlight"><pre><span></span>/etc/init.d/apache2 force-reload
@@ -212,10 +212,10 @@ Reload the Apache&nbsp;configuration: </p>
 <p>Don&#8217;t forget to edit&nbsp;php.ini.</p>
 <h3>10.2. Adding&nbsp;subdomains</h3>
 <p>You can add sites to <code>/etc/apache2/sites-enabled</code>, use the following example configuration file:
-    <VirtualHost *><br>
-      ServerAdmin info@sitename.com<br>
-      ServerName sitename.com <br>
-      ServerAlias *.sitename.com<br>
+    <VirtualHost *><br />
+      ServerAdmin info@sitename.com<br />
+      ServerName sitename.com <br />
+      ServerAlias *.sitename.com<br />
       DocumentRoot&nbsp;/var/www/sitename.com/  </p>
 <div class="highlight"><pre><span></span>  <span class="nt">&lt;Directory</span> <span class="nt">/&gt;</span>  
     Options FollowSymLinks  
@@ -256,8 +256,8 @@ You will be asked a&nbsp;question:</p>
 
 
 <p>Now edit <code>/etc/proftpd/proftpd.conf</code>:
-    DefaultRoot /<br>
-    UseIPv6 off<br>
+    DefaultRoot /<br />
+    UseIPv6 off<br />
 Then restart&nbsp;Proftpd:</p>
 <div class="highlight"><pre><span></span>/etc/init.d/proftpd restart
 </pre></div>
@@ -272,7 +272,7 @@ Then restart&nbsp;Proftpd:</p>
 <p>Pick apache2 to&nbsp;configure.</p>
 <h2>13. Secure <span class="caps">SSH</span> a&nbsp;bit</h2>
 <p>Edit <code>/etc/ssh/sshd_config</code>:
-    Port 4444 #Other than 22<br>
+    Port 4444 #Other than 22<br />
     PermitRootLogin no #Make sure other user can&nbsp;login/sudo`</p>
 <h2>14. Set /var/www&nbsp;permissions</h2>
 <div class="highlight"><pre><span></span>chown -R webmaster:www-data /var/www  
@@ -289,8 +289,8 @@ apxs2 -a -i -c mod_muantiloris.c
 
 
 <p>Edit <code>/etc/apache2/httpd.conf</code>:
-    ExtendedStatus On<br>
-    IPReadLimit 5<br>
+    ExtendedStatus On<br />
+    IPReadLimit 5<br />
     IPPostLimit&nbsp;10  </p>
 <h2>16. Install&nbsp;fail2ban</h2>
 <div class="highlight"><pre><span></span>apt-get install fail2ban
