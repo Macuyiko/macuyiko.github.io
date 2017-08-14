@@ -184,7 +184,7 @@
 
 <p>I&#8217;m only fetching the unique id here, together with the from and subject headers. Quite annoyingly, even though the Gmail <span class="caps">API</span> provides batch calls to delete and modify a list of e-mails, it does not expose similar functionality to get a list of e-mails. Instead, <code>service.users().messages().list(...)</code> provides a paginated result list of e-mail ids and thread ids, without detailed information. Afterwards, you need to loop through all e-mail ids to <code>service.users().messages().get(...)</code> their details. I&#8217;m using joblib here to speed up this&nbsp;process:</p>
 <p><img alt="" src="/images/2017/gmail1.png"></p>
-<p>A few hours later, the database is filled up and ready for use. A simple <span class="caps">SQL</span> statement can immediately provided a grouped overview of e-mails per&nbsp;sender:</p>
+<p>A few hours later, the database is filled up and ready for use. A simple <span class="caps">SQL</span> statement can immediately provide a grouped overview of e-mails per&nbsp;sender:</p>
 <div class="highlight"><pre><span></span>SELECT header_from, count(*) AS &quot;amount&quot; FROM &quot;email&quot;
 WHERE &quot;trashed&quot; = 0 
 GROUP BY &quot;header_from&quot; 
