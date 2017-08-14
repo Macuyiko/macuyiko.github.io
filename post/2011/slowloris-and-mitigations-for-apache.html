@@ -80,7 +80,7 @@
 <p>If you are the least bit interested in network security, you&#8217;ll undoubtedly have heard about Slowloris by&nbsp;now.  </p>
 <blockquote>
 <p>Slowloris is a piece of software written by Robert &#8220;RSnake&#8221; Hansen which allows a single machine to take down another machine&#8217;s web server with minimal bandwidth and side effects on unrelated services and ports. Slowloris tries to keep many connections to the target web server open and hold them open as long as possible. It accomplishes this by opening connections to the target web server and sending a partial request. Periodically, it will send subsequent <span class="caps">HTTP</span> headers, adding to&#8212;but never completing&#8212;the request. Affected servers will keep these connections open, filling their maximum concurrent connection pool, eventually denying additional connection attempts from clients. (From: <a href="http://en.wikipedia.org/wiki/Slowloris">Wikipedia</a>)
-The attack is <span class="caps">HTTP</span>-based, and attacks webservers by making lots of keep-alive connections and keeping them alive by sending bogus <span class="caps">HTTP</span> headers. The server&#8217;s connection pool gets filled and no other clients can be served. The attack is said to work on a large number of webservers, according to the <a href="http://ha.ckers.org/slowloris/">project page</a>:<br />
+The attack is <span class="caps">HTTP</span>-based, and attacks webservers by making lots of keep-alive connections and keeping them alive by sending bogus <span class="caps">HTTP</span> headers. The server&#8217;s connection pool gets filled and no other clients can be served. The attack is said to work on a large number of webservers, according to the <a href="http://ha.ckers.org/slowloris/">project page</a>:<br>
   - Apache 1.x
   - Apache 2.x
   - dhttpd
@@ -91,7 +91,7 @@ The attack is <span class="caps">HTTP</span>-based, and attacks webservers by ma
   - Verizon&#8217;s Motorola Set-Top Box (port 8082 and requires auth - unconfirmed)
   - BeeWare <span class="caps">WAF</span> (unconfirmed)
   - Deny All <span class="caps">WAF</span> (unconfirmed)
-And does not affect:<br />
+And does not affect:<br>
   - <span class="caps">IIS6</span>.0
   - <span class="caps">IIS7</span>.0
   - lighttpd
@@ -103,18 +103,18 @@ And does not affect:<br />
 Recently, the method was placed in the spotlights again, because both Wikileaks-supporters and non-supporters were using it to <span class="caps">DOS</span> a variety of websites and Wikileaks mirrors. Also, recently, an alternative <span class="caps">HTTP</span>-based <span class="caps">DOS</span> method was found, using <span class="caps">POST</span> requests with a large content length (<a href="http://www.darkreading.com/vulnerability-management/167901026/security/application-security/228400147/new-http-post-ddos-attack-tools-released.html">article</a>).  </p>
 </blockquote>
 <h1>Attack</h1>
-<p>I run Apache, so, naturally, I was (and still am) concerned about this attack vector. The first step in preventing and solving security problems lies in understanding the attack. Luckily, in this case, the attack is devilishly simple. Based on a <span class="caps">PHP</span> version of the original Slowloris attack (<a href="http://seclists.org/fulldisclosure/2009/Jun/207">found here</a>), I wrote a modified script which also included the new <span class="caps">POST</span>-based attack method. The extended version of the script can be found on <a href="https://gist.github.com/771824">Github</a>.<br />
+<p>I run Apache, so, naturally, I was (and still am) concerned about this attack vector. The first step in preventing and solving security problems lies in understanding the attack. Luckily, in this case, the attack is devilishly simple. Based on a <span class="caps">PHP</span> version of the original Slowloris attack (<a href="http://seclists.org/fulldisclosure/2009/Jun/207">found here</a>), I wrote a modified script which also included the new <span class="caps">POST</span>-based attack method. The extended version of the script can be found on <a href="https://gist.github.com/771824">Github</a>.<br>
 The usage is&nbsp;straightforward:  </p>
 <div class="highlight"><pre><span></span>./scriptname.php &lt;method&gt; &lt;number of processes&gt; &lt;server&gt; [host]`
 </pre></div>
 
 
-<p>Where:<br />
+<p>Where:<br>
   - <code>&lt;method&gt;</code> is either &#8220;get&#8221; for the &#8220;slow-headers&#8221; based attack, or &#8220;post&#8221; for the new variant;/li&gt;
   - <code>&lt;number of processes&gt;</code> determines the number of concurrent requests, around 300 does the trick in most cases;
   - <code>&lt;server&gt;</code> is the hostname or <span class="caps">IP</span> address of the server you want to target;
   - <code>[host]</code> is an optional parameter which will be used in the &#8220;Host:&#8221;-request header. If left blank the same value as  will be used.
-The script really illustrates how simple the attacks are, lets comment a bit on the <code>attack_get</code> function: <br />
+The script really illustrates how simple the attacks are, lets comment a bit on the <code>attack_get</code> function: <br>
     function attack_get($server, $host){
         # The following lines set up a normal <span class="caps">HTTP1</span>.1 <span class="caps">GET</span> request with Keep-Alive
         $request  = &#8220;<span class="caps">GET</span> / <span class="caps">HTTP</span>/1.1\r\n&#8221;;
@@ -141,7 +141,7 @@ The script really illustrates how simple the attacks are, lets comment a bit on 
             }
         }
     }
-The <code>attack_post</code> function works very similar: <br />
+The <code>attack_post</code> function works very similar: <br>
     function attack_post($server, $host){
         # Send a post request to a random location, eventually you could change this to make sure you post to an existing <span class="caps">URL</span>
         $request  = &#8220;<span class="caps">POST</span> /&#8221;.md5(rand()).&#8221; <span class="caps">HTTP</span>/1.1\r\n&#8221;;
@@ -164,10 +164,10 @@ The <code>attack_post</code> function works very similar: <br />
             }
         }
     }
-You can also download an <span class="caps">OWASP</span> (Open Web Application Security Project) tool found <a href="http://www.owasp.org/index.php/OWASP_HTTP_Post_Tool">here</a> which does the same. The tool contains a <span class="caps">GUI</span> which lets you choice the attack method (slow headers or slow post), has proxy support, and allows setting attack parameters. The slow header attack can use <span class="caps">GET</span> or <span class="caps">POST</span> requests, whereas my script above can not and only uses <span class="caps">GET</span>. Not that it matters much for that method, as the headers are the crucial factor.<br />
+You can also download an <span class="caps">OWASP</span> (Open Web Application Security Project) tool found <a href="http://www.owasp.org/index.php/OWASP_HTTP_Post_Tool">here</a> which does the same. The tool contains a <span class="caps">GUI</span> which lets you choice the attack method (slow headers or slow post), has proxy support, and allows setting attack parameters. The slow header attack can use <span class="caps">GET</span> or <span class="caps">POST</span> requests, whereas my script above can not and only uses <span class="caps">GET</span>. Not that it matters much for that method, as the headers are the crucial factor.<br>
 The attack certainly works. In my testing, I was able to <span class="caps">DOS</span> about 30% of all sampled webservers (retrieved from just random Google results), including my own. A funny side effect of this method is that, once you stop attacking, the server immediately becomes responsive again as the connection pool is freed. The slow post attack worked more reliable in my testing than the slow&nbsp;headers.  </p>
 <h1>Mitigation</h1>
-<p>Preventing the attack is not easy. The Apache developers are <a href="http://article.gmane.org/gmane.comp.apache.devel/37794">aware</a> of the problem, but some architectural changes are needed before the problem will be solved. In the meantime, some users have made some suggestions and/or developed solutions themselves:<br />
+<p>Preventing the attack is not easy. The Apache developers are <a href="http://article.gmane.org/gmane.comp.apache.devel/37794">aware</a> of the problem, but some architectural changes are needed before the problem will be solved. In the meantime, some users have made some suggestions and/or developed solutions themselves:<br>
   - Using Apache modules such as mod_limitipconn, mod qos, mod_evasive, mod_security, mod_noloris, and mod_antiloris.
   - Making some changes to Apache configuration.
   - Using load balancers or proxies. Setting up <a href="http://www.varnish-cache.org/">Varnish</a> in front of Apache seems to be a popular choice.
@@ -176,24 +176,24 @@ The attack certainly works. In my testing, I was able to <span class="caps">DOS<
   - Making changes to Linux/FreeBSD network parameters using accf, pfctl, sysctl
 Since I want to try to keep things simple, I&#8217;ll look at the Apache configuration, and some helpful&nbsp;modules.  </p>
 <h2>Apache&nbsp;Configuration</h2>
-<p>This mainly concerns tuning the following: <code>KeepAliveTimeout</code> and <code>Timeout</code>.<br />
+<p>This mainly concerns tuning the following: <code>KeepAliveTimeout</code> and <code>Timeout</code>.<br>
 <code>Timeout</code> does the following (<a href="http://httpd.apache.org/docs/current/mod/core.html">docs</a>):  </p>
 <blockquote>
 <p>The TimeOut directive defines the length of time Apache will wait for I/O in various&nbsp;circumstances:  </p>
 <p>When reading data from the client, the length of time to wait for a <span class="caps">TCP</span> packet to arrive if the read buffer is&nbsp;empty.  </p>
 <p>When writing data to the client, the length of time to wait for an acknowledgement of a packet if the send buffer is full.
-This helps a bit, but an attacker could just increase his own sending rate (e.g. lower the sleep time in the functions above) to work around this.<br />
-<code>KeepAliveTimeout</code> then does:<br />
+This helps a bit, but an attacker could just increase his own sending rate (e.g. lower the sleep time in the functions above) to work around this.<br>
+<code>KeepAliveTimeout</code> then does:<br>
 The number of seconds Apache will wait for a subsequent request before closing the connection.
 Again, the problem remains. An attacker could just increase the sending rate. Note that, when using the slow headers method, the <code>Timeout</code> directive above might not help a single bit, since the docs state that:
 Once a request has been received, the timeout value specified by the Timeout directive applies.
-But the full receiving of a request itself takes a long, long time.<br />
+But the full receiving of a request itself takes a long, long time.<br>
 Turning <code>KeepAlive</code> completely off might help, but it is no real remedy. The <span class="caps">POST</span> attack still remains an issue. Tweaking with the Apache options alone is thus certainly not&nbsp;enough.  </p>
 </blockquote>
 <h2>mod_antiloris</h2>
-<p>Some developers have released Apache modules geared to mitigate the Slowloris attack. The two most common ones are <code>mod_antiloris</code> and <code>mod_noloris</code>. Both use the same trick to prevent attacks. They both hook into connection attempts:<br />
+<p>Some developers have released Apache modules geared to mitigate the Slowloris attack. The two most common ones are <code>mod_antiloris</code> and <code>mod_noloris</code>. Both use the same trick to prevent attacks. They both hook into connection attempts:<br>
     ap_hook_process_connection(pre_connection, <span class="caps">NULL</span>, <span class="caps">NULL</span>, APR_HOOK_FIRST);
-And count how many connections from the same remote <span class="caps">IP</span> are already in the SERVER_BUSY_READ state (the server is reading data from a client). When this count is too high, subsequent connections get denied:<br />
+And count how many connections from the same remote <span class="caps">IP</span> are already in the SERVER_BUSY_READ state (the server is reading data from a client). When this count is too high, subsequent connections get denied:<br>
     for (i = 0; i &lt; server_limit; ++i) {
         for (j = 0; j &lt; thread_limit; ++j) {
             ws_record = ap_get_scoreboard_worker(i, j);
@@ -213,16 +213,16 @@ And count how many connections from the same remote <span class="caps">IP</span>
     } else {
         return <span class="caps">DECLINED</span>;
     }
-Installing <a href="http://sourceforge.net/projects/mod-antiloris/">mod_antiloris</a> in Ubuntu is a simple matter of executing:<br />
+Installing <a href="http://sourceforge.net/projects/mod-antiloris/">mod_antiloris</a> in Ubuntu is a simple matter of executing:<br>
 <code>$ sudo apt-get install libapache2-mod-antiloris</code>  </p>
 <h2>mod_limitipconn</h2>
-<p>During testing, I discovered that the mod_antiloris module above only protects against the original slow header variant of the Slowloris attack. The slow post was still killing my webserver. So I explored the use of another mod, named <a href="http://dominia.org/djao/limitipconn2.html">mod_limitipconn</a>, which limits simultaneous requests from the same <span class="caps">IP</span>.<br />
-There is no Apache2 module of <code>mod_limitipconn</code> in the Ubuntu repositories, but a Debian deb package is available online and works fine on Ubuntu:<br />
+<p>During testing, I discovered that the mod_antiloris module above only protects against the original slow header variant of the Slowloris attack. The slow post was still killing my webserver. So I explored the use of another mod, named <a href="http://dominia.org/djao/limitipconn2.html">mod_limitipconn</a>, which limits simultaneous requests from the same <span class="caps">IP</span>.<br>
+There is no Apache2 module of <code>mod_limitipconn</code> in the Ubuntu repositories, but a Debian deb package is available online and works fine on Ubuntu:<br>
     # Use the i386 package if you have to&#8230;
     $ wget http://elonen.iki.fi/code/unofficial-debs/mod-limitipconn/apache2-mod-limitipconn_0.22-2_amd64.deb
     $ sudo dpkg -i ./apache2-mod-limitipconn_0.22-2_amd64.deb
     $ sudo a2enmod limitipconn
-Before you restart Apache, create a configuration file at <code>/etc/apache2/conf.d/limitipconn.conf</code>:<br />
+Before you restart Apache, create a configuration file at <code>/etc/apache2/conf.d/limitipconn.conf</code>:<br>
     ExtendedStatus On
     <IfModule mod_limitipconn.c>
             <Location />
@@ -232,9 +232,9 @@ Before you restart Apache, create a configuration file at <code>/etc/apache2/con
                     NoIPLimit image/<em>
             </Location>
     </IfModule>
-Now the server can be restarted:<br />
-    $ sudo /etc/init.d/apache2 restart <br />
-When investigating the source code of mod_limitipconn, we find the following lines:<br />
+Now the server can be restarted:<br>
+    $ sudo /etc/init.d/apache2 restart <br>
+When investigating the source code of mod_limitipconn, we find the following lines:<br>
     /</em> Count up the number of connections we are handling right now from
     * this <span class="caps">IP</span> address */
     for (i = 0; i &lt; server_limit; ++i) {
@@ -261,7 +261,7 @@ Not much different compared to the previous mods, except that <code>mod_limitipc
 Interesting information, and some valid&nbsp;points.  </p>
 </blockquote>
 <h2>Modified&nbsp;mod_antiloris</h2>
-<p>With this in mind I set out to modify mod_antiloris, as I wasn&#8217;t completely happy with mod_limitipconn. The module works great, but provided too much configuration overhead. I wanted something really simple. The source code for mod_antiloris was quickly edited to include a second counter, and to check the request string (i.e. it has to contain &#8220;<span class="caps">POST</span>&#8221;).<br />
+<p>With this in mind I set out to modify mod_antiloris, as I wasn&#8217;t completely happy with mod_limitipconn. The module works great, but provided too much configuration overhead. I wanted something really simple. The source code for mod_antiloris was quickly edited to include a second counter, and to check the request string (i.e. it has to contain &#8220;<span class="caps">POST</span>&#8221;).<br>
     switch (ws_record-&gt;status) {
         case SERVER_BUSY_READ:
             if (strcmp(client_ip, ws_record-&gt;client) == 0){
@@ -277,21 +277,21 @@ Interesting information, and some valid&nbsp;points.  </p>
             break;
     }
 I also modified the logging to look a bit more like normal Apache error lines. This will come into play in the next step. The full modified source code is available on <a href="https://gist.github.com/773464">Github</a>.
-Installing and compiling the module requires little work:<br />
+Installing and compiling the module requires little work:<br>
     $ sudo apt-get install gcc apache2-threaded-dev
     $ wget https://gist.github.com/raw/773464/4e7250692c34f55725384525b513e71be7541f5a/mod_muantiloris.c
     $ sudo apxs2 -a -i -c mod_muantiloris.c
     $ sudo /etc/init.d/apache2 restart
-Don&#8217;t forget to disable mod_antiloris and/or mod_limitipconn if you have them enabled (using <code>a2dismod</code>). The modified module uses only two optional configuration directives:<br />
-    IPReadLimit (default 5)<br />
-    IPPostLimit (default 10)<br />
-<strong>Note</strong>: just as with <code>mod_limitipconn</code>, the <code>ExtendedStatus</code> directive should be set to <code>On</code> for this module to work!<br />
-The module blocks both attack variants, and logs to <code>error.log</code> like so:<br />
-<code>[Tue Jan 11 00:11:35 2011] [warn] [client 0.0.0.0] Antiloris rejected, too many connections in READ state</code> <br />
+Don&#8217;t forget to disable mod_antiloris and/or mod_limitipconn if you have them enabled (using <code>a2dismod</code>). The modified module uses only two optional configuration directives:<br>
+    IPReadLimit (default 5)<br>
+    IPPostLimit (default 10)<br>
+<strong>Note</strong>: just as with <code>mod_limitipconn</code>, the <code>ExtendedStatus</code> directive should be set to <code>On</code> for this module to work!<br>
+The module blocks both attack variants, and logs to <code>error.log</code> like so:<br>
+<code>[Tue Jan 11 00:11:35 2011] [warn] [client 0.0.0.0] Antiloris rejected, too many connections in READ state</code> <br>
 Mission&nbsp;successful!  </p>
 <h2>Fail2Ban</h2>
-<p>The following step is optional and only recommended if you already have Fail2Ban installed and running. <a href="http://www.fail2ban.org/">Fail2Ban</a> is a handy tool to ban <span class="caps">IP</span>&#8217;s based on regex tests on logfiles. (I&#8217;ve caught dozens of Chinese, Brazilian and Russian trespassers already.)<br />
-I use the following filter in combination with the modified mod_antiloris above:<br />
+<p>The following step is optional and only recommended if you already have Fail2Ban installed and running. <a href="http://www.fail2ban.org/">Fail2Ban</a> is a handy tool to ban <span class="caps">IP</span>&#8217;s based on regex tests on logfiles. (I&#8217;ve caught dozens of Chinese, Brazilian and Russian trespassers already.)<br>
+I use the following filter in combination with the modified mod_antiloris above:<br>
     [Definition]
     # Option:  failregex
     # Notes.:  regex to match the password failure messages in the logfile. The
@@ -307,7 +307,7 @@ I use the following filter in combination with the modified mod_antiloris above:
     # Values:  <span class="caps">TEXT</span>
     #
     ignoreregex =
-I do set the <code>bantime</code> to a low value and <code>maxretry</code> parameter to a high amount however, as the module tends to generate a lot of error lines and legitimate, aggressive browsers sometimes like to make a lot of concurrent requests as well (mod_limitipconn did have the added benefit of specifying mime type to ignore, although its recognition is based on a reduced <span class="caps">URI</span> request string from the Apache scoreboard). Fail2Ban uses IPTables, which has the added benefit that once an <span class="caps">IP</span> is banned, Apache can stop dealing with its flooding altogether.<br />
+I do set the <code>bantime</code> to a low value and <code>maxretry</code> parameter to a high amount however, as the module tends to generate a lot of error lines and legitimate, aggressive browsers sometimes like to make a lot of concurrent requests as well (mod_limitipconn did have the added benefit of specifying mime type to ignore, although its recognition is based on a reduced <span class="caps">URI</span> request string from the Apache scoreboard). Fail2Ban uses IPTables, which has the added benefit that once an <span class="caps">IP</span> is banned, Apache can stop dealing with its flooding altogether.<br>
 That concludes this blog post. I hope you&#8217;ve found the material helpful. Feel free to use any code here and on Github as you see&nbsp;fit. </p>
 	</article>
 </div>

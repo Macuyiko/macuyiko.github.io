@@ -100,9 +100,9 @@ Scanning ...
 </pre></div>
 
 
-<p>Replace <span class="caps">MAC</span> with your phone&#8217;s <span class="caps">MAC</span> address.<br />
-Output example:<br />
-    $ sudo sdptool search &#8212;bdaddr 00:1C:9A:26:F5:<span class="caps">DD</span> <span class="caps">DUN</span> | grep Channel<br />
+<p>Replace <span class="caps">MAC</span> with your phone&#8217;s <span class="caps">MAC</span> address.<br>
+Output example:<br>
+    $ sudo sdptool search &#8212;bdaddr 00:1C:9A:26:F5:<span class="caps">DD</span> <span class="caps">DUN</span> | grep Channel<br>
     Channel: 4
 Note this&nbsp;channel.</p>
 <h4>4. Edit <code>/etc/ppp/peers/BluetoothDialup</code>:</h4>
@@ -110,21 +110,21 @@ Note this&nbsp;channel.</p>
 </pre></div>
 
 
-<p>Paste the following:<br />
+<p>Paste the following:<br>
     /dev/rfcomm1 115200
     local
-    nocrtscts<br />
-    connect &#8220;/usr/sbin/chat -v -f /etc/chatscripts/proximus-gprs&#8221;<br />
-    noauth<br />
-    defaultroute<br />
-    usepeerdns<br />
-    novj<br />
-    remotename proximus<br />
-    debug<br />
-    #user<br />
-    lcp-restart 5<br />
+    nocrtscts<br>
+    connect &#8220;/usr/sbin/chat -v -f /etc/chatscripts/proximus-gprs&#8221;<br>
+    noauth<br>
+    defaultroute<br>
+    usepeerdns<br>
+    novj<br>
+    remotename proximus<br>
+    debug<br>
+    #user<br>
+    lcp-restart 5<br>
     ms-dns&nbsp;195.238.2.21</p>
-<p>There are a few lines which you might need to change. I&#8217;m using the Belgium Proximus operator.<br />
+<p>There are a few lines which you might need to change. I&#8217;m using the Belgium Proximus operator.<br>
 First of all, change <code>/etc/chatscripts/proximus-gprs</code> to something more related to your provider (e.g.: <code>/etc/chatscripts/myprovider-gprs</code>). We&#8217;re going to create this script in the next step. Also: you might need to change the <code>ms-dns</code> entry as well (in most cases you can leave it out, but I had to add it though). Also notice that I have used <code>/dev/rfcomm1</code> as the used device, we&#8217;ll use this in the next steps as&nbsp;well.  </p>
 <h4>5. Create a chatscript at <code>/etc/chatscripts/proximus-gprs</code></h4>
 <div class="highlight"><pre><span></span>sudo gedit /etc/chatscripts/proximus-gprs
@@ -153,7 +153,7 @@ CONNECT &quot;&quot;
 </pre></div>
 
 
-<p>Replace <code>RFCOMM#</code> with the <code>/dev/rfcomm</code>-number you&#8217;ve used before (only the number!), I&#8217;ve used 1. <code>MAC</code> is your phone&#8217;s <span class="caps">MAC</span> address again, and <code>CHANNEL</code> is the channel you found earlier.<br />
+<p>Replace <code>RFCOMM#</code> with the <code>/dev/rfcomm</code>-number you&#8217;ve used before (only the number!), I&#8217;ve used 1. <code>MAC</code> is your phone&#8217;s <span class="caps">MAC</span> address again, and <code>CHANNEL</code> is the channel you found earlier.<br>
 If all went well it should&nbsp;say:  </p>
 <div class="highlight"><pre><span></span>$ rfcomm connect <span class="m">1</span> 00:1C:9A:26:F5:DD <span class="m">4</span>  
 Connected /dev/rfcomm1 to 00:1C:9A:26:F5:DD on channel <span class="m">4</span>  
@@ -161,9 +161,9 @@ Press CTRL-C <span class="k">for</span> hangup
 </pre></div>
 
 
-<p>Now we&#8217;re going to enable the <span class="caps">PPP</span> connection, in a <em>new</em> terminal window (keep the &#8220;<span class="caps">CTRL</span>-C for hangup&#8221;-one open), enter:<br />
+<p>Now we&#8217;re going to enable the <span class="caps">PPP</span> connection, in a <em>new</em> terminal window (keep the &#8220;<span class="caps">CTRL</span>-C for hangup&#8221;-one open), enter:<br>
     pon BluetoothDialup
-<code>BluetoothDialup</code> is the filename of the file we have created in <code>/etc/ppp/peers/</code> earlier in step 4.<br />
+<code>BluetoothDialup</code> is the filename of the file we have created in <code>/etc/ppp/peers/</code> earlier in step 4.<br>
 If all went well you should see an entry now in your ifconfig&nbsp;output:  </p>
 <div class="highlight"><pre><span></span>$ ifconfig  
   ppp0      Link encap:Point-to-Point Protocol  
@@ -181,34 +181,34 @@ If all went well you should see an entry now in your ifconfig&nbsp;output:  </p>
 </pre></div>
 
 
-<p>Press <span class="caps">CTRL</span>-C in that other terminal window to break the Bluetooth/3G-connection.<br />
-<strong>Note:</strong> if you&#8217;ve done something wrong (e.g.: used the wrong channel), you can release rfcomm&#8217;s with:<br />
+<p>Press <span class="caps">CTRL</span>-C in that other terminal window to break the Bluetooth/3G-connection.<br>
+<strong>Note:</strong> if you&#8217;ve done something wrong (e.g.: used the wrong channel), you can release rfcomm&#8217;s with:<br>
     rfcomm release <span class="caps">RFCOMM</span>#
 With <code>RFCOMM#</code> equal to the <code>/dev/rfcomm</code>-number you&#8217;ve used&nbsp;before.  </p>
 <h4>Optional steps: use gnome-ppp to&nbsp;connect</h4>
-<p>If you have <code>gnome-ppp</code> installed, you can also use a graphical interface to configure the above steps.<br />
+<p>If you have <code>gnome-ppp</code> installed, you can also use a graphical interface to configure the above steps.<br>
 First of all, you still have to&nbsp;execute:  </p>
 <div class="highlight"><pre><span></span>rfcomm connect RFCOMM# MAC CHANNEL
 </pre></div>
 
 
-<p>But you <em>don&#8217;t</em> have to create the files from steps 4 and 5. We could automate the connect-step as well, but since the N95&#8217;s channel changes from time to time, this wouldn&#8217;t be very convenient. Also, I like having a terminal open to notify me that I&#8217;m still surfing via my phone.<br />
-Then open up <code>gnome-ppp</code>. If you have to enter a blank username and password for your provider, just enter some dummy values. I used &#8220;blank&#8221; and &#8220;blank&#8221;.<br />
-Phone number: I tried <code>*99***1#</code> this time. And it also seemed to work, great!<br />
-Then press <code>Setup</code>. Enter the following values:<br />
+<p>But you <em>don&#8217;t</em> have to create the files from steps 4 and 5. We could automate the connect-step as well, but since the N95&#8217;s channel changes from time to time, this wouldn&#8217;t be very convenient. Also, I like having a terminal open to notify me that I&#8217;m still surfing via my phone.<br>
+Then open up <code>gnome-ppp</code>. If you have to enter a blank username and password for your provider, just enter some dummy values. I used &#8220;blank&#8221; and &#8220;blank&#8221;.<br>
+Phone number: I tried <code>*99***1#</code> this time. And it also seemed to work, great!<br>
+Then press <code>Setup</code>. Enter the following values:<br>
   - Device: <code>/dev/rfcomm1</code> (or the other rfcomm you defined earlier)
   - Type: <code>USB Modem</code> (yes, <span class="caps">USB</span>!)
   - Speed: <code>460800</code> works here, this probably means I could have used this value in the previous configuration files as well, instead of <code>115200</code>
   - Phone Line: <code>Tone</code> (default)
   - Volume: <code>High</code> (default)
-Then press <code>Init Strings</code>.<br />
+Then press <code>Init Strings</code>.<br>
   - Leave <code>Init 2</code> unchanged (<code>ATQ0 V1 E1 S0=0 &amp;C1 &amp;D2 +FCLASS=0</code>)
-  - Enter this in <code>Init 3</code>: <code>AT+CGDCONT=1,"IP","internet.proximus.be"</code><br />
+  - Enter this in <code>Init 3</code>: <code>AT+CGDCONT=1,"IP","internet.proximus.be"</code><br>
 Again, change this for your provider! I also had to manually define a <span class="caps">DNS</span> in the <code>Networking</code> tab, just like in the previous steps. This might not be the case for you.
-You&#8217;re done, make sure you&#8217;re not wired or wirelessly connected to test this :).<br />
-Screenshot:<br />
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/SXD_Jdo-kuI/AAAAAAAAPIg/k5UvfUx-Gv4/s400/97214235_6ee4d4a9c4_o.png" />
-Final note: some people have to add <code>novj</code> to <code>/etc/ppp/options</code> as well. I didn&#8217;t, tho. Check the Ubuntu forums/Google for information about your specific operator and/or hardware.<br />
+You&#8217;re done, make sure you&#8217;re not wired or wirelessly connected to test this :).<br>
+Screenshot:<br>
+<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/SXD_Jdo-kuI/AAAAAAAAPIg/k5UvfUx-Gv4/s400/97214235_6ee4d4a9c4_o.png">
+Final note: some people have to add <code>novj</code> to <code>/etc/ppp/options</code> as well. I didn&#8217;t, tho. Check the Ubuntu forums/Google for information about your specific operator and/or hardware.<br>
 These instructions were only tested with my Thinkpad, my N95, and my operator. I&#8217;ve set up laptops with Vodafone cards before, and you can use <code>gnome-ppp</code> for those as well, just make sure you&#8217;re using the correct device. Often the device will be at <code>/dev/ttyS0</code>, but use <code>dmesg</code> to find out the exact&nbsp;location.</p>
 	</article>
 </div>

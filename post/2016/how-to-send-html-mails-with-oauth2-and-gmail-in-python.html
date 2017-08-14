@@ -84,17 +84,17 @@
 
 
 <p>In fact, the internet is flooded with people searching to figure out how to get their Wordpress mailer plugin working with Gmail&#8217;s <span class="caps">SMTP</span>. The answer most people give is to just enable the &#8220;Allow less secure apps&#8221;-option in your Google account&nbsp;settings:</p>
-<p><img alt="This doesn't feel right" src="http://blog.macuyiko.com/images/2016/secure_apps.png" /></p>
+<p><img alt="This doesn't feel right" src="http://blog.macuyiko.com/images/2016/secure_apps.png"></p>
 <p>Fair enough, though a more secure way is to use OAuth2 in combination with Google&#8217;s <span class="caps">API</span> console. <a href="https://developers.google.com/gmail/xoauth2_protocol">This page</a> describes the protocol, whereas <a href="https://github.com/google/gmail-oauth2-tools">this GitHub repo</a> provides sample code, including for&nbsp;Python.</p>
 <p>Since the code has been written for Python 2 and I wanted to use 3, I&#8217;ve performed a quick conversion and outline of the&nbsp;steps&#8230;</p>
 <p>Step 1: navigate to your <a href="https://console.developers.google.com/">Google <span class="caps">API</span> console</a>. You might want to create a new project (or make sure you have the right project&nbsp;selected):</p>
-<p><img alt="Create a new project if you want" src="http://blog.macuyiko.com/images/2016/step_1.png" /></p>
+<p><img alt="Create a new project if you want" src="http://blog.macuyiko.com/images/2016/step_1.png"></p>
 <p>Step 2: under &#8220;Credentials&#8221;, select &#8220;Create credentials&#8221; and create a new &#8220;OAuth client <span class="caps">ID</span>&#8221;. If you would already have such an <span class="caps">ID</span>, you can skip this step and just re-use the one you&nbsp;have.</p>
-<p><img alt="Create a new OAuth client ID" src="http://blog.macuyiko.com/images/2016/step_2.png" /></p>
+<p><img alt="Create a new OAuth client ID" src="http://blog.macuyiko.com/images/2016/step_2.png"></p>
 <p>You will be asked which type of app will use this <span class="caps">ID</span>, choose &#8220;Other&#8221; and give your app an easy-to-remember&nbsp;name:</p>
-<p><img alt="Select &quot;Other&quot;" src="http://blog.macuyiko.com/images/2016/step_3.png" /></p>
+<p><img alt="Select &quot;Other&quot;" src="http://blog.macuyiko.com/images/2016/step_3.png"></p>
 <p>Next up comes the most important screen, giving you your client <span class="caps">ID</span> and secret key. Write both of these down and do not give these out to&nbsp;others!</p>
-<p><img alt="Keep it secret, keep it safe" src="http://blog.macuyiko.com/images/2016/step_4.png" /></p>
+<p><img alt="Keep it secret, keep it safe" src="http://blog.macuyiko.com/images/2016/step_4.png"></p>
 <p>Step 3: the Python code we&#8217;ll be using is adapted from (https://github.com/google/gmail-oauth2-tools/blob/master/python/oauth2.py) but works in Python 3 and has been made&nbsp;simpler:</p>
 <div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Adapted from:</span>
@@ -262,9 +262,9 @@ Enter verification code:
 
 
 <p>Open the <span class="caps">URL</span> in your browser, you will be greeted with&nbsp;this:</p>
-<p><img alt="Press accept to accept" src="http://blog.macuyiko.com/images/2016/step_5.png" /></p>
+<p><img alt="Press accept to accept" src="http://blog.macuyiko.com/images/2016/step_5.png"></p>
 <p>After pressing &#8220;Accept&#8221;, Google will present you with a verification&nbsp;code:</p>
-<p><img alt="Press accept to accept" src="http://blog.macuyiko.com/images/2016/step_6.png" /></p>
+<p><img alt="Press accept to accept" src="http://blog.macuyiko.com/images/2016/step_6.png"></p>
 <p>Enter this in the running&nbsp;prompt:</p>
 <div class="highlight"><pre><span></span>Enter verification code: &lt;ENTER YOUR VERIFICATION CODE&gt;
 Set the following as your GOOGLE_REFRESH_TOKEN: [...] 1bA [...]
@@ -282,7 +282,7 @@ Set the following as your GOOGLE_REFRESH_TOKEN: [...] 1bA [...]
 
 
 <p>And run the script again. If all goes well, it should just terminate and you should see an e-mail popping up in your inbox, formatted with <span class="caps">HTML</span>,&nbsp;too:</p>
-<p><img alt="Done!" src="http://blog.macuyiko.com/images/2016/step_7.png" /></p>
+<p><img alt="Done!" src="http://blog.macuyiko.com/images/2016/step_7.png"></p>
 <p>You don&#8217;t need to perform a manual reverification as the same refresh token can be used multiple times. If you do start to get exceptions, the timeout for the refresh token has been reached and you manually need to get a new refresh token, though normally refresh tokens are valid for a long time span as long as you wouldn&#8217;t create additional ones (older ones will stop working) or do not use a refresh token for a long amount of&nbsp;time.</p>
 	</article>
 </div>

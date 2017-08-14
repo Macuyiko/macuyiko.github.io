@@ -76,20 +76,20 @@
 			title="Permalink to Gmail">Gmail</a></div>
 		</header>
 	
-	    <p>What&#8217;s up with Google the last few days? First, a glitch was reported about users getting <a href="http://www.techcrunch.com/2006/12/28/gmail-disaster-reports-of-mass-email-deletions/">their mails deleted</a>. This glitch is now (luckily) fixed.<br />
-Then that hack about your contact list getting stolen, try logging into Gmail and go to one of the following links:<br />
-<a href="http://docs.google.com/data/contacts?out=js&amp;show=ALL&amp;psort=Affinity&amp;callback=google&amp;max=99999">http://docs.google.com/data/contacts?out=js&amp;show=<span class="caps">ALL</span>&amp;psort=Affinity&amp;callback=google&amp;max=99999</a><br />
-<a href="http://video.google.com/data/contacts?out=js&amp;max=500&amp;psort=Affinity&amp;callback=getContacts">http://video.google.com/data/contacts?out=js&amp;max=500&amp;psort=Affinity&amp;callback=getContacts</a><br />
-All your contacts in <span class="caps">JSON</span> format! Accessible to any website which uses this as a src in a script-tag.<br />
-Solutions? Referrer-checking (not that good: can be spoofed). Better: using unique keys in each request. They probably used a combination of solutions.<br />
-It seems to be already fixed now, the only thing it returns for me now is:<br />
-    google ({ Success: false, Errors: []})<br />
-But the <span class="caps">XML</span> output is still accessible though: <a href="http://docs.google.com/data/contacts?out=xml&amp;show=ALL&amp;psort=Affinity&amp;callback=google&amp;max=999999">http://docs.google.com/data/contacts?out=xml&amp;show=<span class="caps">ALL</span>&amp;psort=Affinity&amp;callback=google&amp;max=999999</a>.<br />
-I tried hacking up a little piece of code, but alas: loading the <span class="caps">XML</span> into the frame and then trying to do a frames[&#8216;the_frame&#8217;].document.getElementsByTagName(&#8216;Email&#8217;); does not work. Both Firefox and <span class="caps">IE</span> prevent stealing content from frames across domains.<br />
-Maybe we should use XMLHTTPRequest, then? Also doesn&#8217;t work in Firefox, even when trying to netscape.security.PrivilegeManager.enablePrivilege(&#8220;UniversalBrowserRead&#8221;); it will fail. Internet Explorer (tested in 7) will complain about ActiveX objects being used.<br />
-So is this still a security issue? I would say no. Locally (trusted zone): Firefox doesn&#8217;t allow the described actions, and <span class="caps">IE</span> at least warns the user. When surfing on the Internet (untrusted zone): the objects were blocked by default (my <span class="caps">IE</span> and Firefox were set up in such a way that when I tried to run this script from the web: they would block the cross-domain XMLHTTPRequest by default without asking). Maybe <span class="caps">IE6</span> is a bit more insecure.<br />
-For the people who want to try it out: example <a href="http://student.kuleuven.be/~s0172696/src/gmailsrc.html">html here</a> (use <span class="caps">IE</span>, allow Blocked ActiveX content for it to work).<br />
-Another sad message: <a href="http://digg.com/tech_news/Gmail_s_Storage_Capacity_Stops_Increasing">Gmail&#8217;s storage has stopped increasing</a>&#8230; Mine has also stopped at <span class="caps">2800MB</span>&#8230; Why?<br />
+	    <p>What&#8217;s up with Google the last few days? First, a glitch was reported about users getting <a href="http://www.techcrunch.com/2006/12/28/gmail-disaster-reports-of-mass-email-deletions/">their mails deleted</a>. This glitch is now (luckily) fixed.<br>
+Then that hack about your contact list getting stolen, try logging into Gmail and go to one of the following links:<br>
+<a href="http://docs.google.com/data/contacts?out=js&amp;show=ALL&amp;psort=Affinity&amp;callback=google&amp;max=99999">http://docs.google.com/data/contacts?out=js&amp;show=<span class="caps">ALL</span>&amp;psort=Affinity&amp;callback=google&amp;max=99999</a><br>
+<a href="http://video.google.com/data/contacts?out=js&amp;max=500&amp;psort=Affinity&amp;callback=getContacts">http://video.google.com/data/contacts?out=js&amp;max=500&amp;psort=Affinity&amp;callback=getContacts</a><br>
+All your contacts in <span class="caps">JSON</span> format! Accessible to any website which uses this as a src in a script-tag.<br>
+Solutions? Referrer-checking (not that good: can be spoofed). Better: using unique keys in each request. They probably used a combination of solutions.<br>
+It seems to be already fixed now, the only thing it returns for me now is:<br>
+    google ({ Success: false, Errors: []})<br>
+But the <span class="caps">XML</span> output is still accessible though: <a href="http://docs.google.com/data/contacts?out=xml&amp;show=ALL&amp;psort=Affinity&amp;callback=google&amp;max=999999">http://docs.google.com/data/contacts?out=xml&amp;show=<span class="caps">ALL</span>&amp;psort=Affinity&amp;callback=google&amp;max=999999</a>.<br>
+I tried hacking up a little piece of code, but alas: loading the <span class="caps">XML</span> into the frame and then trying to do a frames[&#8216;the_frame&#8217;].document.getElementsByTagName(&#8216;Email&#8217;); does not work. Both Firefox and <span class="caps">IE</span> prevent stealing content from frames across domains.<br>
+Maybe we should use XMLHTTPRequest, then? Also doesn&#8217;t work in Firefox, even when trying to netscape.security.PrivilegeManager.enablePrivilege(&#8220;UniversalBrowserRead&#8221;); it will fail. Internet Explorer (tested in 7) will complain about ActiveX objects being used.<br>
+So is this still a security issue? I would say no. Locally (trusted zone): Firefox doesn&#8217;t allow the described actions, and <span class="caps">IE</span> at least warns the user. When surfing on the Internet (untrusted zone): the objects were blocked by default (my <span class="caps">IE</span> and Firefox were set up in such a way that when I tried to run this script from the web: they would block the cross-domain XMLHTTPRequest by default without asking). Maybe <span class="caps">IE6</span> is a bit more insecure.<br>
+For the people who want to try it out: example <a href="http://student.kuleuven.be/~s0172696/src/gmailsrc.html">html here</a> (use <span class="caps">IE</span>, allow Blocked ActiveX content for it to work).<br>
+Another sad message: <a href="http://digg.com/tech_news/Gmail_s_Storage_Capacity_Stops_Increasing">Gmail&#8217;s storage has stopped increasing</a>&#8230; Mine has also stopped at <span class="caps">2800MB</span>&#8230; Why?<br>
 There is a little bit of good news too: the calculator <a href="http://www.google.com/search?q=2%2B2&amp;lr=">works again</a>&#8230;</p>
 	</article>
 </div>

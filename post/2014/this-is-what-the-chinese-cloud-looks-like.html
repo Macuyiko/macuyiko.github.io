@@ -124,14 +124,14 @@
 <p>So where&#8217;s the catch? There must be a catch, right? Let&#8217;s take a look at some of the common patterns occurring across the aforementioned three&nbsp;services&#8230;</p>
 <h4>Pattern 1: Chinese Only, More or&nbsp;Less</h4>
 <p>When you try to go to <a href="http://yunpan.360.cn/">360 Yun</a>&#8216;s or <a href="http://www.weiyun.com/">Weiyun</a>&#8216;s homepages, this is what you&#8217;ll&nbsp;get:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/360_weiyun_splash.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/360_weiyun_splash.png"></p>
 <p>With no English in sight &#8212; or even the option to switch language &#8212; it is clear that they are targeted to a Chinese audience only, at least for now. Honorable mention: Weiyun does have an English version of their web app over at <a href="http://www.weiyun.com/disk/index-en.html">http://www.weiyun.com/disk/index-en.html</a>, but it doesn&#8217;t get as much love as the Chinese one, and you&#8217;ll still see Chinese error messages popping&nbsp;up.</p>
 <p>Luckily, at least for the web apps, Chrome&#8217;s translation option is able to help out a great&nbsp;deal.</p>
 <h4>Pattern 2: Copy Galore, with Some&nbsp;Differences</h4>
 <p>When you stack the logos of all three services above each other, a similarity&nbsp;emerges:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/logos.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/logos.png"></p>
 <p>When you compare the interfaces, things look mostly the same as well, with Baidu standing out thanks to a black header bar and an uglier&nbsp;font.</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/interfaces.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/interfaces.png"></p>
 <p>Similar as these apps might seem, they do differ in terms of functionality&#8230; here are some notable&nbsp;aspects:</p>
 <ul>
 <li>Possibilities to share content differs among all services. Sometimes you get a link which ends up in a <span class="caps">ZIP</span> download, sometimes you can add it to your own drive, sometimes you get a barcode, and so&nbsp;on.</li>
@@ -145,34 +145,34 @@
 <h4>Pattern 4: A Web App, a Plugin, a Client, a Mobile&nbsp;App&#8230;</h4>
 <p>Whereas both Dropbox and Google follow the strategy to put most in an accessible web app and offer a small sync client to install on your computer, the Chinese counterparts go all out and offer a wealth of apps &#8212; a pattern which is very typical. Meaning that you&#8217;ll end up with: the web app, the plugin to install in the web browser and allows extra features (many of which could be offered by using latest-and-greatest Javascript developments such as websockets), a client, a syncing tool, and a mobile app or&nbsp;two.</p>
 <p>This means that whenever you want to do something meaningful through the web app, you&#8217;ll be asked to install the appropriate&nbsp;plugin:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/browserplugin.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/browserplugin.png"></p>
 <p>Leaving you&nbsp;with:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/plugin.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/plugin.png"></p>
 <p>Although I have no evidence suggesting that these plugins are up to no good, I&#8217;d be a bit wary of just installing any client or plugin on my machine&#8230; especially when&nbsp;considering&#8230;</p>
 <h4>Pattern 5: What&nbsp;Privacy?</h4>
 <p>This is a fun one. First of all, let&#8217;s take a look at some of the permission screens you&#8217;ll be greeted when trying to install these mobile&nbsp;apps:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/permissions.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/permissions.png"></p>
 <p>Boy this looks scary! Change my wifi connections? Send messages? What is a sticky broadcast? Why do you want to change my contacts? It might be the case that this is a case of sloppy programming, but especially 360&#8217;s app seems to go completely&nbsp;overboard.</p>
 <p>In addition, upon using these services, you&#8217;ll notice that most of them will perform some sort of scanning of your files before uploading them, and that &#8212; in some cases &#8212; upload goes lightning fast! What could be the reason? Apparently there is some sort of hashing going on which compares your file&#8217;s hash to other files which have been uploaded to the service. When a match is found, the cloud service can make the file appear in your drive without actually having to upload the file. I&#8217;ve tested this extensively with Weiyun (more on this below), and the matching works even when you delete the file afterwards, and can allow you to add files even if you do not have the actual file. Is this an issue? Not in itself, but just be aware of the fact that no encryption is happening anywhere (Dropbox used to apply similar techniques but then toned it down due to user complaints). So make sure to encrypt your files yourself before uploading&nbsp;them.</p>
 <p>Finally, I love the following screen which is just one tap away in 360&#8217;s&nbsp;app:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/popular.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/popular.png"></p>
 <p>This shows an overview of popular photo albums&#8230; I have no idea why this belongs in a cloud storage app, but it seems to suggest that you can pretty easily share your uploaded albums with the world&#8230;&nbsp;Hmm.</p>
 <h4>Pattern 6: &#8220;Sure&#8221;, It&#8217;s&nbsp;Reliable&#8230;</h4>
 <p>I mentioned before that in case of things going awry, it doesn&#8217;t take long for a fix to be implemented. This is true, but doesn&#8217;t prevent these services to break&#8230; quite a lot&#8230; for reasons related to the arbitrary limitations as discussed before, or just other&nbsp;reasons.</p>
 <p>For instance, I&#8217;ve been notified with the following screen during the past two days when trying to upload <span class="caps">MP3</span> files to&nbsp;Weiyun:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/uploaderror.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/uploaderror.png"></p>
 <p>(I&#8217;m using a third party translation here, which is why the client shows in&nbsp;English.)</p>
 <p>Over on the web app, we&nbsp;see:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/uploaderror2.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/uploaderror2.png"></p>
 <p>Which basically translates to: under maintenance. When will this be fixed? Who knows &#8212; although it should be rather soon. What is the root cause? Who&nbsp;knows.</p>
 <h4>Pattern 7: An App Among&nbsp;Apps</h4>
 <p>Finally, the last item worth mentioning &#8212; as was also said before &#8212; is the fact that these offerings are only a small part of the total amount of apps, tools and services Baidu, Tencent, and 360 offer. For example, a look at 360.cn shows this staggering amount of&#8230;&nbsp;stuff:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/overview.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/overview.png"></p>
 <h3>A Little Reverse&nbsp;Engineering</h3>
 <p>To close off this post, I&#8217;m going to present a little reverse engineering I did to make a hand-rolled Weiyun <span class="caps">API</span>. Forget about these services offering an official <span class="caps">API</span>, so it&#8217;s back to forging <span class="caps">CURL</span> requests and screen scraping for anyone who wishes to access their files in a programmatic&nbsp;manner.</p>
 <p>I&#8217;ve chosen Weiyun, because they have the best English support, are relatively trustworthy (they have a long running &#8220;international&#8221; version of their <span class="caps">QQ</span> client), and offer a large amount of storage. I prefer not to use 360 as I know from experience that many of their apps are less than trustworthy (case in point: you&#8217;ll find 360 crapware running on about 90% of Windows <span class="caps">XP</span> installations when in China, their &#8220;browser&#8221; is also notorious for just being an <span class="caps">IE</span> reskin with self-signed certificate warning disabled, with makes it great for enabling man-in-the-middle attacks as the <a href="http://en.wikipedia.org/wiki/Golden_Shield_Project">Golden Shield</a> is want to&nbsp;do).</p>
 <p>I&#8217;ll be using the English version of the Weiyun web app over at <a href="http://www.weiyun.com/disk/index-en.html">http://www.weiyun.com/disk/index-en.html</a> as a base here. After logging in and fiddling around, we immediately see a bunch of requests popping up in&nbsp;Chrome:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/reqoverview.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/reqoverview.png"></p>
 <p>After a while, a pattern starts to emerge. It seems that every request calls an endpoint at <code>http://web.cgi.weiyun.com</code>, also followed by requests to <code>code.cgi</code> and <code>r.cgi</code>, which include a lot of flags but do not provide a response, so they seem to be tracking/analytics related and can perhaps be ignored for&nbsp;now.</p>
 <p>Our requests of interest, however, mostly seem to be performed over <span class="caps">GET</span> and compose an url like&nbsp;so:</p>
 <ul>
@@ -765,7 +765,7 @@ GTK = &#39;changeme&#39;
 
 <p>You might recall that these are sent with every request, and do not change during the lifetime of the session. Since requests are made client-side (i.e. initiated by Javascript), we could try to see if we can derive where they are coming&nbsp;from.</p>
 <p>We can easily conjure up the call trace from Chrome when making a&nbsp;request:</p>
-<p><img alt="" src="http://blog.macuyiko.com/images/2014/jstrace.png" /></p>
+<p><img alt="" src="http://blog.macuyiko.com/images/2014/jstrace.png"></p>
 <p>This indicates that our point of interest might be in <code>common.index.js</code> or in <code>main.index.js</code>. Indeed, in the former, we find a&nbsp;line:</p>
 <div class="highlight"><pre><span></span><span class="n">token</span><span class="o">:</span><span class="n">security</span><span class="o">.</span><span class="na">getAntiCSRFToken</span><span class="o">()</span>
 </pre></div>
