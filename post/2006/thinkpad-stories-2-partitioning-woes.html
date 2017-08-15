@@ -76,30 +76,41 @@
 			title="Permalink to Thinkpad Stories 2: “Partitioning woes.”">Thinkpad Stories 2: &#8220;Partitioning&nbsp;woes.&#8221;</a></div>
 		</header>
 	
-	    <p>It was getting late when I finally figured out how to properly boot. Now: it was time for the actual install&#8230;<br>
-Of course: I had to partition, but I wanted to keep Windows <span class="caps">XP</span> (on a smaller partition) and my Recovery partition. I was happy to see a resize option for my Windows <span class="caps">XP</span> drive, I picked it and try to execute.<br>
-Nothing happens&#8230;<br>
-Again? Nothing! Oh well, I had expected this. <span class="caps">NTFS</span> always gives me headaches in Linux (reading, writing, resizing, the works&#8230;).<br>
-So I want to boot back into Windows and try some resizing tool.<br>
-No operating system<br>
-Great, the partition is messed up. Ah well, back to Ubuntu installer and execute plan B, I partition my harddrive as following:<br>
-- First - 40 <span class="caps">GB</span>, <span class="caps">FAT32</span>: Windows <span class="caps">XP</span>, no mount point, bootable.<br>
-- Second - 50 <span class="caps">GB</span>, ext3: Ubuntu, mount point /, bootable.<br>
-- Third - <span class="caps">MAX</span> <span class="caps">GB</span> (around 4 <span class="caps">GB</span>), swap.<br>
-- Last - remaining size, my recovery partition: remains untouched.<br>
-Save and format / and swap. Exit installer, and press the ThinkVantage button.<br>
-Yes: the recovery partition still works. File recovery, back to factory settings (&#8220;oh no it is going to wipe my partitions&#8221;), keep nothing.<br>
-&#8220;Do you want to install on C:\ and format. Or do you want to format the whole hard driver?&#8221;<br>
-Yes! Only C:\ of course (the <span class="caps">FAT32</span> partition I made in Ubuntu installer).<br>
-Okay: this takes a lot of time. Really a lot. The first steps go fast (I was happy) but after that it has to perform a truckload of post-installation installs (that bullshitware again). It&#8217;s passed midnight&#8230;<br>
-Done: I wipe the crapware and go back to Ubuntu.<br>
-    boot:<br>
-I type &#8220;server&#8221; and press enter. I&#8217;m tired and fetching all that stuff now over the Internet will take too long. It installs. Grub&#8217;s being nice and detects both my Windows <span class="caps">XP</span> and Recovery partition.<br>
-I went to bed (2 am). And did a<br>
-    sudo apt-get update<br>
-    sudo apt-get upgrade<br>
-    sudo apt-get install ubuntu-desktop<br>
-this&nbsp;morning.  </p>
+	    <p>It was getting late when I finally figured out how to properly boot. Now: it was time for the actual&nbsp;install&#8230;</p>
+<p>Of course: I had to partition, but I wanted to keep Windows <span class="caps">XP</span> (on a smaller partition) and my Recovery partition. I was happy to see a resize option for my Windows <span class="caps">XP</span> drive, I picked it and try to&nbsp;execute.</p>
+<p>Nothing&nbsp;happens&#8230;</p>
+<p>Again? Nothing! Oh well, I had expected this. <span class="caps">NTFS</span> always gives me headaches in Linux (reading, writing, resizing, the&nbsp;works&#8230;).</p>
+<p>So I want to boot back into Windows and try some resizing&nbsp;tool.</p>
+<div class="highlight"><pre><span></span>No operating system
+</pre></div>
+
+
+<p>Great, the partition is messed up. Ah well, back to Ubuntu installer and execute plan B, I partition my harddrive as&nbsp;follows:</p>
+<ul>
+<li>First - 40 <span class="caps">GB</span>, <span class="caps">FAT32</span>: Windows <span class="caps">XP</span>, no mount point,&nbsp;bootable.</li>
+<li>Second - 50 <span class="caps">GB</span>, ext3: Ubuntu, mount point /,&nbsp;bootable.</li>
+<li>Third - <span class="caps">MAX</span> <span class="caps">GB</span> (around 4 <span class="caps">GB</span>),&nbsp;swap.</li>
+<li>Last - remaining size, my recovery partition: remains&nbsp;untouched.</li>
+</ul>
+<p>Save and format / and swap. Exit installer, and press the ThinkVantage&nbsp;button.</p>
+<p>Yes: the recovery partition still works. File recovery, back to factory settings (&#8220;oh no it is going to wipe my partitions&#8221;), keep&nbsp;nothing.</p>
+<p><span class="dquo">&#8220;</span>Do you want to install on C:\ and format. Or do you want to format the whole hard&nbsp;driver?&#8221;</p>
+<p>Yes! Only C:\ of course (the <span class="caps">FAT32</span> partition I made in Ubuntu&nbsp;installer).</p>
+<p>Okay: this takes a lot of time. Really a lot. The first steps go fast (I was happy) but after that it has to perform a truckload of post-installation installs (that bullshitware again). It&#8217;s passed&nbsp;midnight&#8230;</p>
+<p>Done: I wipe the crapware and go back to&nbsp;Ubuntu.</p>
+<div class="highlight"><pre><span></span>boot:
+</pre></div>
+
+
+<p>I type &#8220;server&#8221; and press enter. I&#8217;m tired and fetching all that stuff now over the Internet will take too long. It installs. Grub&#8217;s being nice and detects both my Windows <span class="caps">XP</span> and Recovery&nbsp;partition.</p>
+<p>I went to bed (2 am). And did&nbsp;a</p>
+<div class="highlight"><pre><span></span>sudo apt-get update
+sudo apt-get upgrade
+sudo apt-get install ubuntu-desktop
+</pre></div>
+
+
+<p>this&nbsp;morning.</p>
 	</article>
 </div>
 		
