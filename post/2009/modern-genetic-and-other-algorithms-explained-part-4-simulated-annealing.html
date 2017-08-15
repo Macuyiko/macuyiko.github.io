@@ -76,152 +76,164 @@
 			title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 4 - Simulated Annealing">Modern Genetic (And Other) Algorithms Explained: Part 4 - Simulated&nbsp;Annealing</a></div>
 		</header>
 	
-	    <p>(This is part 4 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this post.)<br>
-First of all: Simulated Annealing is not a genetic algorithm, but it is a modern optimization technique.<br>
-<a href="http://en.wikipedia.org/wiki/Simulated_Annealing">Wikipedia</a> tells us the&nbsp;following:  </p>
+	    <p>(This is part 4 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&nbsp;post.)</p>
+<p>First of all: Simulated Annealing is not a genetic algorithm, but it is a modern optimization&nbsp;technique.</p>
+<p><a href="http://en.wikipedia.org/wiki/Simulated_Annealing">Wikipedia</a> tells us the&nbsp;following:</p>
 <blockquote>
 <p>Simulated annealing (<span class="caps">SA</span>) is a generic probabilistic meta-algorithm for the global optimization problem, namely locating a good approximation to the global minimum of a given function in a large search space. It is often used when the search space is discrete (e.g., all tours that visit a given set of cities). For certain problems, simulated annealing may be more effective than exhaustive enumeration &#8212; provided that the goal is merely to find an acceptably good solution in a fixed amount of time, rather than the best possible solution.
-The name and inspiration come from annealing in metallurgy, a technique involving heating and controlled cooling of a material to increase the size of its crystals and reduce their defects. The heat causes the atoms to become unstuck from their initial positions (a local minimum of the internal energy) and wander randomly through states of higher energy; the slow cooling gives them more chances of finding configurations with lower internal energy than the initial one.
-Let&#8217;s take a look at some pseudocode:<br>
-    Randomly construct a valid solution<br>
-    For each temperature do:<br>
-      For number of trials to do at each temperature do:<br>
-        Move solution to a neighbour<br>
-        Accept neighbour with probability(old_score, new_score, temperature)<br>
-        Lower the temperature by a reduction factor
-It becomes clear that this method can be used in discrete optimization problems only, so that we can construct neighbours from our current state. E.g., a first solution in the problem we&#8217;ve been discussing might be [10,51,5,18] with a neighbour [10,52,5,18].<br>
-Also, a probability function needs to be defined. Some functions are constructed so that better solutions will always be accepted. Ideally, we would always like to assign a certain probability, so that worse solutions have a chance of being accepted too (or better ones have a chance at rejection). Again: this is to avoid local maxima (comparable with <span class="caps">GA</span>&#8217;s).<br>
-Often, the new solution is accepted with an exponential distribution: <code>exp( (new_score-old_score)/temperature )</code>.<br>
-Note: the pseudocode at the Wikipedia page doesn&#8217;t use trials, for some problems, this is good enough.<br>
-Let&#8217;s see some Python code (again, based on the code mentioned in the previous&nbsp;posts):  </p>
+The name and inspiration come from annealing in metallurgy, a technique involving heating and controlled cooling of a material to increase the size of its crystals and reduce their defects. The heat causes the atoms to become unstuck from their initial positions (a local minimum of the internal energy) and wander randomly through states of higher energy; the slow cooling gives them more chances of finding configurations with lower internal energy than the initial&nbsp;one.</p>
 </blockquote>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>  
-<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>  
-<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>  
-<span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
-  <span class="s1">&#39;Create a member of the population.&#39;</span>  
-  <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>  
-<span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>  
-  <span class="sd">&quot;&quot;&quot;  </span>
-<span class="sd">  Determine the fitness of an individual. Higher is better.  </span>
-<span class="sd">  individual: the individual to evaluate  </span>
-<span class="sd">  target: the target number individuals are aiming for  </span>
-<span class="sd">  &quot;&quot;&quot;</span>  
-  <span class="nb">sum</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  
-  <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span>  
-<span class="k">def</span> <span class="nf">probability</span><span class="p">(</span><span class="n">o_fitness</span><span class="p">,</span> <span class="n">n_fitness</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>  
-  <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">o_fitness</span><span class="p">:</span>  
-    <span class="k">return</span> <span class="mi">1</span>  
-  <span class="k">return</span> <span class="n">exp</span><span class="p">(</span> <span class="p">(</span><span class="n">n_fitness</span><span class="o">-</span><span class="n">o_fitness</span><span class="p">)</span> <span class="o">/</span> <span class="n">temperature</span><span class="p">)</span>  
-<span class="k">def</span> <span class="nf">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">):</span>  
-  <span class="k">return</span> <span class="n">max_steps</span> <span class="o">-</span> <span class="n">step</span>  
-<span class="k">def</span> <span class="nf">neighbour</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
-  <span class="n">pos_to_mutate</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>  
-  <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>  
-    <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>  
-  <span class="k">else</span><span class="p">:</span>  
-    <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
-
-  <span class="k">if</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">:</span>  
-    <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span>  
-  <span class="k">elif</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">:</span>  
-    <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span>
-
-  <span class="k">return</span> <span class="n">ind</span>  
-<span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">nr_trials</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>  
-  <span class="n">best_fit</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>  
-  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nr_trials</span><span class="p">):</span>  
-    <span class="n">n_ind</span> <span class="o">=</span> <span class="n">neighbour</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>  
-    <span class="n">o_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>  
-    <span class="n">n_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">n_ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>    
-  <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">best_fit</span><span class="p">:</span>  
-    <span class="n">best_fit</span> <span class="o">=</span> <span class="n">n_fitness</span>  
-  <span class="c1">#move to new state?  </span>
-  <span class="k">if</span> <span class="n">probability</span><span class="p">(</span><span class="n">o_fitness</span><span class="p">,</span> <span class="n">n_fitness</span><span class="p">,</span> <span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">random</span><span class="p">():</span>  
-    <span class="n">ind</span> <span class="o">=</span> <span class="n">n_ind</span>  
-    <span class="k">print</span> <span class="s2">&quot;Best fitness this evolution:&quot;</span><span class="p">,</span><span class="n">best_fit</span>  
-    <span class="k">print</span> <span class="s2">&quot;Temperature this evolution:&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">)</span>
-
-  <span class="k">return</span> <span class="n">ind</span><span class="err">`</span>
+<p>Let&#8217;s take a look at some&nbsp;pseudocode:</p>
+<div class="highlight"><pre><span></span>Randomly construct a valid solution
+For each temperature do:
+Â Â For number of trials to do at each temperature do:
+Â Â Â Â Move solution to a neighbour
+Â Â Â Â Accept neighbour with probability(old_score, new_score, temperature)
+Â Â Â Â Lower the temperature by a reduction factor
 </pre></div>
 
 
-<p>If the fitness of the neighbour is better (remember: that means lower), we immediately accept it. We don&#8217;t really need a chance of rejection for this problem. Otherwise, we use <code>exp( (n_fitness-o_fitness) / temperature)</code>.<br>
-We use a separate function to calculate the temperature for each step. This function is kept fairly simple <code>(max steps - this step)</code>, but non-linear temperature can also be implemented.<br>
-Let&#8217;s try it, our starting temperature becomes 100, using 1000 trials per&nbsp;temperature:  </p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>  
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
-<span class="kn">from</span> <span class="nn">annealing</span> <span class="kn">import</span> <span class="o">*</span>  
-<span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>  
-<span class="n">i_length</span> <span class="o">=</span> <span class="mi">6</span>  
-<span class="n">i_min</span> <span class="o">=</span> <span class="mi">0</span>  
-<span class="n">i_max</span> <span class="o">=</span> <span class="mi">100</span>  
-<span class="n">i</span> <span class="o">=</span> <span class="n">individual</span><span class="p">(</span><span class="n">i_length</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">)</span>  
-<span class="k">print</span> <span class="n">fitness</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  
-<span class="n">i_k</span> <span class="o">=</span> <span class="mi">0</span>  
-<span class="n">i_kmax</span> <span class="o">=</span> <span class="mi">100</span>  
-<span class="n">i_trials</span> <span class="o">=</span> <span class="mi">1000</span>  
-<span class="k">while</span> <span class="n">i_k</span> <span class="o">&lt;</span> <span class="n">i_kmax</span><span class="p">:</span>  
-  <span class="n">i</span> <span class="o">=</span> <span class="n">evolve</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i_trials</span><span class="p">,</span> <span class="n">i_k</span><span class="p">,</span> <span class="n">i_kmax</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  
-  <span class="n">i_k</span> <span class="o">+=</span> <span class="mi">1</span>
+<p>It becomes clear that this method can be used in discrete optimization problems only, so that we can construct neighbours from our current state. E.g., a first solution in the problem we&#8217;ve been discussing might be [10,51,5,18] with a neighbour&nbsp;[10,52,5,18].</p>
+<p>Also, a probability function needs to be defined. Some functions are constructed so that better solutions will always be accepted. Ideally, we would always like to assign a certain probability, so that worse solutions have a chance of being accepted too (or better ones have a chance at rejection). Again: this is to avoid local maxima (comparable with <span class="caps">GA</span>&#8217;s).</p>
+<p>Often, the new solution is accepted with an exponential distribution: <code>exp( (new_score-old_score)/temperature )</code>.</p>
+<p>Note: the pseudocode at the Wikipedia page doesn&#8217;t use trials, for some problems, this is good&nbsp;enough.</p>
+<p>Let&#8217;s see some Python code (again, based on the code mentioned in the previous&nbsp;posts):</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>
+<span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>
+
+<span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="s1">&#39;Create a member of the population.&#39;</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">Â Â Determine the fitness of an individual. Higher is better.</span>
+<span class="s2">Â Â individual: the individual to evaluate</span>
+<span class="s2">Â Â target: the target number individuals are aiming for</span>
+<span class="s2">Â Â &quot;&quot;&quot;</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">probability</span><span class="p">(</span><span class="n">o_fitness</span><span class="p">,</span> <span class="n">n_fitness</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">o_fitness</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">exp</span><span class="p">(</span> <span class="p">(</span><span class="n">n_fitness</span><span class="o">-</span><span class="n">o_fitness</span><span class="p">)</span> <span class="o">/</span> <span class="n">temperature</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">max_steps</span> <span class="o">-</span> <span class="n">step</span>
+
+<span class="k">def</span> <span class="nf">neighbour</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">pos_to_mutate</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">else</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="err">Â</span>  <span class="k">if</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">elif</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">ind</span>
+
+<span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">nr_trials</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">best_fit</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nr_trials</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">n_ind</span> <span class="o">=</span> <span class="n">neighbour</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">o_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">n_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">n_ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">best_fit</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">best_fit</span> <span class="o">=</span> <span class="n">n_fitness</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="c1">#move to new state?</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">probability</span><span class="p">(</span><span class="n">o_fitness</span><span class="p">,</span> <span class="n">n_fitness</span><span class="p">,</span> <span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">random</span><span class="p">():</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span> <span class="o">=</span> <span class="n">n_ind</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">print</span> <span class="s2">&quot;Best fitness this evolution:&quot;</span><span class="p">,</span><span class="n">best_fit</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">print</span> <span class="s2">&quot;Temperature this evolution:&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">)</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">ind</span><span class="err">`</span>
+</pre></div>
+
+
+<p>If the fitness of the neighbour is better (remember: that means lower), we immediately accept it. We don&#8217;t really need a chance of rejection for this problem. Otherwise, we use <code>exp( (n_fitness-o_fitness) / temperature)</code>.</p>
+<p>We use a separate function to calculate the temperature for each step. This function is kept fairly simple <code>(max steps - this step)</code>, but non-linear temperature can also be&nbsp;implemented.</p>
+<p>Let&#8217;s try it, our starting temperature becomes 100, using 1000 trials per&nbsp;temperature:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">annealing</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">i_length</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">i_min</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">i_max</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">individual</span><span class="p">(</span><span class="n">i_length</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">)</span>
+<span class="k">print</span> <span class="n">fitness</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="n">i_k</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">i_kmax</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">i_trials</span> <span class="o">=</span> <span class="mi">1000</span>
+<span class="k">while</span> <span class="n">i_k</span> <span class="o">&lt;</span> <span class="n">i_kmax</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">i</span> <span class="o">=</span> <span class="n">evolve</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i_trials</span><span class="p">,</span> <span class="n">i_k</span><span class="p">,</span> <span class="n">i_kmax</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">i_k</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
 
 <p>The&nbsp;output:</p>
-<div class="highlight"><pre><span></span>Best fitness this evolution: 34  
-Temperature this evolution: 100  
-Best fitness this evolution: 7  
-Temperature this evolution: 99  
-Best fitness this evolution: 0  
-Temperature this evolution: 98  
-Best fitness this evolution: 44  
-Temperature this evolution: 97  
-Best fitness this evolution: 43  
-Temperature this evolution: 96  
-Best fitness this evolution: 33  
-Temperature this evolution: 95  
-Best fitness this evolution: 39  
-Temperature this evolution: 94  
-Best fitness this evolution: 44  
-Temperature this evolution: 93  
-Best fitness this evolution: 34  
-Temperature this evolution: 92  
-Best fitness this evolution: 36  
-Temperature this evolution: 91  
-Best fitness this evolution: 50  
-Temperature this evolution: 90  
-Best fitness this evolution: 68  
-Temperature this evolution: 89  
-Best fitness this evolution: 67  
-Temperature this evolution: 88  
-Best fitness this evolution: 53  
-Temperature this evolution: 87  
-Best fitness this evolution: 49  
-Temperature this evolution: 86  
-Best fitness this evolution: 35  
-Temperature this evolution: 85  
-Best fitness this evolution: 55  
-Temperature this evolution: 84  
-Best fitness this evolution: 5  
-Temperature this evolution: 83  
+<div class="highlight"><pre><span></span>Best fitness this evolution: 34
+Temperature this evolution: 100
+Best fitness this evolution: 7
+Temperature this evolution: 99
+Best fitness this evolution: 0
+Temperature this evolution: 98
+Best fitness this evolution: 44
+Temperature this evolution: 97
+Best fitness this evolution: 43
+Temperature this evolution: 96
+Best fitness this evolution: 33
+Temperature this evolution: 95
+Best fitness this evolution: 39
+Temperature this evolution: 94
+Best fitness this evolution: 44
+Temperature this evolution: 93
+Best fitness this evolution: 34
+Temperature this evolution: 92
+Best fitness this evolution: 36
+Temperature this evolution: 91
+Best fitness this evolution: 50
+Temperature this evolution: 90
+Best fitness this evolution: 68
+Temperature this evolution: 89
+Best fitness this evolution: 67
+Temperature this evolution: 88
+Best fitness this evolution: 53
+Temperature this evolution: 87
+Best fitness this evolution: 49
+Temperature this evolution: 86
+Best fitness this evolution: 35
+Temperature this evolution: 85
+Best fitness this evolution: 55
+Temperature this evolution: 84
+Best fitness this evolution: 5
+Temperature this evolution: 83
 Best fitness this evolution: 0
 </pre></div>
 
 
-<p>Simulated annealing is easy to program and implement. Provided it is easy to construct neighbours, and a sensible combination of temperature and probability functions can be constructed, and the number of trials is well defined. Still: this method might be too naive to solve more difficult problems.<br>
-The source code can be downloaded <a href="http://www.macuyiko.com/files/ga/ga_annealing.zip">here</a>.<br>
-An interesting implementation is <a href="http://alteredqualia.com/visualization/evolve/">this</a>. It is based on another genetic programming experiment located <a href="http://rogeralsing.com/2008/12/07/genetic-programming-evolution-of-mona-lisa/">here</a> (both are very interesting and fun examples, I highly recommend reading them).<br>
-Another Java applet to look at: solving a <a href="http://www.heatonresearch.com/articles/64/page1.html">travelling salesman problem with simulated annealing</a>.  </p>
+<p>Simulated annealing is easy to program and implement. Provided it is easy to construct neighbours, and a sensible combination of temperature and probability functions can be constructed, and the number of trials is well defined. Still: this method might be too naive to solve more difficult&nbsp;problems.</p>
+<p>The source code can be downloaded <a href="http://www.macuyiko.com/files/ga/ga_annealing.zip">here</a>.</p>
+<p>An interesting implementation is <a href="http://alteredqualia.com/visualization/evolve/">this</a>. It is based on another genetic programming experiment located <a href="http://rogeralsing.com/2008/12/07/genetic-programming-evolution-of-mona-lisa/">here</a> (both are very interesting and fun examples, I highly recommend reading&nbsp;them).</p>
+<p>Another Java applet to look at: solving a <a href="http://www.heatonresearch.com/articles/64/page1.html">travelling salesman problem with simulated annealing</a>.</p>
 <hr>
-<p>Table Of Contents (click a link to jump to that&nbsp;post)</p>
+<p>Table Of ContentsÂ (click a link to jump to that&nbsp;post)</p>
 <ol>
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
-2. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
-3. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
-4. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
-5. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a> 
-6. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
-<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a> </li>
+2.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
+3.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
+4.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
+5.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>Â
+6.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
+<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a>Â</li>
 </ol>
 	</article>
 </div>

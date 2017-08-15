@@ -76,14 +76,17 @@
 			title="Permalink to SQL: Check Existing Rows Matching A Condition"><span class="caps">SQL</span>: Check Existing Rows Matching A&nbsp;Condition</a></div>
 		</header>
 	
-	    <p>Instead of&nbsp;this:  </p>
+	    <p>Instead of&nbsp;this:</p>
 <div class="highlight"><pre><span></span>IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0
 </pre></div>
 
 
-<p>use this:<br>
-    <span class="caps">IF</span> <span class="caps">EXISTS</span>(<span class="caps">SELECT</span> * <span class="caps">FROM</span> Table1 <span class="caps">WHERE</span> &#8230;)<br>
-Great tip provided <a href="http://weblogs.sqlteam.com/mladenp/archive/2007/09/13/SQL-Server-The-proper-and-fastest-way-to-check-if.aspx">by this article</a>. </p>
+<p>use&nbsp;this:</p>
+<div class="highlight"><pre><span></span>IF EXISTS(SELECT * FROM Table1 WHERE ...)
+</pre></div>
+
+
+<p>Great tip provided <a href="http://weblogs.sqlteam.com/mladenp/archive/2007/09/13/SQL-Server-The-proper-and-fastest-way-to-check-if.aspx">by this article</a>.</p>
 	</article>
 </div>
 		

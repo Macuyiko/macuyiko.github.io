@@ -186,8 +186,8 @@
 <p><img alt="" src="/images/2017/gmail1.png"></p>
 <p>A few hours later, the database is filled up and ready for use. A simple <span class="caps">SQL</span> statement can immediately provide a grouped overview of e-mails per&nbsp;sender:</p>
 <div class="highlight"><pre><span></span>SELECT header_from, count(*) AS &quot;amount&quot; FROM &quot;email&quot;
-WHERE &quot;trashed&quot; = 0 
-GROUP BY &quot;header_from&quot; 
+WHERE &quot;trashed&quot; = 0
+GROUP BY &quot;header_from&quot;
 ORDER BY &quot;amount&quot; DESC
 </pre></div>
 
@@ -276,7 +276,7 @@ def cluster_strings(strings, ratio_threshold=0.6, combiner=combine_strings, matc
         first_centroid = dendrogram[-1][best_abval[0]].centroid
         second_centroid = dendrogram[-1][best_abval[1]].centroid
         merged_centroid = combiner(best_abval[3], first_centroid, second_centroid)
-        new_level.append(Cluster(centroid=merged_centroid, 
+        new_level.append(Cluster(centroid=merged_centroid,
             members=dendrogram[-1][best_abval[0]].members + dendrogram[-1][best_abval[1]].members,
             parents=(best_abval[0], best_abval[1])))
         dendrogram.append(new_level)

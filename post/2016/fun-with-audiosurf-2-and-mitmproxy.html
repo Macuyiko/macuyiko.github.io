@@ -194,7 +194,7 @@ def youtube_download_hook(context, d):
 
 
 def make_reply_stream(context, flow):
-    resp = HTTPResponse(b&quot;HTTP/1.1&quot;, 200, b&quot;OK&quot;, 
+    resp = HTTPResponse(b&quot;HTTP/1.1&quot;, 200, b&quot;OK&quot;,
             Headers(Content_Type=&quot;audio/mpeg&quot;), b&quot;&quot;)
     id = flow.request.path.split(&#39;/&#39;)[2]
     context.__filename = None

@@ -76,15 +76,17 @@
 			title="Permalink to Missing Icons In Notification Area (Tray Bar)">Missing Icons In Notification Area (Tray&nbsp;Bar)</a></div>
 		</header>
 	
-	    <p>A few days ago some of my programs stopped showing their icons in the Windows (7) notification area. A quick peek at the Task Manager revealed that they were, in fact, running.<br>
-Changing the notification settings and peeking around in the task bar configuration revealed nothing.
-It turns out that Windows 7 stores its tray icons in a registry key. To reset the icons, do this:
-1. Open regedit<br>
-2. Go to <code>HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\TrayNotify</code><br>
-3. You should see two values: <code>IconStreams</code> (stores program path and other info) and <code>PastIconsStream</code> (stores the icon data), delete them
-4. Restart the <code>explorer.exe</code> process (or restart the computer)<br>
-5. The missing icons should return, if the volume meter or other standard Windows icons are gone, you can re-enable them in the normal Taskbar Properties dialog
-That did the trick for&nbsp;me. </p>
+	    <p>A few days ago some of my programs stopped showing their icons in the Windows (7) notification area. A quick peek at the Task Manager revealed that they were, in fact,&nbsp;running.</p>
+<p>Changing the notification settings and peeking around in the task bar configuration revealed&nbsp;nothing.</p>
+<p>It turns out that Windows 7 stores its tray icons in a registry key. To reset the icons, do&nbsp;this:</p>
+<ol>
+<li>Open&nbsp;regedit</li>
+<li>Go to <code>HKEY_CURRENT_USER\Software\Classes\Local Settings\Software\Microsoft\Windows\CurrentVersion\TrayNotify</code></li>
+<li>You should see two values:Â <code>IconStreams</code> (stores program path and other info) and <code>PastIconsStream</code> (stores the icon data), delete&nbsp;them</li>
+<li>Restart the <code>explorer.exe</code> process (or restart the&nbsp;computer)</li>
+<li>The missing icons should return, if the volume meter or other standard Windows icons are gone, you can re-enable them in the normal Taskbar Properties&nbsp;dialog</li>
+</ol>
+<p>That did the trick for&nbsp;me.</p>
 	</article>
 </div>
 		

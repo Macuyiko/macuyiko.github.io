@@ -76,27 +76,39 @@
 			title="Permalink to Finished">Finished</a></div>
 		</header>
 	
-	    <p>Just updated to Edgy and installed Beryl following <a href="http://doc.gwos.org/index.php/BerylOnEdgy">these instructions</a>.<br>
-Added these to my sources:<br>
-    deb http://www.beerorkid.com/compiz edgy main-edgy<br>
-    deb http://media.blutkind.org/xgl/ edgy main-edgy<br>
-    deb http://compiz-mirror.lupine.me.uk/ edgy main-edgy<br>
-    deb http://ubuntu.compiz.net/ edgy main-edgy<br>
-Then:<br>
-    sudo apt-get update<br>
-Then, in <code>/etc/X11/xorg.conf</code>, since I use an Intel card, add to Section &#8220;Device&#8221;:<br>
-    Option &#8220;XAANoOffscreenPixmaps&#8221;&nbsp;&#8220;true&#8221;</p>
-<p>And at the end of the&nbsp;file:  </p>
-<div class="highlight"><pre><span></span>Section &quot;Extensions&quot;  
-Option &quot;Composite&quot; &quot;true&quot;  
+	    <p>Just updated to Edgy and installed Beryl following <a href="http://doc.gwos.org/index.php/BerylOnEdgy">these instructions</a>.</p>
+<p>Added these to my&nbsp;sources:</p>
+<div class="highlight"><pre><span></span><span class="k">deb</span> <span class="s">http://www.beerorkid.com/compiz</span> <span class="kp">edgy</span> <span class="kp">main-edgy</span>
+<span class="k">deb</span> <span class="s">http://media.blutkind.org/xgl/</span> <span class="kp">edgy</span> <span class="kp">main-edgy</span>
+<span class="k">deb</span> <span class="s">http://compiz-mirror.lupine.me.uk/</span> <span class="kp">edgy</span> <span class="kp">main-edgy</span>
+<span class="k">deb</span> <span class="s">http://ubuntu.compiz.net/</span> <span class="kp">edgy</span> <span class="kp">main-edgy</span>
+</pre></div>
+
+
+<p>Then:</p>
+<div class="highlight"><pre><span></span>sudo apt-get update
+</pre></div>
+
+
+<p>Then, in <code>/etc/X11/xorg.conf</code>, since I use an Intel card, add to Section&nbsp;&#8220;Device&#8221;:</p>
+<div class="highlight"><pre><span></span>Option &quot;XAANoOffscreenPixmaps&quot; &quot;true&quot;
+</pre></div>
+
+
+<p>And at the end of the&nbsp;file:</p>
+<div class="highlight"><pre><span></span>Section &quot;Extensions&quot;
+Option &quot;Composite&quot; &quot;true&quot;
 EndSection
 </pre></div>
 
 
-<p>Then install Beryl:
-    sudo apt-get install beryl-core beryl-plugins beryl-plugins-data emerald beryl-settings beryl-manager beryl beryl-dev emerald-themes
-Then just start with <code>beryl-manager</code>.
-Works like a charm, and quite fast too after tinkering with some effects and&nbsp;themes.</p>
+<p>Then install&nbsp;Beryl:</p>
+<div class="highlight"><pre><span></span>sudo apt-get install beryl-core beryl-plugins beryl-plugins-data emerald beryl-settings beryl-manager beryl beryl-dev emerald-themes
+</pre></div>
+
+
+<p>Then just start with <code>beryl-manager</code>.</p>
+<p>Works like a charm, and quite fast too after tinkering with some effects and&nbsp;themes.</p>
 	</article>
 </div>
 		

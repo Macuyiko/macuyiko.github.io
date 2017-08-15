@@ -85,9 +85,9 @@
 </blockquote>
 <p>The hackers, on the other hand, came out with a <a href="http://turtle.dereferenced.org/~nenolod/linode/linode-abridged.txt">different statement</a>&nbsp;altogether:</p>
 <blockquote>
-<p>06:00 \&lt;AlexC_> ryann: So, are you saying <span class="caps">CC</span> details have also been compromised?  <br>
-06:00 \&lt;ryann> Yep  <br>
-06:00 \&lt;AlexC_> ryann: And you plan on releasing these?  <br>
+<p>06:00 \&lt;AlexC_> ryann: So, are you saying <span class="caps">CC</span> details have also been compromised?
+06:00 \&lt;ryann> Yep
+06:00 \&lt;AlexC_> ryann: And you plan on releasing these?
 06:00 \&lt;ryann> They did try to encrypt them, but using public key encryption doesn&#8217;t work if you have the public and private key in the same&nbsp;directory</p>
 </blockquote>
 <p>Of course, statements such as these should be taken with a grain of salt, as it could easily be hyperbolic bragging. Still, the whole ordeal left many Linode users with a bitter&nbsp;aftertaste.</p>
@@ -101,7 +101,7 @@
 <h2>1. Install&nbsp;Ubuntu</h2>
 <p>This is a single-click process with DigitalOcean. I&#8217;m using Ubuntu Server 13.04 x64. You will get a root account with&nbsp;password.</p>
 <h2>2. Always be updating and&nbsp;upgrading</h2>
-<div class="highlight"><pre><span></span>apt-get update  
+<div class="highlight"><pre><span></span>apt-get update
 apt-get upgrade
 </pre></div>
 
@@ -112,14 +112,14 @@ apt-get upgrade
 </pre></div>
 
 
-<p><span class="caps">SSH</span> is installed already, so we skip this. We also don&#8217;t have to configure our network, but you can check the hostname&nbsp;with: </p>
+<p><span class="caps">SSH</span> is installed already, so we skip this. We also don&#8217;t have to configure our network, but you can check the hostname&nbsp;with:</p>
 <div class="highlight"><pre><span></span>hostname
 </pre></div>
 
 
 <h2>4. Add&nbsp;users</h2>
 <p>Add some users. Adding a <code>webmaster</code> is&nbsp;recommended:</p>
-<div class="highlight"><pre><span></span>useradd -d /home/webmaster -m webmaster  
+<div class="highlight"><pre><span></span>useradd -d /home/webmaster -m webmaster
 passwd webmaster
 adduser webmaster sudo
 </pre></div>
@@ -127,7 +127,7 @@ adduser webmaster sudo
 
 <h2>5. Secure <span class="caps">SSH</span></h2>
 <p>Edit <code>/etc/ssh/sshd_config</code>:</p>
-<div class="highlight"><pre><span></span># Always a good idea to not listen at the default port  
+<div class="highlight"><pre><span></span># Always a good idea to not listen at the default port
 Port    44422
 
 # Prohibit root logins
@@ -185,10 +185,10 @@ apt-get install libapache2-mod-php5 php5 php5-common php5-curl php5-dev php5-gd 
 
 
 <p>Enable some&nbsp;modules:</p>
-<div class="highlight"><pre><span></span>a2enmod ssl  
-a2enmod rewrite  
-a2enmod suexec  
-a2enmod status  
+<div class="highlight"><pre><span></span>a2enmod ssl
+a2enmod rewrite
+a2enmod suexec
+a2enmod status
 a2enmod include
 
 /etc/init.d/apache2 force-reload
@@ -196,30 +196,30 @@ a2enmod include
 
 
 <p>Adding subdomains is done with vhosts in <code>/etc/apache2/sites-enabled</code>:</p>
-<div class="highlight"><pre><span></span><span class="nt">&lt;VirtualHost</span> <span class="err">*</span><span class="nt">&gt;</span>  
-  ServerAdmin info@sitename.com  
-  ServerName sitename.com   
-  ServerAlias *.sitename.com  
+<div class="highlight"><pre><span></span><span class="nt">&lt;VirtualHost</span> <span class="err">*</span><span class="nt">&gt;</span>
+  ServerAdmin info@sitename.com
+  ServerName sitename.com
+  ServerAlias *.sitename.com
   DocumentRoot /var/www/sitename.com/
 
-  <span class="nt">&lt;Directory</span> <span class="nt">/&gt;</span>  
-    Options FollowSymLinks  
-    AllowOverride All  
+  <span class="nt">&lt;Directory</span> <span class="nt">/&gt;</span>
+    Options FollowSymLinks
+    AllowOverride All
   <span class="nt">&lt;/Directory&gt;</span>
 
   <span class="nt">&lt;Directory</span> <span class="err">/var/www/sitename.com</span><span class="nt">/&gt;</span>
-    Options Indexes FollowSymLinks MultiViews  
+    Options Indexes FollowSymLinks MultiViews
     DirectoryIndex index.html index.htm index.php
-    AllowOverride All  
-    Order allow,deny  
-    allow from all  
+    AllowOverride All
+    Order allow,deny
+    allow from all
   <span class="nt">&lt;/Directory&gt;</span>
 
-  ErrorLog /var/log/apache2/error.log  
+  ErrorLog /var/log/apache2/error.log
   LogLevel warn
 
-  CustomLog /var/log/apache2/access.log combined  
-  ServerSignature On    
+  CustomLog /var/log/apache2/access.log combined
+  ServerSignature On
 <span class="nt">&lt;/VirtualHost&gt;</span>
 </pre></div>
 
@@ -234,7 +234,7 @@ a2enmod include
 
 <p>Make sure to pick <code>standalone</code>.</p>
 <p>Edit <code>/etc/proftpd/proftpd.conf</code>:</p>
-<div class="highlight"><pre><span></span>DefaultRoot /  
+<div class="highlight"><pre><span></span>DefaultRoot /
 UseIPv6 off
 </pre></div>
 
@@ -247,7 +247,7 @@ UseIPv6 off
 <p>We don&#8217;t install phpMyAdmin anymore. <code>apt-get install phpmyadmin</code> if you want&nbsp;to.</p>
 <h2>10. Set <code>/var/www</code> permissions</h2>
 <p>Making it easy for our&nbsp;&#8220;webmaster&#8221;:</p>
-<div class="highlight"><pre><span></span>chown -R webmaster:www-data /var/www  
+<div class="highlight"><pre><span></span>chown -R webmaster:www-data /var/www
 chmod 775 -R /var/www
 </pre></div>
 

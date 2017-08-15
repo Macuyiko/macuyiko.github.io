@@ -76,269 +76,288 @@
 			title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 3 - CHC Eshelman">Modern Genetic (And Other) Algorithms Explained: Part 3 - <span class="caps">CHC</span>&nbsp;Eshelman</a></div>
 		</header>
 	
-	    <p>(This is part 3 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this post.)<br>
-In this part, we will look at a &#8220;special&#8221; genetic algorithm, <span class="caps">CHC</span> by Eshelman. The original paper is very hard to find, but it is mentioned in a lot of other works.
-The pseudocode looks like this (thanks to the commenters for sorting some problems out):<br>
-    Create initial population: P<br>
-    L := length of an individual chromosome<br>
-    N := population size<br>
-    Threshold := MutProb * (1.0-MutProb) * L (or L/4 is also&nbsp;used)  </p>
-<div class="highlight"><pre><span></span>Evolution until time limit hit or satisfying solution found:  
-  CPop := {}  
-  For i := 1 to N/2 do:  
-    Choose two random parents: P1 and P2  
-    If (different bits between P1 an P2) / 2 &gt; threshold do:  
-      Create children C1 and C2 using half-uniform crossover  
-      Add C1 and C2 to CPop
+	    <p>(This is part 3 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&nbsp;post.)</p>
+<p>In this part, we will look at a &#8220;special&#8221; genetic algorithm, <span class="caps">CHC</span> by Eshelman. The original paper is very hard to find, but it is mentioned in a lot of other&nbsp;works.</p>
+<p>The pseudocode looks like this (thanks to the commenters for sorting some problems&nbsp;out):</p>
+<div class="highlight"><pre><span></span>Create initial population: P
+L := length of an individual chromosome
+N := population size
+Threshold := MutProb * (1.0-MutProb) * L (or L/4 is also used)
 
-  If there are no children in Cpop:  
-    Threshold := threshold - 1  
-  Else:  
-    P := best N individuals from P and CPop  
-  If threshold &lt; 0:
-    Cataclysmic creation of new population P
+Evolution until time limit hit or satisfying solution found:
+Â Â CPop := {}
+Â Â For i := 1 to N/2 do:
+Â Â Â Â Choose two random parents: P1 and P2
+Â Â Â Â If (different bits between P1 an P2) / 2 &gt; threshold do:
+Â Â Â Â Â Â Create children C1 and C2 using half-uniform crossover
+Â Â Â Â Â Â Add C1 and C2 to CPop
+
+Â Â If there are no children in Cpop:
+Â Â Â Â Threshold := threshold - 1
+Â Â Else:
+Â Â Â Â P := best N individuals from P and CPop
+
+Â Â If threshold &lt; 0:
+Â Â Â Â Cataclysmic creation of new population P
 </pre></div>
 
 
 <p>There is another pseudocode description in the slides found <a href="http://soar.snu.ac.kr/~yhdfly/presentation/MKCP.pps">here</a>.</p>
-<p>A few interesting remarks:<br>
-(1) N (population size) is almost always set to 50, but can range from 50 - 10000.<br>
-(2) The different bits between P1 and P2 can be defined as the hamming distance between them.<br>
-(3) Half uniform crossover swaps exactly half of the non-matching bits. However, often a uniform crossover is used, with a chance of 0.5 - 0.8 of swapping.<br>
-(4) MutProb is the mutation probability and originally set to 0.35 (35%).<br>
-(5) A &#8220;cataclysmic event&#8221; occurs when there are no children created for a certain period of time. New children can only be made between parents which are different enough. Basically this means: whenever the population converges towards a certain points, a cataclysm occurs.<br>
-(6) What this cataclysm will do depends on the actual implementation. Originally, and often, the following method is used: take the single best individual, and put it in the new population. Now, mutate each of its bits with a 35% chance, this will be the second individual. Repeat this to create a new population of size N. Sometimes, the mutation chance is set to a higher value.<br>
-My Python - again, based on the <a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/">code found here</a> - implementation looks as follows (the original problem was&nbsp;unchanged):  </p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>  
-<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>  
-<span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
-  <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>  
-<span class="k">def</span> <span class="nf">population</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
-  <span class="k">return</span> <span class="p">[</span> <span class="n">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="p">]</span>  
-<span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>  
-  <span class="nb">sum</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>  
-  <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span>  
-<span class="k">def</span> <span class="nf">grade</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>  
-  <span class="n">summed</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">))</span>  
-  <span class="k">return</span> <span class="n">summed</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">)</span>  
-<span class="k">def</span> <span class="nf">hamming</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">):</span>  
-  <span class="n">nr_hamming</span> <span class="o">=</span> <span class="mi">0</span>  
-  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>  
-    <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">]):</span>  
-      <span class="n">nr_hamming</span> <span class="o">+=</span> <span class="mi">1</span>  
-  <span class="k">return</span> <span class="n">nr_hamming</span>  
-<span class="k">def</span> <span class="nf">cataclysm</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>  
-  <span class="c1">#keep the best individual, flip 35% of bits to get new individuals  </span>
-  <span class="n">pop</span><span class="o">.</span><span class="n">sort</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="nb">cmp</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">fitness</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="p">)))</span>  
-  <span class="n">firstind</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  
-  <span class="n">newpop</span> <span class="o">=</span> <span class="p">[</span><span class="n">firstind</span><span class="p">]</span>  
-  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)):</span>  
-    <span class="n">nextind</span> <span class="o">=</span> <span class="n">firstind</span><span class="p">[:]</span>  
-    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nextind</span><span class="p">)):</span>  
-      <span class="k">if</span> <span class="mf">0.35</span> <span class="o">&gt;</span> <span class="n">random</span><span class="p">():</span>  
-        <span class="n">nextind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>  
-    <span class="n">newpop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextind</span><span class="p">)</span>  
-  <span class="k">return</span> <span class="n">newpop</span>   
-<span class="k">def</span> <span class="nf">hux</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">):</span>  
-  <span class="n">child_one</span> <span class="o">=</span> <span class="p">[]</span>  
-  <span class="n">child_two</span> <span class="o">=</span> <span class="p">[]</span>  
-  <span class="n">hamming_dist</span> <span class="o">=</span> <span class="n">hamming</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">);</span>  
-  <span class="n">nr_swaps</span> <span class="o">=</span> <span class="mi">0</span>  
-  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)):</span>  
-    <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">random</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">nr_swaps</span> <span class="o">&gt;</span> <span class="n">hamming_dist</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):</span>
+<p>A few interesting remarks:
+(1) N (population size) is almost always set to 50, but can range from 50 - 10000.
+(2) The different bits between P1 and P2 can be defined as the hamming distance between them.
+(3) Half uniform crossover swaps exactly half of the non-matching bits. However, often a uniform crossover is used, with a chance of 0.5 - 0.8 of swapping.
+(4) MutProb is the mutation probability and originally set to 0.35 (35%).
+(5) A &#8220;cataclysmic event&#8221; occurs when there are no children created for a certain period of time. New children can only be made between parents which are different enough. Basically this means: whenever the population converges towards a certain points, a cataclysm occurs.
+(6) What this cataclysm will do depends on the actual implementation. Originally, and often, the following method is used: take the single best individual, and put it in the new population. Now, mutate each of its bits with a 35% chance, this will be the second individual. Repeat this to create a new population of size N. Sometimes, the mutation chance is set to a higher&nbsp;value.</p>
+<p>My Python - again, based on the <a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/">code found here</a> - implementation looks as follows (the original problem was&nbsp;unchanged):</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>
+<span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>
+
+<span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">population</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="p">[</span> <span class="n">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">grade</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">summed</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">))</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">summed</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">hamming</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">nr_hamming</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">]):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">nr_hamming</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">nr_hamming</span>
+
+<span class="k">def</span> <span class="nf">cataclysm</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="c1">#keep the best individual, flip 35% of bits to get new individuals</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">pop</span><span class="o">.</span><span class="n">sort</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="nb">cmp</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">fitness</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="p">)))</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">firstind</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">newpop</span> <span class="o">=</span> <span class="p">[</span><span class="n">firstind</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">nextind</span> <span class="o">=</span> <span class="n">firstind</span><span class="p">[:]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nextind</span><span class="p">)):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="mf">0.35</span> <span class="o">&gt;</span> <span class="n">random</span><span class="p">():</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">nextind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">newpop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextind</span><span class="p">)</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">newpop</span>
+
+<span class="k">def</span> <span class="nf">hux</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">child_one</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">child_two</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">hamming_dist</span> <span class="o">=</span> <span class="n">hamming</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">);</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">nr_swaps</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">random</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">nr_swaps</span> <span class="o">&gt;</span> <span class="n">hamming_dist</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):</span>
 </pre></div>
 
 
-<p>#same, just copy to both<br>
-          child_one.append(ind1[x])<br>
-          child_two.append(ind2[x])<br>
-        else:<br>
-          #different, swap with .5 probability, until hamming/2 swaps<br>
-          nr_swaps += 1<br>
-          child_one.append(ind2[x])<br>
-          child_two.append(ind1[x])<br>
-      return [child_one,child_two]<br>
-    def evolve(pop, target, min, max, treshold):<br>
-      child_population = []<br>
-      for i in range(1, len(pop)/2):<br>
-        #choose two random parents:<br>
-        parent_one = pop[randint(0, len(pop)-1)]<br>
-        parent_two = pop[randint(0, len(pop)-1)]<br>
-        if (hamming(parent_one, parent_two)/2) &gt; treshold[0]:<br>
-          #do hux crossover<br>
-          children = hux(parent_one, parent_two)<br>
-          child_population.append(children[0])<br>
-          child_population.append(children[1])<br>
-      if len(child_population) == 0:<br>
-        treshold[0]-=1;<br>
-        print &#8220;No children evolved&#8221;<br>
-      else:<br>
-        p_count = len(pop);<br>
-        print len(child_population),&#8221;children&#8221;<br>
-        for x in child_population:<br>
-          pop.append(x)<br>
-        pop.sort (lambda x, y : cmp (fitness(x, target), fitness(y, target)))<br>
-        #for x in pop:<br>
-        # if fitness(x,target) == 0:<br>
-        # print &#8220;Perfect individual found:&#8221;,x<br>
-        pop = pop[:p_count]<br>
-        print len(pop),&#8221;new population, grade:&#8221;, grade(pop, target)<br>
-      if treshold[0] &lt; 0:<br>
-        pop = cataclysm(pop, target, min, max)<br>
-        print &#8220;Cataclysm, newpop length:&#8221;,len(pop),&#8221;grade:&#8221;,grade(pop,target)<br>
-        treshold[0] = len(pop[0]) / 4.0<br>
-        print &#8220;Treshold is now:&#8221;,treshold[0]<br>
-      return pop`
-This reminds me: I should really work on a css class for code (update: done), instead of writing everything in monospace. A few remarks:<br>
-(1) The implementation is a bit hacky. Python passes everything by reference, except immutable objects. I wanted to pass threshold by reference, which did not work, it being a float and such. That&#8217;s why I&#8217;ve wrapped it in a list.<br>
-(2) I&#8217;ll use L/4 as the threshold; and I still use a 35% mutate rate, although we are not using bit encoded individuals, though we could set this a bit higher if we wanted.<br>
-(3) We do crossover by randomly swapping different values with a 0.5 chance, until half of the values are swapped. Probability-wise, this is not the same as randomly picking half of the different bits. This doesn&#8217;t matter that much for this example, though.<br>
-Let&#8217;s test&nbsp;it:  </p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>  
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>  
-<span class="kn">from</span> <span class="nn">chc_eshelman</span> <span class="kn">import</span> <span class="o">*</span>  
-<span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>  
-<span class="n">p_count</span> <span class="o">=</span> <span class="mi">50</span>  
-<span class="n">i_length</span> <span class="o">=</span> <span class="mi">6</span>  
-<span class="n">i_min</span> <span class="o">=</span> <span class="mi">0</span>  
-<span class="n">i_max</span> <span class="o">=</span> <span class="mi">100</span>  
-<span class="n">treshold</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_length</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">]</span>  
-<span class="n">p</span> <span class="o">=</span> <span class="n">population</span><span class="p">(</span><span class="n">p_count</span><span class="p">,</span> <span class="n">i_length</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">)</span>  
-<span class="k">print</span> <span class="s2">&quot;First grade: &quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>  
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>  
-  <span class="n">p</span><span class="o">=</span><span class="n">evolve</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">treshold</span><span class="p">)</span><span class="err">`</span>
+<p>Â Â Â Â Â Â #same, just copy to both
+    Â Â Â Â Â Â child_one.append(ind1[x])
+    Â Â Â Â Â Â child_two.append(ind2[x])
+    Â Â Â Â else:
+    Â Â Â Â Â Â #different, swap with .5 probability, until hamming/2 swaps
+    Â Â Â Â Â Â nr_swaps += 1
+    Â Â Â Â Â Â child_one.append(ind2[x])
+    Â Â Â Â Â Â child_two.append(ind1[x])
+    Â Â return&nbsp;[child_one,child_two]</p>
+<div class="highlight"><pre><span></span>def evolve(pop, target, min, max, treshold):
+Â Â child_population = []
+Â Â for i in range(1, len(pop)/2):
+Â Â Â Â #choose two random parents:
+Â Â Â Â parent_one = pop[randint(0, len(pop)-1)]
+Â Â Â Â parent_two = pop[randint(0, len(pop)-1)]
+Â Â Â Â if (hamming(parent_one, parent_two)/2) &gt; treshold[0]:
+Â Â Â Â Â Â #do hux crossover
+Â Â Â Â Â Â children = hux(parent_one, parent_two)
+Â Â Â Â Â Â child_population.append(children[0])
+Â Â Â Â Â Â child_population.append(children[1])
+Â Â if len(child_population) == 0:
+Â Â Â Â treshold[0]-=1;
+Â Â Â Â print &quot;No children evolved&quot;
+Â Â else:
+Â Â Â Â p_count = len(pop);
+Â Â Â Â print len(child_population),&quot;children&quot;
+Â Â Â Â for x in child_population:
+Â Â Â Â Â Â pop.append(x)
+Â Â Â Â pop.sort (lambda x, y : cmp (fitness(x, target), fitness(y, target)))
+Â Â Â Â #for x in pop:
+Â Â Â Â # if fitness(x,target) == 0:
+Â Â Â Â # print &quot;Perfect individual found:&quot;,x
+Â Â Â Â pop = pop[:p_count]
+Â Â Â Â print len(pop),&quot;new population, grade:&quot;, grade(pop, target)
+Â Â if treshold[0] &lt; 0:
+Â Â Â Â pop = cataclysm(pop, target, min, max)
+Â Â Â Â print &quot;Cataclysm, newpop length:&quot;,len(pop),&quot;grade:&quot;,grade(pop,target)
+Â Â Â Â treshold[0] = len(pop[0]) / 4.0
+Â Â Â Â print &quot;Treshold is now:&quot;,treshold[0]
+Â Â return pop`
 </pre></div>
 
 
-<p>In the first run, it took two cataclysms to reach a completely perfect population (grade is the average score for the complete population, not for the best single individual, it might be possible to have a perfect individual in the first evolution, still, because this problem is so simple, we look at the complete population):<br>
-    First grade: 66.88<br>
-    48 children<br>
-    50 new population, grade: 30.34<br>
-    44 children<br>
-    50 new population, grade: 18.92<br>
-    48 children<br>
-    50 new population, grade: 10.64<br>
-    38 children<br>
-    50 new population, grade: 6.68<br>
-    40 children<br>
-    50 new population, grade: 4.74<br>
-    36 children<br>
-    50 new population, grade: 3.84<br>
-    12 children<br>
-    50 new population, grade: 3.48<br>
-    12 children<br>
-    50 new population, grade: 3.12<br>
-    6 children<br>
-    50 new population, grade: 3.0<br>
-    No children evolved<br>
-    No children evolved<br>
-    Cataclysm, newpop length: 50 grade: 48.24<br>
-    Treshold is now: 1.5<br>
-    46 children<br>
-    50 new population, grade: 17.36<br>
-    36 children<br>
-    50 new population, grade: 7.8<br>
-    32 children<br>
-    50 new population, grade: 4.1<br>
-    20 children<br>
-    50 new population, grade: 2.76<br>
-    14 children<br>
-    50 new population, grade: 2.44<br>
-    16 children<br>
-    50 new population, grade: 2.12<br>
-    22 children<br>
-    50 new population, grade: 1.68<br>
-    20 children<br>
-    50 new population, grade: 1.28<br>
-    18 children<br>
-    50 new population, grade: 1.0<br>
-    No children evolved<br>
-    No children evolved<br>
-    Cataclysm, newpop length: 50 grade: 48.86<br>
-    Treshold is now: 1.5<br>
-    40 children<br>
-    50 new population, grade: 21.04<br>
-    46 children<br>
-    50 new population, grade: 5.3<br>
-    36 children<br>
-    50 new population, grade: 1.56<br>
-    40 children<br>
-    50 new population, grade: 0.38<br>
-    32 children<br>
-    50 new population, grade: 0.0
-Another run only takes four evolutions to reach a perfect population, with a beautiful&nbsp;convergence:  </p>
-<div class="highlight"><pre><span></span>First grade: 51.16  
-46 children  
-50 new population, grade: 24.26  
-46 children  
-50 new population, grade: 12.6  
-34 children  
-50 new population, grade: 5.78  
-38 children  
-50 new population, grade: 0.94  
-34 children  
-50 new population, grade: 0.0  
-20 children  
+<p>This reminds me: I should really work on a css class for code (update: done), instead of writing everything in monospace. A few remarks:
+(1) The implementation is a bit hacky. Python passes everything by reference, except immutable objects. I wanted to pass threshold by reference, which did not work, it being a float and such. That&#8217;s why I&#8217;ve wrapped it in a list.
+(2) I&#8217;ll use L/4 as the threshold; and I still use a 35% mutate rate, although we are not using bit encoded individuals, though we could set this a bit higher if we wanted.
+(3) We do crossover by randomly swapping different values with a 0.5 chance, until half of the values are swapped. Probability-wise, this is not the same as randomly picking half of the different bits. This doesn&#8217;t matter that much for this example,&nbsp;though.</p>
+<p>Let&#8217;s test&nbsp;it:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">chc_eshelman</span> <span class="kn">import</span> <span class="o">*</span>
+<span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>
+<span class="n">p_count</span> <span class="o">=</span> <span class="mi">50</span>
+<span class="n">i_length</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">i_min</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">i_max</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">treshold</span> <span class="o">=</span> <span class="p">[</span><span class="n">i_length</span> <span class="o">/</span> <span class="mf">4.0</span><span class="p">]</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">population</span><span class="p">(</span><span class="n">p_count</span><span class="p">,</span> <span class="n">i_length</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">)</span>
+<span class="k">print</span> <span class="s2">&quot;First grade: &quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">p</span><span class="o">=</span><span class="n">evolve</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">treshold</span><span class="p">)</span><span class="err">`</span>
+</pre></div>
+
+
+<p>In the first run, it took two cataclysms to reach a completely perfect population (grade is the average score for the complete population, not for the best single individual, it might be possible to have a perfect individual in the first evolution, still, because this problem is so simple, we look at the complete&nbsp;population):</p>
+<div class="highlight"><pre><span></span>First grade: 66.88
+48 children
+50 new population, grade: 30.34
+44 children
+50 new population, grade: 18.92
+48 children
+50 new population, grade: 10.64
+38 children
+50 new population, grade: 6.68
+40 children
+50 new population, grade: 4.74
+36 children
+50 new population, grade: 3.84
+12 children
+50 new population, grade: 3.48
+12 children
+50 new population, grade: 3.12
+6 children
+50 new population, grade: 3.0
+No children evolved
+No children evolved
+Cataclysm, newpop length: 50 grade: 48.24
+Treshold is now: 1.5
+46 children
+50 new population, grade: 17.36
+36 children
+50 new population, grade: 7.8
+32 children
+50 new population, grade: 4.1
+20 children
+50 new population, grade: 2.76
+14 children
+50 new population, grade: 2.44
+16 children
+50 new population, grade: 2.12
+22 children
+50 new population, grade: 1.68
+20 children
+50 new population, grade: 1.28
+18 children
+50 new population, grade: 1.0
+No children evolved
+No children evolved
+Cataclysm, newpop length: 50 grade: 48.86
+Treshold is now: 1.5
+40 children
+50 new population, grade: 21.04
+46 children
+50 new population, grade: 5.3
+36 children
+50 new population, grade: 1.56
+40 children
+50 new population, grade: 0.38
+32 children
+50 new population, grade: 0.0
+</pre></div>
+
+
+<p>Another run only takes four evolutions to reach a perfect population, with a beautiful&nbsp;convergence:</p>
+<div class="highlight"><pre><span></span>First grade: 51.16
+46 children
+50 new population, grade: 24.26
+46 children
+50 new population, grade: 12.6
+34 children
+50 new population, grade: 5.78
+38 children
+50 new population, grade: 0.94
+34 children
+50 new population, grade: 0.0
+20 children
 50 new population, grade: 0.0`
 </pre></div>
 
 
-<p>Sometimes however, the algorithm gets stuck in a&nbsp;loop:  </p>
-<div class="highlight"><pre><span></span>...  
-18 children  
-50 new population, grade: 1.0  
-22 children  
-50 new population, grade: 1.0  
-24 children  
-50 new population, grade: 1.0  
-16 children  
-50 new population, grade: 1.0  
-26 children  
-50 new population, grade: 1.0  
-24 children  
-50 new population, grade: 1.0  
-24 children  
-50 new population, grade: 1.0  
-18 children  
-50 new population, grade: 1.0  
-18 children  
-50 new population, grade: 1.0  
-14 children  
-50 new population, grade: 1.0  
-16 children  
-50 new population, grade: 1.0  
-16 children  
+<p>Sometimes however, the algorithm gets stuck in a&nbsp;loop:</p>
+<div class="highlight"><pre><span></span>...
+18 children
+50 new population, grade: 1.0
+22 children
+50 new population, grade: 1.0
+24 children
+50 new population, grade: 1.0
+16 children
+50 new population, grade: 1.0
+26 children
+50 new population, grade: 1.0
+24 children
+50 new population, grade: 1.0
+24 children
+50 new population, grade: 1.0
+18 children
+50 new population, grade: 1.0
+18 children
+50 new population, grade: 1.0
+14 children
+50 new population, grade: 1.0
+16 children
+50 new population, grade: 1.0
+16 children
 50 new population, grade: 1.0`
 </pre></div>
 
 
-<p>This has something to do with the way the hamming distance is calculated. Sometimes, a pool of two different solutions will be made, but with more than one different values, thus this will always be above the hamming threshold, but will always create the same children, and the same resulting new population.<br>
-For example, the algorithm can get stuck in a pool with two types of&nbsp;parents:  </p>
-<div class="highlight"><pre><span></span>1: [83, 19, 67, 64, 23, 44], sum 300   
+<p>This has something to do with the way the hamming distance is calculated. Sometimes, a pool of two different solutions will be made, but with more than one different values, thus this will always be above the hamming threshold, but will always create the same children, and the same resulting new&nbsp;population.</p>
+<p>For example, the algorithm can get stuck in a pool with two types of&nbsp;parents:</p>
+<div class="highlight"><pre><span></span>1: [83, 19, 67, 64, 23, 44], sum 300
 (the target was 300, so fitness: 300-300 = 0: perfect)
 
 2: [38, 28, 67, 64, 6, 97], sum 300`
 </pre></div>
 
 
-<p>Both are optimal (but the sum might also be both 299, or 299 and 301, etc)&#8230; Notice that the hamming distance between them is four, far above the threshold, thus the following children can be created:<br>
-    [38, 28, 67, 64, 23, 44], sum 264<br>
-    [38, 19, 67, 64, 6, 97], sum 291<br>
-    [83, 28, 67, 64, 6, 44], sum 292<br>
-    [83, 19, 67, 64, 6, 97], sum 336<code>However, these children all perform worse and will never be considered for the new population, and this is how we get stuck in a loop.  
-If we'd used a bit-representation, or other workarounds, this would've worked better. For example use another check: if there is no change in the population members: do</code>threshold := threshold - 1`. Still, it&#8217;s good enough to show the workings of the algorithm.<br>
-In conclusion, <span class="caps">CHC</span> performs very well with only a very limited population size, even in problems where local maxima are common.<br>
-If you want to download the source code used in this post, you can find it <a href="http://www.macuyiko.com/files/ga/ga_chceshelman.zip">here</a>.  </p>
+<p>Both are optimal (but the sum might also be both 299, or 299 and 301, etc)&#8230; Notice that the hamming distance between them is four, far above the threshold, thus the following children can be&nbsp;created:</p>
+<div class="highlight"><pre><span></span>[38, 28, 67, 64, 23, 44], sum 264
+[38, 19, 67, 64, 6, 97], sum 291
+[83, 28, 67, 64, 6, 44], sum 292
+[83, 19, 67, 64, 6, 97], sum 336`
+</pre></div>
+
+
+<p>However, these children all perform worse and will never be considered for the new population, and this is how we get stuck in a&nbsp;loop.</p>
+<p>If we&#8217;d used a bit-representation, or other workarounds, this would&#8217;ve worked better. For example use another check: if there is no change in the population members: do <code>threshold := threshold - 1</code>. Still, it&#8217;s good enough to show the workings of the&nbsp;algorithm.</p>
+<p>In conclusion, <span class="caps">CHC</span> performs very well with only a very limited population size, even in problems where local maxima are&nbsp;common.</p>
+<p>If you want to download the source code used in this post, you can find it <a href="http://www.macuyiko.com/files/ga/ga_chceshelman.zip">here</a>.</p>
 <hr>
-<p>Table Of Contents (click a link to jump to that&nbsp;post)</p>
+<p>Table Of ContentsÂ (click a link to jump to that&nbsp;post)</p>
 <ol>
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
-2. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
-3. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
-4. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
-5. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a> 
-6. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
-<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a> </li>
+2.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
+3.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
+4.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
+5.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>Â
+6.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
+<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a>Â</li>
 </ol>
 	</article>
 </div>

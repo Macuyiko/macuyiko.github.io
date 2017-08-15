@@ -116,7 +116,7 @@
 <h3>Cloud&nbsp;Storage</h3>
 <p>But I digress&#8230; this post was going to be a simple one, about cloud storage services. As stated before, Chinese technology firms have begun offering cloud storage&nbsp;services:</p>
 <ul>
-<li><a href="http://pan.baidu.com/">Baidu Disk</a> - or: Baidu Yun (云, Cloud) or Pan (盘, Disk [3]): offers <span class="caps">2TB</span> (that is terabytes!) of data for free when you install the mobile&nbsp;app.</li>
+<li><a href="http://pan.baidu.com/">Baidu Disk</a> - or: Baidu Yun (äº‘, Cloud) or Pan (ç›˜, Disk [3]): offers <span class="caps">2TB</span> (that is terabytes!) of data for free when you install the mobile&nbsp;app.</li>
 <li>Tencent <a href="http://www.weiyun.com/">Weiyun</a>: offers <span class="caps">10TB</span> of data for free when you install the mobile&nbsp;app.</li>
 <li>360.cn&#8217;s <a href="yunpan.360.cn">Yunpan</a>: offers <span class="caps">10TB</span> of data when installing the Windows client and an additional <span class="caps">20TB</span> when installing a mobile&nbsp;client.</li>
 </ul>
@@ -204,13 +204,13 @@
 <p>Last, we also need to take a look at the cookies send with every&nbsp;request:</p>
 <ul>
 <li><code>pgv_info</code>: some kind of session indicator? Values look like <code>ssid=s9869263628</code> and do not tend to change after a session&nbsp;timeout.</li>
-<li><code>pgv_pvid</code>: same. Values look like <code>4842874884</code>       </li>
+<li><code>pgv_pvid</code>: same. Values look like <code>4842874884</code></li>
 <li><code>pt2gguin</code>: the letter &#8220;o&#8221; followed by your <span class="caps">QQ</span>&nbsp;number.</li>
 <li><code>ptcz</code>: also a session identifier which does not tend to change after a session&nbsp;timeout.</li>
 <li><code>ptisp</code>: set to the value <code>os</code></li>
 <li><code>ptui_loginuin</code>: your e-mail&nbsp;address.</li>
 <li><code>skey</code>: a session key which does change after a session timeout, starts with&nbsp;&#8220;@&#8221;.</li>
-<li><code>uin</code>: same as <code>pt2gguin</code> above.  </li>
+<li><code>uin</code>: same as <code>pt2gguin</code> above.</li>
 <li><code>verifysession</code>: a remainder of the login process, but not required in the app&nbsp;itself.</li>
 </ul>
 <p>With this under our belt, we&#8217;re ready to start of with some code. First, we set up our imports and values we need to retrieve from a started&nbsp;session:</p>
@@ -236,7 +236,7 @@
 
 <p>Next, some general purpose&nbsp;functions:</p>
 <div class="highlight"><pre><span></span>current_milli_time = lambda: int(round(time.time() * 1000))
-file_size = lambda x: os.stat(x).st_size 
+file_size = lambda x: os.stat(x).st_size
 get_ordered_tuple = lambda x,y: next(a[1] for a in x if a[0] == y)
 md5 = lambda x: hashlib.md5(open(x, &#39;rb&#39;).read()).hexdigest()
 sha1 = lambda x: hashlib.sha1(open(x, &#39;rb&#39;).read()).hexdigest()
@@ -252,7 +252,7 @@ HEADERS = {&#39;User-Agent&#39;: &#39;Mozilla/5.0 (X11; Linux x86_64) AppleWebKi
             &#39; (KHTML, like Gecko) Chrome/37.0.2062.94 Safari/537.36&#39;,
             &#39;Referer&#39;: &#39;http://www.weiyun.com/disk/index-en.html&#39;}
 COOKIES = {&#39;pgv_info&#39;: PGV_INFO,
-            &#39;pgv_pvid&#39;: PGV_PVID, 
+            &#39;pgv_pvid&#39;: PGV_PVID,
             &#39;ptui_loginuin&#39;: EMAIL,
             &#39;pt2gguin&#39;: &#39;o&#39;+UIN,
             &#39;uin&#39;: &#39;o&#39;+UIN,
@@ -478,7 +478,7 @@ print jsonprint(req.get_response())
 
 <p>I&#8217;ll spoil the answer and tell right away that the <code>main_dir_key</code> is the one we&nbsp;need:</p>
 <div class="highlight"><pre><span></span>req = GetDirList(
-            &#39;56e73eb054570c238a6a15604df9e583&#39;, 
+            &#39;56e73eb054570c238a6a15604df9e583&#39;,
             &#39;56e73eb0f0a739ae12b58dcd423dce4a&#39;)
 print jsonprint(req.get_response())
 </pre></div>
@@ -518,7 +518,7 @@ print jsonprint(req.get_response())
 
 
 <p>You can test this out&nbsp;with:</p>
-<div class="highlight"><pre><span></span>req = GetDirList(&#39;56e73eb0f0a739ae12b58dcd423dce4a&#39;, 
+<div class="highlight"><pre><span></span>req = GetDirList(&#39;56e73eb0f0a739ae12b58dcd423dce4a&#39;,
             &#39;56e73eb0f338fdcb41c5dfa52b9ed888&#39;)
 print jsonprint(req.get_response())
 </pre></div>
@@ -736,7 +736,7 @@ hmd5 = md5(file)
 hsha1 = sha1(file)
 filesize = file_size(file)
 req = FileUpload(
-    filename, filesize, 
+    filename, filesize,
     &#39;56e73eb0f0a739ae12b58dcd423dce4a&#39;, &#39;56e73eb0f338fdcb41c5dfa52b9ed888&#39;,
     hmd5, hsha1)
 print req.send_file(&#39;c:/users/n11093/desktop/download.pdf&#39;)
@@ -749,7 +749,7 @@ print req.send_file(&#39;c:/users/n11093/desktop/download.pdf&#39;)
 filename = &#39;unique.txt&#39;
 filesize = file_size(file)
 req = FileUpload(
-    filename, filesize, 
+    filename, filesize,
     &#39;56e73eb0f0a739ae12b58dcd423dce4a&#39;, &#39;56e73eb0f338fdcb41c5dfa52b9ed888&#39;)
 print req.send_file(&#39;c:/users/n11093/desktop/download.pdf&#39;)
 </pre></div>
@@ -822,7 +822,7 @@ GTK = get_tk(SKEY)
 
 <p>Again, a lovely display of custom-rolled security functions. I wonder how developer team meetings at Tencent would&nbsp;go.</p>
 <h4>Download</h4>
-<p>I&#8217;ve put all my code up on <a href="https://github.com/Macuyiko/WeiyunAPI">GitHub</a>, in case you&#8217;re interested. I&#8217;ll probably not maintain this for long, but feel free to fork or submit pull requests. The license is permissive (<span class="caps">MIT</span>), and I&#8217;d love to hear if this ends up being useful in some way. I can be reached at <a href="mailto:macuyiko@gmail.com">macuyiko@gmail.com</a>&nbsp;(我也明白一点中文).</p>
+<p>I&#8217;ve put all my code up on <a href="https://github.com/Macuyiko/WeiyunAPI">GitHub</a>, in case you&#8217;re interested. I&#8217;ll probably not maintain this for long, but feel free to fork or submit pull requests. The license is permissive (<span class="caps">MIT</span>), and I&#8217;d love to hear if this ends up being useful in some way. I can be reached at <a href="mailto:macuyiko@gmail.com">macuyiko@gmail.com</a>&nbsp;(æˆ‘ä¹Ÿæ˜Žç™½ä¸€ç‚¹ä¸­æ–‡).</p>
 <h4>Addendum: Tencent&#8217;s Encrypted Chunked Upload&nbsp;Mechanism</h4>
 <p>At the time of writing up this post (which took a few days), I noticed that the upload mechanism over at the English version of Weiyuns app became increasingly flaky. At first, I thought this was an issue with my code, but uploading through the site itself also seems to be failing (at least at this moment in&nbsp;time).</p>
 <p>I took a look at the Chinese version to see if things were still working there, and it seems that indeed, it does. In addition, I&#8217;ve noticed that this version now relies on a Flash helper which performs uploads in the same manner as the Window client does (verified using Wireshark). First, a request is made to an <span class="caps">API</span> endpoint (<code>http://user.weiyun.com/newcgi/qdisk_upload.fcg</code>) to get a location to upload to (similar as before). Next however, a series of <span class="caps">POST</span> requests is made which seem to upload chunks of the file to be uploaded with some magic header stuck in the&nbsp;front.</p>
@@ -912,7 +912,7 @@ GTK = get_tk(SKEY)
     <span class="nx">def</span> <span class="nx">get_payload</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
         <span class="nx">payload</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;cmd&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">cmd</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;g_tk&#39;</span><span class="p">,</span> <span class="nx">GTK</span><span class="p">),</span>
-            <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">dumps</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">)),</span> 
+            <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">dumps</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">)),</span>
             <span class="p">(</span><span class="s1">&#39;callback&#39;</span><span class="p">,</span> <span class="s1">&#39;X_GET&#39;</span><span class="p">),</span>
             <span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="nx">str</span><span class="p">(</span><span class="nx">current_milli_time</span><span class="p">())))</span>
         <span class="k">return</span> <span class="nx">payload</span><span class="p">;</span>
@@ -1009,9 +1009,9 @@ GTK = get_tk(SKEY)
 <p>[1]: See for instance <a href="http://www.reuters.com/article/2014/12/29/google-china-idUSL3N0UD21W20141229">http://www.reuters.com/article/2014/12/29/google-china-idUSL3N0UD21W20141229</a> for a very recent example. Although to be clear, plain old censorship is the main driver behind such moves. Still, there is a bit of protectionism mixed in which can go quite far. A typical strategy applied for example is to allow access to Google Maps or Gmail for very brief periods, in order to instill the notion that Google is just offering sloppy services. Most netizens are smart enough not to fall for it,&nbsp;however.</p>
 <p>[2]: I&#8217;ve noticed this myself when trying to find standard notation for terms which are generally accepted in English research literature, such as &#8220;recall and precision&#8221;. The New York times also has two great articles <a href="http://www.nytimes.com/2011/03/22/world/asia/22china.html?pagewanted=all">here (older)</a> and <a href="http://www.nytimes.com/2014/09/22/business/international/china-clamps-down-on-web-pinching-companies-like-google.html">here</a> on the subject (the latter article is a great read and better expands on some points I&#8217;m making here). To&nbsp;quote:</p>
 <blockquote>
-<p><span class="dquo">&#8220;</span>I know some foreign scientists are studying the rings of ancient trees to learn about the climate, for example, but I can&#8217;t find their work using Baidu,&#8221; Ms. Jin said. &#8220;When in China, I&#8217;m almost never able to access Google Scholar, so I’m left badly informed of the latest&nbsp;findings.&#8221;</p>
+<p><span class="dquo">&#8220;</span>I know some foreign scientists are studying the rings of ancient trees to learn about the climate, for example, but I can&#8217;t find their work using Baidu,&#8221; Ms. Jin said. &#8220;When in China, I&#8217;m almost never able to access Google Scholar, so Iâ€™m left badly informed of the latest&nbsp;findings.&#8221;</p>
 </blockquote>
-<p>[3]: I really like the hanzi 盘 to indicate a disk. The character is a pretty old-fashioned one to indicate a dish, plate, or even a washbasin. It is used in 硬盘 to indicate hard drive. Sometimes, 硬碟 is used as well (the latter also meaning dish,&nbsp;plate).</p>
+<p>[3]: I really like the hanzi ç›˜ to indicate a disk. The character is a pretty old-fashioned one to indicate a dish, plate, or even a washbasin. It is used in ç¡¬ç›˜ to indicate hard drive. Sometimes, ç¡¬ç¢Ÿ is used as well (the latter also meaning dish,&nbsp;plate).</p>
 	</article>
 </div>
 		

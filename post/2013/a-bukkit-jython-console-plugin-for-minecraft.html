@@ -94,7 +94,7 @@
 <p>Unless you&#8217;ve been living under a rock, you probably know about <a href="https://minecraft.net/">Minecraft</a>, the famous open block based 3D building/crafting/exploration/survival&nbsp;game.</p>
 <blockquote>
 <p>Minecraft is a game about breaking and placing blocks. At first, people built structures to protect against nocturnal monsters, but as the game grew players worked together to create wonderful, imaginative&nbsp;things.</p>
-<p>It can also be about adventuring with friends or watching the sun rise over a blocky ocean. It’s pretty. Brave players battle terrible things in The Nether, which is more scary than pretty. You can also visit a land of mushrooms if it sounds more like your cup of&nbsp;tea.</p>
+<p>It can also be about adventuring with friends or watching the sun rise over a blocky ocean. Itâ€™s pretty. Brave players battle terrible things in The Nether, which is more scary than pretty. You can also visit a land of mushrooms if it sounds more like your cup of&nbsp;tea.</p>
 </blockquote>
 <p>Minecraft has been wildly successful. Not only because of the <span class="caps">LEGO</span>-like main gameplay, but also thanks to the developers&#8217; friendly stance towards modding, causing an incredible amount of modifications being released, ranging from <a href="http://www.pcgamesn.com/minecraft/twenty-best-minecraft-mods">additional creatures to custom biomes</a>.</p>
 <p><a href="http://kotaku.com/5981660/a-short-but-wonderful-documentary-about-why-kids-play-minecraft">Lots</a> of people have also emphasized the fact that Minecraft is a great way for parents to bond with their children. Also in the <a href="http://www.studentadvisor.com/pages/5-ways-minecraft-can-help-improve-your-sat-score">classroom</a>, Minecraft has been used as a teaching aid to inspire&nbsp;children.</p>
@@ -116,7 +116,7 @@
 <li><a href="http://www.wired.com/wiredscience/2012/02/minecraft-physics/">Learning Physics with Minecraft</a> &#8212; not programming, but learning physics with&nbsp;Minecraft</li>
 <li><a href="http://mathematica.stackexchange.com/questions/19669/mathematica-minecraft">Minecraft in Mathematica</a> &#8212; &#8230;and even Mathematica&nbsp;clones</li>
 </ul>
-<p>This is all nice, but a bit too high-level for what I wanted to build. I wanted to have direct access to the Bukkit <span class="caps">API</span>, similar to how the Minecraft: Pi Edition provides direct access to its <span class="caps">API</span>. </p>
+<p>This is all nice, but a bit too high-level for what I wanted to build. I wanted to have direct access to the Bukkit <span class="caps">API</span>, similar to how the Minecraft: Pi Edition provides direct access to its <span class="caps">API</span>.</p>
 <p>We&#8217;re thus going to create a Bukkit plugin which gives server administrators or programming students direct access to the full Bukkit <span class="caps">API</span>. The actual plugin is actually very simple, thanks to the magic of Jython, a Python implementation in Java which allows for Python&lt;-&gt;Java crosstalk and saves us from having to implement any command in the plugin itself. Commands are issued on a separate console window and do not require players or server administrators to be running the game&nbsp;itself.</p>
 <h3>Related&nbsp;Work</h3>
 <p>The basic idea behind what we&#8217;re going to do is certainly not new by any means. The <a href="http://www.raspberrypi.org/archives/2565">Minecraft: Pi Edition</a>, as mentioned above, implements a similar idea (<a href="http://www.stuffaboutcode.com/2013/06/programming-minecraft-with-bukkit.html">see also this article</a>). The Mag Pi magazine even <a href="http://www.stuffaboutcode.com/2013/04/minecraft-pi-edition-api-tutorial.html">featured a nice tutorial</a> to show off what you can do with&nbsp;it.</p>
@@ -134,8 +134,8 @@
 <p><a href="http://www.rockpapershotgun.com/2013/01/07/coding-in-minecraft/#more-137060">ComputerCraft</a> also inspires people to learn coding, but is even more high level. It actually provides a &#8220;console block&#8221; in the game offering a rudimentary shell which has nothing to do with the inner workings of either Bukkit or&nbsp;Minecraft.</p>
 <p>Finally, plugins such as <a href="http://dev.bukkit.org/bukkit-plugins/pydevtools/">PyDevTool</a> and <a href="http://dev.bukkit.org/bukkit-plugins/redstonetorch/">RedstoneTorch</a> come closer to what we want to achieve. For instance, PyDevTools allows&nbsp;to:</p>
 <blockquote>
-<p>Execute arbitrary python code from console or ingame  <br>
-Execute saved python scripts  <br>
+<p>Execute arbitrary python code from console or ingame
+Execute saved python scripts
 Interactive interpreter&nbsp;mode</p>
 </blockquote>
 <p>This is almost exactly what I wanted to build, but still requires to log into the game to execute <code>/py &lt;statement&gt;</code> commands. Yes, these can also be entered in the Bukkit console (offering some kind of interactive shell), but I wanted to remove the <code>/py</code> clutter. A simple trick indeed will allow us to do so, let&#8217;s get right to&nbsp;it&#8230;</p>
@@ -172,7 +172,7 @@ Interactive interpreter&nbsp;mode</p>
                         <span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;lib/&quot;</span><span class="o">+</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span><span class="o">.</span><span class="n">toURI</span><span class="p">()</span><span class="o">.</span><span class="n">toURL</span><span class="p">());</span>
                 <span class="p">}</span>
             <span class="p">}</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="ne">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="ne">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">e</span><span class="o">.</span><span class="n">printStackTrace</span><span class="p">();</span>
         <span class="p">}</span>
 
@@ -352,7 +352,7 @@ public class ConnectionThread implements Runnable {
 
 <p>Finally, <code>MainPlugin.java</code> is modified to read in config values from a <code>config.yml</code> file with following&nbsp;defaults:</p>
 <div class="highlight"><pre><span></span><span class="n">bukkitconsole</span><span class="o">:</span>
- <span class="n">guiconsole</span><span class="o">:</span> 
+ <span class="n">guiconsole</span><span class="o">:</span>
   <span class="n">enabled</span><span class="o">:</span> <span class="kc">true</span>
  <span class="n">serverconsole</span><span class="o">:</span>
   <span class="n">enabled</span><span class="o">:</span> <span class="kc">true</span>
@@ -373,7 +373,7 @@ public class ConnectionThread implements Runnable {
 <span class="n">PASSWORD</span><span class="p">:</span> <span class="n">swordfish</span>
 <span class="n">You</span><span class="s1">&#39;re in</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">org.bukkit</span> <span class="kn">import</span> <span class="n">Bukkit</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorlds</span><span class="p">()</span> 
+<span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorlds</span><span class="p">()</span>
 <span class="p">[</span><span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world</span><span class="p">},</span> <span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world_nether</span><span class="p">},</span> <span class="n">CraftWorld</span><span class="p">{</span><span class="n">name</span><span class="o">=</span><span class="n">world_the_end</span><span class="p">}]</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorld</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setTime</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">Bukkit</span><span class="o">.</span><span class="n">getWorld</span><span class="p">(</span><span class="s2">&quot;world&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">setTime</span><span class="p">(</span><span class="mi">1400</span><span class="p">)</span>

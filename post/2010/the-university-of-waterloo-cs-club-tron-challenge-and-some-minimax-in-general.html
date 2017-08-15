@@ -76,446 +76,584 @@
 			title="Permalink to The University Of Waterloo CS Club Tron Challenge, And Some Minimax In General">The University Of Waterloo <span class="caps">CS</span> Club Tron Challenge, And Some Minimax In&nbsp;General</a></div>
 		</header>
 	
-	    <p>(This is the first part in the University Of Waterloo <span class="caps">CS</span> Club Tron Challenge post series. You can find the second part <a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html">here</a>.)<br>
-The Computer Science Club of the University of Waterloo is currently organizing an <a href="http://csclub.uwaterloo.ca/contest/index.php"><span class="caps">AI</span> challenge</a>, sponsored by Google. I&#8217;m (as always) a bit late with my write-up and the contest will be ending soon (26th of February), so you will have to be quick if you still want to enter. However, I can imagine that many of you are already familiar with the contest&#8230;<br>
-Since this challenge combines some interesting topics: <span class="caps">AI</span>, a game, a contest and optimization, I thought it might be interesting to post some conclusions here. Note that many of the topics here are already discussed at other websites and blogs. I will post references and links to those. Consider this as a general overview, a journal of my own tries, and a closer look at some common&nbsp;pitfalls.  </p>
+	    <p>(This is the first part in the University Of Waterloo <span class="caps">CS</span> Club Tron Challenge post series. You can find the second partÂ <a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html">here</a>.)</p>
+<p>The Computer Science Club of the University of Waterloo is currently organizing an <a href="http://csclub.uwaterloo.ca/contest/index.php"><span class="caps">AI</span> challenge</a>, sponsored by Google. I&#8217;m (as always) a bit late with my write-up and the contest will be ending soon (26th of February), so you will have to be quick if you still want to enter. However, I can imagine that many of you are already familiar with the&nbsp;contest&#8230;</p>
+<p>Since this challenge combines some interesting topics: <span class="caps">AI</span>, a game, a contest and optimization, I thought it might be interesting to post some conclusions here. Note that many of the topics here are already discussed at other websites and blogs. I will post references and links to those. Consider this as a general overview, a journal of my own tries, and a closer look at some common&nbsp;pitfalls.</p>
 <h3>Introduction</h3>
-<p>The challenge this year was all about Tron. Tron is like two-player Snake, where your objective is to box in your opponent to force him to crash into a wall (or your or his own tail) before you do. Of course, this game was first introduced in the movie with the similar name: Tron.<br>
-In this version of the game, some things are a bit simpler then what we see in the movie above:<br>
-  - Only two teams, with one player per team. In other words: one versus one.
-  - No acceleration: everyone moves at the same speed.
-  - No breaking the boundaries.
-  - Your tail doesn&#8217;t vanish once you crash. Even if this would happen, it wouldn&#8217;t matter (once you&#8217;ve crashed you&#8217;ve lost anyway and the game ends).
-  - The playfield doesn&#8217;t necessarily start empty.
-(Note: it is possible to find many (free) games on the internet which do include some of these features.)<br>
-For example, one of the maps provided in the package looks like this:<br>
-    ########<br>
-    #1     #<br>
-    #      #<br>
-    #      #<br>
-    #      #<br>
-    #      #<br>
-    #     2#<br>
-    ########
-<code>#</code> stands for a wall, and <code>1</code> and <code>2</code> are our two players on their starting positions.<br>
-Let&#8217;s pit them against each other and see how they fare. We provide them with a very basic mode of intelligence: just pick any random direction if the space is free if possible.<br>
-After the first move, the board looks like this:<br>
-    ########<br>
-    ##     #<br>
-    #1     #<br>
-    #      #<br>
-    #      #<br>
-    #     2#<br>
-    #     ##<br>
-    ########
-See how they both leave a wall behind them? Note that diagonal moves are forbidden. A few moves later, the situation looks like&nbsp;this:  </p>
-<div class="highlight"><pre><span></span>########  
-##     #  
-##     #  
-##     #  
-###    #  
-# 1  ###  
-#  2####  
+<p>The challenge this year was all about Tron. Tron is like two-player Snake, where your objective is to box in your opponent to force him to crash into a wall (or your or his own tail) before you do. Of course, this game was first introduced in the movie with the similar name:&nbsp;Tron.</p>
+<p>In this version of the game, some things are a bit simpler then what we see in the movie&nbsp;above:</p>
+<ul>
+<li>Only two teams, with one player per team. In other words: one versus&nbsp;one.</li>
+<li>No acceleration: everyone moves at the same&nbsp;speed.</li>
+<li>No breaking the&nbsp;boundaries.</li>
+<li>Your tail doesn&#8217;t vanish once you crash. Even if this would happen, it wouldn&#8217;t matter (once you&#8217;ve crashed you&#8217;ve lost anyway and the game&nbsp;ends).</li>
+<li>The playfield doesn&#8217;t necessarily start&nbsp;empty.</li>
+</ul>
+<p>(Note: it is possible to find many (free) games on the internet which do include some of these&nbsp;features.)</p>
+<p>For example, one of the maps provided in the package looks like&nbsp;this:</p>
+<div class="highlight"><pre><span></span>########
+#1Â Â Â Â Â #
+#Â Â Â Â Â Â #
+#Â Â Â Â Â Â #
+#Â Â Â Â Â Â #
+#Â Â Â Â Â Â #
+#Â Â Â Â Â 2#
 ########
 </pre></div>
 
 
-<p>If player 1 now decides to go right, and player 2 decides to go up, they will crash into each other and the game will end with a draw. This actual run turns out to be a bit more&nbsp;dramatic:  </p>
-<div class="highlight"><pre><span></span>########  
-##     #  
-##     #  
-##     #  
-###    #  
-#1#2 ###  
-#  #####  
+<p><code>#</code> stands for a wall, and <code>1</code> and <code>2</code> are our two players on their starting&nbsp;positions.</p>
+<p>Let&#8217;s pit them against each other and see how they fare. We provide them with a very basic mode of intelligence: just pick any random direction if the space is free if&nbsp;possible.</p>
+<p>After the first move, the board looks like&nbsp;this:</p>
+<div class="highlight"><pre><span></span>########
+##Â Â Â Â Â #
+#1Â Â Â Â Â #
+#Â Â Â Â Â Â #
+#Â Â Â Â Â Â #
+#Â Â Â Â Â 2#
+#Â Â Â Â Â ##
 ########
 </pre></div>
 
 
-<p>Player 1 has gone left, and 2 has gone up and the players are now separated from each other. Unless player 2 does something really stupid, it is clear that 1 will&nbsp;lose&#8230;  </p>
-<div class="highlight"><pre><span></span>########  
-##     #  
-##     #  
-##     #  
-###    #  
-####2###  
-#1 #####  
-########
-    ...  
-########  
-##     #  
-##     #  
-##     #  
-### 2  #  
-########  
-##1#####  
+<p>See how they both leave a wall behind them? Note that diagonal moves are forbidden. A few moves later, the situation looks like&nbsp;this:</p>
+<div class="highlight"><pre><span></span>########
+##Â Â Â Â Â #
+##Â Â Â Â Â #
+##Â Â Â Â Â #
+###Â Â Â Â #
+#Â 1Â Â ###
+#Â Â 2####
 ########
 </pre></div>
 
 
-<p>Player 1 is completely trapped and crashes into a wall. Player 2 wins.<br>
-The objective of each participant is to write an <span class="caps">AI</span> which will have to play against the bots of the other players. The more you win, the higher you&nbsp;score&#8230;  </p>
+<p>If player 1 now decides to go right, and player 2 decides to go up, they will crash into each other and the game will end with a draw. This actual run turns out to be a bit more&nbsp;dramatic:</p>
+<div class="highlight"><pre><span></span>########
+##Â Â Â Â Â #
+##Â Â Â Â Â #
+##Â Â Â Â Â #
+###Â Â Â Â #
+#1#2Â ###
+#Â Â #####
+########
+</pre></div>
+
+
+<p>Player 1 has gone left, and 2 has gone up and the players are now separated from each other. Unless player 2 does something really stupid, it is clear that 1 will&nbsp;lose&#8230;</p>
+<div class="highlight"><pre><span></span>########
+##Â Â Â Â Â #
+##Â Â Â Â Â #
+##Â Â Â Â Â #
+###Â Â Â Â #
+####2###
+#1Â #####
+########
+
+    ...
+
+########
+##Â Â Â Â Â #
+##Â Â Â Â Â #
+##Â Â Â Â Â #
+###Â 2Â Â #
+########
+##1#####
+########
+</pre></div>
+
+
+<p>Player 1 is completely trapped and crashes into a wall. Player 2&nbsp;wins.</p>
+<p>The objective of each participant is to write an <span class="caps">AI</span> which will have to play against the bots of the other players. The more you win, the higher you&nbsp;score&#8230;</p>
 <h3>Basic&nbsp;strategies</h3>
-<p>To help players start off, the website gives some <a href="http://csclub.uwaterloo.ca/contest/xiao_strategy.php">basic strategies</a> for your bot:<br>
-<strong>Random selection:</strong> as seen in the introduction: just pick an open space at random and move there. This is a bad strategy because often you will seperate yourself from your opponent, with less space to move&nbsp;in.  </p>
-<p><strong>Ordered selection:</strong> make a list of directions, e.g. [north, east, south, west]. Pick the first possible direction from the list. This will not seperate you from your opponent as quick (or foolish) as random selection, but will eventually end up in a bad seperation otherwise.<br>
-<strong>Wall hugging:</strong> always try to stay close to a wall. This strategy is interesting because it makes good use of the available space. However, it is not often perfect. Take for example a red player who finds himself in this position:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wo_DA67QI/AAAAAAAAPTA/ZJSQx6vgOGw/s200/image1.png">
-Now let&#8217;s assume that the player is a wall hugger: he prefers to be close to a wall at all times. Let&#8217;s also assume that if there are more available choices, he follows the left hand rule. After a few moves, the situation thus looks like (grey squares are the &#8220;tail&#8221; of the player):<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png">
-When we continue following the left hand rule (and still being close to a wall), we end up with:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpOnDewQI/AAAAAAAAPTI/S-tuZM9VBCU/s1600/image3.png">
-Which is of course, not the optimal choice here. It is trivial to find other maps which break the left (or right, or ordered direction) wall hugging method.<br>
-<strong>Wall hugging - another try:</strong> let&#8217;s see if we can fix the above problem. Let&#8217;s wallhug while following a rule (left or right hand, ordered direction or even random), but when we notice that a move would lead us into a new separate space which results in less possible moves than the other separated space, try the next move.<br>
-E.g., moving left in this scenario:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png">
-&#8230;would lead us into a new separated space with less empty cells than when we would have gone right. Will this strategy work? Let&#8217;s start again:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wo_DA67QI/AAAAAAAAPTA/ZJSQx6vgOGw/s200/image1.png">
-Let&#8217;s say we follow the left hand rule again. We just keep following the wall until:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png">
-Now, with our new rule in place, we will not go left, as this would separate us in a bad way from the other empty squares. We thus pick the next possible move, which is right. Note that this also separates us from the squares to our left, but since we have more moves in our space, this is no problem:<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4Wp56sQuYI/AAAAAAAAPTM/9ohhSflKMA0/s1600/image4.png">
-We continue following the wall until we see this:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WqDhl8vdI/AAAAAAAAPTQ/CJaAZ8SPdjo/s1600/image5.png">
-The left hand rule suggests us to go left. This separates our possibilities once again, but since left results in more empty spaces than going up, we can safely go left. This continues until we have no more moves left:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WqJQ_L8lI/AAAAAAAAPTU/cAzlHeWWPeA/s1600/image6.png">
-Not bad at all, the board was quite nicely filled. Still, we can do better. In fact, it is possible to end up like this:<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WqS7mfFmI/AAAAAAAAPTY/cZgKSM-TMZE/s1600/image7.png">
-This is clearly a much better way of filling the board (in fact, it is the best). Can you figure out how to do it? Can you figure out an algorithm to describe the behavior? Do you think your algorithm will work in all maps? Keep these questions in mind for later&#8230;<br>
-<strong>Enemy avoidance or chasing:</strong> run away from the enemy. Pick the direction which is farthest away from the opponent. We can also reverse this strategy: move as close to the opponent as possible. Both are easy to implement, so which one do we pick? In most maps, chasing will result in a draw against other chasers (suicidal behavior), and in a win against runners. Runners on the other hand will often draw against runners. Most player pick a chasing, aggressive bot. And since drawing is better than losing, we have no choice but to use an aggressive bot ourselves to increase our chances.<br>
-<strong>Most open destination:</strong> uses some simple rules to pick the direction which ends up giving us the most open spaces. We already used this a bit in our improvement of our wall hugging algorithm.<br>
-The website also mentions near and far strategies, but we&#8217;ll take a look at those&nbsp;later.  </p>
+<p>To help players start off, the website gives some <a href="http://csclub.uwaterloo.ca/contest/xiao_strategy.php">basic strategies</a> for your&nbsp;bot:</p>
+<p><strong>Random selection:</strong> as seen in the introduction: just pick an open space at random and move there. This is a bad strategy because often you will seperate yourself from your opponent, with less space to move&nbsp;in.</p>
+<p><strong>Ordered selection:</strong> make a list of directions, e.g. [north, east, south, west]. Pick the first possible direction from the list. This will not seperate you from your opponent as quick (or foolish) as random selection, but will eventually end up in a bad seperation&nbsp;otherwise.</p>
+<p><strong>Wall hugging:</strong> always try to stay close to a wall. This strategy is interesting because it makes good use of the available space. However, it is not often perfect. Take for example a red player who finds himself in this&nbsp;position:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wo_DA67QI/AAAAAAAAPTA/ZJSQx6vgOGw/s200/image1.png"></p>
+<p>Now let&#8217;s assume that the player is a wall hugger: he prefers to be close to a wall at all times. Let&#8217;s also assume that if there are more available choices, he follows the left hand rule. After a few moves, the situation thus looks like (grey squares are the &#8220;tail&#8221; of the&nbsp;player):</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png"></p>
+<p>When we continue following the left hand rule (and still being close to a wall), we end up&nbsp;with:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpOnDewQI/AAAAAAAAPTI/S-tuZM9VBCU/s1600/image3.png"></p>
+<p>Which is of course, not the optimal choice here.Â It is trivial to find other maps which break the left (or right, or ordered direction) wall hugging&nbsp;method.</p>
+<p><strong>Wall hugging - another try:</strong> let&#8217;s see if we can fix the above problem. Let&#8217;s wallhug while following a rule (left or right hand, ordered direction or even random), but when we notice that a move would lead us into a new separate space which results in less possible moves than the other separated space, try the next&nbsp;move.</p>
+<p>E.g., moving left in this&nbsp;scenario:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png"></p>
+<p>&#8230;would lead us into a new separated space with less empty cells than when we would have gone right. Will this strategy work? Let&#8217;s start&nbsp;again:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wo_DA67QI/AAAAAAAAPTA/ZJSQx6vgOGw/s200/image1.png"></p>
+<p>Let&#8217;s say we follow the left hand rule again. We just keep following the wall&nbsp;until:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png"></p>
+<p>Now, with our new rule in place, we will not go left, as this would separate us in a bad way from the other empty squares. We thus pick the next possible move, which is right. Note that this also separates us from the squares to our left, but since we have more moves in our space, this is no&nbsp;problem:</p>
+<p><img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4Wp56sQuYI/AAAAAAAAPTM/9ohhSflKMA0/s1600/image4.png"></p>
+<p>We continue following the wall until we see&nbsp;this:</p>
+<p><img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WqDhl8vdI/AAAAAAAAPTQ/CJaAZ8SPdjo/s1600/image5.png"></p>
+<p>The left hand rule suggests us to go left. This separates our possibilities once again, but since left results in more empty spaces than going up, we can safely go left. This continues until we have no more moves&nbsp;left:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WqJQ_L8lI/AAAAAAAAPTU/cAzlHeWWPeA/s1600/image6.png"></p>
+<p>Not bad at all, the board was quite nicely filled. Still, we can do better. In fact, it is possible to end up like&nbsp;this:</p>
+<p><img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WqS7mfFmI/AAAAAAAAPTY/cZgKSM-TMZE/s1600/image7.png"></p>
+<p>This is clearly a much better way of filling the board (in fact, it is the best). Can you figure out how to do it? Can you figure out an algorithm to describe the behavior? Do you think your algorithm will work in all maps? Keep these questions in mind for&nbsp;later&#8230;</p>
+<p><strong>Enemy avoidance or chasing:</strong> run away from the enemy. Pick the direction which is farthest away from the opponent. We can also reverse this strategy: move as close to the opponent as possible. Both are easy to implement, so which one do we pick? In most maps, chasing will result in a draw against other chasers (suicidal behavior), and in a win against runners. Runners on the other hand will often draw against runners. Most player pick a chasing, aggressive bot. And since drawing is better than losing, we have no choice but to use an aggressive bot ourselves to increase our&nbsp;chances.</p>
+<p><strong>Most open destination:</strong> uses some simple rules to pick the direction which ends up giving us the most open spaces. We already used this a bit in our improvement of our wall hugging&nbsp;algorithm.</p>
+<p>The website also mentions near and far strategies, but we&#8217;ll take a look at those&nbsp;later.</p>
 <h3>First&nbsp;conclusions</h3>
-<p>After evaluating the strategies above, we can already draft out a good simple strategy:<br>
-  - When we&#8217;re not separated from the opponent: try to separate him into a space so that we have more remaining moves than him.
-  - Once we are separated: try to fill our available moves in the best possible way.
-To find out if we&#8217;re separated (and our available spaces), we can use a <a href="http://en.wikipedia.org/wiki/Flood_fill">flood fill algorithm</a>. An implementation in Python could look like&nbsp;this:  </p>
-<div class="highlight"><pre><span></span>def flood_fill(board, startpos):  
-  expand = [startpos]  
-  done = []  
-  while len(expand) is not 0:  
-    pos = expand.pop()  
-    done.append(pos)  
-    for dir in tron.DIRECTIONS:  
-      dest = board.rel(dir, pos)  
-      if board.passable(dest) and dest not in done and dest not in expand:  
-      expand.append(dest)  
+<p>After evaluating the strategies above, we can already draft out a good simple&nbsp;strategy:</p>
+<ul>
+<li>When we&#8217;re not separated from the opponent: try to separate him into a space so that we have more remaining moves than&nbsp;him.</li>
+<li>Once we are separated: try to fill our available moves in the best possible&nbsp;way.</li>
+</ul>
+<p>To find out if we&#8217;re separated (and our available spaces), we can use a <a href="http://en.wikipedia.org/wiki/Flood_fill">flood fill algorithm</a>. An implementation in Python could look like&nbsp;this:</p>
+<div class="highlight"><pre><span></span>def flood_fill(board, startpos):
+  expand = [startpos]
+  done = []
+  while len(expand) is not 0:
+    pos = expand.pop()
+    done.append(pos)
+    for dir in tron.DIRECTIONS:
+      dest = board.rel(dir, pos)
+      if board.passable(dest) and dest not in done and dest not in expand:
+      expand.append(dest)
   return len(done)`
 </pre></div>
 
 
-<p>However, figuring out the number of empty squares is not enough. Once we know that we have more space, how do we proceed to fill this space in an optimal way. As we saw in the wall hugging strategy above, it turns out this is deceptively difficult. The Waterloo strategy page describes it&nbsp;best:  </p>
+<p>However, figuring out the number of empty squares is not enough. Once we know that we have more space, how do we proceed to fill this space in an optimal way. As we saw in the wall hugging strategy above, it turns out this is deceptively difficult. The Waterloo strategy page describes it&nbsp;best:</p>
 <blockquote>
-<p>However, there are situations where flood-fill can be tricked into entering a trap: an area that looks big, but in which your bot cannot move freely. So, while this strategy works for most situations and is an easy addition to a good near strategy, it doesn&#8217;t cover all situations.<br>
-<strong>Longest-path approximation</strong><br>
-What your bot is effectively trying to do in a survival situation is to find the longest path in the board starting at your current position.<br>
-Unfortunately, the longest-path problem itself is <span class="caps">NP</span>-complete, which means that, barring a miracle in Computer Science (namely, the unlikely result that P=<span class="caps">NP</span>), it is very difficult in general to find this longest path.<br>
-All hope is not lost, however: there are some decent approximations you can make which run reasonably quickly and avoid traps like those described above.<br>
-One such approach is based on <a href="http://en.wikipedia.org/wiki/Articulation_vertex">articulation vertices</a> on the board. An articulation vertex on a Tron board is a space which, if it were filled in by a wall or trail, would cut the area it is in into two or more disconnected areas. For a given square, if it is an articulation vertex which cuts the area into three or more disconnected areas, then it is impossible for your bot to visit all three areas, which gives you an easy way to determine how many squares are impossible to visit. By computing the articulation vertices in the board, you can obtain a better approximation of the number of free squares which can be visited, and thus fill your space more efficiently.
-Keep the definition of articulation vertices in mind, we will mention this again later. I decided to use a simple but quick heuristic to figure out a way of filling the board. It&#8217;s quick and works good enough most of the times (meaning that once we&#8217;re seperated and have more empty space, we have a high chance of actually winning).<br>
-Now: what do we do if we&#8217;re not seperated&#8230;? On option is to use a minimax&nbsp;strategy.  </p>
+<p>However, there are situations where flood-fill can be tricked into entering a trap: an area that looks big, but in which your bot cannot move freely. So, while this strategy works for most situations and is an easy addition to a good near strategy, it doesn&#8217;t cover all&nbsp;situations.</p>
 </blockquote>
+<p><strong>Longest-path&nbsp;approximation</strong></p>
+<p>What your bot is effectively trying to do in a survival situation is to find the longest path in the board starting at your current&nbsp;position.</p>
+<p>Unfortunately, the longest-path problem itself is <span class="caps">NP</span>-complete, which means that, barring a miracle in Computer Science (namely, the unlikely result that P=<span class="caps">NP</span>), it is very difficult in general to find this longest&nbsp;path.</p>
+<p>All hope is not lost, however: there are some decent approximations you can make which run reasonably quickly and avoid traps like those described&nbsp;above.</p>
+<p>One such approach is based on <a href="http://en.wikipedia.org/wiki/Articulation_vertex">articulation vertices</a> on the board. An articulation vertex on a Tron board is a space which, if it were filled in by a wall or trail, would cut the area it is in into two or more disconnected areas. For a given square, if it is an articulation vertex which cuts the area into three or more disconnected areas, then it is impossible for your bot to visit all three areas, which gives you an easy way to determine how many squares are impossible to visit. By computing the articulation vertices in the board, you can obtain a better approximation of the number of free squares which can be visited, and thus fill your space more&nbsp;efficiently.</p>
+<p>Keep the definition of articulation vertices in mind, we will mention this again later. I decided to use a simple but quick heuristic to figure out a way of filling the board. It&#8217;s quick and works good enough most of the times (meaning that once we&#8217;re seperated and have more empty space, we have a high chance of actually&nbsp;winning).</p>
+<p>Now: what do we do if we&#8217;re not seperated&#8230;? On option is to use a minimax&nbsp;strategy.</p>
 <h3>Battle strategy: using&nbsp;minimax</h3>
-<p><a href="http://en.wikipedia.org/wiki/Minimax">Minimax</a> is a decision rule which maximizes our potential gain while minimizing our possible loss. It can be used in two player games where it is possible to assign a value (or score) to each decision for each player.<br>
-For example, let&#8217;s say we need to choose between two possible moves A or B, in a given game. If we think three levels deep, we might end up with something like this:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wq1RAzqeI/AAAAAAAAPTc/W1b2uQzKhmQ/s400/image8.png">
-As you see in the search tree above, for each of our two moves A or B, our opponent can also make two moves. Then we move again. The strategy we&#8217;ll be following is max(imize our gain). Our opponent will try to min(imize our gain).<br>
-Once we&#8217;re at our desired (lowest) level in the tree, we assign a score to all the possible outcomes:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wq9T4a5MI/AAAAAAAAPTg/i_uZGIMPrlY/s400/image9.png">
-Our opponent knows that we will always pick the best (max) choice (in yellow) when confronted with a specific situation:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WrFD_GX4I/AAAAAAAAPTk/G1FrP6hwYjg/s400/image10.png">
-Our opponent will thus try to minimize our gains (he wants us to lose), so we know what he&#8217;ll pick for each of our moves (yellow):<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WrPbZCKAI/AAAAAAAAPTo/2Ub-YpapiFQ/s400/image11.png">
-At the top level it is now clear that, to maximize our gain we pick move A with a resulting score of 7, provided that our opponent will react in the smartest way possible:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WrWjOCBhI/AAAAAAAAPTs/PxnFIc6ggus/s400/image12.png">
-Since alternating between minimizing and maximizing the scores between each level of the search tree can be tedious to program, we can use the following observation to keep things&nbsp;simpler:  </p>
+<p><a href="http://en.wikipedia.org/wiki/Minimax">Minimax</a> is a decision rule which maximizes our potential gain while minimizing our possible loss. It can be used in two player games where it is possible to assign a value (or score) to each decision for each&nbsp;player.</p>
+<p>For example, let&#8217;s say we need to choose between two possible moves A or B, in a given game. If we think three levels deep, we might end up with something like&nbsp;this:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wq1RAzqeI/AAAAAAAAPTc/W1b2uQzKhmQ/s400/image8.png"></p>
+<p>As you see in the search tree above, for each of our two moves A or B, our opponent can also make two moves. Then we move again. The strategy we&#8217;ll be following is max(imize our gain). Our opponent will try to min(imize our&nbsp;gain).</p>
+<p>Once we&#8217;re at our desired (lowest) level in the tree, we assign a score to all the possible&nbsp;outcomes:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Wq9T4a5MI/AAAAAAAAPTg/i_uZGIMPrlY/s400/image9.png"></p>
+<p>Our opponent knows that we will always pick the best (max) choice (in yellow) when confronted with a specific&nbsp;situation:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WrFD_GX4I/AAAAAAAAPTk/G1FrP6hwYjg/s400/image10.png"></p>
+<p>Our opponent will thus try to minimize our gains (he wants us to lose), so we know what he&#8217;ll pick for each of our moves&nbsp;(yellow):</p>
+<p><img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WrPbZCKAI/AAAAAAAAPTo/2Ub-YpapiFQ/s400/image11.png"></p>
+<p>At the top level it is now clear that, to maximize our gain we pick move A with a resulting score of 7, provided that our opponent will react in the smartest way&nbsp;possible:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WrWjOCBhI/AAAAAAAAPTs/PxnFIc6ggus/s400/image12.png"></p>
+<p>Since alternating between minimizing and maximizing the scores between each level of the search tree can be tedious to program, we can use the following observation to keep things&nbsp;simpler:</p>
 <blockquote>
-<p>max(a,b) = -min(-a,-b)
-Our example tree thus becomes:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4Wrdn7FBsI/AAAAAAAAPTw/b7lcyKhBYBA/s400/image13.png">
-By inverting the score each time we propagate upwards, we can use max at every level.<br>
-The strategy page recommends following a minimax strategy to avoid traps or dead ends. It is clear that, to create a winning minimax strategy, we must give sensible scores to each of the game states. A lot of players are thus using minimax strategies and doing well to very well with them.<br>
-It&#8217;s also fairly logical that the more levels you search, the higher your chance of winning becomes. However, since bots are only given one second to think before each move, exploring a high number of levels is impossible, especially in interpreted languages. It&#8217;s no wonder that many high-ranked players are using C++.<br>
-To speed up iterating the tree, we can use a technique called alpha-beta pruning. We can also use iterative deepening. I won&#8217;t explain those into detail here, but I can give you a handy list of resources:<br>
-  - The Wikipedia page on <a href="http://en.wikipedia.org/wiki/Minimax">Minimax</a> gives examples and pseudocode.
-  - The Wikipedia page on <a href="http://en.wikipedia.org/wiki/Alpha-beta_pruning">alpha-beta pruning</a> does the same for this technique. The pseudocode is not hard to implement once you understand minimax, and does speed things up a lot!
-  - Also <a href="http://en.wikipedia.org/wiki/Iterative_deepening">iterative deepening</a> is explained on Wikipedia; it&#8217;s easy to understand, but a bit harder to implement.
-  - Another contestant has explained <a href="http://www.sifflez.org/misc/tronbot/index.html">his minimax strategy</a> on his website. He does a fantastic job explaining the concepts above, and even provides a starting point for an evaluation function you can use to assign a score to the board.
-  - Jamie, another contestant, also discusses his techniques in <a href="http://www.angelforge.org/wordpress/programming/tron-bot/">his blog</a>, he even links to some interesting Python source code.
-  - A quick Google search finds some <a href="http://www.koders.com/python/fid4C35447AD9C6BC8F83710DE2FFAD58D3418F0997.aspx?s=game#L3">interesting minimax and alpha beta pruning code written in Python</a>. It plays Othello, but the <span class="caps">AI</span> and game logic are cleanly&nbsp;separated.</p>
+<p>max(a,b) =&nbsp;-min(-a,-b)</p>
 </blockquote>
+<p>Our example tree thus&nbsp;becomes:</p>
+<p><img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4Wrdn7FBsI/AAAAAAAAPTw/b7lcyKhBYBA/s400/image13.png"></p>
+<p>By inverting the score each time we propagate upwards, we can use max at every&nbsp;level.</p>
+<p>The strategy page recommends following a minimax strategy to avoid traps or dead ends. It is clear that, to create a winning minimax strategy, we must give sensible scores to each of the game states. A lot of players are thus using minimax strategies and doing well to very well with&nbsp;them.</p>
+<p>It&#8217;s also fairly logical that the more levels you search, the higher your chance of winning becomes. However, since bots are only given one second to think before each move, exploring a high number of levels is impossible, especially in interpreted languages. It&#8217;s no wonder that many high-ranked players are using&nbsp;C++.</p>
+<p>To speed up iterating the tree, we can use a technique called alpha-beta pruning. We can also use iterative deepening. I won&#8217;t explain those into detail here, but I can give you a handy list of&nbsp;resources:</p>
+<ul>
+<li>The Wikipedia page on <a href="http://en.wikipedia.org/wiki/Minimax">Minimax</a> gives examples and&nbsp;pseudocode.</li>
+<li>The Wikipedia page on <a href="http://en.wikipedia.org/wiki/Alpha-beta_pruning">alpha-beta pruning</a> does the same for this technique. The pseudocode is not hard to implement once you understand minimax, and does speed things up a&nbsp;lot!</li>
+<li>Also <a href="http://en.wikipedia.org/wiki/Iterative_deepening">iterative deepening</a> is explained on Wikipedia; it&#8217;s easy to understand, but a bit harder to&nbsp;implement.</li>
+<li>Another contestant has explained <a href="http://www.sifflez.org/misc/tronbot/index.html">his minimax strategy</a> on his website. He does a fantastic job explaining the concepts above, and even provides a starting point for an evaluation function you can use to assign a score to the&nbsp;board.</li>
+<li>Jamie, another contestant, also discusses his techniques in <a href="http://www.angelforge.org/wordpress/programming/tron-bot/">his blog</a>, he even links to some interesting Python source&nbsp;code.</li>
+<li>A quick Google search finds some <a href="http://www.koders.com/python/fid4C35447AD9C6BC8F83710DE2FFAD58D3418F0997.aspx?s=game#L3">interesting minimax and alpha beta pruning code written in Python</a>. It plays Othello, but the <span class="caps">AI</span> and game logic are cleanly&nbsp;separated.</li>
+</ul>
 <h3>Before we continue: a quick look at some other&nbsp;projects</h3>
-<p>Now that we have a basic understanding of the workings of a Tron bot and strategy, we can Google around to see if we come up with some interesting projects using these methods. Let&#8217;s see what some of the open source Tron games are using as a strategy.<br>
-<strong>KTron</strong>&#8216;s source can be <a href="http://websvn.kde.org/trunk/KDE/kdegames/ktron/intelligence.cpp?view=markup">viewed online</a>. We notice the following comment:<br>
-    // This part is partly ported from<br>
-    // xtron-1.1 by Rhett D. Jacobs (rhett@hotel.[&#8230;])<code>We thus take a look at **xtron**, you can find the source package [here](http://packages.debian.org/source/squeeze/xtron).</code>main.c<code>contains the</code>think` routine:<br>
-    /<em> artificial intelligence routines for computer player </em>/<br>
-    void think(int p_num)<br>
-    {<br>
-      enum directions sides[2];<br>
-      int flags[6] = {0,0,0,0,0,0};<br>
-      int index[2];<br>
-      int dis_forward,  dis_left, dis_right;<br>
-      dis_forward = dis_left = dis_right =&nbsp;1;  </p>
-<div class="highlight"><pre><span></span>  switch (p[p_num].plr_dir) {  
-  case left:  
-    /* forward flags */  
-    flags[0] = -1;  
-    flags[1] = 0;  
-    /* left flags */  
-    flags[2] = 0;  
-    flags[3] = 1;  
-    /* right flags */  
-    flags[4] = 0;  
-    flags[5] = -1;  
-    /* turns to either side */  
-    sides[0] = down;  
-    sides[1] = up;  
-    break;  
-  //...  
-  }
-
-  /* check forward */  
-  index[0] = p[p_num].co_ords[0]+flags[0];  
-  index[1] = p[p_num].co_ords[1]+flags[1];  
-  while (index[0] &lt; MAXHORZ &amp;&amp; index[0] &gt;= MINHORZ &amp;&amp;  
-  index[1] &lt; MAXVERT &amp;&amp; index[1] &gt;= MINVERT &amp;&amp;  
-  b.contents[index[0]][index[1]] == 0) {  
-    dis_forward++;  
-    index[0] += flags[0];  
-    index[1] += flags[1];  
-  }
-
-  if (dis_forward &lt; LookAHEAD) {      
-    dis_forward = 100 - 100/dis_forward;      
-    /* check left */      
-    index[0] = p[p_num].co_ords[0]+flags[2];  
-    index[1] = p[p_num].co_ords[1]+flags[3];  
-    while (index[0] &lt; MAXHORZ &amp;&amp; index[0] &gt;= MINHORZ &amp;&amp;  
-    index[1] &lt; MAXVERT &amp;&amp; index[1] &gt;= MINVERT &amp;&amp;  
-    b.contents[index[0]][index[1]] == 0) {  
-      dis_left++;  
-      index[0] += flags[2];  
-      index[1] += flags[3];  
-    }  
-    /* check right */  
-    index[0] = p[p_num].co_ords[0]+flags[4];  
-    index[1] = p[p_num].co_ords[1]+flags[5];  
-    while (index[0] &lt; MAXHORZ &amp;&amp; index[0] &gt;= MINHORZ &amp;&amp;  
-    index[1] &lt; MAXVERT &amp;&amp; index[1] &gt;= MINVERT &amp;&amp;  
-    b.contents[index[0]][index[1]] == 0) {  
-      dis_right++;  
-      index[0] += flags[4];  
-      index[1] += flags[5];  
-    }   
-    if(!(dis_left == 1 &amp;&amp; dis_right == 1))  
-      if ((int)rand()%100 &gt;= dis_forward || dis_forward == 0) {  
-        /* change direction */  
-        if ((int)rand()%100 &lt;= (100*dis_left)/(dis_left+dis_right))    
-          if (dis_left != 1)     /* turn to the left */      
-            p[p_num].plr_dir = sides[0];    
-          else /* turn to the right */     
-            p[p_num].plr_dir = sides[1];  
-        else    
-          if (dis_right != 1)    /*  turn to the right */     
-            p[p_num].plr_dir = sides[1];    
-          else      
-            /* turn to the left */      
-          p[p_num].plr_dir = sides[0];        
-        }    
-      }  
-    }
+<p>Now that we have a basic understanding of the workings of a Tron bot and strategy, we can Google around to see if we come up with some interesting projects using these methods. Let&#8217;s see what some of the open source Tron games are using as a&nbsp;strategy.</p>
+<p><strong>KTron</strong>&#8216;s source can be <a href="http://websvn.kde.org/trunk/KDE/kdegames/ktron/intelligence.cpp?view=markup">viewed online</a>. We notice the following&nbsp;comment:</p>
+<div class="highlight"><pre><span></span>// This part is partly ported from
+// xtron-1.1 by Rhett D. Jacobs (rhett@hotel.[...])`
 </pre></div>
 
 
-<p>It turns out this code is using a simple strategy. The difficulty of the game lies in the fact that player can move slow (easy) or very fast (very hard). The <span class="caps">AI</span> looks at the distance before reaching a wall while heading in its current direction. The closer it comes, the higher the chance of turning. When we&#8217;re next to a wall, the chance is, of course, 100%.<br>
-The code is easily converted to a Python bot:<br>
-    #!/usr/bin/python<br>
-    import tron<br>
-    import random<br>
-    import sys<br>
-    import time<br>
-    import math<br>
-    from copy import deepcopy<br>
-    <span class="caps">DIRECTION</span> = tron.<span class="caps">NORTH</span><br>
-    def which_move(board):<br>
-      global <span class="caps">DIRECTION</span><br>
-      LookAHEAD = 6<br>
-      sides = [0,0]<br>
-      flags = [0,0,0,0,0,0]<br>
-      index = [0,0]<br>
-      dis_forward = 1<br>
-      dis_left = 1<br>
-      dis_right = 1<br>
-      if <span class="caps">DIRECTION</span> == tron.<span class="caps">WEST</span>:<br>
-        flags[0] = -1<br>
-        flags[1] = 0<br>
-        flags[2] = 0<br>
-        flags[3] = 1<br>
-        flags[4] = 0<br>
-        flags[5] = -1<br>
-        sides[0] = tron.<span class="caps">SOUTH</span><br>
-        sides[1] = tron.<span class="caps">NORTH</span><br>
-      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">EAST</span>:<br>
-        flags[0] = 1<br>
-        flags[1] = 0<br>
-        flags[2] = 0<br>
-        flags[3] = -1<br>
-        flags[4] = 0<br>
-        flags[5] = 1<br>
-        sides[0] = tron.<span class="caps">NORTH</span>;<br>
-        sides[1] = tron.<span class="caps">SOUTH</span>;<br>
-      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">NORTH</span>:<br>
-        flags[0] = 0<br>
-        flags[1] = -1<br>
-        flags[2] = -1<br>
-        flags[3] = 0<br>
-        flags[4] = 1<br>
-        flags[5] = 0<br>
-        sides[0] = tron.<span class="caps">WEST</span><br>
-        sides[1] = tron.<span class="caps">EAST</span><br>
-      elif <span class="caps">DIRECTION</span> == tron.<span class="caps">SOUTH</span>:<br>
-        flags[0] = 0<br>
-        flags[1] = 1<br>
-        flags[2] = 1<br>
-        flags[3] = 0<br>
-        flags[4] = -1<br>
-        flags[5] = 0<br>
-        sides[0] = tron.<span class="caps">EAST</span><br>
-        sides[1] = tron.<span class="caps">WEST</span><br>
-      index[0] = board.me()[0]+flags[1];<br>
-      index[1] = board.me()[1]+flags[0];<br>
-      while index[0] &lt; board.height and index[0] &gt;= 0 and index[1] &lt; board.width and index[1] &gt;= 0 and board[index[0],index[1]] == tron.<span class="caps">FLOOR</span>:<br>
-        dis_forward+=1<br>
-        index[0] += flags[1]<br>
-        index[1] +=&nbsp;flags[0]  </p>
-<div class="highlight"><pre><span></span>  if dis_forward &lt; LookAHEAD:  
-    dis_forward = 100 - (100/dis_forward)  
-    index[0] = board.me()[0]+flags[3];  
-    index[1] = board.me()[1]+flags[2];  
-    while index[0] &lt; board.height and index[0] &gt;= 0 and index[1] &lt; board.width and index[1] &gt;= 0 and board[index[0],index[1]] == tron.FLOOR:  
-      dis_left+=1  
-      index[0] += flags[3]  
-      index[1] += flags[2]  
-    index[0] = board.me()[0]+flags[5];  
-    index[1] = board.me()[1]+flags[4];  
-    while index[0] &lt; board.height and index[0] &gt;= 0 and index[1] &lt; board.width and index[1] &gt;= 0 and board[index[0],index[1]] == tron.FLOOR:  
-      dis_right+=1  
-      index[0] += flags[5]  
-      index[1] += flags[4]  
-    if not (dis_left == 1 and dis_right == 1):  
-      if random.randint(0 ,99) &gt;= dis_forward or dis_forward == 0:  
-        #change dir  
-        if random.randint(0 ,99) &lt;= (100*dis_left)/(dis_left+dis_right):  
-           if dis_left != 1:  
-             DIRECTION = sides[0]  
-           else:  
-             DIRECTION = sides[1]  
-         else:  
-           if dis_right != 1:  
-             DIRECTION = sides[1]  
-           else:  
-             DIRECTION = sides[0]  
-  return DIRECTION  
-for board in tron.Board.generate():  
-  tron.move(which_move(board))`
+<p>We thus take a look at <strong>xtron</strong>, you can find the source package <a href="http://packages.debian.org/source/squeeze/xtron">here</a>. <code>main.c</code> contains the <code>think</code> routine:</p>
+<div class="highlight"><pre><span></span><span class="cm">/* artificial intelligence routines for computer player */</span><span class="w"></span>
+void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </span>p_num<span class="o">)</span><span class="w"></span>
+<span class="err">{</span><span class="w"></span>
+<span class="w">  </span>enum<span class="w"> </span>directions<span class="w"> </span>sides<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
+<span class="w">  </span>int<span class="w"> </span>flags<span class="err">[</span><span class="m">6</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="err">};</span><span class="w"></span>
+<span class="w">  </span>int<span class="w"> </span>index<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
+<span class="w">  </span>int<span class="w"> </span>dis_forward<span class="o">,</span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span>dis_left<span class="o">,</span><span class="w"> </span>dis_right<span class="err">;</span><span class="w"></span>
+<span class="w">  </span>dis_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span>dis_left<span class="w"> </span><span class="o">=</span><span class="w"> </span>dis_right<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="err">;</span><span class="w"></span>
+
+<span class="w">  </span>switch<span class="w"> </span><span class="o">(</span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">  </span>case<span class="w"> </span><span class="nl">left</span><span class="o">:</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* forward flags */</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="m">1</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* left flags */</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">2</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">3</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* right flags */</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">4</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">5</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="m">1</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* turns to either side */</span><span class="w"></span>
+<span class="w">    </span>sides<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>down<span class="err">;</span><span class="w"></span>
+<span class="w">    </span>sides<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>up<span class="err">;</span><span class="w"></span>
+<span class="w">    </span>break<span class="err">;</span><span class="w"></span>
+<span class="w">  </span><span class="o">//...</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="cm">/* check forward */</span><span class="w"></span>
+<span class="w">  </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"></span>
+<span class="w">  </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"></span>
+
+<span class="w">  </span><span class="kr">while</span><span class="w"> </span><span class="o">(</span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">  </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">  </span>b<span class="o">.</span>contents<span class="err">[</span>index<span class="err">[</span><span class="m">0</span><span class="err">]][</span>index<span class="err">[</span><span class="m">1</span><span class="err">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">    </span>dis_forward<span class="o">++</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="w"></span>
+
+<span class="w">  </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_forward<span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>LookAHEAD<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">    </span>dis_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">100</span><span class="o">/</span>dis_forward<span class="err">;</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* check left */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">3</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span><span class="kr">while</span><span class="w"> </span><span class="o">(</span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span>b<span class="o">.</span>contents<span class="err">[</span>index<span class="err">[</span><span class="m">0</span><span class="err">]][</span>index<span class="err">[</span><span class="m">1</span><span class="err">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span>dis_left<span class="o">++</span><span class="err">;</span><span class="w"></span>
+<span class="w">      </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
+<span class="w">      </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">3</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* check right */</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">4</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">5</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span><span class="kr">while</span><span class="w"> </span><span class="o">(</span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span>b<span class="o">.</span>contents<span class="err">[</span>index<span class="err">[</span><span class="m">0</span><span class="err">]][</span>index<span class="err">[</span><span class="m">1</span><span class="err">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span>dis_right<span class="o">++</span><span class="err">;</span><span class="w"></span>
+<span class="w">      </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">4</span><span class="err">];</span><span class="w"></span>
+<span class="w">      </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">5</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="w"></span>
+<span class="w">    </span><span class="kr">if</span><span class="o">(</span><span class="err">!</span><span class="o">(</span>dis_left<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>dis_right<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="o">))</span><span class="w"></span>
+<span class="w">      </span><span class="kr">if</span><span class="w"> </span><span class="o">((</span>int<span class="o">)</span>rand<span class="o">()%</span><span class="m">100</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>dis_forward<span class="w"> </span><span class="o">||</span><span class="w"> </span>dis_forward<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* change direction */</span><span class="w"></span>
+<span class="w">        </span><span class="kr">if</span><span class="w"> </span><span class="o">((</span>int<span class="o">)</span>rand<span class="o">()%</span><span class="m">100</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">(</span><span class="m">100</span><span class="o">*</span>dis_left<span class="o">)/(</span>dis_left<span class="o">+</span>dis_right<span class="o">))</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">          </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_left<span class="w"> </span><span class="err">!</span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="cm">/* turn to the left */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">          </span>elseÂ<span class="w"> </span><span class="cm">/* turn to the right */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"></span>
+<span class="w">        </span><span class="kr">else</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">          </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_right<span class="w"> </span><span class="err">!</span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">    </span><span class="cm">/*Â Â turn to the right */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">          </span><span class="kr">else</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">            </span><span class="cm">/* turn to the left */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">          </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">        </span><span class="err">}</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">      </span><span class="err">}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="w"></span>
 </pre></div>
 
 
-<p>Uploading the converted code to the contest server quickly confirms the fact that this bot is not doing well (in blue):<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_lose.gif">
-In this case, it&#8217;s lucky (in red):<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_win.gif">
-A final search on Google code turns up some source code written for an <strong><span class="caps">AI</span> class at Rutgers University</strong>. They provide <a href="http://code.google.com/p/tron/source/browse/trunk/Tron/Tron/Players/">C# code</a> for different players and strategies, including a <a href="http://code.google.com/p/tron/source/browse/trunk/Tron/Tron/Players/Search/IDSMiniMaxSearchPlayer.cs">minimax</a>&nbsp;player.  </p>
+<p>It turns out this code is using a simple strategy. The difficulty of the game lies in the fact that player can move slow (easy) or very fast (very hard). The <span class="caps">AI</span> looks at the distance before reaching a wall while heading in its current direction. The closer it comes, the higher the chance of turning. When we&#8217;re next to a wall, the chance is, of course,&nbsp;100%.</p>
+<p>The code is easily converted to a Python&nbsp;bot:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
+  2
+  3
+  4
+  5
+  6
+  7
+  8
+  9
+ 10
+ 11
+ 12
+ 13
+ 14
+ 15
+ 16
+ 17
+ 18
+ 19
+ 20
+ 21
+ 22
+ 23
+ 24
+ 25
+ 26
+ 27
+ 28
+ 29
+ 30
+ 31
+ 32
+ 33
+ 34
+ 35
+ 36
+ 37
+ 38
+ 39
+ 40
+ 41
+ 42
+ 43
+ 44
+ 45
+ 46
+ 47
+ 48
+ 49
+ 50
+ 51
+ 52
+ 53
+ 54
+ 55
+ 56
+ 57
+ 58
+ 59
+ 60
+ 61
+ 62
+ 63
+ 64
+ 65
+ 66
+ 67
+ 68
+ 69
+ 70
+ 71
+ 72
+ 73
+ 74
+ 75
+ 76
+ 77
+ 78
+ 79
+ 80
+ 81
+ 82
+ 83
+ 84
+ 85
+ 86
+ 87
+ 88
+ 89
+ 90
+ 91
+ 92
+ 93
+ 94
+ 95
+ 96
+ 97
+ 98
+ 99
+100</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python</span>
+
+<span class="kn">import</span> <span class="nn">tron</span>
+<span class="kn">import</span> <span class="nn">random</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span>
+
+<span class="k">def</span> <span class="nf">which_move</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">global</span> <span class="n">DIRECTION</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">LookAHEAD</span> <span class="o">=</span> <span class="mi">6</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_forward</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_left</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_right</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span><span class="p">;</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span><span class="p">;</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_forward</span><span class="o">+=</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">dis_forward</span> <span class="o">&lt;</span> <span class="n">LookAHEAD</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_forward</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="p">(</span><span class="mi">100</span><span class="o">/</span><span class="n">dis_forward</span><span class="p">)</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_left</span><span class="o">+=</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_right</span><span class="o">+=</span><span class="mi">1</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dis_left</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dis_right</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span> <span class="p">,</span><span class="mi">99</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">dis_forward</span> <span class="ow">or</span> <span class="n">dis_forward</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="c1">#change dir</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span> <span class="p">,</span><span class="mi">99</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">dis_left</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dis_left</span><span class="o">+</span><span class="n">dis_right</span><span class="p">):</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">dis_left</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">else</span><span class="p">:</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">else</span><span class="p">:</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">dis_right</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">else</span><span class="p">:</span>
+ <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">DIRECTION</span>
+
+<span class="k">for</span> <span class="n">board</span> <span class="ow">in</span> <span class="n">tron</span><span class="o">.</span><span class="n">Board</span><span class="o">.</span><span class="n">generate</span><span class="p">():</span>
+<span class="err">Â</span> <span class="err">Â</span> <span class="n">tron</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">which_move</span><span class="p">(</span><span class="n">board</span><span class="p">))</span><span class="err">`</span>
+</pre></div>
+</td></tr></table>
+
+<p>Uploading the converted code to the contest server quickly confirms the fact that this bot is not doing well (in&nbsp;blue):</p>
+<p><img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_lose.gif"></p>
+<p>In this case, it&#8217;s lucky (in&nbsp;red):</p>
+<p><img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_win.gif"></p>
+<p>A final search on Google code turns up some source code written for an <strong><span class="caps">AI</span> class at Rutgers University</strong>. They provide <a href="http://code.google.com/p/tron/source/browse/trunk/Tron/Tron/Players/">C# code</a> for different players and strategies, including a <a href="http://code.google.com/p/tron/source/browse/trunk/Tron/Tron/Players/Search/IDSMiniMaxSearchPlayer.cs">minimax</a>&nbsp;player.</p>
 <h3>&#8230;but we&#8217;re not using&nbsp;minimax</h3>
-<p>On a random hunch I decided to try writing a bot without using minimax. I wanted to see how far I would get with (simple) heuristics and sound thinking.<br>
-A first sketch of the battle plan looked like this:<br>
-- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br>
-- If we&#8217;re not seperated:<br>
-  - If there&#8217;s a move which does seperate us<br>
-  - And will result in us having more space<br>
-  - Make that move<br>
-- Otherwise: move towards the opponent<br>
-- Avoid draws if possible:<br>
-  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br>
-  - If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact us`
-Surprisingly, this code was working fairly well&#8230; A minute later I had implemented a small improvement:<br>
-- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br>
-- If we&#8217;re not seperated:<br>
-  - If there&#8217;s a move which does seperate us<br>
-  - And will result in us having more space<br>
-  - Make that move<br>
-- Otherwise: move towards the opponent:<br>
-  - <em>Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our opponent</em><br>
-- Avoid draws if possible:<br>
-  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br>
-  - If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact us
-And as a final edge, I added:<br>
-- If we&#8217;re seperated, use a quick but fairly good way to make good use of our available space<br>
-- If we&#8217;re not seperated:<br>
-  - If there&#8217;s a move which does seperate us<br>
-  - And will result in us having more space<br>
-  - Make that move<br>
-- Otherwise: move towards the opponent:<br>
-  - Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our opponent<br>
-  - <em>Check in all four directions: where is the nearest wall?</em>
-  - What would happen if we go to this wall, would this seperate us from our opponent?<br>
-  - And would we get more moves in our space?<br>
-  - And can we get to that wall faster than our opponent?<br>
-  - Go to that wall and trap him!
-- Avoid draws if possible:<br>
-  - Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to go<br>
-  - If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact us
-Thanks to this trick, when we&#8217;re faced with a situation like this (we&#8217;re blue):<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WsnYy8aZI/AAAAAAAAPT8/IBkQaO42Wxk/s1600/towall1.png">
-We will react accordingly:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WsvEZpLcI/AAAAAAAAPUA/ouLKlXKGVME/s1600/towall2.png"></p>
+<p>On a random hunch I decided to try writing a bot without using minimax. I wanted to see how far I would get with (simple) heuristics and sound&nbsp;thinking.</p>
+<p>A first sketch of the battle plan looked like&nbsp;this:</p>
+<ul>
+<li>If we&#8217;re seperated, use a quick but fairly good way to make good use of our available&nbsp;space</li>
+<li>If we&#8217;re not&nbsp;seperated:</li>
+<li>If there&#8217;s a move which does seperate&nbsp;us</li>
+<li>And will result in us having more&nbsp;space</li>
+<li>Make that&nbsp;move</li>
+<li>Otherwise: move towards the&nbsp;opponent</li>
+<li>Avoid draws if&nbsp;possible:</li>
+<li>Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to&nbsp;go</li>
+<li>If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact&nbsp;us`</li>
+</ul>
+<p>Surprisingly, this code was working fairly well&#8230; A minute later I had implemented a small&nbsp;improvement:</p>
+<ul>
+<li>If we&#8217;re seperated, use a quick but fairly good way to make good use of our available&nbsp;space</li>
+<li>If we&#8217;re not seperated:
+Â Â - If there&#8217;s a move which does seperate us
+Â Â - And will result in us having more&nbsp;space</li>
+<li>Make that&nbsp;move</li>
+<li>Otherwise: move towards the opponent:
+Â Â - <em>Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our&nbsp;opponent</em></li>
+<li>Avoid draws if&nbsp;possible:</li>
+<li>Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to&nbsp;go</li>
+<li>If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact&nbsp;us</li>
+</ul>
+<p>And as a final edge, I&nbsp;added:</p>
+<ul>
+<li>If we&#8217;re seperated, use a quick but fairly good way to make good use of our available&nbsp;space</li>
+<li>If we&#8217;re not seperated:
+Â Â - If there&#8217;s a move which does seperate&nbsp;us</li>
+<li>And will result in us having more&nbsp;space</li>
+<li>Make that&nbsp;move</li>
+<li>Otherwise: move towards the&nbsp;opponent:</li>
+<li>Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our&nbsp;opponent</li>
+<li><em>Check in all four directions: where is the nearest&nbsp;wall?</em></li>
+<li>What would happen if we go to this wall, would this seperate us from our&nbsp;opponent?</li>
+<li>And would we get more moves in our&nbsp;space?</li>
+<li>And can we get to that wall faster than our&nbsp;opponent?</li>
+<li>Go to that wall and trap&nbsp;him!</li>
+<li>Avoid draws if&nbsp;possible:</li>
+<li>Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to&nbsp;go</li>
+<li>If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact&nbsp;us</li>
+</ul>
+<p>Thanks to this trick, when we&#8217;re faced with a situation like this (we&#8217;re&nbsp;blue):</p>
+<p><img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WsnYy8aZI/AAAAAAAAPT8/IBkQaO42Wxk/s1600/towall1.png"></p>
+<p>We will react&nbsp;accordingly:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WsvEZpLcI/AAAAAAAAPUA/ouLKlXKGVME/s1600/towall2.png"></p>
 <blockquote>
-<p><span class="dquo">&#8220;</span>Ha ha, trapped you&#8230;&#8221;
-This rudimentary bot has been doing very well and even scored in the top 30 for some time (alas, the ranking graphs have been taken offline, otherwise I would embed it here). However, a lot of players have been improving their code lately, causing me to drop back in the&nbsp;100s.  </p>
+<p><span class="dquo">&#8220;</span>Ha ha, trapped&nbsp;you&#8230;&#8221;</p>
 </blockquote>
+<p>This rudimentary bot has been doing very well and even scored in the top 30 for some time (alas, the ranking graphs have been taken offline, otherwise I would embed it here). However, a lot of players have been improving their code lately, causing me to drop back in the&nbsp;100s.</p>
 <h3>Some peculiar&nbsp;problems</h3>
-<p>Lately I&#8217;ve been observing some interesting cases which can occur. You could call the first one the <strong>chamber</strong> or <strong>gateway problem</strong>.<br>
-Take the following map (we&#8217;re blue):<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Ws5A_cLKI/AAAAAAAAPUE/X4p_zCk7lXo/s320/gateway1.png">
-Since moving to the left would not seperate us from the opponent (he can still reach us by going around below), the old code would make us close in on him by going right:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtB5HU3-I/AAAAAAAAPUI/OjD4-smFdv8/s320/gateway2.png">
-However, once this happened, smarter opponent bots would rush to the little hole:<br>
-<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/S4WtGHcNgLI/AAAAAAAAPUM/aTKWxvJm0x0/s320/gateway3.png"></p>
+<p>Lately I&#8217;ve been observing some interesting cases which can occur. You could call the first one the <strong>chamber</strong> or <strong>gateway problem</strong>.</p>
+<p>Take the following map (we&#8217;re&nbsp;blue):</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4Ws5A_cLKI/AAAAAAAAPUE/X4p_zCk7lXo/s320/gateway1.png"></p>
+<p>Since moving to the left would not seperate us from the opponent (he can still reach us by going around below), the old code would make us close in on him by going&nbsp;right:</p>
+<p><img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtB5HU3-I/AAAAAAAAPUI/OjD4-smFdv8/s320/gateway2.png"></p>
+<p>However, once this happened, smarter opponent bots would rush to the little&nbsp;hole:</p>
+<p><img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/S4WtGHcNgLI/AAAAAAAAPUM/aTKWxvJm0x0/s320/gateway3.png"></p>
 <blockquote>
-<p><span class="dquo">&#8220;</span>Drats! I&#8217;m trapped now.&#8221;
-Remember the definition of articulation vertices above? A final check I implemented looks at those little &#8220;gateways&#8221; and checks if our opponent can reach those faster than us, and if this would result in us being blocked off with less moves. If such a gateway exists, it&#8217;s better to go the other way.<br>
-A nice example (on a difficult map) of the bot in action, the map starts of like this (we&#8217;re blue):<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtNhEhMeI/AAAAAAAAPUQ/61UWWeuGw8M/s320/gatewaydemo1.png">
-A few moves later, and our bot has to make a choice:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtTblJCeI/AAAAAAAAPUU/nMOO5a37Pts/s320/gatewaydemo2.png">
-It avoids the bad choice, as does our opponent. Not that the old version of the code would move us closer towards our opponent as well, as there is now possible separating move. (You might think that moving left separated us from our opponent, but this is only the case when our opponent is stupid enough to move right. Our bot now avoids &#8220;being trapped in a little box together&#8221;.)<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WtWrP1lxI/AAAAAAAAPUY/Otzo_mjZUuU/s320/gatewaydemo3.png">
-A few moves later, and we make a choice again:<br>
-<img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WtZzxjE5I/AAAAAAAAPUc/A_-fQpDhWp8/s320/gatewaydemo4.png">
-Again, we pick the best choice, and a few moves later:<br>
-<img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtdenaCwI/AAAAAAAAPUg/1P4KCPsud2c/s320/gatewaydemo5.png">
-This is a sure win.<br>
-A second problem deals with avoiding <strong>obvious stupid mistakes</strong>. The following game demonstrates some good fighting between the two players, but at the end, my bot (red, don&#8217;t worry, the gifs are repeating) makes a horrible mistake:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/stupidmistake.gif">
-I modified the code once more to avoid this situation.<br>
-You could call the last problem the <strong>game of chicken</strong> problem. If you don&#8217;t know what the game of chicken is, the description from <a href="http://en.wikipedia.org/wiki/Chicken_(game)">Wikipedia</a> might help:<br>
-The name &#8220;Chicken&#8221; has its origins in a game in which two drivers drive towards each other on a collision course: one must swerve, or both may die in the crash, but if one driver swerves and the other does not, the one who swerved will be called a &#8220;chicken,&#8221; meaning a coward; this terminology is most prevalent in political science and economics.
-The following game demonstrates the problem:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/chicken.gif">
-Can you see what&#8217;s happening here? The blue player plays it safe and moves out of the way early on. However, this causes the red player to end up with more space. If one of them moves out of the way, the other one wins. If they both don&#8217;t move, they draw. Figuring out when to crash (and draw), or when it&#8217;s better to move is a difficult challenge, especially for minimax strategies which often try to play it safe, as shown&nbsp;above.  </p>
+<p><span class="dquo">&#8220;</span>Drats! I&#8217;m trapped&nbsp;now.&#8221;</p>
 </blockquote>
+<p>Remember the definition ofÂ articulation vertices above?Â A final check I implemented looks at those little &#8220;gateways&#8221; and checks if our opponent can reach those faster than us, and if this would result in us being blocked off with less moves. If such a gateway exists, it&#8217;s better to go the other&nbsp;way.</p>
+<p>A nice example (on a difficult map) of the bot in action, the map starts of like this (we&#8217;re&nbsp;blue):</p>
+<p><img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtNhEhMeI/AAAAAAAAPUQ/61UWWeuGw8M/s320/gatewaydemo1.png"></p>
+<p>A few moves later, and our bot has to make a&nbsp;choice:</p>
+<p><img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtTblJCeI/AAAAAAAAPUU/nMOO5a37Pts/s320/gatewaydemo2.png"></p>
+<p>It avoids the bad choice, as does our opponent. Not that the old version of the code would move us closer towards our opponent as well, as there is now possible separating move. (You might think that moving left separated us from our opponent, but this is only the case when our opponent is stupid enough to move right. Our bot now avoids &#8220;being trapped in a little box&nbsp;together&#8221;.)</p>
+<p><img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WtWrP1lxI/AAAAAAAAPUY/Otzo_mjZUuU/s320/gatewaydemo3.png"></p>
+<p>A few moves later, and we make a choice&nbsp;again:</p>
+<p><img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S4WtZzxjE5I/AAAAAAAAPUc/A_-fQpDhWp8/s320/gatewaydemo4.png"></p>
+<p>Again, we pick the best choice, and a few moves&nbsp;later:</p>
+<p><img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtdenaCwI/AAAAAAAAPUg/1P4KCPsud2c/s320/gatewaydemo5.png"></p>
+<p>This is a sure&nbsp;win.</p>
+<p>A second problem deals with avoiding <strong>obvious stupid mistakes</strong>. The following game demonstrates some good fighting between the two players, but at the end, my bot (red, don&#8217;t worry, the gifs are repeating) makes a horrible&nbsp;mistake:</p>
+<p><img alt="" src="http://static.macuyiko.com/files/tronbot/stupidmistake.gif"></p>
+<p>I modified the code once more to avoid this&nbsp;situation.</p>
+<p>You could call the last problem the <strong>game of chicken</strong> problem. If you don&#8217;t know what the game of chicken is, the description from <a href="http://en.wikipedia.org/wiki/Chicken_(game)">Wikipedia</a> might&nbsp;help:</p>
+<blockquote>
+<p>The name &#8220;Chicken&#8221; has its origins in a game in which two drivers drive towards each other on a collision course: one must swerve, or both may die in the crash, but if one driver swerves and the other does not, the one who swerved will be called a &#8220;chicken,&#8221; meaning a coward; this terminology is most prevalent in political science and&nbsp;economics.</p>
+</blockquote>
+<p>The following game demonstrates the&nbsp;problem:</p>
+<p><img alt="" src="http://static.macuyiko.com/files/tronbot/chicken.gif"></p>
+<p>Can you see what&#8217;s happening here? The blue player plays it safe and moves out of the way early on. However, this causes the red player to end up with more space. If one of them moves out of the way, the other one wins. If they both don&#8217;t move, they draw. Figuring out when to crash (and draw), or when it&#8217;s better to move is a difficult challenge, especially for minimax strategies which often try to play it safe, as shown&nbsp;above.</p>
 <h3>In&nbsp;conclusion</h3>
-<p>Many strategies I&#8217;ve discussed before and others are posted on the <a href="http://csclub.uwaterloo.ca/contest/forums/viewforum.php?f=8">contest&#8217;s forum</a>.<br>
-Let&#8217;s look at a few more games to close things off&#8230;<br>
-In this game: my bot (blue) loses, but it puts up a good fight:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/final1.gif">
-Here is a game where our bot does well. The opponent moves upwards and our bot confidently moves forward, trapping him in less space:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/final2.gif">
-In this game, our opponent &#8220;chickens out&#8221; and moves away from us. We use this opportunity to trap him, knowing that we can use more space. Once trapped, the opponent doesn&#8217;t use his space optimally as well:<br>
-<img alt="" src="http://static.macuyiko.com/files/tronbot/final3.gif">
-All in all this was an interesting and fun journey. My high rankings seem completely behind me though, but I&#8217;m glad I tried something different instead of following the obvious road. If you&#8217;ve been trying to write a bot as well: I hope you had a great experience as well, otherwise I hope you&#8217;ve enjoyed reading this little overview. I might talk about minimax and other mentioned topics again some time. Also: I should&#8217;ve started sooner taking a serious look at this contest. I get distracted too quickly :).<br>
-The contest organizers also put together a Youtube video showing some matches. It&#8217;s interesting to see how bots either try (or fail) to trap each other, and how the use the available&nbsp;space.  </p>
+<p>Many strategies I&#8217;ve discussed before and others are posted on the <a href="http://csclub.uwaterloo.ca/contest/forums/viewforum.php?f=8">contest&#8217;s forum</a>.</p>
+<p>Let&#8217;s look at a few more games to close things&nbsp;off&#8230;</p>
+<p>In this game: my bot (blue) loses, but it puts up a good&nbsp;fight:</p>
+<p><img alt="" src="http://static.macuyiko.com/files/tronbot/final1.gif"></p>
+<p>Here is a game where our bot does well. The opponent moves upwards and our bot confidently moves forward, trapping him in less&nbsp;space:</p>
+<p><img alt="" src="http://static.macuyiko.com/files/tronbot/final2.gif"></p>
+<p>In this game, our opponent &#8220;chickens out&#8221; and moves away from us. We use this opportunity to trap him, knowing that we can use more space. Once trapped, the opponent doesn&#8217;t use his space optimally as&nbsp;well:</p>
+<p><img alt="" src="http://static.macuyiko.com/files/tronbot/final3.gif"></p>
+<p>All in all this was an interesting and fun journey. My high rankings seem completely behind me though, but I&#8217;m glad I tried something different instead of following the obvious road. If you&#8217;ve been trying to write a bot as well: I hope you had a great experience as well, otherwise I hope you&#8217;ve enjoyed reading this little overview. I might talk about minimax and other mentioned topics again some time. Also: I should&#8217;ve started sooner taking a serious look at this contest. I get distracted too quickly&nbsp;:).</p>
+<p>The contest organizers also put together a Youtube video showing some matches. It&#8217;s interesting to see how bots either try (or fail) to trap each other, and how the use the available&nbsp;space.</p>
 	</article>
 </div>
 		

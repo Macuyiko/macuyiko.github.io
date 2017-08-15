@@ -76,49 +76,52 @@
 			title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 5 - Ant Colony Optimization">Modern Genetic (And Other) Algorithms Explained: Part 5 - Ant Colony&nbsp;Optimization</a></div>
 		</header>
 	
-	    <p>(This is part 5 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this post.)<br>
-First, let&#8217;s go to <a href="http://en.wikipedia.org/wiki/Ant_colony_optimization">Wikipedia</a> for a&nbsp;definition:  </p>
+	    <p>(This is part 5 in the Modern Genetic Algorithms Explained series, click <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&nbsp;post.)</p>
+<p>First, let&#8217;s go to <a href="http://en.wikipedia.org/wiki/Ant_colony_optimization">Wikipedia</a> for a&nbsp;definition:</p>
 <blockquote>
-<p>The ant colony optimization algorithm (<span class="caps">ACO</span>), is a probabilistic technique for solving computational problems which can be reduced to finding good paths through graphs.<br>
-This algorithm is a member of Ant colony algorithms family, in Swarm intelligence methods, and it constitutes some metaheuristic optimizations. Initially proposed by Marco Dorigo in 1992 in his PhD thesis [1] [2] , the first algorithm was aiming to search for an optimal path in a graph; based on the behavior of ants seeking a path between their colony and a source of food. The original idea has since diversified to solve a wider class of Numerical problems, and as a result, several problems have emerged, drawing on various aspects of the behavior of ants.
-&#8220;Good paths through graphs&#8221;. I have not converted our sample problem from the previous posts to a graphing problem. So no Python sample this time, sorry.<br>
-You do get to see some pseudocode though:<br>
-    Given a number of nodes<br>
-    Given some edges between nodes (paths)<br>
-    Given <span class="caps">BT</span> := {}, this will contain our best tour<br>
-    Randomly construct a tour T<br>
-    Create a number of &#8220;ants&#8221; (often equal to number of nodes)<br>
-    Associate a distance, pheromone value, and delta pheromone value to every edge<br>
-    Iterate until time limit hit or satisfiable solution found:<br>
-      For each ant do:<br>
-        Do until tour constructed:<br>
-        Next node is chosen depending on visibility (e.g. 1/distance) and pheromone trail<br>
-        E.g. choose next node with probability (visibility^a)*(pheromone trail^b)<br>
-        Calculate fitness of this tour<br>
-        Copy this tour to the best tour if fitness is better<br>
-        Update the pheromone trail of each edge of this ant&#8217;s tour:<br>
-        E.g. delta pheromone for edge := 1/(tour cost)<br>
-      For each edge:<br>
-        Lower pheromone value by a factor<br>
-        Add delta pheromone value to pheromone value<br>
-        Set delta pheromone := 0<br>
-<span class="caps">ACO</span> is an interesting method, again, we see certain aspects already used in the previous posts, like using pheromone trails to avoid local maxima. Since the algorithm is closely tied to graphs, nodes and paths, it&#8217;s no wonder it&#8217;s often used to find shortest paths, or to solve the traveling salesman problem.<br>
-There are some interesting links on the Wikipedia page, one of them is this application:<br>
-<img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SWPli1U789I/AAAAAAAAPIA/NNpjK0IHnKE/s400/a1.png">
-After a while, an ant finds a path to the food and places pheromones:<br>
-<img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/SWPlkhL3QjI/AAAAAAAAPII/YdulhWMn9vs/s400/a2.png">
-Those who are interested can read more about <a href="http://en.wikipedia.org/wiki/Swarm_intelligence">Swarm intelligence</a> or <a href="http://en.wikipedia.org/wiki/Particle_swarm_optimization">Particle swarm optimization</a>.  </p>
+<p>The ant colony optimization algorithm (<span class="caps">ACO</span>), is a probabilistic technique for solving computational problems which can be reduced to finding good paths through graphs.
+This algorithm is a member of Ant colony algorithms family, in Swarm intelligence methods, and it constitutes some metaheuristic optimizations. Initially proposed by Marco Dorigo in 1992 in his PhD thesis [1] [2] , the first algorithm was aiming to search for an optimal path in a graph; based on the behavior of ants seeking a path between their colony and a source of food. The original idea has since diversified to solve a wider class of Numerical problems, and as a result, several problems have emerged, drawing on various aspects of the behavior of&nbsp;ants.</p>
 </blockquote>
+<p><span class="dquo">&#8220;</span>Good paths through graphs&#8221;. I have not converted our sample problem from the previous posts to a graphing problem. So no Python sample this time,&nbsp;sorry.</p>
+<p>You do get to see some pseudocode&nbsp;though:</p>
+<div class="highlight"><pre><span></span>Given a number of nodes
+Given some edges between nodes (paths)
+Given BT := {}, this will contain our best tour
+Randomly construct a tour T
+Create a number of &quot;ants&quot; (often equal to number of nodes)
+Associate a distance, pheromone value, and delta pheromone value to every edge
+Iterate until time limit hit or satisfiable solution found:
+Â Â For each ant do:
+Â Â  Â Do until tour constructed:
+Â Â  Â Next node is chosen depending on visibility (e.g. 1/distance) and pheromone trail
+Â Â  Â E.g. choose next node with probability (visibility^a)*(pheromone trail^b)
+Â Â  Â Calculate fitness of this tour
+Â Â  Â Copy this tour to the best tour if fitness is better
+Â Â  Â Update the pheromone trail of each edge of this ant&#39;s tour:
+Â Â  Â E.g. delta pheromone for edge := 1/(tour cost)
+Â Â For each edge:
+Â Â  Â Lower pheromone value by a factor
+Â Â  Â Add delta pheromone value to pheromone value
+Â Â  Â Set delta pheromone := 0
+</pre></div>
+
+
+<p><span class="caps">ACO</span> is an interesting method, again, we see certain aspects already used in the previous posts, like using pheromone trails to avoid local maxima. Since the algorithm is closely tied to graphs, nodes and paths, it&#8217;s no wonder it&#8217;s often used to find shortest paths, or to solve the traveling salesman&nbsp;problem.</p>
+<p>There are some interesting links on the Wikipedia page, one of them is this&nbsp;application:</p>
+<p><img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SWPli1U789I/AAAAAAAAPIA/NNpjK0IHnKE/s400/a1.png"></p>
+<p>After a while, an ant finds a path to the food and places&nbsp;pheromones:</p>
+<p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/SWPlkhL3QjI/AAAAAAAAPII/YdulhWMn9vs/s400/a2.png"></p>
+<p>Those who are interested can read more about <a href="http://en.wikipedia.org/wiki/Swarm_intelligence">Swarm intelligence</a> or <a href="http://en.wikipedia.org/wiki/Particle_swarm_optimization">Particle swarm optimization</a>.</p>
 <hr>
-<p>Table Of Contents (click a link to jump to that&nbsp;post)</p>
+<p>Table Of ContentsÂ (click a link to jump to that&nbsp;post)</p>
 <ol>
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
-2. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
-3. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
-4. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
-5. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a> 
-6. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
-<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a> </li>
+2.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
+3.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
+4.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
+5.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>Â
+6.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
+<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a>Â</li>
 </ol>
 	</article>
 </div>

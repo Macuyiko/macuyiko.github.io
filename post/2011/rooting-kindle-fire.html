@@ -76,30 +76,46 @@
 			title="Permalink to Rooting Kindle Fire">Rooting Kindle&nbsp;Fire</a></div>
 		</header>
 	
-	    <p>The following overview is just a reminder, mainly aimed at myself in the future, on how to root the kindle fire.<br>
-<strong>1. Install Android <span class="caps">SDK</span></strong><br>
-  - Download from http://developer.android.com/sdk/index.html
-  - Update packages
-<strong>2. In Kindle: &#8220;Allow Installation of Applications From Unknown Sources&#8221;</strong><br>
-<strong>3. Edit <code>android_winusb.inf</code> in <code>usb_driver</code> in Android install path</strong><br>
-  - Copy and paste right beneath [Google.NTx86] and [Google.NTamd64] line:
-    ;Kindle Fire<br>
-    %SingleAdbInterface% = USB_Install, <span class="caps">USB</span>\VID_1949&amp;PID_0006<br>
-    %CompositeAdbInterface% = USB_Install, <span class="caps">USB</span>\VID_1949&amp;PID_0006&amp;MI_01
-<strong>4. Edit <code>adb_usb.ini</code> in <code>.android</code></strong><br>
-  - Add 0x1949
-<strong>5. Update <span class="caps">USB</span> driver</strong><br>
-  - &#8220;Update Driver Software&#8221; in Device Manager with <code>android_winusb.inf</code>
-<strong>6. (Optional) test <span class="caps">USB</span></strong><br>
-  - In <code>platform-tools</code>, issue <code>adb kill-server</code> and <code>adb devices</code>
-<strong>7. SuperOneClick root</strong><br>
-  - Download from ftp://shortfuse.org/SuperOneClick/Packages/SuperOneClickv2.2-ShortFuse.zip
-<strong>8. Get <code>Root Explorer v2.17.1.apk</code> and <code>Vending.3.3.12.apk</code>, together with Google Services Framework apk</strong><br>
-<strong>9. Finalisation</strong><br>
-  - Install Google Service Framework apk and Root Explorer apk
-  - &#8220;Move&#8221; Vending apk to <code>/system/app</code> with Root Explorer
-  - Mount as <span class="caps">RW</span> and set Vending apk filepermissions to <code>rw-r-r-</code>
-  - Install Vending apk and&nbsp;reboot</p>
+	    <p>The following overview is just a reminder, mainly aimed at myself in the future, on how to root the kindle&nbsp;fire.</p>
+<p><strong>1. Install Android <span class="caps">SDK</span></strong></p>
+<ul>
+<li>Download from&nbsp;http://developer.android.com/sdk/index.html</li>
+<li>Update&nbsp;packages</li>
+</ul>
+<p><strong>2. In Kindle:Â &#8220;Allow Installation of Applications From Unknown&nbsp;Sources&#8221;</strong></p>
+<p><strong>3. Edit <code>android_winusb.inf</code> in <code>usb_driver</code> in Android install&nbsp;path</strong></p>
+<ul>
+<li>
+<p>Copy and paste right beneath [Google.NTx86] and [Google.NTamd64]&nbsp;line:</p>
+<p>;Kindle Fire
+%SingleAdbInterface% = USB_Install, <span class="caps">USB</span>\VID_1949&amp;PID_0006
+%CompositeAdbInterface% = USB_Install, <span class="caps">USB</span>\VID_1949&amp;PID_0006&amp;MI_01</p>
+</li>
+</ul>
+<p><strong>4. Edit <code>adb_usb.ini</code> in <code>.android</code></strong></p>
+<ul>
+<li>Add&nbsp;0x1949</li>
+</ul>
+<p><strong>5. Update <span class="caps">USB</span>&nbsp;driver</strong></p>
+<ul>
+<li><span class="dquo">&#8220;</span>Update Driver Software&#8221; in Device Manager withÂ <code>android_winusb.inf</code></li>
+</ul>
+<p><strong>6. (Optional) test <span class="caps">USB</span></strong></p>
+<ul>
+<li>In <code>platform-tools</code>, issue <code>adb kill-server</code> and <code>adb devices</code></li>
+</ul>
+<p><strong>7. SuperOneClick&nbsp;root</strong></p>
+<ul>
+<li>Download from&nbsp;ftp://shortfuse.org/SuperOneClick/Packages/SuperOneClickv2.2-ShortFuse.zip</li>
+</ul>
+<p><strong>8. Get <code>Root Explorer v2.17.1.apk</code> and <code>Vending.3.3.12.apk</code>, together with Google Services Framework&nbsp;apk</strong></p>
+<p><strong>9.&nbsp;Finalisation</strong></p>
+<ul>
+<li>Install Google Service Framework apk and Root Explorer&nbsp;apk</li>
+<li><span class="dquo">&#8220;</span>Move&#8221; Vending apk to <code>/system/app</code> with Root&nbsp;Explorer</li>
+<li>Mount as <span class="caps">RW</span> and set Vending apk filepermissions to <code>rw-r-r-</code></li>
+<li>Install Vending apk and&nbsp;reboot</li>
+</ul>
 	</article>
 </div>
 		

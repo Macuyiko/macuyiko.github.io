@@ -76,24 +76,24 @@
 			title="Permalink to Ubuntu 10.10: “fixed channel mon0: -1” Aircrack Problem With iwl3945">Ubuntu 10.10: &#8220;fixed channel mon0: -1&#8221; Aircrack Problem With&nbsp;iwl3945</a></div>
 		</header>
 	
-	    <p><strong>Update for Ubuntu 12.04 users:</strong> <a href="http://blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html">see this post</a>.  </p>
-<p>After upgrading to Ubuntu Maverick recently, the Aircrack suite stopped working for&nbsp;me.  </p>
-<p>After setting <code>airodump</code> to a channel (like&nbsp;usual):  </p>
+	    <p><strong>Update for Ubuntu 12.04 users:</strong> <a href="http://blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html">see this post</a>.</p>
+<p>After upgrading to Ubuntu Maverick recently, the Aircrack suite stopped working for&nbsp;me.</p>
+<p>After setting <code>airodump</code> to a channel (like&nbsp;usual):</p>
 <div class="highlight"><pre><span></span>airodump --channel **X**
 </pre></div>
 
 
-<p>It still displayed its status&nbsp;as:  </p>
+<p>It still displayed its status&nbsp;as:</p>
 <div class="highlight"><pre><span></span>fixed channel mon0: -1
 </pre></div>
 
 
-<p>Some forum users advised to&nbsp;use:  </p>
+<p>Some forum users advised to&nbsp;use:</p>
 <div class="highlight"><pre><span></span>airodump --channel X,X
 </pre></div>
 
 
-<p>But this didn&#8217;t work. For the record, I&#8217;m using a Thinkpad X60, with the <code>iwl3945</code> driver. <code>lshw</code> output:  </p>
+<p>But this didn&#8217;t work. For the record, I&#8217;m using a Thinkpad X60, with the <code>iwl3945</code> driver. <code>lshw</code> output:</p>
 <div class="highlight"><pre><span></span><span class="o">*-</span><span class="n">network</span>
        <span class="nl">description</span><span class="p">:</span> <span class="n">Wireless</span> <span class="n">interface</span>
        <span class="nl">product</span><span class="p">:</span> <span class="n">PRO</span><span class="o">/</span><span class="n">Wireless</span> <span class="mi">3945</span><span class="n">ABG</span> <span class="p">[</span><span class="n">Golan</span><span class="p">]</span> <span class="n">Network</span> <span class="n">Connection</span>
@@ -108,8 +108,8 @@
 </pre></div>
 
 
-<p>Luckily, there is an easy to follow <a href="http://ubuntuforums.org/showthread.php?t=1598930">thread</a> on the forums which fixes the problem for a similar card. This solution also worked with my <span class="caps">3945ABG</span>.  </p>
-<p>Here are the&nbsp;commands:  </p>
+<p>Luckily, there is an easy to follow <a href="http://ubuntuforums.org/showthread.php?t=1598930">thread</a> on the forums which fixes the problem for a similar card. This solution also worked with my <span class="caps">3945ABG</span>.</p>
+<p>Here are the&nbsp;commands:</p>
 <div class="highlight"><pre><span></span>wget http://wireless.kernel.org/download/compat-wireless-2.6/compat-wireless-2010-10-16.tar.bz2
 tar -jxf compat-wireless-2010-10-16.tar.bz2
 cd compat-wireless-2010-10-16
@@ -129,8 +129,8 @@ sudo modprobe iwl3945
 </pre></div>
 
 
-<p>Alternatively you can also use <code>sudo reboot</code> instead of <code>sudo modprobe</code> if you&#8217;re unsure which driver module you need to&nbsp;load.  </p>
-<p>Aircrack should work fine again now. Note that kernel updates might overwrite the module again (and, hopefully, fix the bug at the same&nbsp;time). </p>
+<p>Alternatively you can also use <code>sudo reboot</code> instead of <code>sudo modprobe</code> if you&#8217;re unsure which driver module you need to&nbsp;load.</p>
+<p>Aircrack should work fine again now. Note that kernel updates might overwrite the module again (and, hopefully, fix the bug at the same&nbsp;time).</p>
 	</article>
 </div>
 		

@@ -76,28 +76,31 @@
 			title="Permalink to Visiting AIGLX/Compix And Back Again">Visiting <span class="caps">AIGLX</span>/Compix And Back&nbsp;Again</a></div>
 		</header>
 	
-	    <p>Here it is, as promised&#8230;<br>
-Yesterday I decided to &#8220;quickly give <span class="caps">AIGLX</span>/Compiz a go&#8221;. I use <span class="caps">AIGLX</span> because I do this on my Thinkpad and it has an Intel card. <span class="caps">AIGLX</span> gives better performance with these cards.<br>
-There are already nice how-to&#8217;s at <a href="http://doc.gwos.org/index.php/Xorg_Aiglx_Compiz">this</a> and <a href="http://corvillus.com/2006/08/03/how-to-set-up-aiglx-and-compiz-on-ubuntu-606-running-gnome/">this</a> location, but I just wanted to share my experience, but also add some additional remarks. And: we will even revert back to the normal Gnome&nbsp;desktop&#8230;  </p>
+	    <p>Here it is, as&nbsp;promised&#8230;</p>
+<p>Yesterday I decided to &#8220;quickly give <span class="caps">AIGLX</span>/Compiz a go&#8221;. I use <span class="caps">AIGLX</span> because I do this on my Thinkpad and it has an Intel card. <span class="caps">AIGLX</span> gives better performance with these&nbsp;cards.</p>
+<p>There are already nice how-to&#8217;s at <a href="http://doc.gwos.org/index.php/Xorg_Aiglx_Compiz">this</a> and <a href="http://corvillus.com/2006/08/03/how-to-set-up-aiglx-and-compiz-on-ubuntu-606-running-gnome/">this</a> location, but I just wanted to share my experience, but also add some additional remarks. And: we will even revert back to the normal Gnome&nbsp;desktop&#8230;</p>
 <h3>1. Add the following to your sources&nbsp;list:</h3>
 <div class="highlight"><pre><span></span>sudo gedit /etc/apt/sources.list
 </pre></div>
 
 
 <p>and&nbsp;add:</p>
-<div class="highlight"><pre><span></span><span class="c">## AIGLX + COMPIZ...  </span>
-<span class="k">deb</span> <span class="s">http://ubuntu.compiz.net/</span> <span class="kp">dapper</span> <span class="kp">aiglx</span>   
-<span class="kp">deb</span> <span class="kp">http://ubuntu.compiz.net/</span> <span class="kp">dapper</span> <span class="kp">main</span>  
-<span class="kp">deb</span> <span class="kp">http://xgl.compiz.info/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>  
-<span class="kp">deb-src</span> <span class="kp">http://xgl.compiz.info/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>  
-<span class="kp">deb</span> <span class="kp">http://www.beerorkid.com/compiz</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>  
-<span class="kp">deb</span> <span class="kp">http://media.blutkind.org/xgl/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>
+<div class="highlight"><pre><span></span><span class="c">## AIGLX + COMPIZ...</span>
+<span class="k">deb</span> <span class="s">http://ubuntu.compiz.net/</span> <span class="kp">dapper</span> <span class="kp">aiglx</span>
+<span class="k">deb</span> <span class="s">http://ubuntu.compiz.net/</span> <span class="kp">dapper</span> <span class="kp">main</span>
+<span class="k">deb</span> <span class="s">http://xgl.compiz.info/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>
+<span class="k">deb-src</span> <span class="s">http://xgl.compiz.info/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>
+<span class="k">deb</span> <span class="s">http://www.beerorkid.com/compiz</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>
+<span class="k">deb</span> <span class="s">http://media.blutkind.org/xgl/</span> <span class="kp">dapper</span> <span class="kp">main</span> <span class="kp">aiglx</span>
 </pre></div>
 
 
-<p>You might be wondering why I add a lot of repos here. In my configuration, apt-get complained about some missing packages when I used the repos mentioned in the wiki/docs.<br>
-The following steps are exactly the same as the docs/wiki&#8230;<br>
-    sudo apt-get update sudo apt-get&nbsp;dist-upgrade</p>
+<p>You might be wondering why I add a lot of repos here. In my configuration, apt-get complained about some missing packages when I used the repos mentioned in the&nbsp;wiki/docs.</p>
+<p>The following steps are exactly the same as the&nbsp;docs/wiki&#8230;</p>
+<div class="highlight"><pre><span></span>sudo apt-get update sudo apt-get dist-upgrade
+</pre></div>
+
+
 <h3>2. Install the latest dri&nbsp;modules:</h3>
 <div class="highlight"><pre><span></span>sudo apt-get install linux-dri-modules-common linux-dri-modules-`uname -r`
 </pre></div>
@@ -118,112 +121,155 @@ The following steps are exactly the same as the docs/wiki&#8230;<br>
 </pre></div>
 
 
-<p>Edit the Screen section to 24bit mode:<br>
-    DefaultDepth 24
-Make sure your Modules section has the following loaded:<br>
-    Section &#8220;Module&#8221;<br>
-      # Load &#8220;GLcore&#8221;<br>
-      Load &#8220;bitmap&#8221;<br>
-      Load &#8220;ddc&#8221;<br>
-      Load &#8220;dbe&#8221;<br>
-      Load &#8220;dri&#8221;<br>
-      Load &#8220;extmod&#8221;<br>
-      Load &#8220;freetype&#8221;<br>
-      Load &#8220;glx&#8221;<br>
-      Load &#8220;int10&#8221;<br>
-      Load &#8220;type1&#8221;<br>
-      Load &#8220;vbe&#8221;<br>
-    EndSection<br>
-If you happen to have other modules: you may probably leave them in (I had one).<br>
-Make sure there is only one option in the Device section:<br>
-    Section &#8220;Device&#8221;<br>
-      Identifier &#8220;Intel Corporation Intel Default Card&#8221;<br>
-      Driver &#8220;i810&#8221;<br>
-      Option &#8220;XAANoOffscreenPixmaps&#8221;<br>
-      BusID &#8220;<span class="caps">PCI</span>:0:2:0&#8221;
-    EndSection<br>
-Add Aiglx to your server layout:<br>
-    Section &#8220;ServerLayout&#8221;<br>
-      Option &#8220;<span class="caps">AIGLX</span>&#8221; &#8220;true&#8221; <br>
-      Identifier &#8220;Default Layout&#8221;<br>
-      Screen &#8220;Default Screen&#8221;<br>
-      InputDevice &#8220;Generic Keyboard&#8221;<br>
-      InputDevice &#8220;Configured Mouse&#8221;<br>
-      InputDevice &#8220;Synaptics Touchpad&#8221;<br>
-    EndSection<br>
-Uncomment the <span class="caps">DRI</span> section:<br>
-    Section &#8220;<span class="caps">DRI</span>&#8221;<br>
-      Mode 0666<br>
-    EndSection<br>
-Finally, you must have:<br>
-    Section &#8220;Extensions&#8221;<br>
-      Option &#8220;Composite&#8221; &#8220;Enable&#8221;<br>&nbsp;EndSection  </p>
+<p>Edit the Screen section to 24bit&nbsp;mode:</p>
+<div class="highlight"><pre><span></span>DefaultDepth 24
+</pre></div>
+
+
+<p>Make sure your Modules section has the following&nbsp;loaded:</p>
+<div class="highlight"><pre><span></span>Section &quot;Module&quot;
+  # Load &quot;GLcore&quot;
+  Load &quot;bitmap&quot;
+  Load &quot;ddc&quot;
+  Load &quot;dbe&quot;
+  Load &quot;dri&quot;
+  Load &quot;extmod&quot;
+  Load &quot;freetype&quot;
+  Load &quot;glx&quot;
+  Load &quot;int10&quot;
+  Load &quot;type1&quot;
+  Load &quot;vbe&quot;
+EndSection
+</pre></div>
+
+
+<p>If you happen to have other modules: you may probably leave them in (I had&nbsp;one).</p>
+<p>Make sure there is only one option in the Device&nbsp;section:</p>
+<div class="highlight"><pre><span></span>Section &quot;Device&quot;
+  Identifier &quot;Intel Corporation Intel Default Card&quot;
+  Driver &quot;i810&quot;
+  Option &quot;XAANoOffscreenPixmaps&quot;
+  BusID &quot;PCI:0:2:0&quot;
+EndSection
+</pre></div>
+
+
+<p>Add Aiglx to your server&nbsp;layout:</p>
+<div class="highlight"><pre><span></span>Section &quot;ServerLayout&quot;
+  Option &quot;AIGLX&quot; &quot;true&quot;
+  Identifier &quot;Default Layout&quot;
+  Screen &quot;Default Screen&quot;
+  InputDevice &quot;Generic Keyboard&quot;
+  InputDevice &quot;Configured Mouse&quot;
+  InputDevice &quot;Synaptics Touchpad&quot;
+EndSection
+</pre></div>
+
+
+<p>Uncomment the <span class="caps">DRI</span>&nbsp;section:</p>
+<div class="highlight"><pre><span></span>Section &quot;DRI&quot;
+  Mode 0666
+EndSection
+</pre></div>
+
+
+<p>Finally, you must&nbsp;have:</p>
+<div class="highlight"><pre><span></span>Section &quot;Extensions&quot;
+  Option &quot;Composite&quot; &quot;Enable&quot;
+EndSection
+</pre></div>
+
+
 <h3>6. Configure&nbsp;gdm:</h3>
 <div class="highlight"><pre><span></span>sudo gedit /etc/gdm/gdm.conf-custom
 </pre></div>
 
 
-<p>It must contain the following:<br>
-    [servers]<br>&nbsp;0=aiglx  </p>
-<div class="highlight"><pre><span></span>[server-aiglx]  
-name=aiglx server  
-command=/usr/bin/Xorg-air :0  
-flexible=true
+<p>It must contain the&nbsp;following:</p>
+<div class="highlight"><pre><span></span><span class="k">[servers]</span>
+<span class="na">0</span><span class="o">=</span><span class="s">aiglx</span>
+
+<span class="k">[server-aiglx]</span>
+<span class="na">name</span><span class="o">=</span><span class="s">aiglx server</span>
+<span class="na">command</span><span class="o">=</span><span class="s">/usr/bin/Xorg-air :0</span>
+<span class="na">flexible</span><span class="o">=</span><span class="s">true</span>
 </pre></div>
 
 
-<p>And restart gdm (pray):<br>
-   sudo /etc/init.d/gdm restart<br>
-Note: my gdm restart did not seem to work (it just gave me the cli). If this happens to you, just do a simple sudo gdm, it will work when you reboot of course.<br>
-The following information is not in the docs/wiki&#8230;
-Yes! It seems to boot. But my windows have no borders&#8230; see that new Compiz icon in the &#8220;taskbar&#8221; (top right), it looks like a red cube. Right click it, edit preferences, plugins, and enable most of them (test it out which ones work fine on your system). Make sure the first ones (<code>gconf</code>) are enabled. Save. Right click again and choose Restart Compiz. Your windows will now show borders and be wobbly and so (if you enabled the plugins).<br>
-Now let&#8217;s fix Totem. I had gstreamer so:<br>
-    totem-gstreamer<br>
-And then select on default video playback &#8220;XWindow (NoXv)&#8221; in video tab.<br>
-Now for some themes, make sure the following is installed:<br>
-    sudo apt-get install gcompizthemer<br>
-    sudo apt-get install cgwd<br>
-    sudo apt-get install cgwd-themes<br>
-Note, you might also need to edit <code>/usr/bin/compiz-start</code> and replace all instances of gnome-window-decorator with cgwd (I had to do this). And restart Compiz.<br>
-Now right click the Compiz-cube again and choose Themes. You will now see: themes. Use them.<br>
-Some of the following information is in the docs/wiki&#8230;<br>
-After playing with it a few days I notices I liked old ways better. My system was performing well but the idea of using these experimental packages on my work laptop was a bit scary&#8230; let&#8217;s go back&nbsp;now.  </p>
+<p>And restart gdm&nbsp;(pray):</p>
+<p>sudo /etc/init.d/gdm&nbsp;restart</p>
+<p>Note: my gdm restart did not seem to work (it just gave me the cli). If this happens to you, just do a simple sudo gdm, it will work when you reboot of&nbsp;course.</p>
+<p>The following information is not in the&nbsp;docs/wiki&#8230;</p>
+<p>Yes! It seems to boot. But my windows have no borders&#8230; see that new Compiz icon in the &#8220;taskbar&#8221; (top right), it looks like a red cube. Right click it, edit preferences, plugins, and enable most of them (test it out which ones work fine on your system). Make sure the first ones (<code>gconf</code>) are enabled. Save. Right click again and choose Restart Compiz. Your windows will now show borders and be wobbly and so (if you enabled the&nbsp;plugins).</p>
+<p>Now let&#8217;s fix Totem. I had gstreamer&nbsp;so:</p>
+<div class="highlight"><pre><span></span>totem-gstreamer
+</pre></div>
+
+
+<p>And then select on default video playback &#8220;XWindow (NoXv)&#8221; in video&nbsp;tab.</p>
+<p>Now for some themes, make sure the following is&nbsp;installed:</p>
+<div class="highlight"><pre><span></span>sudo apt-get install gcompizthemer
+sudo apt-get install cgwd
+sudo apt-get install cgwd-themes
+</pre></div>
+
+
+<p>Note, you might also need to edit <code>/usr/bin/compiz-start</code> and replace all instances of gnome-window-decorator with cgwd (I had to do this). And restart&nbsp;Compiz.</p>
+<p>Now right click the Compiz-cube again and choose Themes. You will now see: themes. Use&nbsp;them.</p>
+<p>Some of the following information is in the&nbsp;docs/wiki&#8230;</p>
+<p>After playing with it a few days I notices I liked old ways better. My system was performing well but the idea of using these experimental packages on my work laptop was a bit scary&#8230; let&#8217;s go back&nbsp;now.</p>
 <h3>Let&#8217;s revert all we did. Speed&nbsp;style.</h3>
 <ul>
-<li>Uncomment all the repos you added in <code>/etc/apt/sources.list</code>.  </li>
-<li>Open the totem properties again and set the Video back to&nbsp;auto.  </li>
+<li>Uncomment all the repos you added in <code>/etc/apt/sources.list</code>.</li>
+<li>Open the totem properties again and set the Video back to&nbsp;auto.</li>
 <li>
 <p>Open <code>/etc/gdm/gdm.conf-custom</code> and remove everything you added, it will probably just&nbsp;contain:</p>
-<p>[servers] </p>
+<p>[servers]</p>
 </li>
 <li>
-<p>Open <code>xorg.conf</code> and uncomment/revert all your&nbsp;changes.  </p>
+<p>Open <code>xorg.conf</code> and uncomment/revert all your&nbsp;changes.</p>
 </li>
 <li>
-<p>Uninstall&nbsp;Compiz: </p>
-<p>sudo apt-get remove compiz-quinn-aiglx compiz compiz-gnome<br>
-sudo apt-get remove cgwd cgwd-themes<br>
+<p>Uninstall&nbsp;Compiz:</p>
+<p>sudo apt-get remove compiz-quinn-aiglx compiz compiz-gnome
+sudo apt-get remove cgwd cgwd-themes
 sudo apt-get remove xserver-xgl compiz compiz-gnome&nbsp;gset-compiz</p>
 </li>
 </ul>
-<p>Yes there are doubles. Yes it will complain about downgrading, just choose yes&#8230; don&#8217;t worry.<br>
-- Make a file in <code>/etc/apt/preferences</code> and put the following in it:<br>
-    Package: *
-    Pin: release o=Ubuntu
-    Pin-Priority: 1001
-save it.
-- Run:<br>
-    sudo aptitude update<br>
-    sudo aptitude upgrade<br>
-It will downgrade all your packages.<br>
-- Open <code>/etc/apt/preferences</code> again and remove the lines from step 6.<br>
-- Open synaptic, go to Status: Local or Obsolete and remove all Compiz or Quinn or Aiglx related packages.<br>
-Note: synaptic doesn&#8217;t load? Probably a libcairo problem if I remember correctly (I had the same problem after installing Compiz Quinn). Make sure you followed the above steps correctly and do:<br>
-sudo apt-get install libcairo2-dev libxft-dev libfontconfig1-dev<br>
-- Reboot and hope that all goes well :).<br>
-Wasn&#8217;t that fun? And it only took 10 minutes&#8230;<br>
-Does anyone however know a similar alt-tab feature and the &#8220;I move my mouse to the upper right and get a nice window overview&#8221; feature for Ubuntu without using Ubuntu? Because I liked those two&#8230;<br>
-Didn&#8217;t have the time for screenshots or screencasts. There are enough of them already. And you really have to experience it for yourself to really enjoy the full power. Compiz will be great when it&#8217;s fully stable and in the main repos and easy&nbsp;installable&#8230;  </p>
+<p>Yes there are doubles. Yes it will complain about downgrading, just choose yes&#8230; don&#8217;t&nbsp;worry.</p>
+<ul>
+<li>
+<p>Make a file in <code>/etc/apt/preferences</code> and put the following in&nbsp;it:</p>
+<p>Package: *
+Pin: release o=Ubuntu
+Pin-Priority:&nbsp;1001</p>
+</li>
+</ul>
+<p>save&nbsp;it.</p>
+<ul>
+<li>
+<p>Run:</p>
+<p>sudo aptitude update
+sudo aptitude&nbsp;upgrade</p>
+</li>
+</ul>
+<p>It will downgrade all your&nbsp;packages.</p>
+<ul>
+<li>
+<p>Open <code>/etc/apt/preferences</code> again and remove the lines from step&nbsp;6.</p>
+</li>
+<li>
+<p>Open synaptic, go to Status: Local or Obsolete and remove all Compiz or Quinn or Aiglx related&nbsp;packages.</p>
+</li>
+</ul>
+<p>Note: synaptic doesn&#8217;t load? Probably a libcairo problem if I remember correctly (I had the same problem after installing Compiz Quinn). Make sure you followed the above steps correctly and&nbsp;do:</p>
+<p>sudo apt-get install libcairo2-dev libxft-dev&nbsp;libfontconfig1-dev</p>
+<ul>
+<li>Reboot and hope that all goes well&nbsp;:).</li>
+</ul>
+<p>Wasn&#8217;t that fun? And it only took 10&nbsp;minutes&#8230;</p>
+<p>Does anyone however know a similar alt-tab feature and the &#8220;I move my mouse to the upper right and get a nice window overview&#8221; feature for Ubuntu without using Ubuntu? Because I liked those&nbsp;two&#8230;</p>
+<p>Didn&#8217;t have the time for screenshots or screencasts. There are enough of them already. And you really have to experience it for yourself to really enjoy the full power. Compiz will be great when it&#8217;s fully stable and in the main repos and easy&nbsp;installable&#8230;</p>
 	</article>
 </div>
 		

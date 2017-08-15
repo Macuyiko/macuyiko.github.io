@@ -76,8 +76,8 @@
 			title="Permalink to Ubuntu 12.04: “fixed channel mon0: -1”">Ubuntu 12.04: &#8220;fixed channel mon0:&nbsp;-1&#8221;</a></div>
 		</header>
 	
-	    <p>Still having problems in Ubuntu with the fixed channel being -1 when using <code>aircrack</code> and friends? Luckily, the solution does not require patching this time (as it <a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">used to</a>), as the following solution (obtained from <a href="http://ubuntuforums.org/showpost.php?p=10550806&amp;postcount=6">this forum post</a>) now works for me. The problem is basically that the channel can not be changed while the card is in monitor&nbsp;mode.  </p>
-<p>Just create a bash script as&nbsp;such:  </p>
+	    <p>Still having problems in Ubuntu with the fixed channel being -1 when using <code>aircrack</code> and friends? Luckily, the solution does not require patching this time (as it <a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">used to</a>), as the following solution (obtained from <a href="http://ubuntuforums.org/showpost.php?p=10550806&amp;postcount=6">this forum post</a>) now works for me. The problem is basically that the channel can not be changed while the card is in monitor&nbsp;mode.</p>
+<p>Just create a bash script as&nbsp;such:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
  3
@@ -89,22 +89,22 @@
  9
 10
 11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash  </span>
-<span class="c1"># Change this to the interface you wish to change:  </span>
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="c1"># Change this to the interface you wish to change:</span>
 <span class="nv">IFACE</span><span class="o">=</span><span class="s2">&quot;wlan0&quot;</span>
 
-ifconfig <span class="nv">$IFACE</span> down  
-iwconfig <span class="nv">$IFACE</span> mode managed  
-ifconfig <span class="nv">$IFACE</span> up  
-iwconfig <span class="nv">$IFACE</span> channel <span class="nv">$@</span>  
-ifconfig <span class="nv">$IFACE</span> down  
-iwconfig <span class="nv">$IFACE</span> mode monitor  
-ifconfig <span class="nv">$IFACE</span> up  
+ifconfig <span class="nv">$IFACE</span> down
+iwconfig <span class="nv">$IFACE</span> mode managed
+ifconfig <span class="nv">$IFACE</span> up
+iwconfig <span class="nv">$IFACE</span> channel <span class="nv">$@</span>
+ifconfig <span class="nv">$IFACE</span> down
+iwconfig <span class="nv">$IFACE</span> mode monitor
+ifconfig <span class="nv">$IFACE</span> up
 iwconfig <span class="nv">$IFACE</span>
 </pre></div>
 </td></tr></table>
 
-<p>And everything should work just fine. Just continue to use <code>$IFACE</code> (e.g. <code>wlan0</code>) in all subsequent commands (<code>airodump</code>,&#8230;) you use. Naturally, you do not need to use <code>airmon-ng</code> anymore to put the network card in monitor mode (as <code>$IFACE</code> now already is in monitor&nbsp;mode). </p>
+<p>And everything should work just fine. Just continue to use <code>$IFACE</code> (e.g. <code>wlan0</code>) in all subsequent commands (<code>airodump</code>,&#8230;) you use. Naturally, you do not need to use <code>airmon-ng</code> anymore to put the network card in monitor mode (as <code>$IFACE</code> now already is in monitor&nbsp;mode).</p>
 	</article>
 </div>
 		

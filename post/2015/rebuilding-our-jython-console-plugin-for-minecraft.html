@@ -172,7 +172,7 @@ isLibrary = false
                     <span class="n">addURL</span><span class="p">(</span><span class="n">new</span> <span class="n">File</span><span class="p">(</span><span class="s2">&quot;lib/&quot;</span><span class="o">+</span><span class="n">files</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">getName</span><span class="p">())</span><span class="o">.</span><span class="n">toURI</span><span class="p">()</span><span class="o">.</span><span class="n">toURL</span><span class="p">());</span>
                 <span class="p">}</span>
             <span class="p">}</span>
-        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="ne">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span> 
+        <span class="p">}</span> <span class="n">catch</span> <span class="p">(</span><span class="ne">Exception</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
             <span class="n">getLogman</span><span class="p">()</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">getMessage</span><span class="p">());</span>
             <span class="k">return</span> <span class="n">false</span><span class="p">;</span>
         <span class="p">}</span>
@@ -207,7 +207,7 @@ isLibrary = false
     <span class="p">}</span>
 
     <span class="n">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">addURL</span><span class="p">(</span><span class="n">URL</span> <span class="n">u</span><span class="p">)</span> <span class="n">throws</span> <span class="n">IOException</span> <span class="p">{</span>
-        <span class="o">//</span> <span class="n">Horrible</span> <span class="n">hack</span> <span class="n">taken</span> <span class="n">from</span><span class="p">:</span> 
+        <span class="o">//</span> <span class="n">Horrible</span> <span class="n">hack</span> <span class="n">taken</span> <span class="n">from</span><span class="p">:</span>
         <span class="o">//</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">stackoverflow</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">questions</span><span class="o">/</span><span class="mi">60764</span><span class="o">/</span><span class="n">how</span><span class="o">-</span><span class="n">should</span><span class="o">-</span><span class="n">i</span><span class="o">-</span><span class="n">load</span><span class="o">-</span><span class="n">jars</span><span class="o">-</span><span class="n">dynamically</span><span class="o">-</span><span class="n">at</span><span class="o">-</span><span class="n">runtime</span>
         <span class="o">//</span> <span class="n">Fix</span> <span class="k">if</span> <span class="n">I</span> <span class="n">figure</span> <span class="n">out</span> <span class="k">if</span> <span class="n">there</span><span class="s1">&#39;s a class loader in Canary</span>
         <span class="n">URLClassLoader</span> <span class="n">sysloader</span> <span class="o">=</span> <span class="p">(</span><span class="n">URLClassLoader</span><span class="p">)</span> <span class="n">ClassLoader</span><span class="o">.</span><span class="n">getSystemClassLoader</span><span class="p">();</span>

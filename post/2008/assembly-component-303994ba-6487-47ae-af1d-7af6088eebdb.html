@@ -76,16 +76,19 @@
 			title="Permalink to Assembly Component {303994BA-6487-47AE-AF1D-7AF6088EEBDB}">Assembly Component {<span class="caps">303994BA</span>-6487-<span class="caps">47AE</span>-<span class="caps">AF1D</span>-<span class="caps">7AF6088EEBDB</span>}</a></div>
 		</header>
 	
-	    <p>I recently tried to install the Nokia Software Updater, but it gave me this&nbsp;error:  </p>
+	    <p>I recently tried to install the Nokia Software Updater, but it gave me this&nbsp;error:</p>
 <blockquote>
-<p>Error 1935. An error occured during the installation of assembly component{<span class="caps">303994BA</span>-6487-<span class="caps">47AE</span>-<span class="caps">AF1D</span>-<span class="caps">7AF6088EEBDB</span>}.<br>
-Quick research showed that this had something to do with <span class="caps">MSXML</span> 4.0. So I went <a href="http://www.microsoft.com/downloads/details.aspx?familyid=3144b72b-b4f2-46da-b4b6-c5d7485f2b42&amp;displaylang=en">here</a> and downloaded the msi installer. Which alas gave me the same error.<br>
-It turns out you have to force an uninstall of <span class="caps">MSXML</span> 4.0 <span class="caps">SP0</span> or <span class="caps">SP1</span>, open a cmd-window and enter the following two lines:<br>
-    msiexec /qn /x {<span class="caps">35343FF7</span>-939B-401A-87B3-<span class="caps">FF90A5123D88</span>}
-    msiexec /qn /x {<span class="caps">2AEBE10C</span>-D819-<span class="caps">4EBF</span>-<span class="caps">BC60</span>-<span class="caps">03BF2327D340</span>}<br>
-Close and <em>restart</em>. Yes: you must restart.<br>
-Now install the msi. Then install the Nokia software. Everything should work fine&nbsp;now. </p>
+<p>Error 1935. An error occured during the installation of assembly component{<span class="caps">303994BA</span>-6487-<span class="caps">47AE</span>-<span class="caps">AF1D</span>-<span class="caps">7AF6088EEBDB</span>}.</p>
 </blockquote>
+<p>Quick research showed that this had something to do with <span class="caps">MSXML</span> 4.0. So I went <a href="http://www.microsoft.com/downloads/details.aspx?familyid=3144b72b-b4f2-46da-b4b6-c5d7485f2b42&amp;displaylang=en">here</a> and downloaded the msi installer. Which alas gave me the same&nbsp;error.</p>
+<p>It turns out you have to force an uninstall of <span class="caps">MSXML</span> 4.0 <span class="caps">SP0</span> or <span class="caps">SP1</span>, open a cmd-window and enter the following two&nbsp;lines:</p>
+<div class="highlight"><pre><span></span>msiexec /qn /x {35343FF7-939B-401A-87B3-FF90A5123D88}
+msiexec /qn /x {2AEBE10C-D819-4EBF-BC60-03BF2327D340}
+</pre></div>
+
+
+<p>Close and <em>restart</em>. Yes: you must&nbsp;restart.</p>
+<p>Now install the msi. Then install the Nokia software. Everything should work fine&nbsp;now.</p>
 	</article>
 </div>
 		

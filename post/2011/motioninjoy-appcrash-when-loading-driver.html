@@ -76,36 +76,47 @@
 			title="Permalink to MotionInJoy Appcrash When Loading Driver">MotionInJoy Appcrash When Loading&nbsp;Driver</a></div>
 		</header>
 	
-	    <p>When trying to install the MotioninJoy driver using the <span class="caps">GUI</span>, the program crashes.<br>
-Manually running the driver installation works. To do this, open a <code>cmd</code> window with administrative privileges. Make sure you have followed the other MotioninJoy steps and the controller is plugged in.<br>
-cd to the &#8220;ds3&#8221; directory, located in your MotioninJoy install path, e.g.:<br>
-    C:\Users\Seppe&gt;<strong>cd &#8220;C:\Installed Files\MotioninJoy\ds3&#8221;</strong>
-    C:\Installed Files\MotioninJoy\ds3&gt;
-Then run the driver installation program like so:
-    C:\Installed Files\MotioninJoy\ds3&gt;<strong>MijCmd.exe /i drivers\MijXinput.inf</strong>
-    <span class="caps">INFO</span>: Updateing driver,Please wait a moment&#8230;
-A notepad file containing log output will open, it should look something like this:<br>
-    <span class="caps">INFO</span>:MotioninJoy Driver install log
-    <span class="caps">INFO</span>: Driver install Enter
-    <span class="caps">INFO</span>: argc0=&#8221;MijCmd.exe&#8221;
-    <span class="caps">INFO</span>: argc1=&#8221;/i&#8221;
-    <span class="caps">INFO</span>: argc2=&#8221;drivers\mijxinput.inf&#8221;
-    <span class="caps">INFO</span>: DriverPackageInfPath=&#8221;C:\Installed Files\MotioninJoy\ds3\drivers\mijxinput.inf&#8221;
-    <span class="caps">INFO</span>: &gt;&gt;&gt;&gt;&gt;installing driver package.
-    <span class="caps">LOG</span> Event: 1, <span class="caps">ENTER</span>:  DriverPackageInstallW
-    <span class="caps">LOG</span> Event: 2, <span class="caps">DRIVER</span>&#95;<span class="caps">PACKAGE</span>&#95;<span class="caps">LEGACY</span>&#95;<span class="caps">MODE</span> flag set but not supported on Plug and Play driver on <span class="caps">VISTA</span>. Flag will be ignored.
-    <span class="caps">LOG</span> Event: 1, Looking for Model Section [MotioninJoy.NTamd64.6.0]&#8230;
-    <span class="caps">LOG</span> Event: 1, Installing <span class="caps">INF</span> file &#8216;C:\Installed Files\MotioninJoy\ds3\drivers\mijxinput.inf&#8217; (Plug and Play).
-    <span class="caps">LOG</span> Event: 1, Looking for Model Section [MotioninJoy.NTamd64.6.0]&#8230;
-    <span class="caps">LOG</span> Event: 1, Installing devices with Id &#8220;<span class="caps">USB</span>\<span class="caps">VID</span>&#95;054C&amp;<span class="caps">PID</span>&#95;0268&amp;<span class="caps">REV</span>&#95;0100&#8221; using <span class="caps">INF</span> &#8220;C:\Windows\System32\DriverStore\FileRepository\mijxinput.inf&#95;amd64&#95;neutral&#95;452fabe792a00d17\mijxinput.inf&#8221;.
-    <span class="caps">LOG</span> Event: 1, <span class="caps">ENTER</span> UpdateDriverForPlugAndPlayDevices&#8230;
-    <span class="caps">LOG</span> Event: 0, <span class="caps">RETURN</span> UpdateDriverForPlugAndPlayDevices.
-    <span class="caps">LOG</span> Event: 1, Installation was successful.
-    <span class="caps">LOG</span> Event: 1, Marked Phantom Device with Hardware/Compatible Id &#8216;<span class="caps">USB</span>\<span class="caps">VID</span>&#95;054C&amp;<span class="caps">PID</span>&#95;0268&amp;<span class="caps">REV</span>&#95;0100&#8217; for reinstall on next plug-in.
-    <span class="caps">LOG</span> Event: 0, Install completed
-    <span class="caps">LOG</span> Event: 1, <span class="caps">RETURN</span>: DriverPackageInstallW  (0x0)
-    <span class="caps">SUCCESS</span>: installed package C:\Installed Files\MotioninJoy\ds3\drivers\mijxinput.inf.
-You can now use the MotioninJoy <span class="caps">GUI</span> again. The driver will be&nbsp;installed. </p>
+	    <p>When trying to install the MotioninJoy driver using the <span class="caps">GUI</span>, the program&nbsp;crashes.</p>
+<p>Manually running the driver installation works. To do this, open a <code>cmd</code> window with administrative privileges. Make sure you have followed the other MotioninJoy steps and the controller is plugged&nbsp;in.</p>
+<p>cd to the &#8220;ds3&#8221; directory, located in your MotioninJoy install path,&nbsp;e.g.:</p>
+<div class="highlight"><pre><span></span>C:\Users\Seppe&gt;**cd &quot;C:\Installed Files\MotioninJoy\ds3&quot;**
+
+C:\Installed Files\MotioninJoy\ds3&gt;
+</pre></div>
+
+
+<p>Then run the driver installation program like&nbsp;so:</p>
+<div class="highlight"><pre><span></span>C:\Installed Files\MotioninJoy\ds3&gt;**MijCmd.exe /i drivers\MijXinput.inf**
+
+INFO: Updateing driver,Please wait a moment...
+</pre></div>
+
+
+<p>A notepad file containing log output will open, it should look something like&nbsp;this:</p>
+<div class="highlight"><pre><span></span><span class="n">INFO</span><span class="o">:</span><span class="n">MotioninJoy</span> <span class="n">Driver</span> <span class="n">install</span> <span class="n">log</span>
+<span class="n">INFO</span><span class="o">:</span> <span class="n">Driver</span> <span class="n">install</span> <span class="n">Enter</span>
+<span class="n">INFO</span><span class="o">:</span> <span class="n">argc0</span><span class="o">=</span><span class="s2">&quot;MijCmd.exe&quot;</span>
+<span class="n">INFO</span><span class="o">:</span> <span class="n">argc1</span><span class="o">=</span><span class="s2">&quot;/i&quot;</span>
+<span class="n">INFO</span><span class="o">:</span> <span class="n">argc2</span><span class="o">=</span><span class="s2">&quot;drivers\mijxinput.inf&quot;</span>
+<span class="n">INFO</span><span class="o">:</span> <span class="n">DriverPackageInfPath</span><span class="o">=</span><span class="s2">&quot;C:\Installed Files\MotioninJoy\ds3\drivers\mijxinput.inf&quot;</span>
+<span class="n">INFO</span><span class="o">:</span> <span class="o">&gt;&gt;&gt;&gt;&gt;</span><span class="n">installing</span> <span class="n">driver</span> <span class="kd">package</span><span class="o">.</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">ENTER</span><span class="o">:</span>  <span class="n">DriverPackageInstallW</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">2</span><span class="o">,</span> <span class="n">DRIVER</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">95</span><span class="o">;</span><span class="n">PACKAGE</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">95</span><span class="o">;</span><span class="n">LEGACY</span><span class="o">&amp;</span><span class="err">#</span><span class="mi">95</span><span class="o">;</span><span class="n">MODE</span> <span class="n">flag</span> <span class="kd">set</span> <span class="n">but</span> <span class="n">not</span> <span class="n">supported</span> <span class="n">on</span> <span class="n">Plug</span> <span class="n">and</span> <span class="n">Play</span> <span class="n">driver</span> <span class="n">on</span> <span class="n">VISTA</span><span class="o">.</span> <span class="n">Flag</span> <span class="n">will</span> <span class="n">be</span> <span class="n">ignored</span><span class="o">.</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">Looking</span> <span class="k">for</span> <span class="n">Model</span> <span class="n">Section</span> <span class="o">[</span><span class="n">MotioninJoy</span><span class="o">.</span><span class="na">NTamd64</span><span class="o">.</span><span class="mf">6.0</span><span class="o">]...</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">Installing</span> <span class="n">INF</span> <span class="n">file</span> <span class="s1">&#39;C:\Installed Files\MotioninJoy\ds3\drivers\mijxinput.inf&#39;</span> <span class="o">(</span><span class="n">Plug</span> <span class="n">and</span> <span class="n">Play</span><span class="o">).</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">Looking</span> <span class="k">for</span> <span class="n">Model</span> <span class="n">Section</span> <span class="o">[</span><span class="n">MotioninJoy</span><span class="o">.</span><span class="na">NTamd64</span><span class="o">.</span><span class="mf">6.0</span><span class="o">]...</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">Installing</span> <span class="n">devices</span> <span class="k">with</span> <span class="n">Id</span> <span class="s2">&quot;USB\VID&amp;#95;054C&amp;PID&amp;#95;0268&amp;REV&amp;#95;0100&quot;</span> <span class="n">using</span> <span class="n">INF</span> <span class="s2">&quot;C:\Windows\System32\DriverStore\FileRepository\mijxinput.inf&amp;#95;amd64&amp;#95;neutral&amp;#95;452fabe792a00d17\mijxinput.inf&quot;</span><span class="o">.</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">ENTER</span> <span class="n">UpdateDriverForPlugAndPlayDevices</span><span class="o">...</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span> <span class="n">RETURN</span> <span class="n">UpdateDriverForPlugAndPlayDevices</span><span class="o">.</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">Installation</span> <span class="n">was</span> <span class="n">successful</span><span class="o">.</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">Marked</span> <span class="n">Phantom</span> <span class="n">Device</span> <span class="k">with</span> <span class="n">Hardware</span><span class="o">/</span><span class="n">Compatible</span> <span class="n">Id</span> <span class="s1">&#39;USB\VID&amp;#95;054C&amp;PID&amp;#95;0268&amp;REV&amp;#95;0100&#39;</span> <span class="k">for</span> <span class="n">reinstall</span> <span class="n">on</span> <span class="n">next</span> <span class="n">plug</span><span class="o">-</span><span class="k">in</span><span class="o">.</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">0</span><span class="o">,</span> <span class="n">Install</span> <span class="n">completed</span>
+<span class="n">LOG</span> <span class="n">Event</span><span class="o">:</span> <span class="mi">1</span><span class="o">,</span> <span class="n">RETURN</span><span class="o">:</span> <span class="n">DriverPackageInstallW</span>  <span class="o">(</span><span class="mh">0x0</span><span class="o">)</span>
+<span class="n">SUCCESS</span><span class="o">:</span> <span class="n">installed</span> <span class="k">package</span> <span class="nn">C</span><span class="o">:\</span><span class="n">Installed</span> <span class="n">Files</span><span class="o">\</span><span class="n">MotioninJoy</span><span class="o">\</span><span class="n">ds3</span><span class="o">\</span><span class="n">drivers</span><span class="o">\</span><span class="n">mijxinput</span><span class="o">.</span><span class="na">inf</span><span class="o">.</span>
+</pre></div>
+
+
+<p>You can now use the MotioninJoy <span class="caps">GUI</span> again. The driver will be&nbsp;installed.</p>
 	</article>
 </div>
 		

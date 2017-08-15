@@ -139,7 +139,7 @@ Citations list None
 
 
 <h2>Hours 4-5: Getting Citation&nbsp;Results</h2>
-<p>Second issue, <code>scholar.py</code> does not provide support to retrieve citation entries from Google Scholar (i.e. what you see when you click the &#8220;Cite&#8221; link under an&nbsp;article). </p>
+<p>Second issue, <code>scholar.py</code> does not provide support to retrieve citation entries from Google Scholar (i.e. what you see when you click the &#8220;Cite&#8221; link under an&nbsp;article).</p>
 <p>Getting this information is a little bit tricky, because we first have to retrieve the Google Scholar <span class="caps">ID</span> for the article, and then perform a second <span class="caps">HTTP</span> request using a unique token in the <span class="caps">URL</span>. I&#8217;ve modified <code>scholar.py</code> to look as follows (now also using the <code>requests</code> library instead of the whole <code>urllib</code> soup:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>  1
   2
