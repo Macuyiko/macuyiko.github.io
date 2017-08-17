@@ -234,7 +234,7 @@
 
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
     <span class="k">if</span> <span class="n">GOOGLE_REFRESH_TOKEN</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
         <span class="k">print</span><span class="p">(</span><span class="s1">&#39;No refresh token found, obtaining one&#39;</span><span class="p">)</span>
         <span class="n">refresh_token</span><span class="p">,</span> <span class="n">access_token</span><span class="p">,</span> <span class="n">expires_in</span> <span class="o">=</span> <span class="n">get_authorization</span><span class="p">(</span><span class="n">GOOGLE_CLIENT_ID</span><span class="p">,</span> <span class="n">GOOGLE_CLIENT_SECRET</span><span class="p">)</span>

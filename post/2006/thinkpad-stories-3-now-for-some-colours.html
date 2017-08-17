@@ -84,32 +84,22 @@
 <p>The first was <span class="caps">WPA</span> support since my home network uses&nbsp;that.</p>
 <p>I found a lot of information on the forums, configure this and write that, but here is the most easy way to do&nbsp;it:</p>
 <ul>
-<li>Make sure wpa-supplier and gnome-network-tools are&nbsp;installed.</li>
-<li>sudo gedit /etc/network/interfaces. Uncomment everything except local loopback&nbsp;entries.</li>
+<li>Make sure <code>wpa-supplier</code> and <code>gnome-network-tools</code> are&nbsp;installed</li>
+<li><code>sudo gedit /etc/network/interfaces</code>. Uncomment everything except local loopback&nbsp;entries</li>
 <li>
 <p>Note: you can use commands&nbsp;like</p>
-<p>/wpa_supplicant -w -i eth1 -c /etc/wpa_supplicant.conf -D&nbsp;wext</p>
-<p>and write a configuration as following in&nbsp;/etc/wpa_supplicant.conf:</p>
-<p>network=
-ssid=&#8221;<span class="caps">TYPEHERE</span>&#8221;
-scan_ssid=1
-proto=<span class="caps">WPA</span>
-key_mgmt=<span class="caps">WPA</span>-<span class="caps">PSK</span>
-pairwise=<span class="caps">TKIP</span>
-group=<span class="caps">TKIP</span>
-psk=&#8221;<span class="caps">TYPEHERE</span>&#8221;&nbsp;}</p>
-<p>(It didn&#8217;t work for me without the pairwise and group&nbsp;settings.)</p>
-<p>But you do not have to. Read&nbsp;on&#8230;</p>
+<p><code>wpa_supplicant -w -i eth1 -c /etc/wpa_supplicant.conf -D wext</code></p>
+<p>and write a configuration in <code>/etc/wpa_supplicant.conf</code>. But you do not have&nbsp;to</p>
 </li>
 <li>
-<p>sudo gedit /etc/default/wpasupplicant and just enter&nbsp;this:</p>
-<p><span class="caps">ENABLED</span>=0</p>
+<p><code>sudo gedit /etc/default/wpasupplicant</code> and just enter&nbsp;this:</p>
+<p><code>ENABLED=0</code></p>
 </li>
 <li>
-<p>Reboot probably (or&nbsp;re-init).</p>
+<p>Reboot (or&nbsp;re-init).</p>
 </li>
 <li>
-<p>I now see an eth0 icon in my Gnome taskbar. I also see an icon were I can choose from available wireless connections. I pick mine, enter my <span class="caps">WPA</span> password and set type to <span class="caps">TKIP</span>. I also have to enter a keyring password for&nbsp;gnome.</p>
+<p>I now see an <code>eth0</code> icon in my Gnome taskbar. I also see an icon were I can choose from available wireless connections. I pick mine, enter my <span class="caps">WPA</span> password and set type to <span class="caps">TKIP</span>. I also have to enter a keyring password for&nbsp;gnome.</p>
 </li>
 </ul>
 <p>Waiting&#8230; authenticating&#8230; assigning address&#8230; done! I disconnect my network&nbsp;cable.</p>
