@@ -120,14 +120,14 @@ default-fragment-size-msec = 5
 
 
 <p>This is an optional step however, but it seems to help with the Skype sound quality (an other option is setting <code>default-fragment-size-msec</code> to&nbsp;10).</p>
-<p><strong>(!)</strong> Now,Â  edit <code>~/.asoundrc</code> (no need to be root here, it&#8217;s a file in your home directory). And make sure the following lines are&nbsp;there:</p>
+<p><strong>(!)</strong> Now,  edit <code>~/.asoundrc</code> (no need to be root here, it&#8217;s a file in your home directory). And make sure the following lines are&nbsp;there:</p>
 <div class="highlight"><pre><span></span>pcm.pulse { type pulse }
 ctl.pulse { type pulse }
 </pre></div>
 
 
 <p>Which I totally did in Hardy as well! The update must&#8217;ve deleted them. This simple file seemed to do the&nbsp;trick!</p>
-<p>Then, just to be sure, I reinstalledÂ  the <code>libasound2-plugins</code> package.</p>
+<p>Then, just to be sure, I reinstalled  the <code>libasound2-plugins</code> package.</p>
 <p>Reboot, or restart pulseaudio (kill it, then start it in i.e. a Terminal window). Restart Skype. Skype was working fine now. If it is not, make sure you try every&nbsp;plughw-device.</p>
 <p>Still not working, no matter how much you try? You&#8217;re out of luck. If sound-recorder and sound playback is working, you can try an emergency solution. Install the static, <span class="caps">OSS</span> version of Skype (you can find it with Medibuntu or floating around in a tarball somewhere). and start it&nbsp;with:</p>
 <div class="highlight"><pre><span></span>padsp skype

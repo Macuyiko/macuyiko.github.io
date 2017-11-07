@@ -86,10 +86,10 @@ The name and inspiration come from annealing in metallurgy, a technique involvin
 <p>Let&#8217;s take a look at some&nbsp;pseudocode:</p>
 <div class="highlight"><pre><span></span>Randomly construct a valid solution
 For each temperature do:
-Â Â For number of trials to do at each temperature do:
-Â Â Â Â Move solution to a neighbour
-Â Â Â Â Accept neighbour with probability(old_score, new_score, temperature)
-Â Â Â Â Lower the temperature by a reduction factor
+  For number of trials to do at each temperature do:
+    Move solution to a neighbour
+    Accept neighbour with probability(old_score, new_score, temperature)
+    Lower the temperature by a reduction factor
 </pre></div>
 
 
@@ -103,58 +103,58 @@ For each temperature do:
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="s1">&#39;Create a member of the population.&#39;</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>
+  <span class="s1">&#39;Create a member of the population.&#39;</span>
+  <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">Â Â Determine the fitness of an individual. Higher is better.</span>
-<span class="s2">Â Â individual: the individual to evaluate</span>
-<span class="s2">Â Â target: the target number individuals are aiming for</span>
-<span class="s2">Â Â &quot;&quot;&quot;</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Determine the fitness of an individual. Higher is better.</span>
+<span class="sd">  individual: the individual to evaluate</span>
+<span class="sd">  target: the target number individuals are aiming for</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="nb">sum</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">probability</span><span class="p">(</span><span class="n">o_fitness</span><span class="p">,</span> <span class="n">n_fitness</span><span class="p">,</span> <span class="n">temperature</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">o_fitness</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">exp</span><span class="p">(</span> <span class="p">(</span><span class="n">n_fitness</span><span class="o">-</span><span class="n">o_fitness</span><span class="p">)</span> <span class="o">/</span> <span class="n">temperature</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">o_fitness</span><span class="p">:</span>
+    <span class="k">return</span> <span class="mi">1</span>
+  <span class="k">return</span> <span class="n">exp</span><span class="p">(</span> <span class="p">(</span><span class="n">n_fitness</span><span class="o">-</span><span class="n">o_fitness</span><span class="p">)</span> <span class="o">/</span> <span class="n">temperature</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">max_steps</span> <span class="o">-</span> <span class="n">step</span>
+  <span class="k">return</span> <span class="n">max_steps</span> <span class="o">-</span> <span class="n">step</span>
 
 <span class="k">def</span> <span class="nf">neighbour</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">pos_to_mutate</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">pos_to_mutate</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">else</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="k">if</span> <span class="n">random</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mf">0.5</span><span class="p">:</span>
+    <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">1</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
 
-<span class="err">Â</span>  <span class="k">if</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">elif</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span>
+  <span class="k">if</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nb">min</span><span class="p">:</span>
+    <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span>
+  <span class="k">elif</span> <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nb">max</span><span class="p">:</span>
+    <span class="n">ind</span><span class="p">[</span><span class="n">pos_to_mutate</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">ind</span>
+  <span class="k">return</span> <span class="n">ind</span>
 
 <span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="n">nr_trials</span><span class="p">,</span> <span class="n">step</span><span class="p">,</span> <span class="n">max_steps</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">best_fit</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nr_trials</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">n_ind</span> <span class="o">=</span> <span class="n">neighbour</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">o_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">n_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">n_ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
+  <span class="n">best_fit</span> <span class="o">=</span> <span class="mi">10000</span><span class="p">;</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">nr_trials</span><span class="p">):</span>
+    <span class="n">n_ind</span> <span class="o">=</span> <span class="n">neighbour</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
+    <span class="n">o_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">n_fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="n">n_ind</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">best_fit</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">best_fit</span> <span class="o">=</span> <span class="n">n_fitness</span>
+  <span class="k">if</span> <span class="n">n_fitness</span> <span class="o">&lt;</span> <span class="n">best_fit</span><span class="p">:</span>
+    <span class="n">best_fit</span> <span class="o">=</span> <span class="n">n_fitness</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="c1">#move to new state?</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">probability</span><span class="p">(</span><span class="n">o_fitness</span><span class="p">,</span> <span class="n">n_fitness</span><span class="p">,</span> <span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">random</span><span class="p">():</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">ind</span> <span class="o">=</span> <span class="n">n_ind</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">print</span> <span class="s2">&quot;Best fitness this evolution:&quot;</span><span class="p">,</span><span class="n">best_fit</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">print</span> <span class="s2">&quot;Temperature this evolution:&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">)</span>
+  <span class="c1">#move to new state?</span>
+  <span class="k">if</span> <span class="n">probability</span><span class="p">(</span><span class="n">o_fitness</span><span class="p">,</span> <span class="n">n_fitness</span><span class="p">,</span> <span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">))</span> <span class="o">&gt;=</span> <span class="n">random</span><span class="p">():</span>
+    <span class="n">ind</span> <span class="o">=</span> <span class="n">n_ind</span>
+    <span class="k">print</span> <span class="s2">&quot;Best fitness this evolution:&quot;</span><span class="p">,</span><span class="n">best_fit</span>
+    <span class="k">print</span> <span class="s2">&quot;Temperature this evolution:&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">)</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">ind</span><span class="err">`</span>
+  <span class="k">return</span> <span class="n">ind</span><span class="err">`</span>
 </pre></div>
 
 
@@ -174,8 +174,8 @@ For each temperature do:
 <span class="n">i_kmax</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">i_trials</span> <span class="o">=</span> <span class="mi">1000</span>
 <span class="k">while</span> <span class="n">i_k</span> <span class="o">&lt;</span> <span class="n">i_kmax</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">i</span> <span class="o">=</span> <span class="n">evolve</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i_trials</span><span class="p">,</span> <span class="n">i_k</span><span class="p">,</span> <span class="n">i_kmax</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">i_k</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="n">i</span> <span class="o">=</span> <span class="n">evolve</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i_trials</span><span class="p">,</span> <span class="n">i_k</span><span class="p">,</span> <span class="n">i_kmax</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+  <span class="n">i_k</span> <span class="o">+=</span> <span class="mi">1</span>
 </pre></div>
 
 
@@ -225,15 +225,15 @@ Best fitness this evolution: 0
 <p>An interesting implementation is <a href="http://alteredqualia.com/visualization/evolve/">this</a>. It is based on another genetic programming experiment located <a href="http://rogeralsing.com/2008/12/07/genetic-programming-evolution-of-mona-lisa/">here</a> (both are very interesting and fun examples, I highly recommend reading&nbsp;them).</p>
 <p>Another Java applet to look at: solving a <a href="http://www.heatonresearch.com/articles/64/page1.html">travelling salesman problem with simulated annealing</a>.</p>
 <hr>
-<p>Table Of ContentsÂ (click a link to jump to that&nbsp;post)</p>
+<p>Table Of Contents (click a link to jump to that&nbsp;post)</p>
 <ol>
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
-2.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
-3.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
-4.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
-5.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>Â
-6.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
-<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a>Â</li>
+2. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
+3. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
+4. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
+5. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>
+6. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
+<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a></li>
 </ol>
 	</article>
 </div>

@@ -175,13 +175,13 @@ Press CTRL-C <span class="k">for</span> hangup
 <p><code>BluetoothDialup</code> is the filename of the file we have created in <code>/etc/ppp/peers/</code> earlier in step&nbsp;4.</p>
 <p>If all went well you should see an entry now in your ifconfig&nbsp;output:</p>
 <div class="highlight"><pre><span></span>$ ifconfig
-  ppp0 Â  Â  Â Link encap:Point-to-Point Protocol
-    inet addr:81.169.31.99Â  P-t-P:10.6.6.6Â  Mask:255.255.255.255
-    UP POINTOPOINT RUNNING NOARP MULTICASTÂ  MTU:1500Â  Metric:1
+  ppp0      Link encap:Point-to-Point Protocol
+    inet addr:81.169.31.99  P-t-P:10.6.6.6  Mask:255.255.255.255
+    UP POINTOPOINT RUNNING NOARP MULTICAST  MTU:1500  Metric:1
     RX packets:3 errors:0 dropped:0 overruns:0 frame:0
     TX packets:4 errors:0 dropped:0 overruns:0 carrier:0
     collisions:0 txqueuelen:3
-    RX bytes:54 <span class="o">(</span><span class="m">54</span>.0 B<span class="o">)</span>Â  TX bytes:69 <span class="o">(</span><span class="m">69</span>.0 B<span class="o">)</span><span class="sb">`</span>
+    RX bytes:54 <span class="o">(</span><span class="m">54</span>.0 B<span class="o">)</span>  TX bytes:69 <span class="o">(</span><span class="m">69</span>.0 B<span class="o">)</span><span class="sb">`</span>
 </pre></div>
 
 
@@ -196,7 +196,7 @@ Press CTRL-C <span class="k">for</span> hangup
 </pre></div>
 
 
-<p>With <code>RFCOMM#</code>Â equal to the <code>/dev/rfcomm</code>-number you&#8217;ve used&nbsp;before.</p>
+<p>With <code>RFCOMM#</code> equal to the <code>/dev/rfcomm</code>-number you&#8217;ve used&nbsp;before.</p>
 <h4>Optional steps: use gnome-ppp to&nbsp;connect</h4>
 <p>If you have <code>gnome-ppp</code> installed, you can also use a graphical interface to configure the above&nbsp;steps.</p>
 <p>First of all, you still have to&nbsp;execute:</p>

@@ -76,7 +76,7 @@
 			title="Permalink to The University Of Waterloo CS Club Tron Challenge, And Some Minimax In General">The University Of Waterloo <span class="caps">CS</span> Club Tron Challenge, And Some Minimax In&nbsp;General</a></div>
 		</header>
 	
-	    <p>(This is the first part in the University Of Waterloo <span class="caps">CS</span> Club Tron Challenge post series. You can find the second partÂ <a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html">here</a>.)</p>
+	    <p>(This is the first part in the University Of Waterloo <span class="caps">CS</span> Club Tron Challenge post series. You can find the second part <a href="http://blog.macuyiko.com/post/2010/the-university-of-waterloo-cs-club-tron-challenge-and-some-minimax-in-general-part-2.html">here</a>.)</p>
 <p>The Computer Science Club of the University of Waterloo is currently organizing an <a href="http://csclub.uwaterloo.ca/contest/index.php"><span class="caps">AI</span> challenge</a>, sponsored by Google. I&#8217;m (as always) a bit late with my write-up and the contest will be ending soon (26th of February), so you will have to be quick if you still want to enter. However, I can imagine that many of you are already familiar with the&nbsp;contest&#8230;</p>
 <p>Since this challenge combines some interesting topics: <span class="caps">AI</span>, a game, a contest and optimization, I thought it might be interesting to post some conclusions here. Note that many of the topics here are already discussed at other websites and blogs. I will post references and links to those. Consider this as a general overview, a journal of my own tries, and a closer look at some common&nbsp;pitfalls.</p>
 <h3>Introduction</h3>
@@ -92,12 +92,12 @@
 <p>(Note: it is possible to find many (free) games on the internet which do include some of these&nbsp;features.)</p>
 <p>For example, one of the maps provided in the package looks like&nbsp;this:</p>
 <div class="highlight"><pre><span></span>########
-#1Â Â Â Â Â #
-#Â Â Â Â Â Â #
-#Â Â Â Â Â Â #
-#Â Â Â Â Â Â #
-#Â Â Â Â Â Â #
-#Â Â Â Â Â 2#
+#1     #
+#      #
+#      #
+#      #
+#      #
+#     2#
 ########
 </pre></div>
 
@@ -106,57 +106,57 @@
 <p>Let&#8217;s pit them against each other and see how they fare. We provide them with a very basic mode of intelligence: just pick any random direction if the space is free if&nbsp;possible.</p>
 <p>After the first move, the board looks like&nbsp;this:</p>
 <div class="highlight"><pre><span></span>########
-##Â Â Â Â Â #
-#1Â Â Â Â Â #
-#Â Â Â Â Â Â #
-#Â Â Â Â Â Â #
-#Â Â Â Â Â 2#
-#Â Â Â Â Â ##
+##     #
+#1     #
+#      #
+#      #
+#     2#
+#     ##
 ########
 </pre></div>
 
 
 <p>See how they both leave a wall behind them? Note that diagonal moves are forbidden. A few moves later, the situation looks like&nbsp;this:</p>
 <div class="highlight"><pre><span></span>########
-##Â Â Â Â Â #
-##Â Â Â Â Â #
-##Â Â Â Â Â #
-###Â Â Â Â #
-#Â 1Â Â ###
-#Â Â 2####
+##     #
+##     #
+##     #
+###    #
+# 1  ###
+#  2####
 ########
 </pre></div>
 
 
 <p>If player 1 now decides to go right, and player 2 decides to go up, they will crash into each other and the game will end with a draw. This actual run turns out to be a bit more&nbsp;dramatic:</p>
 <div class="highlight"><pre><span></span>########
-##Â Â Â Â Â #
-##Â Â Â Â Â #
-##Â Â Â Â Â #
-###Â Â Â Â #
-#1#2Â ###
-#Â Â #####
+##     #
+##     #
+##     #
+###    #
+#1#2 ###
+#  #####
 ########
 </pre></div>
 
 
 <p>Player 1 has gone left, and 2 has gone up and the players are now separated from each other. Unless player 2 does something really stupid, it is clear that 1 will&nbsp;lose&#8230;</p>
 <div class="highlight"><pre><span></span>########
-##Â Â Â Â Â #
-##Â Â Â Â Â #
-##Â Â Â Â Â #
-###Â Â Â Â #
+##     #
+##     #
+##     #
+###    #
 ####2###
-#1Â #####
+#1 #####
 ########
 
     ...
 
 ########
-##Â Â Â Â Â #
-##Â Â Â Â Â #
-##Â Â Â Â Â #
-###Â 2Â Â #
+##     #
+##     #
+##     #
+### 2  #
 ########
 ##1#####
 ########
@@ -175,7 +175,7 @@
 <p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png"></p>
 <p>When we continue following the left hand rule (and still being close to a wall), we end up&nbsp;with:</p>
 <p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpOnDewQI/AAAAAAAAPTI/S-tuZM9VBCU/s1600/image3.png"></p>
-<p>Which is of course, not the optimal choice here.Â It is trivial to find other maps which break the left (or right, or ordered direction) wall hugging&nbsp;method.</p>
+<p>Which is of course, not the optimal choice here. It is trivial to find other maps which break the left (or right, or ordered direction) wall hugging&nbsp;method.</p>
 <p><strong>Wall hugging - another try:</strong> let&#8217;s see if we can fix the above problem. Let&#8217;s wallhug while following a rule (left or right hand, ordered direction or even random), but when we notice that a move would lead us into a new separate space which results in less possible moves than the other separated space, try the next&nbsp;move.</p>
 <p>E.g., moving left in this&nbsp;scenario:</p>
 <p><img alt="" src="http://3.bp.blogspot.com/_X4W-h82Vgjw/S4WpHfEH6-I/AAAAAAAAPTE/L90D2l4SHeU/s1600/image2.png"></p>
@@ -273,7 +273,7 @@ void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </s
 <span class="w">  </span>enum<span class="w"> </span>directions<span class="w"> </span>sides<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
 <span class="w">  </span>int<span class="w"> </span>flags<span class="err">[</span><span class="m">6</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="err">};</span><span class="w"></span>
 <span class="w">  </span>int<span class="w"> </span>index<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
-<span class="w">  </span>int<span class="w"> </span>dis_forward<span class="o">,</span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span>dis_left<span class="o">,</span><span class="w"> </span>dis_right<span class="err">;</span><span class="w"></span>
+<span class="w">  </span>int<span class="w"> </span>dis_forward<span class="o">,</span><span class="w">  </span>dis_left<span class="o">,</span><span class="w"> </span>dis_right<span class="err">;</span><span class="w"></span>
 <span class="w">  </span>dis_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span>dis_left<span class="w"> </span><span class="o">=</span><span class="w"> </span>dis_right<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="err">;</span><span class="w"></span>
 
 <span class="w">  </span>switch<span class="w"> </span><span class="o">(</span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
@@ -306,9 +306,9 @@ void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </s
 <span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"></span>
 <span class="w">  </span><span class="err">}</span><span class="w"></span>
 
-<span class="w">  </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_forward<span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>LookAHEAD<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">    </span>dis_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">100</span><span class="o">/</span>dis_forward<span class="err">;</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">    </span><span class="cm">/* check left */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">  </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_forward<span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>LookAHEAD<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w">   </span>
+<span class="w">    </span>dis_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">100</span><span class="o">/</span>dis_forward<span class="err">;</span><span class="w">   </span>
+<span class="w">    </span><span class="cm">/* check left */</span><span class="w">   </span>
 <span class="w">    </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
 <span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">3</span><span class="err">];</span><span class="w"></span>
 <span class="w">    </span><span class="kr">while</span><span class="w"> </span><span class="o">(</span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
@@ -331,18 +331,18 @@ void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </s
 <span class="w">    </span><span class="kr">if</span><span class="o">(</span><span class="err">!</span><span class="o">(</span>dis_left<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>dis_right<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="o">))</span><span class="w"></span>
 <span class="w">      </span><span class="kr">if</span><span class="w"> </span><span class="o">((</span>int<span class="o">)</span>rand<span class="o">()%</span><span class="m">100</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>dis_forward<span class="w"> </span><span class="o">||</span><span class="w"> </span>dis_forward<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
 <span class="w">        </span><span class="cm">/* change direction */</span><span class="w"></span>
-<span class="w">        </span><span class="kr">if</span><span class="w"> </span><span class="o">((</span>int<span class="o">)</span>rand<span class="o">()%</span><span class="m">100</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">(</span><span class="m">100</span><span class="o">*</span>dis_left<span class="o">)/(</span>dis_left<span class="o">+</span>dis_right<span class="o">))</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">          </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_left<span class="w"> </span><span class="err">!</span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="cm">/* turn to the left */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">          </span>elseÂ<span class="w"> </span><span class="cm">/* turn to the right */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">        </span><span class="kr">if</span><span class="w"> </span><span class="o">((</span>int<span class="o">)</span>rand<span class="o">()%</span><span class="m">100</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">(</span><span class="m">100</span><span class="o">*</span>dis_left<span class="o">)/(</span>dis_left<span class="o">+</span>dis_right<span class="o">))</span><span class="w"> </span>
+<span class="w">          </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_left<span class="w"> </span><span class="err">!</span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">     </span><span class="cm">/* turn to the left */</span><span class="w">   </span>
+<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"> </span>
+<span class="w">          </span><span class="kr">else</span><span class="w"> </span><span class="cm">/* turn to the right */</span><span class="w">  </span>
 <span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"></span>
-<span class="w">        </span><span class="kr">else</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">          </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_right<span class="w"> </span><span class="err">!</span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">    </span><span class="cm">/*Â Â turn to the right */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">          </span><span class="kr">else</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">            </span><span class="cm">/* turn to the left */</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">          </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
-<span class="w">        </span><span class="err">}</span><span class="w"> </span><span class="err">Â</span><span class="w"></span>
+<span class="w">        </span><span class="kr">else</span><span class="w"> </span>
+<span class="w">          </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_right<span class="w"> </span><span class="err">!</span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">    </span><span class="cm">/*  turn to the right */</span><span class="w">  </span>
+<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"> </span>
+<span class="w">          </span><span class="kr">else</span><span class="w">   </span>
+<span class="w">            </span><span class="cm">/* turn to the left */</span><span class="w">   </span>
+<span class="w">          </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w">     </span>
+<span class="w">        </span><span class="err">}</span><span class="w"> </span>
 <span class="w">      </span><span class="err">}</span><span class="w"></span>
 <span class="w">    </span><span class="err">}</span><span class="w"></span>
 </pre></div>
@@ -461,94 +461,94 @@ void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </s
 <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span>
 
 <span class="k">def</span> <span class="nf">which_move</span><span class="p">(</span><span class="n">board</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">global</span> <span class="n">DIRECTION</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">LookAHEAD</span> <span class="o">=</span> <span class="mi">6</span>
+  <span class="k">global</span> <span class="n">DIRECTION</span>
+  <span class="n">LookAHEAD</span> <span class="o">=</span> <span class="mi">6</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_forward</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_left</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_right</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">sides</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">flags</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">index</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">dis_forward</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">dis_left</span> <span class="o">=</span> <span class="mi">1</span>
+  <span class="n">dis_right</span> <span class="o">=</span> <span class="mi">1</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span>
+  <span class="k">if</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span><span class="p">:</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span>
+    <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span>
+  <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span><span class="p">:</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span><span class="p">;</span>
+    <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span><span class="p">;</span>
+  <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">NORTH</span><span class="p">:</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span>
+    <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span>
+  <span class="k">elif</span> <span class="n">DIRECTION</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">SOUTH</span><span class="p">:</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
+    <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">EAST</span>
+    <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">tron</span><span class="o">.</span><span class="n">WEST</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_forward</span><span class="o">+=</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+  <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">];</span>
+  <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
+    <span class="n">dis_forward</span><span class="o">+=</span><span class="mi">1</span>
+    <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">dis_forward</span> <span class="o">&lt;</span> <span class="n">LookAHEAD</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_forward</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="p">(</span><span class="mi">100</span><span class="o">/</span><span class="n">dis_forward</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">dis_forward</span> <span class="o">&lt;</span> <span class="n">LookAHEAD</span><span class="p">:</span>
+    <span class="n">dis_forward</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="p">(</span><span class="mi">100</span><span class="o">/</span><span class="n">dis_forward</span><span class="p">)</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_left</span><span class="o">+=</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">];</span>
+    <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">];</span>
+    <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
+      <span class="n">dis_left</span><span class="o">+=</span><span class="mi">1</span>
+      <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+      <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">dis_right</span><span class="o">+=</span><span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+    <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">];</span>
+    <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">board</span><span class="o">.</span><span class="n">me</span><span class="p">()[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">];</span>
+    <span class="k">while</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">height</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">board</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">board</span><span class="p">[</span><span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span><span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">tron</span><span class="o">.</span><span class="n">FLOOR</span><span class="p">:</span>
+      <span class="n">dis_right</span><span class="o">+=</span><span class="mi">1</span>
+      <span class="n">index</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+      <span class="n">index</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">flags</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
 
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dis_left</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dis_right</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span> <span class="p">,</span><span class="mi">99</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">dis_forward</span> <span class="ow">or</span> <span class="n">dis_forward</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="c1">#change dir</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span> <span class="p">,</span><span class="mi">99</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">dis_left</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dis_left</span><span class="o">+</span><span class="n">dis_right</span><span class="p">):</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">dis_left</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">else</span><span class="p">:</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">else</span><span class="p">:</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="n">dis_right</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">else</span><span class="p">:</span>
- <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">DIRECTION</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">dis_left</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">dis_right</span> <span class="o">==</span> <span class="mi">1</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span> <span class="p">,</span><span class="mi">99</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">dis_forward</span> <span class="ow">or</span> <span class="n">dis_forward</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="c1">#change dir</span>
+        <span class="k">if</span> <span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span> <span class="p">,</span><span class="mi">99</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="mi">100</span><span class="o">*</span><span class="n">dis_left</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">dis_left</span><span class="o">+</span><span class="n">dis_right</span><span class="p">):</span>
+           <span class="k">if</span> <span class="n">dis_left</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+             <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+           <span class="k">else</span><span class="p">:</span>
+             <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+         <span class="k">else</span><span class="p">:</span>
+           <span class="k">if</span> <span class="n">dis_right</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+             <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+           <span class="k">else</span><span class="p">:</span>
+             <span class="n">DIRECTION</span> <span class="o">=</span> <span class="n">sides</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">DIRECTION</span>
 
 <span class="k">for</span> <span class="n">board</span> <span class="ow">in</span> <span class="n">tron</span><span class="o">.</span><span class="n">Board</span><span class="o">.</span><span class="n">generate</span><span class="p">():</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">tron</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">which_move</span><span class="p">(</span><span class="n">board</span><span class="p">))</span><span class="err">`</span>
+  <span class="n">tron</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">which_move</span><span class="p">(</span><span class="n">board</span><span class="p">))</span><span class="err">`</span>
 </pre></div>
 </td></tr></table>
 
@@ -575,11 +575,11 @@ void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </s
 <ul>
 <li>If we&#8217;re seperated, use a quick but fairly good way to make good use of our available&nbsp;space</li>
 <li>If we&#8217;re not seperated:
-Â Â - If there&#8217;s a move which does seperate us
-Â Â - And will result in us having more&nbsp;space</li>
+  - If there&#8217;s a move which does seperate us
+  - And will result in us having more&nbsp;space</li>
 <li>Make that&nbsp;move</li>
 <li>Otherwise: move towards the opponent:
-Â Â - <em>Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our&nbsp;opponent</em></li>
+  - <em>Do not use euclidean distances but use a shortest path, this ensures the bast way to reach our&nbsp;opponent</em></li>
 <li>Avoid draws if&nbsp;possible:</li>
 <li>Try your hardest to avoid a crash with the opponent if the opponent has no other spaces left to&nbsp;go</li>
 <li>If the opponent does have other spaces to go to, avoid a draw if it doesn&#8217;t negatively impact&nbsp;us</li>
@@ -588,7 +588,7 @@ void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </s
 <ul>
 <li>If we&#8217;re seperated, use a quick but fairly good way to make good use of our available&nbsp;space</li>
 <li>If we&#8217;re not seperated:
-Â Â - If there&#8217;s a move which does seperate&nbsp;us</li>
+  - If there&#8217;s a move which does seperate&nbsp;us</li>
 <li>And will result in us having more&nbsp;space</li>
 <li>Make that&nbsp;move</li>
 <li>Otherwise: move towards the&nbsp;opponent:</li>
@@ -621,7 +621,7 @@ void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </s
 <blockquote>
 <p><span class="dquo">&#8220;</span>Drats! I&#8217;m trapped&nbsp;now.&#8221;</p>
 </blockquote>
-<p>Remember the definition ofÂ articulation vertices above?Â A final check I implemented looks at those little &#8220;gateways&#8221; and checks if our opponent can reach those faster than us, and if this would result in us being blocked off with less moves. If such a gateway exists, it&#8217;s better to go the other&nbsp;way.</p>
+<p>Remember the definition of articulation vertices above? A final check I implemented looks at those little &#8220;gateways&#8221; and checks if our opponent can reach those faster than us, and if this would result in us being blocked off with less moves. If such a gateway exists, it&#8217;s better to go the other&nbsp;way.</p>
 <p>A nice example (on a difficult map) of the bot in action, the map starts of like this (we&#8217;re&nbsp;blue):</p>
 <p><img alt="" src="http://2.bp.blogspot.com/_X4W-h82Vgjw/S4WtNhEhMeI/AAAAAAAAPUQ/61UWWeuGw8M/s320/gatewaydemo1.png"></p>
 <p>A few moves later, and our bot has to make a&nbsp;choice:</p>

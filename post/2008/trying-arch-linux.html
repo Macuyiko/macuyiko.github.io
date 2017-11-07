@@ -95,13 +95,13 @@
 <p>Reboot. Login? Works. <code>ping google.com</code>?&nbsp;Works.</p>
 </li>
 <li>
-<p><code>pacman</code> is the package manager. <code>pacman -Syu</code> to sync and update. <code>klibc</code> is complaining: file exists. I check the forums. Turns out I have to doÂ <code>rm /usr/lib/klibc/include/asm</code>. Minus one for&nbsp;user-friendliness.</p>
+<p><code>pacman</code> is the package manager. <code>pacman -Syu</code> to sync and update. <code>klibc</code> is complaining: file exists. I check the forums. Turns out I have to do <code>rm /usr/lib/klibc/include/asm</code>. Minus one for&nbsp;user-friendliness.</p>
 </li>
 <li>
-<p>Update works now. Time to add a user. <code>useradd -m -G users,audio,lp,optical,storage,video,wheel,powerÂ -s /bin/bash archie</code>. <code>passwd archie</code>.</p>
+<p>Update works now. Time to add a user. <code>useradd -m -G users,audio,lp,optical,storage,video,wheel,power -s /bin/bash archie</code>. <code>passwd archie</code>.</p>
 </li>
 <li>
-<p><code>pacman -S sudo</code> (we want sudo). <code>EDITOR=nano visudo</code>. AddÂ <code>archie ALL=(ALL) ALL</code>.</p>
+<p><code>pacman -S sudo</code> (we want sudo). <code>EDITOR=nano visudo</code>. Add <code>archie ALL=(ALL) ALL</code>.</p>
 </li>
 <li>
 <p>Install Alsa, works (seems like Arch isn&#8217;t using <code>pulseaudio</code> in their tutorials/beginner&#8217;s&nbsp;guide).</p>
@@ -157,12 +157,6 @@
 </ol>
 <p>Screenshot:</p>
 <p><img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/STsJWIjqvJI/AAAAAAAALIc/59jmigmYngc/s400/arch.jpg"></p>
-<p>Would I use it instead of Ubuntu for everyday tasks? Not at the&nbsp;moment.</p>
-<p>Would I recommend it to noviceÂ friends and family?&nbsp;No.</p>
-<p>Would I use it as a server?&nbsp;Perhaps.</p>
-<p>Is it fast?&nbsp;Yes.</p>
-<p>Would I use it on an outdated machine?&nbsp;Yes.</p>
-<p>Does is show potential?&nbsp;Yes.</p>
 	</article>
 </div>
 		

@@ -85,20 +85,20 @@ N := population size
 Threshold := MutProb * (1.0-MutProb) * L (or L/4 is also used)
 
 Evolution until time limit hit or satisfying solution found:
-Â Â CPop := {}
-Â Â For i := 1 to N/2 do:
-Â Â Â Â Choose two random parents: P1 and P2
-Â Â Â Â If (different bits between P1 an P2) / 2 &gt; threshold do:
-Â Â Â Â Â Â Create children C1 and C2 using half-uniform crossover
-Â Â Â Â Â Â Add C1 and C2 to CPop
+  CPop := {}
+  For i := 1 to N/2 do:
+    Choose two random parents: P1 and P2
+    If (different bits between P1 an P2) / 2 &gt; threshold do:
+      Create children C1 and C2 using half-uniform crossover
+      Add C1 and C2 to CPop
 
-Â Â If there are no children in Cpop:
-Â Â Â Â Threshold := threshold - 1
-Â Â Else:
-Â Â Â Â P := best N individuals from P and CPop
+  If there are no children in Cpop:
+    Threshold := threshold - 1
+  Else:
+    P := best N individuals from P and CPop
 
-Â Â If threshold &lt; 0:
-Â Â Â Â Cataclysmic creation of new population P
+  If threshold &lt; 0:
+    Cataclysmic creation of new population P
 </pre></div>
 
 
@@ -115,89 +115,89 @@ Evolution until time limit hit or satisfying solution found:
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>
 
 <span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>
+  <span class="k">return</span> <span class="p">[</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span><span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">population</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="p">[</span> <span class="n">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="p">]</span>
+  <span class="k">return</span> <span class="p">[</span> <span class="n">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">count</span><span class="p">)</span> <span class="p">]</span>
 
 <span class="k">def</span> <span class="nf">fitness</span><span class="p">(</span><span class="n">individual</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="nb">sum</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span>
+  <span class="nb">sum</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="n">individual</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">target</span><span class="o">-</span><span class="nb">sum</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">grade</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">summed</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">))</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">summed</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">)</span>
+  <span class="n">summed</span> <span class="o">=</span> <span class="nb">reduce</span><span class="p">(</span><span class="n">add</span><span class="p">,</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">pop</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">summed</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span> <span class="o">*</span> <span class="mf">1.0</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">hamming</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">nr_hamming</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">]):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">nr_hamming</span> <span class="o">+=</span> <span class="mi">1</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">nr_hamming</span>
+  <span class="n">nr_hamming</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">!=</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">]):</span>
+      <span class="n">nr_hamming</span> <span class="o">+=</span> <span class="mi">1</span>
+  <span class="k">return</span> <span class="n">nr_hamming</span>
 
 <span class="k">def</span> <span class="nf">cataclysm</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="c1">#keep the best individual, flip 35% of bits to get new individuals</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">pop</span><span class="o">.</span><span class="n">sort</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="nb">cmp</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">fitness</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="p">)))</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">firstind</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">newpop</span> <span class="o">=</span> <span class="p">[</span><span class="n">firstind</span><span class="p">]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">nextind</span> <span class="o">=</span> <span class="n">firstind</span><span class="p">[:]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nextind</span><span class="p">)):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="mf">0.35</span> <span class="o">&gt;</span> <span class="n">random</span><span class="p">():</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">nextind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="n">newpop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextind</span><span class="p">)</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">return</span> <span class="n">newpop</span>
+  <span class="c1">#keep the best individual, flip 35% of bits to get new individuals</span>
+  <span class="n">pop</span><span class="o">.</span><span class="n">sort</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="nb">cmp</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">fitness</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="p">)))</span>
+  <span class="n">firstind</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">newpop</span> <span class="o">=</span> <span class="p">[</span><span class="n">firstind</span><span class="p">]</span>
+  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)):</span>
+    <span class="n">nextind</span> <span class="o">=</span> <span class="n">firstind</span><span class="p">[:]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nextind</span><span class="p">)):</span>
+      <span class="k">if</span> <span class="mf">0.35</span> <span class="o">&gt;</span> <span class="n">random</span><span class="p">():</span>
+        <span class="n">nextind</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
+    <span class="n">newpop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nextind</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">newpop</span>
 
 <span class="k">def</span> <span class="nf">hux</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">child_one</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">child_two</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">hamming_dist</span> <span class="o">=</span> <span class="n">hamming</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">);</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">nr_swaps</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">random</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">nr_swaps</span> <span class="o">&gt;</span> <span class="n">hamming_dist</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):</span>
+  <span class="n">child_one</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">child_two</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="n">hamming_dist</span> <span class="o">=</span> <span class="n">hamming</span><span class="p">(</span><span class="n">ind1</span><span class="p">,</span> <span class="n">ind2</span><span class="p">);</span>
+  <span class="n">nr_swaps</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)):</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">random</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">nr_swaps</span> <span class="o">&gt;</span> <span class="n">hamming_dist</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):</span>
 </pre></div>
 
 
-<p>Â Â Â Â Â Â #same, just copy to both
-    Â Â Â Â Â Â child_one.append(ind1[x])
-    Â Â Â Â Â Â child_two.append(ind2[x])
-    Â Â Â Â else:
-    Â Â Â Â Â Â #different, swap with .5 probability, until hamming/2 swaps
-    Â Â Â Â Â Â nr_swaps += 1
-    Â Â Â Â Â Â child_one.append(ind2[x])
-    Â Â Â Â Â Â child_two.append(ind1[x])
-    Â Â return&nbsp;[child_one,child_two]</p>
+<p>#same, just copy to both
+          child_one.append(ind1[x])
+          child_two.append(ind2[x])
+        else:
+          #different, swap with .5 probability, until hamming/2 swaps
+          nr_swaps += 1
+          child_one.append(ind2[x])
+          child_two.append(ind1[x])
+      return&nbsp;[child_one,child_two]</p>
 <div class="highlight"><pre><span></span>def evolve(pop, target, min, max, treshold):
-Â Â child_population = []
-Â Â for i in range(1, len(pop)/2):
-Â Â Â Â #choose two random parents:
-Â Â Â Â parent_one = pop[randint(0, len(pop)-1)]
-Â Â Â Â parent_two = pop[randint(0, len(pop)-1)]
-Â Â Â Â if (hamming(parent_one, parent_two)/2) &gt; treshold[0]:
-Â Â Â Â Â Â #do hux crossover
-Â Â Â Â Â Â children = hux(parent_one, parent_two)
-Â Â Â Â Â Â child_population.append(children[0])
-Â Â Â Â Â Â child_population.append(children[1])
-Â Â if len(child_population) == 0:
-Â Â Â Â treshold[0]-=1;
-Â Â Â Â print &quot;No children evolved&quot;
-Â Â else:
-Â Â Â Â p_count = len(pop);
-Â Â Â Â print len(child_population),&quot;children&quot;
-Â Â Â Â for x in child_population:
-Â Â Â Â Â Â pop.append(x)
-Â Â Â Â pop.sort (lambda x, y : cmp (fitness(x, target), fitness(y, target)))
-Â Â Â Â #for x in pop:
-Â Â Â Â # if fitness(x,target) == 0:
-Â Â Â Â # print &quot;Perfect individual found:&quot;,x
-Â Â Â Â pop = pop[:p_count]
-Â Â Â Â print len(pop),&quot;new population, grade:&quot;, grade(pop, target)
-Â Â if treshold[0] &lt; 0:
-Â Â Â Â pop = cataclysm(pop, target, min, max)
-Â Â Â Â print &quot;Cataclysm, newpop length:&quot;,len(pop),&quot;grade:&quot;,grade(pop,target)
-Â Â Â Â treshold[0] = len(pop[0]) / 4.0
-Â Â Â Â print &quot;Treshold is now:&quot;,treshold[0]
-Â Â return pop`
+  child_population = []
+  for i in range(1, len(pop)/2):
+    #choose two random parents:
+    parent_one = pop[randint(0, len(pop)-1)]
+    parent_two = pop[randint(0, len(pop)-1)]
+    if (hamming(parent_one, parent_two)/2) &gt; treshold[0]:
+      #do hux crossover
+      children = hux(parent_one, parent_two)
+      child_population.append(children[0])
+      child_population.append(children[1])
+  if len(child_population) == 0:
+    treshold[0]-=1;
+    print &quot;No children evolved&quot;
+  else:
+    p_count = len(pop);
+    print len(child_population),&quot;children&quot;
+    for x in child_population:
+      pop.append(x)
+    pop.sort (lambda x, y : cmp (fitness(x, target), fitness(y, target)))
+    #for x in pop:
+    # if fitness(x,target) == 0:
+    # print &quot;Perfect individual found:&quot;,x
+    pop = pop[:p_count]
+    print len(pop),&quot;new population, grade:&quot;, grade(pop, target)
+  if treshold[0] &lt; 0:
+    pop = cataclysm(pop, target, min, max)
+    print &quot;Cataclysm, newpop length:&quot;,len(pop),&quot;grade:&quot;,grade(pop,target)
+    treshold[0] = len(pop[0]) / 4.0
+    print &quot;Treshold is now:&quot;,treshold[0]
+  return pop`
 </pre></div>
 
 
@@ -218,7 +218,7 @@ Evolution until time limit hit or satisfying solution found:
 <span class="n">p</span> <span class="o">=</span> <span class="n">population</span><span class="p">(</span><span class="n">p_count</span><span class="p">,</span> <span class="n">i_length</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">)</span>
 <span class="k">print</span> <span class="s2">&quot;First grade: &quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
-<span class="err">Â</span> <span class="err">Â</span> <span class="n">p</span><span class="o">=</span><span class="n">evolve</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">treshold</span><span class="p">)</span><span class="err">`</span>
+  <span class="n">p</span><span class="o">=</span><span class="n">evolve</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">treshold</span><span class="p">)</span><span class="err">`</span>
 </pre></div>
 
 
@@ -349,15 +349,15 @@ Treshold is now: 1.5
 <p>In conclusion, <span class="caps">CHC</span> performs very well with only a very limited population size, even in problems where local maxima are&nbsp;common.</p>
 <p>If you want to download the source code used in this post, you can find it <a href="http://www.macuyiko.com/files/ga/ga_chceshelman.zip">here</a>.</p>
 <hr>
-<p>Table Of ContentsÂ (click a link to jump to that&nbsp;post)</p>
+<p>Table Of Contents (click a link to jump to that&nbsp;post)</p>
 <ol>
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
-2.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
-3.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
-4.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
-5.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>Â
-6.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
-<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a>Â</li>
+2. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
+3. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
+4. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
+5. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>
+6. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
+<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a></li>
 </ol>
 	</article>
 </div>

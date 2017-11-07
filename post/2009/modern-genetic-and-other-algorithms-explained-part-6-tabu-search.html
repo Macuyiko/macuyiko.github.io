@@ -81,13 +81,13 @@
 <p>The pseudocode looks like&nbsp;this:</p>
 <div class="highlight"><pre><span></span>Construct an initial solution
 Until timelimit hit or satisfying solution found do:
-Â Â  Â Find all neighbours which are not in the tabu list, and calculate their score
-Â Â  Â Pick the best neighbour, add the previous solution to the tabu list`
+    Find all neighbours which are not in the tabu list, and calculate their score
+    Pick the best neighbour, add the previous solution to the tabu list`
 </pre></div>
 
 
 <p>Notice that the &#8220;best neighbour&#8221; must not necessarily be better than the current solution, or than the ever best found&nbsp;solution.</p>
-<p>Maintaining a tabu list can be time and memory consuming,Â alternativelyÂ we could construct a list like this: add the difference between two following solutions to the list (so that they cannot be undone), and keep it in the list for n iterations. N, or the length of the list is important: make it too long and the algorithm might get stuck, make it too short and the algorithm will tend towards local&nbsp;maxima.</p>
+<p>Maintaining a tabu list can be time and memory consuming, alternatively we could construct a list like this: add the difference between two following solutions to the list (so that they cannot be undone), and keep it in the list for n iterations. N, or the length of the list is important: make it too long and the algorithm might get stuck, make it too short and the algorithm will tend towards local&nbsp;maxima.</p>
 <p>This time, I&#8217;ve coded the example in <span class="caps">PHP</span>, I hope nobody&nbsp;minds:</p>
 <div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
 <span class="nx">$target</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
@@ -99,66 +99,66 @@ Until timelimit hit or satisfying solution found do:
 <span class="nx">$min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 <span class="nx">$max</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 <span class="k">for</span> <span class="p">(</span><span class="nx">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">$i</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="nx">$i</span><span class="o">++</span><span class="p">)</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$solution</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">rand</span><span class="p">(</span><span class="nx">$min</span><span class="p">,</span><span class="nx">$max</span><span class="p">);</span>
+    <span class="nx">$solution</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">rand</span><span class="p">(</span><span class="nx">$min</span><span class="p">,</span><span class="nx">$max</span><span class="p">);</span>
 
 <span class="c1">//until solution found</span>
 <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="k">for</span> <span class="p">(</span><span class="nx">$position</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">$position</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="nx">$position</span><span class="o">++</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">in_array</span><span class="p">(</span><span class="s2">&quot;$position+&quot;</span><span class="p">,</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">])</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">and</span> <span class="nx">$solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">$max</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$temp_solution</span> <span class="o">=</span> <span class="nx">$solution</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$temp_solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$score</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$temp_solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="nx">$score</span> <span class="o">&lt;</span> <span class="nx">$best_neighbour_score</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="nx">$score</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="nx">$temp_solution</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="c1">//make sure this step doesn&#39;t get undone</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="s2">&quot;$position-&quot;</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="p">}</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="p">}</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">in_array</span><span class="p">(</span><span class="s2">&quot;$position-&quot;</span><span class="p">,</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">])</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">and</span> <span class="nx">$solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">$min</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$temp_solution</span> <span class="o">=</span> <span class="nx">$solution</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$temp_solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$score</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$temp_solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="nx">$score</span> <span class="o">&lt;</span> <span class="nx">$best_neighbour_score</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="nx">$score</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="nx">$temp_solution</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="c1">//make sure this step doesn&#39;t get undone</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="s2">&quot;$position+&quot;</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="p">}</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="p">}</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="p">}</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="c1">//pick the best neighbour</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$solution</span> <span class="o">=</span> <span class="nx">$best_neighbour_solution</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$fitness</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">echo</span> <span class="s2">&quot;Iteration $iterations: fitness = $fitness\n&quot;</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="nx">$fitness</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">echo</span> <span class="s2">&quot;Perfect solution found:\n&quot;</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">print_r</span><span class="p">(</span><span class="nx">$solution</span><span class="p">);</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">die</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="p">}</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="c1">//add change to tabu list</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">][</span><span class="nx">$iterations</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//remember for 5 iteration</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">][</span><span class="nx">$iterations</span><span class="p">]</span> <span class="o">=</span> <span class="nx">$best_neighbour_tabu</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="c1">//update the tabulist</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">foreach</span> <span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">]</span> <span class="kr">as</span> <span class="nx">$key</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">$val</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$val</span><span class="o">--</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="k">if</span> <span class="p">(</span><span class="nx">$val</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">unset</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">][</span><span class="nx">$key</span><span class="p">]);</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">unset</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">][</span><span class="nx">$key</span><span class="p">]);</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="p">}</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="p">}</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">echo</span> <span class="s2">&quot;Iteration $iterations: tabulist now contains &quot;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span>  <span class="err">Â</span> <span class="p">.</span><span class="nx">count</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">]).</span><span class="s2">&quot; items \n&quot;</span><span class="p">;</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="nx">$iterations</span><span class="o">++</span><span class="p">;</span>
+    <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nx">$position</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">$position</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="nx">$position</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">in_array</span><span class="p">(</span><span class="s2">&quot;$position+&quot;</span><span class="p">,</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">])</span>
+                <span class="nx">and</span> <span class="nx">$solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">$max</span><span class="p">){</span>
+            <span class="nx">$temp_solution</span> <span class="o">=</span> <span class="nx">$solution</span><span class="p">;</span>
+            <span class="nx">$temp_solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="nx">$score</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$temp_solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">$score</span> <span class="o">&lt;</span> <span class="nx">$best_neighbour_score</span><span class="p">){</span>
+                <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="nx">$score</span><span class="p">;</span>
+                <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="nx">$temp_solution</span><span class="p">;</span>
+                <span class="c1">//make sure this step doesn&#39;t get undone</span>
+                <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="s2">&quot;$position-&quot;</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">in_array</span><span class="p">(</span><span class="s2">&quot;$position-&quot;</span><span class="p">,</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">])</span>
+                <span class="nx">and</span> <span class="nx">$solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">$min</span><span class="p">){</span>
+            <span class="nx">$temp_solution</span> <span class="o">=</span> <span class="nx">$solution</span><span class="p">;</span>
+            <span class="nx">$temp_solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
+            <span class="nx">$score</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$temp_solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">$score</span> <span class="o">&lt;</span> <span class="nx">$best_neighbour_score</span><span class="p">){</span>
+                <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="nx">$score</span><span class="p">;</span>
+                <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="nx">$temp_solution</span><span class="p">;</span>
+                <span class="c1">//make sure this step doesn&#39;t get undone</span>
+                <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="s2">&quot;$position+&quot;</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="c1">//pick the best neighbour</span>
+    <span class="nx">$solution</span> <span class="o">=</span> <span class="nx">$best_neighbour_solution</span><span class="p">;</span>
+    <span class="nx">$fitness</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
+    <span class="nx">echo</span> <span class="s2">&quot;Iteration $iterations: fitness = $fitness\n&quot;</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nx">$fitness</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="nx">echo</span> <span class="s2">&quot;Perfect solution found:\n&quot;</span><span class="p">;</span>
+        <span class="nx">print_r</span><span class="p">(</span><span class="nx">$solution</span><span class="p">);</span>
+        <span class="nx">die</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">//add change to tabu list</span>
+    <span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">][</span><span class="nx">$iterations</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//remember for 5 iteration</span>
+    <span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">][</span><span class="nx">$iterations</span><span class="p">]</span> <span class="o">=</span> <span class="nx">$best_neighbour_tabu</span><span class="p">;</span>
+    <span class="c1">//update the tabulist</span>
+    <span class="nx">foreach</span> <span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">]</span> <span class="kr">as</span> <span class="nx">$key</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">$val</span><span class="p">){</span>
+        <span class="nx">$val</span><span class="o">--</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">$val</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="nx">unset</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">][</span><span class="nx">$key</span><span class="p">]);</span>
+            <span class="nx">unset</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">][</span><span class="nx">$key</span><span class="p">]);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="nx">echo</span> <span class="s2">&quot;Iteration $iterations: tabulist now contains &quot;</span>
+        <span class="p">.</span><span class="nx">count</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">]).</span><span class="s2">&quot; items \n&quot;</span><span class="p">;</span>
+    <span class="nx">$iterations</span><span class="o">++</span><span class="p">;</span>
 <span class="p">}</span>
 
 <span class="kd">function</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$array</span><span class="p">,</span> <span class="nx">$target</span><span class="p">){</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="k">return</span> <span class="nx">abs</span><span class="p">(</span><span class="nx">array_sum</span><span class="p">(</span><span class="nx">$array</span><span class="p">)</span><span class="o">-</span><span class="nx">$target</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">abs</span><span class="p">(</span><span class="nx">array_sum</span><span class="p">(</span><span class="nx">$array</span><span class="p">)</span><span class="o">-</span><span class="nx">$target</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 
@@ -184,12 +184,12 @@ Until timelimit hit or satisfying solution found do:
 <span class="n">Perfect</span> <span class="n">solution</span> <span class="n">found</span><span class="o">:</span>
 <span class="n">Array</span>
 <span class="o">(</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">66</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">14</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">20</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">99</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="o">[</span><span class="mi">4</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">14</span>
-<span class="err">Â</span> <span class="err">Â</span>  <span class="err">Â</span> <span class="o">[</span><span class="mi">5</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">87</span>
+    <span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">66</span>
+    <span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">14</span>
+    <span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">20</span>
+    <span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">99</span>
+    <span class="o">[</span><span class="mi">4</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">14</span>
+    <span class="o">[</span><span class="mi">5</span><span class="o">]</span> <span class="o">=&gt;</span> <span class="mi">87</span>
 <span class="o">)</span>
 </pre></div>
 
@@ -197,15 +197,15 @@ Until timelimit hit or satisfying solution found do:
 <p>With this sample problem, such an output was, of course, expected. Notice that I&#8217;ve used the second method of keeping a&nbsp;tabulist.</p>
 <p>This post concludes this series, we only have one post to go, with a general&nbsp;conclusion.</p>
 <hr>
-<p>Table Of ContentsÂ (click a link to jump to that&nbsp;post)</p>
+<p>Table Of Contents (click a link to jump to that&nbsp;post)</p>
 <ol>
 <li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
-2.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
-3.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
-4.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
-5.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>Â
-6.Â <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
-<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a>Â</li>
+2. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
+3. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
+4. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
+5. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>
+6. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
+<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a></li>
 </ol>
 	</article>
 </div>
