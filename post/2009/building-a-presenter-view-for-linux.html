@@ -169,12 +169,12 @@ convert ./Presentation/presentation.pdf -density <span class="m">100</span> slid
   <span class="n">io</span><span class="o">.</span><span class="n">close</span>
 
   <span class="n">PageProps</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="k">for</span><span class="p">(</span><span class="err">$</span><span class="n">page</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="err">$</span><span class="n">page</span> <span class="o">&lt;=</span> <span class="err">$</span><span class="n">nrpages</span><span class="p">;</span> <span class="err">$</span><span class="n">page</span><span class="o">++</span><span class="p">):</span> <span class="err">?</span><span class="o">&gt;</span>
-      <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="n">echo</span> <span class="err">$</span><span class="n">page</span><span class="p">;</span> <span class="err">?</span><span class="o">&gt;</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
-      <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
-      <span class="p">},</span>
-    <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="n">endfor</span><span class="p">;</span> <span class="err">?</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="k">for</span><span class="p">(</span><span class="err">$</span><span class="n">page</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="err">$</span><span class="n">page</span> <span class="o">&lt;=</span> <span class="err">$</span><span class="n">nrpages</span><span class="p">;</span> <span class="err">$</span><span class="n">page</span><span class="o">++</span><span class="p">):</span> <span class="err">?</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="n">echo</span> <span class="err">$</span><span class="n">page</span><span class="p">;</span> <span class="err">?</span><span class="o">&gt;</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+  <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
+  <span class="p">},</span>
+<span class="o">&lt;</span><span class="err">?</span><span class="n">php</span> <span class="n">endfor</span><span class="p">;</span> <span class="err">?</span><span class="o">&gt;</span>
   <span class="p">}</span>
 
 <span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
@@ -254,28 +254,28 @@ convert ./Presentation/presentation.pdf -density <span class="m">100</span> slid
 
 <span class="kd">function</span> <span class="nx">make_call</span><span class="p">(){</span>
   <span class="nx">$</span><span class="p">.</span><span class="nx">ajaxSetup</span><span class="p">({</span><span class="s1">&#39;beforeSend&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">xhr</span><span class="p">){</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">overrideMimeType</span><span class="p">){</span>
-      <span class="nx">xhr</span><span class="p">.</span><span class="nx">overrideMimeType</span><span class="p">(</span><span class="s2">&quot;text/plain&quot;</span><span class="p">);</span>
-    <span class="p">}</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">overrideMimeType</span><span class="p">){</span>
+  <span class="nx">xhr</span><span class="p">.</span><span class="nx">overrideMimeType</span><span class="p">(</span><span class="s2">&quot;text/plain&quot;</span><span class="p">);</span>
+<span class="p">}</span>
   <span class="p">}</span>
   <span class="p">});</span>
   <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s2">&quot;json.txt&quot;</span><span class="p">,</span>
-    <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
-      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_pagethis&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">);</span>
-      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_pagecount&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">page_count</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">previousslide</span> <span class="o">!=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">){</span>
-        <span class="nx">clock</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_time</span><span class="p">;</span> <span class="c1">//synchronize</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_slideleft&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;./Slides/slide-&quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span><span class="p">);</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span> <span class="o">&lt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">page_count</span><span class="p">)</span>
-        <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_slideright&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;./Slides/slide-&quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span><span class="p">);</span>
-      <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_text&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">);</span>
-      <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;./Text/text-&quot;</span><span class="o">+</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
-        <span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
-          <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_text&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
-        <span class="p">});</span>
-    <span class="p">}</span>
-    <span class="nx">previousslide</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">;</span>
-    <span class="nx">display_clock</span><span class="p">();</span>
+<span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_pagethis&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_pagecount&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">page_count</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">previousslide</span> <span class="o">!=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">){</span>
+<span class="nx">clock</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_time</span><span class="p">;</span> <span class="c1">//synchronize</span>
+<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_slideleft&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;./Slides/slide-&quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span> <span class="o">&lt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">page_count</span><span class="p">)</span>
+<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_slideright&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;./Slides/slide-&quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_text&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">);</span>
+  <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;./Text/text-&quot;</span><span class="o">+</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
+<span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
+  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_text&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
+<span class="p">});</span>
+<span class="p">}</span>
+<span class="nx">previousslide</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">;</span>
+<span class="nx">display_clock</span><span class="p">();</span>
   <span class="p">});</span>
   <span class="nx">setTimeout</span> <span class="p">(</span><span class="s2">&quot;make_call()&quot;</span><span class="p">,</span> <span class="nx">refreshtime</span><span class="p">);</span>
 <span class="p">}</span>
@@ -289,15 +289,15 @@ convert ./Presentation/presentation.pdf -density <span class="m">100</span> slid
 
 <span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>
   <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;information&quot;</span><span class="o">&gt;</span><span class="nx">Currently</span> <span class="nx">at</span> <span class="nx">slide</span>
-    <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_pagethis&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt; of &lt;span id=&quot;val_pagecount&quot;&gt;?&lt;/span&gt;</span>
+<span class="o">&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_pagethis&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt; of &lt;span id=&quot;val_pagecount&quot;&gt;?&lt;/span&gt;</span>
   <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;pane&quot;</span><span class="o">&gt;</span>
-    <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;slideright&quot;</span><span class="o">&gt;</span>
-      <span class="nx">Next</span> <span class="nx">slide</span><span class="o">:&lt;</span><span class="nx">br</span> <span class="o">/&gt;</span>
-      <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;360&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_slideright&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;./Slides/slide-1.png&quot;</span> <span class="o">/&gt;&lt;</span><span class="err">/div&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;slideleft&quot;</span><span class="o">&gt;</span>
-        <span class="nx">Current</span> <span class="nx">slide</span><span class="o">:&lt;</span><span class="nx">br</span> <span class="o">/&gt;</span>
-        <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;360&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_slideleft&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;./Slides/slide-0.png&quot;</span> <span class="o">/&gt;&lt;</span><span class="err">/div&gt;</span>
+<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;slideright&quot;</span><span class="o">&gt;</span>
+  <span class="nx">Next</span> <span class="nx">slide</span><span class="o">:&lt;</span><span class="nx">br</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;360&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_slideright&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;./Slides/slide-1.png&quot;</span> <span class="o">/&gt;&lt;</span><span class="err">/div&gt;</span>
+  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;slideleft&quot;</span><span class="o">&gt;</span>
+<span class="nx">Current</span> <span class="nx">slide</span><span class="o">:&lt;</span><span class="nx">br</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nx">img</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;360&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_slideleft&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;./Slides/slide-0.png&quot;</span> <span class="o">/&gt;&lt;</span><span class="err">/div&gt;</span>
   <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="s2">&quot;clear:both;&quot;</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="err">/div&gt;</span>
   <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="o">&gt;&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_text&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt;&lt;/div&gt;</span>
@@ -343,18 +343,18 @@ Moving slide-2.png
   <span class="n">io</span><span class="o">.</span><span class="n">close</span>
 
   <span class="n">PageProps</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="mi">1</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
-      <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
-    <span class="p">},</span>
-    <span class="mi">2</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
-      <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
-    <span class="p">},</span>
-    <span class="mi">3</span><span class="p">:</span> <span class="p">{</span>
-      <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
-      <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
-    <span class="p">},</span>
+<span class="mi">1</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+  <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
+<span class="p">},</span>
+<span class="mi">2</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+  <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
+<span class="p">},</span>
+<span class="mi">3</span><span class="p">:</span> <span class="p">{</span>
+  <span class="s1">&#39;transition&#39;</span><span class="p">:</span> <span class="bp">None</span><span class="p">,</span>
+  <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
+<span class="p">},</span>
   <span class="p">}</span>
 </pre></div>
 
