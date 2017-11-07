@@ -9562,12 +9562,14 @@ ln -sf ~/cd2.iso ~/.wine/dosdevices/e::
 &lt;hr&gt;
 &lt;p&gt;Table Of Contents (click a link to jump to that&amp;nbsp;post)&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;
-2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic Algorithms&lt;/a&gt;
-3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt; Eshelman&lt;/a&gt;
-4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated Annealing&lt;/a&gt;
-5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony Optimization&lt;/a&gt;
-6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic&amp;nbsp;Algorithms&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt;&amp;nbsp;Eshelman&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated&amp;nbsp;Annealing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony&amp;nbsp;Optimization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content></entry><entry><title>Modern Genetic (And Other) Algorithms Explained: Part 6 - Tabu Search</title><link href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html" rel="alternate"></link><published>2009-01-29T00:00:00+01:00</published><updated>2009-01-29T00:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2009-01-29:/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html</id><summary type="html">&lt;p&gt;(This is part 6 in the Modern Genetic Algorithms Explained series, click &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;here&lt;/a&gt; to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&amp;nbsp;post.)&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://en.wikipedia.org/wiki/Tabu_search"&gt;Tabu search&lt;/a&gt; is not really &amp;#8220;modern&amp;#8221; anymore, but still widely used&amp;nbsp;nonetheless.&lt;/p&gt;
@@ -9694,12 +9696,14 @@ Until timelimit hit or satisfying solution found do:
 &lt;hr&gt;
 &lt;p&gt;Table Of Contents (click a link to jump to that&amp;nbsp;post)&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;
-2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic Algorithms&lt;/a&gt;
-3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt; Eshelman&lt;/a&gt;
-4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated Annealing&lt;/a&gt;
-5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony Optimization&lt;/a&gt;
-6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic&amp;nbsp;Algorithms&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt;&amp;nbsp;Eshelman&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated&amp;nbsp;Annealing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony&amp;nbsp;Optimization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content></entry><entry><title>Modern Genetic (And Other) Algorithms Explained: Part 5 - Ant Colony Optimization</title><link href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html" rel="alternate"></link><published>2009-01-22T00:00:00+01:00</published><updated>2009-01-22T00:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2009-01-22:/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html</id><summary type="html">&lt;p&gt;(This is part 5 in the Modern Genetic Algorithms Explained series, click &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;here&lt;/a&gt; to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&amp;nbsp;post.)&lt;/p&gt;
 &lt;p&gt;First, let&amp;#8217;s go to &lt;a href="http://en.wikipedia.org/wiki/Ant_colony_optimization"&gt;Wikipedia&lt;/a&gt; for a&amp;nbsp;definition:&lt;/p&gt;
@@ -9743,12 +9747,14 @@ Iterate until time limit hit or satisfiable solution found:
 &lt;hr&gt;
 &lt;p&gt;Table Of Contents (click a link to jump to that&amp;nbsp;post)&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;
-2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic Algorithms&lt;/a&gt;
-3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt; Eshelman&lt;/a&gt;
-4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated Annealing&lt;/a&gt;
-5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony Optimization&lt;/a&gt;
-6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic&amp;nbsp;Algorithms&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt;&amp;nbsp;Eshelman&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated&amp;nbsp;Annealing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony&amp;nbsp;Optimization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content></entry><entry><title>Modern Genetic (And Other) Algorithms Explained: Part 4 - Simulated Annealing</title><link href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html" rel="alternate"></link><published>2009-01-19T00:00:00+01:00</published><updated>2009-01-19T00:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2009-01-19:/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html</id><summary type="html">&lt;p&gt;(This is part 4 in the Modern Genetic Algorithms Explained series, click &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;here&lt;/a&gt; to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&amp;nbsp;post.)&lt;/p&gt;
 &lt;p&gt;First of all: Simulated Annealing is not a genetic algorithm, but it is a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;(This is part 4 in the Modern Genetic Algorithms Explained series, click &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;here&lt;/a&gt; to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&amp;nbsp;post.)&lt;/p&gt;
@@ -9902,12 +9908,14 @@ Best fitness this evolution: 0
 &lt;hr&gt;
 &lt;p&gt;Table Of Contents (click a link to jump to that&amp;nbsp;post)&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;
-2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic Algorithms&lt;/a&gt;
-3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt; Eshelman&lt;/a&gt;
-4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated Annealing&lt;/a&gt;
-5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony Optimization&lt;/a&gt;
-6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic&amp;nbsp;Algorithms&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt;&amp;nbsp;Eshelman&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated&amp;nbsp;Annealing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony&amp;nbsp;Optimization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content></entry><entry><title>Nokia N95, 3G, Bluetooth, And Ubuntu Intrepid - 3G Tethering Howto</title><link href="http://blog.macuyiko.com/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html" rel="alternate"></link><published>2009-01-16T00:00:00+01:00</published><updated>2009-01-16T00:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2009-01-16:/post/2009/nokia-n95-3g-bluetooth-and-ubuntu-intrepid-3g-tethering-howto.html</id><summary type="html">&lt;p&gt;The following steps are instructions to surf the web using a Nokia N95 with 3G, connected to your Intrepid laptop via&amp;nbsp;Bluetooth.&lt;/p&gt;
 &lt;h4&gt;1. Make sure you have the required packages&amp;nbsp;installed:&lt;/h4&gt;
@@ -10144,49 +10152,47 @@ Evolution until time limit hit or satisfying solution found:
   &lt;span class="n"&gt;nr_swaps&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
   &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ind1&lt;/span&gt;&lt;span class="p"&gt;)):&lt;/span&gt;
     &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ind1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;ind2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;random&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mf"&gt;0.5&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="ow"&gt;or&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;nr_swaps&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;hamming_dist&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
-&lt;/pre&gt;&lt;/div&gt;
+      &lt;span class="c1"&gt;#same, just copy to both&lt;/span&gt;
+      &lt;span class="n"&gt;child_one&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ind1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+      &lt;span class="n"&gt;child_two&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ind2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+    &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="c1"&gt;#different, swap with .5 probability, until hamming/2 swaps&lt;/span&gt;
+      &lt;span class="n"&gt;nr_swaps&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+      &lt;span class="n"&gt;child_one&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ind2&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+      &lt;span class="n"&gt;child_two&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ind1&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;child_one&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;child_two&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
 
-
-&lt;p&gt;#same, just copy to both
-          child_one.append(ind1[x])
-          child_two.append(ind2[x])
-        else:
-          #different, swap with .5 probability, until hamming/2 swaps
-          nr_swaps += 1
-          child_one.append(ind2[x])
-          child_two.append(ind1[x])
-      return&amp;nbsp;[child_one,child_two]&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def evolve(pop, target, min, max, treshold):
-  child_population = []
-  for i in range(1, len(pop)/2):
-    #choose two random parents:
-    parent_one = pop[randint(0, len(pop)-1)]
-    parent_two = pop[randint(0, len(pop)-1)]
-    if (hamming(parent_one, parent_two)/2) &amp;gt; treshold[0]:
-      #do hux crossover
-      children = hux(parent_one, parent_two)
-      child_population.append(children[0])
-      child_population.append(children[1])
-  if len(child_population) == 0:
-    treshold[0]-=1;
-    print &amp;quot;No children evolved&amp;quot;
-  else:
-    p_count = len(pop);
-    print len(child_population),&amp;quot;children&amp;quot;
-    for x in child_population:
-      pop.append(x)
-    pop.sort (lambda x, y : cmp (fitness(x, target), fitness(y, target)))
-    #for x in pop:
-    # if fitness(x,target) == 0:
-    # print &amp;quot;Perfect individual found:&amp;quot;,x
-    pop = pop[:p_count]
-    print len(pop),&amp;quot;new population, grade:&amp;quot;, grade(pop, target)
-  if treshold[0] &amp;lt; 0:
-    pop = cataclysm(pop, target, min, max)
-    print &amp;quot;Cataclysm, newpop length:&amp;quot;,len(pop),&amp;quot;grade:&amp;quot;,grade(pop,target)
-    treshold[0] = len(pop[0]) / 4.0
-    print &amp;quot;Treshold is now:&amp;quot;,treshold[0]
-  return pop`
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;evolve&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;min&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;treshold&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+  &lt;span class="n"&gt;child_population&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+  &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="c1"&gt;#choose two random parents:&lt;/span&gt;
+    &lt;span class="n"&gt;parent_one&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;randint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+    &lt;span class="n"&gt;parent_two&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;randint&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)]&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;hamming&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parent_one&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;parent_two&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;/&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;treshold&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]:&lt;/span&gt;
+      &lt;span class="c1"&gt;#do hux crossover&lt;/span&gt;
+      &lt;span class="n"&gt;children&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;hux&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;parent_one&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;parent_two&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+      &lt;span class="n"&gt;child_population&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;children&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+      &lt;span class="n"&gt;child_population&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;children&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;child_population&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;treshold&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;&lt;span class="o"&gt;-=&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;No children evolved&amp;quot;&lt;/span&gt;
+  &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;p_count&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;child_population&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;children&amp;quot;&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;child_population&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+      &lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sort&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;lambda&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="nb"&gt;cmp&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;fitness&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;fitness&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+    &lt;span class="c1"&gt;#for x in pop:&lt;/span&gt;
+    &lt;span class="c1"&gt;# if fitness(x,target) == 0:&lt;/span&gt;
+    &lt;span class="c1"&gt;# print &amp;quot;Perfect individual found:&amp;quot;,x&lt;/span&gt;
+    &lt;span class="n"&gt;pop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;[:&lt;/span&gt;&lt;span class="n"&gt;p_count&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;new population, grade:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;grade&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+  &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;treshold&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;pop&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;cataclysm&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;min&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;max&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Cataclysm, newpop length:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;grade:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;grade&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;target&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;treshold&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="mf"&gt;4.0&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Treshold is now:&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;treshold&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+  &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;pop&lt;/span&gt;&lt;span class="err"&gt;`&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -10340,12 +10346,14 @@ Treshold is now: 1.5
 &lt;hr&gt;
 &lt;p&gt;Table Of Contents (click a link to jump to that&amp;nbsp;post)&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;
-2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic Algorithms&lt;/a&gt;
-3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt; Eshelman&lt;/a&gt;
-4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated Annealing&lt;/a&gt;
-5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony Optimization&lt;/a&gt;
-6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic&amp;nbsp;Algorithms&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt;&amp;nbsp;Eshelman&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated&amp;nbsp;Annealing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony&amp;nbsp;Optimization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content></entry><entry><title>Modern Genetic (And Other) Algorithms Explained: Part 2 - Genetic Algorithms</title><link href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html" rel="alternate"></link><published>2009-01-10T00:00:00+01:00</published><updated>2009-01-10T00:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2009-01-10:/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html</id><summary type="html">&lt;p&gt;(This is part 2 in the Modern Genetic Algorithms Explained series, click &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;here&lt;/a&gt; to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&amp;nbsp;post.)&lt;/p&gt;
 &lt;p&gt;Let&amp;#8217;s take another look at &lt;a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/"&gt;the blog post&lt;/a&gt; on which we will base …&lt;/p&gt;</summary><content type="html">&lt;p&gt;(This is part 2 in the Modern Genetic Algorithms Explained series, click &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;here&lt;/a&gt; to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&amp;nbsp;post.)&lt;/p&gt;
@@ -10569,12 +10577,14 @@ Use those as parents for a child
 &lt;hr&gt;
 &lt;p&gt;Table Of Contents (click a link to jump to that&amp;nbsp;post)&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;
-2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic Algorithms&lt;/a&gt;
-3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt; Eshelman&lt;/a&gt;
-4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated Annealing&lt;/a&gt;
-5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony Optimization&lt;/a&gt;
-6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic&amp;nbsp;Algorithms&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt;&amp;nbsp;Eshelman&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated&amp;nbsp;Annealing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony&amp;nbsp;Optimization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content></entry><entry><title>Modern Genetic (And Other) Algorithms Explained: Part 1 - Introduction</title><link href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html" rel="alternate"></link><published>2009-01-07T00:00:00+01:00</published><updated>2009-01-07T00:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2009-01-07:/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html</id><summary type="html">&lt;p&gt;A few days ago I saw &lt;a href="http://www.reddit.com/r/programming/comments/7n1zl/genetic_algorithms_cool_name_amp_damn_simple_best/"&gt;this on reddit&lt;/a&gt;, linking to a &lt;a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/"&gt;well-written article&lt;/a&gt; about genetic algorithms (&lt;span class="caps"&gt;GA&lt;/span&gt;):&lt;/p&gt;
 &lt;blockquote&gt;
@@ -10607,12 +10617,14 @@ As to tabu search: now there is a technique which has some real pathologies. Per
 &lt;hr&gt;
 &lt;p&gt;Table Of Contents (click a link to jump to that&amp;nbsp;post)&lt;/p&gt;
 &lt;ol&gt;
-&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;
-2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic Algorithms&lt;/a&gt;
-3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt; Eshelman&lt;/a&gt;
-4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated Annealing&lt;/a&gt;
-5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony Optimization&lt;/a&gt;
-6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html"&gt;Introduction&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;2. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html"&gt;Genetic&amp;nbsp;Algorithms&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;3. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"&gt;&lt;span class="caps"&gt;CHC&lt;/span&gt;&amp;nbsp;Eshelman&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;4. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html"&gt;Simulated&amp;nbsp;Annealing&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;5. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html"&gt;Ant Colony&amp;nbsp;Optimization&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;6. &lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html"&gt;Tabu&amp;nbsp;Search&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
 &lt;li&gt;&lt;a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html"&gt;Conclusion&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;</content></entry><entry><title>Trying Google’s Native Client</title><link href="http://blog.macuyiko.com/post/2008/trying-googles-native-client.html" rel="alternate"></link><published>2008-12-09T00:00:00+01:00</published><updated>2008-12-09T00:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2008-12-09:/post/2008/trying-googles-native-client.html</id><summary type="html">&lt;p&gt;From &lt;a href="http://blogoscoped.com/archive/2008-12-09-n82.html"&gt;Google Blogoscoped&lt;/a&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
