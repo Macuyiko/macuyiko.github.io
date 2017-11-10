@@ -1,5 +1,358 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall - Seppe "Macuyiko" vanden Broucke</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/seppe-macuyiko-vanden-broucke.atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2017-08-14T22:12:00+02:00</updated><entry><title>Cleaning Up a Gmail Inbox</title><link href="http://blog.macuyiko.com/post/2017/cleaning-up-a-gmail-inbox.html" rel="alternate"></link><published>2017-08-14T22:12:00+02:00</published><updated>2017-08-14T22:12:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-08-14:/post/2017/cleaning-up-a-gmail-inbox.html</id><summary type="html">&lt;p&gt;I&amp;#8217;ve been getting increasingly frustrated by my overflowing Gmail inbox lately. I&amp;#8217;ve been using Gmail as a primary e-mail service since 2005 and have collected tens of thousands emails over the&amp;nbsp;years.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall - Seppe "Macuyiko" vanden Broucke</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/seppe-macuyiko-vanden-broucke.atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2017-11-09T12:00:00+01:00</updated><entry><title>An Exploration of Cellular Automata and Graph Based Game Systems: Part 1</title><link href="http://blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-1.html" rel="alternate"></link><published>2017-11-09T12:00:00+01:00</published><updated>2017-11-09T12:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-09:/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-1.html</id><summary type="html">&lt;script&gt;
+$(function() {
+    $('.toggle').each(function(index) {
+        var toggler = $('&lt;div style="margin: 8px 0; background-color: #E3E0FF; cursor: pointer; padding: 8px;"&gt;Toggle iframe&lt;/div&gt;');
+        toggler.insertBefore($(this));
+        toggler.click(function() {
+            var elt = $(this).next('.toggle');
+            var newElt = $("&lt;iframe&gt;&lt;/iframe&gt;")
+            Array.prototype.slice.call(elt.get(0).attributes).forEach(function(a) {
+                newElt.attr(a …&lt;/script&gt;</summary><content type="html">&lt;script&gt;
+$(function() {
+    $('.toggle').each(function(index) {
+        var toggler = $('&lt;div style="margin: 8px 0; background-color: #E3E0FF; cursor: pointer; padding: 8px;"&gt;Toggle iframe&lt;/div&gt;');
+        toggler.insertBefore($(this));
+        toggler.click(function() {
+            var elt = $(this).next('.toggle');
+            var newElt = $("&lt;iframe&gt;&lt;/iframe&gt;")
+            Array.prototype.slice.call(elt.get(0).attributes).forEach(function(a) {
+                newElt.attr(a.name, a.value);
+            });
+            if (!$(this).hasClass('toggled')) {
+                elt.append(newElt);
+                $(this).addClass('toggled');
+            } else {
+                elt.html('');
+                $(this).removeClass('toggled');
+            }
+        });
+    });
+});
+&lt;/script&gt;
+
+&lt;p&gt;I&amp;#8217;ve been spending way too much time with &lt;a href="http://store.steampowered.com/app/457140/Oxygen_Not_Included/"&gt;Oxygen Not Included&lt;/a&gt;. It&amp;#8217;s a great and addictive base building game with lots of challenges to tackle, though the most interesting component &amp;#8212; for me, at least &amp;#8212; is the way how the game simulates the behavior of gasses, liquids, temperature, and&amp;nbsp;elektricity.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot of water moving around in Oxygen Not Included" src="/images/2017/oni1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Oxygen Not Included is certainly not the only game incorporating similar systems. Minecraft, of course, does the same with water, lava, and redstone (albeit in different ways), and so do other games like Cities: Skylines and the more recent SimCity&amp;nbsp;incarnation:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot of pollution spreading in SimCity" src="/images/2017/sc1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Once you start noticing these systems, you see them popping up everywhere, from simple mobile games like The Sandbox to little &amp;#8220;&lt;a href="https://en.wikipedia.org/wiki/Falling-sand_game"&gt;falling sand&lt;/a&gt;&amp;#8221; web&amp;nbsp;games.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot of The Sandbox" src="/images/2017/sandbox.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot of a falling sand game" src="/images/2017/sandbox2.png"&gt;&lt;/p&gt;
+&lt;p&gt;Many of these games&amp;#8217; systems are based on the same underlying fundamentals. In this series of articles, I&amp;#8217;ll go through explaining two popular concepts and how they work inside such games: cellular automata, and graphs. As a side goal, I also wanted to take the opportunity to play around a bit with &lt;a href="https://p5js.org/"&gt;p5.js&lt;/a&gt; to visualize and create such&amp;nbsp;systems.&lt;/p&gt;
+&lt;h1&gt;Cellular&amp;nbsp;automata&lt;/h1&gt;
+&lt;p&gt;Cellular automata have been around for quite some time already (originally discovered in the 1940s by Stanislaw Ulam and John von Neumann). A cellular automaton is a &amp;#8220;discrete model, consisting of a regular grid of cells, each in one of a finite number of states&amp;#8221; (&lt;a href="https://en.wikipedia.org/wiki/Cellular_automaton"&gt;Wikipedia&lt;/a&gt;). For each cell, a set of cells called its neighborhood is defined relative to the specified cell. From an initial state, a simulation is started where each new generation is created according to a set of rules that determines the new state of each cell in terms of the current state of the cell and the states of the cells in its neighborhood. In basic terms, this defines a &amp;#8220;main loop&amp;#8221; over our grid as&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;forever&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+  &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;each&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;cell&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="kd"&gt;get&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;neighborhood&lt;/span&gt;
+    &lt;span class="n"&gt;determine&lt;/span&gt; &lt;span class="n"&gt;state&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;cell&lt;/span&gt; &lt;span class="n"&gt;based&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;cell&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;neighborhood&lt;/span&gt;
+  &lt;span class="n"&gt;swap&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;grid&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;grid&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That&amp;#8217;s the basic idea, and it&amp;#8217;s this system that is driving all the water, sand, &amp;#8230; systems in the games listed above. Of course, the main interestingsness from using this approach comes from the pieces left to you to plug in,&amp;nbsp;namely:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;How you define the neighborhood of a&amp;nbsp;cell&lt;/li&gt;
+&lt;li&gt;How you define the state of a&amp;nbsp;cell&lt;/li&gt;
+&lt;li&gt;How you define the rules to determine the state in a new&amp;nbsp;generation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;#8217;s start by implementing this basic idea in JavaScript using &lt;a href="https://p5js.org/"&gt;p5.js&lt;/a&gt;. First, let&amp;#8217;s define a &lt;code&gt;Cell&lt;/code&gt; object as&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var Cell = function(parent, col, row) {
+  this.grid = parent;
+  this.col = col;
+  this.row = row;
+  this.reset();
+}
+
+Cell.prototype.reset = function()  {
+  this.state = 0;
+  this.next_state = 0;
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The state we&amp;#8217;re going to keep here is simply one number. We also set aside an attribute to keep track of what the next state is going to be. Note that we could also create a seperate &lt;code&gt;State&lt;/code&gt; object and attach it to the cells, but let&amp;#8217;s keep our representation simple for&amp;nbsp;now.&lt;/p&gt;
+&lt;p&gt;Next up, we define a &lt;code&gt;Grid&lt;/code&gt; object holding the&amp;nbsp;cells:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var Grid = function(cols, rows, size) {
+  this.cells = new Array(cols);
+  for (var i = 0; i &amp;lt; cols; i++) {
+    this.cells[i] = new Array(rows);
+  }
+  this.cols = cols;
+  this.rows = rows;
+  this.size = size;
+  var self = this;
+  this.visit(function(col, row) {
+    self.cells[col][row] = new Cell(self, col, row);
+  });
+}
+
+Grid.prototype.visit = function(callable) {
+  for (var i = 0; i &amp;lt; this.cols; i++) {
+    for (var j = 0; j &amp;lt; this.rows; j++) {
+      callable(i, j);
+    }
+  }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Again, there&amp;#8217;s some room for improvement. We&amp;#8217;re mixing representational concepts (&amp;#8220;what is a grid&amp;#8221;) with graphics responsibilities: the &lt;code&gt;size&lt;/code&gt; attribute will be used to determine how large the boxes should be when drawing the grid. We could decouple this, but this is fine for&amp;nbsp;now.&lt;/p&gt;
+&lt;p&gt;Speaking of graphics, let&amp;#8217;s also attach a helper and drawing function directly to our &lt;code&gt;Grid&lt;/code&gt; (again, we could decouple this in a &lt;code&gt;GridDrawer&lt;/code&gt;, but early abstraction is the enemy of getting things&amp;nbsp;done):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.mouseToGrid = function(x, y) {
+  col = floor(x / this.size);
+  row = floor(y / this.size);
+  return [col, row];
+}
+
+Grid.prototype.draw = function() {
+  var self = this;
+  this.visit(function(col, row) {
+    var cell = self.cells[col][row];
+    var clr = color(floor((1 - cell.state)*255))
+    fill(clr); 
+    stroke(10);
+    rect(col*self.size, row*self.size, self.size-1, self.size-1);
+  });
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The way how we&amp;#8217;ll draw our grid is very simple for now: a state of 1 (which we&amp;#8217;ll assume as our maximum value) is drawn as a black square, and a state of 0 (our minimum) as a white square, with greyscale values in&amp;nbsp;between.&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s also define a function to get a neighborhood of cells for a certain column/row position. The way how we&amp;#8217;ll do so is by taking a standard &lt;a href="https://en.wikipedia.org/wiki/Von_Neumann_neighborhood"&gt;Von Neumann neighborhood&lt;/a&gt;, returning the cell itself, and its up, down, left, and right&amp;nbsp;neighbors:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.neighborhood = function(col, row) {
+  var n = {};
+  n.me = this.cells[col][row];
+  n.left = col &amp;gt; 0 ? this.cells[col-1][row] : null;
+  n.right = col &amp;lt; (this.cols - 1) ? this.cells[col+1][row] : null;
+  n.up = row &amp;gt; 0 ? this.cells[col][row-1] : null;
+  n.down = row &amp;lt; (this.rows -1) ? this.cells[col][row+1] : null;
+  return n;
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Finally, we need a method that will go over all cells and determine their next state based on a user-supplied rule&amp;nbsp;method:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.update = function(callable) {
+  var self = this;
+  this.visit(function(col, row) {
+    callable(self.neighborhood(col, row))
+  });
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And we also need a method to finish the&amp;nbsp;generation:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.finish = function(callable) {
+  var self = this;
+  this.visit(function(col, row) {
+    var cell = self.cells[col][row];
+    cell.state = cell.next_state;
+  });
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Exploring some simple&amp;nbsp;systems&lt;/h1&gt;
+&lt;p&gt;We&amp;#8217;re now ready to start exploring some simple systems. The most basic rule set we can come up with is to &amp;#8220;keep everything the same&amp;#8221;, so for every &amp;#8220;tick&amp;#8221; where we calculate a new generation, we just&amp;nbsp;do:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;tick() {&lt;/span&gt;
+  &lt;span class="nx"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="c1"&gt;// Next state will be the same as the current one&lt;/span&gt;
+    &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;me&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;next_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;me&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;state&lt;/span&gt;
+  &lt;span class="p"&gt;});&lt;/span&gt;
+  &lt;span class="nx"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;finish&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Try this out below. Drag the mouse to change the state for the cells. Even though this simulation is running, nothing interesting is really happening&amp;nbsp;here:&lt;/p&gt;
+&lt;div src="/iframes/cellular/index.firstexample.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="320"&gt;&lt;/div&gt;
+
+&lt;p&gt;What happens if we try a rule where the state of each next cell is set to the state of the cell on its&amp;nbsp;left:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;tick() {&lt;/span&gt;
+  &lt;span class="nx"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;me&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;next_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;left&lt;/span&gt; &lt;span class="o"&gt;?&lt;/span&gt;
+      &lt;span class="nx"&gt;neighborhood.left.state&lt;/span&gt; : &lt;span class="kt"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+  &lt;span class="p"&gt;});&lt;/span&gt;
+  &lt;span class="nx"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;finish&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div src="/iframes/cellular/index.secondexample.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="320"&gt;&lt;/div&gt;
+
+&lt;p&gt;As a more interesting rule set, we can use the famous &amp;#8220;&lt;a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"&gt;Game of Life&lt;/a&gt;&amp;#8221; which defines the following&amp;nbsp;rules:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Any live cell with fewer than two live neighbours dies, as if caused by&amp;nbsp;underpopulation.&lt;/li&gt;
+&lt;li&gt;Any live cell with two or three live neighbours lives on to the next&amp;nbsp;generation.&lt;/li&gt;
+&lt;li&gt;Any live cell with more than three live neighbours dies, as if by&amp;nbsp;overpopulation.&lt;/li&gt;
+&lt;li&gt;Any dead cell with exactly three live neighbours becomes a live cell, as if by&amp;nbsp;reproduction.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To make this work, we first need to change our neighborhood definition to include diagonals (called a &lt;a href="https://en.wikipedia.org/wiki/Moore_neighborhood"&gt;Moore neighborhood&lt;/a&gt;) and to &amp;#8220;wrap around&amp;#8221; the grid. We don&amp;#8217;t need to return all the cells themselves, however, the current cell and a count of its live neighbors is&amp;nbsp;enough:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.neighborhood = function(col, row) {
+  var n = {};
+  n.me = this.cells[col][row];
+  n.live_neighbors = 0;
+  for (var c = col-1; c &amp;lt;= col+1; c++) {
+    for (var r = row-1; r &amp;lt;= row+1; r++) {
+      if (c == col &amp;amp;&amp;amp; r == row)
+        continue;
+      // Wrap around the grid
+      var wrapped_col = c;
+      var wrapped_row = r;
+      if (wrapped_col &amp;lt; 0) wrapped_col = this.cols-1;
+      if (wrapped_row &amp;lt; 0) wrapped_row = this.rows-1;
+      if (wrapped_col &amp;gt; this.cols-1) wrapped_col = 0;
+      if (wrapped_row &amp;gt; this.rows-1) wrapped_row = 0;
+      n.live_neighbors += this.cells[wrapped_col][wrapped_row].state;
+    }
+  }
+  return n;
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can then use this in our tick function as&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt; &lt;span class="nx"&gt;tick() {&lt;/span&gt;
+  &lt;span class="nx"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;update&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kd"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;me&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;state&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="c1"&gt;// Any live cell with fewer than two live neighbours dies&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;live_neighbors&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;me&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;next_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="c1"&gt;// Any live cell with two or three live neighbours lives on&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;live_neighbors&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;2&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;live_neighbors&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;me&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;next_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+      &lt;span class="c1"&gt;// Any live cell with more than three live neighbours dies&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;live_neighbors&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;me&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;next_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+      &lt;span class="c1"&gt;// Any dead cell with exactly three live neighbours becomes a live cell&lt;/span&gt;
+      &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;live_neighbors&lt;/span&gt; &lt;span class="o"&gt;===&lt;/span&gt; &lt;span class="mi"&gt;3&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+        &lt;span class="nx"&gt;neighborhood&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;me&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;next_state&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;    
+  &lt;span class="p"&gt;});&lt;/span&gt;
+  &lt;span class="nx"&gt;grid&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nx"&gt;finish&lt;/span&gt;&lt;span class="p"&gt;();&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which gives us the following result (try scribbling over the&amp;nbsp;grid):&lt;/p&gt;
+&lt;div src="/iframes/cellular/index.gameoflife.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="320"&gt;&lt;/div&gt;
+
+&lt;h1&gt;A more complicated&amp;nbsp;example&lt;/h1&gt;
+&lt;p&gt;Let&amp;#8217;s try implementing a more involved cellular automaton, we&amp;#8217;re going to implement &lt;a href="https://en.wikipedia.org/wiki/Wireworld"&gt;Wireworld&lt;/a&gt;, a cellular automaton first proposed by Brian Silverman in 1987 and particularly suited to simulating electronic logic elements, or &amp;#8220;gates&amp;#8221;. Wireworld is Turing-complete, even, meaning that you could simulate a full computer system with&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;We need to make the following changes. Cells can now have four distinct&amp;nbsp;states:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Empty&lt;/li&gt;
+&lt;li&gt;Electron head (drawn in&amp;nbsp;blue)&lt;/li&gt;
+&lt;li&gt;Electron tail (drawn in&amp;nbsp;red)&lt;/li&gt;
+&lt;li&gt;Conductor, a wire (drawn in&amp;nbsp;yellow)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The rule set is as&amp;nbsp;follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Empty cells stay&amp;nbsp;empty&lt;/li&gt;
+&lt;li&gt;Electron heads become electron&amp;nbsp;tails&lt;/li&gt;
+&lt;li&gt;Electron tails become&amp;nbsp;conductors&lt;/li&gt;
+&lt;li&gt;Conductor become an electron head if exactly one or two of the neighbouring cells are electron heads, otherwise remains&amp;nbsp;conductor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The neighborhood again includes diagonal cells, but we&amp;#8217;re not going to wrap around the grid. The implemented example looks as follows (press &lt;code&gt;p&lt;/code&gt; to pause the simulation so you can draw freely &amp;#8212; you might need to click in the iframe first to give it&amp;nbsp;focus):&lt;/p&gt;
+&lt;div src="/iframes/cellular/index.wireworld.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="320"&gt;&lt;/div&gt;
+
+&lt;h1&gt;Finishing&amp;nbsp;up&lt;/h1&gt;
+&lt;p&gt;Cellular automata are very versatile indeed. As a final example, let us consider &lt;a href="https://en.wikipedia.org/wiki/Langton%27s_ant"&gt;Langton&amp;#8217;s Ant&lt;/a&gt;. This can be modelled as a discrete agent walking over a grid, but as the Wikipedia page mentions, it&amp;#8217;s possible to formulate the behavior by means of a cellular automaton as well. Our state now&amp;nbsp;encodes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Whether a cell is white or&amp;nbsp;black&lt;/li&gt;
+&lt;li&gt;Whether a cell contains an ant or not. If it contains an an, the numbers 1 to 4 indicate the direction of the&amp;nbsp;ant&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The rule set is as&amp;nbsp;follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The next cell&amp;#8217;s color is equal to the current one, except if the ant is here, in which case we flip the&amp;nbsp;color&lt;/li&gt;
+&lt;li&gt;If the ant is on a cell, first figure out the new direction of the&amp;nbsp;ant&lt;/li&gt;
+&lt;li&gt;If the current cell&amp;#8217;s color is black, turn 90 degrees&amp;nbsp;left&lt;/li&gt;
+&lt;li&gt;If it&amp;#8217;s white, turn 90 degrees&amp;nbsp;right&lt;/li&gt;
+&lt;li&gt;The ant is removed from the next&amp;nbsp;cell&lt;/li&gt;
+&lt;li&gt;The ant is place on the next cell matching the new direction of the&amp;nbsp;ant&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In fact, we don&amp;#8217;t even have to define a neighborhood here, except for knowing to which new cell to move our ant. This simple rule set leads to a beautiful pattern over time (this cellular automaton runs on its own, no way to scribble over it&amp;nbsp;here):&lt;/p&gt;
+&lt;div src="/iframes/cellular/index.langton.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="520"&gt;&lt;/div&gt;
+
+&lt;p&gt;That&amp;#8217;s enough for the first part in this series. In the next part, we&amp;#8217;ll use the building blocks we&amp;#8217;ve constructed and explored so far, and start taking a look at using cellular automata to simulate water, sand, lava, and so on, as is done in several&amp;nbsp;games.&lt;/p&gt;</content></entry><entry><title>And Now, Time for a Rant</title><link href="http://blog.macuyiko.com/post/2017/and-now-time-for-a-rant.html" rel="alternate"></link><published>2017-11-08T08:18:00+01:00</published><updated>2017-11-08T08:18:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-08:/post/2017/and-now-time-for-a-rant.html</id><summary type="html">&lt;p&gt;I&amp;#8217;ve been interested in computing since I was a kid. The ability to tinker with the internals of a machine, the brutalism of &lt;span class="caps"&gt;DOS&lt;/span&gt;, Windows 3.1 and Windows 95&amp;#8217;s interfaces (those big grey buttons). It was a great time for young persons to get started with &lt;span class="caps"&gt;IT …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I&amp;#8217;ve been interested in computing since I was a kid. The ability to tinker with the internals of a machine, the brutalism of &lt;span class="caps"&gt;DOS&lt;/span&gt;, Windows 3.1 and Windows 95&amp;#8217;s interfaces (those big grey buttons). It was a great time for young persons to get started with &lt;span class="caps"&gt;IT&lt;/span&gt;, computer science, programming. A great time to actually &lt;em&gt;create&lt;/em&gt; something using a completely new medium, a digital&amp;nbsp;canvas.&lt;/p&gt;
+&lt;p&gt;Today, a lot of things have changed. Many for the better, as you could argue, but it seems to me that computing today is just not the &amp;#8220;same&amp;#8221; anymore. The web has come around. Everything has to be touch and haptic, 500ms animations all over the place, hiding away the complexities behind, but also the potential for discovery, learning, and true&amp;nbsp;creativity.&lt;/p&gt;
+&lt;p&gt;Over the past week or so, I&amp;#8217;ve been jotting down a list of small annoyances. Not one of these is really a deal breaking on its own, but put together, it is clear to me that a lot of things have changed. And I&amp;#8217;m not the only one that thinks&amp;nbsp;so.&lt;/p&gt;
+&lt;h2&gt;On Windows and&amp;nbsp;Interfaces&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;I come home from a two week trip to find that my old Windows 10 laptop which is being used as a media centre machine has tripped all over itself. &amp;#8220;Critical process died,&amp;#8221; or something like that. Sure, &amp;#8220;blue screens&amp;#8221; on Windows 10 are not blue anymore and now show pretty &lt;span class="caps"&gt;QR&lt;/span&gt; codes you can scan to be redirected to a Google search with the first page being a ten minute long Youtube video with 8 minutes of intro song and fumbling around with Notepad&amp;#8217;s font settings before presenting the quote-unquote &amp;#8220;solution&amp;#8221; (hey did you try running this Adware infested&amp;nbsp;&amp;#8220;cleaner&amp;#8221;?).&lt;/li&gt;
+&lt;li&gt;Windows 10 comes with an amazing update cycle and an approach to quality control best described as &amp;#8220;let&amp;#8217;s all be beta testers&amp;#8221;. As of now, I have two laptops whose Wifi connection starts crapping out after a reasonable amount of uptime. A third laptop Wifi just softlocks after a while, and will even prevent the machine from restarting&amp;nbsp;normally.&lt;/li&gt;
+&lt;li&gt;That last machine still hasn&amp;#8217;t received its &amp;#8220;creators update,&amp;#8221; by the way, presumably because it has some Bluetooth chip Microsoft just can&amp;#8217;t figure out. Strange, as it has been working fine with the current &amp;#8212; what is it, anniversary update? &amp;#8212; builds. Did the folks in Redmond suddenly decide to completely overhaul the driver model in the creators&amp;nbsp;update?&lt;/li&gt;
+&lt;li&gt;Meanwhile, Windows tries to put more and more configuration settings in their new, &amp;#8220;flat&amp;#8221; interface, but no worries: with a few clicks more you can still get to good ole control panel, and if you&amp;#8217;re really lucky you might encounter &lt;a href="https://gbl08ma.com/windows-10-is-unfinished/"&gt;some icons that are still there from the 16 bit era&lt;/a&gt;. It&amp;#8217;s like putting five layers of wallpaper in your living room followed by three coats of paint, but every time you miss a spot. Sure, I get that backwards compatibility is a thing, though&amp;nbsp;still.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Interfaces in general have become horrid. An interesting &lt;a href="https://tttthreads.com/thread/927593460642615296"&gt;discussion on Twitter&lt;/a&gt; has lots of people talking about this (funny that a separate website is needed to kind-of properly render out a list of tweets in a somewhat readable&amp;nbsp;format):&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;amber-screen library computer in 1998: type in two words and hit F3. search results appear instantly.
+now: type in two words, wait for an &lt;span class="caps"&gt;AJAX&lt;/span&gt; popup. get a throbber for five seconds. oops you pressed a key, your results are&amp;nbsp;erased&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;A lot of this came from web-design-creep, but a lot of other things are to blame as well. In a way, I miss ugly, brutalist but completely focused and clear interfaces like&amp;nbsp;this:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="A POS in DOS" src="/images/2017/brutalism1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Keyboard shortcuts only, the focused field is clearly visible, global menu items that clearly indicate where you&amp;#8217;re going towards. Even Windows 3.1 was actually very powerful in this&amp;nbsp;sense:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Windows 3.1" src="/images/2017/brutalism2.png"&gt;&lt;/p&gt;
+&lt;p&gt;Buttons are buttons. Look at their crisp outline and how they pop off the screen. Everything about this screams &amp;#8220;you can click me and I will do&amp;nbsp;something&amp;#8221;.&lt;/p&gt;
+&lt;p&gt;This went fine until Windows 98 came along, where you see the first evidence of the web&amp;#8217;s tentacles getting inside the &lt;span class="caps"&gt;OS&lt;/span&gt;:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Windows 98" src="/images/2017/brutalism3.png"&gt;&lt;/p&gt;
+&lt;p&gt;What is this. Why does there need to be a cloud in my explorer window. Just because we can? To show that we can render 256 colors now. Buttons have become larger, though for what? Meanwhile, Active Desktop was a thing for a while that polluted the desktop with Internet page widgets. Even Vista tried to do this again with gadgets or whatever it was called. So many distractions, so many design&amp;nbsp;inconsistencies.&lt;/p&gt;
+&lt;p&gt;Today, we&amp;#8217;re surrounded with boring, flat interfaces that sacrifice usability in order to looks a clean, neutral, and uninspired as possible, and where any piece of text on the screen can turn out to be a &amp;#8220;link&amp;#8221; that can be clicked. Good luck! In a way, Windows 3.1 manages to look quite pretty and clear in written text, as &lt;a href="this series of articles"&gt;https://hackernoon.com/win3mu-part-1-why-im-writing-a-16-bit-windows-emulator-2eae946c935d&lt;/a&gt; written by a chap who&amp;#8217;s working on Windows 3.1 shows. I&amp;#8217;d even tip my hat to &lt;a href="https://dropbox.design/"&gt;Dropbox&lt;/a&gt; for going with some fresh design ideas instead of the bog standard translucency-animations-whitespace combo. Speaking of whitespace: try switching your Gmail display mode from &amp;#8220;comfortable&amp;#8221; to &amp;#8220;condensed&amp;#8221;. The first certainly does not make me&amp;nbsp;comfortable.&lt;/p&gt;
+&lt;h2&gt;On Devices, Apple and&amp;nbsp;Linux&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;I don&amp;#8217;t want to single out Windows. Switch to the Apple ecosystem, you say? Overpriced boxes of underperforming hardware? Having to carry around six dongles is not &amp;#8220;courage&amp;#8221;. Neither is a touch bar, a unibrow, an exploding iPhone 8, an iOS 11 full of bugs (&lt;a href="https://arstechnica.com/gadgets/2017/11/apples-fix-for-peculiar-ios-autocorrect-issue-may-come-as-soon-as-this-week/"&gt;what is this, even&lt;/a&gt;), an App Store which can only be used after entering payment details, or not being able to install &lt;span class="caps"&gt;VPN&lt;/span&gt; apps whilst living in a nation which censors the&amp;nbsp;Internet.&lt;/li&gt;
+&lt;li&gt;Not that Android is that much better, especially not every time I encounter an app that wants to make phone calls, send text messages, upload all of my data, access the mic and draw over other apps. Just to check in for a&amp;nbsp;flight?&lt;/li&gt;
+&lt;li&gt;By the way, go to the developer options in Android and disable all animations for a minute. See how that feels? Amazing. I didn&amp;#8217;t know my phone was so&amp;nbsp;fast.&lt;/li&gt;
+&lt;li&gt;Luckily there&amp;#8217;s still Linux, our freedom-beacon in a sea of oppression. That is if you&amp;#8217;re willing to put up with the hellspawn that is&amp;nbsp;systemd.&lt;/li&gt;
+&lt;li&gt;Also: good luck using your Linux laptop to give a presentation at some corp where they&amp;#8217;re using some FuYouDianNoa brand of projectors which only work in some kind of 888x666 resolution. At least Windows has this part figured out. On Linux, you can choose between two options. First, you can disable your laptop screen and awkwardly turn your head 180 degrees around like you&amp;#8217;re doing an owl imitation to see what&amp;#8217;s on the projected screen whilst pressing down the &lt;span class="caps"&gt;ALT&lt;/span&gt; key and trying to drag-and-drop all those Windows which are still stuck in &amp;#8220;dark screen land&amp;#8221;. Of course, once you close your laptop, disconnect the &lt;span class="caps"&gt;HDMI&lt;/span&gt; cable and scramble to run out, you&amp;#8217;ll have to restart the machine nine out of ten times later on because you forgot to reset the screen settings and Linux has ignored the fact that you&amp;#8217;re back in your hotel room with no projector attached anymore. The second option involves duplicates your screen, but since laptop makers &amp;#8212; in their infinite wisdom &amp;#8212; think that 3200xWhatever screens on 15&amp;#8221; displays were a good idea and projector makers agree on a solid 4:3, good luck seeing the left and right sides of the screen on your laptop &amp;#8212; or on the projector, depending on the moon&amp;#8217;s phase. Sure, xrandr can be set up in such a way that you have the perfect setup, complete with scaling going on, just like Windows, but be prepared to arrive half an hour upfront and apologize a lot to the person responsible to make sure &amp;#8220;the screen works&amp;#8221; (&amp;#8220;normally our speakers don&amp;#8217;t have any problem connecting&amp;#8221;). No one can be bothered to come up with a proper &lt;span class="caps"&gt;GUI&lt;/span&gt; for this stuff, most likely because making &amp;#8220;mobile first desktop environments&amp;#8221; is&amp;nbsp;cooler.&lt;/li&gt;
+&lt;li&gt;And then there&amp;#8217;s still PulseAudio, Wayland, Mir&amp;#8230; all great technology, each with their own little traps to avoid. Meanwhile, it&amp;#8217;s still trivial to write an X11 keylogger, copy-pasting still works in various, unexpected ways, and I&amp;#8217;d never use Linux for a live audio show as you never know when the kernel decides that &amp;#8220;sound is just not a priority for me right now, let&amp;#8217;s start&amp;nbsp;swapping&amp;#8221;.&lt;/li&gt;
+&lt;li&gt;But at least your machine will be &amp;#8220;free and open&amp;#8221;, right? Sure, except for this black box of microprocessor code that&amp;#8217;s running inside your modern &lt;span class="caps"&gt;CPU&lt;/span&gt;. Intel&amp;#8217;s Management Engine is a great example. To quote the &lt;span class="caps"&gt;EFF&lt;/span&gt;: &amp;#8220;Since 2008, most of Intel’s chipsets have contained a tiny homunculus computer called the Management Engine (&lt;span class="caps"&gt;ME&lt;/span&gt;). The &lt;span class="caps"&gt;ME&lt;/span&gt; is a largely undocumented master controller for your &lt;span class="caps"&gt;CPU&lt;/span&gt;: it works with system firmware during boot and has direct access to system memory, the screen, keyboard, and network.&amp;#8221; I&amp;#8217;m laughing my back off every time I hear a big corporation talk about the need to disallow non-vetted software, take away admin rights and to lock down machines as well as possible. If it makes you feel better, I&amp;nbsp;guess.&lt;/li&gt;
+&lt;li&gt;No, to understand all of this and to be &lt;em&gt;fully secure&lt;/em&gt;, you need to have studied &lt;a href="https://www.marketwatch.com/story/equifax-ceo-hired-a-music-major-as-the-companys-chief-security-officer-2017-09-15"&gt;music&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I&amp;#8217;m not done&amp;nbsp;yet.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;All these &amp;#8220;smart&amp;#8221; tablets, phones, fridges and whatnot need to update a bajillion apps if you don&amp;#8217;t use them for a few weeks and start to slow down after every &lt;span class="caps"&gt;OS&lt;/span&gt; update. If you&amp;#8217;re lucky, you might even have a device which &amp;#8220;smartly&amp;#8221; sends your whole contact book to some state actor or &amp;#8220;revenue partner&amp;#8221;. Wireshark your own network and see in real-time how your personal data gets sends&amp;nbsp;out.&lt;/li&gt;
+&lt;li&gt;Luckily I&amp;#8217;m immune to the addicting lure of Facebook and friends, though I can&amp;#8217;t help but feel bad about the effect they have on others. A &amp;#8220;show of hands&amp;#8221; of my 1st year students indicates that many consider themselves addicted to social media. Begging for likes on Instagram, taking selfies, and close-ups of food. Being connected 24/7 to the world might be a good thing, but having a normal conversation from time to time is nice as&amp;nbsp;well.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;On&amp;nbsp;Gaming&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;So you might wish to unwind with a game to forget all of the above. I&amp;#8217;m asked to try the &amp;#8220;Xbox Insider Hub&amp;#8221; to beta test some game which crashes with some sort of &amp;#8220;bad &lt;span class="caps"&gt;HTTP&lt;/span&gt; request&amp;#8221; message.&amp;nbsp;Perfect.&lt;/li&gt;
+&lt;li&gt;As if we didn&amp;#8217;t have enough &amp;#8220;stores&amp;#8221; already. Windows Store, Steam, &lt;span class="caps"&gt;GOG&lt;/span&gt; Galaxy, UPlay, Origin, Rockstar Social Club. Sure, I have enough &lt;span class="caps"&gt;CPU&lt;/span&gt; cycles to burn. Never before has my scrollbar in my task manager process list been so long. What is all of this stuff&amp;nbsp;doing?&lt;/li&gt;
+&lt;li&gt;The same goes for &amp;#8220;sync&amp;#8221; apps, by the way. Dropbox, OneDrive, Google Drive is Now Called Backup and Sync from Google but-still-ignores-syncing-some-random-files (a bug I can&amp;#8217;t for the life of me not figure out how this is not a top priority to&amp;nbsp;fix).&lt;/li&gt;
+&lt;li&gt;If you do finally manage to get into a game, be prepared to cough up money for microtransactions, &amp;#8220;cosmetic unlockables&amp;#8221;, &amp;#8220;loot boxes&amp;#8221;, and all those other gamblind-inspired horrids that have come straight from the seventh hell that is mobile gaming to infest the rest of the gaming world. It&amp;#8217;s a good sign that game companies are hiring such great persona&amp;#8217;s as &amp;#8220;behavioral economists&amp;#8221; and &amp;#8220;value-adding psychologists&amp;#8221;. Just another five bucks. The wheel of fortune spins, spins, will I reach this great new weapon? Ah no damn it, just passed it and ended up with another &amp;#8220;Boring Regular Glock 201&amp;#8221;. Well, I almost had it, right? No, you&amp;#8217;re being played. Maybe spend another diamond to finish this building in five seconds instead of the normal two days waiting time for that game you&amp;#8217;re playing on your&amp;nbsp;phone?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;On&amp;nbsp;Programming&lt;/h2&gt;
+&lt;p&gt;But at least programming is still a&amp;nbsp;blast?&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Sure, compared to earlier times, we know live in a time where you can choose between three hundred different JavaScript frameworks, preferably one encumbered by patents, to ship apps with a whole web browser (preferably an outdated one to maximize the security risk) included just so your &lt;span class="caps"&gt;100MB&lt;/span&gt; app can show an ugly drop down list which looks even more out of place than the rest of your &lt;span class="caps"&gt;OS&lt;/span&gt;&amp;#8217; widgets. Time for another redesign, I guess, perhaps now using Material&amp;nbsp;Design?&lt;/li&gt;
+&lt;li&gt;But no worries, we&amp;#8217;ll just wrap it into a Docker container or this other new fancy &amp;#8220;&lt;span class="caps"&gt;IOT&lt;/span&gt;-ready virtualization solution we&amp;#8217;ve just found&amp;#8221;, which totes takes care of all problems for us automagically. Did you also know this makes us 100% reproducable. Because all Dockerfiles containing an apt-get-from-some-repo-which-might-be-up-or-not is totally reproducible, our devops team said&amp;nbsp;so.&lt;/li&gt;
+&lt;li&gt;In the same vein, you can use the same &amp;#8220;modern stack&amp;#8221; to write reactive apps where we can pretend &lt;span class="caps"&gt;HTTP&lt;/span&gt; never happened and the best way to deal with the &lt;span class="caps"&gt;DOM&lt;/span&gt; is to re-engineer everything from the Windows 3.1 times, just so this animation can run at a &amp;#8220;native 60 &lt;span class="caps"&gt;FPS&lt;/span&gt;&amp;#8221;.&lt;/li&gt;
+&lt;li&gt;Good luck setting all of this up on some &lt;span class="caps"&gt;VPS&lt;/span&gt; box these days. Dear God, the number of hoops you need to jump through just to get an e-mail server running! What the hell is &lt;span class="caps"&gt;SPF&lt;/span&gt; and &lt;span class="caps"&gt;DKIM&lt;/span&gt; keys? Why is Gmail ignored mails from my domain. Oh I get it, I should just cough up the five bucks per month to get Google Apps for Work set&amp;nbsp;up.&lt;/li&gt;
+&lt;li&gt;At least we don&amp;#8217;t need to learn &lt;span class="caps"&gt;SQL&lt;/span&gt; any more and can just dump our unstructured data vomit into a NoSQL data lake with a Hadoop Hive Impala stack on top which is totally web scale and will allow us to do analytics (read: putting pie charts in reports) even more wrong even&amp;nbsp;faster.&lt;/li&gt;
+&lt;li&gt;Luckily, at least our kids have access to great and powerful devices now, giving everyone the opportunity to get started with programming &amp;#8212; oh wait. Take the iPad, a great content consumption machine with absolutely no quick way to program anything yourself. Yes, &amp;#8220;10 &lt;span class="caps"&gt;PRINT&lt;/span&gt; &amp;#8220;&lt;span class="caps"&gt;HELLO&lt;/span&gt;&amp;#8221; 20 &lt;span class="caps"&gt;GOTO&lt;/span&gt; 10&amp;#8221; was not the best way to teach fundamentals, but at least it was one key stroke away and got people&amp;nbsp;interested.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;On &lt;span class="caps"&gt;AI&lt;/span&gt;&lt;/h2&gt;
+&lt;p&gt;Oh, and speaking of data&amp;nbsp;vomit.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Everyone has gone &lt;span class="caps"&gt;AI&lt;/span&gt; crazy. Again. This is my field of research so I&amp;#8217;m probably part of the problem. Hadoop all the things, Spark everything, put an extra Kafka there. That&amp;#8217;s so 2015, didn&amp;#8217;t you realize. Now we need that deep learning and them chatbots for those quick wins and new revenue streams. Does &lt;span class="caps"&gt;IBM&lt;/span&gt; Watson have those yet? Turns out that 90% of all chatbot solutions are just regex, preferably with a diagram drawing &lt;span class="caps"&gt;GUI&lt;/span&gt; so you can hire three new people as &amp;#8220;chatbot modelers&amp;#8221;, but good luck explaining that to your exec or &amp;#8220;chief technology officer&amp;#8221;. If you&amp;#8217;re lucky you might find some knowledge systems related stuff with forward inference. Perhaps even some Prolog running inside. The 80&amp;#8217;s&amp;nbsp;called.&lt;/li&gt;
+&lt;li&gt;Sure, some things are impressive: Tensorflow, PyTorch, all that deep learning. I&amp;#8217;m still waiting for a self driving car to explain post-crash why it made a mistake. But who needs explanations when faced with an all-knowning&amp;nbsp;algorithm?&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Back to the&amp;nbsp;Web&lt;/h2&gt;
+&lt;p&gt;The web is dying as well. &lt;a href="http://tttthis.com/rememberwebsites.php/"&gt;Does anyone remember websites&lt;/a&gt; words it&amp;nbsp;perfectly:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Does anyone remember websites? These might be unfamiliar to anyone unexposed to the internet before 2005 or so, and may be all-but-forgotten for many others, obscured by the last 10 years of relentless internet development, but before mass social media platforms and amazing business opportunities on the internet, it was largely a collection of websites made by people who were interested in some subject enough to write about it and put it online. Does anyone remember when you stumbled on a new website written by some guy and read his first article, then clicked back to his homepage and saw he had a list of similar articles that looked like they&amp;#8217;d be just as&amp;nbsp;interesting.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;That was great. The web was fun back then, a treasure trove of badly formatted but interesting or fun, plain pages. A lot of things I&amp;#8217;ve used and am still using today in my research (from &lt;span class="caps"&gt;AI&lt;/span&gt; to evolutionary algorithms to cellular automata) I&amp;#8217;ve learned from pages like this (still remember days reading http://www.ai-junkie.com/ann/som/som1.html when I was about 16 years&amp;nbsp;old!).&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://thenextweb.com/contributors/2017/11/01/the-web-began-dying-in-2014-heres-how/"&gt;Others&lt;/a&gt; have said &lt;a href="https://fabiofranchino.com/blog/is-the-web-dying/"&gt;this&lt;/a&gt; as&amp;nbsp;well.&lt;/p&gt;
+&lt;p&gt;I&amp;#8217;ve been watching some nostalgia tech channels on YouTube recently. Things like Lazy Game Reviews, &lt;span class="caps"&gt;DF&lt;/span&gt; Retro, and the 8-bit guy. Seeing these machines of old not only reminds us of how far we&amp;#8217;ve come, but mainly how simple, honest, &amp;#8220;straight-to-the-metal&amp;#8221; these things were. I kind of miss that&amp;nbsp;feeling.&lt;/p&gt;
+&lt;p&gt;What has happened with &amp;#8220;computing&amp;#8221; as of today? Perhaps &amp;#8212; most likely &amp;#8212; it is due to me getting older, more busier, less easily impressed, or simply a case of nostalgia goggles firmly stuck on my face, but I can&amp;#8217;t shake the feeling that computing today has lost a lot of its appeal, its &amp;#8220;magic&amp;#8221;, if you will, compared to the days of&amp;nbsp;old.&lt;/p&gt;
+&lt;p&gt;Today, we have an unfinished &lt;span class="caps"&gt;OS&lt;/span&gt; running on twenty devices, &lt;span class="caps"&gt;DRM&lt;/span&gt; schemes crippling our computing freedom, interfaces that are confusing and buggy, a web controlled by a few companies which are corrupt and manipulative, and full of Russian ads and propaganda spreaders and youth that is addicted to social&amp;nbsp;media.&lt;/p&gt;</content></entry><entry><title>Cleaning Up a Gmail Inbox</title><link href="http://blog.macuyiko.com/post/2017/cleaning-up-a-gmail-inbox.html" rel="alternate"></link><published>2017-08-14T22:12:00+02:00</published><updated>2017-08-14T22:12:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-08-14:/post/2017/cleaning-up-a-gmail-inbox.html</id><summary type="html">&lt;p&gt;I&amp;#8217;ve been getting increasingly frustrated by my overflowing Gmail inbox lately. I&amp;#8217;ve been using Gmail as a primary e-mail service since 2005 and have collected tens of thousands emails over the&amp;nbsp;years.&lt;/p&gt;
 &lt;p&gt;Lately, I&amp;#8217;ve been finding it increasingly harder to quickly find an e-mail using Gmails otherwise …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I&amp;#8217;ve been getting increasingly frustrated by my overflowing Gmail inbox lately. I&amp;#8217;ve been using Gmail as a primary e-mail service since 2005 and have collected tens of thousands emails over the&amp;nbsp;years.&lt;/p&gt;
 &lt;p&gt;Lately, I&amp;#8217;ve been finding it increasingly harder to quickly find an e-mail using Gmails otherwise solid search functionality. The problem is mostly due to me not using much labels on the one hand and archiving, rather than deleting junky e-mails on the other hand. The latter stems from Gmail&amp;#8217;s &amp;#8220;training&amp;#8221;, inspiring users to archive e-mails rather than deleting them, since storage is never really an&amp;nbsp;issue.&lt;/p&gt;
 &lt;p&gt;Indeed, it never is, but over the years, several parties collect your e-mail address to send you weekly digests, newsletters, &amp;#8220;what&amp;#8217;s new&amp;#8221; overviews, and updates regarding your social networks you never really bother to visit anymore (LinkedIn, Facebook, Twitter, ResearchGate are all annoying offenders). It&amp;#8217;s appealing to just straight up archive these, but since there&amp;#8217;s always some overlap in content between what you&amp;#8217;re actually trying to search for and what ends up in those e-mails (e.g. &amp;#8220;data science collaboration project&amp;#8221;), it can become annoying to quickly glance over e-mails and find what you&amp;#8217;re looking for. Starring e-mails and filtering them further helps, of course, but I felt it was about time to do something about this pile of archived e-mails I&amp;#8217;d never bother to look at&amp;nbsp;again.&lt;/p&gt;
