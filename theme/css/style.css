@@ -12,6 +12,7 @@ body {
 	font-size: 0.8em;
 }
 
+<<<<<<< HEAD
 .highlighttable {
 	border: 0 !important;
 }
@@ -24,12 +25,14 @@ iframe {
 	margin-bottom: 2em;
 }
 
+=======
+>>>>>>> origin/master
 .row {
 	max-width: 60em;
 }
 
 td.code .highlight, td.linenos .linenodiv {
-	border: 0 !important;
+	border: 0px !important;
 }
 
 code {
