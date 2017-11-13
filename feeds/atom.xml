@@ -1,5 +1,389 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2017-11-08T08:18:00+01:00</updated><entry><title>And Now, Time for a Rant</title><link href="http://blog.macuyiko.com/post/2017/and-now-time-for-a-rant.html" rel="alternate"></link><published>2017-11-08T08:18:00+01:00</published><updated>2017-11-08T08:18:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-08:/post/2017/and-now-time-for-a-rant.html</id><summary type="html">&lt;p&gt;I&amp;#8217;ve been interested in computing since I was a kid. The ability to tinker with the internals of a machine, the brutalism of &lt;span class="caps"&gt;DOS&lt;/span&gt;, Windows 3.1 and Windows 95&amp;#8217;s interfaces (those big grey buttons). It was a great time for young persons to get started with &lt;span class="caps"&gt;IT …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I&amp;#8217;ve been interested in computing since I was a kid. The ability to tinker with the internals of a machine, the brutalism of &lt;span class="caps"&gt;DOS&lt;/span&gt;, Windows 3.1 and Windows 95&amp;#8217;s interfaces (those big grey buttons). It was a great time for young persons to get started with &lt;span class="caps"&gt;IT&lt;/span&gt;, computer science, programming. A great time to actually &lt;em&gt;create&lt;/em&gt; something using a completely new medium, a digital&amp;nbsp;canvas.&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2017-11-13T14:30:00+01:00</updated><entry><title>Note to Self: Using Tesseract to Extract Subtitles</title><link href="http://blog.macuyiko.com/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html" rel="alternate"></link><published>2017-11-13T14:30:00+01:00</published><updated>2017-11-13T14:30:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-13:/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html</id><summary type="html">&lt;p&gt;Say you have video such as &lt;a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/"&gt;this one&lt;/a&gt; on Facebook. Most of these come with hardcoded subtitles, which we&amp;#8217;d like to extract (for whatever&amp;nbsp;reason).&lt;/p&gt;
+&lt;p&gt;Opening the page in Chrome and inspecting the network requests quickly uncovers the media &lt;span class="caps"&gt;URL&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Say you have video such as &lt;a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/"&gt;this one&lt;/a&gt; on Facebook. Most of these come with hardcoded subtitles, which we&amp;#8217;d like to extract (for whatever&amp;nbsp;reason).&lt;/p&gt;
+&lt;p&gt;Opening the page in Chrome and inspecting the network requests quickly uncovers the media &lt;span class="caps"&gt;URL&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n.mp4?efg=eyJ2ZW5jb2RlX3RhZyI6ImRhc2hfdjNfMTI4MF9jcmZfMjNfaGlnaF8zLjFfZnJhZ18yX3ZpZGVvIn0%3D&amp;amp;oh=40bbd0e0dd5367ed3a2d5ff0e7cbe081&amp;amp;oe=5A09D778&amp;amp;bytestart=0&amp;amp;byteend=953
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;By cuttung off &lt;code&gt;&amp;amp;bytestart=0&amp;amp;byteend=953&lt;/code&gt;, we can download the video file&amp;nbsp;completely.&lt;/p&gt;
+&lt;p&gt;Next, we can use &lt;code&gt;ffmpeg&lt;/code&gt; to create frames every half&amp;nbsp;second:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./ffmpeg -i .\23354483_145400712877976_2778300398300037120_n.mp4 -r 2 .\frames\image-%07d_original.png
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And apply some cropping using&amp;nbsp;Python:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;glob&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;png_file&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./frames/*_original.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;png_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;cropped&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;crop&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="mi"&gt;50&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;850&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;1080&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;cropped&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;png_file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;_cropped.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As well as some leveling to only retain white and yellow&amp;nbsp;text:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;glob&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;level&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;copy&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;copy&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;x&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]):&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]):&lt;/span&gt;
+            &lt;span class="n"&gt;pxl&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;copy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;getpixel&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;220&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt; &lt;span class="mi"&gt;220&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; 
+                &lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+                &lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+                &lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;255&lt;/span&gt;
+                &lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;255&lt;/span&gt;
+                &lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;255&lt;/span&gt;
+            &lt;span class="n"&gt;copy&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;putpixel&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;x&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;y&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="nb"&gt;tuple&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pxl&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;copy&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;png_file&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./frames/*_cropped.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;png_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;leveled&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;level&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;leveled&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;png_file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;_cropped.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;_leveled.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Next, download &lt;a href="https://github.com/UB-Mannheim/tesseract/wiki"&gt;Tesseract&lt;/a&gt; (unzip the setup file using 7-Zip and just dump it somwhere, to prevent running the installer &amp;#8212; it works fine in a portable&amp;nbsp;setup).&lt;/p&gt;
+&lt;p&gt;Extract the text for every&amp;nbsp;file:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;glob&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;PIPE&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pickle&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;dump&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get_ocr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;out&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;./tesseract/tesseract.exe&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;file_name&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;stdout&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;-psm&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;11&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;out&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;
+
+&lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;png_file&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;glob&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;./frames/*_leveled.png&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="n"&gt;output&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;get_ocr&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;png_file&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;output&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;dump&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;lines.p&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;wb&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Perform a little cleaning using some regex and the Levenshtein distance to remove duplicate&amp;nbsp;lines:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pickle&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;load&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;levenshteinDistance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;s2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;s2&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;s2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;s1&lt;/span&gt;
+    &lt;span class="n"&gt;dst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;range&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;len&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i2&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c2&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s2&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="n"&gt;dst_&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i2&lt;/span&gt;&lt;span class="o"&gt;+&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+        &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;i1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;c1&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="nb"&gt;enumerate&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;s1&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+            &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;c1&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="n"&gt;c2&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;dst_&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+            &lt;span class="k"&gt;else&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+                &lt;span class="n"&gt;dst_&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="nb"&gt;min&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="n"&gt;i1&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;dst_&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])))&lt;/span&gt;
+        &lt;span class="n"&gt;dst&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;dst_&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;dst&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+
+&lt;span class="n"&gt;lines&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;load&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;lines.p&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;rb&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+
+&lt;span class="n"&gt;cleaned&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="p"&gt;[]&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;lines&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;clean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;line&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;utf-8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;clean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;rpartition&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;telus&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)[&lt;/span&gt;&lt;span class="mi"&gt;2&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;clean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\r\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;clean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;\s\s+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;clean&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;sub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;[^‘,\.\?!%a-zA-Z0-9\s]+&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cleaned&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;cleaned&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;cleaned&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;cleaned&lt;/span&gt; &lt;span class="ow"&gt;and&lt;/span&gt; &lt;span class="n"&gt;levenshteinDistance&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;cleaned&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;=&lt;/span&gt; &lt;span class="mi"&gt;7&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;del&lt;/span&gt; &lt;span class="n"&gt;cleaned&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;cleaned&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;append&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;strip&lt;/span&gt;&lt;span class="p"&gt;())&lt;/span&gt;
+
+&lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt; &lt;span class="ow"&gt;in&lt;/span&gt; &lt;span class="n"&gt;cleaned&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The resulting strings should now be easy to manually clean and&amp;nbsp;finalize:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ENVIRONMENTAL ADVISER WAS A NATURAL DISASTER
+PRESSED HER ON CLIMATE SCIENCE
+It seems to me that you don‘t believe climate change is real.
+I  l am un
+I am uncertain.
+You‘re uncertain?
+No, I‘m not. I‘m sorry. I jumped ahead.
+Climate change is of course real.
+Human activity affect climate change?
+More than likely, but the extent to which,
+I think is very uncertain, and my  Would you rely on scientists
+to give you that answer, or not?
+[...]
+&lt;/pre&gt;&lt;/div&gt;</content></entry><entry><title>An Exploration of Cellular Automata and Graph Based Game Systems: Part 1</title><link href="http://blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-1.html" rel="alternate"></link><published>2017-11-09T12:00:00+01:00</published><updated>2017-11-09T12:00:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-09:/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-1.html</id><summary type="html">&lt;script&gt;
+$(function() {
+    $('.toggle').each(function(index) {
+        var toggler = $('&lt;div style="margin: 8px 0; background-color: #E3E0FF; cursor: pointer; padding: 8px;"&gt;Toggle iframe&lt;/div&gt;');
+        toggler.insertBefore($(this));
+        toggler.click(function() {
+            var elt = $(this).next('.toggle');
+            var newElt = $("&lt;iframe&gt;&lt;/iframe&gt;")
+            Array.prototype.slice.call(elt.get(0).attributes).forEach(function(a) {
+                newElt.attr(a …&lt;/script&gt;</summary><content type="html">&lt;script&gt;
+$(function() {
+    $('.toggle').each(function(index) {
+        var toggler = $('&lt;div style="margin: 8px 0; background-color: #E3E0FF; cursor: pointer; padding: 8px;"&gt;Toggle iframe&lt;/div&gt;');
+        toggler.insertBefore($(this));
+        toggler.click(function() {
+            var elt = $(this).next('.toggle');
+            var newElt = $("&lt;iframe&gt;&lt;/iframe&gt;")
+            Array.prototype.slice.call(elt.get(0).attributes).forEach(function(a) {
+                newElt.attr(a.name, a.value);
+            });
+            if (!$(this).hasClass('toggled')) {
+                elt.append(newElt);
+                $(this).addClass('toggled');
+            } else {
+                elt.html('');
+                $(this).removeClass('toggled');
+            }
+        });
+    });
+});
+&lt;/script&gt;
+
+&lt;p&gt;I&amp;#8217;ve been spending way too much time with &lt;a href="http://store.steampowered.com/app/457140/Oxygen_Not_Included/"&gt;Oxygen Not Included&lt;/a&gt;. It&amp;#8217;s a great and addictive base building game with lots of challenges to tackle, though the most interesting component &amp;#8212; for me, at least &amp;#8212; is the way how the game simulates the behavior of gasses, liquids, temperature, and&amp;nbsp;elektricity.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot of water moving around in Oxygen Not Included" src="/images/2017/oni1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Oxygen Not Included is certainly not the only game incorporating similar systems. Minecraft, of course, does the same with water, lava, and redstone (albeit in different ways), and so do other games like Cities: Skylines and the more recent SimCity&amp;nbsp;incarnation:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot of pollution spreading in SimCity" src="/images/2017/sc1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Once you start noticing these systems, you see them popping up everywhere, from simple mobile games like The Sandbox to little &amp;#8220;&lt;a href="https://en.wikipedia.org/wiki/Falling-sand_game"&gt;falling sand&lt;/a&gt;&amp;#8221; web&amp;nbsp;games.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot of The Sandbox" src="/images/2017/sandbox.png"&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Screenshot of a falling sand game" src="/images/2017/sandbox2.png"&gt;&lt;/p&gt;
+&lt;p&gt;Many of these games&amp;#8217; systems are based on the same underlying fundamentals. In this series of articles, I&amp;#8217;ll go through explaining two popular concepts and how they work inside such games: cellular automata, and graphs. As a side goal, I also wanted to take the opportunity to play around a bit with &lt;a href="https://p5js.org/"&gt;p5.js&lt;/a&gt; to visualize and create such&amp;nbsp;systems.&lt;/p&gt;
+&lt;h1&gt;Cellular&amp;nbsp;automata&lt;/h1&gt;
+&lt;p&gt;Cellular automata have been around for quite some time already (originally discovered in the 1940s by Stanislaw Ulam and John von Neumann). A cellular automaton is a &amp;#8220;discrete model, consisting of a regular grid of cells, each in one of a finite number of states&amp;#8221; (&lt;a href="https://en.wikipedia.org/wiki/Cellular_automaton"&gt;Wikipedia&lt;/a&gt;). For each cell, a set of cells called its neighborhood is defined relative to the specified cell. From an initial state, a simulation is started where each new generation is created according to a set of rules that determines the new state of each cell in terms of the current state of the cell and the states of the cells in its neighborhood. In basic terms, this defines a &amp;#8220;main loop&amp;#8221; over our grid as&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;forever&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+  &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;each&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;cell&lt;/span&gt; &lt;span class="k"&gt;in&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;grid&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+    &lt;span class="kd"&gt;get&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;neighborhood&lt;/span&gt;
+    &lt;span class="n"&gt;determine&lt;/span&gt; &lt;span class="n"&gt;state&lt;/span&gt; &lt;span class="k"&gt;for&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;cell&lt;/span&gt; &lt;span class="n"&gt;based&lt;/span&gt; &lt;span class="n"&gt;on&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;cell&lt;/span&gt; &lt;span class="n"&gt;and&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;neighborhood&lt;/span&gt;
+  &lt;span class="n"&gt;swap&lt;/span&gt; &lt;span class="k"&gt;new&lt;/span&gt; &lt;span class="n"&gt;grid&lt;/span&gt; &lt;span class="n"&gt;to&lt;/span&gt; &lt;span class="n"&gt;current&lt;/span&gt; &lt;span class="n"&gt;grid&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That&amp;#8217;s the basic idea, and it&amp;#8217;s this system that is driving all the water, sand, &amp;#8230; systems in the games listed above. Of course, the main interestingsness from using this approach comes from the pieces left to you to plug in,&amp;nbsp;namely:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;How you define the neighborhood of a&amp;nbsp;cell&lt;/li&gt;
+&lt;li&gt;How you define the state of a&amp;nbsp;cell&lt;/li&gt;
+&lt;li&gt;How you define the rules to determine the state in a new&amp;nbsp;generation&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Let&amp;#8217;s start by implementing this basic idea in JavaScript using &lt;a href="https://p5js.org/"&gt;p5.js&lt;/a&gt;. First, let&amp;#8217;s define a &lt;code&gt;Cell&lt;/code&gt; object as&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var Cell = function(parent, col, row) {
+  this.grid = parent;
+  this.col = col;
+  this.row = row;
+  this.reset();
+}
+
+Cell.prototype.reset = function()  {
+  this.state = 0;
+  this.next_state = 0;
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The state we&amp;#8217;re going to keep here is simply one number. We also set aside an attribute to keep track of what the next state is going to be. Note that we could also create a seperate &lt;code&gt;State&lt;/code&gt; object and attach it to the cells, but let&amp;#8217;s keep our representation simple for&amp;nbsp;now.&lt;/p&gt;
+&lt;p&gt;Next up, we define a &lt;code&gt;Grid&lt;/code&gt; object holding the&amp;nbsp;cells:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;var Grid = function(cols, rows, size) {
+  this.cells = new Array(cols);
+  for (var i = 0; i &amp;lt; cols; i++) {
+    this.cells[i] = new Array(rows);
+  }
+  this.cols = cols;
+  this.rows = rows;
+  this.size = size;
+  var self = this;
+  this.visit(function(col, row) {
+    self.cells[col][row] = new Cell(self, col, row);
+  });
+}
+
+Grid.prototype.visit = function(callable) {
+  for (var i = 0; i &amp;lt; this.cols; i++) {
+    for (var j = 0; j &amp;lt; this.rows; j++) {
+      callable(i, j);
+    }
+  }
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Again, there&amp;#8217;s some room for improvement. We&amp;#8217;re mixing representational concepts (&amp;#8220;what is a grid&amp;#8221;) with graphics responsibilities: the &lt;code&gt;size&lt;/code&gt; attribute will be used to determine how large the boxes should be when drawing the grid. We could decouple this, but this is fine for&amp;nbsp;now.&lt;/p&gt;
+&lt;p&gt;Speaking of graphics, let&amp;#8217;s also attach a helper and drawing function directly to our &lt;code&gt;Grid&lt;/code&gt; (again, we could decouple this in a &lt;code&gt;GridDrawer&lt;/code&gt;, but early abstraction is the enemy of getting things&amp;nbsp;done):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.mouseToGrid = function(x, y) {
+  col = floor(x / this.size);
+  row = floor(y / this.size);
+  return [col, row];
+}
+
+Grid.prototype.draw = function() {
+  var self = this;
+  this.visit(function(col, row) {
+    var cell = self.cells[col][row];
+    var clr = color(floor((1 - cell.state)*255))
+    fill(clr); 
+    stroke(10);
+    rect(col*self.size, row*self.size, self.size-1, self.size-1);
+  });
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The way how we&amp;#8217;ll draw our grid is very simple for now: a state of 1 (which we&amp;#8217;ll assume as our maximum value) is drawn as a black square, and a state of 0 (our minimum) as a white square, with greyscale values in&amp;nbsp;between.&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s also define a function to get a neighborhood of cells for a certain column/row position. The way how we&amp;#8217;ll do so is by taking a standard &lt;a href="https://en.wikipedia.org/wiki/Von_Neumann_neighborhood"&gt;Von Neumann neighborhood&lt;/a&gt;, returning the cell itself, and its up, down, left, and right&amp;nbsp;neighbors:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.neighborhood = function(col, row) {
+  var n = {};
+  n.me = this.cells[col][row];
+  n.left = col &amp;gt; 0 ? this.cells[col-1][row] : null;
+  n.right = col &amp;lt; (this.cols - 1) ? this.cells[col+1][row] : null;
+  n.up = row &amp;gt; 0 ? this.cells[col][row-1] : null;
+  n.down = row &amp;lt; (this.rows -1) ? this.cells[col][row+1] : null;
+  return n;
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Finally, we need a method that will go over all cells and determine their next state based on a user-supplied rule&amp;nbsp;method:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.update = function(callable) {
+  var self = this;
+  this.visit(function(col, row) {
+    callable(self.neighborhood(col, row))
+  });
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And we also need a method to finish the&amp;nbsp;generation:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.finish = function(callable) {
+  var self = this;
+  this.visit(function(col, row) {
+    var cell = self.cells[col][row];
+    cell.state = cell.next_state;
+  });
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h1&gt;Exploring some simple&amp;nbsp;systems&lt;/h1&gt;
+&lt;p&gt;We&amp;#8217;re now ready to start exploring some simple systems. The most basic rule set we can come up with is to &amp;#8220;keep everything the same&amp;#8221;, so for every &amp;#8220;tick&amp;#8221; where we calculate a new generation, we just&amp;nbsp;do:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function tick() {
+  grid.update(function(neighborhood) {
+    // Next state will be the same as the current one
+    neighborhood.me.next_state = neighborhood.me.state
+  });
+  grid.finish();
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Try this out below. Drag the mouse to change the state for the cells. Even though this simulation is running, nothing interesting is really happening&amp;nbsp;here:&lt;/p&gt;
+&lt;div src="/iframes/cellular/index.firstexample.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="320"&gt;&lt;/div&gt;
+
+&lt;p&gt;What happens if we try a rule where the state of each next cell is set to the state of the cell on its&amp;nbsp;left:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function tick() {
+  grid.update(function(neighborhood) {
+    neighborhood.me.next_state = neighborhood.left ?
+      neighborhood.left.state : 0;
+  });
+  grid.finish();
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;div src="/iframes/cellular/index.secondexample.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="320"&gt;&lt;/div&gt;
+
+&lt;p&gt;As a more interesting rule set, we can use the famous &amp;#8220;&lt;a href="https://en.wikipedia.org/wiki/Conway%27s_Game_of_Life"&gt;Game of Life&lt;/a&gt;&amp;#8221; which defines the following&amp;nbsp;rules:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Any live cell with fewer than two live neighbours dies, as if caused by&amp;nbsp;underpopulation.&lt;/li&gt;
+&lt;li&gt;Any live cell with two or three live neighbours lives on to the next&amp;nbsp;generation.&lt;/li&gt;
+&lt;li&gt;Any live cell with more than three live neighbours dies, as if by&amp;nbsp;overpopulation.&lt;/li&gt;
+&lt;li&gt;Any dead cell with exactly three live neighbours becomes a live cell, as if by&amp;nbsp;reproduction.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;To make this work, we first need to change our neighborhood definition to include diagonals (called a &lt;a href="https://en.wikipedia.org/wiki/Moore_neighborhood"&gt;Moore neighborhood&lt;/a&gt;) and to &amp;#8220;wrap around&amp;#8221; the grid. We don&amp;#8217;t need to return all the cells themselves, however, the current cell and a count of its live neighbors is&amp;nbsp;enough:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Grid.prototype.neighborhood = function(col, row) {
+  var n = {};
+  n.me = this.cells[col][row];
+  n.live_neighbors = 0;
+  for (var c = col-1; c &amp;lt;= col+1; c++) {
+    for (var r = row-1; r &amp;lt;= row+1; r++) {
+      if (c == col &amp;amp;&amp;amp; r == row)
+        continue;
+      // Wrap around the grid
+      var wrapped_col = c;
+      var wrapped_row = r;
+      if (wrapped_col &amp;lt; 0) wrapped_col = this.cols-1;
+      if (wrapped_row &amp;lt; 0) wrapped_row = this.rows-1;
+      if (wrapped_col &amp;gt; this.cols-1) wrapped_col = 0;
+      if (wrapped_row &amp;gt; this.rows-1) wrapped_row = 0;
+      n.live_neighbors += this.cells[wrapped_col][wrapped_row].state;
+    }
+  }
+  return n;
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can then use this in our tick function as&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;function tick() {
+  grid.update(function(neighborhood) {
+    if (neighborhood.me.state) {
+      // Any live cell with fewer than two live neighbours dies
+      if (neighborhood.live_neighbors &amp;lt; 2)
+        neighborhood.me.next_state = 0;
+      // Any live cell with two or three live neighbours lives on
+      if (neighborhood.live_neighbors == 2 || neighborhood.live_neighbors == 3)
+        neighborhood.me.next_state = 1;
+      // Any live cell with more than three live neighbours dies
+      if (neighborhood.live_neighbors &amp;gt; 3)
+        neighborhood.me.next_state = 0;
+    } else {
+      // Any dead cell with exactly three live neighbours becomes a live cell
+      if (neighborhood.live_neighbors === 3)
+        neighborhood.me.next_state = 1;
+    }    
+  });
+  grid.finish();
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which gives us the following result (try scribbling over the&amp;nbsp;grid):&lt;/p&gt;
+&lt;div src="/iframes/cellular/index.gameoflife.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="320"&gt;&lt;/div&gt;
+
+&lt;h1&gt;A more complicated&amp;nbsp;example&lt;/h1&gt;
+&lt;p&gt;Let&amp;#8217;s try implementing a more involved cellular automaton, we&amp;#8217;re going to implement &lt;a href="https://en.wikipedia.org/wiki/Wireworld"&gt;Wireworld&lt;/a&gt;, a cellular automaton first proposed by Brian Silverman in 1987 and particularly suited to simulating electronic logic elements, or &amp;#8220;gates&amp;#8221;. Wireworld is Turing-complete, even, meaning that you could simulate a full computer system with&amp;nbsp;it.&lt;/p&gt;
+&lt;p&gt;We need to make the following changes. Cells can now have four distinct&amp;nbsp;states:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Empty&lt;/li&gt;
+&lt;li&gt;Electron head (drawn in&amp;nbsp;blue)&lt;/li&gt;
+&lt;li&gt;Electron tail (drawn in&amp;nbsp;red)&lt;/li&gt;
+&lt;li&gt;Conductor, a wire (drawn in&amp;nbsp;yellow)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The rule set is as&amp;nbsp;follows:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Empty cells stay&amp;nbsp;empty&lt;/li&gt;
+&lt;li&gt;Electron heads become electron&amp;nbsp;tails&lt;/li&gt;
+&lt;li&gt;Electron tails become&amp;nbsp;conductors&lt;/li&gt;
+&lt;li&gt;Conductor become an electron head if exactly one or two of the neighbouring cells are electron heads, otherwise remains&amp;nbsp;conductor&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The neighborhood again includes diagonal cells, but we&amp;#8217;re not going to wrap around the grid. The implemented example looks as follows (press &lt;code&gt;p&lt;/code&gt; to pause the simulation so you can draw freely &amp;#8212; you might need to click in the iframe first to give it&amp;nbsp;focus):&lt;/p&gt;
+&lt;div src="/iframes/cellular/index.wireworld.html"
+    class="toggle" scrolling="no" frameborder="0" width="520" height="320"&gt;&lt;/div&gt;</content></entry><entry><title>And Now, Time for a Rant</title><link href="http://blog.macuyiko.com/post/2017/and-now-time-for-a-rant.html" rel="alternate"></link><published>2017-11-08T08:18:00+01:00</published><updated>2017-11-08T08:18:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-08:/post/2017/and-now-time-for-a-rant.html</id><summary type="html">&lt;p&gt;I&amp;#8217;ve been interested in computing since I was a kid. The ability to tinker with the internals of a machine, the brutalism of &lt;span class="caps"&gt;DOS&lt;/span&gt;, Windows 3.1 and Windows 95&amp;#8217;s interfaces (those big grey buttons). It was a great time for young persons to get started with &lt;span class="caps"&gt;IT …&lt;/span&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;I&amp;#8217;ve been interested in computing since I was a kid. The ability to tinker with the internals of a machine, the brutalism of &lt;span class="caps"&gt;DOS&lt;/span&gt;, Windows 3.1 and Windows 95&amp;#8217;s interfaces (those big grey buttons). It was a great time for young persons to get started with &lt;span class="caps"&gt;IT&lt;/span&gt;, computer science, programming. A great time to actually &lt;em&gt;create&lt;/em&gt; something using a completely new medium, a digital&amp;nbsp;canvas.&lt;/p&gt;
 &lt;p&gt;Today, a lot of things have changed. Many for the better, as you could argue, but it seems to me that computing today is just not the &amp;#8220;same&amp;#8221; anymore. The web has come around. Everything has to be touch and haptic, 500ms animations all over the place, hiding away the complexities behind, but also the potential for discovery, learning, and true&amp;nbsp;creativity.&lt;/p&gt;
 &lt;p&gt;Over the past week or so, I&amp;#8217;ve been jotting down a list of small annoyances. Not one of these is really a deal breaking on its own, but put together, it is clear to me that a lot of things have changed. And I&amp;#8217;m not the only one that thinks&amp;nbsp;so.&lt;/p&gt;
 &lt;h2&gt;On Windows and&amp;nbsp;Interfaces&lt;/h2&gt;
