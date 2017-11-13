@@ -9,10 +9,6 @@
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
-<<<<<<< HEAD
-	<script src="/theme/js/jquery-3.2.1.min.js"></script>
-=======
->>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
 	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
@@ -232,7 +228,6 @@ Grid.prototype.draw = function() {
 
 <h1>Exploring some simple&nbsp;systems</h1>
 <p>We&#8217;re now ready to start exploring some simple systems. The most basic rule set we can come up with is to &#8220;keep everything the same&#8221;, so for every &#8220;tick&#8221; where we calculate a new generation, we just&nbsp;do:</p>
-<<<<<<< HEAD
 <div class="highlight"><pre><span></span>function tick() {
   grid.update(function(neighborhood) {
     // Next state will be the same as the current one
@@ -240,15 +235,6 @@ Grid.prototype.draw = function() {
   });
   grid.finish();
 }
-=======
-<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">tick() {</span>
-  <span class="nx">grid</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">neighborhood</span><span class="p">)</span> <span class="p">{</span>
-    <span class="c1">// Next state will be the same as the current one</span>
-    <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">me</span><span class="p">.</span><span class="nx">next_state</span> <span class="o">=</span> <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">me</span><span class="p">.</span><span class="nx">state</span>
-  <span class="p">});</span>
-  <span class="nx">grid</span><span class="p">.</span><span class="nx">finish</span><span class="p">();</span>
-<span class="p">}</span>
->>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 </pre></div>
 
 
@@ -257,7 +243,6 @@ Grid.prototype.draw = function() {
     class="toggle" scrolling="no" frameborder="0" width="520" height="320"></div>
 
 <p>What happens if we try a rule where the state of each next cell is set to the state of the cell on its&nbsp;left:</p>
-<<<<<<< HEAD
 <div class="highlight"><pre><span></span>function tick() {
   grid.update(function(neighborhood) {
     neighborhood.me.next_state = neighborhood.left ?
@@ -265,15 +250,6 @@ Grid.prototype.draw = function() {
   });
   grid.finish();
 }
-=======
-<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">tick() {</span>
-  <span class="nx">grid</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">neighborhood</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">me</span><span class="p">.</span><span class="nx">next_state</span> <span class="o">=</span> <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">left</span> <span class="o">?</span>
-      <span class="nx">neighborhood.left.state</span> : <span class="kt">0</span><span class="p">;</span>
-  <span class="p">});</span>
-  <span class="nx">grid</span><span class="p">.</span><span class="nx">finish</span><span class="p">();</span>
-<span class="p">}</span>
->>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 </pre></div>
 
 
@@ -312,7 +288,6 @@ Grid.prototype.draw = function() {
 
 
 <p>We can then use this in our tick function as&nbsp;follows:</p>
-<<<<<<< HEAD
 <div class="highlight"><pre><span></span>function tick() {
   grid.update(function(neighborhood) {
     if (neighborhood.me.state) {
@@ -333,28 +308,6 @@ Grid.prototype.draw = function() {
   });
   grid.finish();
 }
-=======
-<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">tick() {</span>
-  <span class="nx">grid</span><span class="p">.</span><span class="nx">update</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">neighborhood</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">neighborhood</span><span class="p">.</span><span class="nx">me</span><span class="p">.</span><span class="nx">state</span><span class="p">)</span> <span class="p">{</span>
-      <span class="c1">// Any live cell with fewer than two live neighbours dies</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">neighborhood</span><span class="p">.</span><span class="nx">live_neighbors</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">me</span><span class="p">.</span><span class="nx">next_state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-      <span class="c1">// Any live cell with two or three live neighbours lives on</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">neighborhood</span><span class="p">.</span><span class="nx">live_neighbors</span> <span class="o">==</span> <span class="mi">2</span> <span class="o">||</span> <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">live_neighbors</span> <span class="o">==</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">me</span><span class="p">.</span><span class="nx">next_state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-      <span class="c1">// Any live cell with more than three live neighbours dies</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">neighborhood</span><span class="p">.</span><span class="nx">live_neighbors</span> <span class="o">&gt;</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">me</span><span class="p">.</span><span class="nx">next_state</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-      <span class="c1">// Any dead cell with exactly three live neighbours becomes a live cell</span>
-      <span class="k">if</span> <span class="p">(</span><span class="nx">neighborhood</span><span class="p">.</span><span class="nx">live_neighbors</span> <span class="o">===</span> <span class="mi">3</span><span class="p">)</span>
-        <span class="nx">neighborhood</span><span class="p">.</span><span class="nx">me</span><span class="p">.</span><span class="nx">next_state</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
-    <span class="p">}</span>    
-  <span class="p">});</span>
-  <span class="nx">grid</span><span class="p">.</span><span class="nx">finish</span><span class="p">();</span>
-<span class="p">}</span>
->>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 </pre></div>
 
 
@@ -381,8 +334,6 @@ Grid.prototype.draw = function() {
 <p>The neighborhood again includes diagonal cells, but we&#8217;re not going to wrap around the grid. The implemented example looks as follows (press <code>p</code> to pause the simulation so you can draw freely &#8212; you might need to click in the iframe first to give it&nbsp;focus):</p>
 <div src="/iframes/cellular/index.wireworld.html"
     class="toggle" scrolling="no" frameborder="0" width="520" height="320"></div>
-<<<<<<< HEAD
-=======
 
 <h1>Finishing&nbsp;up</h1>
 <p>Cellular automata are very versatile indeed. As a final example, let us consider <a href="https://en.wikipedia.org/wiki/Langton%27s_ant">Langton&#8217;s Ant</a>. This can be modelled as a discrete agent walking over a grid, but as the Wikipedia page mentions, it&#8217;s possible to formulate the behavior by means of a cellular automaton as well. Our state now&nbsp;encodes:</p>
@@ -404,7 +355,6 @@ Grid.prototype.draw = function() {
     class="toggle" scrolling="no" frameborder="0" width="520" height="520"></div>
 
 <p>That&#8217;s enough for the first part in this series. In the next part, we&#8217;ll use the building blocks we&#8217;ve constructed and explored so far, and start taking a look at using cellular automata to simulate water, sand, lava, and so on, as is done in several&nbsp;games.</p>
->>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 	</article>
 </div>
 		

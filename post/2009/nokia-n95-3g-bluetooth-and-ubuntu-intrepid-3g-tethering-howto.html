@@ -9,10 +9,6 @@
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
-<<<<<<< HEAD
-	<script src="/theme/js/jquery-3.2.1.min.js"></script>
-=======
->>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
 	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
@@ -94,7 +90,7 @@
 <p>Output&nbsp;example:</p>
 <div class="highlight"><pre><span></span>$ hcitool scan
 Scanning ...
-<span class="m">00</span>:1C:9A:26:F5:DD Macuyiko N95
+00:1C:9A:26:F5:DD Macuyiko N95
 </pre></div>
 
 
@@ -106,8 +102,8 @@ Scanning ...
 
 <p>Replace <span class="caps">MAC</span> with your phone&#8217;s <span class="caps">MAC</span>&nbsp;address.</p>
 <p>Output&nbsp;example:</p>
-<div class="highlight"><pre><span></span>$ sudo sdptool search --bdaddr <span class="m">00</span>:1C:9A:26:F5:DD DUN <span class="p">|</span> grep Channel
-Channel: <span class="m">4</span>
+<div class="highlight"><pre><span></span>$ sudo sdptool search --bdaddr 00:1C:9A:26:F5:DD DUN <span class="p">|</span> grep Channel
+Channel: 4
 </pre></div>
 
 
@@ -165,8 +161,8 @@ CONNECT &quot;&quot;
 
 <p>Replace <code>RFCOMM#</code> with the <code>/dev/rfcomm</code>-number you&#8217;ve used before (only the number!), I&#8217;ve used 1. <code>MAC</code> is your phone&#8217;s <span class="caps">MAC</span> address again, and <code>CHANNEL</code> is the channel you found&nbsp;earlier.</p>
 <p>If all went well it should&nbsp;say:</p>
-<div class="highlight"><pre><span></span>$ rfcomm connect <span class="m">1</span> <span class="m">00</span>:1C:9A:26:F5:DD <span class="m">4</span>
-Connected /dev/rfcomm1 to <span class="m">00</span>:1C:9A:26:F5:DD on channel <span class="m">4</span>
+<div class="highlight"><pre><span></span>$ rfcomm connect <span class="m">1</span> 00:1C:9A:26:F5:DD 4
+Connected /dev/rfcomm1 to 00:1C:9A:26:F5:DD on channel 4
 Press CTRL-C <span class="k">for</span> hangup
 </pre></div>
 
@@ -185,7 +181,7 @@ Press CTRL-C <span class="k">for</span> hangup
     RX packets:3 errors:0 dropped:0 overruns:0 frame:0
     TX packets:4 errors:0 dropped:0 overruns:0 carrier:0
     collisions:0 txqueuelen:3
-    RX bytes:54 <span class="o">(</span><span class="m">54</span>.0 B<span class="o">)</span>  TX bytes:69 <span class="o">(</span><span class="m">69</span>.0 B<span class="o">)</span><span class="sb">`</span>
+    RX bytes:54 <span class="o">(</span>54.0 B<span class="o">)</span>  TX bytes:69 <span class="o">(</span>69.0 B<span class="o">)</span><span class="sb">`</span>
 </pre></div>
 
 
