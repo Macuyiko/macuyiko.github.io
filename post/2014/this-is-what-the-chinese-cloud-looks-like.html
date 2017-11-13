@@ -9,7 +9,10 @@
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+<<<<<<< HEAD
 	<script src="/theme/js/jquery-3.2.1.min.js"></script>
+=======
+>>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
 	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
@@ -274,43 +277,43 @@ REQ_HEADER = {&quot;cmd&quot;:&quot;&quot;,
 
 
 <p>Now, we can start with setting up a base class on top of which we&#8217;ll implement all request&nbsp;types:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">BaseWeiyun</span>(<span class="n">object</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">endpoint</span>, <span class="n">cmd</span>):
-        <span class="k">self</span>.<span class="n">base</span> = <span class="s">&#39;http://web.cgi.weiyun.com&#39;</span>
-        <span class="k">self</span>.<span class="n">endpoint</span> = <span class="n">endpoint</span>
-        <span class="k">self</span>.<span class="n">cmd</span> = <span class="n">cmd</span>
-        <span class="k">self</span>.<span class="n">data</span> = {<span class="s">&quot;req_header&quot;</span>:<span class="n">REQ_HEADER</span>,
-                    <span class="s">&quot;req_body&quot;</span>:{}}
-        <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_header&quot;</span>][<span class="s">&quot;cmd&quot;</span>] = <span class="n">cmd</span>
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">BaseWeiyun</span><span class="p">(</span><span class="nx">object</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">=</span> <span class="s1">&#39;http://web.cgi.weiyun.com&#39;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">endpoint</span> <span class="o">=</span> <span class="nx">endpoint</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">cmd</span> <span class="o">=</span> <span class="nx">cmd</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;req_header&quot;</span><span class="o">:</span><span class="nx">REQ_HEADER</span><span class="p">,</span>
+                    <span class="s2">&quot;req_body&quot;</span><span class="o">:</span><span class="p">{}}</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_header&quot;</span><span class="p">][</span><span class="s2">&quot;cmd&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nx">cmd</span>
 
-    <span class="n">def</span> <span class="n">get_response</span>(<span class="k">self</span>):
-        <span class="n">url</span> = <span class="k">self</span>.<span class="n">base</span> + <span class="k">self</span>.<span class="n">endpoint</span>
-        <span class="n">payload</span> = <span class="k">self</span>.<span class="n">get_payload</span>()
-        <span class="n">r</span> = <span class="n">requests</span>.<span class="n">get</span>(<span class="n">url</span>, <span class="n">cookies</span>=<span class="n">COOKIES</span>, <span class="n">params</span>=<span class="n">payload</span>, <span class="n">headers</span>=<span class="n">HEADERS</span>)
-        <span class="n">response</span> = <span class="n">r</span>.<span class="n">text</span>\
-            .<span class="n">replace</span>(<span class="s">&#39;try{&#39;</span>+<span class="n">get_ordered_tuple</span>(<span class="n">payload</span>,<span class="s">&quot;callback&quot;</span>)+<span class="s">&#39;(&#39;</span>, <span class="s">&#39;&#39;</span>)\
-            .<span class="n">replace</span>(<span class="s">&#39;)} catch(e){};&#39;</span>, <span class="s">&#39;&#39;</span>)\
-            .<span class="n">replace</span>(<span class="s">&#39;)}catch(e){};&#39;</span>, <span class="s">&#39;&#39;</span>);
-        <span class="k">return</span> <span class="n">json</span>.<span class="n">loads</span>(<span class="n">response</span>)
+    <span class="nx">def</span> <span class="nx">get_response</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">endpoint</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_payload</span><span class="p">()</span>
+        <span class="nx">r</span> <span class="o">=</span> <span class="nx">requests</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">cookies</span><span class="o">=</span><span class="nx">COOKIES</span><span class="p">,</span> <span class="nx">params</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">headers</span><span class="o">=</span><span class="nx">HEADERS</span><span class="p">)</span>
+        <span class="nx">response</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;try{&#39;</span><span class="o">+</span><span class="nx">get_ordered_tuple</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span><span class="s2">&quot;callback&quot;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;)} catch(e){};&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;)}catch(e){};&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">json</span><span class="p">.</span><span class="nx">loads</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
 
-    <span class="n">def</span> <span class="n">get_payload</span>(<span class="k">self</span>, <span class="n">isPost</span>=<span class="nb">False</span>):
-        <span class="n">ruuid</span> = <span class="n">str</span>(<span class="n">uuid</span>.<span class="n">uuid4</span>()).<span class="n">upper</span>().<span class="n">replace</span>(<span class="s">&#39;-&#39;</span>, <span class="s">&#39;_&#39;</span>)
-        <span class="nb">prefix</span> = <span class="s">&#39;post_callback&#39;</span> <span class="k">if</span> <span class="n">isPost</span> <span class="k">else</span> <span class="s">&#39;get&#39;</span>
-        <span class="n">payload</span> = ((<span class="s">&#39;cmd&#39;</span>, <span class="k">self</span>.<span class="n">cmd</span>),
-            (<span class="s">&#39;g_tk&#39;</span>, <span class="n">GTK</span>),
-            (<span class="s">&#39;callback&#39;</span>, <span class="nb">prefix</span>+<span class="s">&#39;_&#39;</span>+<span class="n">ruuid</span>),
-            (<span class="s">&#39;data&#39;</span>, <span class="n">json</span>.<span class="n">dumps</span>(<span class="k">self</span>.<span class="n">data</span>)),
-            (<span class="s">&#39;_&#39;</span>, <span class="n">str</span>(<span class="n">current_milli_time</span>())))
-        <span class="k">return</span> <span class="n">payload</span>;
+    <span class="nx">def</span> <span class="nx">get_payload</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">isPost</span><span class="o">=</span><span class="nx">False</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">ruuid</span> <span class="o">=</span> <span class="nx">str</span><span class="p">(</span><span class="nx">uuid</span><span class="p">.</span><span class="nx">uuid4</span><span class="p">()).</span><span class="nx">upper</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">)</span>
+        <span class="nx">prefix</span> <span class="o">=</span> <span class="s1">&#39;post_callback&#39;</span> <span class="k">if</span> <span class="nx">isPost</span> <span class="k">else</span> <span class="s1">&#39;get&#39;</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;cmd&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">cmd</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;g_tk&#39;</span><span class="p">,</span> <span class="nx">GTK</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;callback&#39;</span><span class="p">,</span> <span class="nx">prefix</span><span class="o">+</span><span class="s1">&#39;_&#39;</span><span class="o">+</span><span class="nx">ruuid</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">dumps</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="nx">str</span><span class="p">(</span><span class="nx">current_milli_time</span><span class="p">())))</span>
+        <span class="k">return</span> <span class="nx">payload</span><span class="p">;</span>
 </pre></div>
 
 
 <p>The first request we&#8217;re going to implement is the &#8220;query user&#8221; command. After logging in the web app, this is the first request which will be executed to fetch some basic user info and&nbsp;stats:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">QueryUser</span>(<span class="n">BaseWeiyun</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>):
-        <span class="n">endpoint</span> = <span class="s">&#39;/wy_web_jsonp.fcg&#39;</span>
-        <span class="n">cmd</span> = <span class="s">&#39;query_user&#39;</span>
-        <span class="n">super</span>(<span class="n">QueryUser</span>, <span class="k">self</span>).<span class="n">__init__</span>(<span class="n">endpoint</span>, <span class="n">cmd</span>)
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">QueryUser</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/wy_web_jsonp.fcg&#39;</span>
+        <span class="nx">cmd</span> <span class="o">=</span> <span class="s1">&#39;query_user&#39;</span>
+        <span class="kr">super</span><span class="p">(</span><span class="nx">QueryUser</span><span class="p">,</span> <span class="nx">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span>
 </pre></div>
 
 
@@ -404,11 +407,11 @@ print jsonprint(req.get_response())
 
 <p>I love this example because it already shows how many limitations and extra flags there are in place. <code>MaxFileAndFolderCnt</code>, <code>dir_level_max</code>, <code>filename_max_len</code>, <code>max_dir_file</code>, <code>vip_level</code>? Interesting, and all a sign that it might not be easy to fill up this <span class="caps">20TB</span> even if you&#8217;d&nbsp;try.</p>
 <p>The next class implements the &#8220;root dir list&#8221;&nbsp;command:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">RootDirList</span>(<span class="n">BaseWeiyun</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>):
-        <span class="n">endpoint</span> = <span class="s">&#39;/weiyun_web_root_dir_list_cgi.fcg&#39;</span>
-        <span class="n">cmd</span> = <span class="s">&#39;root_dir_list&#39;</span>
-        <span class="n">super</span>(<span class="n">RootDirList</span>, <span class="k">self</span>).<span class="n">__init__</span>(<span class="n">endpoint</span>, <span class="n">cmd</span>)
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">RootDirList</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/weiyun_web_root_dir_list_cgi.fcg&#39;</span>
+        <span class="nx">cmd</span> <span class="o">=</span> <span class="s1">&#39;root_dir_list&#39;</span>
+        <span class="kr">super</span><span class="p">(</span><span class="nx">RootDirList</span><span class="p">,</span> <span class="nx">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span>
 </pre></div>
 
 
@@ -456,16 +459,16 @@ print jsonprint(req.get_response())
 
 <p>Interestingly, we see that folders are characterized by an <span class="caps">MD5</span>-looking key, whereas files have a <span class="caps">UUID</span>-looking identifier, as well as <span class="caps">MD5</span> and <span class="caps">SHA1</span>&nbsp;hashes.</p>
 <p>The next command retrieves a similar listing, but for any&nbsp;directory:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">GetDirList</span>(<span class="n">BaseWeiyun</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">dirkey</span>, <span class="n">parentdirkey</span>):
-        <span class="n">endpoint</span> = <span class="s">&#39;/wy_web_jsonp.fcg&#39;</span>
-        <span class="n">cmd</span> = <span class="s">&#39;get_dir_list&#39;</span>
-        <span class="n">super</span>(<span class="n">GetDirList</span>, <span class="k">self</span>).<span class="n">__init__</span>(<span class="n">endpoint</span>, <span class="n">cmd</span>)
-        <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>] = {
-                <span class="s">&quot;pdir_key&quot;</span>:<span class="n">parentdirkey</span>,
-                <span class="s">&quot;dir_key&quot;</span>:<span class="n">dirkey</span>,
-                <span class="s">&quot;dir_mtime&quot;</span>:<span class="s">&quot;2000-01-01 01:01:01&quot;</span>,
-                <span class="s">&quot;only_dir&quot;</span>:<span class="mi">0</span>}
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">GetDirList</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">dirkey</span><span class="p">,</span> <span class="nx">parentdirkey</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/wy_web_jsonp.fcg&#39;</span>
+        <span class="nx">cmd</span> <span class="o">=</span> <span class="s1">&#39;get_dir_list&#39;</span>
+        <span class="kr">super</span><span class="p">(</span><span class="nx">GetDirList</span><span class="p">,</span> <span class="nx">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="s2">&quot;pdir_key&quot;</span><span class="o">:</span><span class="nx">parentdirkey</span><span class="p">,</span>
+                <span class="s2">&quot;dir_key&quot;</span><span class="o">:</span><span class="nx">dirkey</span><span class="p">,</span>
+                <span class="s2">&quot;dir_mtime&quot;</span><span class="o">:</span><span class="s2">&quot;2000-01-01 01:01:01&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;only_dir&quot;</span><span class="o">:</span><span class="mi">0</span><span class="p">}</span>
 </pre></div>
 
 
@@ -527,142 +530,142 @@ print jsonprint(req.get_response())
 
 <p>Which works. Fun tip: you might have noticed that there is a pattern occurring for the folder keys. At this point, you might be wondering if this special root directory is a global one (with all users&#8217; main directories under this one) and whether it is possible to access other user&#8217;s contents (i.e. whether the server-side checks your credentials). I tested this by setting up a second <span class="caps">QQ</span> account, and no, this attack does not&nbsp;work.</p>
 <p>Next, we&#8217;ll implement a class to create&nbsp;directories:</p>
-<div class="highlight"><pre><span></span>class DirCreate(BaseWeiyun):
-    def __init__(self, dirname, parentdirkey, parentparentdirkey):
-        endpoint = &#39;/wy_web_jsonp.fcg&#39;
-        cmd = &#39;dir_create&#39;
-        super(DirCreate, self).__init__(endpoint, cmd)
-        self.data[&quot;req_body&quot;] = {
-            &quot;ppdir_key&quot;: parentparentdirkey,
-            &quot;pdir_key&quot;: parentdirkey,
-            &quot;dir_attr&quot;: {&quot;dir_name&quot;:dirname, &quot;dir_note&quot;:&quot;&quot;}}
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">DirCreate</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">dirname</span><span class="p">,</span> <span class="nx">parentdirkey</span><span class="p">,</span> <span class="nx">parentparentdirkey</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/wy_web_jsonp.fcg&#39;</span>
+        <span class="nx">cmd</span> <span class="o">=</span> <span class="s1">&#39;dir_create&#39;</span>
+        <span class="kr">super</span><span class="p">(</span><span class="nx">DirCreate</span><span class="p">,</span> <span class="nx">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;ppdir_key&quot;</span><span class="o">:</span> <span class="nx">parentparentdirkey</span><span class="p">,</span>
+            <span class="s2">&quot;pdir_key&quot;</span><span class="o">:</span> <span class="nx">parentdirkey</span><span class="p">,</span>
+            <span class="s2">&quot;dir_attr&quot;</span><span class="o">:</span> <span class="p">{</span><span class="s2">&quot;dir_name&quot;</span><span class="o">:</span><span class="nx">dirname</span><span class="p">,</span> <span class="s2">&quot;dir_note&quot;</span><span class="o">:</span><span class="s2">&quot;&quot;</span><span class="p">}}</span>
 
-    def get_response(self):
-        url = self.base + self.endpoint
-        payload = self.get_payload(True)
-        r = requests.post(url, cookies=COOKIES, params=payload, data=payload, headers=HEADERS)
-        response = r.text\
-            .replace(&#39;<span class="nt">&lt;script&gt;</span>document.domain=&quot;weiyun.com&quot;;&#39;+\
-                &#39;try{parent.&#39;+get_ordered_tuple(payload,&quot;callback&quot;)+&#39;(&#39;, &#39;&#39;)\
-            .replace(&#39;)} catch(e){};<span class="nt">&lt;/script&gt;</span>&#39;, &#39;&#39;);
-        return json.loads(response)
+    <span class="nx">def</span> <span class="nx">get_response</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">endpoint</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_payload</span><span class="p">(</span><span class="nx">True</span><span class="p">)</span>
+        <span class="nx">r</span> <span class="o">=</span> <span class="nx">requests</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">cookies</span><span class="o">=</span><span class="nx">COOKIES</span><span class="p">,</span> <span class="nx">params</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">data</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">headers</span><span class="o">=</span><span class="nx">HEADERS</span><span class="p">)</span>
+        <span class="nx">response</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;&lt;script&gt;document.domain=&quot;weiyun.com&quot;;&#39;</span><span class="o">+\</span>
+                <span class="s1">&#39;try{parent.&#39;</span><span class="o">+</span><span class="nx">get_ordered_tuple</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span><span class="s2">&quot;callback&quot;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;)} catch(e){};&lt;/script&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">json</span><span class="p">.</span><span class="nx">loads</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
 </pre></div>
 
 
 <p>Note that this class executes a <span class="caps">POST</span> request. The <span class="caps">JSONP</span> responses look a bit different, which is why we extend the <code>get_response</code> function.</p>
 <p>Next up, classes to remove files and folders, which work in a similar manner but accept a list of names and&nbsp;keys:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">BatchFolderDelete</span>(<span class="n">BaseWeiyun</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">dirnames</span>, <span class="n">dirkeys</span>, <span class="n">parentdirkeys</span>, <span class="n">parentparentdirkeys</span>):
-        <span class="n">endpoint</span> = <span class="s">&#39;/wy_web_jsonp.fcg&#39;</span>
-        <span class="n">cmd</span> = <span class="s">&#39;batch_folder_delete&#39;</span>
-        <span class="n">super</span>(<span class="n">BatchFolderDelete</span>, <span class="k">self</span>).<span class="n">__init__</span>(<span class="n">endpoint</span>, <span class="n">cmd</span>)
-        <span class="n">dellist</span> = []
-        <span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="n">range</span>(<span class="mi">0</span>, <span class="n">len</span>(<span class="n">dirnames</span>)):
-            <span class="n">dellist</span>.<span class="n">append</span>({<span class="s">&quot;ppdir_key&quot;</span>:<span class="n">parentparentdirkeys</span>[<span class="n">i</span>],
-                            <span class="s">&quot;pdir_key&quot;</span>:<span class="n">parentdirkeys</span>[<span class="n">i</span>],
-                            <span class="s">&quot;dir_key&quot;</span>:<span class="n">dirkeys</span>[<span class="n">i</span>],
-                            <span class="s">&quot;flag&quot;</span>:<span class="mi">1</span>,
-                            <span class="s">&quot;dir_name&quot;</span>:<span class="n">dirnames</span>[<span class="n">i</span>]})
-        <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>] = {<span class="s">&quot;del_folders&quot;</span>: <span class="n">dellist</span>}
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">BatchFolderDelete</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">dirnames</span><span class="p">,</span> <span class="nx">dirkeys</span><span class="p">,</span> <span class="nx">parentdirkeys</span><span class="p">,</span> <span class="nx">parentparentdirkeys</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/wy_web_jsonp.fcg&#39;</span>
+        <span class="nx">cmd</span> <span class="o">=</span> <span class="s1">&#39;batch_folder_delete&#39;</span>
+        <span class="kr">super</span><span class="p">(</span><span class="nx">BatchFolderDelete</span><span class="p">,</span> <span class="nx">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span>
+        <span class="nx">dellist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">len</span><span class="p">(</span><span class="nx">dirnames</span><span class="p">))</span><span class="o">:</span>
+            <span class="nx">dellist</span><span class="p">.</span><span class="nx">append</span><span class="p">({</span><span class="s2">&quot;ppdir_key&quot;</span><span class="o">:</span><span class="nx">parentparentdirkeys</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+                            <span class="s2">&quot;pdir_key&quot;</span><span class="o">:</span><span class="nx">parentdirkeys</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+                            <span class="s2">&quot;dir_key&quot;</span><span class="o">:</span><span class="nx">dirkeys</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+                            <span class="s2">&quot;flag&quot;</span><span class="o">:</span><span class="mi">1</span><span class="p">,</span>
+                            <span class="s2">&quot;dir_name&quot;</span><span class="o">:</span><span class="nx">dirnames</span><span class="p">[</span><span class="nx">i</span><span class="p">]})</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;del_folders&quot;</span><span class="o">:</span> <span class="nx">dellist</span><span class="p">}</span>
 
-    <span class="n">def</span> <span class="n">get_response</span>(<span class="k">self</span>):
-        <span class="n">url</span> = <span class="k">self</span>.<span class="n">base</span> + <span class="k">self</span>.<span class="n">endpoint</span>
-        <span class="n">payload</span> = <span class="k">self</span>.<span class="n">get_payload</span>(<span class="nb">True</span>)
-        <span class="n">r</span> = <span class="n">requests</span>.<span class="n">post</span>(<span class="n">url</span>, <span class="n">cookies</span>=<span class="n">COOKIES</span>, <span class="n">params</span>=<span class="n">payload</span>, <span class="n">data</span>=<span class="n">payload</span>, <span class="n">headers</span>=<span class="n">HEADERS</span>)
-        <span class="n">response</span> = <span class="n">r</span>.<span class="n">text</span>\
-            .<span class="n">replace</span>(<span class="s">&#39;&lt;script&gt;document.domain=&quot;weiyun.com&quot;;&#39;</span>+\
-                <span class="s">&#39;try{parent.&#39;</span>+<span class="n">get_ordered_tuple</span>(<span class="n">payload</span>,<span class="s">&quot;callback&quot;</span>)+<span class="s">&#39;(&#39;</span>, <span class="s">&#39;&#39;</span>)\
-            .<span class="n">replace</span>(<span class="s">&#39;)} catch(e){};&lt;/script&gt;&#39;</span>, <span class="s">&#39;&#39;</span>);
-        <span class="k">return</span> <span class="n">json</span>.<span class="n">loads</span>(<span class="n">response</span>)
+    <span class="nx">def</span> <span class="nx">get_response</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">endpoint</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_payload</span><span class="p">(</span><span class="nx">True</span><span class="p">)</span>
+        <span class="nx">r</span> <span class="o">=</span> <span class="nx">requests</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">cookies</span><span class="o">=</span><span class="nx">COOKIES</span><span class="p">,</span> <span class="nx">params</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">data</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">headers</span><span class="o">=</span><span class="nx">HEADERS</span><span class="p">)</span>
+        <span class="nx">response</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;&lt;script&gt;document.domain=&quot;weiyun.com&quot;;&#39;</span><span class="o">+\</span>
+                <span class="s1">&#39;try{parent.&#39;</span><span class="o">+</span><span class="nx">get_ordered_tuple</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span><span class="s2">&quot;callback&quot;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;)} catch(e){};&lt;/script&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">json</span><span class="p">.</span><span class="nx">loads</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
 
-<span class="k">class</span> <span class="n">BatchFileDelete</span>(<span class="n">BaseWeiyun</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">fileids</span>, <span class="n">filenames</span>, <span class="n">filevers</span>, <span class="n">parentdirkeys</span>, <span class="n">parentparentdirkeys</span>):
-        <span class="n">endpoint</span> = <span class="s">&#39;/wy_web_jsonp.fcg&#39;</span>
-        <span class="n">cmd</span> = <span class="s">&#39;batch_file_delete&#39;</span>
-        <span class="n">super</span>(<span class="n">BatchFileDelete</span>, <span class="k">self</span>).<span class="n">__init__</span>(<span class="n">endpoint</span>, <span class="n">cmd</span>)
-        <span class="n">dellist</span> = []
-        <span class="k">for</span> <span class="n">i</span> <span class="n">in</span> <span class="n">range</span>(<span class="mi">0</span>, <span class="n">len</span>(<span class="n">fileids</span>)):
-            <span class="n">dellist</span>.<span class="n">append</span>({<span class="s">&quot;ppdir_key&quot;</span>:<span class="n">parentparentdirkeys</span>[<span class="n">i</span>],
-                            <span class="s">&quot;pdir_key&quot;</span>:<span class="n">parentdirkeys</span>[<span class="n">i</span>],
-                            <span class="s">&quot;file_id&quot;</span>:<span class="n">fileids</span>[<span class="n">i</span>],
-                            <span class="s">&quot;file_name&quot;</span>:<span class="n">filenames</span>[<span class="n">i</span>],
-                            <span class="s">&quot;file_ver&quot;</span>:<span class="n">filevers</span>[<span class="n">i</span>]})
-        <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>] = {<span class="s">&quot;del_files&quot;</span>: <span class="n">dellist</span>}
+<span class="kr">class</span> <span class="nx">BatchFileDelete</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">fileids</span><span class="p">,</span> <span class="nx">filenames</span><span class="p">,</span> <span class="nx">filevers</span><span class="p">,</span> <span class="nx">parentdirkeys</span><span class="p">,</span> <span class="nx">parentparentdirkeys</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/wy_web_jsonp.fcg&#39;</span>
+        <span class="nx">cmd</span> <span class="o">=</span> <span class="s1">&#39;batch_file_delete&#39;</span>
+        <span class="kr">super</span><span class="p">(</span><span class="nx">BatchFileDelete</span><span class="p">,</span> <span class="nx">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span>
+        <span class="nx">dellist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="nx">i</span> <span class="k">in</span> <span class="nx">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">len</span><span class="p">(</span><span class="nx">fileids</span><span class="p">))</span><span class="o">:</span>
+            <span class="nx">dellist</span><span class="p">.</span><span class="nx">append</span><span class="p">({</span><span class="s2">&quot;ppdir_key&quot;</span><span class="o">:</span><span class="nx">parentparentdirkeys</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+                            <span class="s2">&quot;pdir_key&quot;</span><span class="o">:</span><span class="nx">parentdirkeys</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+                            <span class="s2">&quot;file_id&quot;</span><span class="o">:</span><span class="nx">fileids</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+                            <span class="s2">&quot;file_name&quot;</span><span class="o">:</span><span class="nx">filenames</span><span class="p">[</span><span class="nx">i</span><span class="p">],</span>
+                            <span class="s2">&quot;file_ver&quot;</span><span class="o">:</span><span class="nx">filevers</span><span class="p">[</span><span class="nx">i</span><span class="p">]})</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;del_files&quot;</span><span class="o">:</span> <span class="nx">dellist</span><span class="p">}</span>
 
-    <span class="n">def</span> <span class="n">get_response</span>(<span class="k">self</span>):
-        <span class="n">url</span> = <span class="k">self</span>.<span class="n">base</span> + <span class="k">self</span>.<span class="n">endpoint</span>
-        <span class="n">payload</span> = <span class="k">self</span>.<span class="n">get_payload</span>(<span class="nb">True</span>)
-        <span class="n">r</span> = <span class="n">requests</span>.<span class="n">post</span>(<span class="n">url</span>, <span class="n">cookies</span>=<span class="n">COOKIES</span>, <span class="n">params</span>=<span class="n">payload</span>, <span class="n">data</span>=<span class="n">payload</span>, <span class="n">headers</span>=<span class="n">HEADERS</span>)
-        <span class="n">response</span> = <span class="n">r</span>.<span class="n">text</span>\
-            .<span class="n">replace</span>(<span class="s">&#39;&lt;script&gt;document.domain=&quot;weiyun.com&quot;;&#39;</span>+\
-                <span class="s">&#39;try{parent.&#39;</span>+<span class="n">get_ordered_tuple</span>(<span class="n">payload</span>,<span class="s">&quot;callback&quot;</span>)+<span class="s">&#39;(&#39;</span>, <span class="s">&#39;&#39;</span>)\
-            .<span class="n">replace</span>(<span class="s">&#39;)} catch(e){};&lt;/script&gt;&#39;</span>, <span class="s">&#39;&#39;</span>);
-        <span class="k">return</span> <span class="n">json</span>.<span class="n">loads</span>(<span class="n">response</span>)
+    <span class="nx">def</span> <span class="nx">get_response</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">endpoint</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_payload</span><span class="p">(</span><span class="nx">True</span><span class="p">)</span>
+        <span class="nx">r</span> <span class="o">=</span> <span class="nx">requests</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">cookies</span><span class="o">=</span><span class="nx">COOKIES</span><span class="p">,</span> <span class="nx">params</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">data</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">headers</span><span class="o">=</span><span class="nx">HEADERS</span><span class="p">)</span>
+        <span class="nx">response</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;&lt;script&gt;document.domain=&quot;weiyun.com&quot;;&#39;</span><span class="o">+\</span>
+                <span class="s1">&#39;try{parent.&#39;</span><span class="o">+</span><span class="nx">get_ordered_tuple</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span><span class="s2">&quot;callback&quot;</span><span class="p">)</span><span class="o">+</span><span class="s1">&#39;(&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;)} catch(e){};&lt;/script&gt;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">json</span><span class="p">.</span><span class="nx">loads</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
 </pre></div>
 
 
 <p>Next up is a big class in order to download&nbsp;files:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">DownloadFile</span>(<span class="n">BaseWeiyun</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">fileid</span>, <span class="n">filename</span>, <span class="n">parentdirkey</span>, <span class="n">checksum</span>):
-        <span class="n">endpoint</span> = <span class="s">&#39;/wy_down.fcg&#39;</span>
-        <span class="n">cmd</span> = <span class="n">None</span>
-        <span class="n">super</span>(<span class="n">DownloadFile</span>, <span class="k">self</span>).<span class="n">__init__</span>(<span class="n">endpoint</span>, <span class="n">cmd</span>)
-        <span class="k">self</span>.<span class="n">base</span> = <span class="s">&#39;http://download.cgi.weiyun.com&#39;</span>
-        <span class="k">self</span>.<span class="n">data</span> = <span class="n">None</span>
-        <span class="k">self</span>.<span class="n">fileid</span> = <span class="n">fileid</span>
-        <span class="k">self</span>.<span class="n">filename</span> = <span class="n">filename</span>
-        <span class="k">self</span>.<span class="n">parentdirkey</span> = <span class="n">parentdirkey</span>
-        <span class="k">self</span>.<span class="n">checksum</span> = <span class="n">checksum</span>
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">DownloadFile</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">fileid</span><span class="p">,</span> <span class="nx">filename</span><span class="p">,</span> <span class="nx">parentdirkey</span><span class="p">,</span> <span class="nx">checksum</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/wy_down.fcg&#39;</span>
+        <span class="nx">cmd</span> <span class="o">=</span> <span class="nx">None</span>
+        <span class="kr">super</span><span class="p">(</span><span class="nx">DownloadFile</span><span class="p">,</span> <span class="nx">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">=</span> <span class="s1">&#39;http://download.cgi.weiyun.com&#39;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="nx">None</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">fileid</span> <span class="o">=</span> <span class="nx">fileid</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">filename</span> <span class="o">=</span> <span class="nx">filename</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">parentdirkey</span> <span class="o">=</span> <span class="nx">parentdirkey</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">checksum</span> <span class="o">=</span> <span class="nx">checksum</span>
 
-    <span class="n">def</span> <span class="n">get_response</span>(<span class="k">self</span>, <span class="n">stream</span>=<span class="nb">True</span>):
-        <span class="n">url</span> = <span class="k">self</span>.<span class="n">base</span> + <span class="k">self</span>.<span class="n">endpoint</span>
-        <span class="n">payload</span> = <span class="k">self</span>.<span class="n">get_payload</span>()
-        <span class="n">headers</span> = <span class="n">HEADERS</span>.<span class="k">copy</span>()
-        <span class="n">headers</span>[<span class="s">&#39;origin&#39;</span>] = <span class="s">&#39;http://www.weiyun.com&#39;</span>
-        <span class="n">r</span> = <span class="n">requests</span>.<span class="n">post</span>(<span class="n">url</span>, <span class="n">cookies</span>=<span class="n">COOKIES</span>, <span class="n">params</span>=<span class="n">payload</span>, <span class="n">headers</span>=<span class="n">headers</span>, <span class="n">stream</span>=<span class="n">stream</span>)
-        <span class="k">return</span> <span class="n">r</span>
+    <span class="nx">def</span> <span class="nx">get_response</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">stream</span><span class="o">=</span><span class="nx">True</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">endpoint</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_payload</span><span class="p">()</span>
+        <span class="nx">headers</span> <span class="o">=</span> <span class="nx">HEADERS</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span>
+        <span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;origin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;http://www.weiyun.com&#39;</span>
+        <span class="nx">r</span> <span class="o">=</span> <span class="nx">requests</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">cookies</span><span class="o">=</span><span class="nx">COOKIES</span><span class="p">,</span> <span class="nx">params</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">headers</span><span class="o">=</span><span class="nx">headers</span><span class="p">,</span> <span class="nx">stream</span><span class="o">=</span><span class="nx">stream</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nx">r</span>
 
-    <span class="n">def</span> <span class="n">callback</span>(<span class="k">self</span>, <span class="n">ds</span>, <span class="n">sofar</span>, <span class="n">total</span>):
-        <span class="n">w</span> = <span class="mi">80</span>
-        <span class="n">sys</span>.<span class="n">stdout</span>.<span class="nb">write</span>( <span class="s">&quot;\b&quot;</span> * (<span class="n">w</span><span class="o">+</span><span class="mi">10</span>) )
-        <span class="n">speed</span> = <span class="n">ds</span> / ((<span class="n">current_milli_time</span>() - <span class="k">self</span>.<span class="n">tb</span>)/<span class="mi">1000</span>)
-        <span class="n">sys</span>.<span class="n">stdout</span>.<span class="nb">write</span>( <span class="s">&quot;[%s%s] %s&quot;</span> %
-            (<span class="s">&quot;#&quot;</span> * (<span class="nb">int</span>(<span class="n">w</span> * <span class="n">float</span>(<span class="n">sofar</span>) / <span class="n">float</span>(<span class="n">total</span>))),
-             <span class="s">&quot; &quot;</span> * (<span class="n">w-</span>(<span class="nb">int</span>(<span class="n">w</span> * <span class="n">float</span>(<span class="n">sofar</span>) / <span class="n">float</span>(<span class="n">total</span>)))),
-             <span class="n">speed</span>) )
+    <span class="nx">def</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">ds</span><span class="p">,</span> <span class="nx">sofar</span><span class="p">,</span> <span class="nx">total</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">w</span> <span class="o">=</span> <span class="mi">80</span>
+        <span class="nx">sys</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span> <span class="s2">&quot;\b&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span><span class="o">+</span><span class="mi">10</span><span class="p">)</span> <span class="p">)</span>
+        <span class="nx">speed</span> <span class="o">=</span> <span class="nx">ds</span> <span class="o">/</span> <span class="p">((</span><span class="nx">current_milli_time</span><span class="p">()</span> <span class="o">-</span> <span class="nx">self</span><span class="p">.</span><span class="nx">tb</span><span class="p">)</span><span class="o">/</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="nx">sys</span><span class="p">.</span><span class="nx">stdout</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span> <span class="s2">&quot;[%s%s] %s&quot;</span> <span class="o">%</span>
+            <span class="p">(</span><span class="s2">&quot;#&quot;</span> <span class="o">*</span> <span class="p">(</span><span class="kr">int</span><span class="p">(</span><span class="nx">w</span> <span class="o">*</span> <span class="kr">float</span><span class="p">(</span><span class="nx">sofar</span><span class="p">)</span> <span class="o">/</span> <span class="kr">float</span><span class="p">(</span><span class="nx">total</span><span class="p">))),</span>
+             <span class="s2">&quot; &quot;</span> <span class="o">*</span> <span class="p">(</span><span class="nx">w</span><span class="o">-</span><span class="p">(</span><span class="kr">int</span><span class="p">(</span><span class="nx">w</span> <span class="o">*</span> <span class="kr">float</span><span class="p">(</span><span class="nx">sofar</span><span class="p">)</span> <span class="o">/</span> <span class="kr">float</span><span class="p">(</span><span class="nx">total</span><span class="p">)))),</span>
+             <span class="nx">speed</span><span class="p">)</span> <span class="p">)</span>
 
-    <span class="n">def</span> <span class="n">get_file</span>(<span class="k">self</span>, <span class="n">filename</span>, <span class="n">stream</span>=<span class="nb">True</span>, <span class="n">callback</span>=<span class="n">None</span>):
-        <span class="k">if</span> <span class="n">callback</span> <span class="k">is</span> <span class="n">None:</span>
-            <span class="n">callback</span> = <span class="k">self</span>.<span class="n">callback</span>
-        <span class="n">a</span> = <span class="k">self</span>.<span class="n">get_response</span>()
-        <span class="k">self</span>.<span class="n">tb</span> = <span class="n">current_milli_time</span>()-<span class="mi">1000</span>
-        <span class="k">if</span> <span class="n">stream:</span>
-            <span class="n">total</span> = <span class="mi">0</span>
-            <span class="n">with</span> <span class="nb">open</span>(<span class="n">filename</span>, <span class="s">&#39;wb&#39;</span>) <span class="k">as</span> <span class="n">fd:</span>
-                <span class="n">ds</span> = <span class="mi">1024</span><span class="o">*</span><span class="mi">100</span>
-                <span class="k">for</span> <span class="n">chunk</span> <span class="n">in</span> <span class="n">a</span>.<span class="n">iter_content</span>(<span class="n">ds</span>):
-                    <span class="n">total</span> += <span class="n">len</span>(<span class="n">chunk</span>)
-                    <span class="n">fd</span>.<span class="nb">write</span>(<span class="n">chunk</span>)
-                    <span class="n">callback</span>(<span class="n">ds</span>, <span class="n">total</span>, <span class="n">str</span>(<span class="n">a</span>.<span class="n">headers</span>[<span class="s">&#39;content-length&#39;</span>]))
-            <span class="nb">print</span>
-            <span class="n">a</span>.<span class="nb">close</span>()
-        <span class="n">else:</span>
-            <span class="n">with</span> <span class="nb">open</span>(<span class="n">filename</span>, <span class="s">&#39;wb&#39;</span>) <span class="k">as</span> <span class="n">fd:</span>
-                <span class="n">fd</span>.<span class="nb">write</span>(<span class="n">a</span>.<span class="n">content</span>)
-                <span class="n">fd</span>.<span class="nb">close</span>()
+    <span class="nx">def</span> <span class="nx">get_file</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">filename</span><span class="p">,</span> <span class="nx">stream</span><span class="o">=</span><span class="nx">True</span><span class="p">,</span> <span class="nx">callback</span><span class="o">=</span><span class="nx">None</span><span class="p">)</span><span class="o">:</span>
+        <span class="k">if</span> <span class="nx">callback</span> <span class="nx">is</span> <span class="nx">None</span>:
+            <span class="kt">callback</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">callback</span>
+        <span class="nx">a</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_response</span><span class="p">()</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">tb</span> <span class="o">=</span> <span class="nx">current_milli_time</span><span class="p">()</span><span class="o">-</span><span class="mi">1000</span>
+        <span class="k">if</span> <span class="nx">stream</span>:
+            <span class="kt">total</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="kd">with</span> <span class="nx">open</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">fd</span>:
+                <span class="kt">ds</span> <span class="o">=</span> <span class="mi">1024</span><span class="o">*</span><span class="mi">100</span>
+                <span class="k">for</span> <span class="nx">chunk</span> <span class="k">in</span> <span class="nx">a</span><span class="p">.</span><span class="nx">iter_content</span><span class="p">(</span><span class="nx">ds</span><span class="p">)</span><span class="o">:</span>
+                    <span class="nx">total</span> <span class="o">+=</span> <span class="nx">len</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span>
+                    <span class="nx">fd</span><span class="p">.</span><span class="nx">write</span><span class="p">(</span><span class="nx">chunk</span><span class="p">)</span>
+                    <span class="nx">callback</span><span class="p">(</span><span class="nx">ds</span><span class="p">,</span> <span class="nx">total</span><span class="p">,</span> <span class="nx">str</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;content-length&#39;</span><span class="p">]))</span>
+            <span class="nx">print</span>
+            <span class="nx">a</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
+        <span class="k">else</span><span class="o">:</span>
+            <span class="kd">with</span> <span class="nx">open</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="kr">as</span> <span class="nx">fd</span>:
+                <span class="kt">fd.write</span><span class="p">(</span><span class="nx">a</span><span class="p">.</span><span class="nx">content</span><span class="p">)</span>
+                <span class="nx">fd</span><span class="p">.</span><span class="nx">close</span><span class="p">()</span>
 
-    <span class="n">def</span> <span class="n">get_payload</span>(<span class="k">self</span>):
-        <span class="n">payload</span> = ((<span class="s">&#39;fid&#39;</span>, <span class="k">self</span>.<span class="n">fileid</span>),
-                    (<span class="s">&#39;pdir&#39;</span>, <span class="k">self</span>.<span class="n">parentdirkey</span>),
-                    (<span class="s">&#39;fn&#39;</span>, <span class="k">self</span>.<span class="n">filename</span>),
-                    (<span class="s">&#39;uuin&#39;</span>, <span class="n">UIN</span>),
-                    (<span class="s">&#39;skey&#39;</span>, <span class="n">SKEY</span>),
-                    (<span class="s">&#39;appid&#39;</span>, <span class="n">REQ_HEADER</span>[<span class="s">&quot;appid&quot;</span>]),
-                    (<span class="s">&#39;token&#39;</span>, <span class="n">TOKEN</span>),
-                    (<span class="s">&#39;checksum&#39;</span>, <span class="k">self</span>.<span class="n">checksum</span>),
-                    (<span class="s">&#39;err_callback&#39;</span>, <span class="s">&#39;http://www.weiyun.com/web/callback/iframe_disk_down_fail.html&#39;</span>),
-                    (<span class="s">&#39;ver&#39;</span>, <span class="n">REQ_HEADER</span>[<span class="s">&quot;main_v&quot;</span>]))
-        <span class="k">return</span> <span class="n">payload</span>
+    <span class="nx">def</span> <span class="nx">get_payload</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;fid&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">fileid</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;pdir&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">parentdirkey</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;fn&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">filename</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;uuin&#39;</span><span class="p">,</span> <span class="nx">UIN</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;skey&#39;</span><span class="p">,</span> <span class="nx">SKEY</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;appid&#39;</span><span class="p">,</span> <span class="nx">REQ_HEADER</span><span class="p">[</span><span class="s2">&quot;appid&quot;</span><span class="p">]),</span>
+                    <span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="nx">TOKEN</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;checksum&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">checksum</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;err_callback&#39;</span><span class="p">,</span> <span class="s1">&#39;http://www.weiyun.com/web/callback/iframe_disk_down_fail.html&#39;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;ver&#39;</span><span class="p">,</span> <span class="nx">REQ_HEADER</span><span class="p">[</span><span class="s2">&quot;main_v&quot;</span><span class="p">]))</span>
+        <span class="k">return</span> <span class="nx">payload</span>
 </pre></div>
 
 
@@ -677,54 +680,54 @@ req.get_file(&#39;c:/users/n11093/desktop/download.pdf&#39;)
 
 
 <p>Uploading files also requires some custom&nbsp;code:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">FileUpload</span>(<span class="n">BaseWeiyun</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">filename</span>, <span class="n">filesize</span>, <span class="n">parentdirkey</span>, <span class="n">parentparentdirkey</span>, <span class="n">md5</span>=<span class="s">&quot;&quot;</span>, <span class="n">sha</span>=<span class="s">&quot;&quot;</span>):
-        <span class="n">endpoint</span> = <span class="s">&#39;/upload.fcg&#39;</span>
-        <span class="n">cmd</span> = <span class="s">&#39;file_upload&#39;</span>
-        <span class="n">super</span>(<span class="n">FileUpload</span>, <span class="k">self</span>).<span class="n">__init__</span>(<span class="n">endpoint</span>, <span class="n">cmd</span>)
-        <span class="n">utype</span> = <span class="mi">1</span> <span class="k">if</span> <span class="n">md5</span> == <span class="s">&quot;&quot;</span> <span class="k">else</span> <span class="mi">0</span>
-        <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>] = {<span class="s">&quot;ppdir_key&quot;</span>:<span class="n">parentparentdirkey</span>,
-                <span class="s">&quot;pdir_key&quot;</span>:<span class="n">parentdirkey</span>,
-                <span class="s">&quot;upload_type&quot;</span>: <span class="n">utype</span>,
-                <span class="s">&quot;file_md5&quot;</span>:<span class="n">md5</span>,
-                <span class="s">&quot;file_sha&quot;</span>:<span class="n">sha</span>,
-                <span class="s">&quot;file_size&quot;</span>:<span class="n">str</span>(<span class="n">filesize</span>),
-                <span class="s">&quot;file_attr&quot;</span>:{<span class="s">&quot;file_name&quot;</span>:<span class="n">filename</span>}}
-        <span class="k">self</span>.<span class="n">parentdirkey</span> = <span class="n">parentdirkey</span>
-        <span class="k">self</span>.<span class="n">parentparentdirkey</span> = <span class="n">parentparentdirkey</span>
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">FileUpload</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">filename</span><span class="p">,</span> <span class="nx">filesize</span><span class="p">,</span> <span class="nx">parentdirkey</span><span class="p">,</span> <span class="nx">parentparentdirkey</span><span class="p">,</span> <span class="nx">md5</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nx">sha</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/upload.fcg&#39;</span>
+        <span class="nx">cmd</span> <span class="o">=</span> <span class="s1">&#39;file_upload&#39;</span>
+        <span class="kr">super</span><span class="p">(</span><span class="nx">FileUpload</span><span class="p">,</span> <span class="nx">self</span><span class="p">).</span><span class="nx">__init__</span><span class="p">(</span><span class="nx">endpoint</span><span class="p">,</span> <span class="nx">cmd</span><span class="p">)</span>
+        <span class="nx">utype</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="nx">md5</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;ppdir_key&quot;</span><span class="o">:</span><span class="nx">parentparentdirkey</span><span class="p">,</span>
+                <span class="s2">&quot;pdir_key&quot;</span><span class="o">:</span><span class="nx">parentdirkey</span><span class="p">,</span>
+                <span class="s2">&quot;upload_type&quot;</span><span class="o">:</span> <span class="nx">utype</span><span class="p">,</span>
+                <span class="s2">&quot;file_md5&quot;</span><span class="o">:</span><span class="nx">md5</span><span class="p">,</span>
+                <span class="s2">&quot;file_sha&quot;</span><span class="o">:</span><span class="nx">sha</span><span class="p">,</span>
+                <span class="s2">&quot;file_size&quot;</span><span class="o">:</span><span class="nx">str</span><span class="p">(</span><span class="nx">filesize</span><span class="p">),</span>
+                <span class="s2">&quot;file_attr&quot;</span><span class="o">:</span><span class="p">{</span><span class="s2">&quot;file_name&quot;</span><span class="o">:</span><span class="nx">filename</span><span class="p">}}</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">parentdirkey</span> <span class="o">=</span> <span class="nx">parentdirkey</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">parentparentdirkey</span> <span class="o">=</span> <span class="nx">parentparentdirkey</span>
 
-    <span class="n">def</span> <span class="n">send_file</span>(<span class="k">self</span>, <span class="n">filename</span>):
-        <span class="n">a</span> = <span class="k">self</span>.<span class="n">get_response</span>()
-        <span class="nb">print</span> <span class="n">a</span>
-        <span class="k">if</span> (<span class="n">a</span>[<span class="s">&#39;rsp_body&#39;</span>][<span class="s">&#39;file_exist&#39;</span>]):
-            <span class="k">return</span> <span class="nb">True</span>
-        <span class="n">elif</span> <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>][<span class="s">&quot;upload_type&quot;</span>] == <span class="mi">0</span>:
-            <span class="c c-Singleline"># Delete the broken file first, this is a side effect of trying with hashes first</span>
-            <span class="n">o</span> = <span class="n">BatchFileDelete</span>(
-                [<span class="n">a</span>[<span class="s">&#39;rsp_body&#39;</span>][<span class="s">&#39;file_id&#39;</span>]],
-                [<span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>][<span class="s">&quot;file_attr&quot;</span>][<span class="s">&quot;file_name&quot;</span>]],
-                [<span class="n">a</span>[<span class="s">&#39;rsp_body&#39;</span>][<span class="s">&#39;file_ver&#39;</span>]],
-                [<span class="k">self</span>.<span class="n">parentdirkey</span>],
-                [<span class="k">self</span>.<span class="n">parentparentdirkey</span>])
-            <span class="k">oo</span> = <span class="n">o</span>.<span class="n">get_response</span>()
-            <span class="n">req</span> = <span class="n">FileUpload</span>(<span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>][<span class="s">&quot;file_attr&quot;</span>][<span class="s">&quot;file_name&quot;</span>],
-                <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>][<span class="s">&quot;file_size&quot;</span>],
-                <span class="k">self</span>.<span class="n">parentdirkey</span>,
-                <span class="k">self</span>.<span class="n">parentparentdirkey</span>)
-            <span class="k">return</span> <span class="n">req</span>.<span class="n">send_file</span>(<span class="n">filename</span>)
-        <span class="n">elif</span> <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>][<span class="s">&quot;upload_type&quot;</span>] == <span class="mi">1</span>:
-            <span class="n">url</span> = <span class="s">&#39;http://&#39;</span> + <span class="n">a</span>[<span class="s">&#39;rsp_body&#39;</span>][<span class="s">&#39;upload_svr_host&#39;</span>]+<span class="s">&#39;:&#39;</span>+\
-                <span class="n">str</span>(<span class="n">a</span>[<span class="s">&#39;rsp_body&#39;</span>][<span class="s">&#39;upload_svr_port&#39;</span>]) + <span class="s">&#39;/ftn_handler/&#39;</span>+\
-                <span class="s">&#39;?ver=12345&amp;ukey=&#39;</span>+<span class="n">a</span>[<span class="s">&#39;rsp_body&#39;</span>][<span class="s">&#39;upload_csum&#39;</span>]+\
-                <span class="s">&#39;&amp;filekey=&#39;</span>+<span class="n">a</span>[<span class="s">&#39;rsp_body&#39;</span>][<span class="s">&#39;file_key&#39;</span>]+<span class="s">&#39;&amp;&#39;</span>
-            <span class="n">headers</span> = <span class="n">HEADERS</span>.<span class="k">copy</span>()
-            <span class="n">headers</span>[<span class="s">&#39;origin&#39;</span>] = <span class="s">&#39;http://www.weiyun.com&#39;</span>
-            <span class="n">data</span> = {<span class="s">&#39;Filename&#39;</span>: <span class="k">self</span>.<span class="n">data</span>[<span class="s">&quot;req_body&quot;</span>][<span class="s">&quot;file_attr&quot;</span>][<span class="s">&quot;file_name&quot;</span>],
-                    <span class="s">&#39;mode&#39;</span>: <span class="s">&#39;flashupload&#39;</span>,
-                    <span class="s">&#39;file&#39;</span>: (<span class="s">&#39;filename&#39;</span>, <span class="nb">open</span>(<span class="n">filename</span>, <span class="s">&#39;rb&#39;</span>), <span class="s">&#39;application/octet-stream&#39;</span>),
-                    <span class="s">&#39;Upload&#39;</span>: <span class="s">&#39;Submit Query&#39;</span>}
-            <span class="n">r</span> = <span class="n">requests</span>.<span class="n">post</span>(<span class="n">url</span>, <span class="n">headers</span>=<span class="n">headers</span>, <span class="n">files</span>={<span class="s">&#39;file&#39;</span>:<span class="n">data</span>[<span class="s">&#39;file&#39;</span>]})
-            <span class="k">return</span> <span class="n">r</span>
+    <span class="nx">def</span> <span class="nx">send_file</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">filename</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">a</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_response</span><span class="p">()</span>
+        <span class="nx">print</span> <span class="nx">a</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="s1">&#39;rsp_body&#39;</span><span class="p">][</span><span class="s1">&#39;file_exist&#39;</span><span class="p">])</span><span class="o">:</span>
+            <span class="k">return</span> <span class="nx">True</span>
+        <span class="nx">elif</span> <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">][</span><span class="s2">&quot;upload_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">:</span>
+            <span class="err">#</span> <span class="nx">Delete</span> <span class="nx">the</span> <span class="nx">broken</span> <span class="nx">file</span> <span class="nx">first</span><span class="p">,</span> <span class="k">this</span> <span class="nx">is</span> <span class="nx">a</span> <span class="nx">side</span> <span class="nx">effect</span> <span class="nx">of</span> <span class="nx">trying</span> <span class="kd">with</span> <span class="nx">hashes</span> <span class="nx">first</span>
+            <span class="nx">o</span> <span class="o">=</span> <span class="nx">BatchFileDelete</span><span class="p">(</span>
+                <span class="p">[</span><span class="nx">a</span><span class="p">[</span><span class="s1">&#39;rsp_body&#39;</span><span class="p">][</span><span class="s1">&#39;file_id&#39;</span><span class="p">]],</span>
+                <span class="p">[</span><span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">][</span><span class="s2">&quot;file_attr&quot;</span><span class="p">][</span><span class="s2">&quot;file_name&quot;</span><span class="p">]],</span>
+                <span class="p">[</span><span class="nx">a</span><span class="p">[</span><span class="s1">&#39;rsp_body&#39;</span><span class="p">][</span><span class="s1">&#39;file_ver&#39;</span><span class="p">]],</span>
+                <span class="p">[</span><span class="nx">self</span><span class="p">.</span><span class="nx">parentdirkey</span><span class="p">],</span>
+                <span class="p">[</span><span class="nx">self</span><span class="p">.</span><span class="nx">parentparentdirkey</span><span class="p">])</span>
+            <span class="nx">oo</span> <span class="o">=</span> <span class="nx">o</span><span class="p">.</span><span class="nx">get_response</span><span class="p">()</span>
+            <span class="nx">req</span> <span class="o">=</span> <span class="nx">FileUpload</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">][</span><span class="s2">&quot;file_attr&quot;</span><span class="p">][</span><span class="s2">&quot;file_name&quot;</span><span class="p">],</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">][</span><span class="s2">&quot;file_size&quot;</span><span class="p">],</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">parentdirkey</span><span class="p">,</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">parentparentdirkey</span><span class="p">)</span>
+            <span class="k">return</span> <span class="nx">req</span><span class="p">.</span><span class="nx">send_file</span><span class="p">(</span><span class="nx">filename</span><span class="p">)</span>
+        <span class="nx">elif</span> <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">][</span><span class="s2">&quot;upload_type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="nx">1</span>:
+            <span class="kt">url</span> <span class="o">=</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="nx">a</span><span class="p">[</span><span class="s1">&#39;rsp_body&#39;</span><span class="p">][</span><span class="s1">&#39;upload_svr_host&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+\</span>
+                <span class="nx">str</span><span class="p">(</span><span class="nx">a</span><span class="p">[</span><span class="s1">&#39;rsp_body&#39;</span><span class="p">][</span><span class="s1">&#39;upload_svr_port&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/ftn_handler/&#39;</span><span class="o">+\</span>
+                <span class="s1">&#39;?ver=12345&amp;ukey=&#39;</span><span class="o">+</span><span class="nx">a</span><span class="p">[</span><span class="s1">&#39;rsp_body&#39;</span><span class="p">][</span><span class="s1">&#39;upload_csum&#39;</span><span class="p">]</span><span class="o">+\</span>
+                <span class="s1">&#39;&amp;filekey=&#39;</span><span class="o">+</span><span class="nx">a</span><span class="p">[</span><span class="s1">&#39;rsp_body&#39;</span><span class="p">][</span><span class="s1">&#39;file_key&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;&amp;&#39;</span>
+            <span class="nx">headers</span> <span class="o">=</span> <span class="nx">HEADERS</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span>
+            <span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;origin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;http://www.weiyun.com&#39;</span>
+            <span class="nx">data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;Filename&#39;</span><span class="o">:</span> <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s2">&quot;req_body&quot;</span><span class="p">][</span><span class="s2">&quot;file_attr&quot;</span><span class="p">][</span><span class="s2">&quot;file_name&quot;</span><span class="p">],</span>
+                    <span class="s1">&#39;mode&#39;</span><span class="o">:</span> <span class="s1">&#39;flashupload&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;file&#39;</span><span class="o">:</span> <span class="p">(</span><span class="s1">&#39;filename&#39;</span><span class="p">,</span> <span class="nx">open</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">),</span> <span class="s1">&#39;application/octet-stream&#39;</span><span class="p">),</span>
+                    <span class="s1">&#39;Upload&#39;</span><span class="o">:</span> <span class="s1">&#39;Submit Query&#39;</span><span class="p">}</span>
+            <span class="nx">r</span> <span class="o">=</span> <span class="nx">requests</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">headers</span><span class="o">=</span><span class="nx">headers</span><span class="p">,</span> <span class="nx">files</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;file&#39;</span><span class="o">:</span><span class="nx">data</span><span class="p">[</span><span class="s1">&#39;file&#39;</span><span class="p">]})</span>
+            <span class="k">return</span> <span class="nx">r</span>
 </pre></div>
 
 
@@ -778,21 +781,21 @@ GTK = &#39;changeme&#39;
 
 
 <p>Which we then find in <code>lib.index.js</code>:</p>
-<div class="highlight"><pre><span></span>function _getAntiCSRFToken(objConfig){
-    objConfig=objConfig||{};
-    var salt=objConfig.salt||CONST_SALT;
-    var skey=objConfig.skey||cookie.get(&quot;skey&quot;);
-    var md5key=objConfig.md5key||CONST_MD5_KEY;
-    var hash=[],ASCIICode;
-    hash.push((salt&lt;&lt;5));
-    for(var i=0,len=skey.length;i&lt;len;++i){
-        ASCIICode=skey.charAt(i).charCodeAt();
-        hash.push((salt&lt;&lt;5)+ASCIICode);
-        salt=ASCIICode;
-    }
-    var md5str=_md5(hash.join(&#39;&#39;)+md5key);
-    return md5str;
-}
+<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">_getAntiCSRFToken</span><span class="p">(</span><span class="nx">objConfig</span><span class="p">){</span>
+    <span class="nx">objConfig</span><span class="o">=</span><span class="nx">objConfig</span><span class="o">||</span><span class="p">{};</span>
+    <span class="kd">var</span> <span class="nx">salt</span><span class="o">=</span><span class="nx">objConfig</span><span class="p">.</span><span class="nx">salt</span><span class="o">||</span><span class="nx">CONST_SALT</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">skey</span><span class="o">=</span><span class="nx">objConfig</span><span class="p">.</span><span class="nx">skey</span><span class="o">||</span><span class="nx">cookie</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;skey&quot;</span><span class="p">);</span>
+    <span class="kd">var</span> <span class="nx">md5key</span><span class="o">=</span><span class="nx">objConfig</span><span class="p">.</span><span class="nx">md5key</span><span class="o">||</span><span class="nx">CONST_MD5_KEY</span><span class="p">;</span>
+    <span class="kd">var</span> <span class="nx">hash</span><span class="o">=</span><span class="p">[],</span><span class="nx">ASCIICode</span><span class="p">;</span>
+    <span class="nx">hash</span><span class="p">.</span><span class="nx">push</span><span class="p">((</span><span class="nx">salt</span><span class="o">&lt;&lt;</span><span class="mi">5</span><span class="p">));</span>
+    <span class="k">for</span><span class="p">(</span><span class="kd">var</span> <span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="nx">len</span><span class="o">=</span><span class="nx">skey</span><span class="p">.</span><span class="nx">length</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="nx">len</span><span class="p">;</span><span class="o">++</span><span class="nx">i</span><span class="p">){</span>
+        <span class="nx">ASCIICode</span><span class="o">=</span><span class="nx">skey</span><span class="p">.</span><span class="nx">charAt</span><span class="p">(</span><span class="nx">i</span><span class="p">).</span><span class="nx">charCodeAt</span><span class="p">();</span>
+        <span class="nx">hash</span><span class="p">.</span><span class="nx">push</span><span class="p">((</span><span class="nx">salt</span><span class="o">&lt;&lt;</span><span class="mi">5</span><span class="p">)</span><span class="o">+</span><span class="nx">ASCIICode</span><span class="p">);</span>
+        <span class="nx">salt</span><span class="o">=</span><span class="nx">ASCIICode</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kd">var</span> <span class="nx">md5str</span><span class="o">=</span><span class="nx">_md5</span><span class="p">(</span><span class="nx">hash</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">+</span><span class="nx">md5key</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nx">md5str</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 
 
@@ -828,125 +831,125 @@ GTK = get_tk(SKEY)
 <p>At the time of writing up this post (which took a few days), I noticed that the upload mechanism over at the English version of Weiyuns app became increasingly flaky. At first, I thought this was an issue with my code, but uploading through the site itself also seems to be failing (at least at this moment in&nbsp;time).</p>
 <p>I took a look at the Chinese version to see if things were still working there, and it seems that indeed, it does. In addition, I&#8217;ve noticed that this version now relies on a Flash helper which performs uploads in the same manner as the Window client does (verified using Wireshark). First, a request is made to an <span class="caps">API</span> endpoint (<code>http://user.weiyun.com/newcgi/qdisk_upload.fcg</code>) to get a location to upload to (similar as before). Next however, a series of <span class="caps">POST</span> requests is made which seem to upload chunks of the file to be uploaded with some magic header stuck in the&nbsp;front.</p>
 <p>To figure out how this works, we decompile <a href="http://img.weiyun.com/club/qqdisk/web/FileUploader.swf">http://img.weiyun.com/club/qqdisk/web/FileUploader.swf</a> and have a look. In there, we find the function we&#8217;re looking&nbsp;for:</p>
-<div class="highlight"><pre><span></span><span class="nt">public</span> <span class="nt">function</span> <span class="nt">byteupload</span><span class="o">(</span><span class="nt">data</span><span class="nd">:String</span><span class="o">,</span> <span class="nt">offset</span><span class="nd">:int</span><span class="o">)</span><span class="nd">:void</span><span class="p">{</span>
-    <span class="n">var</span> <span class="n">ctx</span><span class="o">:</span><span class="n">MD5Context</span> <span class="o">=</span> <span class="n">new</span> <span class="n">MD5Context</span><span class="p">();</span>
-    <span class="n">MD5Inc</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">ctx</span><span class="o">,</span> <span class="n">Base64</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
-    <span class="n">var</span> <span class="n">_md5</span><span class="o">:</span><span class="n">String</span> <span class="o">=</span> <span class="n">MD5Inc</span><span class="o">.</span><span class="n">result</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
-    <span class="n">var</span> <span class="n">up_url</span><span class="o">:</span><span class="n">String</span> <span class="o">=</span> <span class="p">(((((((</span><span class="n">this</span><span class="o">.</span><span class="n">protocol</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">server</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">port</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/ftn_handler/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">md5</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;?bmd5=&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">_md5</span><span class="p">);</span>
-    <span class="n">var</span> <span class="n">ur</span><span class="o">:</span><span class="n">URLRequest</span> <span class="o">=</span> <span class="n">new</span> <span class="n">URLRequest</span><span class="p">(</span><span class="n">up_url</span><span class="p">);</span>
-    <span class="n">ur</span><span class="o">.</span><span class="n">method</span> <span class="o">=</span> <span class="n">URLRequestMethod</span><span class="o">.</span><span class="n">POST</span><span class="p">;</span>
-    <span class="n">ur</span><span class="o">.</span><span class="n">contentType</span> <span class="o">=</span> <span class="s2">&quot;application/octet-stream&quot;</span><span class="p">;</span>
-    <span class="n">ur</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">new</span> <span class="n">FTNUploadFileProtocol</span><span class="p">()</span><span class="o">.</span><span class="n">getFTN_Bytes</span><span class="p">(</span><span class="n">this</span><span class="o">,</span> <span class="n">data</span><span class="o">,</span> <span class="n">offset</span><span class="p">);</span>
-    <span class="n">this</span><span class="o">.</span><span class="n">uper</span> <span class="o">=</span> <span class="n">new</span> <span class="n">URLLoader</span><span class="p">();</span>
-    <span class="n">this</span><span class="o">.</span><span class="n">uper</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span><span class="n">Event</span><span class="o">.</span><span class="n">COMPLETE</span><span class="o">,</span> <span class="n">this</span><span class="o">.</span><span class="n">_completeHandler</span><span class="p">);</span>
-    <span class="n">this</span><span class="o">.</span><span class="n">uper</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span><span class="n">IOErrorEvent</span><span class="o">.</span><span class="n">IO_ERROR</span><span class="o">,</span> <span class="n">this</span><span class="o">.</span><span class="n">_errorHandler</span><span class="p">);</span>
-    <span class="n">this</span><span class="o">.</span><span class="n">uper</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span><span class="n">ProgressEvent</span><span class="o">.</span><span class="n">PROGRESS</span><span class="o">,</span> <span class="n">this</span><span class="o">.</span><span class="n">_progressHandler</span><span class="p">);</span>
-    <span class="n">this</span><span class="o">.</span><span class="n">uper</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span><span class="n">SecurityErrorEvent</span><span class="o">.</span><span class="n">SECURITY_ERROR</span><span class="o">,</span> <span class="n">this</span><span class="o">.</span><span class="n">_securityerrorHandler</span><span class="p">);</span>
-    <span class="n">this</span><span class="o">.</span><span class="n">uper</span><span class="o">.</span><span class="n">addEventListener</span><span class="p">(</span><span class="n">HTTPStatusEvent</span><span class="o">.</span><span class="n">HTTP_STATUS</span><span class="o">,</span> <span class="n">this</span><span class="o">.</span><span class="n">_httpStatusHandler</span><span class="p">);</span>
-    <span class="n">this</span><span class="o">.</span><span class="n">uper</span><span class="o">.</span><span class="n">dataFormat</span> <span class="o">=</span> <span class="n">URLLoaderDataFormat</span><span class="o">.</span><span class="n">BINARY</span><span class="p">;</span>
-    <span class="n">this</span><span class="o">.</span><span class="n">uper</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ur</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="nt">public</span> <span class="nt">function</span> <span class="nt">byteupload</span><span class="o">(</span><span class="nt">data</span><span class="p">:</span><span class="nd">String</span><span class="o">,</span> <span class="nt">offset</span><span class="p">:</span><span class="nd">int</span><span class="o">)</span><span class="p">:</span><span class="nd">void</span><span class="p">{</span>
+    <span class="err">var</span> <span class="n">ctx</span><span class="p">:</span><span class="n">MD5Context</span> <span class="o">=</span> <span class="n">new</span> <span class="nf">MD5Context</span><span class="p">();</span>
+    <span class="err">MD5Inc.update(ctx,</span> <span class="err">Base64.decode(data))</span><span class="p">;</span>
+    <span class="err">var</span> <span class="n">_md5</span><span class="p">:</span><span class="n">String</span> <span class="o">=</span> <span class="n">MD5Inc</span><span class="o">.</span><span class="nf">result</span><span class="p">(</span><span class="n">ctx</span><span class="p">);</span>
+    <span class="err">var</span> <span class="n">up_url</span><span class="p">:</span><span class="n">String</span> <span class="o">=</span> <span class="p">(((((((</span><span class="n">this</span><span class="o">.</span><span class="n">protocol</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">server</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;:&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">port</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;/ftn_handler/&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">this</span><span class="o">.</span><span class="n">md5</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;?bmd5=&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="n">_md5</span><span class="p">);</span>
+    <span class="err">var</span> <span class="n">ur</span><span class="p">:</span><span class="n">URLRequest</span> <span class="o">=</span> <span class="n">new</span> <span class="nf">URLRequest</span><span class="p">(</span><span class="n">up_url</span><span class="p">);</span>
+    <span class="err">ur.method</span> <span class="err">=</span> <span class="err">URLRequestMethod.POST</span><span class="p">;</span>
+    <span class="err">ur.contentType</span> <span class="err">=</span> <span class="err">&quot;application/octet-stream&quot;</span><span class="p">;</span>
+    <span class="err">ur.data</span> <span class="err">=</span> <span class="err">new</span> <span class="err">FTNUploadFileProtocol().getFTN_Bytes(this,</span> <span class="err">data,</span> <span class="err">offset)</span><span class="p">;</span>
+    <span class="err">this.uper</span> <span class="err">=</span> <span class="err">new</span> <span class="err">URLLoader()</span><span class="p">;</span>
+    <span class="err">this.uper.addEventListener(Event.COMPLETE,</span> <span class="err">this._completeHandler)</span><span class="p">;</span>
+    <span class="err">this.uper.addEventListener(IOErrorEvent.IO_ERROR,</span> <span class="err">this._errorHandler)</span><span class="p">;</span>
+    <span class="err">this.uper.addEventListener(ProgressEvent.PROGRESS,</span> <span class="err">this._progressHandler)</span><span class="p">;</span>
+    <span class="err">this.uper.addEventListener(SecurityErrorEvent.SECURITY_ERROR,</span> <span class="err">this._securityerrorHandler)</span><span class="p">;</span>
+    <span class="err">this.uper.addEventListener(HTTPStatusEvent.HTTP_STATUS,</span> <span class="err">this._httpStatusHandler)</span><span class="p">;</span>
+    <span class="err">this.uper.dataFormat</span> <span class="err">=</span> <span class="err">URLLoaderDataFormat.BINARY</span><span class="p">;</span>
+    <span class="err">this.uper.load(ur)</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
 
 <p><code>getFTN_Bytes</code> defines the composition of each&nbsp;chunk:</p>
-<div class="highlight"><pre><span></span><span class="nt">public</span> <span class="nt">function</span> <span class="nt">getFTN_Bytes</span><span class="o">(</span><span class="nt">file</span><span class="nd">:FileByteArray</span><span class="o">,</span> <span class="nt">data</span><span class="nd">:String</span><span class="o">,</span> <span class="nt">offset</span><span class="nd">:int</span><span class="o">)</span><span class="nd">:ByteArray</span><span class="p">{</span>
-    <span class="n">var</span> <span class="n">bytes</span><span class="o">:</span><span class="n">ByteArray</span> <span class="o">=</span> <span class="n">new</span> <span class="n">ByteArray</span><span class="p">();</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeInt</span><span class="p">(</span><span class="m">2882377846</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeInt</span><span class="p">(</span><span class="m">1000</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeInt</span><span class="p">(</span><span class="m">0</span><span class="p">);</span>
-    <span class="n">var</span> <span class="n">tempUkey</span><span class="o">:</span><span class="n">ByteArray</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Str2Bin</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">uKey</span><span class="p">);</span>
-    <span class="n">var</span> <span class="n">tempFileKey</span><span class="o">:</span><span class="n">ByteArray</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="n">Str2Bin</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="n">fileKey</span><span class="p">);</span>
-    <span class="n">var</span> <span class="n">tempData</span><span class="o">:</span><span class="n">ByteArray</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="n">decodeToByteArray</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
-    <span class="n">var</span> <span class="n">len</span><span class="o">:</span><span class="n">int</span> <span class="o">=</span> <span class="p">(((((</span><span class="m">2</span> <span class="o">*</span> <span class="m">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="m">4</span> <span class="o">*</span> <span class="m">3</span><span class="p">))</span> <span class="o">+</span> <span class="n">tempUkey</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">+</span> <span class="n">tempFileKey</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">+</span> <span class="n">tempData</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeInt</span><span class="p">(</span><span class="n">len</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeShort</span><span class="p">(</span><span class="n">tempUkey</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeBytes</span><span class="p">(</span><span class="n">tempUkey</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeShort</span><span class="p">(</span><span class="n">tempFileKey</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeBytes</span><span class="p">(</span><span class="n">tempFileKey</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeInt</span><span class="p">(</span><span class="n">file</span><span class="o">.</span><span class="nb">size</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeInt</span><span class="p">(</span><span class="n">offset</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeInt</span><span class="p">(</span><span class="n">tempData</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
-    <span class="n">bytes</span><span class="o">.</span><span class="n">writeBytes</span><span class="p">(</span><span class="n">tempData</span><span class="p">);</span>
-    <span class="n">return</span> <span class="p">(</span><span class="n">bytes</span><span class="p">);</span>
+<div class="highlight"><pre><span></span><span class="nt">public</span> <span class="nt">function</span> <span class="nt">getFTN_Bytes</span><span class="o">(</span><span class="nt">file</span><span class="p">:</span><span class="nd">FileByteArray</span><span class="o">,</span> <span class="nt">data</span><span class="p">:</span><span class="nd">String</span><span class="o">,</span> <span class="nt">offset</span><span class="p">:</span><span class="nd">int</span><span class="o">)</span><span class="p">:</span><span class="nd">ByteArray</span><span class="p">{</span>
+    <span class="err">var</span> <span class="n">bytes</span><span class="p">:</span><span class="n">ByteArray</span> <span class="o">=</span> <span class="n">new</span> <span class="nf">ByteArray</span><span class="p">();</span>
+    <span class="err">bytes.writeInt(2882377846)</span><span class="p">;</span>
+    <span class="err">bytes.writeInt(1000)</span><span class="p">;</span>
+    <span class="err">bytes.writeInt(0)</span><span class="p">;</span>
+    <span class="err">var</span> <span class="n">tempUkey</span><span class="p">:</span><span class="n">ByteArray</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="nf">Str2Bin</span><span class="p">(</span><span class="n">file</span><span class="err">.</span><span class="n">uKey</span><span class="p">);</span>
+    <span class="err">var</span> <span class="n">tempFileKey</span><span class="p">:</span><span class="n">ByteArray</span> <span class="o">=</span> <span class="n">this</span><span class="o">.</span><span class="nf">Str2Bin</span><span class="p">(</span><span class="n">file</span><span class="err">.</span><span class="n">fileKey</span><span class="p">);</span>
+    <span class="err">var</span> <span class="n">tempData</span><span class="p">:</span><span class="n">ByteArray</span> <span class="o">=</span> <span class="n">Base64</span><span class="o">.</span><span class="nf">decodeToByteArray</span><span class="p">(</span><span class="n">data</span><span class="p">);</span>
+    <span class="err">var</span> <span class="n">len</span><span class="p">:</span><span class="n">int</span> <span class="o">=</span> <span class="p">(((((</span><span class="mi">2</span> <span class="o">*</span> <span class="mi">2</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="mi">4</span> <span class="o">*</span> <span class="mi">3</span><span class="p">))</span> <span class="o">+</span> <span class="n">tempUkey</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">+</span> <span class="n">tempFileKey</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="o">+</span> <span class="n">tempData</span><span class="o">.</span><span class="n">length</span><span class="p">);</span>
+    <span class="err">bytes.writeInt(len)</span><span class="p">;</span>
+    <span class="err">bytes.writeShort(tempUkey.length)</span><span class="p">;</span>
+    <span class="err">bytes.writeBytes(tempUkey)</span><span class="p">;</span>
+    <span class="err">bytes.writeShort(tempFileKey.length)</span><span class="p">;</span>
+    <span class="err">bytes.writeBytes(tempFileKey)</span><span class="p">;</span>
+    <span class="err">bytes.writeInt(file.size)</span><span class="p">;</span>
+    <span class="err">bytes.writeInt(offset)</span><span class="p">;</span>
+    <span class="err">bytes.writeInt(tempData.length)</span><span class="p">;</span>
+    <span class="err">bytes.writeBytes(tempData)</span><span class="p">;</span>
+    <span class="err">return</span> <span class="err">(bytes)</span><span class="p">;</span>
 <span class="p">}</span>
 </pre></div>
 
 
 <p>Based on this, we can start implementing this in&nbsp;Python:</p>
-<div class="highlight"><pre><span></span><span class="k">class</span> <span class="n">ChunkedFileUpload</span>(<span class="n">BaseWeiyun</span>):
-    <span class="n">def</span> <span class="n">__init__</span>(<span class="k">self</span>, <span class="n">filename</span>, <span class="n">filesize</span>, <span class="n">parentdirkey</span>, <span class="n">parentparentdirkey</span>, <span class="n">fmd5</span>, <span class="n">fsha</span>):
-        <span class="n">utype</span> = <span class="mi">1</span> <span class="k">if</span> <span class="n">fmd5</span> == <span class="s">&quot;&quot;</span> <span class="k">else</span> <span class="mi">0</span>
-        <span class="k">self</span>.<span class="n">base</span> = <span class="s">&#39;http://user.weiyun.com/newcgi&#39;</span>
-        <span class="k">self</span>.<span class="n">endpoint</span> = <span class="s">&#39;/qdisk_upload.fcg&#39;</span>
-        <span class="k">self</span>.<span class="n">cmd</span> = <span class="s">&#39;2301&#39;</span>
-        <span class="k">self</span>.<span class="n">data</span> = {<span class="s">&quot;req_header&quot;</span>:{
-                        <span class="s">&quot;cmd&quot;</span>:<span class="n">int</span>(<span class="k">self</span>.<span class="n">cmd</span>),
-                        <span class="s">&quot;appid&quot;</span>:<span class="mi">30013</span>,
-                        <span class="s">&quot;version&quot;</span>:<span class="mi">2</span>,
-                        <span class="s">&quot;major_version&quot;</span>:<span class="mi">2</span>},
-                    <span class="s">&quot;req_body&quot;</span>:{
-                        <span class="s">&quot;ReqMsg_body&quot;</span>:{
-                            <span class="s">&quot;weiyun.DiskFileUploadMsgReq_body&quot;</span>:{
-                                <span class="s">&quot;ppdir_key&quot;</span>:<span class="n">parentparentdirkey</span>,
-                                <span class="s">&quot;pdir_key&quot;</span>:<span class="n">parentdirkey</span>,
-                                <span class="s">&quot;upload_type&quot;</span>:<span class="n">utype</span>,
-                                <span class="s">&quot;file_md5&quot;</span>:<span class="n">fmd5</span>,
-                                <span class="s">&quot;file_sha&quot;</span>:<span class="n">fsha</span>,
-                                <span class="s">&quot;file_size&quot;</span>:<span class="n">filesize</span>,
-                                <span class="s">&quot;filename&quot;</span>:<span class="n">filename</span>,
-                                <span class="s">&quot;file_exist_option&quot;</span>:<span class="mi">4</span>}}}}
-        <span class="k">self</span>.<span class="n">parentdirkey</span> = <span class="n">parentdirkey</span>
-        <span class="k">self</span>.<span class="n">parentparentdirkey</span> = <span class="n">parentparentdirkey</span>
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">ChunkedFileUpload</span><span class="p">(</span><span class="nx">BaseWeiyun</span><span class="p">)</span><span class="o">:</span>
+    <span class="nx">def</span> <span class="nx">__init__</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">filename</span><span class="p">,</span> <span class="nx">filesize</span><span class="p">,</span> <span class="nx">parentdirkey</span><span class="p">,</span> <span class="nx">parentparentdirkey</span><span class="p">,</span> <span class="nx">fmd5</span><span class="p">,</span> <span class="nx">fsha</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">utype</span> <span class="o">=</span> <span class="mi">1</span> <span class="k">if</span> <span class="nx">fmd5</span> <span class="o">==</span> <span class="s2">&quot;&quot;</span> <span class="k">else</span> <span class="mi">0</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">=</span> <span class="s1">&#39;http://user.weiyun.com/newcgi&#39;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">endpoint</span> <span class="o">=</span> <span class="s1">&#39;/qdisk_upload.fcg&#39;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">cmd</span> <span class="o">=</span> <span class="s1">&#39;2301&#39;</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">data</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;req_header&quot;</span><span class="o">:</span><span class="p">{</span>
+                        <span class="s2">&quot;cmd&quot;</span><span class="o">:</span><span class="kr">int</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">cmd</span><span class="p">),</span>
+                        <span class="s2">&quot;appid&quot;</span><span class="o">:</span><span class="mi">30013</span><span class="p">,</span>
+                        <span class="s2">&quot;version&quot;</span><span class="o">:</span><span class="mi">2</span><span class="p">,</span>
+                        <span class="s2">&quot;major_version&quot;</span><span class="o">:</span><span class="mi">2</span><span class="p">},</span>
+                    <span class="s2">&quot;req_body&quot;</span><span class="o">:</span><span class="p">{</span>
+                        <span class="s2">&quot;ReqMsg_body&quot;</span><span class="o">:</span><span class="p">{</span>
+                            <span class="s2">&quot;weiyun.DiskFileUploadMsgReq_body&quot;</span><span class="o">:</span><span class="p">{</span>
+                                <span class="s2">&quot;ppdir_key&quot;</span><span class="o">:</span><span class="nx">parentparentdirkey</span><span class="p">,</span>
+                                <span class="s2">&quot;pdir_key&quot;</span><span class="o">:</span><span class="nx">parentdirkey</span><span class="p">,</span>
+                                <span class="s2">&quot;upload_type&quot;</span><span class="o">:</span><span class="nx">utype</span><span class="p">,</span>
+                                <span class="s2">&quot;file_md5&quot;</span><span class="o">:</span><span class="nx">fmd5</span><span class="p">,</span>
+                                <span class="s2">&quot;file_sha&quot;</span><span class="o">:</span><span class="nx">fsha</span><span class="p">,</span>
+                                <span class="s2">&quot;file_size&quot;</span><span class="o">:</span><span class="nx">filesize</span><span class="p">,</span>
+                                <span class="s2">&quot;filename&quot;</span><span class="o">:</span><span class="nx">filename</span><span class="p">,</span>
+                                <span class="s2">&quot;file_exist_option&quot;</span><span class="o">:</span><span class="mi">4</span><span class="p">}}}}</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">parentdirkey</span> <span class="o">=</span> <span class="nx">parentdirkey</span>
+        <span class="nx">self</span><span class="p">.</span><span class="nx">parentparentdirkey</span> <span class="o">=</span> <span class="nx">parentparentdirkey</span>
 
-    <span class="n">def</span> <span class="n">get_response</span>(<span class="k">self</span>):
-        <span class="n">url</span> = <span class="k">self</span>.<span class="n">base</span> + <span class="k">self</span>.<span class="n">endpoint</span>
-        <span class="n">payload</span> = <span class="k">self</span>.<span class="n">get_payload</span>()
-        <span class="n">headers</span> = <span class="n">HEADERS</span>.<span class="k">copy</span>()
-        <span class="n">headers</span>[<span class="s">&#39;Referer&#39;</span>] = <span class="s">&#39;http://user.weiyun.com/cdr_proxy.html&#39;</span>
-        <span class="n">r</span> = <span class="n">requests</span>.<span class="n">get</span>(<span class="n">url</span>, <span class="n">cookies</span>=<span class="n">COOKIES</span>, <span class="n">params</span>=<span class="n">payload</span>, <span class="n">headers</span>=<span class="n">headers</span>)
-        <span class="n">response</span> = <span class="n">r</span>.<span class="n">text</span>\
-            .<span class="n">replace</span>(<span class="s">&#39;try{X_GET(&#39;</span>, <span class="s">&#39;&#39;</span>)\
-            .<span class="n">replace</span>(<span class="s">&#39;)}catch(e){};&#39;</span>, <span class="s">&#39;&#39;</span>);
-        <span class="k">return</span> <span class="n">json</span>.<span class="n">loads</span>(<span class="n">response</span>)
+    <span class="nx">def</span> <span class="nx">get_response</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">url</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">base</span> <span class="o">+</span> <span class="nx">self</span><span class="p">.</span><span class="nx">endpoint</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_payload</span><span class="p">()</span>
+        <span class="nx">headers</span> <span class="o">=</span> <span class="nx">HEADERS</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span>
+        <span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;Referer&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;http://user.weiyun.com/cdr_proxy.html&#39;</span>
+        <span class="nx">r</span> <span class="o">=</span> <span class="nx">requests</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">url</span><span class="p">,</span> <span class="nx">cookies</span><span class="o">=</span><span class="nx">COOKIES</span><span class="p">,</span> <span class="nx">params</span><span class="o">=</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">headers</span><span class="o">=</span><span class="nx">headers</span><span class="p">)</span>
+        <span class="nx">response</span> <span class="o">=</span> <span class="nx">r</span><span class="p">.</span><span class="nx">text</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;try{X_GET(&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span><span class="o">\</span>
+            <span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="s1">&#39;)}catch(e){};&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">);</span>
+        <span class="k">return</span> <span class="nx">json</span><span class="p">.</span><span class="nx">loads</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
 
-    <span class="n">def</span> <span class="n">get_payload</span>(<span class="k">self</span>):
-        <span class="n">payload</span> = ((<span class="s">&#39;cmd&#39;</span>, <span class="k">self</span>.<span class="n">cmd</span>),
-            (<span class="s">&#39;g_tk&#39;</span>, <span class="n">GTK</span>),
-            (<span class="s">&#39;data&#39;</span>, <span class="n">json</span>.<span class="n">dumps</span>(<span class="k">self</span>.<span class="n">data</span>)),
-            (<span class="s">&#39;callback&#39;</span>, <span class="s">&#39;X_GET&#39;</span>),
-            (<span class="s">&#39;_&#39;</span>, <span class="n">str</span>(<span class="n">current_milli_time</span>())))
-        <span class="k">return</span> <span class="n">payload</span>;
+    <span class="nx">def</span> <span class="nx">get_payload</span><span class="p">(</span><span class="nx">self</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">payload</span> <span class="o">=</span> <span class="p">((</span><span class="s1">&#39;cmd&#39;</span><span class="p">,</span> <span class="nx">self</span><span class="p">.</span><span class="nx">cmd</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;g_tk&#39;</span><span class="p">,</span> <span class="nx">GTK</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;data&#39;</span><span class="p">,</span> <span class="nx">json</span><span class="p">.</span><span class="nx">dumps</span><span class="p">(</span><span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">)),</span>
+            <span class="p">(</span><span class="s1">&#39;callback&#39;</span><span class="p">,</span> <span class="s1">&#39;X_GET&#39;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">,</span> <span class="nx">str</span><span class="p">(</span><span class="nx">current_milli_time</span><span class="p">())))</span>
+        <span class="k">return</span> <span class="nx">payload</span><span class="p">;</span>
 
-    <span class="n">def</span> <span class="n">callback</span>(<span class="k">self</span>, <span class="n">send</span>, <span class="n">total</span>):
-        <span class="nb">print</span> <span class="n">send</span>, <span class="n">total</span>
+    <span class="nx">def</span> <span class="nx">callback</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">send</span><span class="p">,</span> <span class="nx">total</span><span class="p">)</span><span class="o">:</span>
+        <span class="nx">print</span> <span class="nx">send</span><span class="p">,</span> <span class="nx">total</span>
 
-    <span class="n">def</span> <span class="n">send_file</span>(<span class="k">self</span>, <span class="n">filename</span>, <span class="n">callback</span>=<span class="n">None</span>):
-        <span class="k">if</span> <span class="n">callback</span> <span class="k">is</span> <span class="n">None:</span>
-            <span class="n">callback</span> = <span class="k">self</span>.<span class="n">callback</span>
-        <span class="n">a</span> = <span class="k">self</span>.<span class="n">get_response</span>()
-        <span class="n">rspbody</span> = <span class="n">a</span>[<span class="s">&#39;rsp_body&#39;</span>][<span class="s">&#39;RspMsg_body&#39;</span>][<span class="s">&#39;weiyun.DiskFileUploadMsgRsp_body&#39;</span>]
-        <span class="nb">print</span> <span class="n">rspbody</span>
-        <span class="k">if</span> <span class="n">rspbody</span>[<span class="s">&#39;file_exist&#39;</span>] <span class="o">and</span> <span class="n">False:</span>
-            <span class="k">return</span> <span class="nb">True</span>
-        <span class="n">else:</span>
-            <span class="nb">print</span> <span class="s">&#39;&#39;</span>
-            <span class="n">url</span> = <span class="s">&#39;http://&#39;</span> + <span class="n">rspbody</span>[<span class="s">&#39;server_name&#39;</span>]+<span class="s">&#39;:&#39;</span>+\
-                <span class="n">str</span>(<span class="n">rspbody</span>[<span class="s">&#39;server_port&#39;</span>]) + <span class="s">&#39;/ftn_handler/&#39;</span>+\
-                <span class="k">self</span>.<span class="n">data</span>[<span class="s">&#39;req_body&#39;</span>][<span class="s">&#39;ReqMsg_body&#39;</span>][<span class="s">&#39;weiyun.DiskFileUploadMsgReq_body&#39;</span>][<span class="s">&#39;file_md5&#39;</span>]
-            <span class="n">headers</span> = <span class="n">HEADERS</span>.<span class="k">copy</span>()
-            <span class="n">headers</span>[<span class="s">&#39;origin&#39;</span>] = <span class="s">&#39;http://img.weiyun.com&#39;</span>
-            <span class="n">length</span> = <span class="mi">131072</span>
-            <span class="n">filekey</span> = <span class="n">rspbody</span>[<span class="s">&#39;file_key&#39;</span>]
-            <span class="n">ukey</span> = <span class="n">rspbody</span>[<span class="s">&#39;check_key&#39;</span>]
-            <span class="k">for</span> <span class="n">start</span> <span class="n">in</span> <span class="n">range</span>(<span class="mi">0</span>, <span class="n">file_size</span>(<span class="n">filename</span>), <span class="mi">131072</span>):
-                <span class="n">chunk</span> = <span class="n">get_chunk</span>(<span class="n">filename</span>, <span class="n">start</span>, <span class="n">length</span>)
-                <span class="n">encch</span> = <span class="n">encode_chunk</span>(<span class="n">ukey</span>, <span class="n">filekey</span>, <span class="n">filename</span>, <span class="n">start</span>, <span class="n">chunk</span>)
-                <span class="n">bmd5</span> = <span class="s">&#39;?&#39;</span> <span class="c c-Singleline"># TODO: requires conversion of crypto</span>
-                <span class="nb">print</span> <span class="n">bmd5</span>
-                <span class="n">r</span> = <span class="n">requests</span>.<span class="n">post</span>(<span class="n">url</span>+ <span class="s">&#39;?bmd5=&#39;</span> + <span class="n">bmd5</span>, <span class="n">headers</span>=<span class="n">headers</span>, <span class="n">data</span> = <span class="n">encch</span>)
-                <span class="k">if</span> <span class="n">callback</span> <span class="k">is</span> <span class="nb">not</span> <span class="n">None:</span>
-                    <span class="n">callback</span>(<span class="n">start</span> + <span class="n">length</span>, <span class="n">file_size</span>(<span class="n">filename</span>))
+    <span class="nx">def</span> <span class="nx">send_file</span><span class="p">(</span><span class="nx">self</span><span class="p">,</span> <span class="nx">filename</span><span class="p">,</span> <span class="nx">callback</span><span class="o">=</span><span class="nx">None</span><span class="p">)</span><span class="o">:</span>
+        <span class="k">if</span> <span class="nx">callback</span> <span class="nx">is</span> <span class="nx">None</span>:
+            <span class="kt">callback</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">callback</span>
+        <span class="nx">a</span> <span class="o">=</span> <span class="nx">self</span><span class="p">.</span><span class="nx">get_response</span><span class="p">()</span>
+        <span class="nx">rspbody</span> <span class="o">=</span> <span class="nx">a</span><span class="p">[</span><span class="s1">&#39;rsp_body&#39;</span><span class="p">][</span><span class="s1">&#39;RspMsg_body&#39;</span><span class="p">][</span><span class="s1">&#39;weiyun.DiskFileUploadMsgRsp_body&#39;</span><span class="p">]</span>
+        <span class="nx">print</span> <span class="nx">rspbody</span>
+        <span class="k">if</span> <span class="nx">rspbody</span><span class="p">[</span><span class="s1">&#39;file_exist&#39;</span><span class="p">]</span> <span class="nx">and</span> <span class="nx">False</span>:
+            <span class="kt">return</span> <span class="nx">True</span>
+        <span class="k">else</span><span class="o">:</span>
+            <span class="nx">print</span> <span class="s1">&#39;&#39;</span>
+            <span class="nx">url</span> <span class="o">=</span> <span class="s1">&#39;http://&#39;</span> <span class="o">+</span> <span class="nx">rspbody</span><span class="p">[</span><span class="s1">&#39;server_name&#39;</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;:&#39;</span><span class="o">+\</span>
+                <span class="nx">str</span><span class="p">(</span><span class="nx">rspbody</span><span class="p">[</span><span class="s1">&#39;server_port&#39;</span><span class="p">])</span> <span class="o">+</span> <span class="s1">&#39;/ftn_handler/&#39;</span><span class="o">+\</span>
+                <span class="nx">self</span><span class="p">.</span><span class="nx">data</span><span class="p">[</span><span class="s1">&#39;req_body&#39;</span><span class="p">][</span><span class="s1">&#39;ReqMsg_body&#39;</span><span class="p">][</span><span class="s1">&#39;weiyun.DiskFileUploadMsgReq_body&#39;</span><span class="p">][</span><span class="s1">&#39;file_md5&#39;</span><span class="p">]</span>
+            <span class="nx">headers</span> <span class="o">=</span> <span class="nx">HEADERS</span><span class="p">.</span><span class="nx">copy</span><span class="p">()</span>
+            <span class="nx">headers</span><span class="p">[</span><span class="s1">&#39;origin&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;http://img.weiyun.com&#39;</span>
+            <span class="nx">length</span> <span class="o">=</span> <span class="mi">131072</span>
+            <span class="nx">filekey</span> <span class="o">=</span> <span class="nx">rspbody</span><span class="p">[</span><span class="s1">&#39;file_key&#39;</span><span class="p">]</span>
+            <span class="nx">ukey</span> <span class="o">=</span> <span class="nx">rspbody</span><span class="p">[</span><span class="s1">&#39;check_key&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="nx">start</span> <span class="k">in</span> <span class="nx">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nx">file_size</span><span class="p">(</span><span class="nx">filename</span><span class="p">),</span> <span class="mi">131072</span><span class="p">)</span><span class="o">:</span>
+                <span class="nx">chunk</span> <span class="o">=</span> <span class="nx">get_chunk</span><span class="p">(</span><span class="nx">filename</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">length</span><span class="p">)</span>
+                <span class="nx">encch</span> <span class="o">=</span> <span class="nx">encode_chunk</span><span class="p">(</span><span class="nx">ukey</span><span class="p">,</span> <span class="nx">filekey</span><span class="p">,</span> <span class="nx">filename</span><span class="p">,</span> <span class="nx">start</span><span class="p">,</span> <span class="nx">chunk</span><span class="p">)</span>
+                <span class="nx">bmd5</span> <span class="o">=</span> <span class="s1">&#39;?&#39;</span> <span class="err">#</span> <span class="nx">TODO</span>: <span class="kt">requires</span> <span class="nx">conversion</span> <span class="nx">of</span> <span class="nx">crypto</span>
+                <span class="nx">print</span> <span class="nx">bmd5</span>
+                <span class="nx">r</span> <span class="o">=</span> <span class="nx">requests</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="nx">url</span><span class="o">+</span> <span class="s1">&#39;?bmd5=&#39;</span> <span class="o">+</span> <span class="nx">bmd5</span><span class="p">,</span> <span class="nx">headers</span><span class="o">=</span><span class="nx">headers</span><span class="p">,</span> <span class="nx">data</span> <span class="o">=</span> <span class="nx">encch</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nx">callback</span> <span class="nx">is</span> <span class="nx">not</span> <span class="nx">None</span>:
+                    <span class="kt">callback</span><span class="p">(</span><span class="nx">start</span> <span class="o">+</span> <span class="nx">length</span><span class="p">,</span> <span class="nx">file_size</span><span class="p">(</span><span class="nx">filename</span><span class="p">))</span>
 </pre></div>
 
 
@@ -956,9 +959,9 @@ GTK = get_tk(SKEY)
 
 
 <p>Corresponding with the following lines in the Flash&nbsp;source:</p>
-<div class="highlight"><pre><span></span><span class="nt">var</span> <span class="nt">ctx</span><span class="nd">:MD5Context</span> <span class="o">=</span> <span class="nt">new</span> <span class="nt">MD5Context</span><span class="o">();</span>
-<span class="nt">MD5Inc</span><span class="nc">.update</span><span class="o">(</span><span class="nt">ctx</span><span class="o">,</span> <span class="nt">Base64</span><span class="nc">.decode</span><span class="o">(</span><span class="nt">data</span><span class="o">));</span>
-<span class="nt">var</span> <span class="nt">_md5</span><span class="nd">:String</span> <span class="o">=</span> <span class="nt">MD5Inc</span><span class="nc">.result</span><span class="o">(</span><span class="nt">ctx</span><span class="o">);</span>
+<div class="highlight"><pre><span></span><span class="nt">var</span> <span class="nt">ctx</span><span class="p">:</span><span class="nd">MD5Context</span> <span class="o">=</span> <span class="nt">new</span> <span class="nt">MD5Context</span><span class="o">();</span>
+<span class="nt">MD5Inc</span><span class="p">.</span><span class="nc">update</span><span class="o">(</span><span class="nt">ctx</span><span class="o">,</span> <span class="nt">Base64</span><span class="p">.</span><span class="nc">decode</span><span class="o">(</span><span class="nt">data</span><span class="o">));</span>
+<span class="nt">var</span> <span class="nt">_md5</span><span class="p">:</span><span class="nd">String</span> <span class="o">=</span> <span class="nt">MD5Inc</span><span class="p">.</span><span class="nc">result</span><span class="o">(</span><span class="nt">ctx</span><span class="o">);</span>
 </pre></div>
 
 

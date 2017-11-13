@@ -9,7 +9,10 @@
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+<<<<<<< HEAD
 	<script src="/theme/js/jquery-3.2.1.min.js"></script>
+=======
+>>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
 	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
@@ -661,7 +664,7 @@ Citations list None
     <span class="n">COOKIE_JAR</span> <span class="o">=</span> <span class="p">{}</span>
 
 <span class="k">class</span> <span class="nc">Article</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span>            <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;ID&#39;</span><span class="p">,</span>              <span class="mi">0</span><span class="p">],</span>
                       <span class="s1">&#39;title&#39;</span><span class="p">:</span>         <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;Title&#39;</span><span class="p">,</span>           <span class="mi">1</span><span class="p">],</span>
                       <span class="s1">&#39;url&#39;</span><span class="p">:</span>           <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;URL&#39;</span><span class="p">,</span>             <span class="mi">2</span><span class="p">],</span>
@@ -673,21 +676,21 @@ Citations list None
                       <span class="s1">&#39;url_related&#39;</span><span class="p">:</span>   <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;Related list&#39;</span><span class="p">,</span>    <span class="mi">8</span><span class="p">],</span>
                       <span class="s1">&#39;year&#39;</span><span class="p">:</span>          <span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;Year&#39;</span><span class="p">,</span>            <span class="mi">9</span><span class="p">]}</span>
 
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">None</span>
 
-    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">)]</span>
 
-    <span class="k">def</span> <span class="nf">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">:</span>
             <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
@@ -713,11 +716,11 @@ Citations list None
 <span class="k">class</span> <span class="nc">ScholarParser</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="n">SCHOLAR_SITE</span> <span class="o">=</span> <span class="s1">&#39;http://scholar.google.com&#39;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">soup</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">article</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="n">site</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCHOLAR_SITE</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">year_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;\b(?:20|19)\d{2}\b&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">year_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\b(?:20|19)\d{2}\b&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">handle_article</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">art</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
@@ -848,7 +851,7 @@ Citations list None
                     <span class="n">ltag</span> <span class="o">=</span> <span class="n">tag</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s1">&#39;div&#39;</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;class&#39;</span><span class="p">:</span> <span class="s1">&#39;gs_fl&#39;</span><span class="p">})</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_parse_links</span><span class="p">(</span><span class="n">ltag</span><span class="p">)</span>
 
-                    <span class="n">id_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;gs_ocit\(event,</span><span class="se">\&#39;</span><span class="s1">(.*?)</span><span class="se">\&#39;</span><span class="s1">,&#39;</span><span class="p">)</span>
+                    <span class="n">id_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;gs_ocit\(event,</span><span class="se">\&#39;</span><span class="s1">(.*?)</span><span class="se">\&#39;</span><span class="s1">,&#39;</span><span class="p">)</span>
                     <span class="nb">id</span> <span class="o">=</span> <span class="n">id_re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">ltag</span><span class="p">))</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">None</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;url_cite&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path2url</span><span class="p">(</span><span class="s1">&#39;/scholar?q=info:&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;:scholar.google.com/&amp;output=cite&amp;scirp=0&amp;hl=en&#39;</span><span class="p">)</span>
@@ -879,7 +882,7 @@ Citations list None
                 <span class="bp">self</span><span class="o">.</span><span class="n">article</span><span class="p">[</span><span class="s1">&#39;url_versions&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path2url</span><span class="p">(</span><span class="n">tag</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;href&#39;</span><span class="p">))</span>
 
 <span class="k">class</span> <span class="nc">CiteParser</span><span class="p">(</span><span class="n">ScholarParser</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">site</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">site</span> <span class="o">=</span> <span class="n">site</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCHOLAR_SITE</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">soup</span> <span class="o">=</span> <span class="bp">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">export</span> <span class="o">=</span> <span class="p">{}</span>
@@ -915,14 +918,14 @@ Citations list None
     <span class="n">USER_AGENT</span> <span class="o">=</span> <span class="s1">&#39;Mozilla/5.0 (Windows NT 6.2; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/32.0.1667.0 Safari/537.36&#39;</span>
 
     <span class="k">class</span> <span class="nc">Parser</span><span class="p">(</span><span class="n">ScholarParser120726</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querier</span><span class="p">):</span>
-            <span class="n">ScholarParser120726</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querier</span><span class="p">):</span>
+            <span class="n">ScholarParser120726</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">querier</span> <span class="o">=</span> <span class="n">querier</span>
 
         <span class="k">def</span> <span class="nf">handle_article</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">art</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">querier</span><span class="o">.</span><span class="n">add_article</span><span class="p">(</span><span class="n">art</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">scholar_url</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">author</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">scholar_url</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">articles</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">author</span> <span class="o">=</span> <span class="n">author</span>
         <span class="c1"># Clip to 100, as Google doesn&#39;t support more anyway</span>
@@ -962,11 +965,11 @@ Citations list None
     <span class="n">CITE_URL</span> <span class="o">=</span> <span class="s1">&#39;http://scholar.google.com/scholar?q=info:</span><span class="si">%(id)s</span><span class="s1">:scholar.google.com/&amp;output=cite&amp;scirp=0&amp;hl=en&#39;</span>
 
     <span class="k">class</span> <span class="nc">Parser</span><span class="p">(</span><span class="n">CiteParser</span><span class="p">):</span>
-        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querier</span><span class="p">):</span>
-            <span class="n">CiteParser</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">querier</span><span class="p">):</span>
+            <span class="n">CiteParser</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">querier</span> <span class="o">=</span> <span class="n">querier</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">id</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">id</span> <span class="o">=</span> <span class="nb">id</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">parser</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Parser</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">query</span><span class="p">()</span>
@@ -1063,7 +1066,7 @@ Citations list None
 
     <span class="k">return</span> <span class="mi">0</span>
 
-<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">main</span><span class="p">())</span>
 </pre></div>
 </td></tr></table>
@@ -1140,7 +1143,7 @@ def guess():
 
 <span class="k">def</span> <span class="nf">make_query_year</span><span class="p">(</span><span class="n">reference</span><span class="p">,</span> <span class="n">l</span> <span class="o">=</span> <span class="mi">3</span><span class="p">):</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">reference</span>
-    <span class="n">id_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="s1">r&#39;(\d\d\d\d)&#39;</span><span class="p">)</span>
+    <span class="n">id_re</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;(\d\d\d\d)&#39;</span><span class="p">)</span>
     <span class="nb">id</span> <span class="o">=</span> <span class="n">id_re</span><span class="o">.</span><span class="n">findall</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
     <span class="n">year</span> <span class="o">=</span> <span class="nb">id</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">id</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="s1">&#39;(&#39;</span>
     <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">year</span><span class="p">)</span>

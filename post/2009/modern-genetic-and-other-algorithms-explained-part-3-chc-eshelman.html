@@ -9,7 +9,10 @@
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
+<<<<<<< HEAD
 	<script src="/theme/js/jquery-3.2.1.min.js"></script>
+=======
+>>>>>>> 7096e174425407c99485d7639cb5c0f7f0a46af9
 	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
 	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
 	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
@@ -156,49 +159,47 @@ Evolution until time limit hit or satisfying solution found:
   <span class="n">nr_swaps</span> <span class="o">=</span> <span class="mi">0</span>
   <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">ind1</span><span class="p">)):</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">==</span> <span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span> <span class="ow">or</span> <span class="p">(</span><span class="n">random</span> <span class="o">&gt;</span> <span class="mf">0.5</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">nr_swaps</span> <span class="o">&gt;</span> <span class="n">hamming_dist</span> <span class="o">/</span> <span class="mi">2</span><span class="p">):</span>
-</pre></div>
+      <span class="c1">#same, just copy to both</span>
+      <span class="n">child_one</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+      <span class="n">child_two</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="c1">#different, swap with .5 probability, until hamming/2 swaps</span>
+      <span class="n">nr_swaps</span> <span class="o">+=</span> <span class="mi">1</span>
+      <span class="n">child_one</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ind2</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+      <span class="n">child_two</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ind1</span><span class="p">[</span><span class="n">x</span><span class="p">])</span>
+  <span class="k">return</span> <span class="p">[</span><span class="n">child_one</span><span class="p">,</span><span class="n">child_two</span><span class="p">]</span>
 
-
-<p>#same, just copy to both
-          child_one.append(ind1[x])
-          child_two.append(ind2[x])
-        else:
-          #different, swap with .5 probability, until hamming/2 swaps
-          nr_swaps += 1
-          child_one.append(ind2[x])
-          child_two.append(ind1[x])
-      return&nbsp;[child_one,child_two]</p>
-<div class="highlight"><pre><span></span>def evolve(pop, target, min, max, treshold):
-  child_population = []
-  for i in range(1, len(pop)/2):
-    #choose two random parents:
-    parent_one = pop[randint(0, len(pop)-1)]
-    parent_two = pop[randint(0, len(pop)-1)]
-    if (hamming(parent_one, parent_two)/2) &gt; treshold[0]:
-      #do hux crossover
-      children = hux(parent_one, parent_two)
-      child_population.append(children[0])
-      child_population.append(children[1])
-  if len(child_population) == 0:
-    treshold[0]-=1;
-    print &quot;No children evolved&quot;
-  else:
-    p_count = len(pop);
-    print len(child_population),&quot;children&quot;
-    for x in child_population:
-      pop.append(x)
-    pop.sort (lambda x, y : cmp (fitness(x, target), fitness(y, target)))
-    #for x in pop:
-    # if fitness(x,target) == 0:
-    # print &quot;Perfect individual found:&quot;,x
-    pop = pop[:p_count]
-    print len(pop),&quot;new population, grade:&quot;, grade(pop, target)
-  if treshold[0] &lt; 0:
-    pop = cataclysm(pop, target, min, max)
-    print &quot;Cataclysm, newpop length:&quot;,len(pop),&quot;grade:&quot;,grade(pop,target)
-    treshold[0] = len(pop[0]) / 4.0
-    print &quot;Treshold is now:&quot;,treshold[0]
-  return pop`
+<span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">,</span> <span class="n">treshold</span><span class="p">):</span>
+  <span class="n">child_population</span> <span class="o">=</span> <span class="p">[]</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">):</span>
+    <span class="c1">#choose two random parents:</span>
+    <span class="n">parent_one</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="n">parent_two</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">hamming</span><span class="p">(</span><span class="n">parent_one</span><span class="p">,</span> <span class="n">parent_two</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">treshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+      <span class="c1">#do hux crossover</span>
+      <span class="n">children</span> <span class="o">=</span> <span class="n">hux</span><span class="p">(</span><span class="n">parent_one</span><span class="p">,</span> <span class="n">parent_two</span><span class="p">)</span>
+      <span class="n">child_population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">children</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+      <span class="n">child_population</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">children</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+  <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_population</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">treshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-=</span><span class="mi">1</span><span class="p">;</span>
+    <span class="k">print</span> <span class="s2">&quot;No children evolved&quot;</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="n">p_count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">);</span>
+    <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">child_population</span><span class="p">),</span><span class="s2">&quot;children&quot;</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">child_population</span><span class="p">:</span>
+      <span class="n">pop</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">pop</span><span class="o">.</span><span class="n">sort</span> <span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="p">:</span> <span class="nb">cmp</span> <span class="p">(</span><span class="n">fitness</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">target</span><span class="p">),</span> <span class="n">fitness</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">target</span><span class="p">)))</span>
+    <span class="c1">#for x in pop:</span>
+    <span class="c1"># if fitness(x,target) == 0:</span>
+    <span class="c1"># print &quot;Perfect individual found:&quot;,x</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">pop</span><span class="p">[:</span><span class="n">p_count</span><span class="p">]</span>
+    <span class="k">print</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">),</span><span class="s2">&quot;new population, grade:&quot;</span><span class="p">,</span> <span class="n">grade</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">treshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">pop</span> <span class="o">=</span> <span class="n">cataclysm</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">)</span>
+    <span class="k">print</span> <span class="s2">&quot;Cataclysm, newpop length:&quot;</span><span class="p">,</span><span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">),</span><span class="s2">&quot;grade:&quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span><span class="n">target</span><span class="p">)</span>
+    <span class="n">treshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">4.0</span>
+    <span class="k">print</span> <span class="s2">&quot;Treshold is now:&quot;</span><span class="p">,</span><span class="n">treshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+  <span class="k">return</span> <span class="n">pop</span><span class="err">`</span>
 </pre></div>
 
 
@@ -351,15 +352,13 @@ Treshold is now: 1.5
 <p>If you want to download the source code used in this post, you can find it <a href="http://www.macuyiko.com/files/ga/ga_chceshelman.zip">here</a>.</p>
 <hr>
 <p>Table Of Contents (click a link to jump to that&nbsp;post)</p>
-<ol>
-<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
-2. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
-3. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
-4. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
-5. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>
-6. <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu&nbsp;Search</a></li>
-<li><a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a></li>
-</ol>
+<p>1- <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Introduction</a>
+2- <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-2-genetic-algorithms.html">Genetic Algorithms</a>
+3- <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-3-chc-eshelman.html"><span class="caps">CHC</span> Eshelman</a>
+4- <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-4-simulated-annealing.html">Simulated Annealing</a>
+5- <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-5-ant-colony-optimization.html">Ant Colony Optimization</a>
+6- <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-6-tabu-search.html">Tabu Search</a>
+7- <a href="http://blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-7-conclusion.html">Conclusion</a></p>
 	</article>
 </div>
 		
