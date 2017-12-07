@@ -1,5 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall - Seppe "Macuyiko" vanden Broucke</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/seppe-macuyiko-vanden-broucke.atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2017-11-13T14:30:00+01:00</updated><entry><title>Note to Self: Using Tesseract to Extract Subtitles</title><link href="http://blog.macuyiko.com/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html" rel="alternate"></link><published>2017-11-13T14:30:00+01:00</published><updated>2017-11-13T14:30:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-13:/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html</id><summary type="html">&lt;p&gt;Say you have video such as &lt;a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/"&gt;this one&lt;/a&gt; on Facebook. Most of these come with hardcoded subtitles, which we&amp;#8217;d like to extract (for whatever&amp;nbsp;reason).&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall - Seppe "Macuyiko" vanden Broucke</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/seppe-macuyiko-vanden-broucke.atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2017-11-13T14:30:00+01:00</updated><entry><title>Note to Self: Fast Android Screen Capture</title><link href="http://blog.macuyiko.com/post/2017/note-to-self-fast-android-screen-capture.html" rel="alternate"></link><published>2017-11-13T14:30:00+01:00</published><updated>2017-11-13T14:30:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-13:/post/2017/note-to-self-fast-android-screen-capture.html</id><summary type="html">&lt;p&gt;Getting a reliable, real-time screen of an Android device is more challenging than one might think, e.g. for the purpose of training a reinforcement learning&amp;nbsp;agent.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.shvetsov.com/2013/02/grab-android-screenshot-to-computer-via.html"&gt;This post&lt;/a&gt; describes a basic&amp;nbsp;approach:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb shell screencap -p
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Sadly, adb mangles binary output and has a tendency to convert &lt;code&gt;\n&lt;/code&gt; to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Getting a reliable, real-time screen of an Android device is more challenging than one might think, e.g. for the purpose of training a reinforcement learning&amp;nbsp;agent.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://blog.shvetsov.com/2013/02/grab-android-screenshot-to-computer-via.html"&gt;This post&lt;/a&gt; describes a basic&amp;nbsp;approach:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb shell screencap -p
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Sadly, adb mangles binary output and has a tendency to convert &lt;code&gt;\n&lt;/code&gt; to &lt;code&gt;\r\n&lt;/code&gt;, which we need to manually untangle. Newer versions of &lt;code&gt;adb&lt;/code&gt; come with an &lt;code&gt;exec-out&lt;/code&gt; command which removes this&amp;nbsp;problem:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb exec-out screencap -p
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Though note that &lt;code&gt;exec-out&lt;/code&gt; in older versions still returns mangled&amp;nbsp;output.&lt;/p&gt;
+&lt;p&gt;In any case, using this command as a real-time image feed is unfeasible. Let&amp;#8217;s define a small helper&amp;nbsp;script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;subprocess&lt;/span&gt;
+
+&lt;span class="n"&gt;ADBBIN&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;adb.exe&amp;#39;&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;run_adb&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;as_str&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;print_out&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;out_file&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="nb"&gt;type&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="nb"&gt;str&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;arguments&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;split&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39; &amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;&lt;span class="n"&gt;ADBBIN&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;arguments&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;subprocess&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PIPE&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;stdout&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;stdout&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;replace&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\r\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;b&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="se"&gt;\n&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;as_str&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;stdout&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;decode&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;utf-8&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;print_out&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;out_file&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="n"&gt;mode&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;w&amp;#39;&lt;/span&gt; &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;as_str&lt;/span&gt; &lt;span class="k"&gt;else&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;wb&amp;#39;&lt;/span&gt;
+        &lt;span class="k"&gt;with&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;out_file&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;mode&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+            &lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;stdout&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="n"&gt;stdout&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which we can then use with&amp;nbsp;e.g.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;adb&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;tkinter&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;tk&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;time&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;PIL&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;ImageTk&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;io&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;BytesIO&lt;/span&gt;
+
+&lt;span class="n"&gt;window&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Tk&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;title&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;Image&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;geometry&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;360x660&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;background&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;grey&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;panel&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;tk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;Label&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;panel&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;pack&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;side&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;bottom&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;fill&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;both&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;expand&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;yes&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;previous_time&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;span class="n"&gt;frames_drawn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;span class="k"&gt;while&lt;/span&gt; &lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;data&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;run_adb&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;exec-out screencap -p&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;clean&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;False&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;im&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;BytesIO&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;data&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;thumbnail&lt;/span&gt;&lt;span class="p"&gt;((&lt;/span&gt;&lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;size&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;*&lt;/span&gt; &lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;33&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="n"&gt;Image&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;ANTIALIAS&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;img&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;ImageTk&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;PhotoImage&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;im&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;panel&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;configure&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;img&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="n"&gt;panel&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;image&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;img&lt;/span&gt;
+    &lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update_idletasks&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;window&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;update&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;frames_drawn&lt;/span&gt; &lt;span class="o"&gt;+=&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;&amp;gt;&lt;/span&gt; &lt;span class="n"&gt;previous_time&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="mi"&gt;10&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+        &lt;span class="k"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;FPS:&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;frames_drawn&lt;/span&gt; &lt;span class="o"&gt;/&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;previous_time&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+        &lt;span class="n"&gt;previous_time&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;time&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+        &lt;span class="n"&gt;frames_drawn&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This works, but leads to a horrible framerate (and a very hot&amp;nbsp;phone):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2017/adb.gif"&gt;&lt;/p&gt;
+&lt;p&gt;Some devices also allow to use a &lt;code&gt;screenrecord&lt;/code&gt; command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;adb exec-out screenrecord --output-format=h264 -
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Though the stream starts to lag after a few minutes and most players will have trouble to handle this raw h264 stream. Heavy applications also cause a lot of lag and dropped&amp;nbsp;frames.&lt;/p&gt;
+&lt;p&gt;The code over at &lt;a href="https://github.com/fhorinek/adbmirror"&gt;https://github.com/fhorinek/adbmirror&lt;/a&gt; provides a solid solution, though with no support for Python 3. The shell commands to set things up is also a bit messy, but it provides a perfect starting ground to work&amp;nbsp;with.&lt;/p&gt;
+&lt;p&gt;First, we need to create a local &lt;code&gt;bin&lt;/code&gt; folder with &lt;code&gt;minicap&lt;/code&gt;, &lt;code&gt;minicap-shared&lt;/code&gt; and &lt;code&gt;minitouch&lt;/code&gt; placed in&amp;nbsp;there:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2017/minicap.png"&gt;&lt;/p&gt;
+&lt;p&gt;Next, we rewrite the scripts a bit to support Python 3. We don&amp;#8217;t need the &amp;#8220;rotation&amp;#8221; apk, as I didn&amp;#8217;t need to handle rotation support, made available at &lt;a href="https://github.com/Macuyiko/adbmirror"&gt;https://github.com/Macuyiko/adbmirror&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Running &lt;code&gt;start-mirror.py&lt;/code&gt; now&amp;nbsp;shows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Device info: arm64-v8a 26 8.0.0 1080x1920
+Now pushing files
+[ 11%] /data/local/tmp/adbmirror/minicap
+[ 22%] /data/local/tmp/adbmirror/minicap
+[ 33%] /data/local/tmp/adbmirror/minicap
+[ 45%] /data/local/tmp/adbmirror/minicap
+[ 56%] /data/local/tmp/adbmirror/minicap
+[ 67%] /data/local/tmp/adbmirror/minicap
+[ 79%] /data/local/tmp/adbmirror/minicap
+[ 90%] /data/local/tmp/adbmirror/minicap
+[100%] /data/local/tmp/adbmirror/minicap
+bin/minicap/arm64-v8a/minicap: 1 file pushed. 17.7 MB/s (580048 bytes in 0.031s)
+
+[100%] /data/local/tmp/adbmirror/minitouch
+bin/minitouch/arm64-v8a/minitouch: 1 file pushed.
+
+[100%] /data/local/tmp/adbmirror/minicap.so
+bin/minicap-shared/android-26/arm64-v8a/minicap.so: 1 file pushed. 1.4 MB/s (23592 bytes in 0.016s)
+
+Now ready to start GUI, press ENTER when done for cleanup
+Example command:
+python gui.py 540x960 1080x1920 /data/local/tmp/adbmirror/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Running &lt;code&gt;python gui.py 540x960 1080x1920 /data/local/tmp/adbmirror/&lt;/code&gt; now provides us with a live mirror, no root&amp;nbsp;required:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="/images/2017/mirror.png"&gt;&lt;/p&gt;
+&lt;p&gt;Touch is simulated through mouse clicks and drags. Adding extension to fetch e.g. a &lt;span class="caps"&gt;PIL&lt;/span&gt; image every 5 seconds or to automate touch is pretty&amp;nbsp;easy.&lt;/p&gt;</content></entry><entry><title>Note to Self: Using Tesseract to Extract Subtitles</title><link href="http://blog.macuyiko.com/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html" rel="alternate"></link><published>2017-11-13T14:30:00+01:00</published><updated>2017-11-13T14:30:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-11-13:/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html</id><summary type="html">&lt;p&gt;Say you have video such as &lt;a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/"&gt;this one&lt;/a&gt; on Facebook. Most of these come with hardcoded subtitles, which we&amp;#8217;d like to extract (for whatever&amp;nbsp;reason).&lt;/p&gt;
 &lt;p&gt;Opening the page in Chrome and inspecting the network requests quickly uncovers the media &lt;span class="caps"&gt;URL&lt;/span&gt;:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;Say you have video such as &lt;a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/"&gt;this one&lt;/a&gt; on Facebook. Most of these come with hardcoded subtitles, which we&amp;#8217;d like to extract (for whatever&amp;nbsp;reason).&lt;/p&gt;
 &lt;p&gt;Opening the page in Chrome and inspecting the network requests quickly uncovers the media &lt;span class="caps"&gt;URL&lt;/span&gt;:&lt;/p&gt;
@@ -7,7 +123,7 @@
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;By cuttung off &lt;code&gt;&amp;amp;bytestart=0&amp;amp;byteend=953&lt;/code&gt;, we can download the video file&amp;nbsp;completely.&lt;/p&gt;
+&lt;p&gt;By cutting off &lt;code&gt;&amp;amp;bytestart=0&amp;amp;byteend=953&lt;/code&gt;, we can download the video file&amp;nbsp;completely.&lt;/p&gt;
 &lt;p&gt;Next, we can use &lt;code&gt;ffmpeg&lt;/code&gt; to create frames every half&amp;nbsp;second:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;./ffmpeg -i .\23354483_145400712877976_2778300398300037120_n.mp4 -r 2 .\frames\image-%07d_original.png
 &lt;/pre&gt;&lt;/div&gt;

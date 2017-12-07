@@ -72,6 +72,29 @@
         
 		<article>
 			<header>
+				<div class="article-info">Sat 15 September 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html" rel="bookmark"
+				title="Permalink to SQL: Check Existing Rows Matching A Condition"><span class="caps">SQL</span>: Check Existing Rows Matching A&nbsp;Condition</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Instead of&nbsp;this:</p>
+<div class="highlight"><pre><span></span>IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0
+</pre></div>
+
+
+<p>use&nbsp;this:</p>
+<div class="highlight"><pre><span></span>IF EXISTS(SELECT * FROM Table1 WHERE ...)
+</pre></div>
+
+
+<p>Great tip provided <a href="http://weblogs.sqlteam.com/mladenp/archive/2007/09/13/SQL-Server-The-proper-and-fastest-way-to-check-if.aspx">by this article</a>.</p>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Fri 10 August 2007, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2007/scrolling-unfocused-windows.html" rel="bookmark"
 				title="Permalink to Scrolling Unfocused Windows">Scrolling Unfocused&nbsp;Windows</a></div>
@@ -215,19 +238,6 @@ pgetbl_ctl …</p></blockquote>
 					<p>Recently we got a new <span class="caps">HP</span> Scanner. It&#8217;s a good, nice, and generally works without any&nbsp;complaints.</p>
 <p>The scanner I used before was a crappy scanner with a no-name brand nobody knows, picked up for almost nothing at some cheapskate-store (since I very rarely need to scan something). The …</p>
 				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/crappy-scanners-and-linux.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Mon 11 September 2006, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html" rel="bookmark"
-				title="Permalink to Neverwinter Nights On My Ubuntu-Laptop">Neverwinter Nights On My&nbsp;Ubuntu-Laptop</a></div>
-			</header>
-			<div class="article-summary">
-					<p>Today I finally decided to spend some time and try to install Neverwinter Nights on my laptop, since I absolutely still love that game. Of course: you could follow <a href="http://ubuntuforums.org/showthread.php?t=113259">this howto</a>, but since I don&#8217;t have <span class="caps">NWN</span> Platinum or Diamond, I had to follow other instructions. I didn&#8217;t …</p>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html">Read more</a></p>
 			</div>
 		</article>
 
