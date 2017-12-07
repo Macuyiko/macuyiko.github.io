@@ -189,121 +189,121 @@ convert ./Presentation/presentation.pdf -density <span class="m">100</span> slid
 <h3>Step 4: create the <span class="caps">HTML</span>&nbsp;page</h3>
 <p>In the Presentation-folder, we&#8217;ll create an <span class="caps">HTML</span>&nbsp;page.</p>
 <p><code>PresenterView.html</code>:</p>
-<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">Presenter</span> <span class="nx">View</span><span class="o">&lt;</span><span class="err">/title&gt;</span>
-<span class="o">&lt;</span><span class="nx">style</span><span class="o">&gt;</span>
-<span class="err">#</span><span class="nx">information</span> <span class="p">{</span>
-  <span class="nx">text</span><span class="o">-</span><span class="nx">align</span>: <span class="kt">center</span><span class="p">;</span>
-  <span class="nx">font</span><span class="o">-</span><span class="nx">size</span>: <span class="kt">300</span><span class="o">%</span><span class="p">;</span>
-  <span class="nx">border</span>: <span class="kt">3px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">val_time</span><span class="p">,</span> <span class="err">#</span><span class="nx">val_pagethis</span><span class="p">,</span> <span class="err">#</span><span class="nx">val_pagecount</span> <span class="p">{</span>
-  <span class="nx">color</span><span class="o">:</span> <span class="err">#</span><span class="mi">444</span><span class="p">;</span>
-  <span class="nx">font</span><span class="o">-</span><span class="nx">weight</span>: <span class="kt">bold</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">slideleft</span> <span class="p">{</span>
-  <span class="kr">float</span><span class="o">:</span> <span class="nx">left</span><span class="p">;</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-  <span class="nx">border</span>: <span class="kt">1px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">slideright</span> <span class="p">{</span>
-  <span class="kr">float</span><span class="o">:</span> <span class="nx">right</span><span class="p">;</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-  <span class="nx">border</span>: <span class="kt">1px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">text</span><span class="p">{</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-  <span class="nx">margin</span><span class="o">-</span><span class="nx">top</span>: <span class="kt">10px</span><span class="p">;</span>
-  <span class="nx">border</span><span class="o">-</span><span class="nx">top</span>: <span class="kt">3px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-  <span class="nx">height</span>: <span class="kt">50px</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">pane</span><span class="p">{</span>
-  <span class="nx">margin</span><span class="o">-</span><span class="nx">top</span>: <span class="kt">10px</span><span class="p">;</span>
-  <span class="nx">font</span><span class="o">-</span><span class="nx">size</span>: <span class="kt">140</span><span class="o">%</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">time</span><span class="p">{</span>
-  <span class="nx">margin</span><span class="o">-</span><span class="nx">top</span>: <span class="kt">40px</span><span class="p">;</span>
-  <span class="nx">text</span><span class="o">-</span><span class="nx">align</span>: <span class="kt">center</span><span class="p">;</span>
-  <span class="nx">font</span><span class="o">-</span><span class="nx">size</span>: <span class="kt">200</span><span class="o">%</span><span class="p">;</span>
-  <span class="nx">border</span>: <span class="kt">3px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="o">&lt;</span><span class="err">/style&gt;</span>
+<div class="highlight"><pre><span></span><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;title&gt;</span>Presenter View<span class="nt">&lt;/title&gt;</span>
+<span class="nt">&lt;style&gt;</span>
+#information {
+  text-align: center;
+  font-size: 300%;
+  border: 3px solid #ccc;
+  padding: 4px;
+}
+#val_time, #val_pagethis, #val_pagecount {
+  color: #444;
+  font-weight: bold;
+}
+#slideleft {
+  float: left;
+  padding: 4px;
+  border: 1px solid #ccc;
+}
+#slideright {
+  float: right;
+  padding: 4px;
+  border: 1px solid #ccc;
+}
+#text{
+  padding: 4px;
+  margin-top: 10px;
+  border-top: 3px solid #ccc;
+  height: 50px;
+}
+#pane{
+  margin-top: 10px;
+  font-size: 140%;
+}
+#time{
+  margin-top: 40px;
+  text-align: center;
+  font-size: 200%;
+  border: 3px solid #ccc;
+  padding: 4px;
+}
+<span class="nt">&lt;/style&gt;</span>
 
-<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;jquery-1.3.2.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
-<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-<span class="kd">var</span> <span class="nx">mins</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">secs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">clock</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">previousslide</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">refreshtime</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="nt">&lt;script</span> <span class="na">type=</span><span class="s">&quot;text/javascript&quot;</span> <span class="na">src=</span><span class="s">&quot;jquery-1.3.2.min.js&quot;</span><span class="nt">&gt;&lt;/script&gt;</span>
+<span class="nt">&lt;script&gt;</span>
+var mins = 0;
+var secs = 0;
+var clock = 0;
+var previousslide = 0;
+var refreshtime = 1000;
 
-<span class="kd">function</span> <span class="nx">display_clock</span><span class="p">(){</span>
-  <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">clock</span><span class="o">/</span><span class="mi">60</span><span class="p">);</span>
-  <span class="nx">secs</span><span class="o">=</span> <span class="nx">clock</span> <span class="o">-</span> <span class="nx">mins</span><span class="o">*</span><span class="mi">60</span><span class="p">;</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_time&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">mins</span><span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nx">secs</span><span class="p">);</span>
-<span class="p">}</span>
+function display_clock(){
+  min = Math.floor(clock/60);
+  secs= clock - mins*60;
+  $(&quot;#val_time&quot;).text(mins+ &quot;:&quot; + secs);
+}
 
-<span class="kd">function</span> <span class="nx">update_clock</span><span class="p">(){</span>
-  <span class="nx">setTimeout</span> <span class="p">(</span><span class="s2">&quot;update_clock()&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
-  <span class="nx">clock</span> <span class="o">=</span> <span class="nx">clock</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="nx">display_clock</span><span class="p">();</span>
-<span class="p">}</span>
+function update_clock(){
+  setTimeout (&quot;update_clock()&quot;, 1000);
+  clock = clock + 1;
+  display_clock();
+}
 
-<span class="kd">function</span> <span class="nx">make_call</span><span class="p">(){</span>
-  <span class="nx">$</span><span class="p">.</span><span class="nx">ajaxSetup</span><span class="p">({</span><span class="s1">&#39;beforeSend&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">xhr</span><span class="p">){</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">overrideMimeType</span><span class="p">){</span>
-  <span class="nx">xhr</span><span class="p">.</span><span class="nx">overrideMimeType</span><span class="p">(</span><span class="s2">&quot;text/plain&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-  <span class="p">}</span>
-  <span class="p">});</span>
-  <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s2">&quot;json.txt&quot;</span><span class="p">,</span>
-<span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_pagethis&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">);</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_pagecount&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">page_count</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">previousslide</span> <span class="o">!=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">){</span>
-<span class="nx">clock</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_time</span><span class="p">;</span> <span class="c1">//synchronize</span>
-<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_slideleft&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;./Slides/slide-&quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span> <span class="o">&lt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">page_count</span><span class="p">)</span>
-<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_slideright&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;./Slides/slide-&quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span><span class="p">);</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_text&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">);</span>
-  <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;./Text/text-&quot;</span><span class="o">+</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
-<span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_text&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
-<span class="p">});</span>
-<span class="p">}</span>
-<span class="nx">previousslide</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">;</span>
-<span class="nx">display_clock</span><span class="p">();</span>
-  <span class="p">});</span>
-  <span class="nx">setTimeout</span> <span class="p">(</span><span class="s2">&quot;make_call()&quot;</span><span class="p">,</span> <span class="nx">refreshtime</span><span class="p">);</span>
-<span class="p">}</span>
+function make_call(){
+  $.ajaxSetup({&#39;beforeSend&#39;: function(xhr){
+if (xhr.overrideMimeType){
+  xhr.overrideMimeType(&quot;text/plain&quot;);
+}
+  }
+  });
+  $.getJSON(&quot;json.txt&quot;,
+function(data){
+  $(&quot;#val_pagethis&quot;).text(data.current_page);
+  $(&quot;#val_pagecount&quot;).text(data.page_count);
+  if (previousslide != data.current_page){
+clock = data.current_time; //synchronize
+$(&quot;#val_slideleft&quot;).attr(&quot;src&quot;, &quot;./Slides/slide-&quot;+(data.current_page-1)+&quot;.png&quot;);
+  if (data.current_page <span class="nt">&lt; data.page_count</span><span class="err">)</span>
+<span class="err">$(&quot;#val_slideright&quot;).attr(&quot;src&quot;,</span> <span class="err">&quot;./Slides/slide-&quot;+(data.current_page)+&quot;.png&quot;);</span>
+  <span class="err">$(&quot;#val_text&quot;).text(&quot;</span> <span class="err">&quot;);</span>
+  <span class="err">$.get(&quot;./Text/text-&quot;+data.current_page+&quot;.txt&quot;,</span>
+<span class="err">function(data){</span>
+  <span class="err">$(&quot;#val_text&quot;).html(data);</span>
+<span class="err">});</span>
+<span class="err">}</span>
+<span class="na">previousslide =</span> <span class="s">data.current_page;</span>
+<span class="err">display_clock();</span>
+  <span class="err">});</span>
+  <span class="err">setTimeout</span> <span class="err">(&quot;make_call()&quot;,</span> <span class="err">refreshtime);</span>
+<span class="err">}</span>
 
-<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-  <span class="nx">make_call</span><span class="p">();</span>
-  <span class="nx">update_clock</span><span class="p">();</span>
-<span class="p">});</span>
-<span class="o">&lt;</span><span class="err">/script&gt;</span>
-<span class="o">&lt;</span><span class="err">/head&gt;</span>
+<span class="err">$(document).ready(function(){</span>
+  <span class="err">make_call();</span>
+  <span class="err">update_clock();</span>
+<span class="err">});</span>
+<span class="err">&lt;/script</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
 
-<span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;information&quot;</span><span class="o">&gt;</span><span class="nx">Currently</span> <span class="nx">at</span> <span class="nx">slide</span>
-<span class="o">&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_pagethis&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt; of &lt;span id=&quot;val_pagecount&quot;&gt;?&lt;/span&gt;</span>
-  <span class="o">&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;pane&quot;</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;slideright&quot;</span><span class="o">&gt;</span>
-  <span class="nx">Next</span> <span class="nx">slide</span><span class="o">:&lt;</span><span class="nx">br</span> <span class="o">/&gt;</span>
-  <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;360&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_slideright&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;./Slides/slide-1.png&quot;</span> <span class="o">/&gt;&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;slideleft&quot;</span><span class="o">&gt;</span>
-<span class="nx">Current</span> <span class="nx">slide</span><span class="o">:&lt;</span><span class="nx">br</span> <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="nx">img</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;360&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_slideleft&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;./Slides/slide-0.png&quot;</span> <span class="o">/&gt;&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="s2">&quot;clear:both;&quot;</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="o">&gt;&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_text&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt;&lt;/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="o">&gt;</span><span class="nx">Clock</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_time&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt;&lt;/div&gt;</span>
-<span class="o">&lt;</span><span class="err">/body&gt;</span>
-<span class="o">&lt;</span><span class="err">/html&gt;</span>
+<span class="nt">&lt;body&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;information&quot;</span><span class="nt">&gt;</span>Currently at slide
+<span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;val_pagethis&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;</span> of <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;val_pagecount&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;pane&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;slideright&quot;</span><span class="nt">&gt;</span>
+  Next slide:<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;img</span> <span class="na">height=</span><span class="s">&quot;360&quot;</span> <span class="na">id=</span><span class="s">&quot;val_slideright&quot;</span> <span class="na">src=</span><span class="s">&quot;./Slides/slide-1.png&quot;</span> <span class="nt">/&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;slideleft&quot;</span><span class="nt">&gt;</span>
+Current slide:<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;img</span> <span class="na">height=</span><span class="s">&quot;360&quot;</span> <span class="na">id=</span><span class="s">&quot;val_slideleft&quot;</span> <span class="na">src=</span><span class="s">&quot;./Slides/slide-0.png&quot;</span> <span class="nt">/&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">style=</span><span class="s">&quot;clear:both;&quot;</span><span class="nt">&gt;</span> <span class="nt">&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;text&quot;</span><span class="nt">&gt;&lt;span</span> <span class="na">id=</span><span class="s">&quot;val_text&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;&lt;/div&gt;</span>
+  <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;time&quot;</span><span class="nt">&gt;</span>Clock: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;val_time&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;&lt;/div&gt;</span>
+<span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/html&gt;</span>
 </pre></div>
 
 
