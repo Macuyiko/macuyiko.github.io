@@ -195,14 +195,14 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <p>For every direction, we can rotate the block in 4 different ways (0Â°, 90Â°, 180Â° and 270Â°). 4x6=24.&nbsp;Easy.</p>
 <p>Taking the description {(0,0,0); (1,0,0); (2,0,0); (0,1,0); (0,2,0)} and saying: put this block in position 34 facing y negative and rotated 90Â° now just becomes a matter of transforming and rotating objects in 3d. I won&#8217;t describe the details here, it involves some matrix manipulations and such, but are really simple when rotating in the four degrees mentioned above. If you want to know more, take a look <a href="http://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm">here</a> or <a href="http://www.google.com/search?q=3d+transformation+and+rotation">Google it</a>.</p>
 <p>In <span class="caps">PHP</span>, the language I was using (I know, I know - remember, I thought this would be a quick and easy job), a block description looks&nbsp;like:</p>
-<div class="highlight"><pre><span></span><span class="x">// 1 1 1</span>
-<span class="x">// 1</span>
-<span class="x">// (1)</span>
-<span class="p">$</span><span class="nv">blocks</span><span class="x">[] = array(array(0,0,0)</span>
-<span class="x">  ,array(0,1,0)</span>
-<span class="x">  ,array(0,2,0)</span>
-<span class="x">  ,array(1,2,0)</span>
-<span class="x">  ,array(2,2,0) );</span>
+<div class="highlight"><pre><span></span>// 1 1 1
+// 1
+// (1)
+$blocks[] = array(array(0,0,0)
+  ,array(0,1,0)
+  ,array(0,2,0)
+  ,array(1,2,0)
+  ,array(2,2,0) );
 </pre></div>
 
 
