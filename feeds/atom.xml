@@ -1,5 +1,389 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2017-12-19T18:05:00+01:00</updated><entry><title>An Exploration of Cellular Automata and Graph Based Game Systems: Part 2</title><link href="http://blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-2.html" rel="alternate"></link><published>2017-12-19T18:05:00+01:00</published><updated>2017-12-19T18:05:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-12-19:/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-2.html</id><summary type="html">&lt;script&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2018-04-24T20:13:00+02:00</updated><entry><title>Predicting Voobly Age of Empires 2 Matches</title><link href="http://blog.macuyiko.com/post/2018/predicting-voobly-age-of-empires-2-matches.html" rel="alternate"></link><published>2018-04-24T20:13:00+02:00</published><updated>2018-04-24T20:13:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2018-04-24:/post/2018/predicting-voobly-age-of-empires-2-matches.html</id><summary type="html">&lt;p&gt;I think that &lt;em&gt;&lt;a href="https://en.wikipedia.org/wiki/Age_of_Empires_II"&gt;Age of Empires &lt;span class="caps"&gt;II&lt;/span&gt;&lt;/a&gt;&lt;/em&gt; is probably the game I&amp;#8217;ve been playing on or off for the longest amount of time. In fact, it is this game which pushed me to write a custom tool to prevent DirectDraw palette issues &lt;a href="http://blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html"&gt;more than eight years ago&lt;/a&gt;, before custom …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I think that &lt;em&gt;&lt;a href="https://en.wikipedia.org/wiki/Age_of_Empires_II"&gt;Age of Empires &lt;span class="caps"&gt;II&lt;/span&gt;&lt;/a&gt;&lt;/em&gt; is probably the game I&amp;#8217;ve been playing on or off for the longest amount of time. In fact, it is this game which pushed me to write a custom tool to prevent DirectDraw palette issues &lt;a href="http://blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html"&gt;more than eight years ago&lt;/a&gt;, before custom community patches (and the &amp;#8220;&lt;span class="caps"&gt;HD&lt;/span&gt; version&amp;#8221; of the game was&amp;nbsp;available).&lt;/p&gt;
+&lt;p&gt;I have fond childhood memories of the game, and although I don&amp;#8217;t commonly find the time or focus anymore to play it myself, it&amp;#8217;s fun to see how the game has found a new community and attention anno 2018, driven by streamers on Twitch such as &lt;a href="https://www.twitch.tv/nili_aoe"&gt;Nili&lt;/a&gt;, &lt;a href="https://www.twitch.tv/t90official"&gt;T90Official&lt;/a&gt;, and &lt;a href="https://www.twitch.tv/membtv"&gt;MembTv&lt;/a&gt;, as well as YouTube personalities such as &lt;a href="https://www.youtube.com/channel/UChzLZJo-SxuPHz-oYKAIC_g"&gt;Spirit of the Law&lt;/a&gt; and &lt;a href="https://www.youtube.com/channel/UCoMg6gEYvB9n5RaoIngFFJw"&gt;ZeroEmpires&lt;/a&gt;, driving new players to the game. As such, the &lt;span class="caps"&gt;AOE2&lt;/span&gt; e-sports scene is relatively healthy today, and whereas the game is by no means as popular as e.g. Dota or League of Legends, it&amp;#8217;s by far one of the most enjoyable traditional &lt;span class="caps"&gt;RTS&lt;/span&gt;&amp;#8217; games to watch these days, with big tournaments appearing every so often between high-ranking players, with Battle of Africa being one of the &lt;a href="https://aoe2calendar.com/"&gt;more recent ones&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;It is important to note, however, that most of this newfound attention does not take place on the Steam version of the game, which is solid enough but is widely regarded as not being the most optimal way to play the game competitively online, with the version being relatively prone to lag, desyncs, and without solid spectator plugins that would allow streamers to display statistics and overlays whilst watching games. Instead, serious players will opt to utilize &lt;a href="https://www.voobly.com/"&gt;Voobly&lt;/a&gt;, a multiplayer platform and social network which supports a bunch of older games, though &lt;span class="caps"&gt;AOEII&lt;/span&gt; is by far the most popular one, even to a degree that it&amp;#8217;s the main focus game for Voobly today. The additional benefits the platform offers go quite far, including proper &lt;a href="https://en.wikipedia.org/wiki/Elo_rating_system"&gt;&lt;span class="caps"&gt;ELO&lt;/span&gt; rankings&lt;/a&gt; for players, support to install additional mods and patches for the game, including the incredible community built &lt;a href="http://userpatch.aiscripters.net/"&gt;UserPatch&lt;/a&gt;, which extends the game with lots of balancing fixes, bug fixes, and additional features. Together with &lt;a href="https://github.com/Tails8521/WololoKingdoms"&gt;WololoKingdoms&lt;/a&gt;, another community project, one can even bring in the &lt;span class="caps"&gt;AOE2&lt;/span&gt; &lt;span class="caps"&gt;HD&lt;/span&gt; expansion packs (if you own them, of course) to&amp;nbsp;Voobly.&lt;/p&gt;
+&lt;p&gt;With this background knowledge in mind, and after having spend various Saturday evenings watching tournaments live, I was wondering whether it would be feasible to set up a predictive model that would be able to predict who&amp;#8217;d win a match up. During matches, viewers will happily chat away about who they think is winning incorporating things such as number of units, resources available, who advances through research and ages quicker, map control, kill/death ratio, civilizations chosen by the players, the players respective ranking and history, and the score per player the game provides (which is calculated based on various inputs and generally goes up for both as the game&amp;nbsp;progresses):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="A game of AOEII running with Voobly spectator overlays" src="/images/2018/aoe1.png"&gt;&lt;/p&gt;
+&lt;p&gt;Hence the reason why broadcasters prefer to overlay the screen with additional statistics as provided by Voobly plugins, as the screenshot above shows. Although the community (and pro-players especially) are very good at &amp;#8220;feeling&amp;#8221; whether they have the upper hand, I wanted to see if this could be quantified a bit more in terms of a predictive model, as well as figuring out how long an average game needs to run before such model would be sure about the outcome. In the final five to ten minutes, it&amp;#8217;s often clear who&amp;#8217;s going to win a match, but perhaps we could do better than this as&amp;nbsp;well?&lt;/p&gt;
+&lt;p&gt;And so, an idea for a fun weekend data science project was&amp;nbsp;born.&lt;/p&gt;
+&lt;h2&gt;Gathering the&amp;nbsp;Data&lt;/h2&gt;
+&lt;p&gt;In 90% of all data science projects, gathering and preparing data takes 90% of the time spend on the project, and I didn&amp;#8217;t expect it to be much different with this particular&amp;nbsp;one.&lt;/p&gt;
+&lt;p&gt;A benefit of the Voobly platform is that it keeps a permanent record of all matches that have been played, including statistics regarding the type of map being played, civilizations chosen, who won the game, and a post-game overview of scores and other stats per&amp;nbsp;player:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="A Voobly page screengrab showing match statistics" src="/images/2018/aoe2.png"&gt;&lt;/p&gt;
+&lt;p&gt;This is already a great source of info, and various community members have used such information to analyze games and player performance, though for our setting, it might not be enough. Post-game summaries are relatively worthless in our setting, as our goal is not to build a predictive model that can predict who won given a final state of affairs (that would be extremely easy), but to also done so given a current game state, gathered as the game&amp;nbsp;progresses.&lt;/p&gt;
+&lt;p&gt;Sadly, Voobly does not provide data at this level of granularity, at least not directly. Luckily, it does allow an option to download &amp;#8220;recorded games&amp;#8221;, small files containing a completely playback of a match which you can replay using the game&amp;nbsp;itself.&lt;/p&gt;
+&lt;p&gt;Using a simple web scraping script written in Python, I hence collected a bunch of games from Voobly, together with their according recordings, leaving us with a database full of match information as well as a directory full of recordings (2619&amp;nbsp;matches):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="A whole bunch of downloaded recorded games with their metadata" src="/images/2018/aoe3.png"&gt;&lt;/p&gt;
+&lt;p&gt;What I wanted to do next is to go through each game step by step, extracting a game state every few seconds or so. To do so, my first idea was to attempt parsing the recordings to extract this information. The &amp;#8220;&lt;span class="caps"&gt;MGZ&lt;/span&gt;&amp;#8221; binary file format which stores these is pretty well known and reverse engineered, with lots of projects and documents being&amp;nbsp;available:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://github.com/happyleavesaoc/aoc-mgz"&gt;https://github.com/happyleavesaoc/aoc-mgz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/stefan-kolb/aoc-mgx-format"&gt;https://github.com/stefan-kolb/aoc-mgx-format&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/goto-bus-stop/recage"&gt;https://github.com/goto-bus-stop/recage&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/goto-bus-stop/recanalyst"&gt;https://github.com/goto-bus-stop/recanalyst&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://web.archive.org/web/20090215065209/http://members.at.infoseek.co.jp/aocai/mgx_format.html"&gt;https://web.archive.org/web/20090215065209/http://members.at.infoseek.co.jp/aocai/mgx_format.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;However, as I was going through these resources, it quickly become clear that this wasn&amp;#8217;t going to be as easy as initially thought. The &lt;a href="https://github.com/goto-bus-stop/recanalyst/issues/10"&gt;first issue&lt;/a&gt; for recAnalyst outlines the&amp;nbsp;problem:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I scanned through documentation and some code, but I don&amp;#8217;t see anything to read the actual game play information instead of just stats and initial&amp;nbsp;points.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;With the&amp;nbsp;answer:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Rec game bodies consist of a series of commands. This has all the gameplay stuff in it so you could parse it out if you know what all the commands mean. Biegleux put a few parsers in there (the building creation, unit creation, and research ones), but I don&amp;#8217;t know about the&amp;nbsp;others.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;The idea of recorded games basically boils down to a file format containing the initial starting state for each player. Then, the game itself is simply stored as a sequence of player commands (move this object here, queue this unit in this building, make this unit attack this unit, and so on), without there being intermediate &amp;#8220;key frames&amp;#8221; we could extract. As such, to reconstruct a game&amp;#8217;s state at a certain time point, we&amp;#8217;d have to basically replay all commands up until that time point to recreate the state at that&amp;nbsp;point.&lt;/p&gt;
+&lt;p&gt;This is not to be unexpected for a 1999 game. And many of these decisions have to do with the underlaying network synchronization model (see &lt;a href="https://www.gamasutra.com/view/feature/131503/1500_archers_on_a_288_network_.php"&gt;this fantastic article describing the setup, for instance&lt;/a&gt;), though it does lead to a problem. The only reliable &amp;#8220;player&amp;#8221; for the recordings is the game engine itself. As a reliable recreation can only be done if you know the exact aspects of the simulation (e.g. to parse a &amp;#8220;move this unit&amp;#8221; command, you&amp;#8217;d have to know the speed of the unit, how terrain affects the path, and so on), the only program that can reliably do this is the game. At this point, I&amp;#8217;d had to pick between one of the following&amp;nbsp;solutions:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Parse the recordings using &lt;a href="https://github.com/happyleavesaoc/aoc-mgz"&gt;aog-mgz&lt;/a&gt; to extract the information we can per time stamp. Based on the commands contained in the recordings, we can for instance figure out when a certain research was started, which units were created, and which buildings were put down. This allows us to aggregate some state over time (e.g. at time point &lt;em&gt;t&lt;/em&gt;, player 1 has created 20 villagers), though we miss out on a lot of details exactly describing the current state. Knowing for instance how much of those units or buildings were killed off is extremely hard to extract. This is also why most &lt;span class="caps"&gt;AOEII&lt;/span&gt; community sites basically show the same information: research as performed over time (as shown on the Voobly matchpages) is relatively easy to parse out, but a detailed evolution of units alive is much harder. Though we can imagine this information to be useful to a predictive model (a player creating units at a faster rate should have an edge regardless of how many of these were killed off, generally speaking), I wasn&amp;#8217;t convinced about this&amp;nbsp;approach.&lt;/li&gt;
+&lt;li&gt;The second approach entails replaying each recording through the game. As we&amp;#8217;ve noted above, Voobly is able to overlay dashboards which do show information about the game as-is and do take into account a current count of units being alive, for instance. So if we can get this information out every second or so as the game progresses, we would have the data we&amp;nbsp;need.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;I opted to go for the second approach, but also here, the game and tooling around it shows its age and complexity. First of all, the &lt;a href="https://www.voobly.com/forum/thread/221004"&gt;main dashboard overlay&lt;/a&gt; for Voobly does not contain a simply option to stream data out over a socket. Not to worry, as I could just rapidly build a mod myself which would be able to do so. However, finding reliable information on building such a mod (without having deep ties with Voobly, I assume), this is virtually impossible to do. Voobly exposes an internal spectator &lt;span class="caps"&gt;API&lt;/span&gt; (presumably based on reading out important stats from the game&amp;#8217;s memory as it is running), though does not provide any documentation, guides, or whatsoever for one to build such a mod&amp;nbsp;themselves.&lt;/p&gt;
+&lt;p&gt;Being stuck on this route, I briefly considered taking periodic screenshots of the game and using &lt;span class="caps"&gt;OCR&lt;/span&gt; to convert statistics to a structured data set, before deciding that this would probably be extremely error prone. However, it occurred to me that although most streamers use the &amp;#8220;Spectator Overlay&amp;#8221; mod to overlay statistics, there is also an alternative, &amp;#8220;&lt;a href="https://www.voobly.com/gamemods/mod/476/Spectator-Dashboard"&gt;Spectator Dashboard&lt;/a&gt;&amp;#8220;, which does allow to stream out information whilst running, for example to include it in a custom &lt;span class="caps"&gt;OBS&lt;/span&gt; video overlay. However, at the time of writing, the mod was incompatible with Wololokingdoms, which the majority of competitive games are&amp;nbsp;using.&lt;/p&gt;
+&lt;p&gt;Whilst I was thinking about this, my last resort was a &lt;a href="https://www.aoczone.net/viewtopic.php?f=465&amp;amp;t=135958"&gt;forum post on AOCZone&lt;/a&gt;, to see if I&amp;#8217;d maybe missed a particular tool or approach. To my delight, HappyLeaves, (the Spectator Dashboard author self) was willing to point out a few things. First, the Voobly spectator &lt;span class="caps"&gt;API&lt;/span&gt; indeed does seem to be surrounded by an air of mystery. Second, HappyLeaves provided my with an updated build which is able to pump its statistics through a websocket and did work with WololoKingdoms. &lt;strong&gt;Big thanks&lt;/strong&gt; to HappyLeaves! It would be great if Voobly would open up this &lt;span class="caps"&gt;API&lt;/span&gt; for outside authors or some information would be open sourced, though I assume the main driver preventing this is that it would probably lead to using it to create cheating tools as&amp;nbsp;well.&lt;/p&gt;
+&lt;p&gt;At this point, I had a bunch of recordings, the game and Voobly installed, and a mod which pumped out statistics at a rapid pace over a websocket. The only thing remaining now is to replay those recordings one by one, right? However, this too, turns out to be easier said then done. It turns out that &lt;span class="caps"&gt;MGZ&lt;/span&gt; recordings, since they&amp;#8217;re so tied to the game engine, will not work reliably in cases where the game engine does not completely match with the game engine that produced the file. For instance, trying to replay a recording produced by a player running UserPatch version 1.4 will simply crash the game if you start it with the UserPatch version 1.5 enabled. Sadly, the &lt;span class="caps"&gt;MGZ&lt;/span&gt; format does not contain a metadata section containing this information, though the Voobly match pages do list which configuration was used, so this information was available based on what I&amp;#8217;d scraped earlier. In hindsight, it would probably have been easier to limit myself to a known single configuration (latest UserPatch at the time of gathering with WololoKingdoms), but nevertheless the issue remained how this whole approach could be automated. In general, parsing a recording boils down to the following&amp;nbsp;steps:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Move the recordings file to the correct directory (depending on the mod selected, Voobly will look in different&amp;nbsp;locations)&lt;/li&gt;
+&lt;li&gt;Open a Voobly&amp;nbsp;game&lt;/li&gt;
+&lt;li&gt;Open its settings window, make sure the right patch and mod are&amp;nbsp;selected&lt;/li&gt;
+&lt;li&gt;In another part of the settings window, indicate you want to watch a&amp;nbsp;recording&lt;/li&gt;
+&lt;li&gt;Launch the&amp;nbsp;game&lt;/li&gt;
+&lt;li&gt;Speed up the game and read all the data from the&amp;nbsp;websocket&lt;/li&gt;
+&lt;li&gt;Close the game, and move to the next&amp;nbsp;file&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This would have been relatively easy if Voobly contained some sort of command line utility where you&amp;#8217;d simply be able to&amp;nbsp;execute:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;watch_recording.exe /patch &amp;quot;UserPatch 1.4&amp;quot; /mod &amp;quot;WololoKingdoms&amp;quot; /rec &amp;quot;my_recording.mgz&amp;quot; /speed 99
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;I Googled around for a while, but was unable to find such command line interface. It doesn&amp;#8217;t seem that Voobly stores game settings in the Windows registry either, so the only approach remaining was to write a Python script full of horrible win32api calls and &lt;span class="caps"&gt;GUI&lt;/span&gt; automation tooling to go over these steps that way. Voobly doesn&amp;#8217;t use standard Windows components (I believe it uses Qt), so many clicks and checks were written simply by taking a screenshot and checking the pixel color at a certain position (to make sure the &amp;#8220;Watch recording&amp;#8221; checkbox was enabled, for instance). The same goes for the game itself: upon starting it, I simulate some mouse presses to the &amp;#8220;speed up&amp;#8221; button. In the background, a second Python process is started which starts reading the websocket and dumps the retrieved data to a database table. Once data has stopped arriving, the process closes itself, and the automation script knows it should close the game, at which point the next recording can be set&amp;nbsp;up.&lt;/p&gt;
+&lt;p&gt;&lt;span class="caps"&gt;AOEII&lt;/span&gt; does not allow to speed up games beyond a speed of &amp;#8220;99&amp;#8221;, and together with frequent random crashes, I often had to go in and rescue the script by closing the game manually and restarting it. I often stopped parsing recordings for a few weeks due to being busy (and December holidays), so overall it took more than three months before I&amp;#8217;d gone through all the&amp;nbsp;recordings.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Python starting hundreds of games one by one..." src="/images/2018/aoe14.png"&gt;&lt;/p&gt;
+&lt;p&gt;Finally, we could use this data to build a predictive&amp;nbsp;model.&lt;/p&gt;
+&lt;h2&gt;Building the&amp;nbsp;Model&lt;/h2&gt;
+&lt;p&gt;I decided to go with R for the model building step, since I prefer its &lt;code&gt;dplyr&lt;/code&gt; and &lt;code&gt;tidyr&lt;/code&gt; libraries a bit more compared to, say, Pandas to perform data&amp;nbsp;wrangling.&lt;/p&gt;
+&lt;p&gt;A first bunch of lines loads in the table containing the replay information, with one line per &lt;code&gt;(match, timestamp)&lt;/code&gt; combo. I only retain information for the first two players, as I&amp;#8217;m only considering 1v1 matchups&amp;nbsp;here.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;DBI&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;RSQLite&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;dplyr&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;tidyr&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;dbplyr&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;rlang&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;glue&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ggplot2&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="kp"&gt;options&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;scipen&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;999&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# ================&lt;/span&gt;
+&lt;span class="c1"&gt;# Data preparation&lt;/span&gt;
+&lt;span class="c1"&gt;# ================&lt;/span&gt;
+
+con &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; dbConnect&lt;span class="p"&gt;(&lt;/span&gt;SQLite&lt;span class="p"&gt;(),&lt;/span&gt; dbname&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;voobly3.db&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+dbListTables&lt;span class="p"&gt;(&lt;/span&gt;con&lt;span class="p"&gt;)&lt;/span&gt;
+
+db.matches &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; tbl&lt;span class="p"&gt;(&lt;/span&gt;con&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;matches&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+db.replay &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; tbl&lt;span class="p"&gt;(&lt;/span&gt;con&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;replay&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+db.replay &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;colnames&lt;/span&gt;
+
+replay_table &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; db.replay &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+filter&lt;span class="p"&gt;(&lt;/span&gt;type&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;tick&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+select&lt;span class="p"&gt;(&lt;/span&gt;match_id&lt;span class="p"&gt;,&lt;/span&gt; current_time&lt;span class="p"&gt;,&lt;/span&gt; 
+        starts_with&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;data_players_0_&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+        starts_with&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;data_players_1_&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;All columns in this table come from the stats plugin running in the game and contain about 150 features per timestamp, such&amp;nbsp;as:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[5] &amp;quot;data_players_0_units_infantry&amp;quot;   &amp;quot;data_players_0_units_ranged&amp;quot;
+[7] &amp;quot;data_players_0_units_siege&amp;quot;      &amp;quot;data_players_0_units_war_ships&amp;quot;     
+[9] &amp;quot;data_players_0_units_cavalry_archers&amp;quot;  &amp;quot;data_players_0_units_cavalry&amp;quot;
+[11] &amp;quot;data_players_0_units_monks&amp;quot;     &amp;quot;data_players_0_units_idle_fishing_ships&amp;quot;       
+[13] &amp;quot;data_players_0_units_stone_miners&amp;quot;    &amp;quot;data_players_0_units_gold_miners&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Giving this kind of information to any predictive model will make it kind of hard for it to figure out what is influencing the outcome of the game. Instead, we first perform a pairwise transformation, simply by taking the difference between pairs of columns relating to the same info for both players. Instead of saying that player 0 has 14 gold miners and player 1 has 16 is pretty hard for a predictive model to make sense of directly, so instead we create one column a saying that the difference between player 0 versus player 1 is -2. (A similar approach is taken in &lt;a href="http://fa.bianp.net/blog/2012/learning-to-rank-with-scikit-learn-the-pairwise-transform/"&gt;this blog post&lt;/a&gt; which is pretty interesting to go&amp;nbsp;through.)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Caveat:&lt;/em&gt; the above is of course up for discussion, as one could argue that the difference of 14 goldminers versus 16 encodes something else than the difference of 100 goldminers versus 102, even though it would result in the same delta value in our approach. Perhaps the difference of two goldminers is important in the lower number range, but less meaningful in the higher number range, and we&amp;#8217;d lose this information after applying our suggested transformation. This is a valid remark but one we will ignore for&amp;nbsp;now.&lt;/p&gt;
+&lt;p&gt;To create the difference columns in R, we need to perform some heavy juggling (hard-coding all columns is possible too, but less&amp;nbsp;fun):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;grepgsub &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;l&lt;span class="p"&gt;,&lt;/span&gt; pattern&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;^data_players_\\d+_(.*)$&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    grepped &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;grep&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;pattern&lt;span class="p"&gt;,&lt;/span&gt; l&lt;span class="p"&gt;)&lt;/span&gt;
+    subbed &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;gsub&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;pattern&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;\\1&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; l&lt;span class="p"&gt;[&lt;/span&gt;grepped&lt;span class="p"&gt;])&lt;/span&gt;
+    result &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;as.list&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;unique&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;subbed&lt;span class="p"&gt;))&lt;/span&gt;
+    &lt;span class="kr"&gt;return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;result&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+diff_expression &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;l&lt;span class="p"&gt;,&lt;/span&gt; pattern&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;^data_players_\\d+_(.*)$&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+  expression&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;(data_players_0_{x} - data_players_1_{x})&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; prefix&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;diff&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+    name_list &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; grepgsub&lt;span class="p"&gt;(&lt;/span&gt;l&lt;span class="p"&gt;,&lt;/span&gt; pattern&lt;span class="o"&gt;=&lt;/span&gt;pattern&lt;span class="p"&gt;)&lt;/span&gt;
+    expr_list &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; name_list &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+        &lt;span class="kp"&gt;lapply&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kr"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;x&lt;span class="p"&gt;)&lt;/span&gt; parse_quosure&lt;span class="p"&gt;(&lt;/span&gt;glue&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;expression&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+        setNames&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;paste&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;prefix&lt;span class="p"&gt;,&lt;/span&gt; name_list&lt;span class="p"&gt;,&lt;/span&gt; sep &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s"&gt;&amp;quot;_&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; 
+    &lt;span class="kr"&gt;return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;expr_list&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Calculate diff statistics:&lt;/span&gt;
+&lt;span class="c1"&gt;# - First deal with kills and razes (as this is a pairwise column in itself)&lt;/span&gt;
+&lt;span class="c1"&gt;# - We recode these to a single column per player since we take 1v1 games only&lt;/span&gt;
+&lt;span class="c1"&gt;# - Then mutate for difference calculation&lt;/span&gt;
+&lt;span class="c1"&gt;# - Then bring in names and make match id and time numeric&lt;/span&gt;
+&lt;span class="c1"&gt;# - Then remove original columns&lt;/span&gt;
+
+diff_table &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; replay_table &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+mutate&lt;span class="p"&gt;(&lt;/span&gt;data_players_0_kills&lt;span class="o"&gt;=&lt;/span&gt;data_players_0_kills_2&lt;span class="p"&gt;,&lt;/span&gt;
+        data_players_0_razes&lt;span class="o"&gt;=&lt;/span&gt;data_players_0_razes_2&lt;span class="p"&gt;,&lt;/span&gt;
+        data_players_1_kills&lt;span class="o"&gt;=&lt;/span&gt;data_players_1_kills_1&lt;span class="p"&gt;,&lt;/span&gt;
+        data_players_1_razes&lt;span class="o"&gt;=&lt;/span&gt;data_players_1_razes_1&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+select&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;contains&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;kills_&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;contains&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;razes_&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+mutate&lt;span class="p"&gt;(&lt;/span&gt;player_1_name&lt;span class="o"&gt;=&lt;/span&gt;data_players_0_name&lt;span class="p"&gt;,&lt;/span&gt; player_2_name&lt;span class="o"&gt;=&lt;/span&gt;data_players_1_name&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+mutate&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;!!!&lt;/span&gt;diff_expression&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;colnames&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="m"&gt;.&lt;/span&gt;&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+mutate&lt;span class="p"&gt;(&lt;/span&gt;match_id&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;as.numeric&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;match_id&lt;span class="p"&gt;),&lt;/span&gt; current_time&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;as.numeric&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;current_time&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+select&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;starts_with&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;data_players_&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;diff_id&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;diff_name&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can validate this by taking a look at a single&amp;nbsp;match:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;library(cowplot)
+
+plot_grid(
+diff_table %&amp;gt;% filter(match_id==16720619) %&amp;gt;% 
+    select(current_time, diff_population_total) %&amp;gt;% 
+    collect %&amp;gt;%
+    ggplot(aes(x=current_time, y=diff_population_total)) +
+    geom_line() + geom_hline(yintercept=0) + xlab(&amp;quot;&amp;quot;) + ylab(&amp;quot;Pop Diff&amp;quot;),
+replay_table %&amp;gt;% filter(match_id==16720619) %&amp;gt;% 
+    select(current_time, data_players_0_population_total, data_players_1_population_total) %&amp;gt;% 
+    collect %&amp;gt;% gather(&amp;quot;type&amp;quot;, &amp;quot;population_total&amp;quot;, 2:3) %&amp;gt;%
+    ggplot(aes(x=as.numeric(as.character(current_time)), 
+            y=as.numeric(as.character(population_total)), 
+            colour=type, group=type)) +
+    geom_line(show.legend=F) + xlab(&amp;quot;Game Time&amp;quot;) + ylab(&amp;quot;Total Pop&amp;quot;),
+ncol=1
+)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;img alt="The resulting comparison" src="/images/2018/aoe4.png"&gt;&lt;/p&gt;
+&lt;p&gt;This works. The final step is to bring in the target information, which we&amp;#8217;re going to binary encode (i.e. we&amp;#8217;ll create a &lt;code&gt;player_1_wins&lt;/code&gt; column set to 1 if player 1 won, and to 0 if player 2 won). This is a bit annoying as the replay data lists the names of both players, though they might not be in the same order as what we have collected in our match metadata, from which we also want to bring in a final difference feature: the difference between the &lt;span class="caps"&gt;ELO&lt;/span&gt; ratings of the players before starting the match. To make things a bit worse, the player names extracted from Voobly often include a clan tag at the beginning, whereas the ingame names might&amp;nbsp;not.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;extra_info &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; db.replay &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+left_join&lt;span class="p"&gt;(&lt;/span&gt;db.matches&lt;span class="p"&gt;,&lt;/span&gt; by&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;match_id&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+select&lt;span class="p"&gt;(&lt;/span&gt;match_id&lt;span class="p"&gt;,&lt;/span&gt; match_winner&lt;span class="p"&gt;,&lt;/span&gt;
+        data_players_0_name&lt;span class="p"&gt;,&lt;/span&gt; data_players_1_name&lt;span class="p"&gt;,&lt;/span&gt;
+        match_player1_name&lt;span class="p"&gt;,&lt;/span&gt; match_player2_name&lt;span class="p"&gt;,&lt;/span&gt;
+        match_player1_rating_before&lt;span class="p"&gt;,&lt;/span&gt; match_player2_rating_before&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+distinct &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; collect &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+mutate&lt;span class="p"&gt;(&lt;/span&gt;winner_name&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;ifelse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;match_winner&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; match_player1_name&lt;span class="p"&gt;,&lt;/span&gt; match_player2_name&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+mutate&lt;span class="p"&gt;(&lt;/span&gt;player_1_wins&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;as.numeric&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;endsWith&lt;span class="p"&gt;(&lt;/span&gt;data_players_0_name&lt;span class="p"&gt;,&lt;/span&gt; winner_name&lt;span class="p"&gt;)))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+mutate&lt;span class="p"&gt;(&lt;/span&gt;order_normal&lt;span class="o"&gt;=&lt;/span&gt;endsWith&lt;span class="p"&gt;(&lt;/span&gt;data_players_0_name&lt;span class="p"&gt;,&lt;/span&gt; match_player1_name&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+mutate&lt;span class="p"&gt;(&lt;/span&gt;diff_rating&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;ifelse&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;order_normal&lt;span class="p"&gt;,&lt;/span&gt; 
+                            match_player1_rating_before&lt;span class="o"&gt;-&lt;/span&gt;match_player2_rating_before&lt;span class="p"&gt;,&lt;/span&gt;
+                            match_player2_rating_before&lt;span class="o"&gt;-&lt;/span&gt;match_player1_rating_before&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+select&lt;span class="p"&gt;(&lt;/span&gt;match_id&lt;span class="p"&gt;,&lt;/span&gt; winner_name&lt;span class="p"&gt;,&lt;/span&gt; player_1_wins&lt;span class="p"&gt;,&lt;/span&gt; diff_rating&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt;
+distinct
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We check whether this worked based on some spot&amp;nbsp;checks:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; db.matches %&amp;gt;% filter(match_id == 16720619) %&amp;gt;% collect %&amp;gt;% select(match_winner, contains(&amp;quot;name&amp;quot;))
+# A tibble: 1 x 3
+match_winner match_player1_name match_player2_name
+        &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;              &amp;lt;chr&amp;gt;             
+1            1 TrunicC            chagass
+
+&amp;gt; extra_info %&amp;gt;% filter(match_id == 16720619)
+# A tibble: 1 x 4
+match_id winner_name player_1_wins diff_rating
+    &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;               &amp;lt;dbl&amp;gt;       &amp;lt;int&amp;gt;
+1 16720619 TrunicC                1.          80
+
+&amp;gt; diff_table %&amp;gt;% filter(match_id == 16720619) %&amp;gt;% select(contains(&amp;quot;name&amp;quot;))
+# Source:   lazy query [?? x 2]
+# Database: sqlite 3.11.1 [C:\Users\Seppe\Desktop\aoepredict\voobly3.db]
+player_1_name player_2_name 
+&amp;lt;chr&amp;gt;         &amp;lt;chr&amp;gt;         
+1 [CiD]TrunicC  [ VkA_]chagass
+2 [CiD]TrunicC  [ VkA_]chagass
+3 [CiD]TrunicC  [ VkA_]chagass
+4 [CiD]TrunicC  [ VkA_]chagass
+5 [CiD]TrunicC  [ VkA_]chagass
+6 [CiD]TrunicC  [ VkA_]chagass
+7 [CiD]TrunicC  [ VkA_]chagass
+8 [CiD]TrunicC  [ VkA_]chagass
+9 [CiD]TrunicC  [ VkA_]chagass
+10 [CiD]TrunicC  [ VkA_]chagass
+# ... with more rows
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We can now bring everything together into a final table and are ready to model. Since we have a lot of data (every match exposes hundreds of snapshots), we&amp;#8217;ll use a sample to train our model. We also want to create a balanced sample to make sure we have a 50-50 outcome of player 1 or player 2 winning. Finally, we also make sure to set aside a test set from this&amp;nbsp;sample:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;caret&lt;span class="p"&gt;)&lt;/span&gt;
+
+sample &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; final_table &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; group_by&lt;span class="p"&gt;(&lt;/span&gt;player_1_wins&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; sample_n&lt;span class="p"&gt;(&lt;/span&gt;size &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="m"&gt;30000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;as.data.frame&lt;/span&gt;
+&lt;span class="kp"&gt;sample&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;player_1_wins &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; &lt;span class="kp"&gt;table&lt;/span&gt;
+
+partition &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; createDataPartition&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;sample&lt;/span&gt;&lt;span class="o"&gt;$&lt;/span&gt;player_1_wins&lt;span class="p"&gt;)&lt;/span&gt;
+
+sample.train &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;partition&lt;span class="o"&gt;$&lt;/span&gt;Resample1&lt;span class="p"&gt;,]&lt;/span&gt;
+sample.test &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kp"&gt;sample&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;partition&lt;span class="o"&gt;$&lt;/span&gt;Resample1&lt;span class="p"&gt;,]&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Additionally, there is another trick we can apply here to make the models themselves more robust. Since all our features are differences, we can regard every instance where player 1 won also as an instance where player 2 won simply by flipping the sign of every column (if player 1 is two villagers ahead of player 2, then player 2 is two villagers behind). Doing so nicely smooths out our sample and prevents our model being biased towards a particular direction below or above zero for features. It&amp;#8217;s unlikely to matter very much given the amount of data we&amp;#8217;re going to push in, but nevertheless a good&amp;nbsp;approach:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;mirror_data &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; &lt;span class="kr"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;ds&lt;span class="p"&gt;,&lt;/span&gt; prefix&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;diff_&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; target&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;player_1_wins&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+ds.m &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; ds &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+    mutate_at&lt;span class="p"&gt;(&lt;/span&gt;vars&lt;span class="p"&gt;(&lt;/span&gt;starts_with&lt;span class="p"&gt;(&lt;/span&gt;prefix&lt;span class="p"&gt;)),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kr"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;x&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;x&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; 
+    mutate_at&lt;span class="p"&gt;(&lt;/span&gt;vars&lt;span class="p"&gt;(&lt;/span&gt;target&lt;span class="p"&gt;),&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kr"&gt;function&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;x&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="kp"&gt;factor&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;abs&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="kp"&gt;as.numeric&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kp"&gt;levels&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;x&lt;span class="p"&gt;))[&lt;/span&gt;x&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;))))&lt;/span&gt;
+&lt;span class="kr"&gt;return&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;bind_rows&lt;span class="p"&gt;(&lt;/span&gt;ds&lt;span class="p"&gt;,&lt;/span&gt; ds.m&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Only apply this on the train set&lt;/span&gt;
+
+sample.train &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; mirror_data&lt;span class="p"&gt;(&lt;/span&gt;sample.train&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;We only apply this on the training data, however. The part kept aside as the test set is&amp;nbsp;untouched:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; sample.train$player_1_wins %&amp;gt;% table
+    0     1 
+30000 30000
+
+&amp;gt; sample.test$player_1_wins %&amp;gt;% table
+    0     1 
+15000 15000
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;As a baseline model, we can see how &lt;a href="https://en.wikipedia.org/wiki/Logistic_regression"&gt;logistic regression&lt;/a&gt;&amp;nbsp;fares:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;model.glm &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; glm&lt;span class="p"&gt;(&lt;/span&gt;player_1_wins &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="m"&gt;.&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; family&lt;span class="o"&gt;=&lt;/span&gt;binomial&lt;span class="p"&gt;(&lt;/span&gt;link&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;logit&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; 
+                data&lt;span class="o"&gt;=&lt;/span&gt;sample.train &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; select&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;match_id&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;current_time&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Which&amp;nbsp;obtains:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Confusion Matrix and Statistics on TRAIN
+
+        Reference
+Prediction     0     1
+        0 21431  8569
+        1  8569 21431
+
+            Accuracy : 0.7144
+
+Confusion Matrix and Statistics on TEST
+
+        Reference
+Prediction     0     1
+        0 10759  4255
+        1  4241 10745
+
+            Accuracy : 0.7168
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This is not too bad, especially since our data also includes snapshots which occur right after a game has started. We&amp;#8217;d hence expect our accuracy to improve as games progress, which is indeed the&amp;nbsp;case:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Model accuracy improves as a game goes on" src="/images/2018/aoe5.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nevertheless, we can try to do better, so let&amp;#8217;s also construct a &lt;a href="https://en.wikipedia.org/wiki/Random_forest"&gt;random forest&lt;/a&gt;&amp;nbsp;model:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;randomForest&lt;span class="p"&gt;)&lt;/span&gt;
+
+model.rf &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; randomForest&lt;span class="p"&gt;(&lt;/span&gt;player_1_wins &lt;span class="o"&gt;~&lt;/span&gt; &lt;span class="m"&gt;.&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+                data&lt;span class="o"&gt;=&lt;/span&gt;sample.train &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; select&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;match_id&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;current_time&lt;span class="p"&gt;),&lt;/span&gt;
+                ntree&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;300&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; importance&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;T&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Here, the results are much better: 99% accuracy on the train set, and 83% accuracy on the test set. Since this looks like a solid improvement, I decide to continue with this&amp;nbsp;model.&lt;/p&gt;
+&lt;p&gt;A final check on the complete data set (without retraining the model) obtains the same accuracy and confirms that our model is indeed able to generalize its&amp;nbsp;predictions:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Confusion Matrix and Statistics
+
+        Reference
+Prediction      0      1
+        0 755618 136151
+        1 153962 762804
+
+            Accuracy : 0.8396
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;With the accuracy through time looking like&amp;nbsp;this:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Model accuracy improves as a game goes on" src="/images/2018/aoe6.png"&gt;&lt;/p&gt;
+&lt;h2&gt;Inspecting the&amp;nbsp;Results&lt;/h2&gt;
+&lt;p&gt;We can now look inside our predictive model a bit further to see what drives the outcome of a match, a simple variable importance ranking is obtained simply as&amp;nbsp;follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;imp &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; importance&lt;span class="p"&gt;(&lt;/span&gt;model.rf&lt;span class="p"&gt;,&lt;/span&gt; type&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; scale &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="bp"&gt;F&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+ggplot&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="kt"&gt;data.frame&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;imp&lt;span class="o"&gt;=&lt;/span&gt;imp&lt;span class="p"&gt;[,&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt; var&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="kp"&gt;names&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;imp&lt;span class="p"&gt;[,&lt;/span&gt;&lt;span class="m"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]))&lt;/span&gt; &lt;span class="o"&gt;%&amp;gt;%&lt;/span&gt; filter&lt;span class="p"&gt;(&lt;/span&gt;imp&lt;span class="o"&gt;&amp;gt;=&lt;/span&gt;&lt;span class="m"&gt;0.01&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt; aes&lt;span class="p"&gt;(&lt;/span&gt;x&lt;span class="o"&gt;=&lt;/span&gt;var&lt;span class="p"&gt;,&lt;/span&gt; y&lt;span class="o"&gt;=&lt;/span&gt;imp&lt;span class="p"&gt;))&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; 
+    geom_bar&lt;span class="p"&gt;(&lt;/span&gt;stat&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;#39;identity&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt;
+    coord_flip&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;This pretty much confirms what we expected&amp;nbsp;already:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Variable importance ranking" src="/images/2018/aoe7.png"&gt;&lt;/p&gt;
+&lt;p&gt;First of all, the score actually seems to provide a solid representation of how far ahead a player is. Next to this, the resources spent play an important role as well, together with resources (with food being more important), population counts, and the &lt;span class="caps"&gt;ELO&lt;/span&gt; rating. The latter is pretty expected, as we&amp;#8217;ll see later that this is pretty much the only meaningful variable at the beginning of matches, as all other delta statistics will be close to zero, and the higher ranking player generally ends up winning the&amp;nbsp;match.&lt;/p&gt;
+&lt;p&gt;Taking a look at the partial depence plots for the total score and total population count basically reflects the same&amp;nbsp;insight:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Partial dependence plot for total score difference (annotations manually added)" src="/images/2018/aoe8.png"&gt;&lt;/p&gt;
+&lt;p&gt;The score has a direct influence on the outcome, and plateaus off after a difference of 2500 has been reached, as not many games carry on beyond this. Generally speaking a score difference of &amp;gt;1000 is already a strong sign in favor of the respective&amp;nbsp;player.&lt;/p&gt;
+&lt;p&gt;For the total population difference, the results are&amp;nbsp;similar:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Partial dependence plot for total population difference" src="/images/2018/aoe9.png"&gt;&lt;/p&gt;
+&lt;p&gt;Let&amp;#8217;s take a look at some matches to see what happened and what our model thinks of&amp;nbsp;them.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="First match" src="/images/2018/aoe10.png"&gt;&lt;/p&gt;
+&lt;p&gt;The blue/red colored line shows the output of our model through time, with the purple line showing a moving average over the last 40 ticks (every minute leads to more or less 20 game ticks, so this is a moving average over about two minutes). The orange line plots the score difference over time, scaled so that the highest score difference is represented as (+/-)1. This is already an interesting use case: our prediction varies wildly (as does tehe score) up until minute 20, from which point onwards our model remains sure until the end about player 1 winning. Interestingly enough, the score still jumps up and down (even in favor of the other player around the 40th minute&amp;nbsp;mark).&lt;/p&gt;
+&lt;p&gt;The following match draws a stranger&amp;nbsp;picture:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Another match" src="/images/2018/aoe11.png"&gt;&lt;/p&gt;
+&lt;p&gt;Here, our model is confused up until the 20 minute mark before deciding that player 1 has the upper hand, as is also reflected in the score. Strangely enough, only at the very end does the score (and our prediction) plummet with the second player actually winning. So this is definitely a difficult case to&amp;nbsp;predict!&lt;/p&gt;
+&lt;p&gt;In fact, it might be a good idea to inspect what the accuracy of our model is in terms of predicting the very last game state (i.e. right before someone resigns). We&amp;#8217;d expect this to be extremely close to&amp;nbsp;100%:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Confusion Matrix and Statistics
+
+        Reference
+Prediction    0    1
+        0 1039   53
+        1   78 1064
+
+            Accuracy : 0.9414
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Almost, but not quite. This was a bit worrying at the time, so I decide to investigate a few matches where our model remains wrong until the very last moment. In many of them, it simply turns out to be &amp;#8220;re&amp;#8221;-games where players decided to cancel to match after a few minutes of play. It would have been a good idea to filter those out, though since they don&amp;#8217;t really influence the model&amp;#8217;s accuracy as a whole, we don&amp;#8217;t need to worry much about these. The following match, however, was strange (match id&amp;nbsp;16721231):&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Huh?" src="/images/2018/aoe12.png"&gt;&lt;/p&gt;
+&lt;p&gt;Nothing makes sense here: the game goes up and down between the players, sure, and it seems that our model even heavily disagrees with the score in this case, which steadily goes up in favor of the first player. Nevertheless, a few minutes until the end, our model (and the score) are very sure about themselves and almost reaches a probability of 1. However, note that the color indicates that this turned out to be the incorrect prediction, as it is not player 1 but 2 which won this&amp;nbsp;game.&lt;/p&gt;
+&lt;p&gt;At first, I suspected an error with the player name matching procedure, so I verified the outcome on the Voobly page, showing the same thing. In the end, I ended up going through the recording myself from start to finish. Indeed, it&amp;#8217;s a very close game until the very last minute or so, with player 2 calling &amp;#8220;gg&amp;#8221; first. However, it is then player 1 which quits out the game by pressing resign first, causing the wrong player to be attributed the win on Voobly. So this is clearly a noisy data issue which we can safely ignore as well. After a few further checks, the accuracy of 94% above isn&amp;#8217;t as troublesome any&amp;nbsp;longer.&lt;/p&gt;
+&lt;p&gt;At this stage, there were two things I wanted to explore&amp;nbsp;further:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Sure, anyone can predict the outcome right before a game ends&amp;#8221;, so how long would it take for the model to call the outcome. We can represent this as the probability staying above or under 0.50 at taking the ratio of the point of time when this happened to the total game time. Or otherwise: &amp;#8220;how quickly in terms of how long was played could we have called the&amp;nbsp;game?&amp;#8221;&lt;/li&gt;
+&lt;li&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Everyone can predict the outcome when looking at the score, rating, villager count and total population&amp;#8221;, or put differently, I wanted to quantify how much better this model would be compared to the gut feeling of a regular game viewer who typically consider a few key measures. One could even argue based on some of the matches we&amp;#8217;ve seen above that a model using score alone might be&amp;nbsp;enough&amp;#8230;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;In order to answer these questions, I construct a second model only using the score, rating, total population and villager population features. This models obtained a 79% accuracy level, so we&amp;#8217;re still doing a bit better overall using the additional information. What we would really like however, is the answer to the first question: how much faster can we call the&amp;nbsp;outcome?&lt;/p&gt;
+&lt;p&gt;To do so, I compare the predictions over time per match for the regular model and the simple model. I also construct &amp;#8220;smoothed&amp;#8221; versions of those two models by averaging the probability over the past 40 game ticks (about two minutes) as the plots before had shown that this often works well to smooth out irregular jumps in the probability. For each match, I look at the earliest point in time the probability stays above or below the cutoff of 0.50 and divide that by the total running time to get a ratio. The lower this ratio, the earlier we can &amp;#8220;close in&amp;#8221; on the match outcome. Plotted as density curves, we get the following&amp;nbsp;result:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="How long does it take before we can predict the outcome of a match?" src="/images/2018/aoe13.png"&gt;&lt;/p&gt;
+&lt;p&gt;This is a fantastic result. Especially when smoothing out the predictions over time a bit (&amp;#8220;snormal&amp;#8221; and &amp;#8220;ssimple&amp;#8221;), a massive amount of matches are already &amp;#8220;decided&amp;#8221; before they&amp;#8217;re half underway. For the non smoother versions (&amp;#8220;normal&amp;#8221; and &amp;#8220;simple&amp;#8221;), it takes a bit longer before the model can be sure, but here we note the huge benefit of using all the features we have at our disposal versus only using the ones in our simple model, with the &amp;#8220;normal&amp;#8221; curve being sure of itself much earlier in the match. In fact, this is what we saw in the first match timeline shown above, where the score, for instance, still jumped up and down a bit whereas the model had already decided on its final&amp;nbsp;preference.&lt;/p&gt;
+&lt;h2&gt;Deployment&lt;/h2&gt;
+&lt;p&gt;As a final step, I wanted to see this model running at least in some form on a live match. A few lines of R code exposes our model as an &lt;span class="caps"&gt;API&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kp"&gt;save&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;model.rf&lt;span class="p"&gt;,&lt;/span&gt; file&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;model.rda&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="c1"&gt;# Deploy as API&lt;/span&gt;
+
+&lt;span class="kn"&gt;library&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;plumber&lt;span class="p"&gt;)&lt;/span&gt;
+r &lt;span class="o"&gt;&amp;lt;-&lt;/span&gt; plumb&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;model_api.R&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+r&lt;span class="o"&gt;$&lt;/span&gt;run&lt;span class="p"&gt;(&lt;/span&gt;port&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="m"&gt;8000&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;With &amp;#8220;model_api.R&amp;#8221; basically containing a &lt;code&gt;predict&lt;/code&gt; call together with pre-processing steps to convert an instance as retrieved from the websocket to the difference columns we&amp;nbsp;want.&lt;/p&gt;
+&lt;p&gt;By modifying our Python websocket reader a bit, we can make a call to this &lt;span class="caps"&gt;API&lt;/span&gt;:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;r = requests.post(&amp;#39;http://localhost:8000/predict&amp;#39;, json={&amp;quot;instance&amp;quot;: flattened})
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;And show the result whilst the game is&amp;nbsp;running:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Spectacular looking prediction overlay" src="/images/2018/aoe16.png"&gt;&lt;/p&gt;
+&lt;p&gt;This actually illustrates pretty well how the model is user the rating information. At the beginning of the game, this is the only thing the model can go with until more detailed information becomes&amp;nbsp;available.&lt;/p&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;This weekend data science project turned out to take a bit longer than just one weekend. Funnily enough, the modelling step turned out to be extremely easy, without missing values or other typical annoying issues to deal with. That said, there are still a number of possibilities for further&amp;nbsp;expansion:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;The current information being exposed by the spectator plugin does not include research information, especially ages the players are in. This is widely known to be important as well, so this might still be useful to parse out manually from the&amp;nbsp;recordings&lt;/li&gt;
+&lt;li&gt;The current time is dropped as a feature, but might be useful to nevertheless include somehow. Perhaps there are interaction effects present based on how long the game has been running for. E.g. the villager count is important in the beginning of games, but maybe less so towards the end. Including ages will also partially capture&amp;nbsp;this&lt;/li&gt;
+&lt;li&gt;We take simple differences between stats, but as explained above, this abstracts away from some&amp;nbsp;information&lt;/li&gt;
+&lt;li&gt;Civilizations are not included as a feature at the moment. I simply forgot to scrape out this information from the Voobly pages, but it might be wortwhile to see if it makes a&amp;nbsp;difference&lt;/li&gt;
+&lt;li&gt;Currently, we simply predict per snapshot, and have seen how smoothing out the predictions over a period of time helps their overall usefulness. To incorporate this in the model itself, and reduce some of the irregular jumps a bit, it might be useful to add in trend features as well by deriving these from the &lt;em&gt;n&lt;/em&gt; snapshots before the one being predicted&amp;nbsp;on&lt;/li&gt;
+&lt;li&gt;It would still be useful to construct a very simple model using only a handful of features. This might increase the general &amp;#8220;deployability&amp;#8221; of the&amp;nbsp;model&lt;/li&gt;
+&lt;li&gt;Speaking of deployability: I&amp;#8217;m not one to &amp;#8220;spend 80% of time getting the final 20% of the work finished up,&amp;#8221; so I&amp;#8217;m not really thinking about building a beautiful moving trendline kind of overlay for &lt;span class="caps"&gt;OBS&lt;/span&gt;, even although I&amp;#8217;d love to see a predictive being used in e-sports casting similar as is being done on poker channels, for&amp;nbsp;instance&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In any case, this has been a very fun time killer to work on. I plan to make all the full scripts and data available on GitHub at some point in time soon (even regarding their horrible form), though will spend some time to only incorporate the training sample instead of the full database (which is way too big with &lt;span class="caps"&gt;2GB&lt;/span&gt; of data to put online), as well as changing the scraper to incorporate&amp;nbsp;civilizations.&lt;/p&gt;</content></entry><entry><title>An Exploration of Cellular Automata and Graph Based Game Systems: Part 2</title><link href="http://blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-2.html" rel="alternate"></link><published>2017-12-19T18:05:00+01:00</published><updated>2017-12-19T18:05:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2017-12-19:/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-2.html</id><summary type="html">&lt;script&gt;
 $(function() {
     $('.toggle').each(function(index) {
         var toggler = $('&lt;div style="margin: 8px 0; background-color: #E3E0FF; cursor: pointer; padding: 8px;"&gt;Toggle iframe&lt;/div&gt;');
