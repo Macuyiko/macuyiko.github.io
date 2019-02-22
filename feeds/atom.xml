@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2019-02-22T20:10:00+01:00</updated><entry><title>Discovering Interaction Effects in Ensemble Models</title><link href="http://blog.macuyiko.com/post/2019/discovering-interaction-effects-in-ensemble-models.html" rel="alternate"></link><published>2019-02-22T20:10:00+01:00</published><updated>2019-02-22T20:10:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2019-02-22:/post/2019/discovering-interaction-effects-in-ensemble-models.html</id><summary type="html">&lt;p&gt;Throughout the past year or so, both R and Python focused data science practioners have picked up on a &lt;a href="https://arxiv.org/pdf/0811.1679.pdf"&gt;paper by Friedman and Popescu&lt;/a&gt; from 2008 entitled Predictive Learning Via Rule Ensembles. Interestingly enough, the &amp;#8220;meat&amp;#8221; of the paper &amp;#8212; at least in the context we&amp;#8217;ll discuss here &amp;#8212; is found …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Throughout the past year or so, both R and Python focused data science practioners have picked up on a &lt;a href="https://arxiv.org/pdf/0811.1679.pdf"&gt;paper by Friedman and Popescu&lt;/a&gt; from 2008 entitled Predictive Learning Via Rule Ensembles. Interestingly enough, the &amp;#8220;meat&amp;#8221; of the paper &amp;#8212; at least in the context we&amp;#8217;ll discuss here &amp;#8212; is found in the latter half, where a helpful statistic is proposed to assess interaction effects between variables in an ensemble model &lt;sup id="fnref-fn1"&gt;&lt;a class="footnote-ref" href="#fn-fn1"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;Together with feature importance rankings and partial dependence plots, getting an idea of which variables interact is an effective means to make black-box models more understandable, especially since the latter can effect how you look at the former&amp;nbsp;two.&lt;/p&gt;
-&lt;p&gt;The reason why I initially became interested in an idea was in a setting where a well-performing random forest model had to be converted to a (hopefully just as well performing) logistic regression model for deployment reasons. In this setting, getting some insights from the ensemble model in terms of which variables to keep is quite&amp;nbsp;useful.&lt;/p&gt;
+&lt;p&gt;The reason why I initially became interested in this idea was in a setting where a well-performing random forest model had to be converted to a (hopefully just as well performing) logistic regression model for deployment reasons. In this setting, getting some insights from the ensemble model in terms of which variables to keep is quite&amp;nbsp;useful.&lt;/p&gt;
 &lt;h2&gt;Feature&amp;nbsp;Importance&lt;/h2&gt;
 &lt;p&gt;Let us begin with outlining some basic concepts first, assuming some knowledge regarding predictive (ensemble)&amp;nbsp;models.&lt;/p&gt;
 &lt;p&gt;First, there&amp;#8217;s the idea of &lt;strong&gt;feature importance ranking&lt;/strong&gt;, as mentioned above. We don&amp;#8217;t necessarily need it to discuss the remainder of this post, though it&amp;#8217;s still a good idea to discuss it as we&amp;#8217;ll see later where it can fall&amp;nbsp;short.&lt;/p&gt;
@@ -13,8 +13,8 @@
 &lt;blockquote&gt;
 &lt;p&gt;The scikit-learn Random Forest feature importance and R&amp;#8217;s default Random Forest feature importance strategies are biased. To get reliable results in Python, use permutation importance, provided here and in our &lt;code&gt;rfpimp&lt;/code&gt; package (via pip). For R, use importance=T in the Random Forest constructor then type=1 in R&amp;#8217;s importance() function. In addition, your feature importance measures will only be reliable if your model is trained with suitable&amp;nbsp;hyper-parameters.&lt;/p&gt;
 &lt;/blockquote&gt;
-&lt;p&gt;In Python, take a look at &lt;a href="https://eli5.readthedocs.io/en/latest/index.html"&gt;eli5&lt;/a&gt; to get solid feature importance rankings. An implementation in &lt;a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.permutation_test_score.html"&gt;scikit-learn&lt;/a&gt; is also available, though not really in an &amp;#8220;out of the box&amp;#8221; fashion. (Also see &lt;a href="https://github.com/scikit-learn/scikit-learn/issues/11187"&gt;this issue on GitHub&lt;/a&gt;.)&lt;/p&gt;
-&lt;p&gt;To get back on track, the permutation based feature importance ranking is solid and easy to understand, with the drawback that it is quite computationally expensive. A theme which will remain for other things we&amp;#8217;ll visit in this post as well, though which is a fair constraints whilst in the &amp;#8220;model inspection&amp;#8221; phase of your model development pipeline. (Jeremy Howard has also spoken quite a bit about this topic in the latest fast.ai courses on structured machine learning, and also indicates that sampling is fine; you&amp;#8217;re doing inspection after&amp;nbsp;all.)&lt;/p&gt;
+&lt;p&gt;In Python, you can also use the &lt;a href="https://eli5.readthedocs.io/en/latest/index.html"&gt;&lt;code&gt;eli5&lt;/code&gt;&lt;/a&gt; package to get solid feature importance rankings. An implementation in &lt;a href="http://scikit-learn.org/stable/modules/generated/sklearn.model_selection.permutation_test_score.html"&gt;scikit-learn&lt;/a&gt; is also available, though not really in an &amp;#8220;out of the box&amp;#8221; fashion. (Also see &lt;a href="https://github.com/scikit-learn/scikit-learn/issues/11187"&gt;this issue on GitHub&lt;/a&gt;.)&lt;/p&gt;
+&lt;p&gt;To get back on track, the permutation based feature importance ranking is solid (at least when used correctly) and easy to understand, with the drawback that it is quite computationally expensive. A theme which will remain for other things we&amp;#8217;ll visit in this post as well, though which is a fair constraints whilst in the &amp;#8220;model inspection&amp;#8221; phase of your model development pipeline. (Jeremy Howard has also spoken quite a bit about this topic in the latest fast.ai courses on structured machine learning, and also indicates that sampling is fine; you&amp;#8217;re doing inspection after&amp;nbsp;all.)&lt;/p&gt;
 &lt;p&gt;As a final note, one might consider using an out-of-bag (&lt;span class="caps"&gt;OOB&lt;/span&gt;) or a validation set to assess feature importance rankings, though I&amp;#8217;ve commonly encountered usage of the training set as well (again, we&amp;#8217;re not necessarily trying to assess generalization performance, we just want to get an insight on our model, based on how &amp;#8212; and on which data &amp;#8212; it was trained). Even &lt;a href="https://christophm.github.io/interpretable-ml-book/feature-importance.html#feature-importance-data"&gt;this fantastic book on model interpretabily&lt;/a&gt; argues that both train and test data might be valid depending on the use&amp;nbsp;case.&lt;/p&gt;
 &lt;h2&gt;The Trouble with Single-variable Importance&amp;nbsp;Rankings&lt;/h2&gt;
 &lt;p&gt;Feature importance rankings are great, but they&amp;#8217;re not all-revealing. A common practice for instance is to use random forests or other ensemble models as a feature selection tool by first training them on the full feature set, and then using the feature importance rankings to select the top-n variables to keep in the productionized model (and hence retraining the model on the selected model). Think data-driven feature selection. This is a somewhat common approach which has been operationalized in packages such as &lt;a href="https://cran.r-project.org/web/packages/Boruta/index.html"&gt;Boruta&lt;/a&gt;.&lt;/p&gt;
@@ -29,8 +29,8 @@ random forest rankings:         [0.19065131 0.18586131 0.62348737]
 
 
 &lt;p&gt;scikit-learn doesn&amp;#8217;t implement permutation based importance rankings, but using &lt;code&gt;rfpimp&lt;/code&gt; yields a similar&amp;nbsp;result:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gradient boosting rankings: [[0.35668364172723466], [0.37945421519456135], [1.1709241999994044]]
-random forest rankings:     [[0.4267327020932866], [0.432111794898714], [1.248730068580492]]
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gradient boosting rankings: [[0.35668364], [0.37945421], [1.17092419]]
+random forest rankings:     [[0.42673270], [0.43211179], [1.24873006]]
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -54,7 +54,7 @@ random forest rankings:     [[0.4267327020932866], [0.432111794898714], [1.24873
 &lt;p&gt;Trying this on our synthetic data set, we&amp;nbsp;get:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Partial dependence plots for each variable" src="/images/2018/hstat2.png"&gt;&lt;/p&gt;
 &lt;p&gt;This idea works well in practice, though basically suffers from the same drawback as feature importance: we&amp;#8217;re looking at the ceteris paribus effect per variable, in a univariate manner. Indeed, looking at the partial dependence plots above, one might get the impression that the effects of x0 and x1 are &amp;#8220;less strong&amp;#8221; than x2. This is a dangerous mistake to make. In general, one should understand that if you see a relationship, this indeed indicates presence of an effect on the target, though absence of a relationship does not indicate absence of an effect. In the extreme case, one might even observe a flat line for one of the variables involved in an interaction in the partial dependence plots, even though those variables together do impose a strong effect on the&amp;nbsp;target.&lt;/p&gt;
-&lt;p&gt;Again, people have been aware of this drawback for quite a while. &lt;a href="http://forestfloor.dk/"&gt;Forest floor&lt;/a&gt; was one of the first to pick up on this in the R world (since 2015 and a &lt;a href="https://arxiv.org/abs/1605.09196"&gt;paper in 2016&lt;/a&gt;), and produced a package to plot two-way interaction effects. &lt;a href="https://cran.r-project.org/web/packages/pdp/pdp.pdf"&gt;The pdp R package&lt;/a&gt; does something similar. Another package, &lt;code&gt;sklearn_gbmi&lt;/code&gt; also allows to plot two-dimensional partial dependence&amp;nbsp;plots.&lt;/p&gt;
+&lt;p&gt;Again, people have been aware of this drawback for quite a while. &lt;a href="http://forestfloor.dk/"&gt;Forest floor&lt;/a&gt; was one of the first to pick up on this in the R world (since 2015 and a &lt;a href="https://arxiv.org/abs/1605.09196"&gt;paper in 2016&lt;/a&gt;), and produced a package to plot two-way interaction effects. &lt;a href="https://cran.r-project.org/web/packages/pdp/pdp.pdf"&gt;The pdp R package&lt;/a&gt; does something similar. Another package, for Python, &lt;code&gt;sklearn_gbmi&lt;/code&gt; also allows to plot two-dimensional partial dependence plots, and so does &lt;code&gt;pdpbox&lt;/code&gt; for&amp;nbsp;Python.&lt;/p&gt;
 &lt;p&gt;The idea remains the same: keep everything ceteris paribus except for &amp;#8212; now &amp;#8212; two variables which we assess over a grid, either stepwise generated or based on the real values observed in the&amp;nbsp;data.&lt;/p&gt;
 &lt;p&gt;Nevertheless, this is somewhat limited to two dimensions only; for three-way interaction effects and higher, one needs to get quite creative with colors and shapes to visually inspect the&amp;nbsp;results.&lt;/p&gt;
 &lt;h2&gt;&lt;span class="caps"&gt;ICE&lt;/span&gt; (Individual Conditional Expectation)&amp;nbsp;Plots&lt;/h2&gt;
@@ -68,23 +68,23 @@ random forest rankings:     [[0.4267327020932866], [0.432111794898714], [1.24873
 &lt;p&gt;(Not that there would necessarily be any guarantee for this average &lt;span class="caps"&gt;ICE&lt;/span&gt; line to be exactly the same as the partial dependence plot as described above. It depends somewhat on the intricacies of the learner, though averages are such a&amp;#8230; well, central, concept in virtually all learners that the results will be virtually similar. Again, this would make for a nice topic to explore further both from an empirical and theoretical&amp;nbsp;perspective.)&lt;/p&gt;
 &lt;p&gt;In any case, we now have the building blocks required to finally delve into what we&amp;#8217;re interested in here. As one can observe, &lt;span class="caps"&gt;ICE&lt;/span&gt; plots are better suited to warn a user against interpreting a &amp;#8220;partial dependency&amp;#8221;, though can still make it quite hard to uncover the full extent of interactions. Again, when limiting oneself to the setting of two features, the concept of &lt;span class="caps"&gt;ICE&lt;/span&gt; plots is easily ported. This is the result for x0 * x1, for instance. The &lt;span class="caps"&gt;ICE&lt;/span&gt; plot clearly indicates the presence of an interaction, as would a standard partial dependence&amp;nbsp;plot:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="ICE plot for x0*x1" src="/images/2018/hstat4.png"&gt;&lt;/p&gt;
-&lt;p&gt;Though again, the question remains: how do we systematically extract deeper interactions, given that visualizations cannot help us much in this setting &lt;sup id="fnref-fn2"&gt;&lt;a class="footnote-ref" href="#fn-fn2"&gt;2&lt;/a&gt;&lt;/sup&gt;?&lt;/p&gt;
+&lt;p&gt;Though again, the question remains: how do we systematically extract deeper interactions, given that visualizations cannot help us much in this setting&lt;sup id="fnref-fn2"&gt;&lt;a class="footnote-ref" href="#fn-fn2"&gt;2&lt;/a&gt;&lt;/sup&gt;?&lt;/p&gt;
 &lt;h2&gt;Introducing Friedman&amp;#8217;s&amp;nbsp;H-statistic&lt;/h2&gt;
 &lt;p&gt;The interpretable &lt;span class="caps"&gt;ML&lt;/span&gt; book by Christoph Molnar &lt;a href="https://christophm.github.io/interpretable-ml-book/interaction.html"&gt;actually gives us a workable approach&lt;/a&gt;, by using Friedman&amp;#8217;s H-statistic based on decomposition of the partial dependence&amp;nbsp;values.&lt;/p&gt;
-&lt;p&gt;The book describes two &amp;#8220;versions&amp;#8221; of the&amp;nbsp;H-statistic:&lt;/p&gt;
+&lt;p&gt;The book describes both &amp;#8220;versions&amp;#8221; of the&amp;nbsp;H-statistic:&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;H2(jk) to measure wether features j and k interact. For this, partial dependence results need to be calculated for j and k seperately, and j and k&amp;nbsp;together&lt;/li&gt;
-&lt;li&gt;H2(j) to measure if a feature j interacts with any other&amp;nbsp;feature&lt;/li&gt;
+&lt;li&gt;H2(jk) to measure wether features j and k interact. For this, partial dependence results need to be calculated for j and k seperately, and j and k together. I&amp;#8217;ll call this the second-order&amp;nbsp;measure&lt;/li&gt;
+&lt;li&gt;H2(j) to measure if a feature j interacts with any other feature. This can hence be regarded as a first-order measure guiding the second-order measures to&amp;nbsp;check&lt;/li&gt;
 &lt;/ul&gt;
 &lt;p&gt;This is a great approach, but two problems exist in most implementations:
 - The first H2 measure can actually be constructed for higher-order interactions as well, the paper mentions this in passing through &amp;#8220;Analogous relationships can be derived for the absence of higher order interactions&amp;#8221; and by providing a metric for H2(jkl). This requires partial dependence values for higher-order feature sets, which most implementations do not provide
 - Most implementations will only implement H2(jk), without providing the first-order test H2(j), which would greatly help to reduce the number of checks to&amp;nbsp;perform&lt;/p&gt;
 &lt;p&gt;There are other aspects to consider as well (e.g. with regards to sampling to speed up the procedure), but let us focus on these for now and see which options are&amp;nbsp;available.&lt;/p&gt;
 &lt;ul&gt;
-&lt;li&gt;In R, the &lt;a href="https://github.com/christophM/iml/blob/master/R/Interaction.R"&gt;&lt;code&gt;iml&lt;/code&gt;&lt;/a&gt; package implements both tests, but does not allow to calculate the second order H-measure on e.g.&amp;nbsp;H2(jkl)&lt;/li&gt;
-&lt;li&gt;The R &lt;a href="https://www.rdocumentation.org/packages/gbm/versions/2.1.4/topics/interact.gbm"&gt;&lt;code&gt;interact.gbm&lt;/code&gt;&lt;/a&gt; package only works for gradient boosting models and does not implement the first-order test, but does allow for higher-order second-order&amp;nbsp;tests&lt;/li&gt;
-&lt;li&gt;The R &lt;a href="https://github.com/marjoleinF/pre/blob/master/R/pre.R"&gt;&lt;code&gt;pre&lt;/code&gt;&lt;/a&gt; package seems to implement the first-order test, but not the second-order&amp;nbsp;one&lt;/li&gt;
-&lt;li&gt;In Python, &lt;a href="https://pypi.org/project/sklearn-gbmi/"&gt;&lt;code&gt;sklearn_gbmi&lt;/code&gt;&lt;/a&gt; will accept feature sets of length two and higher, but does not provide support for the first-order hypothesis test, similar to &lt;code&gt;interact.gbm&lt;/code&gt; in R. It only works on gradient boosting based&amp;nbsp;models&lt;/li&gt;
+&lt;li&gt;In R, the &lt;a href="https://github.com/christophM/iml/blob/master/R/Interaction.R"&gt;&lt;code&gt;iml&lt;/code&gt;&lt;/a&gt; package implements both measures, but does not allow to calculate the second-order H-measure on e.g.&amp;nbsp;H2(jkl)&lt;/li&gt;
+&lt;li&gt;The R &lt;a href="https://www.rdocumentation.org/packages/gbm/versions/2.1.4/topics/interact.gbm"&gt;&lt;code&gt;interact.gbm&lt;/code&gt;&lt;/a&gt; package only works for gradient boosting models and does not implement the first-order measure, but does allow for higher-order second-order&amp;nbsp;measures&lt;/li&gt;
+&lt;li&gt;The R &lt;a href="https://github.com/marjoleinF/pre/blob/master/R/pre.R"&gt;&lt;code&gt;pre&lt;/code&gt;&lt;/a&gt; package seems to implement the first-order measure, but not the second-order&amp;nbsp;one&lt;/li&gt;
+&lt;li&gt;In Python, &lt;a href="https://pypi.org/project/sklearn-gbmi/"&gt;&lt;code&gt;sklearn_gbmi&lt;/code&gt;&lt;/a&gt; will accept feature sets of length two and higher, but does not provide support for the first-order measure, very similar to &lt;code&gt;interact.gbm&lt;/code&gt; in R. It only works on gradient boosting based&amp;nbsp;models&lt;/li&gt;
 &lt;li&gt;In Python, the &lt;a href="https://koalaverse.github.io/vip/reference/vint.html"&gt;&lt;code&gt;vip&lt;/code&gt;&lt;/a&gt; implements a clever alternative approach to find whether two feature interact based on &lt;span class="caps"&gt;ICE&lt;/span&gt; plot comparisons which is much faster, but is only implemented for two-way interactions as&amp;nbsp;well&lt;/li&gt;
 &lt;/ul&gt;
 &lt;h2&gt;A manual Python&amp;nbsp;implementation&lt;/h2&gt;
@@ -257,7 +257,7 @@ def compute_f_vals(mdl, X, features, selectedfeatures, num_grid_points=10, use_d
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;From which we can define the second order&amp;nbsp;H-measure:&lt;/p&gt;
+&lt;p&gt;From which we can define the second-order&amp;nbsp;H-measure:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def compute_h_val(f_vals, selectedfeatures):
     denom_els = f_vals[tuple(selectedfeatures)].copy()
     numer_els = f_vals[tuple(selectedfeatures)].copy()
@@ -272,7 +272,7 @@ def compute_f_vals(mdl, X, features, selectedfeatures, num_grid_points=10, use_d
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;And first order H-measure as&amp;nbsp;well:&lt;/p&gt;
+&lt;p&gt;And first-order H-measure as&amp;nbsp;well:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def compute_h_val_any(f_vals, allfeatures, selectedfeature):
     otherfeatures = list(allfeatures)
     otherfeatures.remove(selectedfeature)
@@ -293,7 +293,7 @@ x2 is in interaction: 0.10167180905369481
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;We can then calculate the second order H measure for H2(x0,&amp;#8230;) and H2(x1,&amp;#8230;), also for higher order&amp;nbsp;interactions:&lt;/p&gt;
+&lt;p&gt;We can then calculate the second-order H measure for H2(x0,&amp;#8230;) and H2(x1,&amp;#8230;), also for higher-order&amp;nbsp;interactions:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;gradient boosting (first result is `sklearn_gbmi`):
 (&amp;#39;x0&amp;#39;, &amp;#39;x1&amp;#39;)        0.3694527407798142      0.3965718336359157
 (&amp;#39;x0&amp;#39;, &amp;#39;x2&amp;#39;)        0.04741546008708799     0.04546491988445405
@@ -306,7 +306,8 @@ random forest:
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;And that&amp;#8217;s it. In my search on &amp;#8220;white washing&amp;#8221; black box models, I discovered the following clever&amp;nbsp;approaches:&lt;/p&gt;
+&lt;p&gt;And that&amp;#8217;s it; a lot of &amp;#8220;set-up&amp;#8221; for a relatively simple payoff, though it does reveal how a deep understanding of the techniques you use is necessary to know in which cases they can fail, as well as the importance of taking a look at implementations to see what exactly they implement and what they do&amp;nbsp;not.&lt;/p&gt;
+&lt;p&gt;In my search on &amp;#8220;white washing&amp;#8221; black box models, I discovered the following clever&amp;nbsp;approaches:&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;a href="https://christophm.github.io/interpretable-ml-book/rulefit.html#rulefit"&gt;RuleFit&lt;/a&gt;: a technique which combines linear models with new features learnt using decision trees that represent&amp;nbsp;interactions&lt;/li&gt;
 &lt;li&gt;&lt;a href="https://github.com/scikit-learn-contrib/skope-rules"&gt;&lt;code&gt;skope-rules&lt;/code&gt;&lt;/a&gt;: a trade off between the interpretability of a Decision Tree and the modelization power of a Random Forest, which offers a very interesting approach as well aimed at deriving a short list of precise&amp;nbsp;rules&lt;/li&gt;
