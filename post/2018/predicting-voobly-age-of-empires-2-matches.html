@@ -144,33 +144,33 @@
 <h2>Building the&nbsp;Model</h2>
 <p>I decided to go with R for the model building step, since I prefer its <code>dplyr</code> and <code>tidyr</code> libraries a bit more compared to, say, Pandas to perform data&nbsp;wrangling.</p>
 <p>A first bunch of lines loads in the table containing the replay information, with one line per <code>(match, timestamp)</code> combo. I only retain information for the first two players, as I&#8217;m only considering 1v1 matchups&nbsp;here.</p>
-<div class="highlight"><pre><span></span><span class="kn">library</span><span class="p">(</span>DBI<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>RSQLite<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>dplyr<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>tidyr<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>dbplyr<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>rlang<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>glue<span class="p">)</span>
-<span class="kn">library</span><span class="p">(</span>ggplot2<span class="p">)</span>
-<span class="kp">options</span><span class="p">(</span>scipen<span class="o">=</span><span class="m">999</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">DBI</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">RSQLite</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">tidyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">dbplyr</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">rlang</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">glue</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">ggplot2</span><span class="p">)</span>
+<span class="nf">options</span><span class="p">(</span><span class="n">scipen</span><span class="o">=</span><span class="m">999</span><span class="p">)</span>
 
 <span class="c1"># ================</span>
 <span class="c1"># Data preparation</span>
 <span class="c1"># ================</span>
 
-con <span class="o">&lt;-</span> dbConnect<span class="p">(</span>SQLite<span class="p">(),</span> dbname<span class="o">=</span><span class="s">&quot;voobly3.db&quot;</span><span class="p">)</span>
-dbListTables<span class="p">(</span>con<span class="p">)</span>
+<span class="n">con</span> <span class="o">&lt;-</span> <span class="nf">dbConnect</span><span class="p">(</span><span class="nf">SQLite</span><span class="p">(),</span> <span class="n">dbname</span><span class="o">=</span><span class="s">&quot;voobly3.db&quot;</span><span class="p">)</span>
+<span class="nf">dbListTables</span><span class="p">(</span><span class="n">con</span><span class="p">)</span>
 
-db.matches <span class="o">&lt;-</span> tbl<span class="p">(</span>con<span class="p">,</span> <span class="s">&quot;matches&quot;</span><span class="p">)</span>
-db.replay <span class="o">&lt;-</span> tbl<span class="p">(</span>con<span class="p">,</span> <span class="s">&quot;replay&quot;</span><span class="p">)</span>
+<span class="n">db.matches</span> <span class="o">&lt;-</span> <span class="nf">tbl</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s">&quot;matches&quot;</span><span class="p">)</span>
+<span class="n">db.replay</span> <span class="o">&lt;-</span> <span class="nf">tbl</span><span class="p">(</span><span class="n">con</span><span class="p">,</span> <span class="s">&quot;replay&quot;</span><span class="p">)</span>
 
-db.replay <span class="o">%&gt;%</span> <span class="kp">colnames</span>
+<span class="n">db.replay</span> <span class="o">%&gt;%</span> <span class="n">colnames</span>
 
-replay_table <span class="o">&lt;-</span> db.replay <span class="o">%&gt;%</span> 
-filter<span class="p">(</span>type<span class="o">==</span><span class="s">&#39;tick&#39;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
-select<span class="p">(</span>match_id<span class="p">,</span> current_time<span class="p">,</span> 
-        starts_with<span class="p">(</span><span class="s">&quot;data_players_0_&quot;</span><span class="p">),</span> 
-        starts_with<span class="p">(</span><span class="s">&quot;data_players_1_&quot;</span><span class="p">))</span>
+<span class="n">replay_table</span> <span class="o">&lt;-</span> <span class="n">db.replay</span> <span class="o">%&gt;%</span> 
+<span class="nf">filter</span><span class="p">(</span><span class="n">type</span><span class="o">==</span><span class="s">&#39;tick&#39;</span><span class="p">)</span> <span class="o">%&gt;%</span> 
+<span class="nf">select</span><span class="p">(</span><span class="n">match_id</span><span class="p">,</span> <span class="n">current_time</span><span class="p">,</span> 
+        <span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;data_players_0_&quot;</span><span class="p">),</span> 
+        <span class="nf">starts_with</span><span class="p">(</span><span class="s">&quot;data_players_1_&quot;</span><span class="p">))</span>
 </pre></div>
 
 
@@ -186,20 +186,20 @@ select<span class="p">(</span>match_id<span class="p">,</span> current_time<span
 <p>Giving this kind of information to any predictive model will make it kind of hard for it to figure out what is influencing the outcome of the game. Instead, we first perform a pairwise transformation, simply by taking the difference between pairs of columns relating to the same info for both players. Instead of saying that player 0 has 14 gold miners and player 1 has 16 is pretty hard for a predictive model to make sense of directly, so instead we create one column a saying that the difference between player 0 versus player 1 is -2. (A similar approach is taken in <a href="http://fa.bianp.net/blog/2012/learning-to-rank-with-scikit-learn-the-pairwise-transform/">this blog post</a> which is pretty interesting to go&nbsp;through.)</p>
 <p><em>Caveat:</em> the above is of course up for discussion, as one could argue that the difference of 14 goldminers versus 16 encodes something else than the difference of 100 goldminers versus 102, even though it would result in the same delta value in our approach. Perhaps the difference of two goldminers is important in the lower number range, but less meaningful in the higher number range, and we&#8217;d lose this information after applying our suggested transformation. This is a valid remark but one we will ignore for&nbsp;now.</p>
 <p>To create the difference columns in R, we need to perform some heavy juggling (hard-coding all columns is possible too, but less&nbsp;fun):</p>
-<div class="highlight"><pre><span></span>grepgsub <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>l<span class="p">,</span> pattern<span class="o">=</span><span class="s">&quot;^data_players_\\d+_(.*)$&quot;</span><span class="p">)</span> <span class="p">{</span>
-    grepped <span class="o">&lt;-</span> <span class="kp">grep</span><span class="p">(</span>pattern<span class="p">,</span> l<span class="p">)</span>
-    subbed <span class="o">&lt;-</span> <span class="kp">gsub</span><span class="p">(</span>pattern<span class="p">,</span> <span class="s">&quot;\\1&quot;</span><span class="p">,</span> l<span class="p">[</span>grepped<span class="p">])</span>
-    result <span class="o">&lt;-</span> <span class="kp">as.list</span><span class="p">(</span><span class="kp">unique</span><span class="p">(</span>subbed<span class="p">))</span>
-    <span class="kr">return</span><span class="p">(</span>result<span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="n">grepgsub</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&quot;^data_players_\\d+_(.*)$&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">grepped</span> <span class="o">&lt;-</span> <span class="nf">grep</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
+    <span class="n">subbed</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s">&quot;\\1&quot;</span><span class="p">,</span> <span class="n">l[grepped]</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">as.list</span><span class="p">(</span><span class="nf">unique</span><span class="p">(</span><span class="n">subbed</span><span class="p">))</span>
+    <span class="nf">return</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
 <span class="p">}</span>
 
-diff_expression <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>l<span class="p">,</span> pattern<span class="o">=</span><span class="s">&quot;^data_players_\\d+_(.*)$&quot;</span><span class="p">,</span>
-  expression<span class="o">=</span><span class="s">&quot;(data_players_0_{x} - data_players_1_{x})&quot;</span><span class="p">,</span> prefix<span class="o">=</span><span class="s">&quot;diff&quot;</span><span class="p">)</span> <span class="p">{</span>
-    name_list <span class="o">&lt;-</span> grepgsub<span class="p">(</span>l<span class="p">,</span> pattern<span class="o">=</span>pattern<span class="p">)</span>
-    expr_list <span class="o">&lt;-</span> name_list <span class="o">%&gt;%</span>
-        <span class="kp">lapply</span><span class="p">(</span><span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> parse_quosure<span class="p">(</span>glue<span class="p">(</span><span class="kp">expression</span><span class="p">)))</span> <span class="o">%&gt;%</span> 
-        setNames<span class="p">(</span><span class="kp">paste</span><span class="p">(</span>prefix<span class="p">,</span> name_list<span class="p">,</span> sep <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="p">))</span> 
-    <span class="kr">return</span><span class="p">(</span>expr_list<span class="p">)</span>
+<span class="n">diff_expression</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&quot;^data_players_\\d+_(.*)$&quot;</span><span class="p">,</span>
+  <span class="n">expression</span><span class="o">=</span><span class="s">&quot;(data_players_0_{x} - data_players_1_{x})&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;diff&quot;</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">name_list</span> <span class="o">&lt;-</span> <span class="nf">grepgsub</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="n">expr_list</span> <span class="o">&lt;-</span> <span class="n">name_list</span> <span class="o">%&gt;%</span>
+        <span class="nf">lapply</span><span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">parse_quosure</span><span class="p">(</span><span class="nf">glue</span><span class="p">(</span><span class="n">expression</span><span class="p">)))</span> <span class="o">%&gt;%</span> 
+        <span class="nf">setNames</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">name_list</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="p">))</span> 
+    <span class="nf">return</span><span class="p">(</span><span class="n">expr_list</span><span class="p">)</span>
 <span class="p">}</span>
 
 <span class="c1"># Calculate diff statistics:</span>
@@ -209,16 +209,16 @@ diff_expression <span class="o">&lt;-</span> <span class="kr">function</span><sp
 <span class="c1"># - Then bring in names and make match id and time numeric</span>
 <span class="c1"># - Then remove original columns</span>
 
-diff_table <span class="o">&lt;-</span> replay_table <span class="o">%&gt;%</span> 
-mutate<span class="p">(</span>data_players_0_kills<span class="o">=</span>data_players_0_kills_2<span class="p">,</span>
-        data_players_0_razes<span class="o">=</span>data_players_0_razes_2<span class="p">,</span>
-        data_players_1_kills<span class="o">=</span>data_players_1_kills_1<span class="p">,</span>
-        data_players_1_razes<span class="o">=</span>data_players_1_razes_1<span class="p">)</span> <span class="o">%&gt;%</span>
-select<span class="p">(</span><span class="o">-</span>contains<span class="p">(</span><span class="s">&#39;kills_&#39;</span><span class="p">),</span> <span class="o">-</span>contains<span class="p">(</span><span class="s">&#39;razes_&#39;</span><span class="p">))</span> <span class="o">%&gt;%</span>
-mutate<span class="p">(</span>player_1_name<span class="o">=</span>data_players_0_name<span class="p">,</span> player_2_name<span class="o">=</span>data_players_1_name<span class="p">)</span> <span class="o">%&gt;%</span>
-mutate<span class="p">(</span><span class="o">!!!</span>diff_expression<span class="p">(</span><span class="kp">colnames</span><span class="p">(</span><span class="m">.</span><span class="p">)))</span> <span class="o">%&gt;%</span>
-mutate<span class="p">(</span>match_id<span class="o">=</span><span class="kp">as.numeric</span><span class="p">(</span>match_id<span class="p">),</span> current_time<span class="o">=</span><span class="kp">as.numeric</span><span class="p">(</span>current_time<span class="p">))</span> <span class="o">%&gt;%</span>
-select<span class="p">(</span><span class="o">-</span>starts_with<span class="p">(</span><span class="s">&#39;data_players_&#39;</span><span class="p">),</span> <span class="o">-</span>diff_id<span class="p">,</span> <span class="o">-</span>diff_name<span class="p">)</span>
+<span class="n">diff_table</span> <span class="o">&lt;-</span> <span class="n">replay_table</span> <span class="o">%&gt;%</span> 
+<span class="nf">mutate</span><span class="p">(</span><span class="n">data_players_0_kills</span><span class="o">=</span><span class="n">data_players_0_kills_2</span><span class="p">,</span>
+        <span class="n">data_players_0_razes</span><span class="o">=</span><span class="n">data_players_0_razes_2</span><span class="p">,</span>
+        <span class="n">data_players_1_kills</span><span class="o">=</span><span class="n">data_players_1_kills_1</span><span class="p">,</span>
+        <span class="n">data_players_1_razes</span><span class="o">=</span><span class="n">data_players_1_razes_1</span><span class="p">)</span> <span class="o">%&gt;%</span>
+<span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="nf">contains</span><span class="p">(</span><span class="s">&#39;kills_&#39;</span><span class="p">),</span> <span class="o">-</span><span class="nf">contains</span><span class="p">(</span><span class="s">&#39;razes_&#39;</span><span class="p">))</span> <span class="o">%&gt;%</span>
+<span class="nf">mutate</span><span class="p">(</span><span class="n">player_1_name</span><span class="o">=</span><span class="n">data_players_0_name</span><span class="p">,</span> <span class="n">player_2_name</span><span class="o">=</span><span class="n">data_players_1_name</span><span class="p">)</span> <span class="o">%&gt;%</span>
+<span class="nf">mutate</span><span class="p">(</span><span class="o">!!!</span><span class="nf">diff_expression</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">.)</span><span class="p">))</span> <span class="o">%&gt;%</span>
+<span class="nf">mutate</span><span class="p">(</span><span class="n">match_id</span><span class="o">=</span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">match_id</span><span class="p">),</span> <span class="n">current_time</span><span class="o">=</span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">current_time</span><span class="p">))</span> <span class="o">%&gt;%</span>
+<span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&#39;data_players_&#39;</span><span class="p">),</span> <span class="o">-</span><span class="n">diff_id</span><span class="p">,</span> <span class="o">-</span><span class="n">diff_name</span><span class="p">)</span>
 </pre></div>
 
 
@@ -245,21 +245,21 @@ ncol=1
 
 <p><img alt="The resulting comparison" src="/images/2018/aoe4.png"></p>
 <p>This works. The final step is to bring in the target information, which we&#8217;re going to binary encode (i.e. we&#8217;ll create a <code>player_1_wins</code> column set to 1 if player 1 won, and to 0 if player 2 won). This is a bit annoying as the replay data lists the names of both players, though they might not be in the same order as what we have collected in our match metadata, from which we also want to bring in a final difference feature: the difference between the <span class="caps">ELO</span> ratings of the players before starting the match. To make things a bit worse, the player names extracted from Voobly often include a clan tag at the beginning, whereas the ingame names might&nbsp;not.</p>
-<div class="highlight"><pre><span></span>extra_info <span class="o">&lt;-</span> db.replay <span class="o">%&gt;%</span>
-left_join<span class="p">(</span>db.matches<span class="p">,</span> by<span class="o">=</span><span class="s">&#39;match_id&#39;</span><span class="p">)</span> <span class="o">%&gt;%</span>
-select<span class="p">(</span>match_id<span class="p">,</span> match_winner<span class="p">,</span>
-        data_players_0_name<span class="p">,</span> data_players_1_name<span class="p">,</span>
-        match_player1_name<span class="p">,</span> match_player2_name<span class="p">,</span>
-        match_player1_rating_before<span class="p">,</span> match_player2_rating_before<span class="p">)</span> <span class="o">%&gt;%</span>
-distinct <span class="o">%&gt;%</span> collect <span class="o">%&gt;%</span>
-mutate<span class="p">(</span>winner_name<span class="o">=</span><span class="kp">ifelse</span><span class="p">(</span>match_winner<span class="o">==</span><span class="m">1</span><span class="p">,</span> match_player1_name<span class="p">,</span> match_player2_name<span class="p">))</span> <span class="o">%&gt;%</span>
-mutate<span class="p">(</span>player_1_wins<span class="o">=</span><span class="kp">as.numeric</span><span class="p">(</span>endsWith<span class="p">(</span>data_players_0_name<span class="p">,</span> winner_name<span class="p">)))</span> <span class="o">%&gt;%</span>
-mutate<span class="p">(</span>order_normal<span class="o">=</span>endsWith<span class="p">(</span>data_players_0_name<span class="p">,</span> match_player1_name<span class="p">))</span> <span class="o">%&gt;%</span>
-mutate<span class="p">(</span>diff_rating<span class="o">=</span><span class="kp">ifelse</span><span class="p">(</span>order_normal<span class="p">,</span> 
-                            match_player1_rating_before<span class="o">-</span>match_player2_rating_before<span class="p">,</span>
-                            match_player2_rating_before<span class="o">-</span>match_player1_rating_before<span class="p">))</span> <span class="o">%&gt;%</span>
-select<span class="p">(</span>match_id<span class="p">,</span> winner_name<span class="p">,</span> player_1_wins<span class="p">,</span> diff_rating<span class="p">)</span> <span class="o">%&gt;%</span>
-distinct
+<div class="highlight"><pre><span></span><span class="n">extra_info</span> <span class="o">&lt;-</span> <span class="n">db.replay</span> <span class="o">%&gt;%</span>
+<span class="nf">left_join</span><span class="p">(</span><span class="n">db.matches</span><span class="p">,</span> <span class="n">by</span><span class="o">=</span><span class="s">&#39;match_id&#39;</span><span class="p">)</span> <span class="o">%&gt;%</span>
+<span class="nf">select</span><span class="p">(</span><span class="n">match_id</span><span class="p">,</span> <span class="n">match_winner</span><span class="p">,</span>
+        <span class="n">data_players_0_name</span><span class="p">,</span> <span class="n">data_players_1_name</span><span class="p">,</span>
+        <span class="n">match_player1_name</span><span class="p">,</span> <span class="n">match_player2_name</span><span class="p">,</span>
+        <span class="n">match_player1_rating_before</span><span class="p">,</span> <span class="n">match_player2_rating_before</span><span class="p">)</span> <span class="o">%&gt;%</span>
+<span class="n">distinct</span> <span class="o">%&gt;%</span> <span class="n">collect</span> <span class="o">%&gt;%</span>
+<span class="nf">mutate</span><span class="p">(</span><span class="n">winner_name</span><span class="o">=</span><span class="nf">ifelse</span><span class="p">(</span><span class="n">match_winner</span><span class="o">==</span><span class="m">1</span><span class="p">,</span> <span class="n">match_player1_name</span><span class="p">,</span> <span class="n">match_player2_name</span><span class="p">))</span> <span class="o">%&gt;%</span>
+<span class="nf">mutate</span><span class="p">(</span><span class="n">player_1_wins</span><span class="o">=</span><span class="nf">as.numeric</span><span class="p">(</span><span class="nf">endsWith</span><span class="p">(</span><span class="n">data_players_0_name</span><span class="p">,</span> <span class="n">winner_name</span><span class="p">)))</span> <span class="o">%&gt;%</span>
+<span class="nf">mutate</span><span class="p">(</span><span class="n">order_normal</span><span class="o">=</span><span class="nf">endsWith</span><span class="p">(</span><span class="n">data_players_0_name</span><span class="p">,</span> <span class="n">match_player1_name</span><span class="p">))</span> <span class="o">%&gt;%</span>
+<span class="nf">mutate</span><span class="p">(</span><span class="n">diff_rating</span><span class="o">=</span><span class="nf">ifelse</span><span class="p">(</span><span class="n">order_normal</span><span class="p">,</span> 
+                            <span class="n">match_player1_rating_before</span><span class="o">-</span><span class="n">match_player2_rating_before</span><span class="p">,</span>
+                            <span class="n">match_player2_rating_before</span><span class="o">-</span><span class="n">match_player1_rating_before</span><span class="p">))</span> <span class="o">%&gt;%</span>
+<span class="nf">select</span><span class="p">(</span><span class="n">match_id</span><span class="p">,</span> <span class="n">winner_name</span><span class="p">,</span> <span class="n">player_1_wins</span><span class="p">,</span> <span class="n">diff_rating</span><span class="p">)</span> <span class="o">%&gt;%</span>
+<span class="n">distinct</span>
 </pre></div>
 
 
@@ -296,29 +296,29 @@ player_1_name player_2_name
 
 
 <p>We can now bring everything together into a final table and are ready to model. Since we have a lot of data (every match exposes hundreds of snapshots), we&#8217;ll use a sample to train our model. We also want to create a balanced sample to make sure we have a 50-50 outcome of player 1 or player 2 winning. Finally, we also make sure to set aside a test set from this&nbsp;sample:</p>
-<div class="highlight"><pre><span></span><span class="kn">library</span><span class="p">(</span>caret<span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">caret</span><span class="p">)</span>
 
-sample <span class="o">&lt;-</span> final_table <span class="o">%&gt;%</span> group_by<span class="p">(</span>player_1_wins<span class="p">)</span> <span class="o">%&gt;%</span> sample_n<span class="p">(</span>size <span class="o">=</span> <span class="m">30000</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="kp">as.data.frame</span>
-<span class="kp">sample</span><span class="o">$</span>player_1_wins <span class="o">%&gt;%</span> <span class="kp">table</span>
+<span class="n">sample</span> <span class="o">&lt;-</span> <span class="n">final_table</span> <span class="o">%&gt;%</span> <span class="nf">group_by</span><span class="p">(</span><span class="n">player_1_wins</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="nf">sample_n</span><span class="p">(</span><span class="n">size</span> <span class="o">=</span> <span class="m">30000</span><span class="p">)</span> <span class="o">%&gt;%</span> <span class="n">as.data.frame</span>
+<span class="n">sample</span><span class="o">$</span><span class="n">player_1_wins</span> <span class="o">%&gt;%</span> <span class="n">table</span>
 
-partition <span class="o">&lt;-</span> createDataPartition<span class="p">(</span><span class="kp">sample</span><span class="o">$</span>player_1_wins<span class="p">)</span>
+<span class="n">partition</span> <span class="o">&lt;-</span> <span class="nf">createDataPartition</span><span class="p">(</span><span class="n">sample</span><span class="o">$</span><span class="n">player_1_wins</span><span class="p">)</span>
 
-sample.train <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">[</span>partition<span class="o">$</span>Resample1<span class="p">,]</span>
-sample.test <span class="o">&lt;-</span> <span class="kp">sample</span><span class="p">[</span><span class="o">-</span>partition<span class="o">$</span>Resample1<span class="p">,]</span>
+<span class="n">sample.train</span> <span class="o">&lt;-</span> <span class="n">sample[partition</span><span class="o">$</span><span class="n">Resample1</span><span class="p">,</span><span class="n">]</span>
+<span class="n">sample.test</span> <span class="o">&lt;-</span> <span class="n">sample[</span><span class="o">-</span><span class="n">partition</span><span class="o">$</span><span class="n">Resample1</span><span class="p">,</span><span class="n">]</span>
 </pre></div>
 
 
 <p>Additionally, there is another trick we can apply here to make the models themselves more robust. Since all our features are differences, we can regard every instance where player 1 won also as an instance where player 2 won simply by flipping the sign of every column (if player 1 is two villagers ahead of player 2, then player 2 is two villagers behind). Doing so nicely smooths out our sample and prevents our model being biased towards a particular direction below or above zero for features. It&#8217;s unlikely to matter very much given the amount of data we&#8217;re going to push in, but nevertheless a good&nbsp;approach:</p>
-<div class="highlight"><pre><span></span>mirror_data <span class="o">&lt;-</span> <span class="kr">function</span><span class="p">(</span>ds<span class="p">,</span> prefix<span class="o">=</span><span class="s">&#39;diff_&#39;</span><span class="p">,</span> target<span class="o">=</span><span class="s">&#39;player_1_wins&#39;</span><span class="p">)</span> <span class="p">{</span>
-ds.m <span class="o">&lt;-</span> ds <span class="o">%&gt;%</span> 
-    mutate_at<span class="p">(</span>vars<span class="p">(</span>starts_with<span class="p">(</span>prefix<span class="p">)),</span> <span class="p">(</span><span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="o">-</span>x<span class="p">))</span> <span class="o">%&gt;%</span> 
-    mutate_at<span class="p">(</span>vars<span class="p">(</span>target<span class="p">),</span> <span class="p">(</span><span class="kr">function</span><span class="p">(</span>x<span class="p">)</span> <span class="kp">factor</span><span class="p">(</span><span class="kp">abs</span><span class="p">(</span> <span class="kp">as.numeric</span><span class="p">(</span><span class="kp">levels</span><span class="p">(</span>x<span class="p">))[</span>x<span class="p">]</span> <span class="o">-</span> <span class="m">1</span><span class="p">))))</span>
-<span class="kr">return</span><span class="p">(</span>bind_rows<span class="p">(</span>ds<span class="p">,</span> ds.m<span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">mirror_data</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&#39;diff_&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s">&#39;player_1_wins&#39;</span><span class="p">)</span> <span class="p">{</span>
+<span class="n">ds.m</span> <span class="o">&lt;-</span> <span class="n">ds</span> <span class="o">%&gt;%</span> 
+    <span class="nf">mutate_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="n">prefix</span><span class="p">)),</span> <span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span><span class="n">x</span><span class="p">))</span> <span class="o">%&gt;%</span> 
+    <span class="nf">mutate_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="n">target</span><span class="p">),</span> <span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">factor</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="nf">levels</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="n">[x]</span> <span class="o">-</span> <span class="m">1</span><span class="p">))))</span>
+<span class="nf">return</span><span class="p">(</span><span class="nf">bind_rows</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds.m</span><span class="p">))</span>
 <span class="p">}</span>
 
 <span class="c1"># Only apply this on the train set</span>
 
-sample.train <span class="o">&lt;-</span> mirror_data<span class="p">(</span>sample.train<span class="p">)</span>
+<span class="n">sample.train</span> <span class="o">&lt;-</span> <span class="nf">mirror_data</span><span class="p">(</span><span class="n">sample.train</span><span class="p">)</span>
 </pre></div>
 
 
@@ -334,8 +334,8 @@ sample.train <span class="o">&lt;-</span> mirror_data<span class="p">(</span>sam
 
 
 <p>As a baseline model, we can see how <a href="https://en.wikipedia.org/wiki/Logistic_regression">logistic regression</a>&nbsp;fares:</p>
-<div class="highlight"><pre><span></span>model.glm <span class="o">&lt;-</span> glm<span class="p">(</span>player_1_wins <span class="o">~</span> <span class="m">.</span><span class="p">,</span> family<span class="o">=</span>binomial<span class="p">(</span>link<span class="o">=</span><span class="s">&#39;logit&#39;</span><span class="p">),</span> 
-                data<span class="o">=</span>sample.train <span class="o">%&gt;%</span> select<span class="p">(</span><span class="o">-</span>match_id<span class="p">,</span> <span class="o">-</span>current_time<span class="p">))</span>
+<div class="highlight"><pre><span></span><span class="n">model.glm</span> <span class="o">&lt;-</span> <span class="nf">glm</span><span class="p">(</span><span class="n">player_1_wins</span> <span class="o">~</span> <span class="n">.,</span> <span class="n">family</span><span class="o">=</span><span class="nf">binomial</span><span class="p">(</span><span class="n">link</span><span class="o">=</span><span class="s">&#39;logit&#39;</span><span class="p">),</span> 
+                <span class="n">data</span><span class="o">=</span><span class="n">sample.train</span> <span class="o">%&gt;%</span> <span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">match_id</span><span class="p">,</span> <span class="o">-</span><span class="n">current_time</span><span class="p">))</span>
 </pre></div>
 
 
@@ -363,11 +363,11 @@ Prediction     0     1
 <p>This is not too bad, especially since our data also includes snapshots which occur right after a game has started. We&#8217;d hence expect our accuracy to improve as games progress, which is indeed the&nbsp;case:</p>
 <p><img alt="Model accuracy improves as a game goes on" src="/images/2018/aoe5.png"></p>
 <p>Nevertheless, we can try to do better, so let&#8217;s also construct a <a href="https://en.wikipedia.org/wiki/Random_forest">random forest</a>&nbsp;model:</p>
-<div class="highlight"><pre><span></span><span class="kn">library</span><span class="p">(</span>randomForest<span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nf">library</span><span class="p">(</span><span class="n">randomForest</span><span class="p">)</span>
 
-model.rf <span class="o">&lt;-</span> randomForest<span class="p">(</span>player_1_wins <span class="o">~</span> <span class="m">.</span><span class="p">,</span>
-                data<span class="o">=</span>sample.train <span class="o">%&gt;%</span> select<span class="p">(</span><span class="o">-</span>match_id<span class="p">,</span> <span class="o">-</span>current_time<span class="p">),</span>
-                ntree<span class="o">=</span><span class="m">300</span><span class="p">,</span> importance<span class="o">=</span><span class="bp">T</span><span class="p">)</span>
+<span class="n">model.rf</span> <span class="o">&lt;-</span> <span class="nf">randomForest</span><span class="p">(</span><span class="n">player_1_wins</span> <span class="o">~</span> <span class="n">.,</span>
+                <span class="n">data</span><span class="o">=</span><span class="n">sample.train</span> <span class="o">%&gt;%</span> <span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="n">match_id</span><span class="p">,</span> <span class="o">-</span><span class="n">current_time</span><span class="p">),</span>
+                <span class="n">ntree</span><span class="o">=</span><span class="m">300</span><span class="p">,</span> <span class="n">importance</span><span class="o">=</span><span class="bp">T</span><span class="p">)</span>
 </pre></div>
 
 
@@ -388,10 +388,10 @@ Prediction      0      1
 <p><img alt="Model accuracy improves as a game goes on" src="/images/2018/aoe6.png"></p>
 <h2>Inspecting the&nbsp;Results</h2>
 <p>We can now look inside our predictive model a bit further to see what drives the outcome of a match, a simple variable importance ranking is obtained simply as&nbsp;follows:</p>
-<div class="highlight"><pre><span></span>imp <span class="o">&lt;-</span> importance<span class="p">(</span>model.rf<span class="p">,</span> type<span class="o">=</span><span class="m">1</span><span class="p">,</span> scale <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
-ggplot<span class="p">(</span><span class="kt">data.frame</span><span class="p">(</span>imp<span class="o">=</span>imp<span class="p">[,</span><span class="m">1</span><span class="p">],</span> var<span class="o">=</span><span class="kp">names</span><span class="p">(</span>imp<span class="p">[,</span><span class="m">1</span><span class="p">]))</span> <span class="o">%&gt;%</span> filter<span class="p">(</span>imp<span class="o">&gt;=</span><span class="m">0.01</span><span class="p">),</span> aes<span class="p">(</span>x<span class="o">=</span>var<span class="p">,</span> y<span class="o">=</span>imp<span class="p">))</span> <span class="o">+</span> 
-    geom_bar<span class="p">(</span>stat<span class="o">=</span><span class="s">&#39;identity&#39;</span><span class="p">)</span> <span class="o">+</span>
-    coord_flip<span class="p">()</span>
+<div class="highlight"><pre><span></span><span class="n">imp</span> <span class="o">&lt;-</span> <span class="nf">importance</span><span class="p">(</span><span class="n">model.rf</span><span class="p">,</span> <span class="n">type</span><span class="o">=</span><span class="m">1</span><span class="p">,</span> <span class="n">scale</span> <span class="o">=</span> <span class="bp">F</span><span class="p">)</span>
+<span class="nf">ggplot</span><span class="p">(</span><span class="nf">data.frame</span><span class="p">(</span><span class="n">imp</span><span class="o">=</span><span class="n">imp[</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">,</span> <span class="n">var</span><span class="o">=</span><span class="nf">names</span><span class="p">(</span><span class="n">imp[</span><span class="p">,</span><span class="m">1</span><span class="n">]</span><span class="p">))</span> <span class="o">%&gt;%</span> <span class="nf">filter</span><span class="p">(</span><span class="n">imp</span><span class="o">&gt;=</span><span class="m">0.01</span><span class="p">),</span> <span class="nf">aes</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">var</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">imp</span><span class="p">))</span> <span class="o">+</span> 
+    <span class="nf">geom_bar</span><span class="p">(</span><span class="n">stat</span><span class="o">=</span><span class="s">&#39;identity&#39;</span><span class="p">)</span> <span class="o">+</span>
+    <span class="nf">coord_flip</span><span class="p">()</span>
 </pre></div>
 
 
@@ -436,13 +436,13 @@ Prediction    0    1
 <p>This is a fantastic result. Especially when smoothing out the predictions over time a bit (&#8220;snormal&#8221; and &#8220;ssimple&#8221;), a massive amount of matches are already &#8220;decided&#8221; before they&#8217;re half underway. For the non smoother versions (&#8220;normal&#8221; and &#8220;simple&#8221;), it takes a bit longer before the model can be sure, but here we note the huge benefit of using all the features we have at our disposal versus only using the ones in our simple model, with the &#8220;normal&#8221; curve being sure of itself much earlier in the match. In fact, this is what we saw in the first match timeline shown above, where the score, for instance, still jumped up and down a bit whereas the model had already decided on its final&nbsp;preference.</p>
 <h2>Deployment</h2>
 <p>As a final step, I wanted to see this model running at least in some form on a live match. A few lines of R code exposes our model as an <span class="caps">API</span>:</p>
-<div class="highlight"><pre><span></span><span class="kp">save</span><span class="p">(</span>model.rf<span class="p">,</span> file<span class="o">=</span><span class="s">&quot;model.rda&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="nf">save</span><span class="p">(</span><span class="n">model.rf</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="s">&quot;model.rda&quot;</span><span class="p">)</span>
 
 <span class="c1"># Deploy as API</span>
 
-<span class="kn">library</span><span class="p">(</span>plumber<span class="p">)</span>
-r <span class="o">&lt;-</span> plumb<span class="p">(</span><span class="s">&quot;model_api.R&quot;</span><span class="p">)</span>
-r<span class="o">$</span>run<span class="p">(</span>port<span class="o">=</span><span class="m">8000</span><span class="p">)</span>
+<span class="nf">library</span><span class="p">(</span><span class="n">plumber</span><span class="p">)</span>
+<span class="n">r</span> <span class="o">&lt;-</span> <span class="nf">plumb</span><span class="p">(</span><span class="s">&quot;model_api.R&quot;</span><span class="p">)</span>
+<span class="n">r</span><span class="o">$</span><span class="nf">run</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="m">8000</span><span class="p">)</span>
 </pre></div>
 
 
