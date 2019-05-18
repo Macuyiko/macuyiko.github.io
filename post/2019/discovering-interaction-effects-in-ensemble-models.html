@@ -76,7 +76,7 @@
 			title="Permalink to Discovering Interaction Effects in Ensemble Models">Discovering Interaction Effects in Ensemble&nbsp;Models</a></div>
 <div class="article-subtitle">Using Friedman's H-statistic</div>		</header>
 	
-	    <p>Throughout the past year or so, both R and Python focused data science practioners have picked up on a <a href="https://arxiv.org/pdf/0811.1679.pdf">paper by Friedman and Popescu</a> from 2008 entitled Predictive Learning Via Rule Ensembles. Interestingly enough, the &#8220;meat&#8221; of the paper &#8212; at least in the context we&#8217;ll discuss here &#8212; is found in the latter half, where a helpful statistic is proposed to assess interaction effects between variables in an ensemble model <sup id="fnref-fn1"><a class="footnote-ref" href="#fn-fn1">1</a></sup>.</p>
+	    <p>Throughout the past year or so, both R and Python focused data science practioners have picked up on a <a href="https://arxiv.org/pdf/0811.1679.pdf">paper by Friedman and Popescu</a> from 2008 entitled Predictive Learning Via Rule Ensembles. Interestingly enough, the &#8220;meat&#8221; of the paper &#8212; at least in the context we&#8217;ll discuss here &#8212; is found in the latter half, where a helpful statistic is proposed to assess interaction effects between variables in an ensemble model <sup id="fnref:fn1"><a class="footnote-ref" href="#fn:fn1">1</a></sup>.</p>
 <p>Together with feature importance rankings and partial dependence plots, getting an idea of which variables interact is an effective means to make black-box models more understandable, especially since the latter can effect how you look at the former&nbsp;two.</p>
 <p>The reason why I initially became interested in this idea was in a setting where a well-performing random forest model had to be converted to a (hopefully just as well performing) logistic regression model for deployment reasons. In this setting, getting some insights from the ensemble model in terms of which variables to keep is quite&nbsp;useful.</p>
 <h2>Feature&nbsp;Importance</h2>
@@ -145,7 +145,7 @@ random forest rankings:     [[0.42673270], [0.43211179], [1.24873006]]
 <p>(Not that there would necessarily be any guarantee for this average <span class="caps">ICE</span> line to be exactly the same as the partial dependence plot as described above. It depends somewhat on the intricacies of the learner, though averages are such a&#8230; well, central, concept in virtually all learners that the results will be virtually similar. Again, this would make for a nice topic to explore further both from an empirical and theoretical&nbsp;perspective.)</p>
 <p>In any case, we now have the building blocks required to finally delve into what we&#8217;re interested in here. As one can observe, <span class="caps">ICE</span> plots are better suited to warn a user against interpreting a &#8220;partial dependency&#8221;, though can still make it quite hard to uncover the full extent of interactions. Again, when limiting oneself to the setting of two features, the concept of <span class="caps">ICE</span> plots is easily ported. This is the result for x0 * x1, for instance. The <span class="caps">ICE</span> plot clearly indicates the presence of an interaction, as would a standard partial dependence&nbsp;plot:</p>
 <p><img alt="ICE plot for x0*x1" src="/images/2018/hstat4.png"></p>
-<p>Though again, the question remains: how do we systematically extract deeper interactions, given that visualizations cannot help us much in this setting<sup id="fnref-fn2"><a class="footnote-ref" href="#fn-fn2">2</a></sup>?</p>
+<p>Though again, the question remains: how do we systematically extract deeper interactions, given that visualizations cannot help us much in this setting<sup id="fnref:fn2"><a class="footnote-ref" href="#fn:fn2">2</a></sup>?</p>
 <h2>Introducing Friedman&#8217;s&nbsp;H-statistic</h2>
 <p>The interpretable <span class="caps">ML</span> book by Christoph Molnar <a href="https://christophm.github.io/interpretable-ml-book/interaction.html">actually gives us a workable approach</a>, by using Friedman&#8217;s H-statistic based on decomposition of the partial dependence&nbsp;values.</p>
 <p>The book describes both &#8220;versions&#8221; of the&nbsp;H-statistic:</p>
@@ -392,14 +392,14 @@ random forest:
 <div class="footnote">
 <hr>
 <ol>
-<li id="fn-fn1">
-<p>Or in fact any predictive model.&#160;<a class="footnote-backref" href="#fnref-fn1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<li id="fn:fn1">
+<p>Or in fact any predictive model.&#160;<a class="footnote-backref" href="#fnref:fn1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
 </li>
-<li id="fn-fn2">
-<p><span class="dquo">&#8220;</span>Deep&#8221; being a quip to deep learning, of course. One could argue that the bulk of deep learning consists of (i) extracting very non-linear effects, (ii) extracting very deep interactions <sup id="fnref-fn3"><a class="footnote-ref" href="#fn-fn3">3</a></sup> and (iii) performing complex feature transformations.&#160;<a class="footnote-backref" href="#fnref-fn2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<li id="fn:fn2">
+<p><span class="dquo">&#8220;</span>Deep&#8221; being a quip to deep learning, of course. One could argue that the bulk of deep learning consists of (i) extracting very non-linear effects, (ii) extracting very deep interactions <sup id="fnref:fn3"><a class="footnote-ref" href="#fn:fn3">3</a></sup> and (iii) performing complex feature transformations.&#160;<a class="footnote-backref" href="#fnref:fn2" title="Jump back to footnote 2 in the text">&#8617;</a></p>
 </li>
-<li id="fn-fn3">
-<p>There is a lot of folklore around how deep interactions can go. Some practitioners indicate that everything beyond two-way interactions is either non-existent or simply a sign of overfitting when working with real-life data. Often the same practitioners who indicate that most data sets are linearly separable anyway. For most industry-based tabular data sets, I&#8217;m in fact still inclined to believe them, though exceptions can and do make the rule.&#160;<a class="footnote-backref" href="#fnref-fn3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+<li id="fn:fn3">
+<p>There is a lot of folklore around how deep interactions can go. Some practitioners indicate that everything beyond two-way interactions is either non-existent or simply a sign of overfitting when working with real-life data. Often the same practitioners who indicate that most data sets are linearly separable anyway. For most industry-based tabular data sets, I&#8217;m in fact still inclined to believe them, though exceptions can and do make the rule.&#160;<a class="footnote-backref" href="#fnref:fn3" title="Jump back to footnote 3 in the text">&#8617;</a></p>
 </li>
 </ol>
 </div>

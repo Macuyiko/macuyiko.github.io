@@ -72,6 +72,31 @@
         
 		<article>
 			<header>
+				<div class="article-info">Sun 16 May 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html" rel="bookmark"
+				title="Permalink to Get A List Of Steam Games (As Of May 2010)">Get A List Of Steam Games (As Of May&nbsp;2010)</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Using Python and Beautiful Soup. This updates the previous script posted on this&nbsp;blog.</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlopen</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="n">CATEGORY_GAMES</span>     <span class="o">=</span> <span class="s1">&#39;998&#39;</span>
+<span class="n">CATEGORY_VIDEOS</span>    <span class="o">=</span> <span class="s1">&#39;999&#39;</span>
+<span class="n">CATEGORY_DEMOS</span>     <span class="o">=</span> <span class="s1">&#39;10&#39;</span>
+<span class="n">CATEGORY_MODS</span>      <span class="o">=</span> <span class="s1">&#39;997&#39;</span>
+<span class="n">CATEGORY_PACKS</span>     <span class="o">=</span> <span class="s1">&#39;996&#39;</span>
+<span class="n">CATEGORY_DLC</span>       <span class="o">=</span> <span class="s1">&#39;21&#39;</span>
+
+<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode …</span></pre></div>
+				<p>&rarr; <a href="http://blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Fri 14 May 2010, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="http://blog.macuyiko.com/post/2010/python-web-scraping-tools.html" rel="bookmark"
 				title="Permalink to Python Web Scraping Tools">Python Web Scraping&nbsp;Tools</a></div>
@@ -218,25 +243,11 @@ winner: a1k0n, well&nbsp;done!</p>
 			</div>
 		</article>
 
-        
-		<article>
-			<header>
-				<div class="article-info">Tue 28 April 2009, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="http://blog.macuyiko.com/post/2009/ubuntu-jauntu-skype-worked-before-now-problem-with-audio-capture.html" rel="bookmark"
-				title="Permalink to Ubuntu Jauntu: Skype Worked Before, Now: “Problem with audio capture”">Ubuntu Jauntu: Skype Worked Before, Now: &#8220;Problem with audio&nbsp;capture&#8221;</a></div>
-			</header>
-			<div class="article-summary">
-					<p>There are two things I currently not like about Ubuntu or Linux in general: the whole sound mess, and the whole graphics mess (but both are getting better). This problem is about the first&nbsp;mess.</p>
-<p>Skype was working perfectly in Interprid, now in Jaunty it was telling me that there …</p>
-				<p>&rarr; <a href="http://blog.macuyiko.com/post/2009/ubuntu-jauntu-skype-worked-before-now-problem-with-audio-capture.html">Read more</a></p>
-			</div>
-		</article>
-
 <div class="pagination-centered">
 
 <h6 class="subheader">
 		<a href="http://blog.macuyiko.com/index6.html">&laquo; Prev</a>
-	Page 7 of 11	
+	Page 7 of 12	
 	<a href="http://blog.macuyiko.com/index8.html">Next &raquo;</a>
 </h6>
 
