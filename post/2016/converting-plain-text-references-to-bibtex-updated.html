@@ -5,13 +5,13 @@
 
 	<title>Converting Plain Text References To BibTeX, Updated</title>
 
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
+	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
 	
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
@@ -61,7 +61,7 @@
 
 <nav>
 	<div class="top-bar large-12 columns">
-		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+		<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
 	</div>
 </nav>
 
@@ -72,11 +72,11 @@
 	<article>
 		<header>
 			<div class="article-info">Sat 24 September 2016, by Seppe "Macuyiko" vanden Broucke</div>
-			<div class="article-title"><a href="http://blog.macuyiko.com/post/2016/converting-plain-text-references-to-bibtex-updated.html" rel="bookmark"
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2016/converting-plain-text-references-to-bibtex-updated.html" rel="bookmark"
 			title="Permalink to Converting Plain Text References To BibTeX, Updated">Converting Plain Text References To BibTeX,&nbsp;Updated</a></div>
 		</header>
 	
-	    <p>This blog post is an update for <a href="http://blog.macuyiko.com/post/2014/converting-plain-text-references-to-bibtex-or-endnote-or.html">this one</a>. I was recently contacted regarding the original post no longer working. Indeed, the <code>scholar.py</code> version used there is being blocked by Google&nbsp;Scholar.</p>
+	    <p>This blog post is an update for <a href="//blog.macuyiko.com/post/2014/converting-plain-text-references-to-bibtex-or-endnote-or.html">this one</a>. I was recently contacted regarding the original post no longer working. Indeed, the <code>scholar.py</code> version used there is being blocked by Google&nbsp;Scholar.</p>
 <p>Looking at the <a href="https://github.com/ckreibich/scholar.py">scholar.py</a> GitHub page, we do find an updated version from about 8 months ago, with apparently support for fetching a plain text citation&nbsp;built-in.</p>
 <p>Sadly, upon trying out the new library, Google Scholar was quickly throwing captcha checks up our face. The issue seems to be the way cookie handling is performed in the&nbsp;library.</p>
 <p>Instead of trying to fix the library once more, I realized that we don&#8217;t need its full feature-set in order to accomplish what we&#8217;re trying to do here. The reason why I went hunting for such a library in the original post is probably due to a mixture of tiredness and/or having plans to do more with it in the future. <code>BeautifulSoup</code> and <code>requests</code> are enough to get the job&nbsp;done.</p>

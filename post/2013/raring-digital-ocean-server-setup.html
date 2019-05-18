@@ -5,13 +5,13 @@
 
 	<title>Raring / Digital Ocean Server Setup</title>
 
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
+	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
 	
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
@@ -61,7 +61,7 @@
 
 <nav>
 	<div class="top-bar large-12 columns">
-		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+		<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
 	</div>
 </nav>
 
@@ -72,11 +72,11 @@
 	<article>
 		<header>
 			<div class="article-info">Thu 20 June 2013, by Seppe "Macuyiko" vanden Broucke</div>
-			<div class="article-title"><a href="http://blog.macuyiko.com/post/2013/raring-digital-ocean-server-setup.html" rel="bookmark"
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2013/raring-digital-ocean-server-setup.html" rel="bookmark"
 			title="Permalink to Raring / Digital Ocean Server Setup">Raring / Digital Ocean Server&nbsp;Setup</a></div>
 		</header>
 	
-	    <p>Two years after having moved to Linode, coming <a href="http://blog.macuyiko.com/post/2011/oneiric-linode-server-migration.html">from Slicehost</a>, it seems that a new competitor is once again at the horizon, namely <a href="https://www.digitalocean.com">Digital Ocean</a>.</p>
+	    <p>Two years after having moved to Linode, coming <a href="//blog.macuyiko.com/post/2011/oneiric-linode-server-migration.html">from Slicehost</a>, it seems that a new competitor is once again at the horizon, namely <a href="https://www.digitalocean.com">Digital Ocean</a>.</p>
 <p>I&#8217;d heard good things about them already, especially on Hacker News, praising their competitive pricing and clean dashboard. However, being newcomers to the field, I didn&#8217;t want to jump ship too abruptly, as I was still a happy Linode&nbsp;customer.</p>
 <p>But, in April, Linode got <a href="http://slashdot.org/firehose.pl?op=view&amp;type=submission&amp;id=2603667">hacked</a>. Password hashes, source code fragments and even credit card statements were all rumored to be extracted. So okay, things like this happen, but the way how Linode dealt with the whole situation was less than optimal: first, they tried to ignore the problem; then, this was followed by a <a href="https://blog.linode.com/2013/04/12/security-notice-linode-manager-password-reset/">statement</a> afterwards advising people to reset their password due to &#8220;security precautions&#8221;. This is turn was followed by <a href="https://blog.linode.com/2013/04/16/security-incident-update/">an update</a> which was a bit more transparent, but still somewhat&nbsp;surprising.</p>
 <p>One of the staff mentions the following in the comments of the update&nbsp;post:</p>
@@ -97,7 +97,7 @@
 <li>Linode: $20 / mo. for <span class="caps">1GB</span>, 8 Cores, <span class="caps">24GB</span> space, <span class="caps">2TB</span>&nbsp;transfer</li>
 </ul>
 <p>Linode has DigitalOcean beat on <span class="caps">CPU</span> power, but DigitalOcean has the <span class="caps">SSD</span> advantage. Jason Ormand has performed <a href="http://jasonormand.com/2013/02/08/linode-vs-digitalocean-performance-benchmarks/">a benchmark</a> and goes more into the technical&nbsp;details.</p>
-<p>So with a new host comes a new opportunity to execute a clean Ubuntu install. In the same vein as the <a href="http://blog.macuyiko.com/post/2011/oneiric-linode-server-migration.html">previous post</a>, let&#8217;s get right to&nbsp;it&#8230;</p>
+<p>So with a new host comes a new opportunity to execute a clean Ubuntu install. In the same vein as the <a href="//blog.macuyiko.com/post/2011/oneiric-linode-server-migration.html">previous post</a>, let&#8217;s get right to&nbsp;it&#8230;</p>
 <h2>1. Install&nbsp;Ubuntu</h2>
 <p>This is a single-click process with DigitalOcean. I&#8217;m using Ubuntu Server 13.04 x64. You will get a root account with&nbsp;password.</p>
 <h2>2. Always be updating and&nbsp;upgrading</h2>

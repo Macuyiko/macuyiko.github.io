@@ -5,13 +5,13 @@
 
 	<title>Predicting Voobly Age of Empires 2 Matches</title>
 
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
+	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
 	
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
@@ -61,7 +61,7 @@
 
 <nav>
 	<div class="top-bar large-12 columns">
-		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+		<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
 	</div>
 </nav>
 
@@ -78,11 +78,11 @@
 	<article>
 		<header>
 			<div class="article-info">Tue 24 April 2018, by Seppe "Macuyiko" vanden Broucke</div>
-			<div class="article-title"><a href="http://blog.macuyiko.com/post/2018/predicting-voobly-age-of-empires-2-matches.html" rel="bookmark"
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2018/predicting-voobly-age-of-empires-2-matches.html" rel="bookmark"
 			title="Permalink to Predicting Voobly Age of Empires 2 Matches">Predicting Voobly Age of Empires 2&nbsp;Matches</a></div>
 <div class="article-subtitle">Predictive analytics for e-sports? Sure!</div>		</header>
 	
-	    <p>I think that <em><a href="https://en.wikipedia.org/wiki/Age_of_Empires_II">Age of Empires <span class="caps">II</span></a></em> is probably the game I&#8217;ve been playing on or off for the longest amount of time. In fact, it is this game which pushed me to write a custom tool to prevent DirectDraw palette issues <a href="http://blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html">more than eight years ago</a>, before custom community patches (and the &#8220;<span class="caps">HD</span> version&#8221; of the game was&nbsp;available).</p>
+	    <p>I think that <em><a href="https://en.wikipedia.org/wiki/Age_of_Empires_II">Age of Empires <span class="caps">II</span></a></em> is probably the game I&#8217;ve been playing on or off for the longest amount of time. In fact, it is this game which pushed me to write a custom tool to prevent DirectDraw palette issues <a href="//blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html">more than eight years ago</a>, before custom community patches (and the &#8220;<span class="caps">HD</span> version&#8221; of the game was&nbsp;available).</p>
 <p>I have fond childhood memories of the game, and although I don&#8217;t commonly find the time or focus anymore to play it myself, it&#8217;s fun to see how the game has found a new community and attention anno 2018, driven by streamers on Twitch such as <a href="https://www.twitch.tv/nili_aoe">Nili</a>, <a href="https://www.twitch.tv/t90official">T90Official</a>, and <a href="https://www.twitch.tv/membtv">MembTv</a>, as well as YouTube personalities such as <a href="https://www.youtube.com/channel/UChzLZJo-SxuPHz-oYKAIC_g">Spirit of the Law</a> and <a href="https://www.youtube.com/channel/UCoMg6gEYvB9n5RaoIngFFJw">ZeroEmpires</a>, driving new players to the game. As such, the <span class="caps">AOE2</span> e-sports scene is relatively healthy today, and whereas the game is by no means as popular as e.g. Dota or League of Legends, it&#8217;s by far one of the most enjoyable traditional <span class="caps">RTS</span>&#8217; games to watch these days, with big tournaments appearing every so often between high-ranking players, with Battle of Africa being one of the <a href="https://aoe2calendar.com/">more recent ones</a>.</p>
 <p>It is important to note, however, that most of this newfound attention does not take place on the Steam version of the game, which is solid enough but is widely regarded as not being the most optimal way to play the game competitively online, with the version being relatively prone to lag, desyncs, and without solid spectator plugins that would allow streamers to display statistics and overlays whilst watching games. Instead, serious players will opt to utilize <a href="https://www.voobly.com/">Voobly</a>, a multiplayer platform and social network which supports a bunch of older games, though <span class="caps">AOEII</span> is by far the most popular one, even to a degree that it&#8217;s the main focus game for Voobly today. The additional benefits the platform offers go quite far, including proper <a href="https://en.wikipedia.org/wiki/Elo_rating_system"><span class="caps">ELO</span> rankings</a> for players, support to install additional mods and patches for the game, including the incredible community built <a href="http://userpatch.aiscripters.net/">UserPatch</a>, which extends the game with lots of balancing fixes, bug fixes, and additional features. Together with <a href="https://github.com/Tails8521/WololoKingdoms">WololoKingdoms</a>, another community project, one can even bring in the <span class="caps">AOE2</span> <span class="caps">HD</span> expansion packs (if you own them, of course) to&nbsp;Voobly.</p>
 <p>With this background knowledge in mind, and after having spend various Saturday evenings watching tournaments live, I was wondering whether it would be feasible to set up a predictive model that would be able to predict who&#8217;d win a match up. During matches, viewers will happily chat away about who they think is winning incorporating things such as number of units, resources available, who advances through research and ages quicker, map control, kill/death ratio, civilizations chosen by the players, the players respective ranking and history, and the score per player the game provides (which is calculated based on various inputs and generally goes up for both as the game&nbsp;progresses):</p>

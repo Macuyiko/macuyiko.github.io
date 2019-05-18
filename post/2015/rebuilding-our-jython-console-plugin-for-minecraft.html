@@ -5,13 +5,13 @@
 
 	<title>Rebuilding our Jython Console Plugin for Minecraft</title>
 
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
+	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
 	
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
@@ -61,7 +61,7 @@
 
 <nav>
 	<div class="top-bar large-12 columns">
-		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+		<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
 	</div>
 </nav>
 
@@ -78,7 +78,7 @@
 	<article>
 		<header>
 			<div class="article-info">Wed 21 January 2015, by Seppe "Macuyiko" vanden Broucke</div>
-			<div class="article-title"><a href="http://blog.macuyiko.com/post/2015/rebuilding-our-jython-console-plugin-for-minecraft.html" rel="bookmark"
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2015/rebuilding-our-jython-console-plugin-for-minecraft.html" rel="bookmark"
 			title="Permalink to Rebuilding our Jython Console Plugin for Minecraft">Rebuilding our Jython Console Plugin for&nbsp;Minecraft</a></div>
 <div class="article-subtitle">A Python interpreter for a CanaryMod Minecraft server</div>		</header>
 	
@@ -89,7 +89,7 @@
 <li>2015-01-21: Initial&nbsp;version.</li>
 </ul>
 <h3>Introduction</h3>
-<p>About two years ago (man, time flies), I wrote a <a href="http://blog.macuyiko.com/post/2013/a-bukkit-jython-console-plugin-for-minecraft.html">blog post</a> about setting up a Python shell which allows you to interact with a running Minecraft server using the full arsenal of the Bukkit <span class="caps">API</span>. I&#8217;ve gotten some nice comments, even although it was not very clear for some people what the goal was. E.g. &#8220;Doesn&#8217;t <a href="https://www.scriptcraftjs.org">ScriptCraft</a> already do this?&#8221; Answer: yes, although by means of hooking commands &#8220;using <code>/js</code> and through a JavaScript interpreter&#8221;. In my project, I wanted Python and avoid the whole hooking mess (also, I wanted to avoid that you should be logged in to the server as a player in order to run&nbsp;commands).</p>
+<p>About two years ago (man, time flies), I wrote a <a href="//blog.macuyiko.com/post/2013/a-bukkit-jython-console-plugin-for-minecraft.html">blog post</a> about setting up a Python shell which allows you to interact with a running Minecraft server using the full arsenal of the Bukkit <span class="caps">API</span>. I&#8217;ve gotten some nice comments, even although it was not very clear for some people what the goal was. E.g. &#8220;Doesn&#8217;t <a href="https://www.scriptcraftjs.org">ScriptCraft</a> already do this?&#8221; Answer: yes, although by means of hooking commands &#8220;using <code>/js</code> and through a JavaScript interpreter&#8221;. In my project, I wanted Python and avoid the whole hooking mess (also, I wanted to avoid that you should be logged in to the server as a player in order to run&nbsp;commands).</p>
 <p>Sadly, though, the Bukkit people encountered some legal issues and have ceased developing their server implementation. When this came to my attention, I did some browsing around and it looks like the <a href="http://canarymod.net/">CanaryMod</a> project is now the de facto way to go to set up servers with modding support. The <span class="caps">API</span> even looks similar to&nbsp;Bukkit.</p>
 <p>So to re-iterate, here&#8217;s what we are going to be making&#8230; We&#8217;re thus going to create a Canary (I use &#8220;Canary&#8221;, &#8220;CanaryMod&#8221; and &#8220;CanaryLib&#8221; interchangeably here) plugin which gives server administrators or programming students direct access to the full <a href="http://docs.visualillusionsent.net/CanaryLib/">Canary <span class="caps">API</span></a>. The actual plugin is actually very simple, thanks to the magic of Jython, a Python implementation in Java which allows for Python&lt;-&gt;Java crosstalk and saves us from having to implement any command in the plugin itself. Commands are issued on a separate console window and do not require players or server administrators to be running the game&nbsp;itself.</p>
 <p>To provide an example of what this means, let&#8217;s say you want to make a plugin which makes it rain. Normally, you&#8217;d make a plugin which binds this to a player command, say, <code>/rain</code> and would execute the&nbsp;following:</p>

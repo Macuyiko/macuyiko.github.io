@@ -5,13 +5,13 @@
 
 	<title>An Exploration of Cellular Automata and Graph Based Game Systems: Part 2</title>
 
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/normalize.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/foundation.min.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/style.css" />
-	<link rel="stylesheet" href="http://blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="http://blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="http://blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='http://fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
+	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
+	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
 	
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
@@ -61,7 +61,7 @@
 
 <nav>
 	<div class="top-bar large-12 columns">
-		<h1><a href="http://blog.macuyiko.com/">Bed Against The Wall</a></h1>
+		<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
 	</div>
 </nav>
 
@@ -78,7 +78,7 @@
 	<article>
 		<header>
 			<div class="article-info">Tue 19 December 2017, by Seppe "Macuyiko" vanden Broucke</div>
-			<div class="article-title"><a href="http://blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-2.html" rel="bookmark"
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-2.html" rel="bookmark"
 			title="Permalink to An Exploration of Cellular Automata and Graph Based Game Systems: Part 2">An Exploration of Cellular Automata and Graph Based Game Systems: Part&nbsp;2</a></div>
 <div class="article-subtitle">Grid Based Fluid Systems</div>		</header>
 	
@@ -105,7 +105,7 @@ $(function() {
 });
 </script>
 
-<p>This post is the second part on a small series on cellular automata and graph based systems as found in games. Part 1 can be found <a href="http://blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-1.html">here</a>.</p>
+<p>This post is the second part on a small series on cellular automata and graph based systems as found in games. Part 1 can be found <a href="//blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-1.html">here</a>.</p>
 <p>In our last past, we ended up with a general framework to construct cellular automata. To refresh, a cellular automaton is a discrete simulation defined over a grid of cells, each one of which is carrying a state. For each cell, a set of cells called its neighborhood is defined relative to the specified cell. From an initial state, a simulation is started where each new generation is created according to a set of rules that determines the new state of each cell in terms of the current state of the cell and the states of the cells in its&nbsp;neighborhood:</p>
 <div class="highlight"><pre><span></span><span class="n">forever</span><span class="o">:</span>
   <span class="k">for</span> <span class="k">each</span> <span class="n">current</span> <span class="n">cell</span> <span class="k">in</span> <span class="n">current</span> <span class="n">grid</span><span class="o">:</span>
