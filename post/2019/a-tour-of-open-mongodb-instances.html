@@ -106,7 +106,7 @@
 <p>Given the above stories, I was wondering whether the situation is still as bad today as it was a few years earlier. Surely by now people would have gotten&nbsp;smarter?</p>
 <p><center><em><br></em>&nbsp;&nbsp;&nbsp;*</center></p>
 <p>As such, I went off to <a href="https://www.shodan.io/">Shodan</a> to set up a search for MongoDB instances running on their default port and without authentication enabled. A few years ago, I used tools such as <a href="https://github.com/robertdavidgraham/masscan">masscan</a> to scan the whole IPv4 range myself, but network operators and server providers have gotten stricter and prefer you don&#8217;t scan 4 billion addresses. As such, I just dumped in the couple of bucks necessary to get the data out of Shodan and set to&nbsp;work.</p>
-<p>24980 <span class="caps">IP</span> addresses where obtained together with some metadata, based on which you can already get an overview of the distribution per&nbsp;country:</p>
+<p>24980 <span class="caps">IP</span> addresses were obtained together with some metadata, based on which you can already get an overview of the distribution per&nbsp;country:</p>
 <p><img alt="Most open servers are located in the US and China" src="/images/2019/mongo_cn.png"></p>
 <p>For which I set up a Python script to connect to each of them, see if MongoDB was still up (and still unsecured), and download a couple of documents from each database and collection. I wasn&#8217;t interesting in dumping the complete set of data out, so I limited extraction to about 5 records for each server, database, collection tuple. I ran this over a bunch of servers and had the results after a couple of days of&nbsp;waiting.</p>
 <p>Out of this initial set, 14861 servers were responding and still&nbsp;up.</p>
