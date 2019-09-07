@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -84,12 +83,12 @@
 The name and inspiration come from annealing in metallurgy, a technique involving heating and controlled cooling of a material to increase the size of its crystals and reduce their defects. The heat causes the atoms to become unstuck from their initial positions (a local minimum of the internal energy) and wander randomly through states of higher energy; the slow cooling gives them more chances of finding configurations with lower internal energy than the initial&nbsp;one.</p>
 </blockquote>
 <p>Let&#8217;s take a look at some&nbsp;pseudocode:</p>
-<div class="highlight"><pre><span></span>Randomly construct a valid solution
-For each temperature do:
-  For number of trials to do at each temperature do:
-    Move solution to a neighbour
-    Accept neighbour with probability(old_score, new_score, temperature)
-    Lower the temperature by a reduction factor
+<div class="highlight"><pre><span></span><span class="nv">Randomly</span> <span class="nv">construct</span> <span class="nv">a</span> <span class="nv">valid</span> <span class="nv">solution</span>
+<span class="k">For</span> <span class="nv">each</span> <span class="nv">temperature</span> <span class="k">do</span>:
+  <span class="k">For</span> <span class="nv">number</span> <span class="nv">of</span> <span class="nv">trials</span> <span class="nv">to</span> <span class="k">do</span> <span class="nv">at</span> <span class="nv">each</span> <span class="nv">temperature</span> <span class="k">do</span>:
+    <span class="nv">Move</span> <span class="nv">solution</span> <span class="nv">to</span> <span class="nv">a</span> <span class="nv">neighbour</span>
+    <span class="nv">Accept</span> <span class="nv">neighbour</span> <span class="nv">with</span> <span class="nv">probability</span><span class="ss">(</span><span class="nv">old_score</span>, <span class="nv">new_score</span>, <span class="nv">temperature</span><span class="ss">)</span>
+    <span class="nv">Lower</span> <span class="nv">the</span> <span class="nv">temperature</span> <span class="nv">by</span> <span class="nv">a</span> <span class="nv">reduction</span> <span class="nv">factor</span>
 </pre></div>
 
 
@@ -180,43 +179,43 @@ For each temperature do:
 
 
 <p>The&nbsp;output:</p>
-<div class="highlight"><pre><span></span>Best fitness this evolution: 34
-Temperature this evolution: 100
-Best fitness this evolution: 7
-Temperature this evolution: 99
-Best fitness this evolution: 0
-Temperature this evolution: 98
-Best fitness this evolution: 44
-Temperature this evolution: 97
-Best fitness this evolution: 43
-Temperature this evolution: 96
-Best fitness this evolution: 33
-Temperature this evolution: 95
-Best fitness this evolution: 39
-Temperature this evolution: 94
-Best fitness this evolution: 44
-Temperature this evolution: 93
-Best fitness this evolution: 34
-Temperature this evolution: 92
-Best fitness this evolution: 36
-Temperature this evolution: 91
-Best fitness this evolution: 50
-Temperature this evolution: 90
-Best fitness this evolution: 68
-Temperature this evolution: 89
-Best fitness this evolution: 67
-Temperature this evolution: 88
-Best fitness this evolution: 53
-Temperature this evolution: 87
-Best fitness this evolution: 49
-Temperature this evolution: 86
-Best fitness this evolution: 35
-Temperature this evolution: 85
-Best fitness this evolution: 55
-Temperature this evolution: 84
-Best fitness this evolution: 5
-Temperature this evolution: 83
-Best fitness this evolution: 0
+<div class="highlight"><pre><span></span><span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">34</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">100</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">7</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">99</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">0</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">98</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">44</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">97</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">43</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">96</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">33</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">95</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">39</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">94</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">44</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">93</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">34</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">92</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">36</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">91</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">50</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">90</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">68</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">89</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">67</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">88</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">53</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">87</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">49</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">86</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">35</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">85</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">55</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">84</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">5</span>
+<span class="n">Temperature</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">83</span>
+<span class="n">Best</span> <span class="n">fitness</span> <span class="n">this</span> <span class="n">evolution</span><span class="p">:</span> <span class="mi">0</span>
 </pre></div>
 
 
@@ -242,10 +241,9 @@ Best fitness this evolution: 0
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

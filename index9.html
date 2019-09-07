@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -196,16 +195,16 @@
 			</header>
 			<div class="article-summary">
 					<p>Just found this, pretty&nbsp;handy!</p>
-<div class="highlight"><pre><span></span>// browser detection
-var isIE = document.all;
-var isIE7 = isIE &amp;&amp; window.XMLHttpRequest &amp;&amp; window.ActiveXObject;
-var isIE6 = isIE &amp;&amp; document.implementation;
-var isgteIE6 = isIE7 isIE6;
-var isIE5 = isIE &amp;&amp; window.print &amp;&amp; !isgteIE6;
-var isIEDOM2 = isIE5 isgteIE6;
-var isIE4 = isIE &amp;&amp; !isIEDOM2 &amp;&amp; navigator.cookieEnabled;
-var isIE3 = isIE &amp;&amp; !isIE4 &amp;&amp; !isIEDOM2;
-var isNS …</pre></div>
+<div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">browser</span> <span class="n">detection</span>
+<span class="n">var</span> <span class="n">isIE</span> <span class="o">=</span> <span class="n">document</span><span class="p">.</span><span class="k">all</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE7</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">XMLHttpRequest</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">ActiveXObject</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE6</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">document</span><span class="p">.</span><span class="k">implementation</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isgteIE6</span> <span class="o">=</span> <span class="n">isIE7</span> <span class="n">isIE6</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE5</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">print</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isgteIE6</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIEDOM2</span> <span class="o">=</span> <span class="n">isIE5</span> <span class="n">isgteIE6</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE4</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span> <span class="o">&amp;&amp;</span> <span class="n">navigator</span><span class="p">.</span><span class="n">cookieEnabled</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE3</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIE4</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isNS …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html">Read more</a></p>
 			</div>
 		</article>
@@ -219,12 +218,12 @@ var isNS …</pre></div>
 			</header>
 			<div class="article-summary">
 					<p>Instead of&nbsp;this:</p>
-<div class="highlight"><pre><span></span>IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0
+<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="ss">(</span><span class="nv">SELECT</span> <span class="nv">COUNT</span><span class="ss">(</span><span class="o">*</span><span class="ss">)</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ... <span class="ss">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
 </pre></div>
 
 
 <p>use&nbsp;this:</p>
-<div class="highlight"><pre><span></span>IF EXISTS(SELECT * FROM Table1 WHERE ...)
+<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="nv">EXISTS</span><span class="ss">(</span><span class="nv">SELECT</span> <span class="o">*</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ...<span class="ss">)</span>
 </pre></div>
 
 
@@ -267,13 +266,12 @@ var isNS …</pre></div>
 		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
 		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
 		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
-		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
 	</ul>
 	
 	<div class="sidebar-title">Search</div>
 	<div style="text-align: center; margin-top: 4px;">
 		<form method="get" action="http://www.google.com/search">
-			<input type="text" name="q" style="float: left; width: 110px;" maxlength="255" value="" />
+			<input type="text" name="q" style="float: left; max-width: 140px;" maxlength="255" value="" />
 			<input type="submit" value="Go" />
 			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
 		</form>
@@ -286,10 +284,9 @@ var isNS …</pre></div>
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

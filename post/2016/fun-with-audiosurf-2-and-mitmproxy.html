@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -105,151 +104,151 @@
 
 <p>You can enable a postprocessor in <code>youtube_dl</code> (the Python library we&#8217;ll be using to handle the actual downloads from YouTube) to convert any movie to an <span class="caps">MP3</span> with FFmpeg, though this can take up a lot of time. The <code>'bestaudio[ext=mp3]/bestaudio[ext=m4a]/bestaudio'</code> format setting works&nbsp;better.</p>
 <p>Next up, we need to set up a YouTube <span class="caps">API</span> key and a fake response dict representing a track as it would come from the Soundcloud <span class="caps">API</span>:</p>
-<div class="highlight"><pre><span></span>YOUTUBE_API_KEY = &#39;--- get a youtube api key and set this here ---&#39;
-SOUNDCLOUD_TRACK_TEMPLATE = {
-    &quot;download_url&quot;:None,
-    &quot;key_signature&quot;:&quot;&quot;,
-    &quot;user_favorite&quot;:False,
-    &quot;likes_count&quot;:1,
-    &quot;release&quot;:&quot;&quot;,
-    &quot;attachments_uri&quot;:&quot;https://api.soundcloud.com/tracks/{}/attachments&quot;,
-    &quot;waveform_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/waveform&quot;,
-    &quot;purchase_url&quot;:None,
-    &quot;video_url&quot;:None,
-    &quot;streamable&quot;:True,
-    &quot;artwork_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/artwork&quot;,
-    &quot;comment_count&quot;:1,
-    &quot;commentable&quot;:True,
-    &quot;description&quot;:&quot;&quot;,
-    &quot;download_count&quot;:0,
-    &quot;downloadable&quot;:False,
-    &quot;embeddable_by&quot;:&quot;all&quot;,
-    &quot;favoritings_count&quot;:0,
-    &quot;genre&quot;:&quot;&quot;,
-    &quot;isrc&quot;:&quot;&quot;,
-    &quot;label_id&quot;:None,
-    &quot;label_name&quot;:&quot;&quot;,
-    &quot;license&quot;:&quot;&quot;,
-    &quot;original_content_size&quot;:10000,
-    &quot;original_format&quot;:&quot;mp3&quot;,
-    &quot;playback_count&quot;:10000,
-    &quot;purchase_title&quot;:None,
-    &quot;release_day&quot;:None,
-    &quot;release_month&quot;:None,
-    &quot;release_year&quot;:None,
-    &quot;reposts_count&quot;:10000,
-    &quot;state&quot;:&quot;finished&quot;,
-    &quot;tag_list&quot;:&quot;&quot;,
-    &quot;track_type&quot;:&quot;&quot;,
-    &quot;user&quot;:{
-        &quot;avatar_url&quot;:&quot;&quot;,
-        &quot;id&quot;:111111,
-        &quot;kind&quot;:&quot;user&quot;,
-        &quot;permalink_url&quot;:&quot;https://soundcloud.com/&quot;,
-        &quot;uri&quot;:&quot;https://api.soundcloud.com/users/111111&quot;,
-        &quot;username&quot;:&quot;&quot;,
-        &quot;permalink&quot;:&quot;&quot;,
-        &quot;last_modified&quot;:&quot;2010/02/16 17:41:26 +0000&quot;},
-    &quot;bpm&quot;:None,
-    &quot;user_playback_count&quot;:None,
-    &quot;id&quot;:1,
-    &quot;kind&quot;:&quot;track&quot;,
-    &quot;created_at&quot;:&quot;2010/04/14 20:46:00 +0000&quot;,
-    &quot;last_modified&quot;:&quot;2016/08/09 23:59:27 +0000&quot;,
-    &quot;permalink&quot;:&quot;&quot;,
-    &quot;permalink_url&quot;:&quot;&quot;,
-    &quot;title&quot;:&quot;&quot;,
-    &quot;duration&quot;:253300,
-    &quot;sharing&quot;:&quot;public&quot;,
-    &quot;stream_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/stream&quot;,
-    &quot;uri&quot;:&quot;https://api.soundcloud.com/tracks/{}&quot;,
-    &quot;user_id&quot;:111111
-}
+<div class="highlight"><pre><span></span><span class="n">YOUTUBE_API_KEY</span> <span class="o">=</span> <span class="s1">&#39;--- get a youtube api key and set this here ---&#39;</span>
+<span class="n">SOUNDCLOUD_TRACK_TEMPLATE</span> <span class="o">=</span> <span class="err">{</span>
+    <span class="ss">&quot;download_url&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;key_signature&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;user_favorite&quot;</span><span class="p">:</span><span class="k">False</span><span class="p">,</span>
+    <span class="ss">&quot;likes_count&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+    <span class="ss">&quot;release&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;attachments_uri&quot;</span><span class="p">:</span><span class="ss">&quot;https://api.soundcloud.com/tracks/{}/attachments&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;waveform_url&quot;</span><span class="p">:</span><span class="ss">&quot;https://api.soundcloud.com/tracks/{}/waveform&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;purchase_url&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;video_url&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;streamable&quot;</span><span class="p">:</span><span class="k">True</span><span class="p">,</span>
+    <span class="ss">&quot;artwork_url&quot;</span><span class="p">:</span><span class="ss">&quot;https://api.soundcloud.com/tracks/{}/artwork&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;comment_count&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+    <span class="ss">&quot;commentable&quot;</span><span class="p">:</span><span class="k">True</span><span class="p">,</span>
+    <span class="ss">&quot;description&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;download_count&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+    <span class="ss">&quot;downloadable&quot;</span><span class="p">:</span><span class="k">False</span><span class="p">,</span>
+    <span class="ss">&quot;embeddable_by&quot;</span><span class="p">:</span><span class="ss">&quot;all&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;favoritings_count&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
+    <span class="ss">&quot;genre&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;isrc&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;label_id&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;label_name&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;license&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;original_content_size&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="ss">&quot;original_format&quot;</span><span class="p">:</span><span class="ss">&quot;mp3&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;playback_count&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="ss">&quot;purchase_title&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;release_day&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;release_month&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;release_year&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;reposts_count&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span>
+    <span class="ss">&quot;state&quot;</span><span class="p">:</span><span class="ss">&quot;finished&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;tag_list&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;track_type&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;user&quot;</span><span class="p">:</span><span class="err">{</span>
+        <span class="ss">&quot;avatar_url&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+        <span class="ss">&quot;id&quot;</span><span class="p">:</span><span class="mi">111111</span><span class="p">,</span>
+        <span class="ss">&quot;kind&quot;</span><span class="p">:</span><span class="ss">&quot;user&quot;</span><span class="p">,</span>
+        <span class="ss">&quot;permalink_url&quot;</span><span class="p">:</span><span class="ss">&quot;https://soundcloud.com/&quot;</span><span class="p">,</span>
+        <span class="ss">&quot;uri&quot;</span><span class="p">:</span><span class="ss">&quot;https://api.soundcloud.com/users/111111&quot;</span><span class="p">,</span>
+        <span class="ss">&quot;username&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+        <span class="ss">&quot;permalink&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+        <span class="ss">&quot;last_modified&quot;</span><span class="p">:</span><span class="ss">&quot;2010/02/16 17:41:26 +0000&quot;</span><span class="err">}</span><span class="p">,</span>
+    <span class="ss">&quot;bpm&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;user_playback_count&quot;</span><span class="p">:</span><span class="k">None</span><span class="p">,</span>
+    <span class="ss">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
+    <span class="ss">&quot;kind&quot;</span><span class="p">:</span><span class="ss">&quot;track&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;created_at&quot;</span><span class="p">:</span><span class="ss">&quot;2010/04/14 20:46:00 +0000&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;last_modified&quot;</span><span class="p">:</span><span class="ss">&quot;2016/08/09 23:59:27 +0000&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;permalink&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;permalink_url&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;title&quot;</span><span class="p">:</span><span class="ss">&quot;&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;duration&quot;</span><span class="p">:</span><span class="mi">253300</span><span class="p">,</span>
+    <span class="ss">&quot;sharing&quot;</span><span class="p">:</span><span class="ss">&quot;public&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;stream_url&quot;</span><span class="p">:</span><span class="ss">&quot;https://api.soundcloud.com/tracks/{}/stream&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;uri&quot;</span><span class="p">:</span><span class="ss">&quot;https://api.soundcloud.com/tracks/{}&quot;</span><span class="p">,</span>
+    <span class="ss">&quot;user_id&quot;</span><span class="p">:</span><span class="mi">111111</span>
+<span class="err">}</span>
 </pre></div>
 
 
 <p>Next, we set up the actual hook to intercept all requests to <code>api.soundcloud.com</code>:</p>
-<div class="highlight"><pre><span></span>def request(context, flow):
-    YDL_OPTS[&#39;progress_hooks&#39;].append(lambda d: youtube_download_hook(context, d))
-    if ENABLED and flow.request.pretty_host.endswith(&quot;api.soundcloud.com&quot;):
-        context.log(flow.request.pretty_host + flow.request.path)
-        if &#39;/stream&#39; in flow.request.path:
-            flow.reply(make_reply_stream(context, flow))
-        elif &#39;q=&#39; in flow.request.path:
-            flow.reply(make_reply_query(context, flow))
+<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">request</span><span class="ss">(</span><span class="nv">context</span>, <span class="nv">flow</span><span class="ss">)</span>:
+    <span class="nv">YDL_OPTS</span>[<span class="s1">&#39;</span><span class="s">progress_hooks</span><span class="s1">&#39;</span>].<span class="nv">append</span><span class="ss">(</span><span class="nv">lambda</span> <span class="nv">d</span>: <span class="nv">youtube_download_hook</span><span class="ss">(</span><span class="nv">context</span>, <span class="nv">d</span><span class="ss">))</span>
+    <span class="k">if</span> <span class="nv">ENABLED</span> <span class="nv">and</span> <span class="nv">flow</span>.<span class="nv">request</span>.<span class="nv">pretty_host</span>.<span class="nv">endswith</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">api.soundcloud.com</span><span class="s2">&quot;</span><span class="ss">)</span>:
+        <span class="nv">context</span>.<span class="nv">log</span><span class="ss">(</span><span class="nv">flow</span>.<span class="nv">request</span>.<span class="nv">pretty_host</span> <span class="o">+</span> <span class="nv">flow</span>.<span class="nv">request</span>.<span class="nv">path</span><span class="ss">)</span>
+        <span class="k">if</span> <span class="s1">&#39;</span><span class="s">/stream</span><span class="s1">&#39;</span> <span class="nv">in</span> <span class="nv">flow</span>.<span class="nv">request</span>.<span class="nv">path</span>:
+            <span class="nv">flow</span>.<span class="nv">reply</span><span class="ss">(</span><span class="nv">make_reply_stream</span><span class="ss">(</span><span class="nv">context</span>, <span class="nv">flow</span><span class="ss">))</span>
+        <span class="nv">elif</span> <span class="s1">&#39;</span><span class="s">q=</span><span class="s1">&#39;</span> <span class="nv">in</span> <span class="nv">flow</span>.<span class="nv">request</span>.<span class="nv">path</span>:
+            <span class="nv">flow</span>.<span class="nv">reply</span><span class="ss">(</span><span class="nv">make_reply_query</span><span class="ss">(</span><span class="nv">context</span>, <span class="nv">flow</span><span class="ss">))</span>
 </pre></div>
 
 
 <p>If the request contains <code>q=</code>, Audiosurf is performing a query. The other option we handle is <code>/stream</code> which whill stream back the&nbsp;track:</p>
-<div class="highlight"><pre><span></span>def download_youtube_video(id):
-    with youtube_dl.YoutubeDL(YDL_OPTS) as ydl:
-        result = ydl.extract_info(&#39;http://www.youtube.com/watch?v=&#39;+id, download=True)
-        video = result[&#39;entries&#39;][0] if &#39;entries&#39; in result else result
-    return result, video
+<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">download_youtube_video</span><span class="ss">(</span><span class="nv">id</span><span class="ss">)</span>:
+    <span class="nv">with</span> <span class="nv">youtube_dl</span>.<span class="nv">YoutubeDL</span><span class="ss">(</span><span class="nv">YDL_OPTS</span><span class="ss">)</span> <span class="nv">as</span> <span class="nv">ydl</span>:
+        <span class="nb">result</span> <span class="o">=</span> <span class="nv">ydl</span>.<span class="nv">extract_info</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">http://www.youtube.com/watch?v=</span><span class="s1">&#39;</span><span class="o">+</span><span class="nv">id</span>, <span class="nv">download</span><span class="o">=</span><span class="nv">True</span><span class="ss">)</span>
+        <span class="nv">video</span> <span class="o">=</span> <span class="nb">result</span>[<span class="s1">&#39;</span><span class="s">entries</span><span class="s1">&#39;</span>][<span class="mi">0</span>] <span class="k">if</span> <span class="s1">&#39;</span><span class="s">entries</span><span class="s1">&#39;</span> <span class="nv">in</span> <span class="nb">result</span> <span class="k">else</span> <span class="nb">result</span>
+    <span class="k">return</span> <span class="nb">result</span>, <span class="nv">video</span>
 
 
-def youtube_download_hook(context, d):
-    if d[&#39;status&#39;] == &#39;finished&#39;:
-        context.__filename = d[&#39;filename&#39;]
+<span class="nv">def</span> <span class="nv">youtube_download_hook</span><span class="ss">(</span><span class="nv">context</span>, <span class="nv">d</span><span class="ss">)</span>:
+    <span class="k">if</span> <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">status</span><span class="s1">&#39;</span>] <span class="o">==</span> <span class="s1">&#39;</span><span class="s">finished</span><span class="s1">&#39;</span>:
+        <span class="nv">context</span>.<span class="nv">__filename</span> <span class="o">=</span> <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">filename</span><span class="s1">&#39;</span>]
 
 
-def make_reply_stream(context, flow):
-    resp = HTTPResponse(b&quot;HTTP/1.1&quot;, 200, b&quot;OK&quot;,
-            Headers(Content_Type=&quot;audio/mpeg&quot;), b&quot;&quot;)
-    id = flow.request.path.split(&#39;/&#39;)[2]
-    context.__filename = None
-    context.log(id)
-    result, video = download_youtube_video(id)
-    while not context.__filename:
-        sleep(200)
-    context.log(context.__filename)
-    resp.content = open(context.__filename, &#39;rb&#39;).read()
-    return resp
+<span class="nv">def</span> <span class="nv">make_reply_stream</span><span class="ss">(</span><span class="nv">context</span>, <span class="nv">flow</span><span class="ss">)</span>:
+    <span class="nv">resp</span> <span class="o">=</span> <span class="nv">HTTPResponse</span><span class="ss">(</span><span class="nv">b</span><span class="s2">&quot;</span><span class="s">HTTP/1.1</span><span class="s2">&quot;</span>, <span class="mi">200</span>, <span class="nv">b</span><span class="s2">&quot;</span><span class="s">OK</span><span class="s2">&quot;</span>,
+            <span class="nv">Headers</span><span class="ss">(</span><span class="nv">Content_Type</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">audio/mpeg</span><span class="s2">&quot;</span><span class="ss">)</span>, <span class="nv">b</span><span class="s2">&quot;&quot;</span><span class="ss">)</span>
+    <span class="nv">id</span> <span class="o">=</span> <span class="nv">flow</span>.<span class="nv">request</span>.<span class="nv">path</span>.<span class="nv">split</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">/</span><span class="s1">&#39;</span><span class="ss">)</span>[<span class="mi">2</span>]
+    <span class="nv">context</span>.<span class="nv">__filename</span> <span class="o">=</span> <span class="nv">None</span>
+    <span class="nv">context</span>.<span class="nv">log</span><span class="ss">(</span><span class="nv">id</span><span class="ss">)</span>
+    <span class="nb">result</span>, <span class="nv">video</span> <span class="o">=</span> <span class="nv">download_youtube_video</span><span class="ss">(</span><span class="nv">id</span><span class="ss">)</span>
+    <span class="k">while</span> <span class="nv">not</span> <span class="nv">context</span>.<span class="nv">__filename</span>:
+        <span class="nv">sleep</span><span class="ss">(</span><span class="mi">200</span><span class="ss">)</span>
+    <span class="nv">context</span>.<span class="nv">log</span><span class="ss">(</span><span class="nv">context</span>.<span class="nv">__filename</span><span class="ss">)</span>
+    <span class="nv">resp</span>.<span class="nv">content</span> <span class="o">=</span> <span class="nv">open</span><span class="ss">(</span><span class="nv">context</span>.<span class="nv">__filename</span>, <span class="s1">&#39;</span><span class="s">rb</span><span class="s1">&#39;</span><span class="ss">)</span>.<span class="nv">read</span><span class="ss">()</span>
+    <span class="k">return</span> <span class="nv">resp</span>
 
 
-def make_reply_query(context, flow):
-    resp = HTTPResponse(b&quot;HTTP/1.1&quot;, 200, b&quot;OK&quot;,
-            Headers(Content_Type=&quot;application/json&quot;), b&quot;&quot;)
-    bits = urlparse(flow.request.path)
-    query = parse_qs(bits.query)[&#39;q&#39;][0]
-    list = make_song_list(query, context)
-    resp.content = json.dumps(list).encode(&#39;utf-8&#39;)
-    return resp
+<span class="nv">def</span> <span class="nv">make_reply_query</span><span class="ss">(</span><span class="nv">context</span>, <span class="nv">flow</span><span class="ss">)</span>:
+    <span class="nv">resp</span> <span class="o">=</span> <span class="nv">HTTPResponse</span><span class="ss">(</span><span class="nv">b</span><span class="s2">&quot;</span><span class="s">HTTP/1.1</span><span class="s2">&quot;</span>, <span class="mi">200</span>, <span class="nv">b</span><span class="s2">&quot;</span><span class="s">OK</span><span class="s2">&quot;</span>,
+            <span class="nv">Headers</span><span class="ss">(</span><span class="nv">Content_Type</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">application/json</span><span class="s2">&quot;</span><span class="ss">)</span>, <span class="nv">b</span><span class="s2">&quot;&quot;</span><span class="ss">)</span>
+    <span class="nv">bits</span> <span class="o">=</span> <span class="nv">urlparse</span><span class="ss">(</span><span class="nv">flow</span>.<span class="nv">request</span>.<span class="nv">path</span><span class="ss">)</span>
+    <span class="nv">query</span> <span class="o">=</span> <span class="nv">parse_qs</span><span class="ss">(</span><span class="nv">bits</span>.<span class="nv">query</span><span class="ss">)</span>[<span class="s1">&#39;</span><span class="s">q</span><span class="s1">&#39;</span>][<span class="mi">0</span>]
+    <span class="nv">list</span> <span class="o">=</span> <span class="nv">make_song_list</span><span class="ss">(</span><span class="nv">query</span>, <span class="nv">context</span><span class="ss">)</span>
+    <span class="nv">resp</span>.<span class="nv">content</span> <span class="o">=</span> <span class="nv">json</span>.<span class="nv">dumps</span><span class="ss">(</span><span class="nv">list</span><span class="ss">)</span>.<span class="nv">encode</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">utf-8</span><span class="s1">&#39;</span><span class="ss">)</span>
+    <span class="k">return</span> <span class="nv">resp</span>
 </pre></div>
 
 
 <p>Note that we use some <code>youtube_dl</code> hook trickery to make sure we wait until the file is downloaded. (<code>youtube_dl</code> will spawn a separate&nbsp;process.)</p>
 <p>Finally, we need to implement two more&nbsp;functions:</p>
-<div class="highlight"><pre><span></span>def make_song_dict(id, title, artist, description=&#39;&#39;, artwork_url=None):
-    d = copy.deepcopy(SOUNDCLOUD_TRACK_TEMPLATE)
-    d[&#39;id&#39;] = id
-    d[&#39;title&#39;] = title
-    d[&#39;description&#39;] = description
-    d[&#39;attachments_uri&#39;] = d[&#39;attachments_uri&#39;].format(id)
-    d[&#39;waveform_url&#39;] = d[&#39;waveform_url&#39;].format(id)
-    d[&#39;artwork_url&#39;] = d[&#39;artwork_url&#39;].format(id)
-    if artwork_url is not None:
-        d[&#39;artwork_url&#39;] = artwork_url
-    d[&#39;stream_url&#39;] = d[&#39;stream_url&#39;].format(id)
-    d[&#39;uri&#39;] = d[&#39;uri&#39;].format(id)
-    d[&#39;user&#39;][&#39;username&#39;] = artist
-    return d
+<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">make_song_dict</span><span class="ss">(</span><span class="nv">id</span>, <span class="nv">title</span>, <span class="nv">artist</span>, <span class="nv">description</span><span class="o">=</span><span class="s1">&#39;&#39;</span>, <span class="nv">artwork_url</span><span class="o">=</span><span class="nv">None</span><span class="ss">)</span>:
+    <span class="nv">d</span> <span class="o">=</span> <span class="nv">copy</span>.<span class="nv">deepcopy</span><span class="ss">(</span><span class="nv">SOUNDCLOUD_TRACK_TEMPLATE</span><span class="ss">)</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">id</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">id</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">title</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">title</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">description</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">attachments_uri</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">attachments_uri</span><span class="s1">&#39;</span>].<span class="nv">format</span><span class="ss">(</span><span class="nv">id</span><span class="ss">)</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">waveform_url</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">waveform_url</span><span class="s1">&#39;</span>].<span class="nv">format</span><span class="ss">(</span><span class="nv">id</span><span class="ss">)</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">artwork_url</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">artwork_url</span><span class="s1">&#39;</span>].<span class="nv">format</span><span class="ss">(</span><span class="nv">id</span><span class="ss">)</span>
+    <span class="k">if</span> <span class="nv">artwork_url</span> <span class="nv">is</span> <span class="nv">not</span> <span class="nv">None</span>:
+        <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">artwork_url</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">artwork_url</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">stream_url</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">stream_url</span><span class="s1">&#39;</span>].<span class="nv">format</span><span class="ss">(</span><span class="nv">id</span><span class="ss">)</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">uri</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">uri</span><span class="s1">&#39;</span>].<span class="nv">format</span><span class="ss">(</span><span class="nv">id</span><span class="ss">)</span>
+    <span class="nv">d</span>[<span class="s1">&#39;</span><span class="s">user</span><span class="s1">&#39;</span>][<span class="s1">&#39;</span><span class="s">username</span><span class="s1">&#39;</span>] <span class="o">=</span> <span class="nv">artist</span>
+    <span class="k">return</span> <span class="nv">d</span>
 
 
-def make_song_list(query, context):
-    q = quote(query)
-    vd = &#39;short&#39; if YOUTUBE_SHORT_ONLY else &#39;any&#39;
-    url = &#39;https://www.googleapis.com/youtube/v3/search?part=snippet&amp;maxResults=50&amp;q={q}&amp;type=video&amp;videoCategoryId=10&amp;videoDuration={vd}&amp;key={key}&#39;.format(q=q, vd=vd, key=YOUTUBE_API_KEY)
-    reply = requests.get(url).json()
-    list = []
-    for item in reply[&#39;items&#39;]:
-        d = make_song_dict(item[&#39;id&#39;][&#39;videoId&#39;],
-            title=item[&#39;snippet&#39;][&#39;title&#39;],
-            artist=item[&#39;snippet&#39;][&#39;channelTitle&#39;],
-            description=item[&#39;snippet&#39;][&#39;description&#39;],
-            artwork_url=item[&#39;snippet&#39;][&#39;thumbnails&#39;][&#39;default&#39;][&#39;url&#39;])
-        list.append(d)
-    return list
+<span class="nv">def</span> <span class="nv">make_song_list</span><span class="ss">(</span><span class="nv">query</span>, <span class="nv">context</span><span class="ss">)</span>:
+    <span class="nv">q</span> <span class="o">=</span> <span class="nv">quote</span><span class="ss">(</span><span class="nv">query</span><span class="ss">)</span>
+    <span class="nv">vd</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">short</span><span class="s1">&#39;</span> <span class="k">if</span> <span class="nv">YOUTUBE_SHORT_ONLY</span> <span class="k">else</span> <span class="s1">&#39;</span><span class="s">any</span><span class="s1">&#39;</span>
+    <span class="nv">url</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s">https://www.googleapis.com/youtube/v3/search?part=snippet&amp;maxResults=50&amp;q={q}&amp;type=video&amp;videoCategoryId=10&amp;videoDuration={vd}&amp;key={key}</span><span class="s1">&#39;</span>.<span class="nv">format</span><span class="ss">(</span><span class="nv">q</span><span class="o">=</span><span class="nv">q</span>, <span class="nv">vd</span><span class="o">=</span><span class="nv">vd</span>, <span class="nv">key</span><span class="o">=</span><span class="nv">YOUTUBE_API_KEY</span><span class="ss">)</span>
+    <span class="nv">reply</span> <span class="o">=</span> <span class="nv">requests</span>.<span class="nv">get</span><span class="ss">(</span><span class="nv">url</span><span class="ss">)</span>.<span class="nv">json</span><span class="ss">()</span>
+    <span class="nv">list</span> <span class="o">=</span> []
+    <span class="k">for</span> <span class="nv">item</span> <span class="nv">in</span> <span class="nv">reply</span>[<span class="s1">&#39;</span><span class="s">items</span><span class="s1">&#39;</span>]:
+        <span class="nv">d</span> <span class="o">=</span> <span class="nv">make_song_dict</span><span class="ss">(</span><span class="nv">item</span>[<span class="s1">&#39;</span><span class="s">id</span><span class="s1">&#39;</span>][<span class="s1">&#39;</span><span class="s">videoId</span><span class="s1">&#39;</span>],
+            <span class="nv">title</span><span class="o">=</span><span class="nv">item</span>[<span class="s1">&#39;</span><span class="s">snippet</span><span class="s1">&#39;</span>][<span class="s1">&#39;</span><span class="s">title</span><span class="s1">&#39;</span>],
+            <span class="nv">artist</span><span class="o">=</span><span class="nv">item</span>[<span class="s1">&#39;</span><span class="s">snippet</span><span class="s1">&#39;</span>][<span class="s1">&#39;</span><span class="s">channelTitle</span><span class="s1">&#39;</span>],
+            <span class="nv">description</span><span class="o">=</span><span class="nv">item</span>[<span class="s1">&#39;</span><span class="s">snippet</span><span class="s1">&#39;</span>][<span class="s1">&#39;</span><span class="s">description</span><span class="s1">&#39;</span>],
+            <span class="nv">artwork_url</span><span class="o">=</span><span class="nv">item</span>[<span class="s1">&#39;</span><span class="s">snippet</span><span class="s1">&#39;</span>][<span class="s1">&#39;</span><span class="s">thumbnails</span><span class="s1">&#39;</span>][<span class="s1">&#39;</span><span class="s">default</span><span class="s1">&#39;</span>][<span class="s1">&#39;</span><span class="s">url</span><span class="s1">&#39;</span>]<span class="ss">)</span>
+        <span class="nv">list</span>.<span class="nv">append</span><span class="ss">(</span><span class="nv">d</span><span class="ss">)</span>
+    <span class="k">return</span> <span class="nv">list</span>
 </pre></div>
 
 
@@ -266,10 +265,9 @@ def make_song_list(query, context):
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

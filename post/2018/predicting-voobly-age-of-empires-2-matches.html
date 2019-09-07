@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -133,7 +132,7 @@
 <li>Close the game, and move to the next&nbsp;file</li>
 </ul>
 <p>This would have been relatively easy if Voobly contained some sort of command line utility where you&#8217;d simply be able to&nbsp;execute:</p>
-<div class="highlight"><pre><span></span>watch_recording.exe /patch &quot;UserPatch 1.4&quot; /mod &quot;WololoKingdoms&quot; /rec &quot;my_recording.mgz&quot; /speed 99
+<div class="highlight"><pre><span></span><span class="n">watch_recording</span><span class="p">.</span><span class="n">exe</span> <span class="o">/</span><span class="n">patch</span> <span class="ss">&quot;UserPatch 1.4&quot;</span> <span class="o">/</span><span class="k">mod</span> <span class="ss">&quot;WololoKingdoms&quot;</span> <span class="o">/</span><span class="n">rec</span> <span class="ss">&quot;my_recording.mgz&quot;</span> <span class="o">/</span><span class="n">speed</span> <span class="mi">99</span>
 </pre></div>
 
 
@@ -175,71 +174,71 @@
 
 
 <p>All columns in this table come from the stats plugin running in the game and contain about 150 features per timestamp, such&nbsp;as:</p>
-<div class="highlight"><pre><span></span>[5] &quot;data_players_0_units_infantry&quot;   &quot;data_players_0_units_ranged&quot;
-[7] &quot;data_players_0_units_siege&quot;      &quot;data_players_0_units_war_ships&quot;     
-[9] &quot;data_players_0_units_cavalry_archers&quot;  &quot;data_players_0_units_cavalry&quot;
-[11] &quot;data_players_0_units_monks&quot;     &quot;data_players_0_units_idle_fishing_ships&quot;       
-[13] &quot;data_players_0_units_stone_miners&quot;    &quot;data_players_0_units_gold_miners&quot;
+<div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">5</span><span class="p">]</span> <span class="ss">&quot;data_players_0_units_infantry&quot;</span>   <span class="ss">&quot;data_players_0_units_ranged&quot;</span>
+<span class="p">[</span><span class="mi">7</span><span class="p">]</span> <span class="ss">&quot;data_players_0_units_siege&quot;</span>      <span class="ss">&quot;data_players_0_units_war_ships&quot;</span>     
+<span class="p">[</span><span class="mi">9</span><span class="p">]</span> <span class="ss">&quot;data_players_0_units_cavalry_archers&quot;</span>  <span class="ss">&quot;data_players_0_units_cavalry&quot;</span>
+<span class="p">[</span><span class="mi">11</span><span class="p">]</span> <span class="ss">&quot;data_players_0_units_monks&quot;</span>     <span class="ss">&quot;data_players_0_units_idle_fishing_ships&quot;</span>       
+<span class="p">[</span><span class="mi">13</span><span class="p">]</span> <span class="ss">&quot;data_players_0_units_stone_miners&quot;</span>    <span class="ss">&quot;data_players_0_units_gold_miners&quot;</span>
 </pre></div>
 
 
 <p>Giving this kind of information to any predictive model will make it kind of hard for it to figure out what is influencing the outcome of the game. Instead, we first perform a pairwise transformation, simply by taking the difference between pairs of columns relating to the same info for both players. Instead of saying that player 0 has 14 gold miners and player 1 has 16 is pretty hard for a predictive model to make sense of directly, so instead we create one column a saying that the difference between player 0 versus player 1 is -2. (A similar approach is taken in <a href="http://fa.bianp.net/blog/2012/learning-to-rank-with-scikit-learn-the-pairwise-transform/">this blog post</a> which is pretty interesting to go&nbsp;through.)</p>
 <p><em>Caveat:</em> the above is of course up for discussion, as one could argue that the difference of 14 goldminers versus 16 encodes something else than the difference of 100 goldminers versus 102, even though it would result in the same delta value in our approach. Perhaps the difference of two goldminers is important in the lower number range, but less meaningful in the higher number range, and we&#8217;d lose this information after applying our suggested transformation. This is a valid remark but one we will ignore for&nbsp;now.</p>
 <p>To create the difference columns in R, we need to perform some heavy juggling (hard-coding all columns is possible too, but less&nbsp;fun):</p>
-<div class="highlight"><pre><span></span><span class="n">grepgsub</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&quot;^data_players_\\d+_(.*)$&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">grepped</span> <span class="o">&lt;-</span> <span class="nf">grep</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">l</span><span class="p">)</span>
-    <span class="n">subbed</span> <span class="o">&lt;-</span> <span class="nf">gsub</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="s">&quot;\\1&quot;</span><span class="p">,</span> <span class="n">l[grepped]</span><span class="p">)</span>
-    <span class="n">result</span> <span class="o">&lt;-</span> <span class="nf">as.list</span><span class="p">(</span><span class="nf">unique</span><span class="p">(</span><span class="n">subbed</span><span class="p">))</span>
-    <span class="nf">return</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><span class="nv">grepgsub</span> <span class="o">&lt;-</span> <span class="nv">function</span><span class="ss">(</span><span class="nv">l</span>, <span class="nv">pattern</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">^data_players_</span><span class="se">\\</span><span class="s">d+_(.*)$</span><span class="s2">&quot;</span><span class="ss">)</span> {
+    <span class="nv">grepped</span> <span class="o">&lt;-</span> <span class="nv">grep</span><span class="ss">(</span><span class="nv">pattern</span>, <span class="nv">l</span><span class="ss">)</span>
+    <span class="nv">subbed</span> <span class="o">&lt;-</span> <span class="nv">gsub</span><span class="ss">(</span><span class="nv">pattern</span>, <span class="s2">&quot;</span><span class="se">\\</span><span class="s">1</span><span class="s2">&quot;</span>, <span class="nv">l</span>[<span class="nv">grepped</span>]<span class="ss">)</span>
+    <span class="nb">result</span> <span class="o">&lt;-</span> <span class="nv">as</span>.<span class="nv">list</span><span class="ss">(</span><span class="nv">unique</span><span class="ss">(</span><span class="nv">subbed</span><span class="ss">))</span>
+    <span class="k">return</span><span class="ss">(</span><span class="nb">result</span><span class="ss">)</span>
+}
 
-<span class="n">diff_expression</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="s">&quot;^data_players_\\d+_(.*)$&quot;</span><span class="p">,</span>
-  <span class="n">expression</span><span class="o">=</span><span class="s">&quot;(data_players_0_{x} - data_players_1_{x})&quot;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&quot;diff&quot;</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">name_list</span> <span class="o">&lt;-</span> <span class="nf">grepgsub</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span>
-    <span class="n">expr_list</span> <span class="o">&lt;-</span> <span class="n">name_list</span> <span class="o">%&gt;%</span>
-        <span class="nf">lapply</span><span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">parse_quosure</span><span class="p">(</span><span class="nf">glue</span><span class="p">(</span><span class="n">expression</span><span class="p">)))</span> <span class="o">%&gt;%</span> 
-        <span class="nf">setNames</span><span class="p">(</span><span class="nf">paste</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">name_list</span><span class="p">,</span> <span class="n">sep</span> <span class="o">=</span> <span class="s">&quot;_&quot;</span><span class="p">))</span> 
-    <span class="nf">return</span><span class="p">(</span><span class="n">expr_list</span><span class="p">)</span>
-<span class="p">}</span>
+<span class="nv">diff_expression</span> <span class="o">&lt;-</span> <span class="nv">function</span><span class="ss">(</span><span class="nv">l</span>, <span class="nv">pattern</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">^data_players_</span><span class="se">\\</span><span class="s">d+_(.*)$</span><span class="s2">&quot;</span>,
+  <span class="nv">expression</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">(data_players_0_{x} - data_players_1_{x})</span><span class="s2">&quot;</span>, <span class="nv">prefix</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">diff</span><span class="s2">&quot;</span><span class="ss">)</span> {
+    <span class="nv">name_list</span> <span class="o">&lt;-</span> <span class="nv">grepgsub</span><span class="ss">(</span><span class="nv">l</span>, <span class="nv">pattern</span><span class="o">=</span><span class="nv">pattern</span><span class="ss">)</span>
+    <span class="nv">expr_list</span> <span class="o">&lt;-</span> <span class="nv">name_list</span> <span class="o">%&gt;%</span>
+        <span class="nv">lapply</span><span class="ss">(</span><span class="nv">function</span><span class="ss">(</span><span class="nv">x</span><span class="ss">)</span> <span class="nv">parse_quosure</span><span class="ss">(</span><span class="nv">glue</span><span class="ss">(</span><span class="nv">expression</span><span class="ss">)))</span> <span class="o">%&gt;%</span> 
+        <span class="nv">setNames</span><span class="ss">(</span><span class="nv">paste</span><span class="ss">(</span><span class="nv">prefix</span>, <span class="nv">name_list</span>, <span class="nv">sep</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">_</span><span class="s2">&quot;</span><span class="ss">))</span> 
+    <span class="k">return</span><span class="ss">(</span><span class="nv">expr_list</span><span class="ss">)</span>
+}
 
-<span class="c1"># Calculate diff statistics:</span>
-<span class="c1"># - First deal with kills and razes (as this is a pairwise column in itself)</span>
-<span class="c1"># - We recode these to a single column per player since we take 1v1 games only</span>
-<span class="c1"># - Then mutate for difference calculation</span>
-<span class="c1"># - Then bring in names and make match id and time numeric</span>
-<span class="c1"># - Then remove original columns</span>
+# <span class="nv">Calculate</span> <span class="nv">diff</span> <span class="nv">statistics</span>:
+# <span class="o">-</span> <span class="nv">First</span> <span class="nv">deal</span> <span class="nv">with</span> <span class="nv">kills</span> <span class="nv">and</span> <span class="nv">razes</span> <span class="ss">(</span><span class="nv">as</span> <span class="nv">this</span> <span class="nv">is</span> <span class="nv">a</span> <span class="nv">pairwise</span> <span class="nv">column</span> <span class="nv">in</span> <span class="nv">itself</span><span class="ss">)</span>
+# <span class="o">-</span> <span class="nv">We</span> <span class="nv">recode</span> <span class="nv">these</span> <span class="nv">to</span> <span class="nv">a</span> <span class="nv">single</span> <span class="nv">column</span> <span class="nv">per</span> <span class="nv">player</span> <span class="nv">since</span> <span class="nv">we</span> <span class="nv">take</span> <span class="mi">1</span><span class="nv">v1</span> <span class="nv">games</span> <span class="nv">only</span>
+# <span class="o">-</span> <span class="k">Then</span> <span class="nv">mutate</span> <span class="k">for</span> <span class="nv">difference</span> <span class="nv">calculation</span>
+# <span class="o">-</span> <span class="k">Then</span> <span class="nv">bring</span> <span class="nv">in</span> <span class="nv">names</span> <span class="nv">and</span> <span class="nv">make</span> <span class="nv">match</span> <span class="nv">id</span> <span class="nv">and</span> <span class="nv">time</span> <span class="nv">numeric</span>
+# <span class="o">-</span> <span class="k">Then</span> <span class="nv">remove</span> <span class="nv">original</span> <span class="nv">columns</span>
 
-<span class="n">diff_table</span> <span class="o">&lt;-</span> <span class="n">replay_table</span> <span class="o">%&gt;%</span> 
-<span class="nf">mutate</span><span class="p">(</span><span class="n">data_players_0_kills</span><span class="o">=</span><span class="n">data_players_0_kills_2</span><span class="p">,</span>
-        <span class="n">data_players_0_razes</span><span class="o">=</span><span class="n">data_players_0_razes_2</span><span class="p">,</span>
-        <span class="n">data_players_1_kills</span><span class="o">=</span><span class="n">data_players_1_kills_1</span><span class="p">,</span>
-        <span class="n">data_players_1_razes</span><span class="o">=</span><span class="n">data_players_1_razes_1</span><span class="p">)</span> <span class="o">%&gt;%</span>
-<span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="nf">contains</span><span class="p">(</span><span class="s">&#39;kills_&#39;</span><span class="p">),</span> <span class="o">-</span><span class="nf">contains</span><span class="p">(</span><span class="s">&#39;razes_&#39;</span><span class="p">))</span> <span class="o">%&gt;%</span>
-<span class="nf">mutate</span><span class="p">(</span><span class="n">player_1_name</span><span class="o">=</span><span class="n">data_players_0_name</span><span class="p">,</span> <span class="n">player_2_name</span><span class="o">=</span><span class="n">data_players_1_name</span><span class="p">)</span> <span class="o">%&gt;%</span>
-<span class="nf">mutate</span><span class="p">(</span><span class="o">!!!</span><span class="nf">diff_expression</span><span class="p">(</span><span class="nf">colnames</span><span class="p">(</span><span class="n">.)</span><span class="p">))</span> <span class="o">%&gt;%</span>
-<span class="nf">mutate</span><span class="p">(</span><span class="n">match_id</span><span class="o">=</span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">match_id</span><span class="p">),</span> <span class="n">current_time</span><span class="o">=</span><span class="nf">as.numeric</span><span class="p">(</span><span class="n">current_time</span><span class="p">))</span> <span class="o">%&gt;%</span>
-<span class="nf">select</span><span class="p">(</span><span class="o">-</span><span class="nf">starts_with</span><span class="p">(</span><span class="s">&#39;data_players_&#39;</span><span class="p">),</span> <span class="o">-</span><span class="n">diff_id</span><span class="p">,</span> <span class="o">-</span><span class="n">diff_name</span><span class="p">)</span>
+<span class="nv">diff_table</span> <span class="o">&lt;-</span> <span class="nv">replay_table</span> <span class="o">%&gt;%</span> 
+<span class="nv">mutate</span><span class="ss">(</span><span class="nv">data_players_0_kills</span><span class="o">=</span><span class="nv">data_players_0_kills_2</span>,
+        <span class="nv">data_players_0_razes</span><span class="o">=</span><span class="nv">data_players_0_razes_2</span>,
+        <span class="nv">data_players_1_kills</span><span class="o">=</span><span class="nv">data_players_1_kills_1</span>,
+        <span class="nv">data_players_1_razes</span><span class="o">=</span><span class="nv">data_players_1_razes_1</span><span class="ss">)</span> <span class="o">%&gt;%</span>
+<span class="nv">select</span><span class="ss">(</span><span class="o">-</span><span class="nv">contains</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">kills_</span><span class="s1">&#39;</span><span class="ss">)</span>, <span class="o">-</span><span class="nv">contains</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">razes_</span><span class="s1">&#39;</span><span class="ss">))</span> <span class="o">%&gt;%</span>
+<span class="nv">mutate</span><span class="ss">(</span><span class="nv">player_1_name</span><span class="o">=</span><span class="nv">data_players_0_name</span>, <span class="nv">player_2_name</span><span class="o">=</span><span class="nv">data_players_1_name</span><span class="ss">)</span> <span class="o">%&gt;%</span>
+<span class="nv">mutate</span><span class="ss">(</span><span class="o">!!!</span><span class="nv">diff_expression</span><span class="ss">(</span><span class="nv">colnames</span><span class="ss">(</span>.<span class="ss">)))</span> <span class="o">%&gt;%</span>
+<span class="nv">mutate</span><span class="ss">(</span><span class="nv">match_id</span><span class="o">=</span><span class="nv">as</span>.<span class="nv">numeric</span><span class="ss">(</span><span class="nv">match_id</span><span class="ss">)</span>, <span class="nv">current_time</span><span class="o">=</span><span class="nv">as</span>.<span class="nv">numeric</span><span class="ss">(</span><span class="nv">current_time</span><span class="ss">))</span> <span class="o">%&gt;%</span>
+<span class="nv">select</span><span class="ss">(</span><span class="o">-</span><span class="nv">starts_with</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">data_players_</span><span class="s1">&#39;</span><span class="ss">)</span>, <span class="o">-</span><span class="nv">diff_id</span>, <span class="o">-</span><span class="nv">diff_name</span><span class="ss">)</span>
 </pre></div>
 
 
 <p>We can validate this by taking a look at a single&nbsp;match:</p>
-<div class="highlight"><pre><span></span>library(cowplot)
+<div class="highlight"><pre><span></span><span class="nv">library</span><span class="ss">(</span><span class="nv">cowplot</span><span class="ss">)</span>
 
-plot_grid(
-diff_table %&gt;% filter(match_id==16720619) %&gt;% 
-    select(current_time, diff_population_total) %&gt;% 
-    collect %&gt;%
-    ggplot(aes(x=current_time, y=diff_population_total)) +
-    geom_line() + geom_hline(yintercept=0) + xlab(&quot;&quot;) + ylab(&quot;Pop Diff&quot;),
-replay_table %&gt;% filter(match_id==16720619) %&gt;% 
-    select(current_time, data_players_0_population_total, data_players_1_population_total) %&gt;% 
-    collect %&gt;% gather(&quot;type&quot;, &quot;population_total&quot;, 2:3) %&gt;%
-    ggplot(aes(x=as.numeric(as.character(current_time)), 
-            y=as.numeric(as.character(population_total)), 
-            colour=type, group=type)) +
-    geom_line(show.legend=F) + xlab(&quot;Game Time&quot;) + ylab(&quot;Total Pop&quot;),
-ncol=1
-)
+<span class="nv">plot_grid</span><span class="ss">(</span>
+<span class="nv">diff_table</span> <span class="o">%&gt;%</span> <span class="nv">filter</span><span class="ss">(</span><span class="nv">match_id</span><span class="o">==</span><span class="mi">16720619</span><span class="ss">)</span> <span class="o">%&gt;%</span> 
+    <span class="nv">select</span><span class="ss">(</span><span class="nv">current_time</span>, <span class="nv">diff_population_total</span><span class="ss">)</span> <span class="o">%&gt;%</span> 
+    <span class="nv">collect</span> <span class="o">%&gt;%</span>
+    <span class="nv">ggplot</span><span class="ss">(</span><span class="nv">aes</span><span class="ss">(</span><span class="nv">x</span><span class="o">=</span><span class="nv">current_time</span>, <span class="nv">y</span><span class="o">=</span><span class="nv">diff_population_total</span><span class="ss">))</span> <span class="o">+</span>
+    <span class="nv">geom_line</span><span class="ss">()</span> <span class="o">+</span> <span class="nv">geom_hline</span><span class="ss">(</span><span class="nv">yintercept</span><span class="o">=</span><span class="mi">0</span><span class="ss">)</span> <span class="o">+</span> <span class="nv">xlab</span><span class="ss">(</span><span class="s2">&quot;&quot;</span><span class="ss">)</span> <span class="o">+</span> <span class="nv">ylab</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">Pop Diff</span><span class="s2">&quot;</span><span class="ss">)</span>,
+<span class="nv">replay_table</span> <span class="o">%&gt;%</span> <span class="nv">filter</span><span class="ss">(</span><span class="nv">match_id</span><span class="o">==</span><span class="mi">16720619</span><span class="ss">)</span> <span class="o">%&gt;%</span> 
+    <span class="nv">select</span><span class="ss">(</span><span class="nv">current_time</span>, <span class="nv">data_players_0_population_total</span>, <span class="nv">data_players_1_population_total</span><span class="ss">)</span> <span class="o">%&gt;%</span> 
+    <span class="nv">collect</span> <span class="o">%&gt;%</span> <span class="nv">gather</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">type</span><span class="s2">&quot;</span>, <span class="s2">&quot;</span><span class="s">population_total</span><span class="s2">&quot;</span>, <span class="mi">2</span>:<span class="mi">3</span><span class="ss">)</span> <span class="o">%&gt;%</span>
+    <span class="nv">ggplot</span><span class="ss">(</span><span class="nv">aes</span><span class="ss">(</span><span class="nv">x</span><span class="o">=</span><span class="nv">as</span>.<span class="nv">numeric</span><span class="ss">(</span><span class="nv">as</span>.<span class="nv">character</span><span class="ss">(</span><span class="nv">current_time</span><span class="ss">))</span>, 
+            <span class="nv">y</span><span class="o">=</span><span class="nv">as</span>.<span class="nv">numeric</span><span class="ss">(</span><span class="nv">as</span>.<span class="nv">character</span><span class="ss">(</span><span class="nv">population_total</span><span class="ss">))</span>, 
+            <span class="nv">colour</span><span class="o">=</span><span class="nv">type</span>, <span class="nv">group</span><span class="o">=</span><span class="nv">type</span><span class="ss">))</span> <span class="o">+</span>
+    <span class="nv">geom_line</span><span class="ss">(</span><span class="k">show</span>.<span class="nv">legend</span><span class="o">=</span><span class="nv">F</span><span class="ss">)</span> <span class="o">+</span> <span class="nv">xlab</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">Game Time</span><span class="s2">&quot;</span><span class="ss">)</span> <span class="o">+</span> <span class="nv">ylab</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">Total Pop</span><span class="s2">&quot;</span><span class="ss">)</span>,
+<span class="nv">ncol</span><span class="o">=</span><span class="mi">1</span>
+<span class="ss">)</span>
 </pre></div>
 
 
@@ -264,34 +263,34 @@ ncol=1
 
 
 <p>We check whether this worked based on some spot&nbsp;checks:</p>
-<div class="highlight"><pre><span></span>&gt; db.matches %&gt;% filter(match_id == 16720619) %&gt;% collect %&gt;% select(match_winner, contains(&quot;name&quot;))
-# A tibble: 1 x 3
-match_winner match_player1_name match_player2_name
-        &lt;int&gt; &lt;chr&gt;              &lt;chr&gt;             
-1            1 TrunicC            chagass
+<div class="highlight"><pre><span></span><span class="o">&gt;</span><span class="w"> </span><span class="n">db</span><span class="p">.</span><span class="n">matches</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="k">filter</span><span class="p">(</span><span class="n">match_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">16720619</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="k">collect</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="k">select</span><span class="p">(</span><span class="n">match_winner</span><span class="p">,</span><span class="w"> </span><span class="k">contains</span><span class="p">(</span><span class="ss">&quot;name&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="err">#</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="nl">tibble</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="mi">3</span><span class="w"></span>
+<span class="n">match_winner</span><span class="w"> </span><span class="n">match_player1_name</span><span class="w"> </span><span class="n">match_player2_name</span><span class="w"></span>
+<span class="w">        </span><span class="o">&lt;</span><span class="nc">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">              </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">             </span>
+<span class="mi">1</span><span class="w">            </span><span class="mi">1</span><span class="w"> </span><span class="n">TrunicC</span><span class="w">            </span><span class="n">chagass</span><span class="w"></span>
 
-&gt; extra_info %&gt;% filter(match_id == 16720619)
-# A tibble: 1 x 4
-match_id winner_name player_1_wins diff_rating
-    &lt;int&gt; &lt;chr&gt;               &lt;dbl&gt;       &lt;int&gt;
-1 16720619 TrunicC                1.          80
+<span class="o">&gt;</span><span class="w"> </span><span class="n">extra_info</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="k">filter</span><span class="p">(</span><span class="n">match_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">16720619</span><span class="p">)</span><span class="w"></span>
+<span class="err">#</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="nl">tibble</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="mi">4</span><span class="w"></span>
+<span class="n">match_id</span><span class="w"> </span><span class="n">winner_name</span><span class="w"> </span><span class="n">player_1_wins</span><span class="w"> </span><span class="n">diff_rating</span><span class="w"></span>
+<span class="w">    </span><span class="o">&lt;</span><span class="nc">int</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">               </span><span class="o">&lt;</span><span class="n">dbl</span><span class="o">&gt;</span><span class="w">       </span><span class="o">&lt;</span><span class="nc">int</span><span class="o">&gt;</span><span class="w"></span>
+<span class="mi">1</span><span class="w"> </span><span class="mi">16720619</span><span class="w"> </span><span class="n">TrunicC</span><span class="w">                </span><span class="mf">1.</span><span class="w">          </span><span class="mi">80</span><span class="w"></span>
 
-&gt; diff_table %&gt;% filter(match_id == 16720619) %&gt;% select(contains(&quot;name&quot;))
-# Source:   lazy query [?? x 2]
-# Database: sqlite 3.11.1 [C:\Users\Seppe\Desktop\aoepredict\voobly3.db]
-player_1_name player_2_name 
-&lt;chr&gt;         &lt;chr&gt;         
-1 [CiD]TrunicC  [ VkA_]chagass
-2 [CiD]TrunicC  [ VkA_]chagass
-3 [CiD]TrunicC  [ VkA_]chagass
-4 [CiD]TrunicC  [ VkA_]chagass
-5 [CiD]TrunicC  [ VkA_]chagass
-6 [CiD]TrunicC  [ VkA_]chagass
-7 [CiD]TrunicC  [ VkA_]chagass
-8 [CiD]TrunicC  [ VkA_]chagass
-9 [CiD]TrunicC  [ VkA_]chagass
-10 [CiD]TrunicC  [ VkA_]chagass
-# ... with more rows
+<span class="o">&gt;</span><span class="w"> </span><span class="n">diff_table</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="k">filter</span><span class="p">(</span><span class="n">match_id</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">16720619</span><span class="p">)</span><span class="w"> </span><span class="o">%&gt;%</span><span class="w"> </span><span class="k">select</span><span class="p">(</span><span class="k">contains</span><span class="p">(</span><span class="ss">&quot;name&quot;</span><span class="p">))</span><span class="w"></span>
+<span class="err">#</span><span class="w"> </span><span class="nl">Source</span><span class="p">:</span><span class="w">   </span><span class="n">lazy</span><span class="w"> </span><span class="n">query</span><span class="w"> </span><span class="o">[</span><span class="n">?? x 2</span><span class="o">]</span><span class="w"></span>
+<span class="err">#</span><span class="w"> </span><span class="k">Database</span><span class="err">:</span><span class="w"> </span><span class="n">sqlite</span><span class="w"> </span><span class="mf">3.11.1</span><span class="w"> </span><span class="o">[</span><span class="n">C:\Users\Seppe\Desktop\aoepredict\voobly3.db</span><span class="o">]</span><span class="w"></span>
+<span class="n">player_1_name</span><span class="w"> </span><span class="n">player_2_name</span><span class="w"> </span>
+<span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">         </span><span class="o">&lt;</span><span class="n">chr</span><span class="o">&gt;</span><span class="w">         </span>
+<span class="mi">1</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">2</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">3</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">4</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">5</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">6</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">7</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">8</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">9</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="mi">10</span><span class="w"> </span><span class="o">[</span><span class="n">CiD</span><span class="o">]</span><span class="n">TrunicC</span><span class="w">  </span><span class="o">[</span><span class="n"> VkA_</span><span class="o">]</span><span class="n">chagass</span><span class="w"></span>
+<span class="err">#</span><span class="w"> </span><span class="p">...</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="k">rows</span><span class="w"></span>
 </pre></div>
 
 
@@ -309,27 +308,27 @@ player_1_name player_2_name
 
 
 <p>Additionally, there is another trick we can apply here to make the models themselves more robust. Since all our features are differences, we can regard every instance where player 1 won also as an instance where player 2 won simply by flipping the sign of every column (if player 1 is two villagers ahead of player 2, then player 2 is two villagers behind). Doing so nicely smooths out our sample and prevents our model being biased towards a particular direction below or above zero for features. It&#8217;s unlikely to matter very much given the amount of data we&#8217;re going to push in, but nevertheless a good&nbsp;approach:</p>
-<div class="highlight"><pre><span></span><span class="n">mirror_data</span> <span class="o">&lt;-</span> <span class="nf">function</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s">&#39;diff_&#39;</span><span class="p">,</span> <span class="n">target</span><span class="o">=</span><span class="s">&#39;player_1_wins&#39;</span><span class="p">)</span> <span class="p">{</span>
-<span class="n">ds.m</span> <span class="o">&lt;-</span> <span class="n">ds</span> <span class="o">%&gt;%</span> 
-    <span class="nf">mutate_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="nf">starts_with</span><span class="p">(</span><span class="n">prefix</span><span class="p">)),</span> <span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span><span class="n">x</span><span class="p">))</span> <span class="o">%&gt;%</span> 
-    <span class="nf">mutate_at</span><span class="p">(</span><span class="nf">vars</span><span class="p">(</span><span class="n">target</span><span class="p">),</span> <span class="p">(</span><span class="nf">function</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="nf">factor</span><span class="p">(</span><span class="nf">abs</span><span class="p">(</span> <span class="nf">as.numeric</span><span class="p">(</span><span class="nf">levels</span><span class="p">(</span><span class="n">x</span><span class="p">))</span><span class="n">[x]</span> <span class="o">-</span> <span class="m">1</span><span class="p">))))</span>
-<span class="nf">return</span><span class="p">(</span><span class="nf">bind_rows</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">ds.m</span><span class="p">))</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><span class="nv">mirror_data</span> <span class="o">&lt;-</span> <span class="nv">function</span><span class="ss">(</span><span class="nv">ds</span>, <span class="nv">prefix</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">diff_</span><span class="s1">&#39;</span>, <span class="nv">target</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">player_1_wins</span><span class="s1">&#39;</span><span class="ss">)</span> {
+<span class="nv">ds</span>.<span class="nv">m</span> <span class="o">&lt;-</span> <span class="nv">ds</span> <span class="o">%&gt;%</span> 
+    <span class="nv">mutate_at</span><span class="ss">(</span><span class="nv">vars</span><span class="ss">(</span><span class="nv">starts_with</span><span class="ss">(</span><span class="nv">prefix</span><span class="ss">))</span>, <span class="ss">(</span><span class="nv">function</span><span class="ss">(</span><span class="nv">x</span><span class="ss">)</span> <span class="o">-</span><span class="nv">x</span><span class="ss">))</span> <span class="o">%&gt;%</span> 
+    <span class="nv">mutate_at</span><span class="ss">(</span><span class="nv">vars</span><span class="ss">(</span><span class="nv">target</span><span class="ss">)</span>, <span class="ss">(</span><span class="nv">function</span><span class="ss">(</span><span class="nv">x</span><span class="ss">)</span> <span class="nv">factor</span><span class="ss">(</span><span class="nv">abs</span><span class="ss">(</span> <span class="nv">as</span>.<span class="nv">numeric</span><span class="ss">(</span><span class="nv">levels</span><span class="ss">(</span><span class="nv">x</span><span class="ss">))</span>[<span class="nv">x</span>] <span class="o">-</span> <span class="mi">1</span><span class="ss">))))</span>
+<span class="k">return</span><span class="ss">(</span><span class="nv">bind_rows</span><span class="ss">(</span><span class="nv">ds</span>, <span class="nv">ds</span>.<span class="nv">m</span><span class="ss">))</span>
+}
 
-<span class="c1"># Only apply this on the train set</span>
+# <span class="nv">Only</span> <span class="nv">apply</span> <span class="nv">this</span> <span class="nv">on</span> <span class="nv">the</span> <span class="nv">train</span> <span class="nv">set</span>
 
-<span class="n">sample.train</span> <span class="o">&lt;-</span> <span class="nf">mirror_data</span><span class="p">(</span><span class="n">sample.train</span><span class="p">)</span>
+<span class="nv">sample</span>.<span class="nv">train</span> <span class="o">&lt;-</span> <span class="nv">mirror_data</span><span class="ss">(</span><span class="nv">sample</span>.<span class="nv">train</span><span class="ss">)</span>
 </pre></div>
 
 
 <p>We only apply this on the training data, however. The part kept aside as the test set is&nbsp;untouched:</p>
-<div class="highlight"><pre><span></span>&gt; sample.train$player_1_wins %&gt;% table
-    0     1 
-30000 30000
+<div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="n">sample</span><span class="p">.</span><span class="n">train$player_1_wins</span> <span class="o">%&gt;%</span> <span class="k">table</span>
+    <span class="mi">0</span>     <span class="mi">1</span> 
+<span class="mi">30000</span> <span class="mi">30000</span>
 
-&gt; sample.test$player_1_wins %&gt;% table
-    0     1 
-15000 15000
+<span class="o">&gt;</span> <span class="n">sample</span><span class="p">.</span><span class="n">test$player_1_wins</span> <span class="o">%&gt;%</span> <span class="k">table</span>
+    <span class="mi">0</span>     <span class="mi">1</span> 
+<span class="mi">15000</span> <span class="mi">15000</span>
 </pre></div>
 
 
@@ -340,23 +339,23 @@ player_1_name player_2_name
 
 
 <p>Which&nbsp;obtains:</p>
-<div class="highlight"><pre><span></span>Confusion Matrix and Statistics on TRAIN
+<div class="highlight"><pre><span></span><span class="n">Confusion</span> <span class="n">Matrix</span> <span class="k">and</span> <span class="k">Statistics</span> <span class="k">on</span> <span class="n">TRAIN</span>
 
-        Reference
-Prediction     0     1
-        0 21431  8569
-        1  8569 21431
+        <span class="n">Reference</span>
+<span class="n">Prediction</span>     <span class="mi">0</span>     <span class="mi">1</span>
+        <span class="mi">0</span> <span class="mi">21431</span>  <span class="mi">8569</span>
+        <span class="mi">1</span>  <span class="mi">8569</span> <span class="mi">21431</span>
 
-            Accuracy : 0.7144
+            <span class="n">Accuracy</span> <span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">7144</span>
 
-Confusion Matrix and Statistics on TEST
+<span class="n">Confusion</span> <span class="n">Matrix</span> <span class="k">and</span> <span class="k">Statistics</span> <span class="k">on</span> <span class="n">TEST</span>
 
-        Reference
-Prediction     0     1
-        0 10759  4255
-        1  4241 10745
+        <span class="n">Reference</span>
+<span class="n">Prediction</span>     <span class="mi">0</span>     <span class="mi">1</span>
+        <span class="mi">0</span> <span class="mi">10759</span>  <span class="mi">4255</span>
+        <span class="mi">1</span>  <span class="mi">4241</span> <span class="mi">10745</span>
 
-            Accuracy : 0.7168
+            <span class="n">Accuracy</span> <span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">7168</span>
 </pre></div>
 
 
@@ -373,14 +372,14 @@ Prediction     0     1
 
 <p>Here, the results are much better: 99% accuracy on the train set, and 83% accuracy on the test set. Since this looks like a solid improvement, I decide to continue with this&nbsp;model.</p>
 <p>A final check on the complete data set (without retraining the model) obtains the same accuracy and confirms that our model is indeed able to generalize its&nbsp;predictions:</p>
-<div class="highlight"><pre><span></span>Confusion Matrix and Statistics
+<div class="highlight"><pre><span></span><span class="n">Confusion</span> <span class="n">Matrix</span> <span class="k">and</span> <span class="k">Statistics</span>
 
-        Reference
-Prediction      0      1
-        0 755618 136151
-        1 153962 762804
+        <span class="n">Reference</span>
+<span class="n">Prediction</span>      <span class="mi">0</span>      <span class="mi">1</span>
+        <span class="mi">0</span> <span class="mi">755618</span> <span class="mi">136151</span>
+        <span class="mi">1</span> <span class="mi">153962</span> <span class="mi">762804</span>
 
-            Accuracy : 0.8396
+            <span class="n">Accuracy</span> <span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">8396</span>
 </pre></div>
 
 
@@ -410,14 +409,14 @@ Prediction      0      1
 <p><img alt="Another match" src="/images/2018/aoe11.png"></p>
 <p>Here, our model is confused up until the 20 minute mark before deciding that player 1 has the upper hand, as is also reflected in the score. Strangely enough, only at the very end does the score (and our prediction) plummet with the second player actually winning. So this is definitely a difficult case to&nbsp;predict!</p>
 <p>In fact, it might be a good idea to inspect what the accuracy of our model is in terms of predicting the very last game state (i.e. right before someone resigns). We&#8217;d expect this to be extremely close to&nbsp;100%:</p>
-<div class="highlight"><pre><span></span>Confusion Matrix and Statistics
+<div class="highlight"><pre><span></span><span class="n">Confusion</span> <span class="n">Matrix</span> <span class="k">and</span> <span class="k">Statistics</span>
 
-        Reference
-Prediction    0    1
-        0 1039   53
-        1   78 1064
+        <span class="n">Reference</span>
+<span class="n">Prediction</span>    <span class="mi">0</span>    <span class="mi">1</span>
+        <span class="mi">0</span> <span class="mi">1039</span>   <span class="mi">53</span>
+        <span class="mi">1</span>   <span class="mi">78</span> <span class="mi">1064</span>
 
-            Accuracy : 0.9414
+            <span class="n">Accuracy</span> <span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">9414</span>
 </pre></div>
 
 
@@ -448,7 +447,7 @@ Prediction    0    1
 
 <p>With &#8220;model_api.R&#8221; basically containing a <code>predict</code> call together with pre-processing steps to convert an instance as retrieved from the websocket to the difference columns we&nbsp;want.</p>
 <p>By modifying our Python websocket reader a bit, we can make a call to this <span class="caps">API</span>:</p>
-<div class="highlight"><pre><span></span>r = requests.post(&#39;http://localhost:8000/predict&#39;, json={&quot;instance&quot;: flattened})
+<div class="highlight"><pre><span></span><span class="n">r</span> <span class="o">=</span> <span class="n">requests</span><span class="p">.</span><span class="n">post</span><span class="p">(</span><span class="s1">&#39;http://localhost:8000/predict&#39;</span><span class="p">,</span> <span class="n">json</span><span class="o">=</span><span class="err">{</span><span class="ss">&quot;instance&quot;</span><span class="p">:</span> <span class="n">flattened</span><span class="err">}</span><span class="p">)</span>
 </pre></div>
 
 
@@ -477,10 +476,9 @@ Prediction    0    1
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

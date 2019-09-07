@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -102,39 +101,39 @@ Some customers have had success at converting an existing text file into a tagge
 <p>Next possibility: Google Scholar. A few test runs with some edited queries came up with the right articles alright, and Google Scholar allows to export Endnote, BibTeX and other files. Even though the quality of the entry is not always perfect, this seemed like a good starting&nbsp;point.</p>
 <h2>Hours 2-3: Finding an <span class="caps">API</span></h2>
 <p>First issue: Google Scholar does not provide an <span class="caps">API</span>. Luckily, there&#8217;s <code>scholar.py</code> on <a href="https://github.com/ckreibich/scholar.py">GitHub</a> which seems to be working fine (as long as you don&#8217;t hammer Google&#8217;s servers too&nbsp;much):</p>
-<div class="highlight"><pre><span></span>macuyiko$ python scholar.py -c 3 --author &quot;vanden broucke&quot; --txt &quot;artificial&quot;
-            ID PktWS3Llix8J
-         Title Improved artificial negative event generation to enhance process event logs
-           URL http://link.springer.com/chapter/10.1007/978-3-642-31095-9_17
-     Citations 4
-      Versions 5
-Citations list http://scholar.google.com/scholar?cites=2273162715991526206&amp;as_sdt=2005&amp;sciodt=1,5&amp;hl=en&amp;num=3
- Versions list http://scholar.google.com/scholar?cluster=2273162715991526206&amp;hl=en&amp;num=3&amp;as_sdt=1,5
-      Cite URL http://scholar.google.com/scholar?q=info:PktWS3Llix8J:scholar.google.com/&amp;output=cite&amp;scirp=0&amp;hl=en
-  Related list http://scholar.google.com/scholar?q=related:PktWS3Llix8J:scholar.google.com/&amp;hl=en&amp;num=3&amp;as_sdt=1,5
-          Year 2012
+<div class="highlight"><pre><span></span><span class="n">macuyiko$</span> <span class="n">python</span> <span class="n">scholar</span><span class="p">.</span><span class="n">py</span> <span class="o">-</span><span class="k">c</span> <span class="mi">3</span> <span class="c1">--author &quot;vanden broucke&quot; --txt &quot;artificial&quot;</span>
+            <span class="n">ID</span> <span class="n">PktWS3Llix8J</span>
+         <span class="n">Title</span> <span class="n">Improved</span> <span class="n">artificial</span> <span class="n">negative</span> <span class="n">event</span> <span class="n">generation</span> <span class="k">to</span> <span class="n">enhance</span> <span class="n">process</span> <span class="n">event</span> <span class="n">logs</span>
+           <span class="n">URL</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">link</span><span class="p">.</span><span class="n">springer</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">chapter</span><span class="o">/</span><span class="mi">10</span><span class="p">.</span><span class="mi">1007</span><span class="o">/</span><span class="mi">978</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="mi">642</span><span class="o">-</span><span class="mi">31095</span><span class="o">-</span><span class="mi">9</span><span class="n">_17</span>
+     <span class="n">Citations</span> <span class="mi">4</span>
+      <span class="n">Versions</span> <span class="mi">5</span>
+<span class="n">Citations</span> <span class="n">list</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">scholar</span><span class="o">?</span><span class="n">cites</span><span class="o">=</span><span class="mi">2273162715991526206</span><span class="o">&amp;</span><span class="n">as_sdt</span><span class="o">=</span><span class="mi">2005</span><span class="o">&amp;</span><span class="n">sciodt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span><span class="o">&amp;</span><span class="n">hl</span><span class="o">=</span><span class="n">en</span><span class="o">&amp;</span><span class="n">num</span><span class="o">=</span><span class="mi">3</span>
+ <span class="n">Versions</span> <span class="n">list</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">scholar</span><span class="o">?</span><span class="k">cluster</span><span class="o">=</span><span class="mi">2273162715991526206</span><span class="o">&amp;</span><span class="n">hl</span><span class="o">=</span><span class="n">en</span><span class="o">&amp;</span><span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="o">&amp;</span><span class="n">as_sdt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span>
+      <span class="n">Cite</span> <span class="n">URL</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">scholar</span><span class="o">?</span><span class="n">q</span><span class="o">=</span><span class="n">info</span><span class="p">:</span><span class="n">PktWS3Llix8J</span><span class="p">:</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/&amp;</span><span class="k">output</span><span class="o">=</span><span class="n">cite</span><span class="o">&amp;</span><span class="n">scirp</span><span class="o">=</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">hl</span><span class="o">=</span><span class="n">en</span>
+  <span class="n">Related</span> <span class="n">list</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">scholar</span><span class="o">?</span><span class="n">q</span><span class="o">=</span><span class="n">related</span><span class="p">:</span><span class="n">PktWS3Llix8J</span><span class="p">:</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/&amp;</span><span class="n">hl</span><span class="o">=</span><span class="n">en</span><span class="o">&amp;</span><span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="o">&amp;</span><span class="n">as_sdt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span>
+          <span class="k">Year</span> <span class="mi">2012</span>
 
-            ID 1_9CU_-bcNEJ
-         Title An Improved Process Event Log Artificial Negative Event Generator
-           URL http://papers.ssrn.com/sol3/papers.cfm?abstract_id=2165204
-     Citations 0
-      Versions 0
-Citations list None
- Versions list None
-      Cite URL http://scholar.google.com/scholar?q=info:1_9CU_-bcNEJ:scholar.google.com/&amp;output=cite&amp;scirp=0&amp;hl=en
-  Related list None
-          Year 2012
+            <span class="n">ID</span> <span class="mi">1</span><span class="n">_9CU_</span><span class="o">-</span><span class="n">bcNEJ</span>
+         <span class="n">Title</span> <span class="n">An</span> <span class="n">Improved</span> <span class="n">Process</span> <span class="n">Event</span> <span class="n">Log</span> <span class="n">Artificial</span> <span class="n">Negative</span> <span class="n">Event</span> <span class="n">Generator</span>
+           <span class="n">URL</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">papers</span><span class="p">.</span><span class="n">ssrn</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">sol3</span><span class="o">/</span><span class="n">papers</span><span class="p">.</span><span class="n">cfm</span><span class="o">?</span><span class="n">abstract_id</span><span class="o">=</span><span class="mi">2165204</span>
+     <span class="n">Citations</span> <span class="mi">0</span>
+      <span class="n">Versions</span> <span class="mi">0</span>
+<span class="n">Citations</span> <span class="n">list</span> <span class="k">None</span>
+ <span class="n">Versions</span> <span class="n">list</span> <span class="k">None</span>
+      <span class="n">Cite</span> <span class="n">URL</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">scholar</span><span class="o">?</span><span class="n">q</span><span class="o">=</span><span class="n">info</span><span class="p">:</span><span class="mi">1</span><span class="n">_9CU_</span><span class="o">-</span><span class="n">bcNEJ</span><span class="p">:</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/&amp;</span><span class="k">output</span><span class="o">=</span><span class="n">cite</span><span class="o">&amp;</span><span class="n">scirp</span><span class="o">=</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">hl</span><span class="o">=</span><span class="n">en</span>
+  <span class="n">Related</span> <span class="n">list</span> <span class="k">None</span>
+          <span class="k">Year</span> <span class="mi">2012</span>
 
-            ID EE_4eP8NmncJ
-         Title Third International Business Process Intelligence Challenge (BPIC&#39;13): Volvo IT Belgium VINST
-           URL http://ceur-ws.org/Vol-1052/paper3.pdf
-     Citations 0
-      Versions 0
-Citations list None
- Versions list None
-      Cite URL http://scholar.google.com/scholar?q=info:EE_4eP8NmncJ:scholar.google.com/&amp;output=cite&amp;scirp=0&amp;hl=en
-  Related list http://scholar.google.com/scholar?q=related:EE_4eP8NmncJ:scholar.google.com/&amp;hl=en&amp;num=3&amp;as_sdt=1,5
-          Year None
+            <span class="n">ID</span> <span class="n">EE_4eP8NmncJ</span>
+         <span class="n">Title</span> <span class="n">Third</span> <span class="n">International</span> <span class="n">Business</span> <span class="n">Process</span> <span class="n">Intelligence</span> <span class="n">Challenge</span> <span class="p">(</span><span class="n">BPIC</span><span class="err">&#39;</span><span class="mi">13</span><span class="p">):</span> <span class="n">Volvo</span> <span class="n">IT</span> <span class="n">Belgium</span> <span class="n">VINST</span>
+           <span class="n">URL</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">ceur</span><span class="o">-</span><span class="n">ws</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">Vol</span><span class="o">-</span><span class="mi">1052</span><span class="o">/</span><span class="n">paper3</span><span class="p">.</span><span class="n">pdf</span>
+     <span class="n">Citations</span> <span class="mi">0</span>
+      <span class="n">Versions</span> <span class="mi">0</span>
+<span class="n">Citations</span> <span class="n">list</span> <span class="k">None</span>
+ <span class="n">Versions</span> <span class="n">list</span> <span class="k">None</span>
+      <span class="n">Cite</span> <span class="n">URL</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">scholar</span><span class="o">?</span><span class="n">q</span><span class="o">=</span><span class="n">info</span><span class="p">:</span><span class="n">EE_4eP8NmncJ</span><span class="p">:</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/&amp;</span><span class="k">output</span><span class="o">=</span><span class="n">cite</span><span class="o">&amp;</span><span class="n">scirp</span><span class="o">=</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">hl</span><span class="o">=</span><span class="n">en</span>
+  <span class="n">Related</span> <span class="n">list</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">scholar</span><span class="o">?</span><span class="n">q</span><span class="o">=</span><span class="n">related</span><span class="p">:</span><span class="n">EE_4eP8NmncJ</span><span class="p">:</span><span class="n">scholar</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/&amp;</span><span class="n">hl</span><span class="o">=</span><span class="n">en</span><span class="o">&amp;</span><span class="n">num</span><span class="o">=</span><span class="mi">3</span><span class="o">&amp;</span><span class="n">as_sdt</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span><span class="mi">5</span>
+          <span class="k">Year</span> <span class="k">None</span>
 </pre></div>
 
 
@@ -1098,16 +1097,16 @@ Citations list None
 <h2>Hours 6-11: Wasting Time with Google&#8217;s&nbsp;Appengine</h2>
 <p>Almost done. The final part which remains is to automate iterating through the plain references list, finding a way to extract a good search query for each entry, and getting out the Endnote (or BibTeX from Google&nbsp;Scholar).</p>
 <p>In an impulse, I decided to try to whip up a Google Appengine page to provide this great service to the world. After creating a basic <code>index.html</code> with some jQuery on top off it I created a quick <code>Flask</code> app with the &#8220;magic&#8221; part looking something like this (disclaimer: not really that&nbsp;magical):</p>
-<div class="highlight"><pre><span></span>@app.route(&#39;/guess&#39;, methods=[&#39;POST&#39;])
-def guess():
-    f = string.ascii_lowercase + &#39; &#39;
-    q = request.form[&#39;t&#39;]
-    q = q.lower()
-    q = q.replace(&#39;-&#39;, &#39; &#39;)
-    q = &#39;&#39;.join(c for c in q if c in f)
-    q = q.split(&#39; &#39;)
-    q = &#39; &#39;.join(c for c in q if len(c) &gt;= 3)
-    # Use q as the Google Scholar search query
+<div class="highlight"><pre><span></span>@<span class="nv">app</span>.<span class="nv">route</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">/guess</span><span class="s1">&#39;</span>, <span class="nv">methods</span><span class="o">=</span>[<span class="s1">&#39;</span><span class="s">POST</span><span class="s1">&#39;</span>]<span class="ss">)</span>
+<span class="nv">def</span> <span class="nv">guess</span><span class="ss">()</span>:
+    <span class="nv">f</span> <span class="o">=</span> <span class="nv">string</span>.<span class="nv">ascii_lowercase</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="s"> </span><span class="s1">&#39;</span>
+    <span class="nv">q</span> <span class="o">=</span> <span class="nv">request</span>.<span class="nv">form</span>[<span class="s1">&#39;</span><span class="s">t</span><span class="s1">&#39;</span>]
+    <span class="nv">q</span> <span class="o">=</span> <span class="nv">q</span>.<span class="nv">lower</span><span class="ss">()</span>
+    <span class="nv">q</span> <span class="o">=</span> <span class="nv">q</span>.<span class="nv">replace</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">-</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s"> </span><span class="s1">&#39;</span><span class="ss">)</span>
+    <span class="nv">q</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>.<span class="nv">join</span><span class="ss">(</span><span class="nv">c</span> <span class="k">for</span> <span class="nv">c</span> <span class="nv">in</span> <span class="nv">q</span> <span class="k">if</span> <span class="nv">c</span> <span class="nv">in</span> <span class="nv">f</span><span class="ss">)</span>
+    <span class="nv">q</span> <span class="o">=</span> <span class="nv">q</span>.<span class="nv">split</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s"> </span><span class="s1">&#39;</span><span class="ss">)</span>
+    <span class="nv">q</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="s"> </span><span class="s1">&#39;</span>.<span class="nv">join</span><span class="ss">(</span><span class="nv">c</span> <span class="k">for</span> <span class="nv">c</span> <span class="nv">in</span> <span class="nv">q</span> <span class="k">if</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">c</span><span class="ss">)</span> <span class="o">&gt;=</span> <span class="mi">3</span><span class="ss">)</span>
+    # <span class="nv">Use</span> <span class="nv">q</span> <span class="nv">as</span> <span class="nv">the</span> <span class="nv">Google</span> <span class="nv">Scholar</span> <span class="nv">search</span> <span class="nv">query</span>
 </pre></div>
 
 
@@ -1182,23 +1181,23 @@ def guess():
 
 <p>Note that I had to include two querying strategies: <code>make_query</code> and <code>make_query_year</code>. The latter combines the year with the title but leaves out authors, this is to retrieve some problematic articles where the author name was formatted differently in Google Scholar than in my list. A hacky approach which could be improved, but it gets the point&nbsp;across.</p>
 <p>Anyway, running this script returns a BibTeX list like&nbsp;this:</p>
-<div class="highlight"><pre><span></span>macuyiko$ cat ./bibliography.bib
+<div class="highlight"><pre><span></span><span class="nv">macuyiko</span>$ <span class="nv">cat</span> .<span class="o">/</span><span class="nv">bibliography</span>.<span class="nv">bib</span>
 
-%%% mr4JHn2auF8J  Theory, algorithms and applications
-@article{bang2007theory,
-  title={Theory, algorithms and applications},
-  author={Bang-Jensen, J{\o}rgen and Gutin, Gregory},
-  journal={Springer Monographs in Mathematics, Springer-Verlag London Ltd., London},
-  year={2007},
-  publisher={Springer}
+<span class="o">%%%</span> <span class="nv">mr4JHn2auF8J</span>  <span class="nv">Theory</span>, <span class="nv">algorithms</span> <span class="nv">and</span> <span class="nv">applications</span>
+@<span class="nv">article</span>{<span class="nv">bang2007theory</span>,
+  <span class="nv">title</span><span class="o">=</span>{<span class="nv">Theory</span>, <span class="nv">algorithms</span> <span class="nv">and</span> <span class="nv">applications</span>},
+  <span class="nv">author</span><span class="o">=</span>{<span class="nv">Bang</span><span class="o">-</span><span class="nv">Jensen</span>, <span class="nv">J</span>{\<span class="nv">o</span>}<span class="nv">rgen</span> <span class="nv">and</span> <span class="nv">Gutin</span>, <span class="nv">Gregory</span>},
+  <span class="nv">journal</span><span class="o">=</span>{<span class="nv">Springer</span> <span class="nv">Monographs</span> <span class="nv">in</span> <span class="nv">Mathematics</span>, <span class="nv">Springer</span><span class="o">-</span><span class="nv">Verlag</span> <span class="nv">London</span> <span class="nv">Ltd</span>., <span class="nv">London</span>},
+  <span class="nv">year</span><span class="o">=</span>{<span class="mi">2007</span>},
+  <span class="nv">publisher</span><span class="o">=</span>{<span class="nv">Springer</span>}
 }
 
-%%% Odfz1prcWxEJ  Event Processing: Designing IT Systems for Agile Companies
-@book{chandy2009event,
-  title={Event Processing: Designing IT Systems for Agile Companies},
-  author={Chandy, K and Schulte, W},
-  year={2009},
-  publisher={McGraw-Hill, Inc.}
+<span class="o">%%%</span> <span class="nv">Odfz1prcWxEJ</span>  <span class="nv">Event</span> <span class="nv">Processing</span>: <span class="nv">Designing</span> <span class="nv">IT</span> <span class="nv">Systems</span> <span class="k">for</span> <span class="nv">Agile</span> <span class="nv">Companies</span>
+@<span class="nv">book</span>{<span class="nv">chandy2009event</span>,
+  <span class="nv">title</span><span class="o">=</span>{<span class="nv">Event</span> <span class="nv">Processing</span>: <span class="nv">Designing</span> <span class="nv">IT</span> <span class="nv">Systems</span> <span class="k">for</span> <span class="nv">Agile</span> <span class="nv">Companies</span>},
+  <span class="nv">author</span><span class="o">=</span>{<span class="nv">Chandy</span>, <span class="nv">K</span> <span class="nv">and</span> <span class="nv">Schulte</span>, <span class="nv">W</span>},
+  <span class="nv">year</span><span class="o">=</span>{<span class="mi">2009</span>},
+  <span class="nv">publisher</span><span class="o">=</span>{<span class="nv">McGraw</span><span class="o">-</span><span class="nv">Hill</span>, <span class="nv">Inc</span>.}
 }
 </pre></div>
 
@@ -1216,10 +1215,9 @@ def guess():
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

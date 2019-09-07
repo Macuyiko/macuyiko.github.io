@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -86,24 +85,24 @@
 
 
 <p>Then:</p>
-<div class="highlight"><pre><span></span>sudo apt-get update
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="k">update</span>
 </pre></div>
 
 
 <p>Then, in <code>/etc/X11/xorg.conf</code>, since I use an Intel card, add to Section&nbsp;&#8220;Device&#8221;:</p>
-<div class="highlight"><pre><span></span>Option &quot;XAANoOffscreenPixmaps&quot; &quot;true&quot;
+<div class="highlight"><pre><span></span><span class="k">Option</span> <span class="ss">&quot;XAANoOffscreenPixmaps&quot;</span> <span class="ss">&quot;true&quot;</span>
 </pre></div>
 
 
 <p>And at the end of the&nbsp;file:</p>
-<div class="highlight"><pre><span></span>Section &quot;Extensions&quot;
-Option &quot;Composite&quot; &quot;true&quot;
-EndSection
+<div class="highlight"><pre><span></span><span class="n">Section</span> <span class="ss">&quot;Extensions&quot;</span>
+<span class="k">Option</span> <span class="ss">&quot;Composite&quot;</span> <span class="ss">&quot;true&quot;</span>
+<span class="n">EndSection</span>
 </pre></div>
 
 
 <p>Then install&nbsp;Beryl:</p>
-<div class="highlight"><pre><span></span>sudo apt-get install beryl-core beryl-plugins beryl-plugins-data emerald beryl-settings beryl-manager beryl beryl-dev emerald-themes
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">beryl</span><span class="o">-</span><span class="n">core</span> <span class="n">beryl</span><span class="o">-</span><span class="n">plugins</span> <span class="n">beryl</span><span class="o">-</span><span class="n">plugins</span><span class="o">-</span><span class="k">data</span> <span class="n">emerald</span> <span class="n">beryl</span><span class="o">-</span><span class="n">settings</span> <span class="n">beryl</span><span class="o">-</span><span class="n">manager</span> <span class="n">beryl</span> <span class="n">beryl</span><span class="o">-</span><span class="n">dev</span> <span class="n">emerald</span><span class="o">-</span><span class="n">themes</span>
 </pre></div>
 
 
@@ -118,10 +117,9 @@ EndSection
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

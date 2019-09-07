@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -101,38 +100,38 @@
 <p>Very new and promising analytical Java decompiler (becoming an integral part of IntelliJ 14). Supports Java up to version 6 (annotations, generics, enum&nbsp;types).</p>
 <p><a href="https://github.com/fesh0r/fernflower">Download from&nbsp;here</a></p>
 <p>It&#8217;s a command line&nbsp;tool:</p>
-<div class="highlight"><pre><span></span>java -jar fernflower.jar .\jartodecompile.jar .\decompiled
+<div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">fernflower</span><span class="p">.</span><span class="n">jar</span> <span class="p">.</span><span class="err">\</span><span class="n">jartodecompile</span><span class="p">.</span><span class="n">jar</span> <span class="p">.</span><span class="err">\</span><span class="n">decompiled</span>
 </pre></div>
 
 
 <p>But this one is able to show the Unicode parameters with their full&nbsp;name:</p>
-<div class="highlight"><pre><span></span>public float a(zy ˜ƒ, afi ˜ƒ1) {
+<div class="highlight"><pre><span></span><span class="k">public</span> <span class="nb">float</span> <span class="n">a</span><span class="p">(</span><span class="n">zy</span> <span class="err">˜ƒ</span><span class="p">,</span> <span class="n">afi</span> <span class="err">˜ƒ</span><span class="mi">1</span><span class="p">)</span> <span class="err">{</span>
 </pre></div>
 
 
 <h3><span class="caps">CFR</span></h3>
 <p><a href="http://www.benf.org/other/cfr/">Free, but not open source</a>. This one aims to decompile modern Java features, including Java 8 lambdas (pre and post Java beta 103 changes), Java 7 String switches etc., though is itself written in Java&nbsp;6.</p>
 <p>Also a command line&nbsp;tool:</p>
-<div class="highlight"><pre><span></span>java -jar cfr_0_100.jar .\jartodecompile.jar --outputdir .\decompiled
+<div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">cfr_0_100</span><span class="p">.</span><span class="n">jar</span> <span class="p">.</span><span class="err">\</span><span class="n">jartodecompile</span><span class="p">.</span><span class="n">jar</span> <span class="c1">--outputdir .\decompiled</span>
 </pre></div>
 
 
 <p>This one does an even better job and is slightly&nbsp;faster:</p>
-<div class="highlight"><pre><span></span>@Override
-public float a(zy zy, afi afi) {
+<div class="highlight"><pre><span></span><span class="nv">@Override</span><span class="w"></span>
+<span class="k">public</span><span class="w"> </span><span class="nc">float</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">zy</span><span class="w"> </span><span class="n">zy</span><span class="p">,</span><span class="w"> </span><span class="n">afi</span><span class="w"> </span><span class="n">afi</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
 </pre></div>
 
 
 <h3>Procyon</h3>
 <p><a href="https://bitbucket.org/mstrobel/procyon/wiki/Java%20Decompiler">Open source</a>, and also aims to deal with Java 8 features (lambdas, <code>::</code> operator). Needs Java 7 to&nbsp;run.</p>
 <p>Run it as&nbsp;follows:</p>
-<div class="highlight"><pre><span></span> java -jar procyon-decompiler-0.5.28.jar -o .\decompiled .\jartodecompile.jar
+<div class="highlight"><pre><span></span> <span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">procyon</span><span class="o">-</span><span class="n">decompiler</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">5</span><span class="p">.</span><span class="mi">28</span><span class="p">.</span><span class="n">jar</span> <span class="o">-</span><span class="n">o</span> <span class="p">.</span><span class="err">\</span><span class="n">decompiled</span> <span class="p">.</span><span class="err">\</span><span class="n">jartodecompile</span><span class="p">.</span><span class="n">jar</span>
 </pre></div>
 
 
 <p>Outputs:</p>
-<div class="highlight"><pre><span></span>@Override
-public float a(final zy \u2603, final afi \u2603) {
+<div class="highlight"><pre><span></span><span class="nv">@Override</span><span class="w"></span>
+<span class="k">public</span><span class="w"> </span><span class="nc">float</span><span class="w"> </span><span class="n">a</span><span class="p">(</span><span class="n">final</span><span class="w"> </span><span class="n">zy</span><span class="w"> </span><span class="err">\</span><span class="n">u2603</span><span class="p">,</span><span class="w"> </span><span class="n">final</span><span class="w"> </span><span class="n">afi</span><span class="w"> </span><span class="err">\</span><span class="n">u2603</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
 </pre></div>
 
 
@@ -144,7 +143,7 @@ Java class files and an assembler to create class&nbsp;files.</p>
 <h3>Soot</h3>
 <p>Soot is a framework for analyzing and transforming Java and Android applications, originally developed by the Sable Research Group of McGill University. It&#8217;s not very commonly used &#8220;just&#8221; as a decompiler, as it also defines an intermediate byte code&nbsp;language.</p>
 <p>Running it requires some fiddling, i.e. this is a minimal command to get things to&nbsp;run:</p>
-<div class="highlight"><pre><span></span>java -jar soot-trunk.jar -w -process-dir ./dir_with_class_files/ -pp -cp ./dir_with_libs/ -allow-phantom-refs -d ./decompiled/ -f d
+<div class="highlight"><pre><span></span><span class="n">java</span> <span class="o">-</span><span class="n">jar</span> <span class="n">soot</span><span class="o">-</span><span class="n">trunk</span><span class="p">.</span><span class="n">jar</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">process</span><span class="o">-</span><span class="n">dir</span> <span class="p">.</span><span class="o">/</span><span class="n">dir_with_class_files</span><span class="o">/</span> <span class="o">-</span><span class="n">pp</span> <span class="o">-</span><span class="n">cp</span> <span class="p">.</span><span class="o">/</span><span class="n">dir_with_libs</span><span class="o">/</span> <span class="o">-</span><span class="n">allow</span><span class="o">-</span><span class="n">phantom</span><span class="o">-</span><span class="n">refs</span> <span class="o">-</span><span class="n">d</span> <span class="p">.</span><span class="o">/</span><span class="n">decompiled</span><span class="o">/</span> <span class="o">-</span><span class="n">f</span> <span class="n">d</span>
 </pre></div>
 
 
@@ -169,10 +168,9 @@ Java class files and an assembler to create class&nbsp;files.</p>
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

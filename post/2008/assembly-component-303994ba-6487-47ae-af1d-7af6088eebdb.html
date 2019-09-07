@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -82,8 +81,8 @@
 </blockquote>
 <p>Quick research showed that this had something to do with <span class="caps">MSXML</span> 4.0. So I went <a href="http://www.microsoft.com/downloads/details.aspx?familyid=3144b72b-b4f2-46da-b4b6-c5d7485f2b42&amp;displaylang=en">here</a> and downloaded the msi installer. Which alas gave me the same&nbsp;error.</p>
 <p>It turns out you have to force an uninstall of <span class="caps">MSXML</span> 4.0 <span class="caps">SP0</span> or <span class="caps">SP1</span>, open a cmd-window and enter the following two&nbsp;lines:</p>
-<div class="highlight"><pre><span></span>msiexec /qn /x {35343FF7-939B-401A-87B3-FF90A5123D88}
-msiexec /qn /x {2AEBE10C-D819-4EBF-BC60-03BF2327D340}
+<div class="highlight"><pre><span></span><span class="n">msiexec</span> <span class="o">/</span><span class="n">qn</span> <span class="o">/</span><span class="n">x</span> <span class="err">{</span><span class="mi">35343</span><span class="n">FF7</span><span class="o">-</span><span class="mi">939</span><span class="n">B</span><span class="o">-</span><span class="mi">401</span><span class="n">A</span><span class="o">-</span><span class="mi">87</span><span class="n">B3</span><span class="o">-</span><span class="n">FF90A5123D88</span><span class="err">}</span>
+<span class="n">msiexec</span> <span class="o">/</span><span class="n">qn</span> <span class="o">/</span><span class="n">x</span> <span class="err">{</span><span class="mi">2</span><span class="n">AEBE10C</span><span class="o">-</span><span class="n">D819</span><span class="o">-</span><span class="mi">4</span><span class="n">EBF</span><span class="o">-</span><span class="n">BC60</span><span class="o">-</span><span class="mi">03</span><span class="n">BF2327D340</span><span class="err">}</span>
 </pre></div>
 
 
@@ -98,10 +97,9 @@ msiexec /qn /x {2AEBE10C-D819-4EBF-BC60-03BF2327D340}
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -79,7 +78,7 @@
 			<div class="article-summary">
 					<p>Say you have video such as <a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/">this one</a> on Facebook. Most of these come with hardcoded subtitles, which we&#8217;d like to extract (for whatever&nbsp;reason).</p>
 <p>Opening the page in Chrome and inspecting the network requests quickly uncovers the media <span class="caps">URL</span>:</p>
-<div class="highlight"><pre><span></span>https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n …</pre></div>
+<div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">video</span><span class="o">-</span><span class="n">bru2</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="n">xx</span><span class="p">.</span><span class="n">fbcdn</span><span class="p">.</span><span class="n">net</span><span class="o">/</span><span class="n">v</span><span class="o">/</span><span class="n">t42 …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html">Read more</a></p>
 			</div>
 		</article>
@@ -203,9 +202,9 @@ $(function() {
 			</header>
 			<div class="article-summary">
 					<p>If you&#8217;ve been trying to send e-mails from a program using your Gmail account, you&#8217;ll probably have encountered the following error&nbsp;message:</p>
-<div class="highlight"><pre><span></span>SMTP Error: Could not authenticate. Error: SMTP Error: Could not authenticate.
-535 5.7.1 Username and Password not accepted. Learn more at
-535 5.7 …</pre></div>
+<div class="highlight"><pre><span></span><span class="n">SMTP</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Could</span> <span class="k">not</span> <span class="n">authenticate</span><span class="p">.</span> <span class="n">Error</span><span class="p">:</span> <span class="n">SMTP</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Could</span> <span class="k">not</span> <span class="n">authenticate</span><span class="p">.</span>
+<span class="mi">535</span> <span class="mi">5</span><span class="p">.</span><span class="mi">7</span><span class="p">.</span><span class="mi">1</span> <span class="n">Username</span> <span class="k">and</span> <span class="n">Password</span> <span class="k">not</span> <span class="n">accepted</span><span class="p">.</span> <span class="n">Learn</span> <span class="k">more</span> <span class="k">at</span>
+<span class="mi">535</span> <span class="mi">5</span><span class="p">.</span><span class="mi">7 …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2016/how-to-send-html-mails-with-oauth2-and-gmail-in-python.html">Read more</a></p>
 			</div>
 		</article>
@@ -257,13 +256,12 @@ $(function() {
 		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
 		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
 		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
-		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
 	</ul>
 	
 	<div class="sidebar-title">Search</div>
 	<div style="text-align: center; margin-top: 4px;">
 		<form method="get" action="http://www.google.com/search">
-			<input type="text" name="q" style="float: left; width: 110px;" maxlength="255" value="" />
+			<input type="text" name="q" style="float: left; max-width: 140px;" maxlength="255" value="" />
 			<input type="submit" value="Go" />
 			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
 		</form>
@@ -276,10 +274,9 @@ $(function() {
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

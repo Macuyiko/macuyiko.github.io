@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -99,7 +98,7 @@
 <li><code>/INSTALL/patch.key</code></li>
 </ul>
 <p>And then execute the following command from a&nbsp;terminal:</p>
-<div class="highlight"><pre><span></span>./fixinstall
+<div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">fixinstall</span>
 </pre></div>
 
 
@@ -124,14 +123,14 @@
 <p>Now update the game, <a href="http://nwn.bioware.com/support/patch.html">download the patch here</a>. To update, just overwrite-extract the archive you have downloaded in the installation&nbsp;map.</p>
 <h3>Step 5:&nbsp;fixing</h3>
 <p>I got the following error when starting Neverwinter with the <code>./nwn</code> command:</p>
-<div class="highlight"><pre><span></span>mcop warning: user defined signal handler found for SIG_PIPE, overriding
-Creating link /home/username/.kde/socket-hostname.
-can&#39;t create mcop directory
+<div class="highlight"><pre><span></span><span class="nv">mcop</span> <span class="nv">warning</span>: <span class="nv">user</span> <span class="nv">defined</span> <span class="nv">signal</span> <span class="nv">handler</span> <span class="nv">found</span> <span class="k">for</span> <span class="nv">SIG_PIPE</span>, <span class="nv">overriding</span>
+<span class="nv">Creating</span> <span class="nv">link</span> <span class="o">/</span><span class="nv">home</span><span class="o">/</span><span class="nv">username</span><span class="o">/</span>.<span class="nv">kde</span><span class="o">/</span><span class="nv">socket</span><span class="o">-</span><span class="nv">hostname</span>.
+<span class="nv">can</span><span class="s1">&#39;</span><span class="s">t create mcop directory</span>
 </pre></div>
 
 
 <p>To fix this, I&nbsp;executed:</p>
-<div class="highlight"><pre><span></span>mkdir ~/.kde/socket-hostname
+<div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">~/</span><span class="p">.</span><span class="n">kde</span><span class="o">/</span><span class="n">socket</span><span class="o">-</span><span class="n">hostname</span>
 </pre></div>
 
 
@@ -148,10 +147,9 @@ can&#39;t create mcop directory
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

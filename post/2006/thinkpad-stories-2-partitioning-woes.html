@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -81,7 +80,7 @@
 <p>Nothing&nbsp;happens&#8230;</p>
 <p>Again? Nothing! Oh well, I had expected this. <span class="caps">NTFS</span> always gives me headaches in Linux (reading, writing, resizing, the&nbsp;works&#8230;).</p>
 <p>So I want to boot back into Windows and try some resizing&nbsp;tool.</p>
-<div class="highlight"><pre><span></span>No operating system
+<div class="highlight"><pre><span></span><span class="k">No</span> <span class="n">operating</span> <span class="k">system</span>
 </pre></div>
 
 
@@ -98,15 +97,15 @@
 <p>Yes! Only C:\ of course (the <span class="caps">FAT32</span> partition I made in Ubuntu&nbsp;installer).</p>
 <p>Okay: this takes a lot of time. Really a lot. The first steps go fast (I was happy) but after that it has to perform a truckload of post-installation installs (that bullshitware again). It&#8217;s passed&nbsp;midnight&#8230;</p>
 <p>Done: I wipe the crapware and go back to&nbsp;Ubuntu.</p>
-<div class="highlight"><pre><span></span>boot:
+<div class="highlight"><pre><span></span><span class="n">boot</span><span class="p">:</span>
 </pre></div>
 
 
 <p>I type &#8220;server&#8221; and press enter. I&#8217;m tired and fetching all that stuff now over the Internet will take too long. It installs. Grub&#8217;s being nice and detects both my Windows <span class="caps">XP</span> and Recovery&nbsp;partition.</p>
 <p>I went to bed (2 am). And did&nbsp;a</p>
-<div class="highlight"><pre><span></span>sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install ubuntu-desktop
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="k">update</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">upgrade</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">ubuntu</span><span class="o">-</span><span class="n">desktop</span>
 </pre></div>
 
 
@@ -120,10 +119,9 @@ sudo apt-get install ubuntu-desktop
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

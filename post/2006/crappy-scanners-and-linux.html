@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -82,18 +81,18 @@
 <p>Anyway: a few weeks ago, my Windows machine gave up scanning, maybe it had something to do with the fact that I was running Windows x64, I don&#8217;t know. Reinstalling drivers: no dice. Moving files around: no dice. Installing drivers for other scanners (one can try): no dice. Unplugging the damn thing and throwing it out of the window&#8230; err&#8230; no&nbsp;dice.</p>
 <p>Until now. I was thinking: &#8220;Hey look, there&#8217;s that stupid old scanner, maybe this will work on Linux&#8230;&#8221; So I promised myself that I would spent a few minutes (not more) trying to get this to work, before dumping it&nbsp;completely.</p>
 <p>I connect the scanner to a free <span class="caps">USB</span> port&#8230; nothing happens. No worries, after fiddling around I find out about <code>xsane</code> (hey, go easy on me, I&#8217;m still a bit of a Linux noob), so I try that, and get a nice bunch of error messages&#8230;&nbsp;perfect.</p>
-<div class="highlight"><pre><span></span>Failed to open device &#39;artec_eplus48u:libusb:001:002&#39;: invalid argument
+<div class="highlight"><pre><span></span><span class="n">Failed</span> <span class="k">to</span> <span class="k">open</span> <span class="n">device</span> <span class="s1">&#39;artec_eplus48u:libusb:001:002&#39;</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">argument</span>
 </pre></div>
 
 
 <p>Really? So my crappy brand scanner is actually an Artec. Fine, after searching a bit on Google I find the following suggestions, export&nbsp;this:</p>
 <p>export&nbsp;SANE_DEBUG_ARTEC_EPLUS48U=9</p>
 <p>And then run again, we now get some more&nbsp;information:</p>
-<div class="highlight"><pre><span></span>[artec_eplus48u] Try to open firmware file: &quot;/usr/share/sane/artec_eplus48u/Artec48.usb&quot;
+<div class="highlight"><pre><span></span><span class="o">[</span><span class="n">artec_eplus48u</span><span class="o">]</span><span class="w"> </span><span class="k">Try</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">open</span><span class="w"> </span><span class="n">firmware</span><span class="w"> </span><span class="k">file</span><span class="err">:</span><span class="w"> </span><span class="ss">&quot;/usr/share/sane/artec_eplus48u/Artec48.usb&quot;</span><span class="w"></span>
 
-[artec_eplus48u] Cannot open firmware file &quot;/usr/share/sane/artec_eplus48u/1200.usb&quot;
+<span class="o">[</span><span class="n">artec_eplus48u</span><span class="o">]</span><span class="w"> </span><span class="n">Cannot</span><span class="w"> </span><span class="k">open</span><span class="w"> </span><span class="n">firmware</span><span class="w"> </span><span class="k">file</span><span class="w"> </span><span class="ss">&quot;/usr/share/sane/artec_eplus48u/1200.usb&quot;</span><span class="w"></span>
 
-[artec_eplus48u] download_firmware_file failed
+<span class="o">[</span><span class="n">artec_eplus48u</span><span class="o">]</span><span class="w"> </span><span class="n">download_firmware_file</span><span class="w"> </span><span class="n">failed</span><span class="w"></span>
 </pre></div>
 
 
@@ -110,10 +109,9 @@
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

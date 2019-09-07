@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -108,7 +107,7 @@
 			</header>
 			<div class="article-summary">
 					<p>Imagine you have an Apache server set up with a virtualhost configuration listening to some domain,&nbsp;e.g.</p>
-<div class="highlight"><pre><span></span>my.domain:8080
+<div class="highlight"><pre><span></span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span>
 </pre></div>
 
 
@@ -118,7 +117,7 @@
 
 
 <p>You want to add a mod_proxy directive so&nbsp;that:</p>
-<div class="highlight"><pre><span></span>http://my.domain:8080/app_location/  ---&gt;  http://localhost:5000
+<div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">app_location</span><span class="o">/</span>  <span class="c1">---&gt;  http://localhost:5000</span>
 </pre></div>
 
 
@@ -271,13 +270,12 @@
 		<li><a href="http://www.linkedin.com/profile/view?id=26422505">LinkedIn</a></li>
 		<li><a href="mailto:macuyiko@gmail.com">E-mail</a></li>
 		<li><a href="http://macuyiko.tumblr.com/">Tumblr</a></li>
-		<li><a href="http://profiles.google.com/macuyiko">Google+</a></li>
 	</ul>
 	
 	<div class="sidebar-title">Search</div>
 	<div style="text-align: center; margin-top: 4px;">
 		<form method="get" action="http://www.google.com/search">
-			<input type="text" name="q" style="float: left; width: 110px;" maxlength="255" value="" />
+			<input type="text" name="q" style="float: left; max-width: 140px;" maxlength="255" value="" />
 			<input type="submit" value="Go" />
 			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
 		</form>
@@ -290,10 +288,9 @@
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

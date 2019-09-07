@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -84,25 +83,25 @@ This algorithm is a member of Ant colony algorithms family, in Swarm intelligenc
 </blockquote>
 <p><span class="dquo">&#8220;</span>Good paths through graphs&#8221;. I have not converted our sample problem from the previous posts to a graphing problem. So no Python sample this time,&nbsp;sorry.</p>
 <p>You do get to see some pseudocode&nbsp;though:</p>
-<div class="highlight"><pre><span></span>Given a number of nodes
-Given some edges between nodes (paths)
-Given BT := {}, this will contain our best tour
-Randomly construct a tour T
-Create a number of &quot;ants&quot; (often equal to number of nodes)
-Associate a distance, pheromone value, and delta pheromone value to every edge
-Iterate until time limit hit or satisfiable solution found:
-  For each ant do:
-    Do until tour constructed:
-    Next node is chosen depending on visibility (e.g. 1/distance) and pheromone trail
-    E.g. choose next node with probability (visibility^a)*(pheromone trail^b)
-    Calculate fitness of this tour
-    Copy this tour to the best tour if fitness is better
-    Update the pheromone trail of each edge of this ant&#39;s tour:
-    E.g. delta pheromone for edge := 1/(tour cost)
-  For each edge:
-    Lower pheromone value by a factor
-    Add delta pheromone value to pheromone value
-    Set delta pheromone := 0
+<div class="highlight"><pre><span></span><span class="nv">Given</span> <span class="nv">a</span> <span class="nv">number</span> <span class="nv">of</span> <span class="nv">nodes</span>
+<span class="nv">Given</span> <span class="nv">some</span> <span class="nv">edges</span> <span class="nv">between</span> <span class="nv">nodes</span> <span class="ss">(</span><span class="nv">paths</span><span class="ss">)</span>
+<span class="nv">Given</span> <span class="nv">BT</span> :<span class="o">=</span> {}, <span class="nv">this</span> <span class="nv">will</span> <span class="nv">contain</span> <span class="nv">our</span> <span class="nv">best</span> <span class="nv">tour</span>
+<span class="nv">Randomly</span> <span class="nv">construct</span> <span class="nv">a</span> <span class="nv">tour</span> <span class="nv">T</span>
+<span class="nv">Create</span> <span class="nv">a</span> <span class="nv">number</span> <span class="nv">of</span> <span class="s2">&quot;</span><span class="s">ants</span><span class="s2">&quot;</span> <span class="ss">(</span><span class="nv">often</span> <span class="nv">equal</span> <span class="nv">to</span> <span class="nv">number</span> <span class="nv">of</span> <span class="nv">nodes</span><span class="ss">)</span>
+<span class="nv">Associate</span> <span class="nv">a</span> <span class="nv">distance</span>, <span class="nv">pheromone</span> <span class="nv">value</span>, <span class="nv">and</span> <span class="nv">delta</span> <span class="nv">pheromone</span> <span class="nv">value</span> <span class="nv">to</span> <span class="nv">every</span> <span class="nv">edge</span>
+<span class="nv">Iterate</span> <span class="k">until</span> <span class="nv">time</span> <span class="nv">limit</span> <span class="nv">hit</span> <span class="nv">or</span> <span class="nv">satisfiable</span> <span class="nv">solution</span> <span class="nv">found</span>:
+  <span class="k">For</span> <span class="nv">each</span> <span class="nv">ant</span> <span class="k">do</span>:
+    <span class="k">Do</span> <span class="k">until</span> <span class="nv">tour</span> <span class="nv">constructed</span>:
+    <span class="k">Next</span> <span class="nv">node</span> <span class="nv">is</span> <span class="nv">chosen</span> <span class="nv">depending</span> <span class="nv">on</span> <span class="nv">visibility</span> <span class="ss">(</span><span class="nv">e</span>.<span class="nv">g</span>. <span class="mi">1</span><span class="o">/</span><span class="nv">distance</span><span class="ss">)</span> <span class="nv">and</span> <span class="nv">pheromone</span> <span class="nv">trail</span>
+    <span class="nv">E</span>.<span class="nv">g</span>. <span class="nv">choose</span> <span class="k">next</span> <span class="nv">node</span> <span class="nv">with</span> <span class="nv">probability</span> <span class="ss">(</span><span class="nv">visibility</span><span class="o">^</span><span class="nv">a</span><span class="ss">)</span><span class="o">*</span><span class="ss">(</span><span class="nv">pheromone</span> <span class="nv">trail</span><span class="o">^</span><span class="nv">b</span><span class="ss">)</span>
+    <span class="nv">Calculate</span> <span class="nv">fitness</span> <span class="nv">of</span> <span class="nv">this</span> <span class="nv">tour</span>
+    <span class="nv">Copy</span> <span class="nv">this</span> <span class="nv">tour</span> <span class="nv">to</span> <span class="nv">the</span> <span class="nv">best</span> <span class="nv">tour</span> <span class="k">if</span> <span class="nv">fitness</span> <span class="nv">is</span> <span class="nv">better</span>
+    <span class="nv">Update</span> <span class="nv">the</span> <span class="nv">pheromone</span> <span class="nv">trail</span> <span class="nv">of</span> <span class="nv">each</span> <span class="nv">edge</span> <span class="nv">of</span> <span class="nv">this</span> <span class="nv">ant</span><span class="s1">&#39;</span><span class="s">s tour:</span>
+    <span class="nv">E</span>.<span class="nv">g</span>. <span class="nv">delta</span> <span class="nv">pheromone</span> <span class="k">for</span> <span class="nv">edge</span> :<span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="ss">(</span><span class="nv">tour</span> <span class="nv">cost</span><span class="ss">)</span>
+  <span class="k">For</span> <span class="nv">each</span> <span class="nv">edge</span>:
+    <span class="nv">Lower</span> <span class="nv">pheromone</span> <span class="nv">value</span> <span class="nv">by</span> <span class="nv">a</span> <span class="nv">factor</span>
+    <span class="nv">Add</span> <span class="nv">delta</span> <span class="nv">pheromone</span> <span class="nv">value</span> <span class="nv">to</span> <span class="nv">pheromone</span> <span class="nv">value</span>
+    <span class="nv">Set</span> <span class="nv">delta</span> <span class="nv">pheromone</span> :<span class="o">=</span> <span class="mi">0</span>
 </pre></div>
 
 
@@ -130,10 +129,9 @@ Iterate until time limit hit or satisfiable solution found:
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

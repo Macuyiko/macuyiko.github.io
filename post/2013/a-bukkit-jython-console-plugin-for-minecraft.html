@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -101,7 +100,7 @@
 <p>Combine the two aspects above (modding and teaching), and you ultimately start wondering whether Minecraft could also be used to teach programming. When the Raspberry Pi put online <a href="http://www.raspberrypi.org/archives/2565">their announcement</a> that a special Minecraft version would be available for their miniature, cheap computer, the answer to this question indeed seems to be: yes, since their &#8220;Minecraft: Pi Edition&#8221; would come with a programming Python  <span class="caps">API</span> built in, as shown by the following screen&nbsp;shot.</p>
 <p><img alt="Minecraft running on the Raspberry Pi" src="http://i.imgur.com/ieZYEn2.jpg"></p>
 <p>Back on the <span class="caps">PC</span>-side, the great interest in modding Minecraft eventually led to the <a href="http://bukkit.org/">Bukkit</a> project &#8212; a community-created Minecraft server with a comprehensive <span class="caps">API</span> to allow others to create plugins, extending the world, gameplay and rules of the vanilla Minecraft experience. Minecraft server administrators also enjoy having some sort of console available to be able to modify a Minecraft world at runtime. Banning players, erecting or destroying structures or changing the time of day without having to restart indeed comes in handy when you&#8217;re running a server. The Bukkit development <span class="caps">API</span> makes it very easy to create such kinds of plugins, but they often require the list of possible commands to be specified beforehand (in the Java plugin), which are then made available through the game&#8217;s chat window. For instance, issuing the&nbsp;command:</p>
-<div class="highlight"><pre><span></span>/weather sunny
+<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">weather</span> <span class="n">sunny</span>
 </pre></div>
 
 
@@ -125,7 +124,7 @@
 <p>ScriptCraft is a Minecraft Mod that lets you extend Minecraft using the Javascript Programming Language. ScriptCraft makes modding Minecraft easier. It includes a logo-like &#8220;Drone&#8221; object that can be used to build complex buildings, roads, villages, even entire cities. It also includes many other features that make modding Minecraft&nbsp;easier.</p>
 </blockquote>
 <p>You can find more information about ScriptCraft <a href="http://walterhiggins.net/blog/YoungPersonProgrammingMinecraft">here</a> and <a href="http://walterhiggins.net/blog/ScriptCraft">here</a>. It&#8217;s certainly a great project to teach programming, but comes with the drawback that it offers programmers its own <span class="caps">API</span> (implemented in a Bukkit plugin), meaning that you&#8217;ll have to program using Bukkit chat commands, for&nbsp;instance:</p>
-<div class="highlight"><pre><span></span>/js box(&quot;5&quot;).up(3).left(4).box(&quot;1&quot;).turn(3).fwd(5).right().box(&quot;1&quot;).move(&quot;start&quot;)
+<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">js</span> <span class="n">box</span><span class="p">(</span><span class="ss">&quot;5&quot;</span><span class="p">).</span><span class="n">up</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="k">left</span><span class="p">(</span><span class="mi">4</span><span class="p">).</span><span class="n">box</span><span class="p">(</span><span class="ss">&quot;1&quot;</span><span class="p">).</span><span class="n">turn</span><span class="p">(</span><span class="mi">3</span><span class="p">).</span><span class="n">fwd</span><span class="p">(</span><span class="mi">5</span><span class="p">).</span><span class="k">right</span><span class="p">().</span><span class="n">box</span><span class="p">(</span><span class="ss">&quot;1&quot;</span><span class="p">).</span><span class="k">move</span><span class="p">(</span><span class="ss">&quot;start&quot;</span><span class="p">)</span>
 </pre></div>
 
 
@@ -218,8 +217,8 @@ Interactive interpreter&nbsp;mode</p>
 <p>That&#8217;s it for the Java side! Export your project to <code>bukkitconsole.jar</code>.</p>
 <p>We&#8217;re now going to setup the server. Create a folder <code>server</code> somewhere. Next, download <code>craftbukkit-*.jar</code> from <a href="http://dl.bukkit.org/latest-rb/craftbukkit.jar">here</a> (Bukkit is the development <span class="caps">API</span>, &#8220;CraftBukkit&#8221; is the actual server; again, more info on the <a href="http://wiki.bukkit.org/Setting_up_a_server">Wiki</a>) and put it in this&nbsp;folder.</p>
 <p>We&#8217;re also going to create a simple <code>run.bat</code> in this&nbsp;folder:</p>
-<div class="highlight"><pre><span></span>java -Xmx1024M -jar craftbukkit-*.jar -o true
-PAUSE
+<div class="highlight"><pre><span></span><span class="nv">java</span> <span class="o">-</span><span class="nv">Xmx1024M</span> <span class="o">-</span><span class="nv">jar</span> <span class="nv">craftbukkit</span><span class="o">-*</span>.<span class="nv">jar</span> <span class="o">-</span><span class="nv">o</span> <span class="nv">true</span>
+<span class="k">PAUSE</span>
 </pre></div>
 
 
@@ -306,45 +305,45 @@ PAUSE
 </ul>
 <p>The <em>real</em> solution consists of editing the plugin code itself and once again haressing the power of&nbsp;Jython&#8230;</p>
 <p>As such, we create two new Java classes. <code>SocketServer.java</code> handles the incoming client connections and creates a <code>ConnectionThread.java</code> thread per client. For each client, a new <code>InteractiveInterpreter</code> is&nbsp;spawned:</p>
-<div class="highlight"><pre><span></span>// ...
+<div class="highlight"><pre><span></span><span class="o">//</span> ...
 
-public class ConnectionThread implements Runnable {
-    //...
+<span class="nv">public</span> <span class="nv">class</span> <span class="nv">ConnectionThread</span> <span class="nv">implements</span> <span class="nv">Runnable</span> {
+    <span class="o">//</span>...
 
-    public ConnectionThread(Socket socket, SocketServer socketServer) {
-        this.socket = socket;
-        this.server = socketServer;
-        this.interpreter = new InteractiveInterpreter();
-        try {
-            this.in = new BufferedReader(new InputStreamReader(socket.getInputStream(), &quot;UTF-8&quot;));
-            this.out = new PrintStream(this.socket.getOutputStream());
-        } catch (Exception e) {
-            e.printStackTrace();
+    <span class="nv">public</span> <span class="nv">ConnectionThread</span><span class="ss">(</span><span class="nv">Socket</span> <span class="nv">socket</span>, <span class="nv">SocketServer</span> <span class="nv">socketServer</span><span class="ss">)</span> {
+        <span class="nv">this</span>.<span class="nv">socket</span> <span class="o">=</span> <span class="nv">socket</span><span class="c1">;</span>
+        <span class="nv">this</span>.<span class="nv">server</span> <span class="o">=</span> <span class="nv">socketServer</span><span class="c1">;</span>
+        <span class="nv">this</span>.<span class="nv">interpreter</span> <span class="o">=</span> <span class="nv">new</span> <span class="nv">InteractiveInterpreter</span><span class="ss">()</span><span class="c1">;</span>
+        <span class="nv">try</span> {
+            <span class="nv">this</span>.<span class="nv">in</span> <span class="o">=</span> <span class="nv">new</span> <span class="nv">BufferedReader</span><span class="ss">(</span><span class="nv">new</span> <span class="nv">InputStreamReader</span><span class="ss">(</span><span class="nv">socket</span>.<span class="nv">getInputStream</span><span class="ss">()</span>, <span class="s2">&quot;</span><span class="s">UTF-8</span><span class="s2">&quot;</span><span class="ss">))</span><span class="c1">;</span>
+            <span class="nv">this</span>.<span class="nv">out</span> <span class="o">=</span> <span class="nv">new</span> <span class="nv">PrintStream</span><span class="ss">(</span><span class="nv">this</span>.<span class="nv">socket</span>.<span class="nv">getOutputStream</span><span class="ss">())</span><span class="c1">;</span>
+        } <span class="nv">catch</span> <span class="ss">(</span><span class="nv">Exception</span> <span class="nv">e</span><span class="ss">)</span> {
+            <span class="nv">e</span>.<span class="nv">printStackTrace</span><span class="ss">()</span><span class="c1">;</span>
         }
-        this.interpreter.setOut(this.out);
-        this.interpreter.setErr(this.out);
+        <span class="nv">this</span>.<span class="nv">interpreter</span>.<span class="nv">setOut</span><span class="ss">(</span><span class="nv">this</span>.<span class="nv">out</span><span class="ss">)</span><span class="c1">;</span>
+        <span class="nv">this</span>.<span class="nv">interpreter</span>.<span class="nv">setErr</span><span class="ss">(</span><span class="nv">this</span>.<span class="nv">out</span><span class="ss">)</span><span class="c1">;</span>
     }
 
-    public void run() {
-        try {
+    <span class="nv">public</span> <span class="nv">void</span> <span class="nv">run</span><span class="ss">()</span> {
+        <span class="nv">try</span> {
 
-            //...
+            <span class="o">//</span>...
 
-            out.print(&quot;&gt;&gt;&gt; &quot;);
-            while ((line = in.readLine()) != null &amp;&amp; !line.equals(&quot;exit!&quot;)) {
-                boolean result = interpreter.runsource(line);
-                if (result)     out.print(&quot;... &quot;);
-                else            out.print(&quot;&gt;&gt;&gt; &quot;);
-                if (line.equals(&quot;stop!&quot;)) {
-                    server.getListener().close();
-                    socket.close();
-                    return;
+            <span class="nv">out</span>.<span class="nv">print</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;</span>
+            <span class="k">while</span> <span class="ss">((</span><span class="nv">line</span> <span class="o">=</span> <span class="nv">in</span>.<span class="nv">readLine</span><span class="ss">())</span> <span class="o">!=</span> <span class="nv">null</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="nv">line</span>.<span class="nv">equals</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">exit!</span><span class="s2">&quot;</span><span class="ss">))</span> {
+                <span class="nv">boolean</span> <span class="nb">result</span> <span class="o">=</span> <span class="nv">interpreter</span>.<span class="nv">runsource</span><span class="ss">(</span><span class="nv">line</span><span class="ss">)</span><span class="c1">;</span>
+                <span class="k">if</span> <span class="ss">(</span><span class="nb">result</span><span class="ss">)</span>     <span class="nv">out</span>.<span class="nv">print</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">... </span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;</span>
+                <span class="k">else</span>            <span class="nv">out</span>.<span class="nv">print</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">&gt;&gt;&gt; </span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;</span>
+                <span class="k">if</span> <span class="ss">(</span><span class="nv">line</span>.<span class="nv">equals</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">stop!</span><span class="s2">&quot;</span><span class="ss">))</span> {
+                    <span class="nv">server</span>.<span class="nv">getListener</span><span class="ss">()</span>.<span class="nv">close</span><span class="ss">()</span><span class="c1">;</span>
+                    <span class="nv">socket</span>.<span class="nv">close</span><span class="ss">()</span><span class="c1">;</span>
+                    <span class="k">return</span><span class="c1">;</span>
                 }
             }
 
-            out.println(&quot;Bye&quot;);
-            socket.close();
-        } // ...
+            <span class="nv">out</span>.<span class="nv">println</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">Bye</span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;</span>
+            <span class="nv">socket</span>.<span class="nv">close</span><span class="ss">()</span><span class="c1">;</span>
+        } <span class="o">//</span> ...
     }
 }
 </pre></div>
@@ -399,10 +398,9 @@ public class ConnectionThread implements Runnable {
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>

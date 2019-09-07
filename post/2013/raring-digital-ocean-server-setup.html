@@ -9,10 +9,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />	
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.2.1.min.js"></script>
-	<script src="//blog.macuyiko.com/theme/js/custom.modernizr.js"></script>
-	<link href='//fonts.googleapis.com/css?family=Roboto+Slab:400,700|Open+Sans|Source+Code+Pro:400,500' rel='stylesheet' type='text/css'>
-	
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 	<script type="text/javascript">
 	var waitForFinalEvent = (function () {
 		var timers = {};
@@ -25,7 +24,7 @@
 	var insertCaptions = function() {
 		$('#articlecontainer .caption').remove();
 		var width = $(window).width();
-		var onmobile = width < 960; //>
+		var onmobile = width < 1400; //>
 		var capclass = onmobile ? 'caption-below' : 'caption-aside';
 		$.each($('#articlecontainer img'), function(index, value) {
 			if ($(value).attr('alt') != undefined) {
@@ -101,97 +100,97 @@
 <h2>1. Install&nbsp;Ubuntu</h2>
 <p>This is a single-click process with DigitalOcean. I&#8217;m using Ubuntu Server 13.04 x64. You will get a root account with&nbsp;password.</p>
 <h2>2. Always be updating and&nbsp;upgrading</h2>
-<div class="highlight"><pre><span></span>apt-get update
-apt-get upgrade
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="k">update</span>
+<span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">upgrade</span>
 </pre></div>
 
 
 <h2>3. Synchronize the system&nbsp;clock</h2>
 <p>Synchronize the system clock with an <span class="caps">NTP</span> server over the&nbsp;Internet.</p>
-<div class="highlight"><pre><span></span>apt-get install ntp ntpdate
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">ntp</span> <span class="n">ntpdate</span>
 </pre></div>
 
 
 <p><span class="caps">SSH</span> is installed already, so we skip this. We also don&#8217;t have to configure our network, but you can check the hostname&nbsp;with:</p>
-<div class="highlight"><pre><span></span>hostname
+<div class="highlight"><pre><span></span><span class="n">hostname</span>
 </pre></div>
 
 
 <h2>4. Add&nbsp;users</h2>
 <p>Add some users. Adding a <code>webmaster</code> is&nbsp;recommended:</p>
-<div class="highlight"><pre><span></span>useradd -d /home/webmaster -m webmaster
-passwd webmaster
-adduser webmaster sudo
+<div class="highlight"><pre><span></span><span class="n">useradd</span> <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">webmaster</span> <span class="o">-</span><span class="n">m</span> <span class="n">webmaster</span>
+<span class="n">passwd</span> <span class="n">webmaster</span>
+<span class="n">adduser</span> <span class="n">webmaster</span> <span class="n">sudo</span>
 </pre></div>
 
 
 <h2>5. Secure <span class="caps">SSH</span></h2>
 <p>Edit <code>/etc/ssh/sshd_config</code>:</p>
-<div class="highlight"><pre><span></span># Always a good idea to not listen at the default port
-Port    44422
+<div class="highlight"><pre><span></span><span class="o">#</span> <span class="n">Always</span> <span class="n">a</span> <span class="n">good</span> <span class="n">idea</span> <span class="k">to</span> <span class="k">not</span> <span class="k">listen</span> <span class="k">at</span> <span class="n">the</span> <span class="k">default</span> <span class="n">port</span>
+<span class="n">Port</span>    <span class="mi">44422</span>
 
-# Prohibit root logins
-PermitRootLogin no
+<span class="o">#</span> <span class="n">Prohibit</span> <span class="n">root</span> <span class="n">logins</span>
+<span class="n">PermitRootLogin</span> <span class="k">no</span>
 </pre></div>
 
 
 <p>Then restart <span class="caps">SSH</span> and login again with a normal&nbsp;user:</p>
-<div class="highlight"><pre><span></span>service ssh restart
+<div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">ssh</span> <span class="k">restart</span>
 </pre></div>
 
 
 <p>Using <code>sudo su</code> should allow you to continue as&nbsp;root.</p>
 <h2>6.&nbsp;MySQL</h2>
 <p>Install MySQL. You will be asked for a root&nbsp;password.</p>
-<div class="highlight"><pre><span></span>apt-get install mysql-server mysql-client
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span> <span class="n">mysql</span><span class="o">-</span><span class="n">client</span>
 </pre></div>
 
 
 <p>We keep <code>bind-address = 127.0.0.1</code> in <code>/etc/mysql/my.cnf</code>.</p>
 <p>If you wish, you can also opt to use MariaDB&nbsp;instead.</p>
 <h2>7. Postfix for <span class="caps">SMTP</span>&nbsp;support</h2>
-<div class="highlight"><pre><span></span>apt-get install postfix procmail
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="k">postfix</span> <span class="n">procmail</span>
 </pre></div>
 
 
 <p>Make sure to pick the&nbsp;following:</p>
-<div class="highlight"><pre><span></span>General type of configuration?
- --&gt; Internet Site
+<div class="highlight"><pre><span></span><span class="k">General</span> <span class="k">type</span> <span class="k">of</span> <span class="n">configuration</span><span class="o">?</span>
+ <span class="c1">--&gt; Internet Site</span>
 </pre></div>
 
 
 <p>Run:</p>
-<div class="highlight"><pre><span></span>dpkg-reconfigure postfix
+<div class="highlight"><pre><span></span><span class="n">dpkg</span><span class="o">-</span><span class="n">reconfigure</span> <span class="k">postfix</span>
 </pre></div>
 
 
 <p>And would through the questions. Defaults are fine, but you can disable IPv6 if you want&nbsp;to.</p>
 <p>Next, we make sure to listen to local interface&nbsp;only:</p>
-<div class="highlight"><pre><span></span>postconf -e &#39;inet_interfaces = loopback-only&#39;
+<div class="highlight"><pre><span></span><span class="n">postconf</span> <span class="o">-</span><span class="n">e</span> <span class="s1">&#39;inet_interfaces = loopback-only&#39;</span>
 </pre></div>
 
 
 <p>Restart&nbsp;Postfix:</p>
-<div class="highlight"><pre><span></span>service postfix restart
+<div class="highlight"><pre><span></span><span class="n">service</span> <span class="k">postfix</span> <span class="k">restart</span>
 </pre></div>
 
 
 <h2>8. Apache/<span class="caps">PHP5</span></h2>
 <p>Install:</p>
-<div class="highlight"><pre><span></span>apt-get install apache2 apache2-mpm-prefork apache2-utils ssl-cert
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">apache2</span> <span class="n">apache2</span><span class="o">-</span><span class="n">mpm</span><span class="o">-</span><span class="n">prefork</span> <span class="n">apache2</span><span class="o">-</span><span class="n">utils</span> <span class="n">ssl</span><span class="o">-</span><span class="n">cert</span>
 
-apt-get install libapache2-mod-php5 php5 php5-common php5-curl php5-dev php5-gd php5-idn php-pear php5-imagick php5-imap php5-json php5-mcrypt php5-memcache php5-mhash php5-ming php5-mysql php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+<span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libapache2</span><span class="o">-</span><span class="k">mod</span><span class="o">-</span><span class="n">php5</span> <span class="n">php5</span> <span class="n">php5</span><span class="o">-</span><span class="n">common</span> <span class="n">php5</span><span class="o">-</span><span class="n">curl</span> <span class="n">php5</span><span class="o">-</span><span class="n">dev</span> <span class="n">php5</span><span class="o">-</span><span class="n">gd</span> <span class="n">php5</span><span class="o">-</span><span class="n">idn</span> <span class="n">php</span><span class="o">-</span><span class="n">pear</span> <span class="n">php5</span><span class="o">-</span><span class="n">imagick</span> <span class="n">php5</span><span class="o">-</span><span class="n">imap</span> <span class="n">php5</span><span class="o">-</span><span class="n">json</span> <span class="n">php5</span><span class="o">-</span><span class="n">mcrypt</span> <span class="n">php5</span><span class="o">-</span><span class="n">memcache</span> <span class="n">php5</span><span class="o">-</span><span class="n">mhash</span> <span class="n">php5</span><span class="o">-</span><span class="n">ming</span> <span class="n">php5</span><span class="o">-</span><span class="n">mysql</span> <span class="n">php5</span><span class="o">-</span><span class="n">ps</span> <span class="n">php5</span><span class="o">-</span><span class="n">pspell</span> <span class="n">php5</span><span class="o">-</span><span class="n">recode</span> <span class="n">php5</span><span class="o">-</span><span class="n">snmp</span> <span class="n">php5</span><span class="o">-</span><span class="n">sqlite</span> <span class="n">php5</span><span class="o">-</span><span class="n">tidy</span> <span class="n">php5</span><span class="o">-</span><span class="n">xmlrpc</span> <span class="n">php5</span><span class="o">-</span><span class="n">xsl</span>
 </pre></div>
 
 
 <p>Enable some&nbsp;modules:</p>
-<div class="highlight"><pre><span></span>a2enmod ssl
-a2enmod rewrite
-a2enmod suexec
-a2enmod status
-a2enmod include
+<div class="highlight"><pre><span></span><span class="nv">a2enmod</span> <span class="nv">ssl</span>
+<span class="nv">a2enmod</span> <span class="nv">rewrite</span>
+<span class="nv">a2enmod</span> <span class="nv">suexec</span>
+<span class="nv">a2enmod</span> <span class="nv">status</span>
+<span class="nv">a2enmod</span> <span class="k">include</span>
 
-/etc/init.d/apache2 force-reload
+<span class="o">/</span><span class="nv">etc</span><span class="o">/</span><span class="nv">init</span>.<span class="nv">d</span><span class="o">/</span><span class="nv">apache2</span> <span class="nv">force</span><span class="o">-</span><span class="nv">reload</span>
 </pre></div>
 
 
@@ -228,32 +227,32 @@ a2enmod include
 <p>Also, edit <code>php.ini</code> if&nbsp;needed.</p>
 <h2>9.&nbsp;Proftpd</h2>
 <p>Install&nbsp;Proftpd:</p>
-<div class="highlight"><pre><span></span>apt-get install proftpd ucf
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">proftpd</span> <span class="n">ucf</span>
 </pre></div>
 
 
 <p>Make sure to pick <code>standalone</code>.</p>
 <p>Edit <code>/etc/proftpd/proftpd.conf</code>:</p>
-<div class="highlight"><pre><span></span>DefaultRoot /
-UseIPv6 off
+<div class="highlight"><pre><span></span><span class="n">DefaultRoot</span> <span class="o">/</span>
+<span class="n">UseIPv6</span> <span class="k">off</span>
 </pre></div>
 
 
 <p>And:</p>
-<div class="highlight"><pre><span></span>service proftpd restart
+<div class="highlight"><pre><span></span><span class="n">service</span> <span class="n">proftpd</span> <span class="k">restart</span>
 </pre></div>
 
 
 <p>We don&#8217;t install phpMyAdmin anymore. <code>apt-get install phpmyadmin</code> if you want&nbsp;to.</p>
 <h2>10. Set <code>/var/www</code> permissions</h2>
 <p>Making it easy for our&nbsp;&#8220;webmaster&#8221;:</p>
-<div class="highlight"><pre><span></span>chown -R webmaster:www-data /var/www
-chmod 775 -R /var/www
+<div class="highlight"><pre><span></span><span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="n">webmaster</span><span class="p">:</span><span class="n">www</span><span class="o">-</span><span class="k">data</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span>
+<span class="n">chmod</span> <span class="mi">775</span> <span class="o">-</span><span class="n">R</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span>
 </pre></div>
 
 
 <h2>11. Install&nbsp;fail2ban</h2>
-<div class="highlight"><pre><span></span>apt-get install fail2ban
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">fail2ban</span>
 </pre></div>
 
 
@@ -269,7 +268,7 @@ chmod 775 -R /var/www
 <li>Move <span class="caps">SSL</span>&nbsp;keys</li>
 </ul>
 <p>Backup&nbsp;script:</p>
-<div class="highlight"><pre><span></span>tar cvpzf backup.tgz --exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/usr --exclude=/bin --exclude=/sbin --exclude=/backup.tgz /
+<div class="highlight"><pre><span></span><span class="n">tar</span> <span class="n">cvpzf</span> <span class="n">backup</span><span class="p">.</span><span class="n">tgz</span> <span class="c1">--exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/usr --exclude=/bin --exclude=/sbin --exclude=/backup.tgz /</span>
 </pre></div>
 
 
@@ -284,10 +283,9 @@ chmod 775 -R /var/www
 		<div class="large-12 columns">
 			<hr />
 			<div class="row">
-				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke</p>
-				<p><a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license"><img title="Creative Commons License" src="http://i.creativecommons.org/l/by-sa/2.0/be/88x31.png" /></a><br />
-				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.</p>
-				<p>Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 			</div>
 		</div>
 	</footer>
