@@ -92,7 +92,7 @@
 <p>Sadly, though, the Bukkit people encountered some legal issues and have ceased developing their server implementation. When this came to my attention, I did some browsing around and it looks like the <a href="http://canarymod.net/">CanaryMod</a> project is now the de facto way to go to set up servers with modding support. The <span class="caps">API</span> even looks similar to&nbsp;Bukkit.</p>
 <p>So to re-iterate, here&#8217;s what we are going to be making&#8230; We&#8217;re thus going to create a Canary (I use &#8220;Canary&#8221;, &#8220;CanaryMod&#8221; and &#8220;CanaryLib&#8221; interchangeably here) plugin which gives server administrators or programming students direct access to the full <a href="http://docs.visualillusionsent.net/CanaryLib/">Canary <span class="caps">API</span></a>. The actual plugin is actually very simple, thanks to the magic of Jython, a Python implementation in Java which allows for Python&lt;-&gt;Java crosstalk and saves us from having to implement any command in the plugin itself. Commands are issued on a separate console window and do not require players or server administrators to be running the game&nbsp;itself.</p>
 <p>To provide an example of what this means, let&#8217;s say you want to make a plugin which makes it rain. Normally, you&#8217;d make a plugin which binds this to a player command, say, <code>/rain</code> and would execute the&nbsp;following:</p>
-<div class="highlight"><pre><span></span><span class="n">Canary</span><span class="p">.</span><span class="n">getServer</span><span class="p">().</span><span class="n">getDefaultWorld</span><span class="p">().</span><span class="n">setRaining</span><span class="p">(</span><span class="k">true</span><span class="p">);</span>
+<div class="highlight"><pre><span></span>Canary.getServer().getDefaultWorld().setRaining(true);
 </pre></div>
 
 
@@ -111,11 +111,11 @@
 <h3>Developing the&nbsp;Plugin</h3>
 <p>We&#8217;ll be creating a Canary plugin which will spawn a server listening for incoming connection requests to obtain a Python interactive console, as well as showing a <span class="caps">GUI</span> console for the local administrator. In case you just want to get started as quickly as possible with the plugin, you can skip this&nbsp;section.</p>
 <p>First of all, we&#8217;re going to create a new Java project in Eclipse. I&#8217;ll call this <code>CanaryConsole</code>. We create a <code>Canary.inf</code> file in the project root with some basic&nbsp;information:</p>
-<div class="highlight"><pre><span></span><span class="n">main</span><span class="o">-</span><span class="k">class</span> <span class="o">=</span> <span class="n">com</span><span class="p">.</span><span class="n">macuyiko</span><span class="p">.</span><span class="n">canaryconsole</span><span class="p">.</span><span class="n">MainPlugin</span>
-<span class="n">name</span> <span class="o">=</span> <span class="n">CanaryConsole</span>
-<span class="n">author</span> <span class="o">=</span> <span class="n">Seppe</span> <span class="n">vanden</span> <span class="n">Broucke</span>
-<span class="k">version</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="p">.</span><span class="mi">0</span>
-<span class="n">isLibrary</span> <span class="o">=</span> <span class="k">false</span>
+<div class="highlight"><pre><span></span>main-class = com.macuyiko.canaryconsole.MainPlugin
+name = CanaryConsole
+author = Seppe vanden Broucke
+version = 1.0.0
+isLibrary = false
 </pre></div>
 
 
@@ -298,126 +298,126 @@
 
 
 <p>You might also want to set up some helper variables for quick&nbsp;access:</p>
-<div class="highlight"><pre><span></span><span class="n">s</span> <span class="o">=</span> <span class="n">Canary</span><span class="p">.</span><span class="n">getServer</span><span class="p">()</span>
-<span class="n">w</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">getDefaultWorld</span><span class="p">()</span>
-<span class="n">p</span> <span class="o">=</span> <span class="n">s</span><span class="p">.</span><span class="n">getPlayer</span><span class="p">(</span><span class="ss">&quot;Macuyiko&quot;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span>s = Canary.getServer()
+w = s.getDefaultWorld()
+p = s.getPlayer(&quot;Macuyiko&quot;)
 </pre></div>
 
 
 <p>You can now do things such&nbsp;as:</p>
-<div class="highlight"><pre><span></span><span class="nv">s</span>.<span class="nv">broadcastMessage</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">An administrator is present... be aware</span><span class="s2">&quot;</span><span class="ss">)</span>
-<span class="nv">w</span>.<span class="k">setTime</span><span class="ss">(</span><span class="mi">1</span><span class="ss">)</span>
-<span class="nv">w</span>.<span class="nv">setRaining</span><span class="ss">(</span><span class="nv">True</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>s.broadcastMessage(&quot;An administrator is present... be aware&quot;)
+w.setTime(1)
+w.setRaining(True)
 </pre></div>
 
 
 <p>Explosions can be created like&nbsp;so:</p>
-<div class="highlight"><pre><span></span># <span class="nv">Args</span>: <span class="nv">spawning</span> <span class="nv">entity</span><span class="c1">; position; force; does world damage</span>
-# <span class="nv">This</span> <span class="nv">one</span> <span class="nv">will</span> <span class="nv">not</span> <span class="nv">damage</span> <span class="nv">the</span> <span class="nv">player</span> <span class="ss">(</span><span class="nv">except</span> <span class="k">for</span> <span class="nv">fall</span> <span class="nv">damage</span><span class="ss">)</span>
-<span class="nv">w</span>.<span class="nv">makeExplosion</span><span class="ss">(</span><span class="nv">p</span>, <span class="nv">p</span>.<span class="nv">getPosition</span><span class="ss">()</span>, <span class="mi">8</span>, <span class="nv">True</span><span class="ss">)</span>
-# <span class="nv">This</span> <span class="nv">one</span> <span class="nv">will</span>
-<span class="nv">w</span>.<span class="nv">makeExplosion</span><span class="ss">(</span><span class="nv">None</span>, <span class="nv">p</span>.<span class="nv">getPosition</span><span class="ss">()</span>, <span class="mi">8</span>, <span class="nv">True</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span><span class="err">#</span> <span class="nt">Args</span><span class="o">:</span> <span class="nt">spawning</span> <span class="nt">entity</span><span class="o">;</span> <span class="nt">position</span><span class="o">;</span> <span class="nt">force</span><span class="o">;</span> <span class="nt">does</span> <span class="nt">world</span> <span class="nt">damage</span>
+<span class="err">#</span> <span class="nt">This</span> <span class="nt">one</span> <span class="nt">will</span> <span class="nt">not</span> <span class="nt">damage</span> <span class="nt">the</span> <span class="nt">player</span> <span class="o">(</span><span class="nt">except</span> <span class="nt">for</span> <span class="nt">fall</span> <span class="nt">damage</span><span class="o">)</span>
+<span class="nt">w</span><span class="p">.</span><span class="nc">makeExplosion</span><span class="o">(</span><span class="nt">p</span><span class="o">,</span> <span class="nt">p</span><span class="p">.</span><span class="nc">getPosition</span><span class="o">(),</span> <span class="nt">8</span><span class="o">,</span> <span class="nt">True</span><span class="o">)</span>
+<span class="err">#</span> <span class="nt">This</span> <span class="nt">one</span> <span class="nt">will</span>
+<span class="nt">w</span><span class="p">.</span><span class="nc">makeExplosion</span><span class="o">(</span><span class="nt">None</span><span class="o">,</span> <span class="nt">p</span><span class="p">.</span><span class="nc">getPosition</span><span class="o">(),</span> <span class="nt">8</span><span class="o">,</span> <span class="nt">True</span><span class="o">)</span>
 </pre></div>
 
 
 <p>If you want to create an explosion at the position where the player is looking at, you must use another class, called <code>LineTracer</code>. This replaces the Bukkit way of doing things where there was a method immediately returning the position a player was looking&nbsp;at:</p>
-<div class="highlight"><pre><span></span><span class="n">w</span><span class="p">.</span><span class="n">makeExplosion</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">LineTracer</span><span class="p">(</span><span class="n">p</span><span class="p">).</span><span class="n">getTargetBlock</span><span class="p">().</span><span class="n">getPosition</span><span class="p">(),</span> <span class="mi">8</span><span class="p">,</span> <span class="k">True</span><span class="p">)</span>
+<div class="highlight"><pre><span></span>w.makeExplosion(p, LineTracer(p).getTargetBlock().getPosition(), 8, True)
 </pre></div>
 
 
 <p>It&#8217;s a good idea to create some helper functions while you&#8217;re at&nbsp;it:</p>
-<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">glp</span><span class="ss">(</span><span class="nv">p</span><span class="ss">)</span>:
-    <span class="k">return</span> <span class="nv">LineTracer</span><span class="ss">(</span><span class="nv">p</span><span class="ss">)</span>.<span class="nv">getTargetBlock</span><span class="ss">()</span>.<span class="nv">getPosition</span><span class="ss">()</span>
-<span class="nv">def</span> <span class="nv">gpp</span><span class="ss">(</span><span class="nv">p</span><span class="ss">)</span>:
-    <span class="nv">l</span> <span class="o">=</span> <span class="nv">p</span>.<span class="nv">getPosition</span><span class="ss">()</span>
-    <span class="k">return</span> [<span class="nv">int</span><span class="ss">(</span><span class="nv">round</span><span class="ss">(</span><span class="nv">l</span>.<span class="nv">getX</span><span class="ss">()))</span>,
-        <span class="nv">int</span><span class="ss">(</span><span class="nv">round</span><span class="ss">(</span><span class="nv">l</span>.<span class="nv">getY</span><span class="ss">()))</span>,
-        <span class="nv">int</span><span class="ss">(</span><span class="nv">round</span><span class="ss">(</span><span class="nv">l</span>.<span class="nv">getZ</span><span class="ss">()))</span>]
+<div class="highlight"><pre><span></span>def glp(p):
+    return LineTracer(p).getTargetBlock().getPosition()
+def gpp(p):
+    l = p.getPosition()
+    return [int(round(l.getX())),
+        int(round(l.getY())),
+        int(round(l.getZ()))]
 </pre></div>
 
 
 <p>Which then allows to&nbsp;do:</p>
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="nv">i</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>, <span class="mi">20</span><span class="ss">)</span>:
-    <span class="nv">w</span>.<span class="nv">makeExplosion</span><span class="ss">(</span><span class="nv">p</span>, <span class="nv">glp</span><span class="ss">(</span><span class="nv">p</span><span class="ss">)</span>, <span class="mi">6</span>, <span class="nv">True</span><span class="ss">)</span>
-    <span class="nv">w</span>.<span class="nv">makeLightningBolt</span><span class="ss">(</span><span class="nv">glp</span><span class="ss">(</span><span class="nv">p</span><span class="ss">))</span>
-    <span class="nv">sleep</span><span class="ss">(</span><span class="mi">1</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>for i in range(0, 20):
+    w.makeExplosion(p, glp(p), 6, True)
+    w.makeLightningBolt(glp(p))
+    sleep(1)
 </pre></div>
 
 
 <p>Creating blocks is also pretty easy. The following will spawn some pillars around the player complete with&nbsp;lightning:</p>
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="nv">i</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>, <span class="mi">20</span><span class="ss">)</span>:
-    <span class="nv">pos</span> <span class="o">=</span> <span class="nv">gpp</span><span class="ss">(</span><span class="nv">p</span><span class="ss">)</span>
-    <span class="nv">pos</span>[<span class="mi">0</span>] <span class="o">+=</span> <span class="nv">randint</span><span class="ss">(</span><span class="o">-</span><span class="mi">10</span>,<span class="mi">10</span><span class="ss">)</span>
-    <span class="nv">pos</span>[<span class="mi">2</span>] <span class="o">+=</span> <span class="nv">randint</span><span class="ss">(</span><span class="o">-</span><span class="mi">10</span>,<span class="mi">10</span><span class="ss">)</span>
-    <span class="k">for</span> <span class="nv">z</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">1</span>] <span class="o">-</span> <span class="mi">10</span>, <span class="nv">pos</span>[<span class="mi">1</span>] <span class="o">+</span> <span class="nv">randint</span><span class="ss">(</span><span class="mi">5</span>,<span class="mi">10</span><span class="ss">))</span>:
-        <span class="nv">w</span>.<span class="nv">setBlockAt</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">0</span>], <span class="nv">z</span>, <span class="nv">pos</span>[<span class="mi">2</span>], <span class="nv">BlockType</span>.<span class="nv">CrackedStoneBrick</span><span class="ss">)</span>
-    <span class="nv">w</span>.<span class="nv">makeLightningBolt</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">0</span>], <span class="nv">pos</span>[<span class="mi">1</span>], <span class="nv">pos</span>[<span class="mi">2</span>]<span class="ss">)</span>
-    <span class="nv">sleep</span><span class="ss">(</span><span class="mi">1</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>for i in range(0, 20):
+    pos = gpp(p)
+    pos[0] += randint(-10,10)
+    pos[2] += randint(-10,10)
+    for z in range(pos[1] - 10, pos[1] + randint(5,10)):
+        w.setBlockAt(pos[0], z, pos[2], BlockType.CrackedStoneBrick)
+    w.makeLightningBolt(pos[0], pos[1], pos[2])
+    sleep(1)
 </pre></div>
 
 
 <p>Whereas the following creates a wall around the&nbsp;player:</p>
-<div class="highlight"><pre><span></span><span class="nv">pos</span> <span class="o">=</span> <span class="nv">gpp</span><span class="ss">(</span><span class="nv">p</span><span class="ss">)</span>
-<span class="k">for</span> <span class="nv">z</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">1</span>]<span class="o">-</span><span class="mi">20</span>, <span class="nv">pos</span>[<span class="mi">1</span>] <span class="o">+</span> <span class="mi">5</span><span class="ss">)</span>:
-    <span class="k">for</span> <span class="nv">x</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">0</span>]<span class="o">-</span><span class="mi">10</span>, <span class="nv">pos</span>[<span class="mi">0</span>]<span class="o">+</span><span class="mi">10</span><span class="ss">)</span>:
-        <span class="nv">w</span>.<span class="nv">setBlockAt</span><span class="ss">(</span><span class="nv">x</span>, <span class="nv">z</span>, <span class="nv">pos</span>[<span class="mi">2</span>]<span class="o">+</span><span class="mi">10</span>, <span class="nv">BlockType</span>.<span class="nv">CrackedStoneBrick</span><span class="ss">)</span>
-        <span class="nv">w</span>.<span class="nv">setBlockAt</span><span class="ss">(</span><span class="nv">x</span>, <span class="nv">z</span>, <span class="nv">pos</span>[<span class="mi">2</span>]<span class="o">-</span><span class="mi">10</span>, <span class="nv">BlockType</span>.<span class="nv">CrackedStoneBrick</span><span class="ss">)</span>
-    <span class="k">for</span> <span class="nv">y</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">2</span>]<span class="o">-</span><span class="mi">10</span>, <span class="nv">pos</span>[<span class="mi">2</span>]<span class="o">+</span><span class="mi">10</span><span class="ss">)</span>:
-        <span class="nv">w</span>.<span class="nv">setBlockAt</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">0</span>]<span class="o">+</span><span class="mi">10</span>, <span class="nv">z</span>, <span class="nv">y</span>, <span class="nv">BlockType</span>.<span class="nv">CrackedStoneBrick</span><span class="ss">)</span>
-        <span class="nv">w</span>.<span class="nv">setBlockAt</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">0</span>]<span class="o">-</span><span class="mi">10</span>, <span class="nv">z</span>, <span class="nv">y</span>, <span class="nv">BlockType</span>.<span class="nv">CrackedStoneBrick</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>pos = gpp(p)
+for z in range(pos[1]-20, pos[1] + 5):
+    for x in range(pos[0]-10, pos[0]+10):
+        w.setBlockAt(x, z, pos[2]+10, BlockType.CrackedStoneBrick)
+        w.setBlockAt(x, z, pos[2]-10, BlockType.CrackedStoneBrick)
+    for y in range(pos[2]-10, pos[2]+10):
+        w.setBlockAt(pos[0]+10, z, y, BlockType.CrackedStoneBrick)
+        w.setBlockAt(pos[0]-10, z, y, BlockType.CrackedStoneBrick)
 </pre></div>
 
 
 <p>Finally, it&#8217;s even possible to render fractals. I&#8217;m making a <a href="http://en.wikipedia.org/wiki/Mandelbulb">MandelBulb</a> here from code I borrowed&nbsp;online:</p>
-<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">vir</span><span class="ss">(</span><span class="nv">l</span>, <span class="nv">h</span>, <span class="nv">s</span>, <span class="nv">o</span><span class="ss">)</span>:
-    <span class="k">return</span> <span class="nv">l</span><span class="o">+</span><span class="ss">((</span><span class="nv">h</span><span class="o">-</span><span class="nv">l</span><span class="ss">)</span><span class="o">/</span><span class="nv">float</span><span class="ss">(</span><span class="nv">s</span><span class="ss">))</span><span class="o">*</span><span class="nv">float</span><span class="ss">(</span><span class="nv">o</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>def vir(l, h, s, o):
+    return l+((h-l)/float(s))*float(o)
 
-<span class="nv">def</span> <span class="nv">rp</span><span class="ss">(</span><span class="nv">cx</span>, <span class="nv">cy</span>, <span class="nv">cz</span>, <span class="nv">maxit</span>, <span class="nv">mandpow</span><span class="ss">)</span>:
-        <span class="nv">x</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="nv">y</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="nv">z</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="nv">i</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>, <span class="nv">maxit</span><span class="ss">)</span>:
-            <span class="k">if</span> <span class="ss">(</span><span class="nv">x</span><span class="o">*</span><span class="nv">x</span><span class="o">+</span><span class="nv">y</span><span class="o">*</span><span class="nv">y</span><span class="o">+</span><span class="nv">z</span><span class="o">*</span><span class="nv">z</span><span class="ss">)</span> <span class="o">&gt;=</span> <span class="mi">2</span>.<span class="mi">0</span>:
-                <span class="k">return</span> <span class="nv">i</span>
-            <span class="nv">r</span> <span class="o">=</span> <span class="nv">sqrt</span><span class="ss">(</span><span class="nv">x</span><span class="o">*</span><span class="nv">x</span> <span class="o">+</span> <span class="nv">y</span><span class="o">*</span><span class="nv">y</span> <span class="o">+</span> <span class="nv">z</span><span class="o">*</span><span class="nv">z</span> <span class="ss">)</span>
-            <span class="nv">theta</span> <span class="o">=</span> <span class="nv">atan2</span><span class="ss">(</span><span class="nv">sqrt</span><span class="ss">(</span><span class="nv">x</span><span class="o">*</span><span class="nv">x</span> <span class="o">+</span> <span class="nv">y</span><span class="o">*</span><span class="nv">y</span><span class="ss">)</span> , <span class="nv">z</span><span class="ss">)</span>
-            <span class="nv">phi</span> <span class="o">=</span> <span class="nv">atan2</span><span class="ss">(</span><span class="nv">y</span>,<span class="nv">x</span><span class="ss">)</span>
-            <span class="nv">rpow</span> <span class="o">=</span> <span class="nv">pow</span><span class="ss">(</span><span class="nv">r</span>,<span class="nv">mandpow</span><span class="ss">)</span>
-            <span class="nv">newx</span> <span class="o">=</span> <span class="nv">rpow</span> <span class="o">*</span> <span class="nv">sin</span><span class="ss">(</span><span class="nv">theta</span><span class="o">*</span><span class="nv">mandpow</span><span class="ss">)</span> <span class="o">*</span> <span class="nv">cos</span><span class="ss">(</span><span class="nv">phi</span><span class="o">*</span><span class="nv">mandpow</span><span class="ss">)</span>
-            <span class="nv">newy</span> <span class="o">=</span> <span class="nv">rpow</span> <span class="o">*</span> <span class="nv">sin</span><span class="ss">(</span><span class="nv">theta</span><span class="o">*</span><span class="nv">mandpow</span><span class="ss">)</span> <span class="o">*</span> <span class="nv">sin</span><span class="ss">(</span><span class="nv">phi</span><span class="o">*</span><span class="nv">mandpow</span><span class="ss">)</span>
-            <span class="nv">newz</span> <span class="o">=</span> <span class="nv">rpow</span> <span class="o">*</span> <span class="nv">cos</span><span class="ss">(</span><span class="nv">theta</span><span class="o">*</span><span class="nv">mandpow</span><span class="ss">)</span>
-            <span class="nv">x</span><span class="o">=</span><span class="nv">newx</span><span class="o">+</span><span class="nv">cx</span>
-            <span class="nv">y</span><span class="o">=</span><span class="nv">newy</span><span class="o">+</span><span class="nv">cy</span>
-            <span class="nv">z</span><span class="o">=</span><span class="nv">newz</span><span class="o">+</span><span class="nv">cz</span>
-        <span class="k">return</span> <span class="nv">maxit</span>
+def rp(cx, cy, cz, maxit, mandpow):
+        x = 0
+        y = 0
+        z = 0
+        for i in range(0, maxit):
+            if (x*x+y*y+z*z) &gt;= 2.0:
+                return i
+            r = sqrt(x*x + y*y + z*z )
+            theta = atan2(sqrt(x*x + y*y) , z)
+            phi = atan2(y,x)
+            rpow = pow(r,mandpow)
+            newx = rpow * sin(theta*mandpow) * cos(phi*mandpow)
+            newy = rpow * sin(theta*mandpow) * sin(phi*mandpow)
+            newz = rpow * cos(theta*mandpow)
+            x=newx+cx
+            y=newy+cy
+            z=newz+cz
+        return maxit
 
-<span class="nv">def</span> <span class="nv">renderFractal</span><span class="ss">(</span><span class="nv">w</span>, <span class="nv">pos</span>, <span class="nv">size</span><span class="o">=</span><span class="mi">64</span>, <span class="nv">rng</span><span class="o">=</span><span class="mi">1</span>.<span class="mi">2</span>, <span class="nv">maxit</span><span class="o">=</span><span class="mi">10</span>, <span class="nv">mandpow</span><span class="o">=</span><span class="mi">8</span>.<span class="mi">0</span><span class="ss">)</span>:
-    # <span class="nv">http</span>:<span class="o">//</span><span class="nv">www</span>.<span class="nv">skytopia</span>.<span class="nv">com</span><span class="o">/</span><span class="nv">project</span><span class="o">/</span><span class="nv">fractal</span><span class="o">/</span><span class="nv">mandelbulb</span>.<span class="nv">html</span>
-    <span class="nv">xlow</span><span class="o">=-</span><span class="nv">rng</span>
-    <span class="nv">xhigh</span><span class="o">=</span><span class="nv">rng</span>
-    <span class="nv">ylow</span><span class="o">=-</span><span class="nv">rng</span>
-    <span class="nv">yhigh</span><span class="o">=</span><span class="nv">rng</span>
-    <span class="nv">zlow</span><span class="o">=-</span><span class="nv">rng</span>
-    <span class="nv">zhigh</span><span class="o">=</span><span class="nv">rng</span>
-    <span class="k">for</span> <span class="nv">z</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>, <span class="nv">size</span><span class="ss">)</span>:
-        <span class="nv">s</span>.<span class="nv">broadcastMessage</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">z = </span><span class="s1">&#39;</span><span class="o">+</span><span class="nv">str</span><span class="ss">(</span><span class="nv">z</span><span class="ss">))</span>
-        <span class="k">for</span> <span class="nv">y</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>, <span class="nv">size</span><span class="ss">)</span>:
-            <span class="k">for</span> <span class="nv">x</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="mi">0</span>, <span class="nv">size</span><span class="ss">)</span>:
-                <span class="nv">fy</span> <span class="o">=</span> <span class="nv">vir</span><span class="ss">(</span><span class="nv">ylow</span>, <span class="nv">yhigh</span>, <span class="nv">size</span>, <span class="nv">y</span><span class="ss">)</span>
-                <span class="nv">fz</span> <span class="o">=</span> <span class="nv">vir</span><span class="ss">(</span><span class="nv">zlow</span>, <span class="nv">zhigh</span>, <span class="nv">size</span>, <span class="nv">z</span><span class="ss">)</span>
-                <span class="nv">fx</span> <span class="o">=</span> <span class="nv">vir</span><span class="ss">(</span><span class="nv">xlow</span>, <span class="nv">xhigh</span>, <span class="nv">size</span>, <span class="nv">x</span><span class="ss">)</span>
-                <span class="nv">val</span> <span class="o">=</span> <span class="nv">rp</span><span class="ss">(</span><span class="nv">fx</span>, <span class="nv">fy</span>, <span class="nv">fz</span>, <span class="nv">maxit</span>, <span class="nv">mandpow</span><span class="ss">)</span>
-                <span class="k">if</span> <span class="nv">val</span> <span class="o">&gt;=</span> <span class="ss">(</span><span class="nv">maxit</span><span class="o">-</span><span class="mi">1</span><span class="ss">)</span>:
-                    <span class="nv">w</span>.<span class="nv">setBlockAt</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">0</span>]<span class="o">-</span><span class="nv">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="nv">x</span>, <span class="nv">pos</span>[<span class="mi">1</span>]<span class="o">-</span><span class="nv">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="nv">z</span>, <span class="nv">pos</span>[<span class="mi">2</span>]<span class="o">-</span><span class="nv">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="nv">y</span>, <span class="nv">BlockType</span>.<span class="nv">WoolWhite</span><span class="ss">)</span>
-                <span class="k">else</span>:
-                    <span class="nv">w</span>.<span class="nv">setBlockAt</span><span class="ss">(</span><span class="nv">pos</span>[<span class="mi">0</span>]<span class="o">-</span><span class="nv">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="nv">x</span>, <span class="nv">pos</span>[<span class="mi">1</span>]<span class="o">-</span><span class="nv">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="nv">z</span>, <span class="nv">pos</span>[<span class="mi">2</span>]<span class="o">-</span><span class="nv">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="nv">y</span>, <span class="nv">BlockType</span>.<span class="nv">Air</span><span class="ss">)</span>
+def renderFractal(w, pos, size=64, rng=1.2, maxit=10, mandpow=8.0):
+    # http://www.skytopia.com/project/fractal/mandelbulb.html
+    xlow=-rng
+    xhigh=rng
+    ylow=-rng
+    yhigh=rng
+    zlow=-rng
+    zhigh=rng
+    for z in range(0, size):
+        s.broadcastMessage(&#39;z = &#39;+str(z))
+        for y in range(0, size):
+            for x in range(0, size):
+                fy = vir(ylow, yhigh, size, y)
+                fz = vir(zlow, zhigh, size, z)
+                fx = vir(xlow, xhigh, size, x)
+                val = rp(fx, fy, fz, maxit, mandpow)
+                if val &gt;= (maxit-1):
+                    w.setBlockAt(pos[0]-size/2+x, pos[1]-size/2+z, pos[2]-size/2+y, BlockType.WoolWhite)
+                else:
+                    w.setBlockAt(pos[0]-size/2+x, pos[1]-size/2+z, pos[2]-size/2+y, BlockType.Air)
 </pre></div>
 
 
 <p>Use like&nbsp;so:</p>
-<div class="highlight"><pre><span></span><span class="n">pos</span> <span class="o">=</span> <span class="n">gpp</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-<span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">100</span> <span class="o">#</span><span class="n">Put</span> <span class="n">the</span> <span class="n">fractal</span> <span class="k">in</span> <span class="n">the</span> <span class="n">air</span> <span class="n">a</span> <span class="nb">bit</span>
-<span class="n">renderFractal</span><span class="p">(</span><span class="n">w</span><span class="p">,</span> <span class="n">pos</span><span class="p">)</span>
+<div class="highlight"><pre><span></span>pos = gpp(p)
+pos[1] += 100 #Put the fractal in the air a bit
+renderFractal(w, pos)
 </pre></div>
 
 

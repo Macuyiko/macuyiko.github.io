@@ -77,12 +77,12 @@
 	
 	    <p>The following steps are instructions to surf the web using a Nokia N95 with 3G, connected to your Intrepid laptop via&nbsp;Bluetooth.</p>
 <h4>1. Make sure you have the required packages&nbsp;installed:</h4>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">bluez</span><span class="o">-</span><span class="n">utils</span> <span class="n">bluez</span><span class="o">-</span><span class="n">pin</span> <span class="n">ppp</span>
+<div class="highlight"><pre><span></span>sudo apt-get install bluez-utils bluez-pin ppp
 </pre></div>
 
 
 <h4>2. Find out the phone&#8217;s <span class="caps">MAC</span> address. Enable Bluetooth on phone and laptop, and enter the following&nbsp;command:</h4>
-<div class="highlight"><pre><span></span><span class="n">hcitool</span> <span class="n">scan</span>
+<div class="highlight"><pre><span></span>hcitool scan
 </pre></div>
 
 
@@ -95,7 +95,7 @@ Scanning ...
 
 <p>And note your <span class="caps">MAC</span>-address of your&nbsp;phone.</p>
 <h4>3. Find out the phone&#8217;s channel, with the N95, this might change from time to&nbsp;time:</h4>
-<div class="highlight"><pre><span></span><span class="n">sdptool</span> <span class="k">search</span> <span class="c1">--bdaddr MAC DUN | grep Channel</span>
+<div class="highlight"><pre><span></span>sdptool search --bdaddr MAC DUN | grep Channel
 </pre></div>
 
 
@@ -108,66 +108,66 @@ Channel: <span class="m">4</span>
 
 <p>Note this&nbsp;channel.</p>
 <h4>4. Edit <code>/etc/ppp/peers/BluetoothDialup</code>:</h4>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">ppp</span><span class="o">/</span><span class="n">peers</span><span class="o">/</span><span class="n">BluetoothDialup</span>
+<div class="highlight"><pre><span></span>sudo gedit /etc/ppp/peers/BluetoothDialup
 </pre></div>
 
 
 <p>Paste the&nbsp;following:</p>
-<div class="highlight"><pre><span></span><span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">rfcomm1</span> <span class="mi">115200</span>
-<span class="nv">local</span>
-<span class="nv">nocrtscts</span>
-<span class="k">connect</span> <span class="s2">&quot;</span><span class="s">/usr/sbin/chat -v -f /etc/chatscripts/proximus-gprs</span><span class="s2">&quot;</span>
-<span class="nv">noauth</span>
-<span class="nv">defaultroute</span>
-<span class="nv">usepeerdns</span>
-<span class="nv">novj</span>
-<span class="nv">remotename</span> <span class="nv">proximus</span>
-<span class="nv">debug</span>
-#<span class="nv">user</span>
-<span class="nv">lcp</span><span class="o">-</span><span class="nv">restart</span> <span class="mi">5</span>
-<span class="nv">ms</span><span class="o">-</span><span class="nv">dns</span> <span class="mi">195</span>.<span class="mi">238</span>.<span class="mi">2</span>.<span class="mi">21</span>
+<div class="highlight"><pre><span></span>/dev/rfcomm1 115200
+local
+nocrtscts
+connect &quot;/usr/sbin/chat -v -f /etc/chatscripts/proximus-gprs&quot;
+noauth
+defaultroute
+usepeerdns
+novj
+remotename proximus
+debug
+#user
+lcp-restart 5
+ms-dns 195.238.2.21
 </pre></div>
 
 
 <p>There are a few lines which you might need to change. I&#8217;m using the Belgium Proximus&nbsp;operator.</p>
 <p>First of all, change <code>/etc/chatscripts/proximus-gprs</code> to something more related to your provider (e.g.: <code>/etc/chatscripts/myprovider-gprs</code>). We&#8217;re going to create this script in the next step. Also: you might need to change the <code>ms-dns</code> entry as well (in most cases you can leave it out, but I had to add it though). Also notice that I have used <code>/dev/rfcomm1</code> as the used device, we&#8217;ll use this in the next steps as&nbsp;well.</p>
 <h4>5. Create a chatscript at <code>/etc/chatscripts/proximus-gprs</code></h4>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">chatscripts</span><span class="o">/</span><span class="n">proximus</span><span class="o">-</span><span class="n">gprs</span>
+<div class="highlight"><pre><span></span>sudo gedit /etc/chatscripts/proximus-gprs
 </pre></div>
 
 
 <p>Note that you may have chosen a different name for your chatscript in the previous&nbsp;step.</p>
 <p>Paste:</p>
-<div class="highlight"><pre><span></span><span class="nv">ABORT</span> <span class="nv">BUSY</span>
-<span class="nv">ABORT</span> <span class="s1">&#39;</span><span class="s">NO CARRIER</span><span class="s1">&#39;</span>
-<span class="nv">ABORT</span> <span class="nv">VOICE</span>
-<span class="nv">ABORT</span> <span class="s1">&#39;</span><span class="s">NO DIALTONE</span><span class="s1">&#39;</span>
-<span class="nv">ABORT</span> <span class="s1">&#39;</span><span class="s">NO DIAL TONE</span><span class="s1">&#39;</span>
-<span class="nv">ABORT</span> <span class="s1">&#39;</span><span class="s">NO ANSWER</span><span class="s1">&#39;</span>
-<span class="s2">&quot;&quot;</span> <span class="nv">ATZ</span>
-<span class="nv">OK</span> <span class="nv">AT</span><span class="o">+</span><span class="nv">CGDCONT</span><span class="o">=</span><span class="mi">1</span>,<span class="s2">&quot;</span><span class="s">IP</span><span class="s2">&quot;</span>,<span class="s2">&quot;</span><span class="s">internet.proximus.be</span><span class="s2">&quot;</span>
-<span class="nv">OK</span> <span class="nv">ATDT</span><span class="o">*</span><span class="mi">99</span>#
-<span class="k">CONNECT</span> <span class="s2">&quot;&quot;</span>
+<div class="highlight"><pre><span></span>ABORT BUSY
+ABORT &#39;NO CARRIER&#39;
+ABORT VOICE
+ABORT &#39;NO DIALTONE&#39;
+ABORT &#39;NO DIAL TONE&#39;
+ABORT &#39;NO ANSWER&#39;
+&quot;&quot; ATZ
+OK AT+CGDCONT=1,&quot;IP&quot;,&quot;internet.proximus.be&quot;
+OK ATDT*99#
+CONNECT &quot;&quot;
 </pre></div>
 
 
 <p>You need to change these entries for your provider. Look up your <span class="caps">APN</span> and data profile number. If you google for &#8220;<span class="caps">APN</span> 3g [yourprovider]&#8221; you will often find the correct results, or look <a href="http://www.iphoneuserguide.com/apple/2008/06/04/iphone3g/apn-settings-for-iphone-3g/">here</a> for APNs for many providers. The data profile number line will often be <code>OK ATDT*99#</code> or <code>OK ATDT*99***1#</code>, so try them&nbsp;both.</p>
 <h4>6. Try it&nbsp;out</h4>
 <p>Enter the following&nbsp;command:</p>
-<div class="highlight"><pre><span></span><span class="nv">rfcomm</span> <span class="k">connect</span> <span class="nv">RFCOMM</span># <span class="nv">MAC</span> <span class="nv">CHANNEL</span>
+<div class="highlight"><pre><span></span>rfcomm connect RFCOMM# MAC CHANNEL
 </pre></div>
 
 
 <p>Replace <code>RFCOMM#</code> with the <code>/dev/rfcomm</code>-number you&#8217;ve used before (only the number!), I&#8217;ve used 1. <code>MAC</code> is your phone&#8217;s <span class="caps">MAC</span> address again, and <code>CHANNEL</code> is the channel you found&nbsp;earlier.</p>
 <p>If all went well it should&nbsp;say:</p>
-<div class="highlight"><pre><span></span>$ <span class="nv">rfcomm</span> <span class="k">connect</span> <span class="mi">1</span> <span class="mi">00</span>:<span class="mi">1</span><span class="nv">C</span>:<span class="mi">9</span><span class="nv">A</span>:<span class="mi">26</span>:<span class="nv">F5</span>:<span class="nv">DD</span> <span class="mi">4</span>
-<span class="nv">Connected</span> <span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">rfcomm1</span> <span class="nv">to</span> <span class="mi">00</span>:<span class="mi">1</span><span class="nv">C</span>:<span class="mi">9</span><span class="nv">A</span>:<span class="mi">26</span>:<span class="nv">F5</span>:<span class="nv">DD</span> <span class="nv">on</span> <span class="nv">channel</span> <span class="mi">4</span>
-<span class="nv">Press</span> <span class="nv">CTRL</span><span class="o">-</span><span class="nv">C</span> <span class="k">for</span> <span class="nv">hangup</span>
+<div class="highlight"><pre><span></span>$ rfcomm connect <span class="m">1</span> <span class="m">00</span>:1C:9A:26:F5:DD <span class="m">4</span>
+Connected /dev/rfcomm1 to <span class="m">00</span>:1C:9A:26:F5:DD on channel <span class="m">4</span>
+Press CTRL-C <span class="k">for</span> hangup
 </pre></div>
 
 
 <p>Now we&#8217;re going to enable the <span class="caps">PPP</span> connection, in a <em>new</em> terminal window (keep the &#8220;<span class="caps">CTRL</span>-C for hangup&#8221;-one open),&nbsp;enter:</p>
-<div class="highlight"><pre><span></span><span class="n">pon</span> <span class="n">BluetoothDialup</span>
+<div class="highlight"><pre><span></span>pon BluetoothDialup
 </pre></div>
 
 
@@ -185,13 +185,13 @@ Channel: <span class="m">4</span>
 
 
 <p>If you&#8217;re done surfing the internet, turn off <span class="caps">PPP</span>:</p>
-<div class="highlight"><pre><span></span><span class="n">poff</span>
+<div class="highlight"><pre><span></span>poff
 </pre></div>
 
 
 <p>Press <span class="caps">CTRL</span>-C in that other terminal window to break the&nbsp;Bluetooth/3G-connection.</p>
 <p><strong>Note:</strong> if you&#8217;ve done something wrong (e.g.: used the wrong channel), you can release rfcomm&#8217;s&nbsp;with:</p>
-<div class="highlight"><pre><span></span><span class="n">rfcomm</span> <span class="n">release</span> <span class="n">RFCOMM</span><span class="o">#</span>
+<div class="highlight"><pre><span></span>rfcomm release RFCOMM#
 </pre></div>
 
 
@@ -199,7 +199,7 @@ Channel: <span class="m">4</span>
 <h4>Optional steps: use gnome-ppp to&nbsp;connect</h4>
 <p>If you have <code>gnome-ppp</code> installed, you can also use a graphical interface to configure the above&nbsp;steps.</p>
 <p>First of all, you still have to&nbsp;execute:</p>
-<div class="highlight"><pre><span></span><span class="nv">rfcomm</span> <span class="k">connect</span> <span class="nv">RFCOMM</span># <span class="nv">MAC</span> <span class="nv">CHANNEL</span>
+<div class="highlight"><pre><span></span>rfcomm connect RFCOMM# MAC CHANNEL
 </pre></div>
 
 

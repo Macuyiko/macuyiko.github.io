@@ -76,7 +76,7 @@
 		</header>
 	
 	    <p>Imagine you have an Apache server set up with a virtualhost configuration listening to some domain,&nbsp;e.g.</p>
-<div class="highlight"><pre><span></span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span>
+<div class="highlight"><pre><span></span>my.domain:8080
 </pre></div>
 
 
@@ -86,20 +86,20 @@
 
 
 <p>You want to add a mod_proxy directive so&nbsp;that:</p>
-<div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">app_location</span><span class="o">/</span>  <span class="c1">---&gt;  http://localhost:5000</span>
+<div class="highlight"><pre><span></span>http://my.domain:8080/app_location/  ---&gt;  http://localhost:5000
 </pre></div>
 
 
 <p>Most resources will suggest the&nbsp;following:</p>
-<div class="highlight"><pre><span></span><span class="n">ProxyPass</span> <span class="o">/</span><span class="n">app_location</span><span class="o">/</span>  <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">5000</span><span class="o">/</span>
-<span class="o">#</span> <span class="n">Wrong</span><span class="p">:</span>
-<span class="n">ProxyPassReverse</span> <span class="o">/</span><span class="n">app_location</span><span class="o">/</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">5000</span><span class="o">/</span>
+<div class="highlight"><pre><span></span>ProxyPass /app_location/  http://localhost:5000/
+# Wrong:
+ProxyPassReverse /app_location/ http://localhost:5000/
 </pre></div>
 
 
 <p>However, you should follow the advice from <a href="http://alex.eftimie.ro/2013/03/21/how-to-run-flask-application-in-a-subpath-using-apache-mod_proxy/">this post</a> and&nbsp;use:</p>
-<div class="highlight"><pre><span></span><span class="n">ProxyPass</span> <span class="o">/</span><span class="n">app_location</span><span class="o">/</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">localhost</span><span class="p">:</span><span class="mi">5000</span><span class="o">/</span>
-<span class="n">ProxyPassReverse</span> <span class="o">/</span><span class="n">app_location</span><span class="o">/</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">app_location</span><span class="o">/</span>
+<div class="highlight"><pre><span></span>ProxyPass /app_location/ http://localhost:5000/
+ProxyPassReverse /app_location/ http://my.domain:8080/app_location/
 </pre></div>
 
 
@@ -137,8 +137,8 @@
 
 
 <p>Then set up your app&nbsp;using:</p>
-<div class="highlight"><pre><span></span><span class="n">app</span> <span class="o">=</span> <span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
-<span class="n">app</span><span class="p">.</span><span class="n">wsgi_app</span> <span class="o">=</span> <span class="n">ReverseProxied</span><span class="p">(</span><span class="n">app</span><span class="p">.</span><span class="n">wsgi_app</span><span class="p">,</span> <span class="n">script_name</span><span class="o">=</span><span class="s1">&#39;/app_location&#39;</span><span class="p">)</span>
+<div class="highlight"><pre><span></span>app = Flask(__name__)
+app.wsgi_app = ReverseProxied(app.wsgi_app, script_name=&#39;/app_location&#39;)
 </pre></div>
 	</article>
 </div>

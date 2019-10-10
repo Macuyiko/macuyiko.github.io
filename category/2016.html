@@ -77,9 +77,9 @@
 			</header>
 			<div class="article-summary">
 					<p>If you&#8217;ve been trying to send e-mails from a program using your Gmail account, you&#8217;ll probably have encountered the following error&nbsp;message:</p>
-<div class="highlight"><pre><span></span><span class="n">SMTP</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Could</span> <span class="k">not</span> <span class="n">authenticate</span><span class="p">.</span> <span class="n">Error</span><span class="p">:</span> <span class="n">SMTP</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Could</span> <span class="k">not</span> <span class="n">authenticate</span><span class="p">.</span>
-<span class="mi">535</span> <span class="mi">5</span><span class="p">.</span><span class="mi">7</span><span class="p">.</span><span class="mi">1</span> <span class="n">Username</span> <span class="k">and</span> <span class="n">Password</span> <span class="k">not</span> <span class="n">accepted</span><span class="p">.</span> <span class="n">Learn</span> <span class="k">more</span> <span class="k">at</span>
-<span class="mi">535</span> <span class="mi">5</span><span class="p">.</span><span class="mi">7 …</span></pre></div>
+<div class="highlight"><pre><span></span>SMTP Error: Could not authenticate. Error: SMTP Error: Could not authenticate.
+535 5.7.1 Username and Password not accepted. Learn more at
+535 5.7 …</pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2016/how-to-send-html-mails-with-oauth2-and-gmail-in-python.html">Read more</a></p>
 			</div>
 		</article>
@@ -136,7 +136,7 @@
 			</header>
 			<div class="article-summary">
 					<p>Imagine you have an Apache server set up with a virtualhost configuration listening to some domain,&nbsp;e.g.</p>
-<div class="highlight"><pre><span></span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span>
+<div class="highlight"><pre><span></span>my.domain:8080
 </pre></div>
 
 
@@ -146,7 +146,7 @@
 
 
 <p>You want to add a mod_proxy directive so&nbsp;that:</p>
-<div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">app_location</span><span class="o">/</span>  <span class="c1">---&gt;  http://localhost:5000</span>
+<div class="highlight"><pre><span></span>http://my.domain:8080/app_location/  ---&gt;  http://localhost:5000
 </pre></div>
 
 

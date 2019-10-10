@@ -76,9 +76,9 @@
 		</header>
 	
 	    <p>If you&#8217;ve been trying to send e-mails from a program using your Gmail account, you&#8217;ll probably have encountered the following error&nbsp;message:</p>
-<div class="highlight"><pre><span></span><span class="n">SMTP</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Could</span> <span class="k">not</span> <span class="n">authenticate</span><span class="p">.</span> <span class="n">Error</span><span class="p">:</span> <span class="n">SMTP</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Could</span> <span class="k">not</span> <span class="n">authenticate</span><span class="p">.</span>
-<span class="mi">535</span> <span class="mi">5</span><span class="p">.</span><span class="mi">7</span><span class="p">.</span><span class="mi">1</span> <span class="n">Username</span> <span class="k">and</span> <span class="n">Password</span> <span class="k">not</span> <span class="n">accepted</span><span class="p">.</span> <span class="n">Learn</span> <span class="k">more</span> <span class="k">at</span>
-<span class="mi">535</span> <span class="mi">5</span><span class="p">.</span><span class="mi">7</span><span class="p">.</span><span class="mi">1</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">mail</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">support</span><span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">answer</span><span class="p">.</span><span class="n">py</span><span class="o">?</span><span class="n">answer</span><span class="o">=</span><span class="mi">14257</span> <span class="n">p38sm2467302ybk</span><span class="p">.</span><span class="mi">16</span>
+<div class="highlight"><pre><span></span>SMTP Error: Could not authenticate. Error: SMTP Error: Could not authenticate.
+535 5.7.1 Username and Password not accepted. Learn more at
+535 5.7.1 http://mail.google.com/support/bin/answer.py?answer=14257 p38sm2467302ybk.16
 </pre></div>
 
 
@@ -248,15 +248,15 @@
 
 
 <p>Don&#8217;t forget to&nbsp;change:</p>
-<div class="highlight"><pre><span></span><span class="n">GOOGLE_CLIENT_ID</span> <span class="o">=</span> <span class="s1">&#39;&lt;FILL ME IN&gt;&#39;</span>
-<span class="n">GOOGLE_CLIENT_SECRET</span> <span class="o">=</span> <span class="s1">&#39;&lt;FILL ME IN&gt;&#39;</span>
+<div class="highlight"><pre><span></span>GOOGLE_CLIENT_ID = &#39;&lt;FILL ME IN&gt;&#39;
+GOOGLE_CLIENT_SECRET = &#39;&lt;FILL ME IN&gt;&#39;
 </pre></div>
 
 
 <p>Next, just simply run the code. Since we don&#8217;t have a <code>GOOGLE_REFRESH_TOKEN</code> yet, the following will appear on the&nbsp;screen:</p>
-<div class="highlight"><pre><span></span><span class="k">No</span> <span class="n">refresh</span> <span class="n">token</span> <span class="k">found</span><span class="p">,</span> <span class="n">obtaining</span> <span class="n">one</span>
-<span class="n">Navigate</span> <span class="k">to</span> <span class="n">the</span> <span class="n">following</span> <span class="n">URL</span> <span class="k">to</span> <span class="n">auth</span><span class="p">:</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">accounts</span><span class="p">.</span><span class="n">google</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">o</span><span class="o">/</span><span class="n">oauth2</span><span class="o">/</span><span class="n">auth</span><span class="o">?</span><span class="n">client_id</span><span class="o">=</span> <span class="p">[...]</span>
-<span class="n">Enter</span> <span class="n">verification</span> <span class="n">code</span><span class="p">:</span>
+<div class="highlight"><pre><span></span>No refresh token found, obtaining one
+Navigate to the following URL to auth: https://accounts.google.com/o/oauth2/auth?client_id= [...]
+Enter verification code:
 </pre></div>
 
 
@@ -265,18 +265,18 @@
 <p>After pressing &#8220;Accept&#8221;, Google will present you with a verification&nbsp;code:</p>
 <p><img alt="Press accept to accept" src="http://blog.macuyiko.com/images/2016/step_6.png"></p>
 <p>Enter this in the running&nbsp;prompt:</p>
-<div class="highlight"><pre><span></span><span class="n">Enter</span> <span class="n">verification</span> <span class="n">code</span><span class="p">:</span> <span class="o">&lt;</span><span class="n">ENTER</span> <span class="n">YOUR</span> <span class="n">VERIFICATION</span> <span class="n">CODE</span><span class="o">&gt;</span>
-<span class="k">Set</span> <span class="n">the</span> <span class="n">following</span> <span class="k">as</span> <span class="n">your</span> <span class="n">GOOGLE_REFRESH_TOKEN</span><span class="p">:</span> <span class="p">[...]</span> <span class="mi">1</span><span class="n">bA</span> <span class="p">[...]</span>
+<div class="highlight"><pre><span></span>Enter verification code: &lt;ENTER YOUR VERIFICATION CODE&gt;
+Set the following as your GOOGLE_REFRESH_TOKEN: [...] 1bA [...]
 </pre></div>
 
 
 <p>Now modify the Python script to fill in the refresh token with the value you got&nbsp;back:</p>
-<div class="highlight"><pre><span></span><span class="n">GOOGLE_REFRESH_TOKEN</span> <span class="o">=</span> <span class="s1">&#39;[...] 1bA [...]&#39;</span>
+<div class="highlight"><pre><span></span>GOOGLE_REFRESH_TOKEN = &#39;[...] 1bA [...]&#39;
 </pre></div>
 
 
 <p>Step 4: start sending mail. Change the following line with your Gmail&nbsp;address:</p>
-<div class="highlight"><pre><span></span><span class="n">send_mail</span><span class="p">(</span><span class="s1">&#39;--------@gmail.com&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;--------@gmail.com&#39;</span><span class="p">,</span><span class="w"></span>
+<div class="highlight"><pre><span></span>send_mail(&#39;--------@gmail.com&#39;, &#39;--------@gmail.com&#39;,
 </pre></div>
 
 

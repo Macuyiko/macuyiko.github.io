@@ -76,23 +76,23 @@
 		</header>
 	
 	    <p>Just found this, pretty&nbsp;handy!</p>
-<div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">browser</span> <span class="n">detection</span>
-<span class="n">var</span> <span class="n">isIE</span> <span class="o">=</span> <span class="n">document</span><span class="p">.</span><span class="k">all</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isIE7</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">XMLHttpRequest</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">ActiveXObject</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isIE6</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">document</span><span class="p">.</span><span class="k">implementation</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isgteIE6</span> <span class="o">=</span> <span class="n">isIE7</span> <span class="n">isIE6</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isIE5</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">print</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isgteIE6</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isIEDOM2</span> <span class="o">=</span> <span class="n">isIE5</span> <span class="n">isgteIE6</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isIE4</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span> <span class="o">&amp;&amp;</span> <span class="n">navigator</span><span class="p">.</span><span class="n">cookieEnabled</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isIE3</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIE4</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isNS</span> <span class="o">=</span> <span class="n">navigator</span><span class="p">.</span><span class="n">mimeTypes</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIE</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isNS3</span> <span class="o">=</span> <span class="n">isNS</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">navigator</span><span class="p">.</span><span class="k">language</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isNS4</span> <span class="o">=</span> <span class="n">document</span><span class="p">.</span><span class="n">layers</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isNS6</span> <span class="o">=</span> <span class="n">document</span><span class="p">.</span><span class="n">getElementById</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIE</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isNS7</span> <span class="o">=</span> <span class="n">isNS6</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isNS71</span> <span class="o">=</span> <span class="n">document</span><span class="p">.</span><span class="n">designMode</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isNSDOM2</span> <span class="o">=</span> <span class="n">isNS6</span><span class="p">;</span>
-<span class="n">var</span> <span class="n">isDOM2</span> <span class="o">=</span> <span class="n">isIEDOM2</span> <span class="n">isNSDOM2</span><span class="p">;</span>
+<div class="highlight"><pre><span></span>// browser detection
+var isIE = document.all;
+var isIE7 = isIE &amp;&amp; window.XMLHttpRequest &amp;&amp; window.ActiveXObject;
+var isIE6 = isIE &amp;&amp; document.implementation;
+var isgteIE6 = isIE7 isIE6;
+var isIE5 = isIE &amp;&amp; window.print &amp;&amp; !isgteIE6;
+var isIEDOM2 = isIE5 isgteIE6;
+var isIE4 = isIE &amp;&amp; !isIEDOM2 &amp;&amp; navigator.cookieEnabled;
+var isIE3 = isIE &amp;&amp; !isIE4 &amp;&amp; !isIEDOM2;
+var isNS = navigator.mimeTypes &amp;&amp; !isIE;
+var isNS3 = isNS &amp;&amp; !navigator.language;
+var isNS4 = document.layers;
+var isNS6 = document.getElementById &amp;&amp; !isIE;
+var isNS7 = isNS6;
+var isNS71 = document.designMode;
+var isNSDOM2 = isNS6;
+var isDOM2 = isIEDOM2 isNSDOM2;
 </pre></div>
 	</article>
 </div>

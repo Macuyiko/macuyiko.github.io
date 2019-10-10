@@ -90,75 +90,75 @@
 </ul>
 <p>(Note: it is possible to find many (free) games on the internet which do include some of these&nbsp;features.)</p>
 <p>For example, one of the maps provided in the package looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="o">########</span>
-<span class="o">#</span><span class="mi">1</span>     <span class="o">#</span>
-<span class="o">#</span>      <span class="o">#</span>
-<span class="o">#</span>      <span class="o">#</span>
-<span class="o">#</span>      <span class="o">#</span>
-<span class="o">#</span>      <span class="o">#</span>
-<span class="o">#</span>     <span class="mi">2</span><span class="o">#</span>
-<span class="o">########</span>
+<div class="highlight"><pre><span></span>########
+#1     #
+#      #
+#      #
+#      #
+#      #
+#     2#
+########
 </pre></div>
 
 
 <p><code>#</code> stands for a wall, and <code>1</code> and <code>2</code> are our two players on their starting&nbsp;positions.</p>
 <p>Let&#8217;s pit them against each other and see how they fare. We provide them with a very basic mode of intelligence: just pick any random direction if the space is free if&nbsp;possible.</p>
 <p>After the first move, the board looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="o">########</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">#</span><span class="mi">1</span>     <span class="o">#</span>
-<span class="o">#</span>      <span class="o">#</span>
-<span class="o">#</span>      <span class="o">#</span>
-<span class="o">#</span>     <span class="mi">2</span><span class="o">#</span>
-<span class="o">#</span>     <span class="o">##</span>
-<span class="o">########</span>
+<div class="highlight"><pre><span></span>########
+##     #
+#1     #
+#      #
+#      #
+#     2#
+#     ##
+########
 </pre></div>
 
 
 <p>See how they both leave a wall behind them? Note that diagonal moves are forbidden. A few moves later, the situation looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="o">########</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">###</span>    <span class="o">#</span>
-<span class="o">#</span> <span class="mi">1</span>  <span class="o">###</span>
-<span class="o">#</span>  <span class="mi">2</span><span class="o">####</span>
-<span class="o">########</span>
+<div class="highlight"><pre><span></span>########
+##     #
+##     #
+##     #
+###    #
+# 1  ###
+#  2####
+########
 </pre></div>
 
 
 <p>If player 1 now decides to go right, and player 2 decides to go up, they will crash into each other and the game will end with a draw. This actual run turns out to be a bit more&nbsp;dramatic:</p>
-<div class="highlight"><pre><span></span><span class="o">########</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">###</span>    <span class="o">#</span>
-<span class="o">#</span><span class="mi">1</span><span class="o">#</span><span class="mi">2</span> <span class="o">###</span>
-<span class="o">#</span>  <span class="o">#####</span>
-<span class="o">########</span>
+<div class="highlight"><pre><span></span>########
+##     #
+##     #
+##     #
+###    #
+#1#2 ###
+#  #####
+########
 </pre></div>
 
 
 <p>Player 1 has gone left, and 2 has gone up and the players are now separated from each other. Unless player 2 does something really stupid, it is clear that 1 will&nbsp;lose&#8230;</p>
-<div class="highlight"><pre><span></span><span class="o">########</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">###</span>    <span class="o">#</span>
-<span class="o">####</span><span class="mi">2</span><span class="o">###</span>
-<span class="o">#</span><span class="mi">1</span> <span class="o">#####</span>
-<span class="o">########</span>
+<div class="highlight"><pre><span></span>########
+##     #
+##     #
+##     #
+###    #
+####2###
+#1 #####
+########
 
-    <span class="p">...</span>
+    ...
 
-<span class="o">########</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">##</span>     <span class="o">#</span>
-<span class="o">###</span> <span class="mi">2</span>  <span class="o">#</span>
-<span class="o">########</span>
-<span class="o">##</span><span class="mi">1</span><span class="o">#####</span>
-<span class="o">########</span>
+########
+##     #
+##     #
+##     #
+### 2  #
+########
+##1#####
+########
 </pre></div>
 
 
@@ -201,17 +201,17 @@
 <li>Once we are separated: try to fill our available moves in the best possible&nbsp;way.</li>
 </ul>
 <p>To find out if we&#8217;re separated (and our available spaces), we can use a <a href="http://en.wikipedia.org/wiki/Flood_fill">flood fill algorithm</a>. An implementation in Python could look like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">flood_fill</span><span class="ss">(</span><span class="nv">board</span>, <span class="nv">startpos</span><span class="ss">)</span>:
-  <span class="nv">expand</span> <span class="o">=</span> [<span class="nv">startpos</span>]
-  <span class="nv">done</span> <span class="o">=</span> []
-  <span class="k">while</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">expand</span><span class="ss">)</span> <span class="nv">is</span> <span class="nv">not</span> <span class="mi">0</span>:
-    <span class="nv">pos</span> <span class="o">=</span> <span class="nv">expand</span>.<span class="nv">pop</span><span class="ss">()</span>
-    <span class="nv">done</span>.<span class="nv">append</span><span class="ss">(</span><span class="nv">pos</span><span class="ss">)</span>
-    <span class="k">for</span> <span class="nv">dir</span> <span class="nv">in</span> <span class="nv">tron</span>.<span class="nv">DIRECTIONS</span>:
-      <span class="nv">dest</span> <span class="o">=</span> <span class="nv">board</span>.<span class="nv">rel</span><span class="ss">(</span><span class="nv">dir</span>, <span class="nv">pos</span><span class="ss">)</span>
-      <span class="k">if</span> <span class="nv">board</span>.<span class="nv">passable</span><span class="ss">(</span><span class="nv">dest</span><span class="ss">)</span> <span class="nv">and</span> <span class="nv">dest</span> <span class="nv">not</span> <span class="nv">in</span> <span class="nv">done</span> <span class="nv">and</span> <span class="nv">dest</span> <span class="nv">not</span> <span class="nv">in</span> <span class="nv">expand</span>:
-      <span class="nv">expand</span>.<span class="nv">append</span><span class="ss">(</span><span class="nv">dest</span><span class="ss">)</span>
-  <span class="k">return</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">done</span><span class="ss">)</span>`
+<div class="highlight"><pre><span></span>def flood_fill(board, startpos):
+  expand = [startpos]
+  done = []
+  while len(expand) is not 0:
+    pos = expand.pop()
+    done.append(pos)
+    for dir in tron.DIRECTIONS:
+      dest = board.rel(dir, pos)
+      if board.passable(dest) and dest not in done and dest not in expand:
+      expand.append(dest)
+  return len(done)`
 </pre></div>
 
 
@@ -260,90 +260,90 @@
 <h3>Before we continue: a quick look at some other&nbsp;projects</h3>
 <p>Now that we have a basic understanding of the workings of a Tron bot and strategy, we can Google around to see if we come up with some interesting projects using these methods. Let&#8217;s see what some of the open source Tron games are using as a&nbsp;strategy.</p>
 <p><strong>KTron</strong>&#8216;s source can be <a href="http://websvn.kde.org/trunk/KDE/kdegames/ktron/intelligence.cpp?view=markup">viewed online</a>. We notice the following&nbsp;comment:</p>
-<div class="highlight"><pre><span></span><span class="o">//</span><span class="w"> </span><span class="n">This</span><span class="w"> </span><span class="n">part</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">partly</span><span class="w"> </span><span class="n">ported</span><span class="w"> </span><span class="k">from</span><span class="w"></span>
-<span class="o">//</span><span class="w"> </span><span class="n">xtron</span><span class="o">-</span><span class="mf">1.1</span><span class="w"> </span><span class="k">by</span><span class="w"> </span><span class="n">Rhett</span><span class="w"> </span><span class="n">D</span><span class="p">.</span><span class="w"> </span><span class="n">Jacobs</span><span class="w"> </span><span class="p">(</span><span class="n">rhett</span><span class="nv">@hotel</span><span class="p">.</span><span class="o">[</span><span class="n">...</span><span class="o">]</span><span class="p">)</span><span class="err">`</span><span class="w"></span>
+<div class="highlight"><pre><span></span>// This part is partly ported from
+// xtron-1.1 by Rhett D. Jacobs (rhett@hotel.[...])`
 </pre></div>
 
 
 <p>We thus take a look at <strong>xtron</strong>, you can find the source package <a href="http://packages.debian.org/source/squeeze/xtron">here</a>. <code>main.c</code> contains the <code>think</code> routine:</p>
-<div class="highlight"><pre><span></span><span class="cm">/* artificial intelligence routines for computer player */</span>
-<span class="nv">void</span> <span class="nv">think</span><span class="ss">(</span><span class="nv">int</span> <span class="nv">p_num</span><span class="ss">)</span>
-{
-  <span class="nv">enum</span> <span class="nv">directions</span> <span class="nv">sides</span>[<span class="mi">2</span>]<span class="c1">;</span>
-  <span class="nv">int</span> <span class="nv">flags</span>[<span class="mi">6</span>] <span class="o">=</span> {<span class="mi">0</span>,<span class="mi">0</span>,<span class="mi">0</span>,<span class="mi">0</span>,<span class="mi">0</span>,<span class="mi">0</span>}<span class="c1">;</span>
-  <span class="nv">int</span> <span class="nv">index</span>[<span class="mi">2</span>]<span class="c1">;</span>
-  <span class="nv">int</span> <span class="nv">dis_forward</span>,  <span class="nv">dis_left</span>, <span class="nv">dis_right</span><span class="c1">;</span>
-  <span class="nv">dis_forward</span> <span class="o">=</span> <span class="nv">dis_left</span> <span class="o">=</span> <span class="nv">dis_right</span> <span class="o">=</span> <span class="mi">1</span><span class="c1">;</span>
+<div class="highlight"><pre><span></span><span class="cm">/* artificial intelligence routines for computer player */</span><span class="w"></span>
+void<span class="w"> </span>think<span class="o">(</span>int<span class="w"> </span>p_num<span class="o">)</span><span class="w"></span>
+<span class="err">{</span><span class="w"></span>
+<span class="w">  </span>enum<span class="w"> </span>directions<span class="w"> </span>sides<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
+<span class="w">  </span>int<span class="w"> </span>flags<span class="err">[</span><span class="m">6</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="o">,</span><span class="m">0</span><span class="err">};</span><span class="w"></span>
+<span class="w">  </span>int<span class="w"> </span>index<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
+<span class="w">  </span>int<span class="w"> </span>dis_forward<span class="o">,</span><span class="w">  </span>dis_left<span class="o">,</span><span class="w"> </span>dis_right<span class="err">;</span><span class="w"></span>
+<span class="w">  </span>dis_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span>dis_left<span class="w"> </span><span class="o">=</span><span class="w"> </span>dis_right<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="err">;</span><span class="w"></span>
 
-  <span class="nv">switch</span> <span class="ss">(</span><span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">plr_dir</span><span class="ss">)</span> {
-  <span class="nv">case</span> <span class="nv">left</span>:
-    <span class="cm">/* forward flags */</span>
-    <span class="nv">flags</span>[<span class="mi">0</span>] <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="c1">;</span>
-    <span class="nv">flags</span>[<span class="mi">1</span>] <span class="o">=</span> <span class="mi">0</span><span class="c1">;</span>
-    <span class="cm">/* left flags */</span>
-    <span class="nv">flags</span>[<span class="mi">2</span>] <span class="o">=</span> <span class="mi">0</span><span class="c1">;</span>
-    <span class="nv">flags</span>[<span class="mi">3</span>] <span class="o">=</span> <span class="mi">1</span><span class="c1">;</span>
-    <span class="cm">/* right flags */</span>
-    <span class="nv">flags</span>[<span class="mi">4</span>] <span class="o">=</span> <span class="mi">0</span><span class="c1">;</span>
-    <span class="nv">flags</span>[<span class="mi">5</span>] <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="c1">;</span>
-    <span class="cm">/* turns to either side */</span>
-    <span class="nv">sides</span>[<span class="mi">0</span>] <span class="o">=</span> <span class="nv">down</span><span class="c1">;</span>
-    <span class="nv">sides</span>[<span class="mi">1</span>] <span class="o">=</span> <span class="nv">up</span><span class="c1">;</span>
-    <span class="k">break</span><span class="c1">;</span>
-  <span class="o">//</span>...
-  }
+<span class="w">  </span>switch<span class="w"> </span><span class="o">(</span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">  </span>case<span class="w"> </span><span class="nl">left</span><span class="o">:</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* forward flags */</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="m">1</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* left flags */</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">2</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">3</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* right flags */</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">4</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span>flags<span class="err">[</span><span class="m">5</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">-</span><span class="m">1</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* turns to either side */</span><span class="w"></span>
+<span class="w">    </span>sides<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>down<span class="err">;</span><span class="w"></span>
+<span class="w">    </span>sides<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>up<span class="err">;</span><span class="w"></span>
+<span class="w">    </span>break<span class="err">;</span><span class="w"></span>
+<span class="w">  </span><span class="o">//...</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="w"></span>
 
-  <span class="cm">/* check forward */</span>
-  <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">=</span> <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">co_ords</span>[<span class="mi">0</span>]<span class="o">+</span><span class="nv">flags</span>[<span class="mi">0</span>]<span class="c1">;</span>
-  <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">=</span> <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">co_ords</span>[<span class="mi">1</span>]<span class="o">+</span><span class="nv">flags</span>[<span class="mi">1</span>]<span class="c1">;</span>
+<span class="w">  </span><span class="cm">/* check forward */</span><span class="w"></span>
+<span class="w">  </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"></span>
+<span class="w">  </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"></span>
 
-  <span class="k">while</span> <span class="ss">(</span><span class="nv">index</span>[<span class="mi">0</span>] <span class="o">&lt;</span> <span class="nv">MAXHORZ</span> <span class="o">&amp;&amp;</span> <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">&gt;=</span> <span class="nv">MINHORZ</span> <span class="o">&amp;&amp;</span>
-  <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">&lt;</span> <span class="nv">MAXVERT</span> <span class="o">&amp;&amp;</span> <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">&gt;=</span> <span class="nv">MINVERT</span> <span class="o">&amp;&amp;</span>
-  <span class="nv">b</span>.<span class="nv">contents</span>[<span class="nv">index</span>[<span class="mi">0</span>]][<span class="nv">index</span>[<span class="mi">1</span>]] <span class="o">==</span> <span class="mi">0</span><span class="ss">)</span> {
-    <span class="nv">dis_forward</span><span class="o">++</span><span class="c1">;</span>
-    <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">+=</span> <span class="nv">flags</span>[<span class="mi">0</span>]<span class="c1">;</span>
-    <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">+=</span> <span class="nv">flags</span>[<span class="mi">1</span>]<span class="c1">;</span>
-  }
+<span class="w">  </span><span class="kr">while</span><span class="w"> </span><span class="o">(</span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">  </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">  </span>b<span class="o">.</span>contents<span class="err">[</span>index<span class="err">[</span><span class="m">0</span><span class="err">]][</span>index<span class="err">[</span><span class="m">1</span><span class="err">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">    </span>dis_forward<span class="o">++</span><span class="err">;</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"></span>
+<span class="w">  </span><span class="err">}</span><span class="w"></span>
 
-  <span class="k">if</span> <span class="ss">(</span><span class="nv">dis_forward</span> <span class="o">&lt;</span> <span class="nv">LookAHEAD</span><span class="ss">)</span> {   
-    <span class="nv">dis_forward</span> <span class="o">=</span> <span class="mi">100</span> <span class="o">-</span> <span class="mi">100</span><span class="o">/</span><span class="nv">dis_forward</span><span class="c1">;   </span>
-    <span class="cm">/* check left */</span>   
-    <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">=</span> <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">co_ords</span>[<span class="mi">0</span>]<span class="o">+</span><span class="nv">flags</span>[<span class="mi">2</span>]<span class="c1">;</span>
-    <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">=</span> <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">co_ords</span>[<span class="mi">1</span>]<span class="o">+</span><span class="nv">flags</span>[<span class="mi">3</span>]<span class="c1">;</span>
-    <span class="k">while</span> <span class="ss">(</span><span class="nv">index</span>[<span class="mi">0</span>] <span class="o">&lt;</span> <span class="nv">MAXHORZ</span> <span class="o">&amp;&amp;</span> <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">&gt;=</span> <span class="nv">MINHORZ</span> <span class="o">&amp;&amp;</span>
-    <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">&lt;</span> <span class="nv">MAXVERT</span> <span class="o">&amp;&amp;</span> <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">&gt;=</span> <span class="nv">MINVERT</span> <span class="o">&amp;&amp;</span>
-    <span class="nv">b</span>.<span class="nv">contents</span>[<span class="nv">index</span>[<span class="mi">0</span>]][<span class="nv">index</span>[<span class="mi">1</span>]] <span class="o">==</span> <span class="mi">0</span><span class="ss">)</span> {
-      <span class="nv">dis_left</span><span class="o">++</span><span class="c1">;</span>
-      <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">+=</span> <span class="nv">flags</span>[<span class="mi">2</span>]<span class="c1">;</span>
-      <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">+=</span> <span class="nv">flags</span>[<span class="mi">3</span>]<span class="c1">;</span>
-    }
-    <span class="cm">/* check right */</span>
-    <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">=</span> <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">co_ords</span>[<span class="mi">0</span>]<span class="o">+</span><span class="nv">flags</span>[<span class="mi">4</span>]<span class="c1">;</span>
-    <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">=</span> <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">co_ords</span>[<span class="mi">1</span>]<span class="o">+</span><span class="nv">flags</span>[<span class="mi">5</span>]<span class="c1">;</span>
-    <span class="k">while</span> <span class="ss">(</span><span class="nv">index</span>[<span class="mi">0</span>] <span class="o">&lt;</span> <span class="nv">MAXHORZ</span> <span class="o">&amp;&amp;</span> <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">&gt;=</span> <span class="nv">MINHORZ</span> <span class="o">&amp;&amp;</span>
-    <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">&lt;</span> <span class="nv">MAXVERT</span> <span class="o">&amp;&amp;</span> <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">&gt;=</span> <span class="nv">MINVERT</span> <span class="o">&amp;&amp;</span>
-    <span class="nv">b</span>.<span class="nv">contents</span>[<span class="nv">index</span>[<span class="mi">0</span>]][<span class="nv">index</span>[<span class="mi">1</span>]] <span class="o">==</span> <span class="mi">0</span><span class="ss">)</span> {
-      <span class="nv">dis_right</span><span class="o">++</span><span class="c1">;</span>
-      <span class="nv">index</span>[<span class="mi">0</span>] <span class="o">+=</span> <span class="nv">flags</span>[<span class="mi">4</span>]<span class="c1">;</span>
-      <span class="nv">index</span>[<span class="mi">1</span>] <span class="o">+=</span> <span class="nv">flags</span>[<span class="mi">5</span>]<span class="c1">;</span>
-    }
-    <span class="k">if</span><span class="ss">(</span><span class="o">!</span><span class="ss">(</span><span class="nv">dis_left</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">&amp;&amp;</span> <span class="nv">dis_right</span> <span class="o">==</span> <span class="mi">1</span><span class="ss">))</span>
-      <span class="k">if</span> <span class="ss">((</span><span class="nv">int</span><span class="ss">)</span><span class="nv">rand</span><span class="ss">()</span><span class="o">%</span><span class="mi">100</span> <span class="o">&gt;=</span> <span class="nv">dis_forward</span> <span class="o">||</span> <span class="nv">dis_forward</span> <span class="o">==</span> <span class="mi">0</span><span class="ss">)</span> {
-        <span class="cm">/* change direction */</span>
-        <span class="k">if</span> <span class="ss">((</span><span class="nv">int</span><span class="ss">)</span><span class="nv">rand</span><span class="ss">()</span><span class="o">%</span><span class="mi">100</span> <span class="o">&lt;=</span> <span class="ss">(</span><span class="mi">100</span><span class="o">*</span><span class="nv">dis_left</span><span class="ss">)</span><span class="o">/</span><span class="ss">(</span><span class="nv">dis_left</span><span class="o">+</span><span class="nv">dis_right</span><span class="ss">))</span> 
-          <span class="k">if</span> <span class="ss">(</span><span class="nv">dis_left</span> <span class="o">!=</span> <span class="mi">1</span><span class="ss">)</span>     <span class="cm">/* turn to the left */</span>   
-            <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">plr_dir</span> <span class="o">=</span> <span class="nv">sides</span>[<span class="mi">0</span>]<span class="c1">; </span>
-          <span class="k">else</span> <span class="cm">/* turn to the right */</span>  
-            <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">plr_dir</span> <span class="o">=</span> <span class="nv">sides</span>[<span class="mi">1</span>]<span class="c1">;</span>
-        <span class="k">else</span> 
-          <span class="k">if</span> <span class="ss">(</span><span class="nv">dis_right</span> <span class="o">!=</span> <span class="mi">1</span><span class="ss">)</span>    <span class="cm">/*  turn to the right */</span>  
-            <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">plr_dir</span> <span class="o">=</span> <span class="nv">sides</span>[<span class="mi">1</span>]<span class="c1">; </span>
-          <span class="k">else</span>   
-            <span class="cm">/* turn to the left */</span>   
-          <span class="nv">p</span>[<span class="nv">p_num</span>].<span class="nv">plr_dir</span> <span class="o">=</span> <span class="nv">sides</span>[<span class="mi">0</span>]<span class="c1">;     </span>
-        } 
-      }
-    }
+<span class="w">  </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_forward<span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>LookAHEAD<span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w">   </span>
+<span class="w">    </span>dis_forward<span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">100</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="m">100</span><span class="o">/</span>dis_forward<span class="err">;</span><span class="w">   </span>
+<span class="w">    </span><span class="cm">/* check left */</span><span class="w">   </span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">3</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span><span class="kr">while</span><span class="w"> </span><span class="o">(</span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span>b<span class="o">.</span>contents<span class="err">[</span>index<span class="err">[</span><span class="m">0</span><span class="err">]][</span>index<span class="err">[</span><span class="m">1</span><span class="err">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span>dis_left<span class="o">++</span><span class="err">;</span><span class="w"></span>
+<span class="w">      </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">2</span><span class="err">];</span><span class="w"></span>
+<span class="w">      </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">3</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="w"></span>
+<span class="w">    </span><span class="cm">/* check right */</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">4</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>co_ords<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="o">+</span>flags<span class="err">[</span><span class="m">5</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span><span class="kr">while</span><span class="w"> </span><span class="o">(</span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINHORZ<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span>MAXVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>MINVERT<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"></span>
+<span class="w">    </span>b<span class="o">.</span>contents<span class="err">[</span>index<span class="err">[</span><span class="m">0</span><span class="err">]][</span>index<span class="err">[</span><span class="m">1</span><span class="err">]]</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">      </span>dis_right<span class="o">++</span><span class="err">;</span><span class="w"></span>
+<span class="w">      </span>index<span class="err">[</span><span class="m">0</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">4</span><span class="err">];</span><span class="w"></span>
+<span class="w">      </span>index<span class="err">[</span><span class="m">1</span><span class="err">]</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span>flags<span class="err">[</span><span class="m">5</span><span class="err">];</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="w"></span>
+<span class="w">    </span><span class="kr">if</span><span class="o">(</span><span class="err">!</span><span class="o">(</span>dis_left<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span>dis_right<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">1</span><span class="o">))</span><span class="w"></span>
+<span class="w">      </span><span class="kr">if</span><span class="w"> </span><span class="o">((</span>int<span class="o">)</span>rand<span class="o">()%</span><span class="m">100</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span>dis_forward<span class="w"> </span><span class="o">||</span><span class="w"> </span>dis_forward<span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="m">0</span><span class="o">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<span class="w">        </span><span class="cm">/* change direction */</span><span class="w"></span>
+<span class="w">        </span><span class="kr">if</span><span class="w"> </span><span class="o">((</span>int<span class="o">)</span>rand<span class="o">()%</span><span class="m">100</span><span class="w"> </span><span class="o">&lt;=</span><span class="w"> </span><span class="o">(</span><span class="m">100</span><span class="o">*</span>dis_left<span class="o">)/(</span>dis_left<span class="o">+</span>dis_right<span class="o">))</span><span class="w"> </span>
+<span class="w">          </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_left<span class="w"> </span><span class="err">!</span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">     </span><span class="cm">/* turn to the left */</span><span class="w">   </span>
+<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w"> </span>
+<span class="w">          </span><span class="kr">else</span><span class="w"> </span><span class="cm">/* turn to the right */</span><span class="w">  </span>
+<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"></span>
+<span class="w">        </span><span class="kr">else</span><span class="w"> </span>
+<span class="w">          </span><span class="kr">if</span><span class="w"> </span><span class="o">(</span>dis_right<span class="w"> </span><span class="err">!</span><span class="o">=</span><span class="w"> </span><span class="m">1</span><span class="o">)</span><span class="w">    </span><span class="cm">/*  turn to the right */</span><span class="w">  </span>
+<span class="w">            </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">1</span><span class="err">];</span><span class="w"> </span>
+<span class="w">          </span><span class="kr">else</span><span class="w">   </span>
+<span class="w">            </span><span class="cm">/* turn to the left */</span><span class="w">   </span>
+<span class="w">          </span>p<span class="err">[</span>p_num<span class="err">]</span><span class="o">.</span>plr_dir<span class="w"> </span><span class="o">=</span><span class="w"> </span>sides<span class="err">[</span><span class="m">0</span><span class="err">];</span><span class="w">     </span>
+<span class="w">        </span><span class="err">}</span><span class="w"> </span>
+<span class="w">      </span><span class="err">}</span><span class="w"></span>
+<span class="w">    </span><span class="err">}</span><span class="w"></span>
 </pre></div>
 
 

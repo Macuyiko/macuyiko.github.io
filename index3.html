@@ -107,7 +107,7 @@
 			</header>
 			<div class="article-summary">
 					<p>Imagine you have an Apache server set up with a virtualhost configuration listening to some domain,&nbsp;e.g.</p>
-<div class="highlight"><pre><span></span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span>
+<div class="highlight"><pre><span></span>my.domain:8080
 </pre></div>
 
 
@@ -117,7 +117,7 @@
 
 
 <p>You want to add a mod_proxy directive so&nbsp;that:</p>
-<div class="highlight"><pre><span></span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">my</span><span class="p">.</span><span class="k">domain</span><span class="p">:</span><span class="mi">8080</span><span class="o">/</span><span class="n">app_location</span><span class="o">/</span>  <span class="c1">---&gt;  http://localhost:5000</span>
+<div class="highlight"><pre><span></span>http://my.domain:8080/app_location/  ---&gt;  http://localhost:5000
 </pre></div>
 
 

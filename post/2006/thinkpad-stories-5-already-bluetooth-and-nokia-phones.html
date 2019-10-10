@@ -79,101 +79,101 @@
 <p>Here is the background talk: now that I finally have bluetooth support (I never had an <span class="caps">USB</span> dongle) I could finally copy my pictures over from my Nokia phone (since I don&#8217;t want to invest in an expensive non-standard <span class="caps">USB</span>&nbsp;cable).</p>
 <p>I followed some advice from the forums and other Internet resources&#8230; here is how I did&nbsp;it.</p>
 <p>Make sure the following packages are installed on your&nbsp;system:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">gnome</span><span class="o">-</span><span class="n">bluetooth</span>
-<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">obexserver</span>
-<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">bluez</span><span class="o">-</span><span class="n">utils</span>
+<div class="highlight"><pre><span></span>sudo apt-get install gnome-bluetooth
+sudo apt-get install obexserver
+sudo apt-get install bluez-utils
 </pre></div>
 
 
 <p>Then load the following modules into the kernel (I could skip this&nbsp;step).</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">l2cap</span>
-<span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">rfcomm</span>
+<div class="highlight"><pre><span></span>sudo modprobe l2cap
+sudo modprobe rfcomm
 </pre></div>
 
 
 <p>Also, start your <code>bluez-utils</code>:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">bluez</span><span class="o">-</span><span class="n">utils</span> <span class="k">start</span>
+<div class="highlight"><pre><span></span>sudo /etc/init.d/bluez-utils start
 </pre></div>
 
 
 <p>Since I am using my Thinkpad, I active the integrated bluetooth&nbsp;device:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">su</span>
-<span class="n">echo</span> <span class="n">enable</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">acpi</span><span class="o">/</span><span class="n">ibm</span><span class="o">/</span><span class="n">bluetooth</span>
+<div class="highlight"><pre><span></span>sudo su
+echo enable &gt; /proc/acpi/ibm/bluetooth
 </pre></div>
 
 
 <p>Activate bluetooth in your phone. Make sure it is visible to other&nbsp;devices.</p>
 <p>Now&nbsp;do:</p>
-<div class="highlight"><pre><span></span><span class="n">hcitool</span> <span class="n">scan</span>
+<div class="highlight"><pre><span></span>hcitool scan
 </pre></div>
 
 
 <p>You should see something like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="n">Scanning</span> <span class="p">...</span>
-<span class="mi">00</span><span class="p">:</span><span class="mi">11</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="n">DD</span><span class="p">:</span><span class="n">EE</span><span class="p">:</span><span class="n">FF</span> <span class="n">YOUR_PHONE_NAME</span>
+<div class="highlight"><pre><span></span>Scanning ...
+00:11:22:DD:EE:FF YOUR_PHONE_NAME
 </pre></div>
 
 
 <p>Copy the address to the clipboard, you&#8217;ll use it&nbsp;later.</p>
 <p>Now we edit a simple configuration&nbsp;file:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">bluetooth</span><span class="o">/</span><span class="n">rfcomm</span><span class="p">.</span><span class="n">conf</span>
+<div class="highlight"><pre><span></span>sudo gedit /etc/bluetooth/rfcomm.conf
 </pre></div>
 
 
 <p>And save this (use your own address, leave the channel to&nbsp;10):</p>
-<div class="highlight"><pre><span></span><span class="n">rfcomm0</span> <span class="err">{</span>
-<span class="n">device</span> <span class="n">ADDRESS_OF_YOUR_PHONE</span><span class="p">;</span>
-<span class="n">channel</span> <span class="mi">10</span><span class="p">;</span>
-<span class="k">comment</span> <span class="ss">&quot;Your description&quot;</span><span class="p">;</span>
-<span class="err">}</span>
+<div class="highlight"><pre><span></span>rfcomm0 {
+device ADDRESS_OF_YOUR_PHONE;
+channel 10;
+comment &quot;Your description&quot;;
+}
 </pre></div>
 
 
 <p>You may wonder how we got this channel, you can find out by entering this&nbsp;command:</p>
-<div class="highlight"><pre><span></span><span class="n">sdptool</span> <span class="n">browse</span> <span class="n">ADDRESS_OF_YOUR_PHONE</span>
+<div class="highlight"><pre><span></span>sdptool browse ADDRESS_OF_YOUR_PHONE
 </pre></div>
 
 
 <p>Somewhere in the output you find the&nbsp;following:</p>
-<div class="highlight"><pre><span></span><span class="n">Service</span> <span class="n">Name</span><span class="p">:</span> <span class="n">OBEX</span> <span class="n">File</span> <span class="n">Transfer</span>
-<span class="n">Service</span> <span class="n">RecHandle</span><span class="p">:</span> <span class="mi">0</span><span class="n">x1000f</span>
-<span class="n">Service</span> <span class="k">Class</span> <span class="n">ID</span> <span class="n">List</span><span class="p">:</span>
-<span class="ss">&quot;OBEX File Transfer&quot;</span> <span class="p">(</span><span class="mi">0</span><span class="n">x1106</span><span class="p">)</span>
-<span class="n">Protocol</span> <span class="k">Descriptor</span> <span class="n">List</span><span class="p">:</span>
-<span class="ss">&quot;L2CAP&quot;</span> <span class="p">(</span><span class="mi">0</span><span class="n">x0100</span><span class="p">)</span>
-<span class="ss">&quot;RFCOMM&quot;</span> <span class="p">(</span><span class="mi">0</span><span class="n">x0003</span><span class="p">)</span>
-<span class="n">Channel</span><span class="p">:</span> <span class="mi">10</span>
-<span class="ss">&quot;OBEX&quot;</span> <span class="p">(</span><span class="mi">0</span><span class="n">x0008</span><span class="p">)</span>
-<span class="k">Language</span> <span class="n">Base</span> <span class="n">Attr</span> <span class="n">List</span><span class="p">:</span>
-<span class="n">code_ISO639</span><span class="p">:</span> <span class="mi">0</span><span class="n">x656e</span>
-<span class="k">encoding</span><span class="p">:</span> <span class="mi">0</span><span class="n">x6a</span>
-<span class="n">base_offset</span><span class="p">:</span> <span class="mi">0</span><span class="n">x100</span>
-<span class="n">Profile</span> <span class="k">Descriptor</span> <span class="n">List</span><span class="p">:</span>
-<span class="ss">&quot;OBEX File Transfer&quot;</span> <span class="p">(</span><span class="mi">0</span><span class="n">x1106</span><span class="p">)</span>
-<span class="k">Version</span><span class="p">:</span> <span class="mi">0</span><span class="n">x0100</span>
+<div class="highlight"><pre><span></span>Service Name: OBEX File Transfer
+Service RecHandle: 0x1000f
+Service Class ID List:
+&quot;OBEX File Transfer&quot; (0x1106)
+Protocol Descriptor List:
+&quot;L2CAP&quot; (0x0100)
+&quot;RFCOMM&quot; (0x0003)
+Channel: 10
+&quot;OBEX&quot; (0x0008)
+Language Base Attr List:
+code_ISO639: 0x656e
+encoding: 0x6a
+base_offset: 0x100
+Profile Descriptor List:
+&quot;OBEX File Transfer&quot; (0x1106)
+Version: 0x0100
 </pre></div>
 
 
 <p>See?</p>
 <p>Now add the Nokia channel to communicate with the&nbsp;phone:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">sdptool</span> <span class="k">add</span> <span class="c1">--channel=10 OPUSH</span>
+<div class="highlight"><pre><span></span>sudo sdptool add --channel=10 OPUSH
 </pre></div>
 
 
 <p>And bind it with <code>rfcomm</code>:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">rfcomm</span> <span class="n">bind</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">rfcomm0</span> <span class="n">ADDRESS_OF_YOUR_PHONE</span> <span class="mi">10</span>
+<div class="highlight"><pre><span></span>sudo rfcomm bind /dev/rfcomm0 ADDRESS_OF_YOUR_PHONE 10
 </pre></div>
 
 
 <p>You&#8217;re all set up&#8230; now you&nbsp;can:</p>
 <p><strong>Send a file from your&nbsp;phone:</strong></p>
 <p>(1) Start the obexserver with (stores files in /tmp, you must enter this command after every file&nbsp;send):</p>
-<div class="highlight"><pre><span></span><span class="n">obexserver</span>
+<div class="highlight"><pre><span></span>obexserver
 </pre></div>
 
 
 <p>or (stays open, should store in your home dir, but didn&#8217;t work with&nbsp;me):</p>
-<div class="highlight"><pre><span></span><span class="n">gnome</span><span class="o">-</span><span class="n">obex</span><span class="o">-</span><span class="n">server</span>
+<div class="highlight"><pre><span></span>gnome-obex-server
 </pre></div>
 
 
@@ -182,24 +182,24 @@
 <p>(1) <code>gnome-obex-send /path/to/file</code></p>
 <p>It should find your phone and prompt&nbsp;you.</p>
 <p>Don&#8217;t forget that you must use these commands every reboot again (or you could make a&nbsp;script):</p>
-<div class="highlight"><pre><span></span><span class="nv">sudo</span> <span class="nv">modprobe</span> <span class="nv">l2cap</span>
-<span class="nv">sudo</span> <span class="nv">modprobe</span> <span class="nv">rfcomm</span>
-# <span class="ss">(</span><span class="nv">re</span><span class="ss">)</span><span class="nv">start</span> <span class="ss">(</span><span class="k">if</span> <span class="nv">necessary</span><span class="ss">)</span>:
-<span class="nv">sudo</span> <span class="o">/</span><span class="nv">etc</span><span class="o">/</span><span class="nv">init</span>.<span class="nv">d</span><span class="o">/</span><span class="nv">bluez</span><span class="o">-</span><span class="nv">utils</span>
-<span class="nv">echo</span> <span class="nv">enable</span> <span class="o">&gt;</span> <span class="o">/</span><span class="nv">proc</span><span class="o">/</span><span class="nv">acpi</span><span class="o">/</span><span class="nv">ibm</span><span class="o">/</span><span class="nv">bluetooth</span>
-<span class="nv">sudo</span> <span class="nv">mknod</span> <span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">rfcomm0</span> <span class="nv">c</span> <span class="mi">216</span> <span class="mi">0</span>
-<span class="nv">sdptool</span> <span class="nv">add</span> <span class="o">--</span><span class="nv">channel</span><span class="o">=</span><span class="mi">10</span> <span class="nv">OPUSH</span>
-<span class="nv">sudo</span> <span class="nv">rfcomm</span> <span class="nv">bind</span> <span class="o">/</span><span class="nv">dev</span><span class="o">/</span><span class="nv">rfcomm0</span> <span class="nv">YOUR_PHONE_ADDRESS</span> <span class="mi">10</span>
+<div class="highlight"><pre><span></span>sudo modprobe l2cap
+sudo modprobe rfcomm
+# (re)start (if necessary):
+sudo /etc/init.d/bluez-utils
+echo enable &gt; /proc/acpi/ibm/bluetooth
+sudo mknod /dev/rfcomm0 c 216 0
+sdptool add --channel=10 OPUSH
+sudo rfcomm bind /dev/rfcomm0 YOUR_PHONE_ADDRESS 10
 </pre></div>
 
 
 <p>When you&#8217;re done, I find it neat the disable the integrated bluetooth device (let&#8217;s conserve power) this is easy as&nbsp;pie:</p>
-<div class="highlight"><pre><span></span><span class="n">echo</span> <span class="n">disable</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">acpi</span><span class="o">/</span><span class="n">ibm</span><span class="o">/</span><span class="n">bluetooth</span>
+<div class="highlight"><pre><span></span>echo disable &gt; /proc/acpi/ibm/bluetooth
 </pre></div>
 
 
 <p>and you could also stop <code>bluez-utils</code>:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">bluez</span><span class="o">-</span><span class="n">utils</span> <span class="n">stop</span>
+<div class="highlight"><pre><span></span>sudo /etc/init.d/bluez-utils stop
 </pre></div>
 
 

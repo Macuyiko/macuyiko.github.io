@@ -96,17 +96,17 @@
 <p>Feature importance rankings are great, but they&#8217;re not all-revealing. A common practice for instance is to use random forests or other ensemble models as a feature selection tool by first training them on the full feature set, and then using the feature importance rankings to select the top-n variables to keep in the productionized model (and hence retraining the model on the selected model). Think data-driven feature selection. This is a somewhat common approach which has been operationalized in packages such as <a href="https://cran.r-project.org/web/packages/Boruta/index.html">Boruta</a>.</p>
 <p>The problem, however, is that it is easy to drop features using this strategy in case when they interact with other&nbsp;features.</p>
 <p>As an example, let us construct a synthetic data set where <code>y ~ x0 * x1 + x2 + noise</code>. I.e. x0 and x1 interact. If we train a random forest or gradient boosting model even such a simple data set and assess the feature importance scores using scikit-learn, the problem becomes&nbsp;clear:</p>
-<div class="highlight"><pre><span></span><span class="nv">print</span><span class="ss">(</span><span class="nv">gbr</span>.<span class="nv">feature_importances_</span><span class="ss">)</span>
-<span class="nv">print</span><span class="ss">(</span><span class="nv">rfr</span>.<span class="nv">feature_importances_</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>print(gbr.feature_importances_)
+print(rfr.feature_importances_)
 
-<span class="nv">gradient</span> <span class="nv">boosting</span> <span class="nv">rankings</span>:     [<span class="mi">0</span>.<span class="mi">17174317</span> <span class="mi">0</span>.<span class="mi">19054922</span> <span class="mi">0</span>.<span class="mi">6377076</span> ]
-<span class="k">random</span> <span class="nv">forest</span> <span class="nv">rankings</span>:         [<span class="mi">0</span>.<span class="mi">19065131</span> <span class="mi">0</span>.<span class="mi">18586131</span> <span class="mi">0</span>.<span class="mi">62348737</span>]
+gradient boosting rankings:     [0.17174317 0.19054922 0.6377076 ]
+random forest rankings:         [0.19065131 0.18586131 0.62348737]
 </pre></div>
 
 
 <p>scikit-learn doesn&#8217;t implement permutation based importance rankings, but using <code>rfpimp</code> yields a similar&nbsp;result:</p>
-<div class="highlight"><pre><span></span><span class="nv">gradient</span> <span class="nv">boosting</span> <span class="nv">rankings</span>: [[<span class="mi">0</span>.<span class="mi">35668364</span>], [<span class="mi">0</span>.<span class="mi">37945421</span>], [<span class="mi">1</span>.<span class="mi">17092419</span>]]
-<span class="k">random</span> <span class="nv">forest</span> <span class="nv">rankings</span>:     [[<span class="mi">0</span>.<span class="mi">42673270</span>], [<span class="mi">0</span>.<span class="mi">43211179</span>], [<span class="mi">1</span>.<span class="mi">24873006</span>]]
+<div class="highlight"><pre><span></span>gradient boosting rankings: [[0.35668364], [0.37945421], [1.17092419]]
+random forest rankings:     [[0.42673270], [0.43211179], [1.24873006]]
 </pre></div>
 
 
@@ -167,15 +167,15 @@
 </ul>
 <h2>A manual Python&nbsp;implementation</h2>
 <p>Especially in Python, the situation regarding the H-measure looks a bit bleak. Using <code>pdpbox</code> to extract partial dependence values, we can however set up an implementation of both measures which work for any model. For two-way interactions (hiding the exact calculation of the H-measure until a bit later), we can compare our result with what <code>sklearn_gbmi</code> tells us for&nbsp;H2(jk):</p>
-<div class="highlight"><pre><span></span><span class="nv">gradient</span> <span class="nv">boosting</span> <span class="ss">(</span><span class="nv">first</span> <span class="nb">result</span> <span class="nv">is</span> `<span class="nv">sklearn_gbmi</span>`<span class="ss">)</span>:
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x1</span><span class="s1">&#39;</span><span class="ss">)</span> <span class="mi">0</span>.<span class="mi">3694527407798142</span>     <span class="mi">0</span>.<span class="mi">21799393342197507</span>
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x2</span><span class="s1">&#39;</span><span class="ss">)</span> <span class="mi">0</span>.<span class="mi">04741546008708799</span>    <span class="mi">0</span>.<span class="mi">037965435191138985</span>
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x1</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x2</span><span class="s1">&#39;</span><span class="ss">)</span> <span class="mi">0</span>.<span class="mi">0350484030284537</span>     <span class="mi">0</span>.<span class="mi">03754977728770199</span>
+<div class="highlight"><pre><span></span>gradient boosting (first result is `sklearn_gbmi`):
+(&#39;x0&#39;, &#39;x1&#39;) 0.3694527407798142     0.21799393342197507
+(&#39;x0&#39;, &#39;x2&#39;) 0.04741546008708799    0.037965435191138985
+(&#39;x1&#39;, &#39;x2&#39;) 0.0350484030284537     0.03754977728770199
 
-<span class="k">random</span> <span class="nv">forest</span>:
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x1</span><span class="s1">&#39;</span><span class="ss">)</span> <span class="mi">0</span>.<span class="mi">252313467519671</span>
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x2</span><span class="s1">&#39;</span><span class="ss">)</span> <span class="mi">0</span>.<span class="mi">03840902079127481</span>
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x1</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x2</span><span class="s1">&#39;</span><span class="ss">)</span> <span class="mi">0</span>.<span class="mi">034315016474317464</span>
+random forest:
+(&#39;x0&#39;, &#39;x1&#39;) 0.252313467519671
+(&#39;x0&#39;, &#39;x2&#39;) 0.03840902079127481
+(&#39;x1&#39;, &#39;x2&#39;) 0.034315016474317464
 </pre></div>
 
 
@@ -294,93 +294,93 @@
 
 
 <p>And can now&nbsp;call:</p>
-<div class="highlight"><pre><span></span><span class="n">pdp_multi_interact</span><span class="p">(</span><span class="n">gbr</span><span class="p">,</span> <span class="n">tr_X</span><span class="p">,</span> <span class="n">xs</span><span class="p">.</span><span class="n">columns</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;x0&#39;</span><span class="p">,</span> <span class="s1">&#39;x1&#39;</span><span class="p">,</span> <span class="s1">&#39;x2&#39;</span><span class="p">])</span>
+<div class="highlight"><pre><span></span>pdp_multi_interact(gbr, tr_X, xs.columns, [&#39;x0&#39;, &#39;x1&#39;, &#39;x2&#39;])
 
-    <span class="n">x0</span>  <span class="n">x1</span>  <span class="n">x2</span>  <span class="n">preds</span>
-<span class="mi">0</span>   <span class="mi">0</span><span class="p">.</span><span class="mi">000356</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">000016</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">000074</span>    <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">122989</span>
-<span class="mi">1</span>   <span class="mi">0</span><span class="p">.</span><span class="mi">000356</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">000016</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">111043</span>    <span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">005618</span>
-<span class="mi">2</span>   <span class="mi">0</span><span class="p">.</span><span class="mi">000356</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">000016</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">220973</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">149123</span>
-<span class="mi">3</span>   <span class="mi">0</span><span class="p">.</span><span class="mi">000356</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">000016</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">338448</span>    <span class="mi">0</span><span class="p">.</span><span class="mi">305684</span>
-<span class="p">...</span>
+    x0  x1  x2  preds
+0   0.000356    0.000016    0.000074    -0.122989
+1   0.000356    0.000016    0.111043    -0.005618
+2   0.000356    0.000016    0.220973    0.149123
+3   0.000356    0.000016    0.338448    0.305684
+...
 </pre></div>
 
 
 <p>Next, we implement a function to calculate F values (i.e. partial dependence values) for (jkl&#8230;) and all&nbsp;subsets:</p>
-<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">center</span><span class="ss">(</span><span class="nv">arr</span><span class="ss">)</span>: <span class="k">return</span> <span class="nv">arr</span> <span class="o">-</span> <span class="nv">np</span>.<span class="nv">mean</span><span class="ss">(</span><span class="nv">arr</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>def center(arr): return arr - np.mean(arr)
 
-<span class="nv">def</span> <span class="nv">compute_f_vals</span><span class="ss">(</span><span class="nv">mdl</span>, <span class="nv">X</span>, <span class="nv">features</span>, <span class="nv">selectedfeatures</span>, <span class="nv">num_grid_points</span><span class="o">=</span><span class="mi">10</span>, <span class="nv">use_data_grid</span><span class="o">=</span><span class="nv">False</span><span class="ss">)</span>:
-    <span class="nv">f_vals</span> <span class="o">=</span> {}
-    <span class="nv">data_grid</span> <span class="o">=</span> <span class="nv">None</span>
-    <span class="k">if</span> <span class="nv">use_data_grid</span>:
-        <span class="nv">data_grid</span> <span class="o">=</span> <span class="nv">X</span>[<span class="nv">selectedfeatures</span>].<span class="nv">values</span>
-    # <span class="nv">Calculate</span> <span class="nv">partial</span> <span class="nv">dependencies</span> <span class="k">for</span> <span class="nv">full</span> <span class="nv">feature</span> <span class="nv">set</span>
-    <span class="nv">p_full</span> <span class="o">=</span> <span class="nv">pdp_multi_interact</span><span class="ss">(</span><span class="nv">mdl</span>, <span class="nv">X</span>, <span class="nv">features</span>, <span class="nv">selectedfeatures</span>, 
-                                <span class="nv">num_grid_points</span><span class="o">=</span>[<span class="nv">num_grid_points</span>] <span class="o">*</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">selectedfeatures</span><span class="ss">)</span>,
-                                <span class="nv">cust_grid_combos</span><span class="o">=</span><span class="nv">data_grid</span>,
-                                <span class="nv">use_custom_grid_combos</span><span class="o">=</span><span class="nv">use_data_grid</span><span class="ss">)</span>
-    <span class="nv">f_vals</span>[<span class="nv">tuple</span><span class="ss">(</span><span class="nv">selectedfeatures</span><span class="ss">)</span>] <span class="o">=</span> <span class="nv">center</span><span class="ss">(</span><span class="nv">p_full</span>.<span class="nv">pdp</span>.<span class="nv">preds</span>.<span class="nv">values</span><span class="ss">)</span>
-    <span class="nv">grid</span> <span class="o">=</span> <span class="nv">p_full</span>.<span class="nv">pdp</span>.<span class="nv">drop</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">preds</span><span class="s1">&#39;</span>, <span class="nv">axis</span><span class="o">=</span><span class="mi">1</span><span class="ss">)</span>
-    # <span class="nv">Calculate</span> <span class="nv">partial</span> <span class="nv">dependencies</span> <span class="k">for</span> [<span class="mi">1</span>..<span class="nv">SFL</span><span class="o">-</span><span class="mi">1</span>]
-    <span class="k">for</span> <span class="nv">n</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="mi">1</span>, <span class="nv">len</span><span class="ss">(</span><span class="nv">selectedfeatures</span><span class="ss">))</span>:
-        <span class="k">for</span> <span class="nv">subsetfeatures</span> <span class="nv">in</span> <span class="nv">itertools</span>.<span class="nv">combinations</span><span class="ss">(</span><span class="nv">selectedfeatures</span>, <span class="nv">n</span><span class="ss">)</span>:
-            <span class="k">if</span> <span class="nv">use_data_grid</span>:
-                <span class="nv">data_grid</span> <span class="o">=</span> <span class="nv">X</span>[<span class="nv">list</span><span class="ss">(</span><span class="nv">subsetfeatures</span><span class="ss">)</span>].<span class="nv">values</span>
-            <span class="nv">p_partial</span> <span class="o">=</span> <span class="nv">pdp_multi_interact</span><span class="ss">(</span><span class="nv">mdl</span>, <span class="nv">X</span>, <span class="nv">features</span>, <span class="nv">subsetfeatures</span>, 
-                                        <span class="nv">num_grid_points</span><span class="o">=</span>[<span class="nv">num_grid_points</span>] <span class="o">*</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">selectedfeatures</span><span class="ss">)</span>,
-                                        <span class="nv">cust_grid_combos</span><span class="o">=</span><span class="nv">data_grid</span>,
-                                        <span class="nv">use_custom_grid_combos</span><span class="o">=</span><span class="nv">use_data_grid</span><span class="ss">)</span>
-            <span class="nv">p_joined</span> <span class="o">=</span> <span class="nv">pd</span>.<span class="nv">merge</span><span class="ss">(</span><span class="nv">grid</span>, <span class="nv">p_partial</span>.<span class="nv">pdp</span>, <span class="nv">how</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">left</span><span class="s1">&#39;</span><span class="ss">)</span>
-            <span class="nv">f_vals</span>[<span class="nv">tuple</span><span class="ss">(</span><span class="nv">subsetfeatures</span><span class="ss">)</span>] <span class="o">=</span> <span class="nv">center</span><span class="ss">(</span><span class="nv">p_joined</span>.<span class="nv">preds</span>.<span class="nv">values</span><span class="ss">)</span>
-    <span class="k">return</span> <span class="nv">f_vals</span>
+def compute_f_vals(mdl, X, features, selectedfeatures, num_grid_points=10, use_data_grid=False):
+    f_vals = {}
+    data_grid = None
+    if use_data_grid:
+        data_grid = X[selectedfeatures].values
+    # Calculate partial dependencies for full feature set
+    p_full = pdp_multi_interact(mdl, X, features, selectedfeatures, 
+                                num_grid_points=[num_grid_points] * len(selectedfeatures),
+                                cust_grid_combos=data_grid,
+                                use_custom_grid_combos=use_data_grid)
+    f_vals[tuple(selectedfeatures)] = center(p_full.pdp.preds.values)
+    grid = p_full.pdp.drop(&#39;preds&#39;, axis=1)
+    # Calculate partial dependencies for [1..SFL-1]
+    for n in range(1, len(selectedfeatures)):
+        for subsetfeatures in itertools.combinations(selectedfeatures, n):
+            if use_data_grid:
+                data_grid = X[list(subsetfeatures)].values
+            p_partial = pdp_multi_interact(mdl, X, features, subsetfeatures, 
+                                        num_grid_points=[num_grid_points] * len(selectedfeatures),
+                                        cust_grid_combos=data_grid,
+                                        use_custom_grid_combos=use_data_grid)
+            p_joined = pd.merge(grid, p_partial.pdp, how=&#39;left&#39;)
+            f_vals[tuple(subsetfeatures)] = center(p_joined.preds.values)
+    return f_vals
 </pre></div>
 
 
 <p>From which we can define the second-order&nbsp;H-measure:</p>
-<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">compute_h_val</span><span class="ss">(</span><span class="nv">f_vals</span>, <span class="nv">selectedfeatures</span><span class="ss">)</span>:
-    <span class="nv">denom_els</span> <span class="o">=</span> <span class="nv">f_vals</span>[<span class="nv">tuple</span><span class="ss">(</span><span class="nv">selectedfeatures</span><span class="ss">)</span>].<span class="nv">copy</span><span class="ss">()</span>
-    <span class="nv">numer_els</span> <span class="o">=</span> <span class="nv">f_vals</span>[<span class="nv">tuple</span><span class="ss">(</span><span class="nv">selectedfeatures</span><span class="ss">)</span>].<span class="nv">copy</span><span class="ss">()</span>
-    <span class="nv">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>.<span class="mi">0</span>
-    <span class="k">for</span> <span class="nv">n</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">len</span><span class="ss">(</span><span class="nv">selectedfeatures</span><span class="ss">)</span><span class="o">-</span><span class="mi">1</span>, <span class="mi">0</span>, <span class="o">-</span><span class="mi">1</span><span class="ss">)</span>:
-        <span class="k">for</span> <span class="nv">subfeatures</span> <span class="nv">in</span> <span class="nv">itertools</span>.<span class="nv">combinations</span><span class="ss">(</span><span class="nv">selectedfeatures</span>, <span class="nv">n</span><span class="ss">)</span>:
-            <span class="nv">numer_els</span> <span class="o">+=</span> <span class="nv">sign</span> <span class="o">*</span> <span class="nv">f_vals</span>[<span class="nv">tuple</span><span class="ss">(</span><span class="nv">subfeatures</span><span class="ss">)</span>]
-        <span class="nv">sign</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>.<span class="mi">0</span>
-    <span class="nv">numer</span> <span class="o">=</span> <span class="nv">np</span>.<span class="nv">sum</span><span class="ss">(</span><span class="nv">numer_els</span><span class="o">**</span><span class="mi">2</span><span class="ss">)</span>
-    <span class="nv">denom</span> <span class="o">=</span> <span class="nv">np</span>.<span class="nv">sum</span><span class="ss">(</span><span class="nv">denom_els</span><span class="o">**</span><span class="mi">2</span><span class="ss">)</span>
-    <span class="k">return</span> <span class="nv">math</span>.<span class="nv">sqrt</span><span class="ss">(</span><span class="nv">numer</span><span class="o">/</span><span class="nv">denom</span><span class="ss">)</span> <span class="k">if</span> <span class="nv">numer</span> <span class="o">&lt;</span> <span class="nv">denom</span> <span class="k">else</span> <span class="nv">np</span>.<span class="nv">nan</span>
+<div class="highlight"><pre><span></span>def compute_h_val(f_vals, selectedfeatures):
+    denom_els = f_vals[tuple(selectedfeatures)].copy()
+    numer_els = f_vals[tuple(selectedfeatures)].copy()
+    sign = -1.0
+    for n in range(len(selectedfeatures)-1, 0, -1):
+        for subfeatures in itertools.combinations(selectedfeatures, n):
+            numer_els += sign * f_vals[tuple(subfeatures)]
+        sign *= -1.0
+    numer = np.sum(numer_els**2)
+    denom = np.sum(denom_els**2)
+    return math.sqrt(numer/denom) if numer &lt; denom else np.nan
 </pre></div>
 
 
 <p>And first-order H-measure as&nbsp;well:</p>
-<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">compute_h_val_any</span><span class="ss">(</span><span class="nv">f_vals</span>, <span class="nv">allfeatures</span>, <span class="nv">selectedfeature</span><span class="ss">)</span>:
-    <span class="nv">otherfeatures</span> <span class="o">=</span> <span class="nv">list</span><span class="ss">(</span><span class="nv">allfeatures</span><span class="ss">)</span>
-    <span class="nv">otherfeatures</span>.<span class="nv">remove</span><span class="ss">(</span><span class="nv">selectedfeature</span><span class="ss">)</span>
-    <span class="nv">denom_els</span> <span class="o">=</span> <span class="nv">f_vals</span>[<span class="nv">tuple</span><span class="ss">(</span><span class="nv">allfeatures</span><span class="ss">)</span>].<span class="nv">copy</span><span class="ss">()</span>
-    <span class="nv">numer_els</span> <span class="o">=</span> <span class="nv">denom_els</span>.<span class="nv">copy</span><span class="ss">()</span>
-    <span class="nv">numer_els</span> <span class="o">-=</span> <span class="nv">f_vals</span>[<span class="ss">(</span><span class="nv">selectedfeature</span>,<span class="ss">)</span>]
-    <span class="nv">numer_els</span> <span class="o">-=</span> <span class="nv">f_vals</span>[<span class="nv">tuple</span><span class="ss">(</span><span class="nv">otherfeatures</span><span class="ss">)</span>]
-    <span class="nv">numer</span> <span class="o">=</span> <span class="nv">np</span>.<span class="nv">sum</span><span class="ss">(</span><span class="nv">numer_els</span><span class="o">**</span><span class="mi">2</span><span class="ss">)</span>
-    <span class="nv">denom</span> <span class="o">=</span> <span class="nv">np</span>.<span class="nv">sum</span><span class="ss">(</span><span class="nv">denom_els</span><span class="o">**</span><span class="mi">2</span><span class="ss">)</span>
-    <span class="k">return</span> <span class="nv">math</span>.<span class="nv">sqrt</span><span class="ss">(</span><span class="nv">numer</span><span class="o">/</span><span class="nv">denom</span><span class="ss">)</span> <span class="k">if</span> <span class="nv">numer</span> <span class="o">&lt;</span> <span class="nv">denom</span> <span class="k">else</span> <span class="nv">np</span>.<span class="nv">nan</span>
+<div class="highlight"><pre><span></span>def compute_h_val_any(f_vals, allfeatures, selectedfeature):
+    otherfeatures = list(allfeatures)
+    otherfeatures.remove(selectedfeature)
+    denom_els = f_vals[tuple(allfeatures)].copy()
+    numer_els = denom_els.copy()
+    numer_els -= f_vals[(selectedfeature,)]
+    numer_els -= f_vals[tuple(otherfeatures)]
+    numer = np.sum(numer_els**2)
+    denom = np.sum(denom_els**2)
+    return math.sqrt(numer/denom) if numer &lt; denom else np.nan
 </pre></div>
 
 
 <p>Testing this on one of our models, we&nbsp;get:</p>
-<div class="highlight"><pre><span></span><span class="n">x0</span> <span class="k">is</span> <span class="k">in</span> <span class="n">interaction</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2688984990347688</span>
-<span class="n">x1</span> <span class="k">is</span> <span class="k">in</span> <span class="n">interaction</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">26778914050926556</span>
-<span class="n">x2</span> <span class="k">is</span> <span class="k">in</span> <span class="n">interaction</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">10167180905369481</span>
+<div class="highlight"><pre><span></span>x0 is in interaction: 0.2688984990347688
+x1 is in interaction: 0.26778914050926556
+x2 is in interaction: 0.10167180905369481
 </pre></div>
 
 
 <p>We can then calculate the second-order H measure for H2(x0,&#8230;) and H2(x1,&#8230;), also for higher-order&nbsp;interactions:</p>
-<div class="highlight"><pre><span></span><span class="nv">gradient</span> <span class="nv">boosting</span> <span class="ss">(</span><span class="nv">first</span> <span class="nb">result</span> <span class="nv">is</span> `<span class="nv">sklearn_gbmi</span>`<span class="ss">)</span>:
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x1</span><span class="s1">&#39;</span><span class="ss">)</span>        <span class="mi">0</span>.<span class="mi">3694527407798142</span>      <span class="mi">0</span>.<span class="mi">3965718336359157</span>
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x2</span><span class="s1">&#39;</span><span class="ss">)</span>        <span class="mi">0</span>.<span class="mi">04741546008708799</span>     <span class="mi">0</span>.<span class="mi">04546491988445405</span>
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x1</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x2</span><span class="s1">&#39;</span><span class="ss">)</span>  <span class="mi">0</span>.<span class="mi">030489287134804244</span>    <span class="mi">0</span>.<span class="mi">028760391025931864</span>
+<div class="highlight"><pre><span></span>gradient boosting (first result is `sklearn_gbmi`):
+(&#39;x0&#39;, &#39;x1&#39;)        0.3694527407798142      0.3965718336359157
+(&#39;x0&#39;, &#39;x2&#39;)        0.04741546008708799     0.04546491988445405
+(&#39;x0&#39;, &#39;x1&#39;, &#39;x2&#39;)  0.030489287134804244    0.028760391025931864
 
-<span class="k">random</span> <span class="nv">forest</span>:
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x1</span><span class="s1">&#39;</span><span class="ss">)</span>        <span class="mi">0</span>.<span class="mi">42558760788710415</span>
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x2</span><span class="s1">&#39;</span><span class="ss">)</span>        <span class="mi">0</span>.<span class="mi">05978441740731955</span>
-<span class="ss">(</span><span class="s1">&#39;</span><span class="s">x0</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x1</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">x2</span><span class="s1">&#39;</span><span class="ss">)</span>  <span class="mi">0</span>.<span class="mi">07713738471773776</span>
+random forest:
+(&#39;x0&#39;, &#39;x1&#39;)        0.42558760788710415
+(&#39;x0&#39;, &#39;x2&#39;)        0.05978441740731955
+(&#39;x0&#39;, &#39;x1&#39;, &#39;x2&#39;)  0.07713738471773776
 </pre></div>
 
 

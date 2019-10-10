@@ -93,8 +93,8 @@
 					<p>Speaking of <a href="//blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">wireless</a>&#8230;</p>
 <p>The following is just a quick note-to-self, because I always forget the exact commands and end up crawling around the <a href="http://www.aircrack-ng.org/doku.php">Aircrack wiki</a> for a bit. I though I&#8217;d posted this before, but I can&#8217;t seem to find&nbsp;it.</p>
 <h3><span class="caps">TTY1</span></h3>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">airmon</span><span class="o">-</span><span class="n">ng</span> <span class="k">start</span> <span class="n">eth1</span>
-<span class="o">#</span> <span class="n">Assume …</span></pre></div>
+<div class="highlight"><pre><span></span>sudo airmon-ng start eth1
+# Assume monitor …</pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/aircrack-quick-tutorial-wireless-wep-cracking.html">Read more</a></p>
 			</div>
 		</article>
@@ -110,17 +110,17 @@
 					<p><strong>Update for Ubuntu 12.04 users:</strong> <a href="//blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html">see this post</a>.</p>
 <p>After upgrading to Ubuntu Maverick recently, the Aircrack suite stopped working for&nbsp;me.</p>
 <p>After setting <code>airodump</code> to a channel (like&nbsp;usual):</p>
-<div class="highlight"><pre><span></span><span class="n">airodump</span> <span class="c1">--channel **X**</span>
+<div class="highlight"><pre><span></span>airodump --channel **X**
 </pre></div>
 
 
 <p>It still displayed its status&nbsp;as:</p>
-<div class="highlight"><pre><span></span><span class="n">fixed</span> <span class="n">channel</span> <span class="n">mon0</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+<div class="highlight"><pre><span></span>fixed channel mon0: -1
 </pre></div>
 
 
 <p>Some forum users advised to&nbsp;use:</p>
-<div class="highlight"><pre><span></span><span class="n">airodump …</span></pre></div>
+<div class="highlight"><pre><span></span>airodump …</pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">Read more</a></p>
 			</div>
 		</article>
@@ -180,13 +180,13 @@
 			<div class="article-summary">
 					<p>Because I always forget these commands and end up double checking&nbsp;them&#8230;</p>
 <h4>Client (Me) -&nbsp;Listening:</h4>
-<div class="highlight"><pre><span></span><span class="n">vncviewer</span> <span class="o">-</span><span class="k">listen</span> <span class="n">PORT</span>
+<div class="highlight"><pre><span></span>vncviewer -listen PORT
 </pre></div>
 
 
 <p>(Using UltraVNC on&nbsp;Windows.)</p>
 <h4>Server -&nbsp;Initiating:</h4>
-<div class="highlight"><pre><span></span><span class="nv">x11vnc</span> <span class="o">-</span><span class="k">connect</span> <span class="nv">IP</span>:<span class="nv">PORT</span>
+<div class="highlight"><pre><span></span>x11vnc -connect IP:PORT
 </pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/note-to-self-remote-vnc-listen-connection.html">Read more</a></p>
 			</div>
@@ -246,12 +246,12 @@
 					<p>&#8230;to remind myself because I always seem to forget how&nbsp;to.</p>
 <p><strong>1.</strong> Put the contents of the <span class="caps">CD</span> somewhere (e.g. <code>/tmp/heroes</code>).</p>
 <p><strong>2.</strong>&nbsp;Install:</p>
-<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">heroes$</span> <span class="p">.</span><span class="o">/</span><span class="n">setup</span><span class="p">.</span><span class="n">sh</span>
+<div class="highlight"><pre><span></span>/tmp/heroes$ ./setup.sh
 </pre></div>
 
 
 <p><strong>3.</strong> Download and run patch with <code>--keep</code>:</p>
-<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">heroes$</span> <span class="n">wget</span> <span class="n">ftp</span><span class="p">:</span><span class="o">//</span><span class="n">mirrors</span><span class="p">.</span><span class="n">dotsrc</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">lokigames</span><span class="o">/</span><span class="n">updates</span><span class="o">/</span><span class="n">heroes3</span><span class="o">/</span><span class="n">heroes3</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">1 …</span></pre></div>
+<div class="highlight"><pre><span></span>/tmp/heroes$ wget ftp://mirrors.dotsrc.org/lokigames/updates/heroes3/heroes3-1.3.1a-unified-x86.run …</pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/installing-heroes-of-might-and-magic-iii-3-on-linux-ubuntu.html">Read more</a></p>
 			</div>
 		</article>

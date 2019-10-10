@@ -77,12 +77,12 @@
 	
 	    <p>Getting a reliable, real-time screen of an Android device is more challenging than one might think, e.g. for the purpose of training a reinforcement learning&nbsp;agent.</p>
 <p><a href="https://blog.shvetsov.com/2013/02/grab-android-screenshot-to-computer-via.html">This post</a> describes a basic&nbsp;approach:</p>
-<div class="highlight"><pre><span></span><span class="n">adb</span> <span class="n">shell</span> <span class="n">screencap</span> <span class="o">-</span><span class="n">p</span>
+<div class="highlight"><pre><span></span>adb shell screencap -p
 </pre></div>
 
 
 <p>Sadly, adb mangles binary output and has a tendency to convert <code>\n</code> to <code>\r\n</code>, which we need to manually untangle. Newer versions of <code>adb</code> come with an <code>exec-out</code> command which removes this&nbsp;problem:</p>
-<div class="highlight"><pre><span></span><span class="nv">adb</span> <span class="k">exec</span><span class="o">-</span><span class="nv">out</span> <span class="nv">screencap</span> <span class="o">-</span><span class="nv">p</span>
+<div class="highlight"><pre><span></span>adb exec-out screencap -p
 </pre></div>
 
 
@@ -148,7 +148,7 @@
 <p>This works, but leads to a horrible framerate (and a very hot&nbsp;phone):</p>
 <p><img alt="" src="/images/2017/adb.gif"></p>
 <p>Some devices also allow to use a <code>screenrecord</code> command:</p>
-<div class="highlight"><pre><span></span><span class="nv">adb</span> <span class="k">exec</span><span class="o">-</span><span class="nv">out</span> <span class="nv">screenrecord</span> <span class="o">--</span><span class="nv">output</span><span class="o">-</span><span class="nv">format</span><span class="o">=</span><span class="nv">h264</span> <span class="o">-</span>
+<div class="highlight"><pre><span></span>adb exec-out screenrecord --output-format=h264 -
 </pre></div>
 
 
@@ -158,28 +158,28 @@
 <p><img alt="" src="/images/2017/minicap.png"></p>
 <p>Next, we rewrite the scripts a bit to support Python 3. We don&#8217;t need the &#8220;rotation&#8221; apk, as I didn&#8217;t need to handle rotation support, made available at <a href="https://github.com/Macuyiko/adbmirror">https://github.com/Macuyiko/adbmirror</a>.</p>
 <p>Running <code>start-mirror.py</code> now&nbsp;shows:</p>
-<div class="highlight"><pre><span></span><span class="nv">Device</span> <span class="nv">info</span>: <span class="nv">arm64</span><span class="o">-</span><span class="nv">v8a</span> <span class="mi">26</span> <span class="mi">8</span>.<span class="mi">0</span>.<span class="mi">0</span> <span class="mi">1080</span><span class="nv">x1920</span>
-<span class="nv">Now</span> <span class="nv">pushing</span> <span class="nv">files</span>
-[ <span class="mi">11</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-[ <span class="mi">22</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-[ <span class="mi">33</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-[ <span class="mi">45</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-[ <span class="mi">56</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-[ <span class="mi">67</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-[ <span class="mi">79</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-[ <span class="mi">90</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-[<span class="mi">100</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>
-<span class="nv">bin</span><span class="o">/</span><span class="nv">minicap</span><span class="o">/</span><span class="nv">arm64</span><span class="o">-</span><span class="nv">v8a</span><span class="o">/</span><span class="nv">minicap</span>: <span class="mi">1</span> <span class="nv">file</span> <span class="nv">pushed</span>. <span class="mi">17</span>.<span class="mi">7</span> <span class="nv">MB</span><span class="o">/</span><span class="nv">s</span> <span class="ss">(</span><span class="mi">580048</span> <span class="nv">bytes</span> <span class="nv">in</span> <span class="mi">0</span>.<span class="mi">031</span><span class="nv">s</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>Device info: arm64-v8a 26 8.0.0 1080x1920
+Now pushing files
+[ 11%] /data/local/tmp/adbmirror/minicap
+[ 22%] /data/local/tmp/adbmirror/minicap
+[ 33%] /data/local/tmp/adbmirror/minicap
+[ 45%] /data/local/tmp/adbmirror/minicap
+[ 56%] /data/local/tmp/adbmirror/minicap
+[ 67%] /data/local/tmp/adbmirror/minicap
+[ 79%] /data/local/tmp/adbmirror/minicap
+[ 90%] /data/local/tmp/adbmirror/minicap
+[100%] /data/local/tmp/adbmirror/minicap
+bin/minicap/arm64-v8a/minicap: 1 file pushed. 17.7 MB/s (580048 bytes in 0.031s)
 
-[<span class="mi">100</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minitouch</span>
-<span class="nv">bin</span><span class="o">/</span><span class="nv">minitouch</span><span class="o">/</span><span class="nv">arm64</span><span class="o">-</span><span class="nv">v8a</span><span class="o">/</span><span class="nv">minitouch</span>: <span class="mi">1</span> <span class="nv">file</span> <span class="nv">pushed</span>.
+[100%] /data/local/tmp/adbmirror/minitouch
+bin/minitouch/arm64-v8a/minitouch: 1 file pushed.
 
-[<span class="mi">100</span><span class="o">%</span>] <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span><span class="nv">minicap</span>.<span class="nv">so</span>
-<span class="nv">bin</span><span class="o">/</span><span class="nv">minicap</span><span class="o">-</span><span class="nv">shared</span><span class="o">/</span><span class="nv">android</span><span class="o">-</span><span class="mi">26</span><span class="o">/</span><span class="nv">arm64</span><span class="o">-</span><span class="nv">v8a</span><span class="o">/</span><span class="nv">minicap</span>.<span class="nv">so</span>: <span class="mi">1</span> <span class="nv">file</span> <span class="nv">pushed</span>. <span class="mi">1</span>.<span class="mi">4</span> <span class="nv">MB</span><span class="o">/</span><span class="nv">s</span> <span class="ss">(</span><span class="mi">23592</span> <span class="nv">bytes</span> <span class="nv">in</span> <span class="mi">0</span>.<span class="mi">016</span><span class="nv">s</span><span class="ss">)</span>
+[100%] /data/local/tmp/adbmirror/minicap.so
+bin/minicap-shared/android-26/arm64-v8a/minicap.so: 1 file pushed. 1.4 MB/s (23592 bytes in 0.016s)
 
-<span class="nv">Now</span> <span class="nv">ready</span> <span class="nv">to</span> <span class="nv">start</span> <span class="nv">GUI</span>, <span class="nv">press</span> <span class="nv">ENTER</span> <span class="nv">when</span> <span class="nv">done</span> <span class="k">for</span> <span class="nv">cleanup</span>
-<span class="nv">Example</span> <span class="nv">command</span>:
-<span class="nv">python</span> <span class="nv">gui</span>.<span class="nv">py</span> <span class="mi">540</span><span class="nv">x960</span> <span class="mi">1080</span><span class="nv">x1920</span> <span class="o">/</span><span class="nv">data</span><span class="o">/</span><span class="nv">local</span><span class="o">/</span><span class="nv">tmp</span><span class="o">/</span><span class="nv">adbmirror</span><span class="o">/</span>
+Now ready to start GUI, press ENTER when done for cleanup
+Example command:
+python gui.py 540x960 1080x1920 /data/local/tmp/adbmirror/
 </pre></div>
 
 

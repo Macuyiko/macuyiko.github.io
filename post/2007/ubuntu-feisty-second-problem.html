@@ -77,9 +77,9 @@
 	
 	    <p>Another problem (on another machine) was that it refused booting the new&nbsp;kernel.</p>
 <p>Also: the live cd didn&#8217;t work either, with the same error. A lot of people have problems of this kind, and most of the times they get the following&nbsp;errors:</p>
-<div class="highlight"><pre><span></span><span class="n">ata2</span> <span class="k">is</span> <span class="n">slow</span> <span class="k">to</span> <span class="n">respond</span><span class="p">,</span> <span class="n">please</span> <span class="n">be</span> <span class="n">patient</span>
-<span class="n">ata2</span> <span class="n">failed</span> <span class="k">to</span> <span class="n">respond</span> <span class="p">(</span><span class="mi">30</span> <span class="n">secs</span><span class="p">)</span>
-<span class="n">ata2</span><span class="p">:</span> <span class="n">command</span> <span class="mi">0</span><span class="n">xa0</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">stat</span> <span class="mi">0</span><span class="n">xd0</span> <span class="n">host_stat</span> <span class="mi">0</span><span class="n">x20</span>
+<div class="highlight"><pre><span></span>ata2 is slow to respond, please be patient
+ata2 failed to respond (30 secs)
+ata2: command 0xa0 timeout, stat 0xd0 host_stat 0x20
 </pre></div>
 
 
@@ -96,25 +96,25 @@
 <li>Boot with libata.ignore_hpa=0 added to boot options. (Press e to edit a menu item in the <span class="caps">GRUB</span> list, then go to the line which contains the kernel. Always remove quiet and splash and add the above command.) This didn&#8217;t work with&nbsp;me.</li>
 </ul>
 <p>The solution which worked for me was the following one: add break=top to the boot parameters (see above), don&#8217;t forget to delete splash and quiet. Once you boot, you will immediately break to an initramfs shell. Try the following&nbsp;commands.</p>
-<div class="highlight"><pre><span></span><span class="n">modprobe</span> <span class="n">piix</span>
-<span class="n">modprobe</span> <span class="n">libata</span>
-<span class="n">modprobe</span> <span class="n">pata_jmicron</span>
-<span class="n">modprobe</span> <span class="n">ata_piix</span>
-<span class="n">modprobe</span> <span class="n">ahci</span>
-<span class="n">modprobe</span> <span class="n">ata_generic</span>
-<span class="n">modprobe</span> <span class="n">ide</span><span class="o">-</span><span class="n">disk</span>
-<span class="n">modprobe</span> <span class="n">ide</span><span class="o">-</span><span class="n">generic</span>
+<div class="highlight"><pre><span></span>modprobe piix
+modprobe libata
+modprobe pata_jmicron
+modprobe ata_piix
+modprobe ahci
+modprobe ata_generic
+modprobe ide-disk
+modprobe ide-generic
 </pre></div>
 
 
 <p>Then type exit to continue booting. You don&#8217;t have to try them all at once. I first tried <code>ide-disk</code> and <code>ide-generic</code> but those didn&#8217;t work, then I tried only <code>piix</code>, which worked! If that doesn&#8217;t work, I would suggest trying <code>piix</code>, <code>libata</code>, <code>pata_jmicron</code>, <code>ata_piix</code>, <code>ahci</code> and <code>ata_generic</code>.</p>
 <p>Once you get it running, we must make sure these modules get loaded automatically (instead of always adding break=top). Edit the following file: <code>/etc/initramfs-tools/modules/</code>. E.g.,&nbsp;type:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">initramfs</span><span class="o">-</span><span class="n">tools</span><span class="o">/</span><span class="n">modules</span>
+<div class="highlight"><pre><span></span>sudo gedit /etc/initramfs-tools/modules
 </pre></div>
 
 
 <p>And add the modules which worked for you (without <code>modprobe</code>). In my case, I only had to add <code>piix</code>. Save and exit the editor, then execute the following&nbsp;command:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="k">update</span><span class="o">-</span><span class="n">initramfs</span> <span class="o">-</span><span class="n">u</span>
+<div class="highlight"><pre><span></span>sudo update-initramfs -u
 </pre></div>
 
 

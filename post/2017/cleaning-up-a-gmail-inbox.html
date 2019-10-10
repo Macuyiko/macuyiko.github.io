@@ -185,10 +185,10 @@
 <p>I&#8217;m only fetching the unique id here, together with the from and subject headers. Quite annoyingly, even though the Gmail <span class="caps">API</span> provides batch calls to delete and modify a list of e-mails, it does not expose similar functionality to get a list of e-mails. Instead, <code>service.users().messages().list(...)</code> provides a paginated result list of e-mail ids and thread ids, without detailed information. Afterwards, you need to loop through all e-mail ids to <code>service.users().messages().get(...)</code> their details. I&#8217;m using joblib here to speed up this&nbsp;process:</p>
 <p><img alt="" src="/images/2017/gmail1.png"></p>
 <p>A few hours later, the database is filled up and ready for use. A simple <span class="caps">SQL</span> statement can immediately provide a grouped overview of e-mails per&nbsp;sender:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">header_from</span><span class="p">,</span> <span class="k">count</span><span class="p">(</span><span class="o">*</span><span class="p">)</span> <span class="k">AS</span> <span class="ss">&quot;amount&quot;</span> <span class="k">FROM</span> <span class="ss">&quot;email&quot;</span>
-<span class="k">WHERE</span> <span class="ss">&quot;trashed&quot;</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">GROUP</span> <span class="k">BY</span> <span class="ss">&quot;header_from&quot;</span>
-<span class="k">ORDER</span> <span class="k">BY</span> <span class="ss">&quot;amount&quot;</span> <span class="k">DESC</span>
+<div class="highlight"><pre><span></span>SELECT header_from, count(*) AS &quot;amount&quot; FROM &quot;email&quot;
+WHERE &quot;trashed&quot; = 0
+GROUP BY &quot;header_from&quot;
+ORDER BY &quot;amount&quot; DESC
 </pre></div>
 
 
@@ -197,17 +197,17 @@
 <p><img alt="Source: Wikipedia" src="/images/2017/alignment.png"></p>
 <p>Several toolkits exist for sequence (or string) alignment. In Python, there&#8217;s <a href="https://github.com/mbreese/swalign/">swalign</a> which implements a Smith-Waterman local aligner. <a href="http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc69">BioPython</a> also contains several ways for sequence alignment. There&#8217;s also <a href="https://pypi.python.org/pypi/alignment/1.0.9">alignment</a>. There&#8217;s also <a href="http://mafft.cbrc.jp/alignment/software/"><span class="caps">MAFFT</span></a> in case you want a fast non-Python&nbsp;implementation.</p>
 <p>However, Python also comes with the <code>difflib</code> module, which implements Ratcliff and Obershelp&#8217;s “gestalt pattern matching” algorithm, used to provide <a href="https://en.wikipedia.org/wiki/Diff_utility">diff&#8217;s</a> between two inputs. It basically boils down to finding the smallest set of deletions and insertions to create one input from the other. Normally, diff tools work line-oriented, though difflib&#8217;s <code>SequenceMatcher</code> class can also work&nbsp;character-oriented:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nv">a</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">You have a message from Name Lastname waiting for 3 days</span><span class="s2">&quot;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">b</span> <span class="o">=</span> <span class="s2">&quot;</span><span class="s">You have a message from Jon Snow waiting for 393 days</span><span class="s2">&quot;</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">s</span> <span class="o">=</span> <span class="nv">SequenceMatcher</span><span class="ss">()</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">s</span>.<span class="nv">set_seq1</span><span class="ss">(</span><span class="nv">a</span><span class="ss">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">s</span>.<span class="nv">set_seq2</span><span class="ss">(</span><span class="nv">b</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span>&gt;&gt;&gt; a = &quot;You have a message from Name Lastname waiting for 3 days&quot;
+&gt;&gt;&gt; b = &quot;You have a message from Jon Snow waiting for 393 days&quot;
+&gt;&gt;&gt; s = SequenceMatcher()
+&gt;&gt;&gt; s.set_seq1(a)
+&gt;&gt;&gt; s.set_seq2(b)
 
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">s</span>.<span class="nv">ratio</span><span class="ss">()</span>
-<span class="mi">0</span>.<span class="mi">8256880733944955</span>
+&gt;&gt;&gt; s.ratio()
+0.8256880733944955
 
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">s</span>.<span class="nv">get_matching_blocks</span><span class="ss">()</span>
-[<span class="nv">Match</span><span class="ss">(</span><span class="nv">a</span><span class="o">=</span><span class="mi">0</span>, <span class="nv">b</span><span class="o">=</span><span class="mi">0</span>, <span class="nv">size</span><span class="o">=</span><span class="mi">24</span><span class="ss">)</span>, <span class="nv">Match</span><span class="ss">(</span><span class="nv">a</span><span class="o">=</span><span class="mi">28</span>, <span class="nv">b</span><span class="o">=</span><span class="mi">27</span>, <span class="nv">size</span><span class="o">=</span><span class="mi">1</span><span class="ss">)</span>, <span class="nv">Match</span><span class="ss">(</span><span class="nv">a</span><span class="o">=</span><span class="mi">33</span>, <span class="nv">b</span><span class="o">=</span><span class="mi">29</span>, <span class="nv">size</span><span class="o">=</span><span class="mi">1</span><span class="ss">)</span>, <span class="nv">Match</span><span class="ss">(</span><span class="nv">a</span><span class="o">=</span><span class="mi">37</span>, <span class="nv">b</span><span class="o">=</span><span class="mi">32</span>, <span class="nv">size</span><span class="o">=</span><span class="mi">14</span><span class="ss">)</span>, <span class="nv">Match</span><span class="ss">(</span><span class="nv">a</span><span class="o">=</span><span class="mi">51</span>, <span class="nv">b</span><span class="o">=</span><span class="mi">48</span>, <span class="nv">size</span><span class="o">=</span><span class="mi">5</span><span class="ss">)</span>, <span class="nv">Match</span><span class="ss">(</span><span class="nv">a</span><span class="o">=</span><span class="mi">56</span>, <span class="nv">b</span><span class="o">=</span><span class="mi">53</span>, <span class="nv">size</span><span class="o">=</span><span class="mi">0</span><span class="ss">)</span>]
+&gt;&gt;&gt; s.get_matching_blocks()
+[Match(a=0, b=0, size=24), Match(a=28, b=27, size=1), Match(a=33, b=29, size=1), Match(a=37, b=32, size=14), Match(a=51, b=48, size=5), Match(a=56, b=53, size=0)]
 </pre></div>
 
 
@@ -222,84 +222,84 @@
 </ul>
 <p>For the first iteration, finding the best linkage criterion is easy. We can just use the <code>.ratio()</code> method from <code>SequenceMatcher</code> between two clusters A and B since they both contain one sequence each. How do we apply the same mechanism once clusters start to contain more than one&nbsp;sequence?</p>
 <p>A first approach was to use a centroid based criterion. This requires us to define a &#8220;centroid&#8221; between sequences with their distance then simply being the distance between the centroids. In this case, we can just use a very naive approach where <code>.get_matching_blocks()</code> is used to keep the similar pieces of two strings, and replace the non matching parts with a replacement character, like&nbsp;so:</p>
-<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">combine_strings</span><span class="ss">(</span><span class="nv">blocks</span>, <span class="nv">a</span>, <span class="nv">b</span>, <span class="nv">char</span><span class="o">=</span><span class="s1">&#39;</span><span class="s">-</span><span class="s1">&#39;</span>, <span class="nv">min_thres</span><span class="o">=</span><span class="mi">3</span><span class="ss">)</span>:
-    <span class="nv">combined</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-    <span class="nv">last_a</span>, <span class="nv">last_b</span> <span class="o">=</span> <span class="mi">0</span>, <span class="mi">0</span>
-    <span class="k">for</span> <span class="nv">block</span> <span class="nv">in</span> <span class="nv">blocks</span>:
-        # <span class="nv">Add</span> <span class="nv">maximum</span> <span class="nv">suffix</span>
-        <span class="nv">combined</span> <span class="o">+=</span> <span class="nv">char</span> <span class="o">*</span> <span class="nv">max</span><span class="ss">(</span><span class="nv">block</span>.<span class="nv">a</span> <span class="o">-</span> <span class="nv">last_a</span>, <span class="nv">block</span>.<span class="nv">b</span> <span class="o">-</span> <span class="nv">last_b</span><span class="ss">)</span>
-        <span class="nv">last_a</span> <span class="o">=</span> <span class="nv">block</span>.<span class="nv">a</span> <span class="o">+</span> <span class="nv">block</span>.<span class="nv">size</span>
-        <span class="nv">last_b</span> <span class="o">=</span> <span class="nv">block</span>.<span class="nv">b</span> <span class="o">+</span> <span class="nv">block</span>.<span class="nv">size</span>
-        <span class="nv">piece_to_add</span> <span class="o">=</span> <span class="nv">a</span>[<span class="nv">block</span>.<span class="nv">a</span>:<span class="nv">block</span>.<span class="nv">a</span><span class="o">+</span><span class="nv">block</span>.<span class="nv">size</span>] # <span class="nv">Guaranteed</span> <span class="nv">to</span> <span class="nv">be</span> <span class="o">==</span> <span class="nv">b</span>[<span class="nv">j</span>:<span class="nv">j</span><span class="o">+</span><span class="nv">n</span>]
-        <span class="nv">combined</span> <span class="o">+=</span> <span class="nv">piece_to_add</span> <span class="k">if</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">piece_to_add</span><span class="ss">)</span> <span class="o">&gt;</span> <span class="nv">min_thres</span> <span class="k">else</span> <span class="nv">char</span> <span class="o">*</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">piece_to_add</span><span class="ss">)</span>
-    <span class="nv">combined</span> <span class="o">+=</span> <span class="nv">char</span> <span class="o">*</span> <span class="ss">(</span><span class="nv">len</span><span class="ss">(</span><span class="nv">combined</span><span class="ss">)</span> <span class="o">-</span> <span class="nv">max</span><span class="ss">(</span><span class="nv">len</span><span class="ss">(</span><span class="nv">a</span><span class="ss">)</span>, <span class="nv">len</span><span class="ss">(</span><span class="nv">b</span><span class="ss">)))</span>
-    <span class="k">return</span> <span class="nv">combined</span>
+<div class="highlight"><pre><span></span>def combine_strings(blocks, a, b, char=&#39;-&#39;, min_thres=3):
+    combined = &#39;&#39;
+    last_a, last_b = 0, 0
+    for block in blocks:
+        # Add maximum suffix
+        combined += char * max(block.a - last_a, block.b - last_b)
+        last_a = block.a + block.size
+        last_b = block.b + block.size
+        piece_to_add = a[block.a:block.a+block.size] # Guaranteed to be == b[j:j+n]
+        combined += piece_to_add if len(piece_to_add) &gt; min_thres else char * len(piece_to_add)
+    combined += char * (len(combined) - max(len(a), len(b)))
+    return combined
 
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">combine_strings</span><span class="ss">(</span><span class="nv">s</span>.<span class="nv">get_matching_blocks</span><span class="ss">()</span>, <span class="nv">a</span>, <span class="nv">b</span><span class="ss">)</span>
-<span class="nv">You</span> <span class="nv">have</span> <span class="nv">a</span> <span class="nv">message</span> <span class="nv">from</span> <span class="o">-------------</span> <span class="nv">waiting</span> <span class="k">for</span> <span class="mi">3</span><span class="o">--</span> <span class="nv">days</span><span class="o">--</span>
+&gt;&gt;&gt; combine_strings(s.get_matching_blocks(), a, b)
+You have a message from ------------- waiting for 3-- days--
 </pre></div>
 
 
 <p>The latter is a good aggregated representation of our two subjects and can be easily represented to the&nbsp;user.</p>
 <p>The full Agglomerative Hierarchical Clustering setup then looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="nv">def</span> <span class="nv">find_best_match</span><span class="ss">(</span><span class="nv">clusters</span>, <span class="nv">ratio_threshold</span><span class="ss">)</span>:
-    <span class="nv">s</span> <span class="o">=</span> <span class="nv">SequenceMatcher</span><span class="ss">()</span>
-    <span class="nv">best_abval</span> <span class="o">=</span> <span class="ss">(</span><span class="nv">None</span>, <span class="nv">None</span>, <span class="mi">0</span>, <span class="nv">None</span><span class="ss">)</span>
-    # <span class="nv">Find</span> <span class="nv">best</span> <span class="nv">match</span> <span class="nv">using</span> <span class="nv">centroid</span> <span class="nv">method</span>
-    <span class="k">for</span> <span class="nv">i</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">len</span><span class="ss">(</span><span class="nv">clusters</span><span class="ss">)</span> <span class="o">-</span> <span class="mi">1</span><span class="ss">)</span>:
-        <span class="k">for</span> <span class="nv">j</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">i</span> <span class="o">+</span> <span class="mi">1</span>, <span class="nv">len</span><span class="ss">(</span><span class="nv">clusters</span><span class="ss">))</span>:
-            <span class="nv">s</span>.<span class="nv">set_seq1</span><span class="ss">(</span><span class="nv">clusters</span>[<span class="nv">i</span>].<span class="nv">centroid</span><span class="ss">)</span>
-            <span class="nv">s</span>.<span class="nv">set_seq2</span><span class="ss">(</span><span class="nv">clusters</span>[<span class="nv">j</span>].<span class="nv">centroid</span><span class="ss">)</span>
-            <span class="nv">r</span> <span class="o">=</span> <span class="nv">s</span>.<span class="nv">ratio</span><span class="ss">()</span>
-            <span class="k">if</span> <span class="nv">r</span> <span class="o">&gt;</span> <span class="nv">best_abval</span>[<span class="mi">2</span>] <span class="nv">and</span> <span class="nv">r</span> <span class="o">&gt;=</span> <span class="nv">ratio_threshold</span>:
-                <span class="nv">best_abval</span> <span class="o">=</span> <span class="ss">(</span><span class="nv">i</span>, <span class="nv">j</span>, <span class="nv">r</span>, <span class="nv">s</span>.<span class="nv">get_matching_blocks</span><span class="ss">())</span>
-    <span class="k">return</span> <span class="nv">best_abval</span>
+<div class="highlight"><pre><span></span>def find_best_match(clusters, ratio_threshold):
+    s = SequenceMatcher()
+    best_abval = (None, None, 0, None)
+    # Find best match using centroid method
+    for i in range(len(clusters) - 1):
+        for j in range(i + 1, len(clusters)):
+            s.set_seq1(clusters[i].centroid)
+            s.set_seq2(clusters[j].centroid)
+            r = s.ratio()
+            if r &gt; best_abval[2] and r &gt;= ratio_threshold:
+                best_abval = (i, j, r, s.get_matching_blocks())
+    return best_abval
 
 
-<span class="nv">def</span> <span class="nv">cluster_strings</span><span class="ss">(</span><span class="nv">strings</span>, <span class="nv">ratio_threshold</span><span class="o">=</span><span class="mi">0</span>.<span class="mi">6</span>, <span class="nv">combiner</span><span class="o">=</span><span class="nv">combine_strings</span>, <span class="nv">matcher</span><span class="o">=</span><span class="nv">find_best_match</span><span class="ss">)</span>:
-    <span class="nv">Cluster</span> <span class="o">=</span> <span class="nv">namedtuple</span><span class="ss">(</span><span class="s1">&#39;</span><span class="s">Cluster</span><span class="s1">&#39;</span>, <span class="s1">&#39;</span><span class="s">centroid members parents</span><span class="s1">&#39;</span><span class="ss">)</span>
-    <span class="nv">dendrogram</span> <span class="o">=</span> [
-        # <span class="nv">First</span> <span class="nv">level</span> <span class="nv">of</span> <span class="nv">clusters</span>:
-        [<span class="nv">Cluster</span><span class="ss">(</span><span class="nv">centroid</span><span class="o">=</span><span class="nv">x</span>, <span class="nv">members</span><span class="o">=</span>[<span class="nv">x</span>], <span class="nv">parents</span><span class="o">=</span><span class="nv">None</span><span class="ss">)</span> <span class="k">for</span> <span class="nv">x</span> <span class="nv">in</span> <span class="nv">strings</span>]
+def cluster_strings(strings, ratio_threshold=0.6, combiner=combine_strings, matcher=find_best_match):
+    Cluster = namedtuple(&#39;Cluster&#39;, &#39;centroid members parents&#39;)
+    dendrogram = [
+        # First level of clusters:
+        [Cluster(centroid=x, members=[x], parents=None) for x in strings]
     ]
-    <span class="k">while</span> <span class="nv">len</span><span class="ss">(</span><span class="nv">dendrogram</span>[<span class="o">-</span><span class="mi">1</span>]<span class="ss">)</span> <span class="o">&gt;</span> <span class="mi">1</span>:
-        <span class="nv">best_abval</span> <span class="o">=</span> <span class="nv">matcher</span><span class="ss">(</span><span class="nv">dendrogram</span>[<span class="o">-</span><span class="mi">1</span>], <span class="nv">ratio_threshold</span><span class="ss">)</span>
-        <span class="k">if</span> <span class="nv">best_abval</span>[<span class="mi">3</span>] <span class="nv">is</span> <span class="nv">None</span>:
-            # <span class="nv">Threshold</span> <span class="nv">could</span> <span class="nv">not</span> <span class="nv">be</span> <span class="nv">adhered</span> <span class="nv">to</span>, <span class="nv">stop</span> <span class="nv">clustering</span> <span class="nv">here</span>
-            <span class="k">break</span>
-        <span class="nv">new_level</span> <span class="o">=</span> []
-        <span class="k">for</span> <span class="nv">i</span> <span class="nv">in</span> <span class="nv">range</span><span class="ss">(</span><span class="nv">len</span><span class="ss">(</span><span class="nv">dendrogram</span>[<span class="o">-</span><span class="mi">1</span>]<span class="ss">))</span>:
-            <span class="k">if</span> <span class="nv">i</span> <span class="o">==</span> <span class="nv">best_abval</span>[<span class="mi">0</span>] <span class="nv">or</span> <span class="nv">i</span> <span class="o">==</span> <span class="nv">best_abval</span>[<span class="mi">1</span>]:
-                <span class="k">continue</span>
-            <span class="nv">m</span> <span class="o">=</span> <span class="nv">dendrogram</span>[<span class="o">-</span><span class="mi">1</span>][<span class="nv">i</span>]
-            <span class="nv">new_level</span>.<span class="nv">append</span><span class="ss">(</span><span class="nv">Cluster</span><span class="ss">(</span><span class="nv">centroid</span><span class="o">=</span><span class="nv">m</span>.<span class="nv">centroid</span>, <span class="nv">members</span><span class="o">=</span><span class="nv">m</span>.<span class="nv">members</span>, <span class="nv">parents</span><span class="o">=</span><span class="ss">(</span><span class="nv">i</span>,<span class="ss">)))</span>
-        <span class="nv">first_centroid</span> <span class="o">=</span> <span class="nv">dendrogram</span>[<span class="o">-</span><span class="mi">1</span>][<span class="nv">best_abval</span>[<span class="mi">0</span>]].<span class="nv">centroid</span>
-        <span class="nv">second_centroid</span> <span class="o">=</span> <span class="nv">dendrogram</span>[<span class="o">-</span><span class="mi">1</span>][<span class="nv">best_abval</span>[<span class="mi">1</span>]].<span class="nv">centroid</span>
-        <span class="nv">merged_centroid</span> <span class="o">=</span> <span class="nv">combiner</span><span class="ss">(</span><span class="nv">best_abval</span>[<span class="mi">3</span>], <span class="nv">first_centroid</span>, <span class="nv">second_centroid</span><span class="ss">)</span>
-        <span class="nv">new_level</span>.<span class="nv">append</span><span class="ss">(</span><span class="nv">Cluster</span><span class="ss">(</span><span class="nv">centroid</span><span class="o">=</span><span class="nv">merged_centroid</span>,
-            <span class="nv">members</span><span class="o">=</span><span class="nv">dendrogram</span>[<span class="o">-</span><span class="mi">1</span>][<span class="nv">best_abval</span>[<span class="mi">0</span>]].<span class="nv">members</span> <span class="o">+</span> <span class="nv">dendrogram</span>[<span class="o">-</span><span class="mi">1</span>][<span class="nv">best_abval</span>[<span class="mi">1</span>]].<span class="nv">members</span>,
-            <span class="nv">parents</span><span class="o">=</span><span class="ss">(</span><span class="nv">best_abval</span>[<span class="mi">0</span>], <span class="nv">best_abval</span>[<span class="mi">1</span>]<span class="ss">)))</span>
-        <span class="nv">dendrogram</span>.<span class="nv">append</span><span class="ss">(</span><span class="nv">new_level</span><span class="ss">)</span>
-    <span class="k">return</span> <span class="nv">dendrogram</span>
+    while len(dendrogram[-1]) &gt; 1:
+        best_abval = matcher(dendrogram[-1], ratio_threshold)
+        if best_abval[3] is None:
+            # Threshold could not be adhered to, stop clustering here
+            break
+        new_level = []
+        for i in range(len(dendrogram[-1])):
+            if i == best_abval[0] or i == best_abval[1]:
+                continue
+            m = dendrogram[-1][i]
+            new_level.append(Cluster(centroid=m.centroid, members=m.members, parents=(i,)))
+        first_centroid = dendrogram[-1][best_abval[0]].centroid
+        second_centroid = dendrogram[-1][best_abval[1]].centroid
+        merged_centroid = combiner(best_abval[3], first_centroid, second_centroid)
+        new_level.append(Cluster(centroid=merged_centroid,
+            members=dendrogram[-1][best_abval[0]].members + dendrogram[-1][best_abval[1]].members,
+            parents=(best_abval[0], best_abval[1])))
+        dendrogram.append(new_level)
+    return dendrogram
 </pre></div>
 
 
 <p>And&nbsp;then:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="nv">strings</span> <span class="o">=</span> [<span class="s2">&quot;</span><span class="s">You have a message from Name Lastname waiting for 3 days</span><span class="s2">&quot;</span>,
-           <span class="s2">&quot;</span><span class="s">You have a message from Jon Snow waiting for 393 days</span><span class="s2">&quot;</span>,
-           <span class="s2">&quot;</span><span class="s">You have a message from Bob Bobbert waiting for 4 days</span><span class="s2">&quot;</span>,
-           <span class="s2">&quot;</span><span class="s">You have a message from Marc Marcussen waiting for 1 day</span><span class="s2">&quot;</span>,
-           <span class="s2">&quot;</span><span class="s">Jon Snow liked a photo of you</span><span class="s2">&quot;</span>,
-           <span class="s2">&quot;</span><span class="s">Laurence Marcus liked a photo of you</span><span class="s2">&quot;</span>,
-           <span class="s2">&quot;</span><span class="s">Aurelie liked a photo of you</span><span class="s2">&quot;</span>,
-           <span class="s2">&quot;</span><span class="s">Jon Snow is waiting for your reply</span><span class="s2">&quot;</span>]
+<div class="highlight"><pre><span></span>&gt;&gt;&gt; strings = [&quot;You have a message from Name Lastname waiting for 3 days&quot;,
+           &quot;You have a message from Jon Snow waiting for 393 days&quot;,
+           &quot;You have a message from Bob Bobbert waiting for 4 days&quot;,
+           &quot;You have a message from Marc Marcussen waiting for 1 day&quot;,
+           &quot;Jon Snow liked a photo of you&quot;,
+           &quot;Laurence Marcus liked a photo of you&quot;,
+           &quot;Aurelie liked a photo of you&quot;,
+           &quot;Jon Snow is waiting for your reply&quot;]
 
 
-<span class="o">&gt;&gt;&gt;</span> <span class="nv">cluster_tree</span> <span class="o">=</span> <span class="nv">cluster_strings</span><span class="ss">(</span><span class="nv">strings</span><span class="ss">)</span>
-<span class="o">&gt;&gt;&gt;</span> <span class="k">for</span> <span class="nv">cluster</span> <span class="nv">in</span> <span class="nv">cluster_tree</span>[<span class="o">-</span><span class="mi">1</span>]: <span class="nv">print</span><span class="ss">(</span><span class="nv">cluster</span>.<span class="nv">centroid</span><span class="ss">)</span>
-<span class="nv">Jon</span> <span class="nv">Snow</span> <span class="nv">is</span> <span class="nv">waiting</span> <span class="k">for</span> <span class="nv">your</span> <span class="nv">reply</span>
-<span class="nv">You</span> <span class="nv">have</span> <span class="nv">a</span> <span class="nv">message</span> <span class="nv">from</span> <span class="o">----------------------</span> <span class="nv">waiting</span> <span class="k">for</span> <span class="o">---</span> <span class="nv">day</span><span class="o">--------------</span>
-<span class="o">---------------</span> <span class="nv">liked</span> <span class="nv">a</span> <span class="nv">photo</span> <span class="nv">of</span> <span class="nv">you</span>
+&gt;&gt;&gt; cluster_tree = cluster_strings(strings)
+&gt;&gt;&gt; for cluster in cluster_tree[-1]: print(cluster.centroid)
+Jon Snow is waiting for your reply
+You have a message from ---------------------- waiting for --- day--------------
+--------------- liked a photo of you
 </pre></div>
 
 
@@ -371,11 +371,11 @@
 
 <p>Note that we still combine the clusters together to get a final representation. We&#8217;re also using <code>lru_cache</code> here to solve the pairwise ratio computation issue without adding in additional&nbsp;code.</p>
 <p>Now what remained is to hook this up to a simple Flask application. Note that trashing e-mails using Gmails <span class="caps">API</span> can be done in batch&nbsp;using:</p>
-<div class="highlight"><pre><span></span><span class="n">service</span><span class="p">.</span><span class="n">users</span><span class="p">().</span><span class="n">messages</span><span class="p">().</span><span class="n">batchModify</span><span class="p">(</span><span class="n">userId</span><span class="o">=</span><span class="s1">&#39;me&#39;</span><span class="p">,</span> <span class="n">body</span><span class="o">=</span><span class="err">{</span>
-        <span class="s1">&#39;removeLabelIds&#39;</span><span class="p">:</span> <span class="p">[],</span>
-        <span class="s1">&#39;addLabelIds&#39;</span><span class="p">:</span> <span class="p">[</span><span class="s1">&#39;TRASH&#39;</span><span class="p">],</span>
-        <span class="s1">&#39;ids&#39;</span><span class="p">:</span> <span class="n">email_ids</span>
-    <span class="err">}</span><span class="p">).</span><span class="k">execute</span><span class="p">()</span>
+<div class="highlight"><pre><span></span>service.users().messages().batchModify(userId=&#39;me&#39;, body={
+        &#39;removeLabelIds&#39;: [],
+        &#39;addLabelIds&#39;: [&#39;TRASH&#39;],
+        &#39;ids&#39;: email_ids
+    }).execute()
 </pre></div>
 
 
