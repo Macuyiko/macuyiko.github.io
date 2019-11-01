@@ -83,156 +83,156 @@
 <p>The steps below serve as a reminder, mainly aimed at my (future) self, for setting up an Ubuntu (Oneiric) server. I&#8217;m looking forward to seeing how Linode&nbsp;performs&#8230;</p>
 <h2>1. Install&nbsp;Ubuntu</h2>
 <h2>2. Edit /etc/apt/sources.list and&nbsp;update</h2>
-<div class="highlight"><pre><span></span>apt-get update
-apt-get upgrade`
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="k">update</span>
+<span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">upgrade</span><span class="o">`</span>
 </pre></div>
 
 
 <h2>3. Enable the root&nbsp;account</h2>
-<div class="highlight"><pre><span></span>sudo passwd root
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">passwd</span> <span class="n">root</span>
 </pre></div>
 
 
 <p>And give root a password. Afterwards we become root by running: <code>su</code></p>
 <h2>4. Synchronize the system&nbsp;clock</h2>
 <p>Synchronize the system clock with an <span class="caps">NTP</span> server over the internet. (You can also install this via the Time and Date Preferences <span class="caps">GUI</span>.</p>
-<div class="highlight"><pre><span></span>apt-get install ntp ntpdate
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">ntp</span> <span class="n">ntpdate</span>
 </pre></div>
 
 
 <h2>5. Install the <span class="caps">SSH</span>&nbsp;server</h2>
 <p>Install OpenSSH by&nbsp;default.</p>
-<div class="highlight"><pre><span></span>apt-get install ssh openssh-server
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">ssh</span> <span class="n">openssh</span><span class="o">-</span><span class="n">server</span>
 </pre></div>
 
 
 <h2>6. Configure the&nbsp;network</h2>
 <p>A server should have a static <span class="caps">IP</span> address; edit <code>/etc/network/interfaces</code>:</p>
-<div class="highlight"><pre><span></span>#This file describes the network interfaces available on your system
-# and how to activate them. For more information, see interfaces(5).
+<div class="highlight"><pre><span></span>#<span class="nv">This</span> <span class="nv">file</span> <span class="nv">describes</span> <span class="nv">the</span> <span class="nv">network</span> <span class="nv">interfaces</span> <span class="nv">available</span> <span class="nv">on</span> <span class="nv">your</span> <span class="nv">system</span>
+# <span class="nv">and</span> <span class="nv">how</span> <span class="nv">to</span> <span class="nv">activate</span> <span class="nv">them</span>. <span class="k">For</span> <span class="nv">more</span> <span class="nv">information</span>, <span class="nv">see</span> <span class="nv">interfaces</span><span class="ss">(</span><span class="mi">5</span><span class="ss">)</span>.
 
-# The loopback network interface
-auto lo
-iface lo inet loopback
+# <span class="nv">The</span> <span class="nv">loopback</span> <span class="nv">network</span> <span class="nv">interface</span>
+<span class="nv">auto</span> <span class="nv">lo</span>
+<span class="nv">iface</span> <span class="nv">lo</span> <span class="nv">inet</span> <span class="nv">loopback</span>
 
-# The primary network interface
-auto eth0
-iface eth0 inet static
-address 192.168.0.100
-netmask 255.255.255.0
-network 192.168.0.0
-broadcast 192.168.0.255
-gateway 192.168.0.1`
+# <span class="nv">The</span> <span class="nv">primary</span> <span class="nv">network</span> <span class="nv">interface</span>
+<span class="nv">auto</span> <span class="nv">eth0</span>
+<span class="nv">iface</span> <span class="nv">eth0</span> <span class="nv">inet</span> <span class="nv">static</span>
+<span class="nv">address</span> <span class="mi">192</span>.<span class="mi">168</span>.<span class="mi">0</span>.<span class="mi">100</span>
+<span class="nv">netmask</span> <span class="mi">255</span>.<span class="mi">255</span>.<span class="mi">255</span>.<span class="mi">0</span>
+<span class="nv">network</span> <span class="mi">192</span>.<span class="mi">168</span>.<span class="mi">0</span>.<span class="mi">0</span>
+<span class="nv">broadcast</span> <span class="mi">192</span>.<span class="mi">168</span>.<span class="mi">0</span>.<span class="mi">255</span>
+<span class="nv">gateway</span> <span class="mi">192</span>.<span class="mi">168</span>.<span class="mi">0</span>.<span class="mi">1</span>`
 </pre></div>
 
 
 <p>Then restart your&nbsp;network:</p>
-<div class="highlight"><pre><span></span>/etc/init.d/networking restart
+<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">networking</span> <span class="k">restart</span>
 </pre></div>
 
 
 <p>Then edit <code>/etc/hosts</code>:</p>
-<div class="highlight"><pre><span></span>127.0.0.1 localhost.localdomain localhost
-192.168.0.100 server1.example.com server1
+<div class="highlight"><pre><span></span><span class="mi">127</span>.<span class="mi">0</span>.<span class="mi">0</span>.<span class="mi">1</span> <span class="nv">localhost</span>.<span class="nv">localdomain</span> <span class="nv">localhost</span>
+<span class="mi">192</span>.<span class="mi">168</span>.<span class="mi">0</span>.<span class="mi">100</span> <span class="nv">server1</span>.<span class="nv">example</span>.<span class="nv">com</span> <span class="nv">server1</span>
 
-# The following lines are desirable for IPv6 capable hosts
+# <span class="nv">The</span> <span class="nv">following</span> <span class="nv">lines</span> <span class="nv">are</span> <span class="nv">desirable</span> <span class="k">for</span> <span class="nv">IPv6</span> <span class="nv">capable</span> <span class="nv">hosts</span>
 
-::1 ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-ff02::3 ip6-allhosts`
+::<span class="mi">1</span> <span class="nv">ip6</span><span class="o">-</span><span class="nv">localhost</span> <span class="nv">ip6</span><span class="o">-</span><span class="nv">loopback</span>
+<span class="nv">fe00</span>::<span class="mi">0</span> <span class="nv">ip6</span><span class="o">-</span><span class="nv">localnet</span>
+<span class="nv">ff00</span>::<span class="mi">0</span> <span class="nv">ip6</span><span class="o">-</span><span class="nv">mcastprefix</span>
+<span class="nv">ff02</span>::<span class="mi">1</span> <span class="nv">ip6</span><span class="o">-</span><span class="nv">allnodes</span>
+<span class="nv">ff02</span>::<span class="mi">2</span> <span class="nv">ip6</span><span class="o">-</span><span class="nv">allrouters</span>
+<span class="nv">ff02</span>::<span class="mi">3</span> <span class="nv">ip6</span><span class="o">-</span><span class="nv">allhosts</span>`
 </pre></div>
 
 
 <p>Now&nbsp;run:</p>
-<div class="highlight"><pre><span></span>echo server1.example.com &gt; /etc/hostname
+<div class="highlight"><pre><span></span><span class="n">echo</span> <span class="n">server1</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">com</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">hostname</span>
 </pre></div>
 
 
 <p>Reboot the&nbsp;system:</p>
-<div class="highlight"><pre><span></span>reboot
+<div class="highlight"><pre><span></span><span class="n">reboot</span>
 </pre></div>
 
 
 <p>Afterwards,&nbsp;run:</p>
-<div class="highlight"><pre><span></span>hostname
-hostname -f
+<div class="highlight"><pre><span></span><span class="n">hostname</span>
+<span class="n">hostname</span> <span class="o">-</span><span class="n">f</span>
 </pre></div>
 
 
 <p>Both should show your chosen&nbsp;hostname.</p>
 <h2>7. Add&nbsp;users</h2>
 <p>Add some users. Adding a &#8220;webmaster&#8221; is&nbsp;recommended:</p>
-<div class="highlight"><pre><span></span>sudo useradd -d /home/webmaster -m webmaster
-sudo passwd webmaster
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">useradd</span> <span class="o">-</span><span class="n">d</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">webmaster</span> <span class="o">-</span><span class="n">m</span> <span class="n">webmaster</span>
+<span class="n">sudo</span> <span class="n">passwd</span> <span class="n">webmaster</span>
 
-# Set /bin/bash as shell
+<span class="o">#</span> <span class="k">Set</span> <span class="o">/</span><span class="n">bin</span><span class="o">/</span><span class="n">bash</span> <span class="k">as</span> <span class="n">shell</span>
 
-# Edit /etc/sudoers
+<span class="o">#</span> <span class="n">Edit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">sudoers</span>
 </pre></div>
 
 
 <h2>8.&nbsp;MySQL</h2>
 <p>Install MySQL. You will be asked for a root&nbsp;password.</p>
-<div class="highlight"><pre><span></span>apt-get install mysql-server mysql-client
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">mysql</span><span class="o">-</span><span class="n">server</span> <span class="n">mysql</span><span class="o">-</span><span class="n">client</span>
 </pre></div>
 
 
 <p>We keep <code>bind-address = 127.0.0.1</code> in <code>/etc/mysql/my.cnf</code>.</p>
 <h2>9. Postfix for <span class="caps">SMTP</span>&nbsp;support</h2>
-<div class="highlight"><pre><span></span>apt-get install postfix procmail
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="k">postfix</span> <span class="n">procmail</span>
 </pre></div>
 
 
 <p>You will be asked two questions. Answer as&nbsp;follows:</p>
-<div class="highlight"><pre><span></span>General type of configuration?
-  Internet Site
+<div class="highlight"><pre><span></span><span class="k">General</span> <span class="k">type</span> <span class="k">of</span> <span class="n">configuration</span><span class="o">?</span>
+  <span class="n">Internet</span> <span class="n">Site</span>
 
-Mail name?
-  server1.example.com
+<span class="n">Mail</span> <span class="n">name</span><span class="o">?</span>
+  <span class="n">server1</span><span class="p">.</span><span class="n">example</span><span class="p">.</span><span class="n">com</span>
 </pre></div>
 
 
 <p>Run:</p>
-<div class="highlight"><pre><span></span>dpkg-reconfigure postfix
+<div class="highlight"><pre><span></span><span class="n">dpkg</span><span class="o">-</span><span class="n">reconfigure</span> <span class="k">postfix</span>
 </pre></div>
 
 
 <p>Again, you&#8217;ll be asked some&nbsp;questions:</p>
-<div class="highlight"><pre><span></span>General type of configuration? &lt;-- Internet Site
-Where should mail for root go &lt;-- [blank]
-Mail name? &lt;-- server1.example.com
-Other destinations to accept mail for? (blank for none) &lt;-- server1.example.com, localhost.example.com, localhost.localdomain, localhost
-Force synchronous updates on mail queue? &lt;-- No
-Local networks? &lt;-- 127.0.0.0/8
-Use procmail for local delivery? &lt;-- Yes
-Mailbox size limit &lt;-- 0
-Local address extension character? &lt;-- +
-Internet protocols to use? &lt;-- ipv4
+<div class="highlight"><pre><span></span><span class="nv">General</span> <span class="nv">type</span> <span class="nv">of</span> <span class="nv">configuration</span>? <span class="o">&lt;--</span> <span class="nv">Internet</span> <span class="nv">Site</span>
+<span class="nv">Where</span> <span class="nv">should</span> <span class="nv">mail</span> <span class="k">for</span> <span class="nv">root</span> <span class="nv">go</span> <span class="o">&lt;--</span> [<span class="nv">blank</span>]
+<span class="nv">Mail</span> <span class="nv">name</span>? <span class="o">&lt;--</span> <span class="nv">server1</span>.<span class="nv">example</span>.<span class="nv">com</span>
+<span class="nv">Other</span> <span class="nv">destinations</span> <span class="nv">to</span> <span class="nv">accept</span> <span class="nv">mail</span> <span class="k">for</span>? <span class="ss">(</span><span class="nv">blank</span> <span class="k">for</span> <span class="nv">none</span><span class="ss">)</span> <span class="o">&lt;--</span> <span class="nv">server1</span>.<span class="nv">example</span>.<span class="nv">com</span>, <span class="nv">localhost</span>.<span class="nv">example</span>.<span class="nv">com</span>, <span class="nv">localhost</span>.<span class="nv">localdomain</span>, <span class="nv">localhost</span>
+<span class="nv">Force</span> <span class="nv">synchronous</span> <span class="nv">updates</span> <span class="nv">on</span> <span class="nv">mail</span> <span class="nv">queue</span>? <span class="o">&lt;--</span> <span class="nv">No</span>
+<span class="nv">Local</span> <span class="nv">networks</span>? <span class="o">&lt;--</span> <span class="mi">127</span>.<span class="mi">0</span>.<span class="mi">0</span>.<span class="mi">0</span><span class="o">/</span><span class="mi">8</span>
+<span class="nv">Use</span> <span class="nv">procmail</span> <span class="k">for</span> <span class="nv">local</span> <span class="nv">delivery</span>? <span class="o">&lt;--</span> <span class="nv">Yes</span>
+<span class="nv">Mailbox</span> <span class="nv">size</span> <span class="nv">limit</span> <span class="o">&lt;--</span> <span class="mi">0</span>
+<span class="nv">Local</span> <span class="nv">address</span> <span class="nv">extension</span> <span class="nv">character</span>? <span class="o">&lt;--</span> <span class="o">+</span>
+<span class="nv">Internet</span> <span class="nv">protocols</span> <span class="nv">to</span> <span class="nv">use</span>? <span class="o">&lt;--</span> <span class="nv">ipv4</span>
 </pre></div>
 
 
 <p>Next:</p>
-<div class="highlight"><pre><span></span>postconf -e &#39;inet_interfaces = loopback-only&#39;
+<div class="highlight"><pre><span></span><span class="n">postconf</span> <span class="o">-</span><span class="n">e</span> <span class="s1">&#39;inet_interfaces = loopback-only&#39;</span>
 </pre></div>
 
 
 <p>We do not create certificates any more. Only using postfix as a local-only <span class="caps">SMTP</span> handler. <span class="caps">IMAP</span> and others not handled with Google&nbsp;Apps.</p>
 <p>Restart&nbsp;Postfix:</p>
-<div class="highlight"><pre><span></span>/etc/init.d/postfix restart
+<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="k">postfix</span> <span class="k">restart</span>
 </pre></div>
 
 
 <h2>10. Apache/<span class="caps">PHP5</span></h2>
 <h3>10.1.&nbsp;Installation</h3>
-<div class="highlight"><pre><span></span>apt-get install apache2 apache2-mpm-prefork apache2-utils ssl-cert
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">apache2</span> <span class="n">apache2</span><span class="o">-</span><span class="n">mpm</span><span class="o">-</span><span class="n">prefork</span> <span class="n">apache2</span><span class="o">-</span><span class="n">utils</span> <span class="n">ssl</span><span class="o">-</span><span class="n">cert</span>
 </pre></div>
 
 
 <p>Install <span class="caps">PHP5</span>:</p>
-<div class="highlight"><pre><span></span>apt-get install libapache2-mod-php5 php5 php5-common php5-curl php5-dev php5-gd php5-idn php-pear php5-imagick php5-imap php5-json php5-mcrypt php5-memcache php5-mhash php5-ming php5-mysql php5-ps php5-pspell php5-recode php5-snmp php5-sqlite php5-tidy php5-xmlrpc php5-xsl
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libapache2</span><span class="o">-</span><span class="k">mod</span><span class="o">-</span><span class="n">php5</span> <span class="n">php5</span> <span class="n">php5</span><span class="o">-</span><span class="n">common</span> <span class="n">php5</span><span class="o">-</span><span class="n">curl</span> <span class="n">php5</span><span class="o">-</span><span class="n">dev</span> <span class="n">php5</span><span class="o">-</span><span class="n">gd</span> <span class="n">php5</span><span class="o">-</span><span class="n">idn</span> <span class="n">php</span><span class="o">-</span><span class="n">pear</span> <span class="n">php5</span><span class="o">-</span><span class="n">imagick</span> <span class="n">php5</span><span class="o">-</span><span class="n">imap</span> <span class="n">php5</span><span class="o">-</span><span class="n">json</span> <span class="n">php5</span><span class="o">-</span><span class="n">mcrypt</span> <span class="n">php5</span><span class="o">-</span><span class="n">memcache</span> <span class="n">php5</span><span class="o">-</span><span class="n">mhash</span> <span class="n">php5</span><span class="o">-</span><span class="n">ming</span> <span class="n">php5</span><span class="o">-</span><span class="n">mysql</span> <span class="n">php5</span><span class="o">-</span><span class="n">ps</span> <span class="n">php5</span><span class="o">-</span><span class="n">pspell</span> <span class="n">php5</span><span class="o">-</span><span class="n">recode</span> <span class="n">php5</span><span class="o">-</span><span class="n">snmp</span> <span class="n">php5</span><span class="o">-</span><span class="n">sqlite</span> <span class="n">php5</span><span class="o">-</span><span class="n">tidy</span> <span class="n">php5</span><span class="o">-</span><span class="n">xmlrpc</span> <span class="n">php5</span><span class="o">-</span><span class="n">xsl</span>
 </pre></div>
 
 
@@ -245,124 +245,124 @@ Internet protocols to use? &lt;-- ipv4
 
 
 <p>Now we have to enable some Apache&nbsp;modules:</p>
-<div class="highlight"><pre><span></span>a2enmod ssl
-a2enmod rewrite
-a2enmod suexec
-a2enmod status
-a2enmod include
+<div class="highlight"><pre><span></span><span class="nv">a2enmod</span> <span class="nv">ssl</span>
+<span class="nv">a2enmod</span> <span class="nv">rewrite</span>
+<span class="nv">a2enmod</span> <span class="nv">suexec</span>
+<span class="nv">a2enmod</span> <span class="nv">status</span>
+<span class="nv">a2enmod</span> <span class="k">include</span>
 </pre></div>
 
 
 <p>Reload the Apache&nbsp;configuration:</p>
-<div class="highlight"><pre><span></span>/etc/init.d/apache2 force-reload
+<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">apache2</span> <span class="k">force</span><span class="o">-</span><span class="n">reload</span>
 </pre></div>
 
 
 <p>Don&#8217;t forget to edit&nbsp;php.ini.</p>
 <h3>10.2. Adding&nbsp;subdomains</h3>
 <p>You can add sites to <code>/etc/apache2/sites-enabled</code>, use the following example configuration&nbsp;file:</p>
-<div class="highlight"><pre><span></span><span class="nt">&lt;VirtualHost</span> <span class="err">*</span><span class="nt">&gt;</span>
-  ServerAdmin info@sitename.com
-  ServerName sitename.com
-  ServerAlias *.sitename.com
-  DocumentRoot /var/www/sitename.com/
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="nv">VirtualHost</span> <span class="o">*&gt;</span>
+  <span class="nv">ServerAdmin</span> <span class="nv">info</span>@<span class="nv">sitename</span>.<span class="nv">com</span>
+  <span class="nv">ServerName</span> <span class="nv">sitename</span>.<span class="nv">com</span>
+  <span class="nv">ServerAlias</span> <span class="o">*</span>.<span class="nv">sitename</span>.<span class="nv">com</span>
+  <span class="nv">DocumentRoot</span> <span class="o">/</span><span class="nv">var</span><span class="o">/</span><span class="nv">www</span><span class="o">/</span><span class="nv">sitename</span>.<span class="nv">com</span><span class="o">/</span>
 
-  <span class="nt">&lt;Directory</span> <span class="nt">/&gt;</span>
-    Options FollowSymLinks
-    AllowOverride All
-  <span class="nt">&lt;/Directory&gt;</span>
+  <span class="o">&lt;</span><span class="nv">Directory</span> <span class="o">/&gt;</span>
+    <span class="nv">Options</span> <span class="nv">FollowSymLinks</span>
+    <span class="nv">AllowOverride</span> <span class="nv">All</span>
+  <span class="o">&lt;/</span><span class="nv">Directory</span><span class="o">&gt;</span>
 
-  <span class="nt">&lt;Directory</span> <span class="err">/var/www/sitename.com</span><span class="nt">/&gt;</span>
-    Options Indexes FollowSymLinks MultiViews
-    DirectoryIndex index.html index.htm index.php index.php3
-    AllowOverride All
-    Order allow,deny
-    allow from all
-  <span class="nt">&lt;/Directory&gt;</span>
+  <span class="o">&lt;</span><span class="nv">Directory</span> <span class="o">/</span><span class="nv">var</span><span class="o">/</span><span class="nv">www</span><span class="o">/</span><span class="nv">sitename</span>.<span class="nv">com</span><span class="o">/&gt;</span>
+    <span class="nv">Options</span> <span class="nv">Indexes</span> <span class="nv">FollowSymLinks</span> <span class="nv">MultiViews</span>
+    <span class="nv">DirectoryIndex</span> <span class="nv">index</span>.<span class="nv">html</span> <span class="nv">index</span>.<span class="nv">htm</span> <span class="nv">index</span>.<span class="nv">php</span> <span class="nv">index</span>.<span class="nv">php3</span>
+    <span class="nv">AllowOverride</span> <span class="nv">All</span>
+    <span class="nv">Order</span> <span class="nv">allow</span>,<span class="nv">deny</span>
+    <span class="nv">allow</span> <span class="nv">from</span> <span class="nv">all</span>
+  <span class="o">&lt;/</span><span class="nv">Directory</span><span class="o">&gt;</span>
 
-  ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+  <span class="nv">ScriptAlias</span> <span class="o">/</span><span class="nv">cgi</span><span class="o">-</span><span class="nv">bin</span><span class="o">/</span> <span class="o">/</span><span class="nv">usr</span><span class="o">/</span><span class="nv">lib</span><span class="o">/</span><span class="nv">cgi</span><span class="o">-</span><span class="nv">bin</span><span class="o">/</span>
 
-  <span class="nt">&lt;Directory</span> <span class="err">&quot;/usr/lib/cgi-bin&quot;</span><span class="nt">&gt;</span>
-    AllowOverride None
-    Options ExecCGI -MultiViews +SymLinksIfOwnerMatch
-    Order allow,deny
-    Allow from all
-  <span class="nt">&lt;/Directory&gt;</span>
+  <span class="o">&lt;</span><span class="nv">Directory</span> <span class="s2">&quot;</span><span class="s">/usr/lib/cgi-bin</span><span class="s2">&quot;</span><span class="o">&gt;</span>
+    <span class="nv">AllowOverride</span> <span class="nv">None</span>
+    <span class="nv">Options</span> <span class="nv">ExecCGI</span> <span class="o">-</span><span class="nv">MultiViews</span> <span class="o">+</span><span class="nv">SymLinksIfOwnerMatch</span>
+    <span class="nv">Order</span> <span class="nv">allow</span>,<span class="nv">deny</span>
+    <span class="nv">Allow</span> <span class="nv">from</span> <span class="nv">all</span>
+  <span class="o">&lt;/</span><span class="nv">Directory</span><span class="o">&gt;</span>
 
-  ErrorLog /var/log/apache2/error.log
+  <span class="nv">ErrorLog</span> <span class="o">/</span><span class="nv">var</span><span class="o">/</span><span class="nv">log</span><span class="o">/</span><span class="nv">apache2</span><span class="o">/</span><span class="nv">error</span>.<span class="nv">log</span>
 
-  # Possible values include: debug, info, notice, warn, error, crit,
-  # alert, emerg.
-  LogLevel warn
+  # <span class="nv">Possible</span> <span class="nv">values</span> <span class="k">include</span>: <span class="nv">debug</span>, <span class="nv">info</span>, <span class="nv">notice</span>, <span class="nv">warn</span>, <span class="nv">error</span>, <span class="nv">crit</span>,
+  # <span class="nv">alert</span>, <span class="nv">emerg</span>.
+  <span class="nv">LogLevel</span> <span class="nv">warn</span>
 
-  CustomLog /var/log/apache2/access.log combined
-  ServerSignature On
+  <span class="nv">CustomLog</span> <span class="o">/</span><span class="nv">var</span><span class="o">/</span><span class="nv">log</span><span class="o">/</span><span class="nv">apache2</span><span class="o">/</span><span class="nv">access</span>.<span class="nv">log</span> <span class="nv">combined</span>
+  <span class="nv">ServerSignature</span> <span class="nv">On</span>
 
-  #Alias /doc/ &quot;/usr/share/doc/&quot;
-<span class="nt">&lt;/VirtualHost&gt;</span>`
+  #<span class="nv">Alias</span> <span class="o">/</span><span class="nv">doc</span><span class="o">/</span> <span class="s2">&quot;</span><span class="s">/usr/share/doc/</span><span class="s2">&quot;</span>
+<span class="o">&lt;/</span><span class="nv">VirtualHost</span><span class="o">&gt;</span>`
 </pre></div>
 
 
 <p>Don&#8217;t forget to edit the default virtualhost with a <code>NameVirtualHost *</code> and <code>AllowOverride All</code>.</p>
 <h2>11.&nbsp;Proftpd</h2>
 <p>Install&nbsp;Proftpd:</p>
-<div class="highlight"><pre><span></span>apt-get install proftpd ucf
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">proftpd</span> <span class="n">ucf</span>
 </pre></div>
 
 
 <p>You will be asked a&nbsp;question:</p>
-<div class="highlight"><pre><span></span>Run proftpd from inetd or standalone? &lt;-- standalone`
+<div class="highlight"><pre><span></span><span class="n">Run</span> <span class="n">proftpd</span> <span class="k">from</span> <span class="n">inetd</span> <span class="k">or</span> <span class="n">standalone</span><span class="o">?</span> <span class="o">&lt;</span><span class="c1">-- standalone`</span>
 </pre></div>
 
 
 <p>Now edit <code>/etc/proftpd/proftpd.conf</code>:</p>
-<div class="highlight"><pre><span></span>DefaultRoot /
-UseIPv6 off
+<div class="highlight"><pre><span></span><span class="n">DefaultRoot</span> <span class="o">/</span>
+<span class="n">UseIPv6</span> <span class="k">off</span>
 </pre></div>
 
 
 <p>Then restart&nbsp;Proftpd:</p>
-<div class="highlight"><pre><span></span>/etc/init.d/proftpd restart
+<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">proftpd</span> <span class="k">restart</span>
 </pre></div>
 
 
 <h2>12.&nbsp;PHPMyAdmin</h2>
 <p>Install&nbsp;PHPMyAdmin:</p>
-<div class="highlight"><pre><span></span>apt-get install phpmyadmin
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">phpmyadmin</span>
 </pre></div>
 
 
 <p>Pick apache2 to&nbsp;configure.</p>
 <h2>13. Secure <span class="caps">SSH</span> a&nbsp;bit</h2>
 <p>Edit <code>/etc/ssh/sshd_config</code>:</p>
-<div class="highlight"><pre><span></span>Port 4444 #Other than 22
-PermitRootLogin no #Make sure other user can login/sudo`
+<div class="highlight"><pre><span></span><span class="n">Port</span> <span class="mi">4444</span> <span class="o">#</span><span class="n">Other</span> <span class="k">than</span> <span class="mi">22</span>
+<span class="n">PermitRootLogin</span> <span class="k">no</span> <span class="o">#</span><span class="n">Make</span> <span class="n">sure</span> <span class="n">other</span> <span class="k">user</span> <span class="n">can</span> <span class="n">login</span><span class="o">/</span><span class="n">sudo</span><span class="o">`</span>
 </pre></div>
 
 
 <h2>14. Set /var/www&nbsp;permissions</h2>
-<div class="highlight"><pre><span></span>chown -R webmaster:www-data /var/www
-chmod 775 -R /var/www
+<div class="highlight"><pre><span></span><span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="n">webmaster</span><span class="p">:</span><span class="n">www</span><span class="o">-</span><span class="k">data</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span>
+<span class="n">chmod</span> <span class="mi">775</span> <span class="o">-</span><span class="n">R</span> <span class="o">/</span><span class="n">var</span><span class="o">/</span><span class="n">www</span>
 </pre></div>
 
 
 <h2>15. Install slowloris&nbsp;protection</h2>
-<div class="highlight"><pre><span></span>apt-get install gcc apache2-threaded-dev
-wget https://gist.github.com/raw/773464/4e7250692c34f55725384525b513e71be7541f5a/mod_muantiloris.c
-apxs2 -a -i -c mod_muantiloris.c
-/etc/init.d/apache2 restart
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">gcc</span> <span class="n">apache2</span><span class="o">-</span><span class="n">threaded</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">wget</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">gist</span><span class="p">.</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">raw</span><span class="o">/</span><span class="mi">773464</span><span class="o">/</span><span class="mi">4</span><span class="n">e7250692c34f55725384525b513e71be7541f5a</span><span class="o">/</span><span class="n">mod_muantiloris</span><span class="p">.</span><span class="k">c</span>
+<span class="n">apxs2</span> <span class="o">-</span><span class="n">a</span> <span class="o">-</span><span class="n">i</span> <span class="o">-</span><span class="k">c</span> <span class="n">mod_muantiloris</span><span class="p">.</span><span class="k">c</span>
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">apache2</span> <span class="k">restart</span>
 </pre></div>
 
 
 <p>Edit <code>/etc/apache2/httpd.conf</code>:</p>
-<div class="highlight"><pre><span></span>ExtendedStatus On
-IPReadLimit 5
-IPPostLimit 10
+<div class="highlight"><pre><span></span><span class="n">ExtendedStatus</span> <span class="k">On</span>
+<span class="n">IPReadLimit</span> <span class="mi">5</span>
+<span class="n">IPPostLimit</span> <span class="mi">10</span>
 </pre></div>
 
 
 <h2>16. Install&nbsp;fail2ban</h2>
-<div class="highlight"><pre><span></span>apt-get install fail2ban
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">fail2ban</span>
 </pre></div>
 
 
@@ -371,7 +371,7 @@ IPPostLimit 10
 <p>Move user files, virtualhost configurations, /var/www. Backup mysql data&nbsp;bases.</p>
 <p>Install openjdk-6-jre, davmail if&nbsp;needed.</p>
 <p>Backup&nbsp;script:</p>
-<div class="highlight"><pre><span></span>tar cvpzf backup.tgz --exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/usr --exclude=/bin --exclude=/sbin --exclude=/backup.tgz /
+<div class="highlight"><pre><span></span><span class="n">tar</span> <span class="n">cvpzf</span> <span class="n">backup</span><span class="p">.</span><span class="n">tgz</span> <span class="c1">--exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/usr --exclude=/bin --exclude=/sbin --exclude=/backup.tgz /</span>
 </pre></div>
 	</article>
 </div>

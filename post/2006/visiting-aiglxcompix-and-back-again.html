@@ -79,7 +79,7 @@
 <p>Yesterday I decided to &#8220;quickly give <span class="caps">AIGLX</span>/Compiz a go&#8221;. I use <span class="caps">AIGLX</span> because I do this on my Thinkpad and it has an Intel card. <span class="caps">AIGLX</span> gives better performance with these&nbsp;cards.</p>
 <p>There are already nice how-to&#8217;s at <a href="http://doc.gwos.org/index.php/Xorg_Aiglx_Compiz">this</a> and <a href="http://corvillus.com/2006/08/03/how-to-set-up-aiglx-and-compiz-on-ubuntu-606-running-gnome/">this</a> location, but I just wanted to share my experience, but also add some additional remarks. And: we will even revert back to the normal Gnome&nbsp;desktop&#8230;</p>
 <h3>1. Add the following to your sources&nbsp;list:</h3>
-<div class="highlight"><pre><span></span>sudo gedit /etc/apt/sources.list
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">apt</span><span class="o">/</span><span class="n">sources</span><span class="p">.</span><span class="n">list</span>
 </pre></div>
 
 
@@ -96,91 +96,91 @@
 
 <p>You might be wondering why I add a lot of repos here. In my configuration, apt-get complained about some missing packages when I used the repos mentioned in the&nbsp;wiki/docs.</p>
 <p>The following steps are exactly the same as the&nbsp;docs/wiki&#8230;</p>
-<div class="highlight"><pre><span></span>sudo apt-get update sudo apt-get dist-upgrade
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="k">update</span> <span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">dist</span><span class="o">-</span><span class="n">upgrade</span>
 </pre></div>
 
 
 <h3>2. Install the latest dri&nbsp;modules:</h3>
-<div class="highlight"><pre><span></span>sudo apt-get install linux-dri-modules-common linux-dri-modules-`uname -r`
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">linux</span><span class="o">-</span><span class="n">dri</span><span class="o">-</span><span class="n">modules</span><span class="o">-</span><span class="n">common</span> <span class="n">linux</span><span class="o">-</span><span class="n">dri</span><span class="o">-</span><span class="n">modules</span><span class="o">-`</span><span class="n">uname</span> <span class="o">-</span><span class="n">r</span><span class="o">`</span>
 </pre></div>
 
 
 <h3>3. First purge&nbsp;Aiglx/Compiz:</h3>
-<div class="highlight"><pre><span></span>sudo aptitude purge compiz-aiglx compiz-aiglx-gnome
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">aptitude</span> <span class="n">purge</span> <span class="n">compiz</span><span class="o">-</span><span class="n">aiglx</span> <span class="n">compiz</span><span class="o">-</span><span class="n">aiglx</span><span class="o">-</span><span class="n">gnome</span>
 </pre></div>
 
 
 <h3>4. Then install (I installed the Quinn packages, because I randomly read somewhere they were&nbsp;better):</h3>
-<div class="highlight"><pre><span></span>sudo apt-get install compiz-quinn-aiglx compiz compiz-gnome
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">compiz</span><span class="o">-</span><span class="n">quinn</span><span class="o">-</span><span class="n">aiglx</span> <span class="n">compiz</span> <span class="n">compiz</span><span class="o">-</span><span class="n">gnome</span>
 </pre></div>
 
 
 <h3>5. Now&nbsp;let&#8217;s</h3>
-<div class="highlight"><pre><span></span>sudo gedit /etc/X11/xorg.conf
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">X11</span><span class="o">/</span><span class="n">xorg</span><span class="p">.</span><span class="n">conf</span>
 </pre></div>
 
 
 <p>Edit the Screen section to 24bit&nbsp;mode:</p>
-<div class="highlight"><pre><span></span>DefaultDepth 24
+<div class="highlight"><pre><span></span><span class="n">DefaultDepth</span> <span class="mi">24</span>
 </pre></div>
 
 
 <p>Make sure your Modules section has the following&nbsp;loaded:</p>
-<div class="highlight"><pre><span></span>Section &quot;Module&quot;
-  # Load &quot;GLcore&quot;
-  Load &quot;bitmap&quot;
-  Load &quot;ddc&quot;
-  Load &quot;dbe&quot;
-  Load &quot;dri&quot;
-  Load &quot;extmod&quot;
-  Load &quot;freetype&quot;
-  Load &quot;glx&quot;
-  Load &quot;int10&quot;
-  Load &quot;type1&quot;
-  Load &quot;vbe&quot;
-EndSection
+<div class="highlight"><pre><span></span><span class="n">Section</span> <span class="ss">&quot;Module&quot;</span>
+  <span class="o">#</span> <span class="k">Load</span> <span class="ss">&quot;GLcore&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;bitmap&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;ddc&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;dbe&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;dri&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;extmod&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;freetype&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;glx&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;int10&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;type1&quot;</span>
+  <span class="k">Load</span> <span class="ss">&quot;vbe&quot;</span>
+<span class="n">EndSection</span>
 </pre></div>
 
 
 <p>If you happen to have other modules: you may probably leave them in (I had&nbsp;one).</p>
 <p>Make sure there is only one option in the Device&nbsp;section:</p>
-<div class="highlight"><pre><span></span>Section &quot;Device&quot;
-  Identifier &quot;Intel Corporation Intel Default Card&quot;
-  Driver &quot;i810&quot;
-  Option &quot;XAANoOffscreenPixmaps&quot;
-  BusID &quot;PCI:0:2:0&quot;
-EndSection
+<div class="highlight"><pre><span></span><span class="n">Section</span> <span class="ss">&quot;Device&quot;</span>
+  <span class="n">Identifier</span> <span class="ss">&quot;Intel Corporation Intel Default Card&quot;</span>
+  <span class="n">Driver</span> <span class="ss">&quot;i810&quot;</span>
+  <span class="k">Option</span> <span class="ss">&quot;XAANoOffscreenPixmaps&quot;</span>
+  <span class="n">BusID</span> <span class="ss">&quot;PCI:0:2:0&quot;</span>
+<span class="n">EndSection</span>
 </pre></div>
 
 
 <p>Add Aiglx to your server&nbsp;layout:</p>
-<div class="highlight"><pre><span></span>Section &quot;ServerLayout&quot;
-  Option &quot;AIGLX&quot; &quot;true&quot;
-  Identifier &quot;Default Layout&quot;
-  Screen &quot;Default Screen&quot;
-  InputDevice &quot;Generic Keyboard&quot;
-  InputDevice &quot;Configured Mouse&quot;
-  InputDevice &quot;Synaptics Touchpad&quot;
-EndSection
+<div class="highlight"><pre><span></span><span class="n">Section</span> <span class="ss">&quot;ServerLayout&quot;</span>
+  <span class="k">Option</span> <span class="ss">&quot;AIGLX&quot;</span> <span class="ss">&quot;true&quot;</span>
+  <span class="n">Identifier</span> <span class="ss">&quot;Default Layout&quot;</span>
+  <span class="n">Screen</span> <span class="ss">&quot;Default Screen&quot;</span>
+  <span class="n">InputDevice</span> <span class="ss">&quot;Generic Keyboard&quot;</span>
+  <span class="n">InputDevice</span> <span class="ss">&quot;Configured Mouse&quot;</span>
+  <span class="n">InputDevice</span> <span class="ss">&quot;Synaptics Touchpad&quot;</span>
+<span class="n">EndSection</span>
 </pre></div>
 
 
 <p>Uncomment the <span class="caps">DRI</span>&nbsp;section:</p>
-<div class="highlight"><pre><span></span>Section &quot;DRI&quot;
-  Mode 0666
-EndSection
+<div class="highlight"><pre><span></span><span class="n">Section</span> <span class="ss">&quot;DRI&quot;</span>
+  <span class="k">Mode</span> <span class="mi">0666</span>
+<span class="n">EndSection</span>
 </pre></div>
 
 
 <p>Finally, you must&nbsp;have:</p>
-<div class="highlight"><pre><span></span>Section &quot;Extensions&quot;
-  Option &quot;Composite&quot; &quot;Enable&quot;
-EndSection
+<div class="highlight"><pre><span></span><span class="n">Section</span> <span class="ss">&quot;Extensions&quot;</span>
+  <span class="k">Option</span> <span class="ss">&quot;Composite&quot;</span> <span class="ss">&quot;Enable&quot;</span>
+<span class="n">EndSection</span>
 </pre></div>
 
 
 <h3>6. Configure&nbsp;gdm:</h3>
-<div class="highlight"><pre><span></span>sudo gedit /etc/gdm/gdm.conf-custom
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">gdm</span><span class="o">/</span><span class="n">gdm</span><span class="p">.</span><span class="n">conf</span><span class="o">-</span><span class="n">custom</span>
 </pre></div>
 
 
@@ -201,15 +201,15 @@ EndSection
 <p>The following information is not in the&nbsp;docs/wiki&#8230;</p>
 <p>Yes! It seems to boot. But my windows have no borders&#8230; see that new Compiz icon in the &#8220;taskbar&#8221; (top right), it looks like a red cube. Right click it, edit preferences, plugins, and enable most of them (test it out which ones work fine on your system). Make sure the first ones (<code>gconf</code>) are enabled. Save. Right click again and choose Restart Compiz. Your windows will now show borders and be wobbly and so (if you enabled the&nbsp;plugins).</p>
 <p>Now let&#8217;s fix Totem. I had gstreamer&nbsp;so:</p>
-<div class="highlight"><pre><span></span>totem-gstreamer
+<div class="highlight"><pre><span></span><span class="n">totem</span><span class="o">-</span><span class="n">gstreamer</span>
 </pre></div>
 
 
 <p>And then select on default video playback &#8220;XWindow (NoXv)&#8221; in video&nbsp;tab.</p>
 <p>Now for some themes, make sure the following is&nbsp;installed:</p>
-<div class="highlight"><pre><span></span>sudo apt-get install gcompizthemer
-sudo apt-get install cgwd
-sudo apt-get install cgwd-themes
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">gcompizthemer</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">cgwd</span>
+<span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">cgwd</span><span class="o">-</span><span class="n">themes</span>
 </pre></div>
 
 

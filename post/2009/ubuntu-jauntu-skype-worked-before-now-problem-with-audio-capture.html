@@ -113,15 +113,15 @@
 <p>Your Sound Out/Ringing devices are already correct, they need to be pulse. Sound In will be set to an&nbsp;hw-device.</p>
 <p>Before reading further, try making a test call with every listed hw-device (I had four, you can have more or&nbsp;less).</p>
 <p>If none of them are working or if you&#8217;re sure which hw-device you need (and it isn&#8217;t working), try this: edit <code>/etc/pulse/daemon.conf</code> (don&#8217;t forget to sudo) and make sure the following lines are present and uncommented, with the following&nbsp;values:</p>
-<div class="highlight"><pre><span></span>default-fragments = 8
-default-fragment-size-msec = 5
+<div class="highlight"><pre><span></span><span class="k">default</span><span class="o">-</span><span class="n">fragments</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="k">default</span><span class="o">-</span><span class="n">fragment</span><span class="o">-</span><span class="k">size</span><span class="o">-</span><span class="n">msec</span> <span class="o">=</span> <span class="mi">5</span>
 </pre></div>
 
 
 <p>This is an optional step however, but it seems to help with the Skype sound quality (an other option is setting <code>default-fragment-size-msec</code> to&nbsp;10).</p>
 <p><strong>(!)</strong> Now,  edit <code>~/.asoundrc</code> (no need to be root here, it&#8217;s a file in your home directory). And make sure the following lines are&nbsp;there:</p>
-<div class="highlight"><pre><span></span>pcm.pulse { type pulse }
-ctl.pulse { type pulse }
+<div class="highlight"><pre><span></span><span class="n">pcm</span><span class="p">.</span><span class="n">pulse</span> <span class="err">{</span> <span class="k">type</span> <span class="n">pulse</span> <span class="err">}</span>
+<span class="n">ctl</span><span class="p">.</span><span class="n">pulse</span> <span class="err">{</span> <span class="k">type</span> <span class="n">pulse</span> <span class="err">}</span>
 </pre></div>
 
 
@@ -129,7 +129,7 @@ ctl.pulse { type pulse }
 <p>Then, just to be sure, I reinstalled  the <code>libasound2-plugins</code> package.</p>
 <p>Reboot, or restart pulseaudio (kill it, then start it in i.e. a Terminal window). Restart Skype. Skype was working fine now. If it is not, make sure you try every&nbsp;plughw-device.</p>
 <p>Still not working, no matter how much you try? You&#8217;re out of luck. If sound-recorder and sound playback is working, you can try an emergency solution. Install the static, <span class="caps">OSS</span> version of Skype (you can find it with Medibuntu or floating around in a tarball somewhere). and start it&nbsp;with:</p>
-<div class="highlight"><pre><span></span>padsp skype
+<div class="highlight"><pre><span></span><span class="n">padsp</span> <span class="n">skype</span>
 </pre></div>
 
 

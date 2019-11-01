@@ -77,20 +77,20 @@
 	
 	    <p>Another one of these things I always end up forgetting: setting up a Linux (in this case: Ubuntu) server so that users can login using a <span class="caps">VNC</span> client and get a (slim)&nbsp;desktop.</p>
 <p>First thing you need to do is make sure you have a <span class="caps">VNC</span> server (<code>tightvncserver</code>), desktop apps and window manager installed.&nbsp;E.g.:</p>
-<div class="highlight"><pre><span></span>apt-get -y install ubuntu-desktop tightvncserver xfce4 xfce4-goodies
+<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="o">-</span><span class="n">y</span> <span class="n">install</span> <span class="n">ubuntu</span><span class="o">-</span><span class="n">desktop</span> <span class="n">tightvncserver</span> <span class="n">xfce4</span> <span class="n">xfce4</span><span class="o">-</span><span class="n">goodies</span>
 </pre></div>
 
 
 <p>Next, add a user (if you haven&#8217;t already) for the remote user going to&nbsp;login:</p>
-<div class="highlight"><pre><span></span>adduser remote_user
-passwd remote_user
+<div class="highlight"><pre><span></span><span class="n">adduser</span> <span class="n">remote_user</span>
+<span class="n">passwd</span> <span class="n">remote_user</span>
 </pre></div>
 
 
 <p>Add to sudoers if&nbsp;required.</p>
 <p>Next, set a <span class="caps">VNC</span> password. Best to set this to something else than normal&nbsp;password:</p>
-<div class="highlight"><pre><span></span>su - remote_user
-vncpasswd
+<div class="highlight"><pre><span></span><span class="n">su</span> <span class="o">-</span> <span class="n">remote_user</span>
+<span class="n">vncpasswd</span>
 </pre></div>
 
 
@@ -152,7 +152,7 @@ restart<span class="o">)</span>
 </td></tr></table>
 
 <p>And start&nbsp;with:</p>
-<div class="highlight"><pre><span></span>./vncserver.sh start remote_user 1
+<div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">vncserver</span><span class="p">.</span><span class="n">sh</span> <span class="k">start</span> <span class="n">remote_user</span> <span class="mi">1</span>
 </pre></div>
 
 

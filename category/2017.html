@@ -100,7 +100,7 @@ $(function() {
 			<div class="article-summary">
 					<p>Getting a reliable, real-time screen of an Android device is more challenging than one might think, e.g. for the purpose of training a reinforcement learning&nbsp;agent.</p>
 <p><a href="https://blog.shvetsov.com/2013/02/grab-android-screenshot-to-computer-via.html">This post</a> describes a basic&nbsp;approach:</p>
-<div class="highlight"><pre><span></span>adb shell screencap -p
+<div class="highlight"><pre><span></span><span class="n">adb</span> <span class="n">shell</span> <span class="n">screencap</span> <span class="o">-</span><span class="n">p</span>
 </pre></div>
 
 
@@ -132,7 +132,7 @@ $(function() {
 			<div class="article-summary">
 					<p>Say you have video such as <a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/">this one</a> on Facebook. Most of these come with hardcoded subtitles, which we&#8217;d like to extract (for whatever&nbsp;reason).</p>
 <p>Opening the page in Chrome and inspecting the network requests quickly uncovers the media <span class="caps">URL</span>:</p>
-<div class="highlight"><pre><span></span>https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n …</pre></div>
+<div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">video</span><span class="o">-</span><span class="n">bru2</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="n">xx</span><span class="p">.</span><span class="n">fbcdn</span><span class="p">.</span><span class="n">net</span><span class="o">/</span><span class="n">v</span><span class="o">/</span><span class="n">t42 …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html">Read more</a></p>
 			</div>
 		</article>

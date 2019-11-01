@@ -92,13 +92,13 @@
 <p>After fiddling for a bit, we find the following acceptable&nbsp;solution:</p>
 <p><img alt="A solution" src="http://4.bp.blogspot.com/-4-j4IJOIRH4/T66FCYBdrMI/AAAAAAAAUi0/tiyCrSrAnBk/s200/sliceit04.png"></p>
 <p>While messing around with this, a thought popped into my head: could a genetic algorithm be used to solve a SliceIt! puzzle? At first sight, this seems like a good idea. The game itself is pretty easy. A chromosome representation can easily be established (since we know the list of strokes beforehand, so a population member can be represented simply as an array of&nbsp;coordinate-pairs:</p>
-<div class="highlight"><pre><span></span>[
-   ((l1x1,l1y1), (l1x2,l1y2)),
-   ((l2x1,l2y1), (l2x2,l2y2)),
-   ((l3x1,l3y1), (l3x2,l3y2)),
-   ((l4x1,l4y1), (l4x2,l4y2)),
-   ((l5x1,l5y1), (l5x2,l5y2))
-]
+<div class="highlight"><pre><span></span><span class="p">[</span>
+   <span class="p">((</span><span class="n">l1x1</span><span class="p">,</span><span class="n">l1y1</span><span class="p">),</span> <span class="p">(</span><span class="n">l1x2</span><span class="p">,</span><span class="n">l1y2</span><span class="p">)),</span>
+   <span class="p">((</span><span class="n">l2x1</span><span class="p">,</span><span class="n">l2y1</span><span class="p">),</span> <span class="p">(</span><span class="n">l2x2</span><span class="p">,</span><span class="n">l2y2</span><span class="p">)),</span>
+   <span class="p">((</span><span class="n">l3x1</span><span class="p">,</span><span class="n">l3y1</span><span class="p">),</span> <span class="p">(</span><span class="n">l3x2</span><span class="p">,</span><span class="n">l3y2</span><span class="p">)),</span>
+   <span class="p">((</span><span class="n">l4x1</span><span class="p">,</span><span class="n">l4y1</span><span class="p">),</span> <span class="p">(</span><span class="n">l4x2</span><span class="p">,</span><span class="n">l4y2</span><span class="p">)),</span>
+   <span class="p">((</span><span class="n">l5x1</span><span class="p">,</span><span class="n">l5y1</span><span class="p">),</span> <span class="p">(</span><span class="n">l5x2</span><span class="p">,</span><span class="n">l5y2</span><span class="p">))</span>
+<span class="p">]</span>
 </pre></div>
 
 

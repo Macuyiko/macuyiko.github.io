@@ -188,121 +188,121 @@ convert ./Presentation/presentation.pdf -density <span class="m">100</span> slid
 <h3>Step 4: create the <span class="caps">HTML</span>&nbsp;page</h3>
 <p>In the Presentation-folder, we&#8217;ll create an <span class="caps">HTML</span>&nbsp;page.</p>
 <p><code>PresenterView.html</code>:</p>
-<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="nx">title</span><span class="o">&gt;</span><span class="nx">Presenter</span> <span class="nx">View</span><span class="o">&lt;</span><span class="err">/title&gt;</span>
-<span class="o">&lt;</span><span class="nx">style</span><span class="o">&gt;</span>
-<span class="err">#</span><span class="nx">information</span> <span class="p">{</span>
-  <span class="nx">text</span><span class="o">-</span><span class="nx">align</span>: <span class="kt">center</span><span class="p">;</span>
-  <span class="nx">font</span><span class="o">-</span><span class="nx">size</span>: <span class="kt">300</span><span class="o">%</span><span class="p">;</span>
-  <span class="nx">border</span>: <span class="kt">3px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">val_time</span><span class="p">,</span> <span class="err">#</span><span class="nx">val_pagethis</span><span class="p">,</span> <span class="err">#</span><span class="nx">val_pagecount</span> <span class="p">{</span>
-  <span class="nx">color</span><span class="o">:</span> <span class="err">#</span><span class="mi">444</span><span class="p">;</span>
-  <span class="nx">font</span><span class="o">-</span><span class="nx">weight</span>: <span class="kt">bold</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">slideleft</span> <span class="p">{</span>
-  <span class="kr">float</span><span class="o">:</span> <span class="nx">left</span><span class="p">;</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-  <span class="nx">border</span>: <span class="kt">1px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">slideright</span> <span class="p">{</span>
-  <span class="kr">float</span><span class="o">:</span> <span class="nx">right</span><span class="p">;</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-  <span class="nx">border</span>: <span class="kt">1px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">text</span><span class="p">{</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-  <span class="nx">margin</span><span class="o">-</span><span class="nx">top</span>: <span class="kt">10px</span><span class="p">;</span>
-  <span class="nx">border</span><span class="o">-</span><span class="nx">top</span>: <span class="kt">3px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-  <span class="nx">height</span>: <span class="kt">50px</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">pane</span><span class="p">{</span>
-  <span class="nx">margin</span><span class="o">-</span><span class="nx">top</span>: <span class="kt">10px</span><span class="p">;</span>
-  <span class="nx">font</span><span class="o">-</span><span class="nx">size</span>: <span class="kt">140</span><span class="o">%</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="err">#</span><span class="nx">time</span><span class="p">{</span>
-  <span class="nx">margin</span><span class="o">-</span><span class="nx">top</span>: <span class="kt">40px</span><span class="p">;</span>
-  <span class="nx">text</span><span class="o">-</span><span class="nx">align</span>: <span class="kt">center</span><span class="p">;</span>
-  <span class="nx">font</span><span class="o">-</span><span class="nx">size</span>: <span class="kt">200</span><span class="o">%</span><span class="p">;</span>
-  <span class="nx">border</span>: <span class="kt">3px</span> <span class="nx">solid</span> <span class="err">#</span><span class="nx">ccc</span><span class="p">;</span>
-  <span class="nx">padding</span>: <span class="kt">4px</span><span class="p">;</span>
-<span class="p">}</span>
-<span class="o">&lt;</span><span class="err">/style&gt;</span>
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="nv">html</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nv">head</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nv">title</span><span class="o">&gt;</span><span class="nv">Presenter</span> <span class="nv">View</span><span class="o">&lt;/</span><span class="nv">title</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nv">style</span><span class="o">&gt;</span>
+#<span class="nv">information</span> {
+  <span class="nv">text</span><span class="o">-</span><span class="nv">align</span>: <span class="nv">center</span><span class="c1">;</span>
+  <span class="nv">font</span><span class="o">-</span><span class="nv">size</span>: <span class="mi">300</span><span class="o">%</span><span class="c1">;</span>
+  <span class="nv">border</span>: <span class="mi">3</span><span class="nv">px</span> <span class="nv">solid</span> #<span class="nv">ccc</span><span class="c1">;</span>
+  <span class="nv">padding</span>: <span class="mi">4</span><span class="nv">px</span><span class="c1">;</span>
+}
+#<span class="nv">val_time</span>, #<span class="nv">val_pagethis</span>, #<span class="nv">val_pagecount</span> {
+  <span class="nv">color</span>: <span class="sc">#444</span><span class="c1">;</span>
+  <span class="nv">font</span><span class="o">-</span><span class="nv">weight</span>: <span class="nv">bold</span><span class="c1">;</span>
+}
+#<span class="nv">slideleft</span> {
+  <span class="nv">float</span>: <span class="nv">left</span><span class="c1">;</span>
+  <span class="nv">padding</span>: <span class="mi">4</span><span class="nv">px</span><span class="c1">;</span>
+  <span class="nv">border</span>: <span class="mi">1</span><span class="nv">px</span> <span class="nv">solid</span> #<span class="nv">ccc</span><span class="c1">;</span>
+}
+#<span class="nv">slideright</span> {
+  <span class="nv">float</span>: <span class="nv">right</span><span class="c1">;</span>
+  <span class="nv">padding</span>: <span class="mi">4</span><span class="nv">px</span><span class="c1">;</span>
+  <span class="nv">border</span>: <span class="mi">1</span><span class="nv">px</span> <span class="nv">solid</span> #<span class="nv">ccc</span><span class="c1">;</span>
+}
+#<span class="nv">text</span>{
+  <span class="nv">padding</span>: <span class="mi">4</span><span class="nv">px</span><span class="c1">;</span>
+  <span class="nv">margin</span><span class="o">-</span><span class="nv">top</span>: <span class="mi">10</span><span class="nv">px</span><span class="c1">;</span>
+  <span class="nv">border</span><span class="o">-</span><span class="nv">top</span>: <span class="mi">3</span><span class="nv">px</span> <span class="nv">solid</span> #<span class="nv">ccc</span><span class="c1">;</span>
+  <span class="nv">height</span>: <span class="mi">50</span><span class="nv">px</span><span class="c1">;</span>
+}
+#<span class="nv">pane</span>{
+  <span class="nv">margin</span><span class="o">-</span><span class="nv">top</span>: <span class="mi">10</span><span class="nv">px</span><span class="c1">;</span>
+  <span class="nv">font</span><span class="o">-</span><span class="nv">size</span>: <span class="mi">140</span><span class="o">%</span><span class="c1">;</span>
+}
+#<span class="nv">time</span>{
+  <span class="nv">margin</span><span class="o">-</span><span class="nv">top</span>: <span class="mi">40</span><span class="nv">px</span><span class="c1">;</span>
+  <span class="nv">text</span><span class="o">-</span><span class="nv">align</span>: <span class="nv">center</span><span class="c1">;</span>
+  <span class="nv">font</span><span class="o">-</span><span class="nv">size</span>: <span class="mi">200</span><span class="o">%</span><span class="c1">;</span>
+  <span class="nv">border</span>: <span class="mi">3</span><span class="nv">px</span> <span class="nv">solid</span> #<span class="nv">ccc</span><span class="c1">;</span>
+  <span class="nv">padding</span>: <span class="mi">4</span><span class="nv">px</span><span class="c1">;</span>
+}
+<span class="o">&lt;/</span><span class="nv">style</span><span class="o">&gt;</span>
 
-<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">type</span><span class="o">=</span><span class="s2">&quot;text/javascript&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;jquery-1.3.2.min.js&quot;</span><span class="o">&gt;&lt;</span><span class="err">/script&gt;</span>
-<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
-<span class="kd">var</span> <span class="nx">mins</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">secs</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">clock</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">previousslide</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">refreshtime</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+<span class="o">&lt;</span><span class="nv">script</span> <span class="nv">type</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">text/javascript</span><span class="s2">&quot;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">jquery-1.3.2.min.js</span><span class="s2">&quot;</span><span class="o">&gt;&lt;/</span><span class="nv">script</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nv">script</span><span class="o">&gt;</span>
+<span class="nv">var</span> <span class="nv">mins</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">;</span>
+<span class="nv">var</span> <span class="nv">secs</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">;</span>
+<span class="nv">var</span> <span class="nv">clock</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">;</span>
+<span class="nv">var</span> <span class="nv">previousslide</span> <span class="o">=</span> <span class="mi">0</span><span class="c1">;</span>
+<span class="nv">var</span> <span class="nv">refreshtime</span> <span class="o">=</span> <span class="mi">1000</span><span class="c1">;</span>
 
-<span class="kd">function</span> <span class="nx">display_clock</span><span class="p">(){</span>
-  <span class="nx">min</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nx">clock</span><span class="o">/</span><span class="mi">60</span><span class="p">);</span>
-  <span class="nx">secs</span><span class="o">=</span> <span class="nx">clock</span> <span class="o">-</span> <span class="nx">mins</span><span class="o">*</span><span class="mi">60</span><span class="p">;</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_time&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">mins</span><span class="o">+</span> <span class="s2">&quot;:&quot;</span> <span class="o">+</span> <span class="nx">secs</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="nv">function</span> <span class="nv">display_clock</span><span class="ss">()</span>{
+  <span class="nv">min</span> <span class="o">=</span> <span class="nv">Math</span>.<span class="nv">floor</span><span class="ss">(</span><span class="nv">clock</span><span class="o">/</span><span class="mi">60</span><span class="ss">)</span><span class="c1">;</span>
+  <span class="nv">secs</span><span class="o">=</span> <span class="nv">clock</span> <span class="o">-</span> <span class="nv">mins</span><span class="o">*</span><span class="mi">60</span><span class="c1">;</span>
+  $<span class="ss">(</span><span class="s2">&quot;</span><span class="s">#val_time</span><span class="s2">&quot;</span><span class="ss">)</span>.<span class="nv">text</span><span class="ss">(</span><span class="nv">mins</span><span class="o">+</span> <span class="s2">&quot;</span><span class="s">:</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="nv">secs</span><span class="ss">)</span><span class="c1">;</span>
+}
 
-<span class="kd">function</span> <span class="nx">update_clock</span><span class="p">(){</span>
-  <span class="nx">setTimeout</span> <span class="p">(</span><span class="s2">&quot;update_clock()&quot;</span><span class="p">,</span> <span class="mi">1000</span><span class="p">);</span>
-  <span class="nx">clock</span> <span class="o">=</span> <span class="nx">clock</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
-  <span class="nx">display_clock</span><span class="p">();</span>
-<span class="p">}</span>
+<span class="nv">function</span> <span class="nv">update_clock</span><span class="ss">()</span>{
+  <span class="nv">setTimeout</span> <span class="ss">(</span><span class="s2">&quot;</span><span class="s">update_clock()</span><span class="s2">&quot;</span>, <span class="mi">1000</span><span class="ss">)</span><span class="c1">;</span>
+  <span class="nv">clock</span> <span class="o">=</span> <span class="nv">clock</span> <span class="o">+</span> <span class="mi">1</span><span class="c1">;</span>
+  <span class="nv">display_clock</span><span class="ss">()</span><span class="c1">;</span>
+}
 
-<span class="kd">function</span> <span class="nx">make_call</span><span class="p">(){</span>
-  <span class="nx">$</span><span class="p">.</span><span class="nx">ajaxSetup</span><span class="p">({</span><span class="s1">&#39;beforeSend&#39;</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">xhr</span><span class="p">){</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">xhr</span><span class="p">.</span><span class="nx">overrideMimeType</span><span class="p">){</span>
-  <span class="nx">xhr</span><span class="p">.</span><span class="nx">overrideMimeType</span><span class="p">(</span><span class="s2">&quot;text/plain&quot;</span><span class="p">);</span>
-<span class="p">}</span>
-  <span class="p">}</span>
-  <span class="p">});</span>
-  <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s2">&quot;json.txt&quot;</span><span class="p">,</span>
-<span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_pagethis&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">);</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_pagecount&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">page_count</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">previousslide</span> <span class="o">!=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">){</span>
-<span class="nx">clock</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_time</span><span class="p">;</span> <span class="c1">//synchronize</span>
-<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_slideleft&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;./Slides/slide-&quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span><span class="p">);</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span> <span class="o">&lt;</span> <span class="nx">data</span><span class="p">.</span><span class="nx">page_count</span><span class="p">)</span>
-<span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_slideright&quot;</span><span class="p">).</span><span class="nx">attr</span><span class="p">(</span><span class="s2">&quot;src&quot;</span><span class="p">,</span> <span class="s2">&quot;./Slides/slide-&quot;</span><span class="o">+</span><span class="p">(</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">)</span><span class="o">+</span><span class="s2">&quot;.png&quot;</span><span class="p">);</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_text&quot;</span><span class="p">).</span><span class="nx">text</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">);</span>
-  <span class="nx">$</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s2">&quot;./Text/text-&quot;</span><span class="o">+</span><span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="o">+</span><span class="s2">&quot;.txt&quot;</span><span class="p">,</span>
-<span class="kd">function</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
-  <span class="nx">$</span><span class="p">(</span><span class="s2">&quot;#val_text&quot;</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span>
-<span class="p">});</span>
-<span class="p">}</span>
-<span class="nx">previousslide</span> <span class="o">=</span> <span class="nx">data</span><span class="p">.</span><span class="nx">current_page</span><span class="p">;</span>
-<span class="nx">display_clock</span><span class="p">();</span>
-  <span class="p">});</span>
-  <span class="nx">setTimeout</span> <span class="p">(</span><span class="s2">&quot;make_call()&quot;</span><span class="p">,</span> <span class="nx">refreshtime</span><span class="p">);</span>
-<span class="p">}</span>
+<span class="nv">function</span> <span class="nv">make_call</span><span class="ss">()</span>{
+  $.<span class="nv">ajaxSetup</span><span class="ss">(</span>{<span class="s1">&#39;</span><span class="s">beforeSend</span><span class="s1">&#39;</span>: <span class="nv">function</span><span class="ss">(</span><span class="nv">xhr</span><span class="ss">)</span>{
+<span class="k">if</span> <span class="ss">(</span><span class="nv">xhr</span>.<span class="nv">overrideMimeType</span><span class="ss">)</span>{
+  <span class="nv">xhr</span>.<span class="nv">overrideMimeType</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">text/plain</span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;</span>
+}
+  }
+  }<span class="ss">)</span><span class="c1">;</span>
+  $.<span class="nv">getJSON</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">json.txt</span><span class="s2">&quot;</span>,
+<span class="nv">function</span><span class="ss">(</span><span class="nv">data</span><span class="ss">)</span>{
+  $<span class="ss">(</span><span class="s2">&quot;</span><span class="s">#val_pagethis</span><span class="s2">&quot;</span><span class="ss">)</span>.<span class="nv">text</span><span class="ss">(</span><span class="nv">data</span>.<span class="nv">current_page</span><span class="ss">)</span><span class="c1">;</span>
+  $<span class="ss">(</span><span class="s2">&quot;</span><span class="s">#val_pagecount</span><span class="s2">&quot;</span><span class="ss">)</span>.<span class="nv">text</span><span class="ss">(</span><span class="nv">data</span>.<span class="nv">page_count</span><span class="ss">)</span><span class="c1">;</span>
+  <span class="k">if</span> <span class="ss">(</span><span class="nv">previousslide</span> <span class="o">!=</span> <span class="nv">data</span>.<span class="nv">current_page</span><span class="ss">)</span>{
+<span class="nv">clock</span> <span class="o">=</span> <span class="nv">data</span>.<span class="nv">current_time</span><span class="c1">; //synchronize</span>
+$<span class="ss">(</span><span class="s2">&quot;</span><span class="s">#val_slideleft</span><span class="s2">&quot;</span><span class="ss">)</span>.<span class="nv">attr</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">src</span><span class="s2">&quot;</span>, <span class="s2">&quot;</span><span class="s">./Slides/slide-</span><span class="s2">&quot;</span><span class="o">+</span><span class="ss">(</span><span class="nv">data</span>.<span class="nv">current_page</span><span class="o">-</span><span class="mi">1</span><span class="ss">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="s">.png</span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;</span>
+  <span class="k">if</span> <span class="ss">(</span><span class="nv">data</span>.<span class="nv">current_page</span> <span class="o">&lt;</span> <span class="nv">data</span>.<span class="nv">page_count</span><span class="ss">)</span>
+$<span class="ss">(</span><span class="s2">&quot;</span><span class="s">#val_slideright</span><span class="s2">&quot;</span><span class="ss">)</span>.<span class="nv">attr</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">src</span><span class="s2">&quot;</span>, <span class="s2">&quot;</span><span class="s">./Slides/slide-</span><span class="s2">&quot;</span><span class="o">+</span><span class="ss">(</span><span class="nv">data</span>.<span class="nv">current_page</span><span class="ss">)</span><span class="o">+</span><span class="s2">&quot;</span><span class="s">.png</span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;</span>
+  $<span class="ss">(</span><span class="s2">&quot;</span><span class="s">#val_text</span><span class="s2">&quot;</span><span class="ss">)</span>.<span class="nv">text</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s"> </span><span class="s2">&quot;</span><span class="ss">)</span><span class="c1">;</span>
+  $.<span class="nv">get</span><span class="ss">(</span><span class="s2">&quot;</span><span class="s">./Text/text-</span><span class="s2">&quot;</span><span class="o">+</span><span class="nv">data</span>.<span class="nv">current_page</span><span class="o">+</span><span class="s2">&quot;</span><span class="s">.txt</span><span class="s2">&quot;</span>,
+<span class="nv">function</span><span class="ss">(</span><span class="nv">data</span><span class="ss">)</span>{
+  $<span class="ss">(</span><span class="s2">&quot;</span><span class="s">#val_text</span><span class="s2">&quot;</span><span class="ss">)</span>.<span class="nv">html</span><span class="ss">(</span><span class="nv">data</span><span class="ss">)</span><span class="c1">;</span>
+}<span class="ss">)</span><span class="c1">;</span>
+}
+<span class="nv">previousslide</span> <span class="o">=</span> <span class="nv">data</span>.<span class="nv">current_page</span><span class="c1">;</span>
+<span class="nv">display_clock</span><span class="ss">()</span><span class="c1">;</span>
+  }<span class="ss">)</span><span class="c1">;</span>
+  <span class="nv">setTimeout</span> <span class="ss">(</span><span class="s2">&quot;</span><span class="s">make_call()</span><span class="s2">&quot;</span>, <span class="nv">refreshtime</span><span class="ss">)</span><span class="c1">;</span>
+}
 
-<span class="nx">$</span><span class="p">(</span><span class="nb">document</span><span class="p">).</span><span class="nx">ready</span><span class="p">(</span><span class="kd">function</span><span class="p">(){</span>
-  <span class="nx">make_call</span><span class="p">();</span>
-  <span class="nx">update_clock</span><span class="p">();</span>
-<span class="p">});</span>
-<span class="o">&lt;</span><span class="err">/script&gt;</span>
-<span class="o">&lt;</span><span class="err">/head&gt;</span>
+$<span class="ss">(</span><span class="nv">document</span><span class="ss">)</span>.<span class="nv">ready</span><span class="ss">(</span><span class="nv">function</span><span class="ss">()</span>{
+  <span class="nv">make_call</span><span class="ss">()</span><span class="c1">;</span>
+  <span class="nv">update_clock</span><span class="ss">()</span><span class="c1">;</span>
+}<span class="ss">)</span><span class="c1">;</span>
+<span class="o">&lt;/</span><span class="nv">script</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nv">head</span><span class="o">&gt;</span>
 
-<span class="o">&lt;</span><span class="nx">body</span><span class="o">&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;information&quot;</span><span class="o">&gt;</span><span class="nx">Currently</span> <span class="nx">at</span> <span class="nx">slide</span>
-<span class="o">&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_pagethis&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt; of &lt;span id=&quot;val_pagecount&quot;&gt;?&lt;/span&gt;</span>
-  <span class="o">&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;pane&quot;</span><span class="o">&gt;</span>
-<span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;slideright&quot;</span><span class="o">&gt;</span>
-  <span class="nx">Next</span> <span class="nx">slide</span><span class="o">:&lt;</span><span class="nx">br</span> <span class="o">/&gt;</span>
-  <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;360&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_slideright&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;./Slides/slide-1.png&quot;</span> <span class="o">/&gt;&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;slideleft&quot;</span><span class="o">&gt;</span>
-<span class="nx">Current</span> <span class="nx">slide</span><span class="o">:&lt;</span><span class="nx">br</span> <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="nx">img</span> <span class="nx">height</span><span class="o">=</span><span class="s2">&quot;360&quot;</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_slideleft&quot;</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;./Slides/slide-0.png&quot;</span> <span class="o">/&gt;&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">style</span><span class="o">=</span><span class="s2">&quot;clear:both;&quot;</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="err">/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;text&quot;</span><span class="o">&gt;&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_text&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt;&lt;/div&gt;</span>
-  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;time&quot;</span><span class="o">&gt;</span><span class="nx">Clock</span><span class="o">:</span> <span class="o">&lt;</span><span class="nx">span</span> <span class="nx">id</span><span class="o">=</span><span class="s2">&quot;val_time&quot;</span><span class="o">&gt;?&lt;</span><span class="err">/span&gt;&lt;/div&gt;</span>
-<span class="o">&lt;</span><span class="err">/body&gt;</span>
-<span class="o">&lt;</span><span class="err">/html&gt;</span>
+<span class="o">&lt;</span><span class="nv">body</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nv">div</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">information</span><span class="s2">&quot;</span><span class="o">&gt;</span><span class="nv">Currently</span> <span class="nv">at</span> <span class="nv">slide</span>
+<span class="o">&lt;</span><span class="nv">span</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">val_pagethis</span><span class="s2">&quot;</span><span class="o">&gt;</span>?<span class="o">&lt;/</span><span class="nv">span</span><span class="o">&gt;</span> <span class="nv">of</span> <span class="o">&lt;</span><span class="nv">span</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">val_pagecount</span><span class="s2">&quot;</span><span class="o">&gt;</span>?<span class="o">&lt;/</span><span class="nv">span</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="nv">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nv">div</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">pane</span><span class="s2">&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nv">div</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">slideright</span><span class="s2">&quot;</span><span class="o">&gt;</span>
+  <span class="k">Next</span> <span class="nv">slide</span>:<span class="o">&lt;</span><span class="nv">br</span> <span class="o">/&gt;</span>
+  <span class="o">&lt;</span><span class="nv">img</span> <span class="nv">height</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">360</span><span class="s2">&quot;</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">val_slideright</span><span class="s2">&quot;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">./Slides/slide-1.png</span><span class="s2">&quot;</span> <span class="o">/&gt;&lt;/</span><span class="nv">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nv">div</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">slideleft</span><span class="s2">&quot;</span><span class="o">&gt;</span>
+<span class="nv">Current</span> <span class="nv">slide</span>:<span class="o">&lt;</span><span class="nv">br</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="nv">img</span> <span class="nv">height</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">360</span><span class="s2">&quot;</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">val_slideleft</span><span class="s2">&quot;</span> <span class="nv">src</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">./Slides/slide-0.png</span><span class="s2">&quot;</span> <span class="o">/&gt;&lt;/</span><span class="nv">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;/</span><span class="nv">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nv">div</span> <span class="nv">style</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">clear:both;</span><span class="s2">&quot;</span><span class="o">&gt;</span> <span class="o">&lt;/</span><span class="nv">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nv">div</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">text</span><span class="s2">&quot;</span><span class="o">&gt;&lt;</span><span class="nv">span</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">val_text</span><span class="s2">&quot;</span><span class="o">&gt;</span>?<span class="o">&lt;/</span><span class="nv">span</span><span class="o">&gt;&lt;/</span><span class="nv">div</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="nv">div</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">time</span><span class="s2">&quot;</span><span class="o">&gt;</span><span class="nv">Clock</span>: <span class="o">&lt;</span><span class="nv">span</span> <span class="nv">id</span><span class="o">=</span><span class="s2">&quot;</span><span class="s">val_time</span><span class="s2">&quot;</span><span class="o">&gt;</span>?<span class="o">&lt;/</span><span class="nv">span</span><span class="o">&gt;&lt;/</span><span class="nv">div</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nv">body</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="nv">html</span><span class="o">&gt;</span>
 </pre></div>
 
 
@@ -312,20 +312,20 @@ convert ./Presentation/presentation.pdf -density <span class="m">100</span> slid
 <p><strong>(1 - Convert to <span class="caps">PDF</span>)</strong> Create a nice presentation in Openoffice or Powerpoint. Save it as <span class="caps">PDF</span>-slides. Rename your <span class="caps">PDF</span>-file to <code>presentation.pdf</code> and put it in the Presentation-folder. You now have the following folder&nbsp;structure:</p>
 <p><img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SxqN-negDAI/AAAAAAAAPRw/o4inpHJvLZ4/s1600/Screenshot-2.png"></p>
 <p><strong>(2 - Make thumbnails)</strong> Open a terminal, cd to your top-folder, and execute the&nbsp;converter.sh-script:</p>
-<div class="highlight"><pre><span></span>~/Desktop/Impressive-0.10.2$ ./converter.sh
+<div class="highlight"><pre><span></span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">Impressive</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="err">$</span> <span class="p">.</span><span class="o">/</span><span class="n">converter</span><span class="p">.</span><span class="n">sh</span>
 
-Removing old images...
-Converting...
-Moving slide-0.png
-Moving slide-1.png
-Moving slide-2.png
+<span class="n">Removing</span> <span class="k">old</span> <span class="n">images</span><span class="p">...</span>
+<span class="n">Converting</span><span class="p">...</span>
+<span class="n">Moving</span> <span class="n">slide</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="n">png</span>
+<span class="n">Moving</span> <span class="n">slide</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="n">png</span>
+<span class="n">Moving</span> <span class="n">slide</span><span class="o">-</span><span class="mi">2</span><span class="p">.</span><span class="n">png</span>
 </pre></div>
 
 
 <p>Your Presentation/Slides-folder should now contain a bunch of <span class="caps">PNG</span>-files.</p>
 <p><strong>(3 - Make notes)</strong> In the Presentation/Text folder, create <code>text-n.txt</code> files where <em>n</em> is the number of the slide. In the text file: write short notes you want to see for that slide (you may use <span class="caps">HTML</span>&nbsp;formatting).</p>
 <p><strong>(4 - Create the Impress info script)</strong> Run the <span class="caps">PHP</span>&nbsp;file:</p>
-<div class="highlight"><pre><span></span>~/Desktop/Impressive-0.10.2$ php makeinfo.php 3
+<div class="highlight"><pre><span></span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">Impressive</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="err">$</span> <span class="n">php</span> <span class="n">makeinfo</span><span class="p">.</span><span class="n">php</span> <span class="mi">3</span>
 </pre></div>
 
 

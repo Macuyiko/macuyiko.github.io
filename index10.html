@@ -71,6 +71,29 @@
         
 		<article>
 			<header>
+				<div class="article-info">Sat 15 September 2007, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html" rel="bookmark"
+				title="Permalink to SQL: Check Existing Rows Matching A Condition"><span class="caps">SQL</span>: Check Existing Rows Matching A&nbsp;Condition</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Instead of&nbsp;this:</p>
+<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="ss">(</span><span class="nv">SELECT</span> <span class="nv">COUNT</span><span class="ss">(</span><span class="o">*</span><span class="ss">)</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ... <span class="ss">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+</pre></div>
+
+
+<p>use&nbsp;this:</p>
+<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="nv">EXISTS</span><span class="ss">(</span><span class="nv">SELECT</span> <span class="o">*</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ...<span class="ss">)</span>
+</pre></div>
+
+
+<p>Great tip provided <a href="http://weblogs.sqlteam.com/mladenp/archive/2007/09/13/SQL-Server-The-proper-and-fastest-way-to-check-if.aspx">by this article</a>.</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Fri 10 August 2007, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="//blog.macuyiko.com/post/2007/scrolling-unfocused-windows.html" rel="bookmark"
 				title="Permalink to Scrolling Unfocused Windows">Scrolling Unfocused&nbsp;Windows</a></div>
@@ -90,12 +113,12 @@
 			</header>
 			<div class="article-summary">
 					<p>How can you do this (x is number of rows to fetch, y is offset)&nbsp;(Mysql):</p>
-<div class="highlight"><pre><span></span>SELECT * FROM my_table LIMIT x, y
+<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">LIMIT</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
 </pre></div>
 
 
 <p>or this (PostgreSQL)&nbsp;:</p>
-<div class="highlight"><pre><span></span>SELECT * FROM my_table LIMIT x OFFSET y
+<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">LIMIT</span> <span class="n">x</span> <span class="k">OFFSET</span> <span class="n">y</span>
 </pre></div>
 
 
@@ -146,7 +169,7 @@ pgetbl_ctl …</p></blockquote>
 			<div class="article-summary">
 					<p>Another problem (on another machine) was that it refused booting the new&nbsp;kernel.</p>
 <p>Also: the live cd didn&#8217;t work either, with the same error. A lot of people have problems of this kind, and most of the times they get the following&nbsp;errors:</p>
-<div class="highlight"><pre><span></span>ata2 is slow to respond, please …</pre></div>
+<div class="highlight"><pre><span></span><span class="n">ata2</span> <span class="k">is</span> <span class="n">slow</span> <span class="k">to</span> <span class="n">respond</span><span class="p">,</span> <span class="n">please …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/ubuntu-feisty-second-problem.html">Read more</a></p>
 			</div>
 		</article>
@@ -184,7 +207,7 @@ pgetbl_ctl …</p></blockquote>
 
 
 <p>Then:</p>
-<div class="highlight"><pre><span></span>sudo apt-get update …</pre></div>
+<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/finished.html">Read more</a></p>
 			</div>
 		</article>
@@ -214,19 +237,6 @@ pgetbl_ctl …</p></blockquote>
 					<p>Recently we got a new <span class="caps">HP</span> Scanner. It&#8217;s a good, nice, and generally works without any&nbsp;complaints.</p>
 <p>The scanner I used before was a crappy scanner with a no-name brand nobody knows, picked up for almost nothing at some cheapskate-store (since I very rarely need to scan something). The …</p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/crappy-scanners-and-linux.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Mon 11 September 2006, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html" rel="bookmark"
-				title="Permalink to Neverwinter Nights On My Ubuntu-Laptop">Neverwinter Nights On My&nbsp;Ubuntu-Laptop</a></div>
-			</header>
-			<div class="article-summary">
-					<p>Today I finally decided to spend some time and try to install Neverwinter Nights on my laptop, since I absolutely still love that game. Of course: you could follow <a href="http://ubuntuforums.org/showthread.php?t=113259">this howto</a>, but since I don&#8217;t have <span class="caps">NWN</span> Platinum or Diamond, I had to follow other instructions. I didn&#8217;t …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html">Read more</a></p>
 			</div>
 		</article>
 

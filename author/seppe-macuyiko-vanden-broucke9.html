@@ -71,6 +71,21 @@
         
 		<article>
 			<header>
+				<div class="article-info">Wed 07 January 2009, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html" rel="bookmark"
+				title="Permalink to Modern Genetic (And Other) Algorithms Explained: Part 1 - Introduction">Modern Genetic (And Other) Algorithms Explained: Part 1 -&nbsp;Introduction</a></div>
+			</header>
+			<div class="article-summary">
+					<p>A few days ago I saw <a href="http://www.reddit.com/r/programming/comments/7n1zl/genetic_algorithms_cool_name_amp_damn_simple_best/">this on reddit</a>, linking to a <a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/">well-written article</a> about genetic algorithms (<span class="caps">GA</span>):</p>
+<blockquote>
+<p>Genetic algorithms are a mysterious sounding technique in mysterious sounding field&#8212;artificial intelligence. This is the problem with naming things appropriately. When the field was labeled artificial intelligence, it meant using mathematics …</p></blockquote>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Tue 09 December 2008, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="//blog.macuyiko.com/post/2008/trying-googles-native-client.html" rel="bookmark"
 				title="Permalink to Trying Google’s Native Client">Trying Google&#8217;s Native&nbsp;Client</a></div>
@@ -195,40 +210,17 @@
 			</header>
 			<div class="article-summary">
 					<p>Just found this, pretty&nbsp;handy!</p>
-<div class="highlight"><pre><span></span>// browser detection
-var isIE = document.all;
-var isIE7 = isIE &amp;&amp; window.XMLHttpRequest &amp;&amp; window.ActiveXObject;
-var isIE6 = isIE &amp;&amp; document.implementation;
-var isgteIE6 = isIE7 isIE6;
-var isIE5 = isIE &amp;&amp; window.print &amp;&amp; !isgteIE6;
-var isIEDOM2 = isIE5 isgteIE6;
-var isIE4 = isIE &amp;&amp; !isIEDOM2 &amp;&amp; navigator.cookieEnabled;
-var isIE3 = isIE &amp;&amp; !isIE4 &amp;&amp; !isIEDOM2;
-var isNS …</pre></div>
+<div class="highlight"><pre><span></span><span class="o">//</span> <span class="n">browser</span> <span class="n">detection</span>
+<span class="n">var</span> <span class="n">isIE</span> <span class="o">=</span> <span class="n">document</span><span class="p">.</span><span class="k">all</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE7</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">XMLHttpRequest</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">ActiveXObject</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE6</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">document</span><span class="p">.</span><span class="k">implementation</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isgteIE6</span> <span class="o">=</span> <span class="n">isIE7</span> <span class="n">isIE6</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE5</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="p">.</span><span class="n">print</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isgteIE6</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIEDOM2</span> <span class="o">=</span> <span class="n">isIE5</span> <span class="n">isgteIE6</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE4</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span> <span class="o">&amp;&amp;</span> <span class="n">navigator</span><span class="p">.</span><span class="n">cookieEnabled</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isIE3</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIE4</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span><span class="p">;</span>
+<span class="n">var</span> <span class="n">isNS …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Sat 15 September 2007, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html" rel="bookmark"
-				title="Permalink to SQL: Check Existing Rows Matching A Condition"><span class="caps">SQL</span>: Check Existing Rows Matching A&nbsp;Condition</a></div>
-			</header>
-			<div class="article-summary">
-					<p>Instead of&nbsp;this:</p>
-<div class="highlight"><pre><span></span>IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0
-</pre></div>
-
-
-<p>use&nbsp;this:</p>
-<div class="highlight"><pre><span></span>IF EXISTS(SELECT * FROM Table1 WHERE ...)
-</pre></div>
-
-
-<p>Great tip provided <a href="http://weblogs.sqlteam.com/mladenp/archive/2007/09/13/SQL-Server-The-proper-and-fastest-way-to-check-if.aspx">by this article</a>.</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html">Read more</a></p>
 			</div>
 		</article>
 

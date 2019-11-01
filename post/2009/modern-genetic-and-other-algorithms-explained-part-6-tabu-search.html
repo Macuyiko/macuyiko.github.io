@@ -78,86 +78,86 @@
 	    <p>(This is part 6 in the Modern Genetic Algorithms Explained series, click <a href="//blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&nbsp;post.)</p>
 <p><a href="http://en.wikipedia.org/wiki/Tabu_search">Tabu search</a> is not really &#8220;modern&#8221; anymore, but still widely used&nbsp;nonetheless.</p>
 <p>The pseudocode looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span>Construct an initial solution
-Until timelimit hit or satisfying solution found do:
-    Find all neighbours which are not in the tabu list, and calculate their score
-    Pick the best neighbour, add the previous solution to the tabu list`
+<div class="highlight"><pre><span></span><span class="nv">Construct</span> <span class="nv">an</span> <span class="nv">initial</span> <span class="nv">solution</span>
+<span class="k">Until</span> <span class="nv">timelimit</span> <span class="nv">hit</span> <span class="nv">or</span> <span class="nv">satisfying</span> <span class="nv">solution</span> <span class="nv">found</span> <span class="k">do</span>:
+    <span class="nv">Find</span> <span class="nv">all</span> <span class="nv">neighbours</span> <span class="nv">which</span> <span class="nv">are</span> <span class="nv">not</span> <span class="nv">in</span> <span class="nv">the</span> <span class="nv">tabu</span> <span class="nv">list</span>, <span class="nv">and</span> <span class="nv">calculate</span> <span class="nv">their</span> <span class="nv">score</span>
+    <span class="nv">Pick</span> <span class="nv">the</span> <span class="nv">best</span> <span class="nv">neighbour</span>, <span class="nv">add</span> <span class="nv">the</span> <span class="nv">previous</span> <span class="nv">solution</span> <span class="nv">to</span> <span class="nv">the</span> <span class="nv">tabu</span> <span class="nv">list</span>`
 </pre></div>
 
 
 <p>Notice that the &#8220;best neighbour&#8221; must not necessarily be better than the current solution, or than the ever best found&nbsp;solution.</p>
 <p>Maintaining a tabu list can be time and memory consuming, alternatively we could construct a list like this: add the difference between two following solutions to the list (so that they cannot be undone), and keep it in the list for n iterations. N, or the length of the list is important: make it too long and the algorithm might get stuck, make it too short and the algorithm will tend towards local&nbsp;maxima.</p>
 <p>This time, I&#8217;ve coded the example in <span class="caps">PHP</span>, I hope nobody&nbsp;minds:</p>
-<div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span>
-<span class="nx">$target</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="p">?</span><span class="n">php</span>
+<span class="nv">$target</span> <span class="o">=</span> <span class="mi">300</span><span class="p">;</span>
 
-<span class="c1">//construct an initial solution</span>
-<span class="nx">$tabulist</span> <span class="o">=</span> <span class="nx">array</span><span class="p">(</span><span class="s1">&#39;ttl&#39;</span> <span class="o">=&gt;</span> <span class="nx">array</span><span class="p">(),</span> <span class="s1">&#39;change&#39;</span> <span class="o">=&gt;</span> <span class="nx">array</span><span class="p">());</span>
-<span class="nx">$solution</span> <span class="o">=</span> <span class="nx">array</span><span class="p">();</span>
+<span class="sr">//co</span><span class="n">nstruct</span> <span class="n">an</span> <span class="n">initial</span> <span class="n">solution</span>
+<span class="nv">$tabulist</span> <span class="o">=</span> <span class="n">array</span><span class="p">(</span><span class="s">&#39;ttl&#39;</span> <span class="o">=&gt;</span> <span class="n">array</span><span class="p">(),</span> <span class="s">&#39;change&#39;</span> <span class="o">=&gt;</span> <span class="n">array</span><span class="p">());</span>
+<span class="nv">$solution</span> <span class="o">=</span> <span class="n">array</span><span class="p">();</span>
 
-<span class="nx">$min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-<span class="nx">$max</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
-<span class="k">for</span> <span class="p">(</span><span class="nx">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">$i</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="nx">$i</span><span class="o">++</span><span class="p">)</span>
-    <span class="nx">$solution</span><span class="p">[]</span> <span class="o">=</span> <span class="nx">rand</span><span class="p">(</span><span class="nx">$min</span><span class="p">,</span><span class="nx">$max</span><span class="p">);</span>
+<span class="nv">$min</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="nv">$max</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+<span class="k">for</span> <span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span>
+    <span class="nv">$solution</span><span class="o">[]</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="nv">$min</span><span class="p">,</span><span class="nv">$max</span><span class="p">);</span>
 
-<span class="c1">//until solution found</span>
-<span class="k">while</span> <span class="p">(</span><span class="kc">true</span><span class="p">){</span>
-    <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-    <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
-    <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-    <span class="k">for</span> <span class="p">(</span><span class="nx">$position</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">$position</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="nx">$position</span><span class="o">++</span><span class="p">){</span>
-        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">in_array</span><span class="p">(</span><span class="s2">&quot;$position+&quot;</span><span class="p">,</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">])</span>
-                <span class="nx">and</span> <span class="nx">$solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">$max</span><span class="p">){</span>
-            <span class="nx">$temp_solution</span> <span class="o">=</span> <span class="nx">$solution</span><span class="p">;</span>
-            <span class="nx">$temp_solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
-            <span class="nx">$score</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$temp_solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">$score</span> <span class="o">&lt;</span> <span class="nx">$best_neighbour_score</span><span class="p">){</span>
-                <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="nx">$score</span><span class="p">;</span>
-                <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="nx">$temp_solution</span><span class="p">;</span>
-                <span class="c1">//make sure this step doesn&#39;t get undone</span>
-                <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="s2">&quot;$position-&quot;</span><span class="p">;</span>
+<span class="sr">//</span><span class="k">until</span> <span class="n">solution</span> <span class="n">found</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">true</span><span class="p">){</span>
+    <span class="nv">$best_neighbour_solution</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+    <span class="nv">$best_neighbour_score</span> <span class="o">=</span> <span class="mi">1000</span><span class="p">;</span>
+    <span class="nv">$best_neighbour_tabu</span> <span class="o">=</span> <span class="n">false</span><span class="p">;</span>
+    <span class="k">for</span> <span class="p">(</span><span class="nv">$position</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$position</span><span class="o">&lt;</span><span class="mi">6</span><span class="p">;</span><span class="nv">$position</span><span class="o">++</span><span class="p">){</span>
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">in_array</span><span class="p">(</span><span class="s">&quot;$position+&quot;</span><span class="p">,</span><span class="nv">$tabulist</span><span class="p">[</span><span class="s">&#39;change&#39;</span><span class="p">])</span>
+                <span class="ow">and</span> <span class="nv">$solution</span><span class="p">[</span><span class="nv">$position</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nv">$max</span><span class="p">){</span>
+            <span class="nv">$temp_solution</span> <span class="o">=</span> <span class="nv">$solution</span><span class="p">;</span>
+            <span class="nv">$temp_solution</span><span class="p">[</span><span class="nv">$position</span><span class="p">]</span><span class="o">++</span><span class="p">;</span>
+            <span class="nv">$score</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="nv">$temp_solution</span><span class="p">,</span><span class="nv">$target</span><span class="p">);</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nv">$score</span> <span class="o">&lt;</span> <span class="nv">$best_neighbour_score</span><span class="p">){</span>
+                <span class="nv">$best_neighbour_score</span> <span class="o">=</span> <span class="nv">$score</span><span class="p">;</span>
+                <span class="nv">$best_neighbour_solution</span> <span class="o">=</span> <span class="nv">$temp_solution</span><span class="p">;</span>
+                <span class="sr">//m</span><span class="n">ake</span> <span class="n">sure</span> <span class="n">this</span> <span class="n">step</span> <span class="n">doesn</span><span class="s">&#39;t get undone</span>
+<span class="s">                $best_neighbour_tabu = &quot;$position-&quot;;</span>
+<span class="s">            }</span>
+<span class="s">        }</span>
+<span class="s">        if(!in_array(&quot;$position-&quot;,$tabulist[&#39;</span><span class="n">change</span><span class="s">&#39;])</span>
+<span class="s">                and $solution[$position] &gt; $min){</span>
+<span class="s">            $temp_solution = $solution;</span>
+<span class="s">            $temp_solution[$position]--;</span>
+<span class="s">            $score = fitness($temp_solution,$target);</span>
+<span class="s">            if ($score &lt; $best_neighbour_score){</span>
+<span class="s">                $best_neighbour_score = $score;</span>
+<span class="s">                $best_neighbour_solution = $temp_solution;</span>
+<span class="s">                //make sure this step doesn&#39;</span><span class="n">t</span> <span class="n">get</span> <span class="n">undone</span>
+                <span class="nv">$best_neighbour_tabu</span> <span class="o">=</span> <span class="s">&quot;$position+&quot;</span><span class="p">;</span>
             <span class="p">}</span>
         <span class="p">}</span>
-        <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">in_array</span><span class="p">(</span><span class="s2">&quot;$position-&quot;</span><span class="p">,</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">])</span>
-                <span class="nx">and</span> <span class="nx">$solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">$min</span><span class="p">){</span>
-            <span class="nx">$temp_solution</span> <span class="o">=</span> <span class="nx">$solution</span><span class="p">;</span>
-            <span class="nx">$temp_solution</span><span class="p">[</span><span class="nx">$position</span><span class="p">]</span><span class="o">--</span><span class="p">;</span>
-            <span class="nx">$score</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$temp_solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
-            <span class="k">if</span> <span class="p">(</span><span class="nx">$score</span> <span class="o">&lt;</span> <span class="nx">$best_neighbour_score</span><span class="p">){</span>
-                <span class="nx">$best_neighbour_score</span> <span class="o">=</span> <span class="nx">$score</span><span class="p">;</span>
-                <span class="nx">$best_neighbour_solution</span> <span class="o">=</span> <span class="nx">$temp_solution</span><span class="p">;</span>
-                <span class="c1">//make sure this step doesn&#39;t get undone</span>
-                <span class="nx">$best_neighbour_tabu</span> <span class="o">=</span> <span class="s2">&quot;$position+&quot;</span><span class="p">;</span>
-            <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="sr">//</span><span class="n">pick</span> <span class="n">the</span> <span class="n">best</span> <span class="n">neighbour</span>
+    <span class="nv">$solution</span> <span class="o">=</span> <span class="nv">$best_neighbour_solution</span><span class="p">;</span>
+    <span class="nv">$fitness</span> <span class="o">=</span> <span class="n">fitness</span><span class="p">(</span><span class="nv">$solution</span><span class="p">,</span><span class="nv">$target</span><span class="p">);</span>
+    <span class="n">echo</span> <span class="s">&quot;Iteration $iterations: fitness = $fitness\n&quot;</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$fitness</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
+        <span class="n">echo</span> <span class="s">&quot;Perfect solution found:\n&quot;</span><span class="p">;</span>
+        <span class="n">print_r</span><span class="p">(</span><span class="nv">$solution</span><span class="p">);</span>
+        <span class="nb">die</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="sr">//</span><span class="n">add</span> <span class="n">change</span> <span class="n">to</span> <span class="n">tabu</span> <span class="n">list</span>
+    <span class="nv">$tabulist</span><span class="p">[</span><span class="s">&#39;ttl&#39;</span><span class="p">][</span><span class="nv">$iterations</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="sr">//</span><span class="n">remember</span> <span class="k">for</span> <span class="mi">5</span> <span class="n">iteration</span>
+    <span class="nv">$tabulist</span><span class="p">[</span><span class="s">&#39;change&#39;</span><span class="p">][</span><span class="nv">$iterations</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$best_neighbour_tabu</span><span class="p">;</span>
+    <span class="sr">//</span><span class="n">update</span> <span class="n">the</span> <span class="n">tabulist</span>
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$tabulist</span><span class="p">[</span><span class="s">&#39;ttl&#39;</span><span class="p">]</span> <span class="n">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nv">$val</span><span class="p">){</span>
+        <span class="nv">$val</span><span class="o">--</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$val</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">){</span>
+            <span class="n">unset</span><span class="p">(</span><span class="nv">$tabulist</span><span class="p">[</span><span class="s">&#39;ttl&#39;</span><span class="p">][</span><span class="nv">$key</span><span class="p">]);</span>
+            <span class="n">unset</span><span class="p">(</span><span class="nv">$tabulist</span><span class="p">[</span><span class="s">&#39;change&#39;</span><span class="p">][</span><span class="nv">$key</span><span class="p">]);</span>
         <span class="p">}</span>
     <span class="p">}</span>
-    <span class="c1">//pick the best neighbour</span>
-    <span class="nx">$solution</span> <span class="o">=</span> <span class="nx">$best_neighbour_solution</span><span class="p">;</span>
-    <span class="nx">$fitness</span> <span class="o">=</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$solution</span><span class="p">,</span><span class="nx">$target</span><span class="p">);</span>
-    <span class="nx">echo</span> <span class="s2">&quot;Iteration $iterations: fitness = $fitness\n&quot;</span><span class="p">;</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nx">$fitness</span> <span class="o">==</span> <span class="mi">0</span><span class="p">){</span>
-        <span class="nx">echo</span> <span class="s2">&quot;Perfect solution found:\n&quot;</span><span class="p">;</span>
-        <span class="nx">print_r</span><span class="p">(</span><span class="nx">$solution</span><span class="p">);</span>
-        <span class="nx">die</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="c1">//add change to tabu list</span>
-    <span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">][</span><span class="nx">$iterations</span><span class="p">]</span> <span class="o">=</span> <span class="mi">5</span><span class="p">;</span> <span class="c1">//remember for 5 iteration</span>
-    <span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">][</span><span class="nx">$iterations</span><span class="p">]</span> <span class="o">=</span> <span class="nx">$best_neighbour_tabu</span><span class="p">;</span>
-    <span class="c1">//update the tabulist</span>
-    <span class="nx">foreach</span> <span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">]</span> <span class="kr">as</span> <span class="nx">$key</span> <span class="o">=&gt;</span> <span class="o">&amp;</span><span class="nx">$val</span><span class="p">){</span>
-        <span class="nx">$val</span><span class="o">--</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">$val</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">){</span>
-            <span class="nx">unset</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">][</span><span class="nx">$key</span><span class="p">]);</span>
-            <span class="nx">unset</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;change&#39;</span><span class="p">][</span><span class="nx">$key</span><span class="p">]);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-    <span class="nx">echo</span> <span class="s2">&quot;Iteration $iterations: tabulist now contains &quot;</span>
-        <span class="p">.</span><span class="nx">count</span><span class="p">(</span><span class="nx">$tabulist</span><span class="p">[</span><span class="s1">&#39;ttl&#39;</span><span class="p">]).</span><span class="s2">&quot; items \n&quot;</span><span class="p">;</span>
-    <span class="nx">$iterations</span><span class="o">++</span><span class="p">;</span>
+    <span class="n">echo</span> <span class="s">&quot;Iteration $iterations: tabulist now contains &quot;</span>
+        <span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="nv">$tabulist</span><span class="p">[</span><span class="s">&#39;ttl&#39;</span><span class="p">])</span><span class="o">.</span><span class="s">&quot; items \n&quot;</span><span class="p">;</span>
+    <span class="nv">$iterations</span><span class="o">++</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kd">function</span> <span class="nx">fitness</span><span class="p">(</span><span class="nx">$array</span><span class="p">,</span> <span class="nx">$target</span><span class="p">){</span>
-    <span class="k">return</span> <span class="nx">abs</span><span class="p">(</span><span class="nx">array_sum</span><span class="p">(</span><span class="nx">$array</span><span class="p">)</span><span class="o">-</span><span class="nx">$target</span><span class="p">);</span>
+<span class="n">function</span> <span class="n">fitness</span><span class="p">(</span><span class="nv">$array</span><span class="p">,</span> <span class="nv">$target</span><span class="p">){</span>
+    <span class="k">return</span> <span class="nb">abs</span><span class="p">(</span><span class="n">array_sum</span><span class="p">(</span><span class="nv">$array</span><span class="p">)</span><span class="o">-</span><span class="nv">$target</span><span class="p">);</span>
 <span class="p">}</span>
 </pre></div>
 

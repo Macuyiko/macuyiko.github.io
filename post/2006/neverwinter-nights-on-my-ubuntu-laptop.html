@@ -98,7 +98,7 @@
 <li><code>/INSTALL/patch.key</code></li>
 </ul>
 <p>And then execute the following command from a&nbsp;terminal:</p>
-<div class="highlight"><pre><span></span>./fixinstall
+<div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">fixinstall</span>
 </pre></div>
 
 
@@ -123,14 +123,14 @@
 <p>Now update the game, <a href="http://nwn.bioware.com/support/patch.html">download the patch here</a>. To update, just overwrite-extract the archive you have downloaded in the installation&nbsp;map.</p>
 <h3>Step 5:&nbsp;fixing</h3>
 <p>I got the following error when starting Neverwinter with the <code>./nwn</code> command:</p>
-<div class="highlight"><pre><span></span>mcop warning: user defined signal handler found for SIG_PIPE, overriding
-Creating link /home/username/.kde/socket-hostname.
-can&#39;t create mcop directory
+<div class="highlight"><pre><span></span><span class="nv">mcop</span> <span class="nv">warning</span>: <span class="nv">user</span> <span class="nv">defined</span> <span class="nv">signal</span> <span class="nv">handler</span> <span class="nv">found</span> <span class="k">for</span> <span class="nv">SIG_PIPE</span>, <span class="nv">overriding</span>
+<span class="nv">Creating</span> <span class="nv">link</span> <span class="o">/</span><span class="nv">home</span><span class="o">/</span><span class="nv">username</span><span class="o">/</span>.<span class="nv">kde</span><span class="o">/</span><span class="nv">socket</span><span class="o">-</span><span class="nv">hostname</span>.
+<span class="nv">can</span><span class="s1">&#39;</span><span class="s">t create mcop directory</span>
 </pre></div>
 
 
 <p>To fix this, I&nbsp;executed:</p>
-<div class="highlight"><pre><span></span>mkdir ~/.kde/socket-hostname
+<div class="highlight"><pre><span></span><span class="n">mkdir</span> <span class="o">~/</span><span class="p">.</span><span class="n">kde</span><span class="o">/</span><span class="n">socket</span><span class="o">-</span><span class="n">hostname</span>
 </pre></div>
 
 
