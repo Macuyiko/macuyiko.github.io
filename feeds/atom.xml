@@ -67,6 +67,7 @@ tag::before { content: "#"; }
 &lt;/li&gt;
 &lt;li&gt;So all non-linear activation functions work&amp;nbsp;well&lt;/li&gt;
 &lt;li&gt;&lt;tag&gt;ReLU&lt;/tag&gt; is very common but alternatives exist: &lt;span class="caps"&gt;ELU&lt;/span&gt;,&amp;nbsp;LeakyReLU&lt;/li&gt;
+&lt;li&gt;Also see &lt;a href="https://openreview.net/forum?id=H1gJ2RVFPH"&gt;https://openreview.net/forum?id=H1gJ2RVFPH&lt;/a&gt; for a cool new&amp;nbsp;result&lt;/li&gt;
 &lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ul&gt;
