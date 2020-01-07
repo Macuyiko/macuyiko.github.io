@@ -77,12 +77,12 @@
 			</header>
 			<div class="article-summary">
 					<p>Instead of&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="ss">(</span><span class="nv">SELECT</span> <span class="nv">COUNT</span><span class="ss">(</span><span class="o">*</span><span class="ss">)</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ... <span class="ss">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<div class="highlight"><pre><span></span><span class="err">IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0</span>
 </pre></div>
 
 
 <p>use&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="nv">EXISTS</span><span class="ss">(</span><span class="nv">SELECT</span> <span class="o">*</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ...<span class="ss">)</span>
+<div class="highlight"><pre><span></span><span class="err">IF EXISTS(SELECT * FROM Table1 WHERE ...)</span>
 </pre></div>
 
 
@@ -113,12 +113,12 @@
 			</header>
 			<div class="article-summary">
 					<p>How can you do this (x is number of rows to fetch, y is offset)&nbsp;(Mysql):</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">LIMIT</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x, y</span>
 </pre></div>
 
 
 <p>or this (PostgreSQL)&nbsp;:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">LIMIT</span> <span class="n">x</span> <span class="k">OFFSET</span> <span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x OFFSET y</span>
 </pre></div>
 
 
@@ -169,7 +169,7 @@ pgetbl_ctl …</p></blockquote>
 			<div class="article-summary">
 					<p>Another problem (on another machine) was that it refused booting the new&nbsp;kernel.</p>
 <p>Also: the live cd didn&#8217;t work either, with the same error. A lot of people have problems of this kind, and most of the times they get the following&nbsp;errors:</p>
-<div class="highlight"><pre><span></span><span class="n">ata2</span> <span class="k">is</span> <span class="n">slow</span> <span class="k">to</span> <span class="n">respond</span><span class="p">,</span> <span class="n">please …</span></pre></div>
+<div class="highlight"><pre><span></span><span class="err">ata2 is slow to respond, please …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/ubuntu-feisty-second-problem.html">Read more</a></p>
 			</div>
 		</article>

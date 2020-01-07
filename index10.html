@@ -71,18 +71,41 @@
         
 		<article>
 			<header>
+				<div class="article-info">Sun 20 January 2008, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html" rel="bookmark"
+				title="Permalink to Javascript Browser Detection using DOM Capabilities">Javascript Browser Detection using <span class="caps">DOM</span>&nbsp;Capabilities</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Just found this, pretty&nbsp;handy!</p>
+<div class="highlight"><pre><span></span><span class="err">// browser detection</span>
+<span class="err">var isIE = document.all;</span>
+<span class="err">var isIE7 = isIE &amp;&amp; window.XMLHttpRequest &amp;&amp; window.ActiveXObject;</span>
+<span class="err">var isIE6 = isIE &amp;&amp; document.implementation;</span>
+<span class="err">var isgteIE6 = isIE7 isIE6;</span>
+<span class="err">var isIE5 = isIE &amp;&amp; window.print &amp;&amp; !isgteIE6;</span>
+<span class="err">var isIEDOM2 = isIE5 isgteIE6;</span>
+<span class="err">var isIE4 = isIE &amp;&amp; !isIEDOM2 &amp;&amp; navigator.cookieEnabled;</span>
+<span class="err">var isIE3 = isIE &amp;&amp; !isIE4 &amp;&amp; !isIEDOM2;</span>
+<span class="err">var isNS …</span></pre></div>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Sat 15 September 2007, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="//blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html" rel="bookmark"
 				title="Permalink to SQL: Check Existing Rows Matching A Condition"><span class="caps">SQL</span>: Check Existing Rows Matching A&nbsp;Condition</a></div>
 			</header>
 			<div class="article-summary">
 					<p>Instead of&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="ss">(</span><span class="nv">SELECT</span> <span class="nv">COUNT</span><span class="ss">(</span><span class="o">*</span><span class="ss">)</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ... <span class="ss">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<div class="highlight"><pre><span></span><span class="err">IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0</span>
 </pre></div>
 
 
 <p>use&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="nv">EXISTS</span><span class="ss">(</span><span class="nv">SELECT</span> <span class="o">*</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ...<span class="ss">)</span>
+<div class="highlight"><pre><span></span><span class="err">IF EXISTS(SELECT * FROM Table1 WHERE ...)</span>
 </pre></div>
 
 
@@ -113,12 +136,12 @@
 			</header>
 			<div class="article-summary">
 					<p>How can you do this (x is number of rows to fetch, y is offset)&nbsp;(Mysql):</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">LIMIT</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x, y</span>
 </pre></div>
 
 
 <p>or this (PostgreSQL)&nbsp;:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">LIMIT</span> <span class="n">x</span> <span class="k">OFFSET</span> <span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x OFFSET y</span>
 </pre></div>
 
 
@@ -169,7 +192,7 @@ pgetbl_ctl …</p></blockquote>
 			<div class="article-summary">
 					<p>Another problem (on another machine) was that it refused booting the new&nbsp;kernel.</p>
 <p>Also: the live cd didn&#8217;t work either, with the same error. A lot of people have problems of this kind, and most of the times they get the following&nbsp;errors:</p>
-<div class="highlight"><pre><span></span><span class="n">ata2</span> <span class="k">is</span> <span class="n">slow</span> <span class="k">to</span> <span class="n">respond</span><span class="p">,</span> <span class="n">please …</span></pre></div>
+<div class="highlight"><pre><span></span><span class="err">ata2 is slow to respond, please …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/ubuntu-feisty-second-problem.html">Read more</a></p>
 			</div>
 		</article>
@@ -207,7 +230,7 @@ pgetbl_ctl …</p></blockquote>
 
 
 <p>Then:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="k">get …</span></pre></div>
+<div class="highlight"><pre><span></span><span class="err">sudo apt-get update …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/finished.html">Read more</a></p>
 			</div>
 		</article>
@@ -223,20 +246,6 @@ pgetbl_ctl …</p></blockquote>
 					<p>Just wanted to share this quick story: recently I had to install Oki C5700 drivers on an Ubuntu machine. A quick look at the web panel revealed that it was not supporting ipp (Cups). So you have to set it up as a Unix Printer (<span class="caps">LPR</span>).</p>
 <p>After that it seems …</p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/oki-printers-in-ubuntu.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Mon 18 September 2006, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2006/crappy-scanners-and-linux.html" rel="bookmark"
-				title="Permalink to Crappy Scanners And Linux">Crappy Scanners And&nbsp;Linux</a></div>
-			</header>
-			<div class="article-summary">
-					<p>Recently we got a new <span class="caps">HP</span> Scanner. It&#8217;s a good, nice, and generally works without any&nbsp;complaints.</p>
-<p>The scanner I used before was a crappy scanner with a no-name brand nobody knows, picked up for almost nothing at some cheapskate-store (since I very rarely need to scan something). The …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/crappy-scanners-and-linux.html">Read more</a></p>
 			</div>
 		</article>
 

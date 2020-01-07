@@ -71,6 +71,21 @@
         
 		<article>
 			<header>
+				<div class="article-info">Tue 17 August 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2010/oldie-but-goodie-privilege-escalation-in-windows.html" rel="bookmark"
+				title="Permalink to Oldie But Goodie: Privilege Escalation In Windows">Oldie But Goodie: Privilege Escalation In&nbsp;Windows</a></div>
+			</header>
+			<div class="article-summary">
+					<h3>Number&nbsp;One:</h3>
+<p>Replace <code>C:\Windows\system32\sethc.exe</code> with <code>cmd.exe</code> (e.g. by renaming and/or using a repair <span class="caps">CD</span>: with the Vista repair <span class="caps">CD</span> you can open &#8220;<code>notepad</code>&#8221; in the command prompt and execute file manipulations from the Open&nbsp;Dialog).</p>
+<p>Restart. At the login screen press &#8220;Shift&#8221; five …</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/oldie-but-goodie-privilege-escalation-in-windows.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Fri 02 July 2010, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="//blog.macuyiko.com/post/2010/note-to-self-remote-vnc-listen-connection.html" rel="bookmark"
 				title="Permalink to Note To Self: Remote VNC (Listen) Connection">Note To Self: Remote <span class="caps">VNC</span> (Listen)&nbsp;Connection</a></div>
@@ -78,13 +93,13 @@
 			<div class="article-summary">
 					<p>Because I always forget these commands and end up double checking&nbsp;them&#8230;</p>
 <h4>Client (Me) -&nbsp;Listening:</h4>
-<div class="highlight"><pre><span></span><span class="n">vncviewer</span> <span class="o">-</span><span class="k">listen</span> <span class="n">PORT</span>
+<div class="highlight"><pre><span></span><span class="err">vncviewer -listen PORT</span>
 </pre></div>
 
 
 <p>(Using UltraVNC on&nbsp;Windows.)</p>
 <h4>Server -&nbsp;Initiating:</h4>
-<div class="highlight"><pre><span></span><span class="nv">x11vnc</span> <span class="o">-</span><span class="k">connect</span> <span class="nv">IP</span>:<span class="nv">PORT</span>
+<div class="highlight"><pre><span></span><span class="err">x11vnc -connect IP:PORT</span>
 </pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/note-to-self-remote-vnc-listen-connection.html">Read more</a></p>
 			</div>
@@ -144,12 +159,12 @@
 					<p>&#8230;to remind myself because I always seem to forget how&nbsp;to.</p>
 <p><strong>1.</strong> Put the contents of the <span class="caps">CD</span> somewhere (e.g. <code>/tmp/heroes</code>).</p>
 <p><strong>2.</strong>&nbsp;Install:</p>
-<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">heroes$</span> <span class="p">.</span><span class="o">/</span><span class="n">setup</span><span class="p">.</span><span class="n">sh</span>
+<div class="highlight"><pre><span></span><span class="err">/tmp/heroes$ ./setup.sh</span>
 </pre></div>
 
 
 <p><strong>3.</strong> Download and run patch with <code>--keep</code>:</p>
-<div class="highlight"><pre><span></span><span class="o">/</span><span class="n">tmp</span><span class="o">/</span><span class="n">heroes$</span> <span class="n">wget</span> <span class="n">ftp</span><span class="p">:</span><span class="o">//</span><span class="n">mirrors</span><span class="p">.</span><span class="n">dotsrc</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">lokigames</span><span class="o">/</span><span class="n">updates</span><span class="o">/</span><span class="n">heroes3</span><span class="o">/</span><span class="n">heroes3</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="mi">3</span><span class="p">.</span><span class="mi">1 …</span></pre></div>
+<div class="highlight"><pre><span></span><span class="err">/tmp/heroes$ wget ftp://mirrors.dotsrc.org/lokigames/updates/heroes3/heroes3-1.3.1a-unified-x86.run …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/installing-heroes-of-might-and-magic-iii-3-on-linux-ubuntu.html">Read more</a></p>
 			</div>
 		</article>
@@ -232,20 +247,6 @@ winner: a1k0n, well&nbsp;done!</p>
 <p><img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/Su9YncAJhVI/AAAAAAAAPQQ/NilcjCkx6AY/s400/Screenshot1.png"></p>
 <p>Needless to say, I was pretty surprised, I didn&#8217;t know Steam accounts could expire. Sure enough the e-mail looks legit, it&#8217;s mailed from support@steam.com, didn&#8217;t get caught by Gmail&#8217;s spam filter, and the corporate footer …</p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2009/dont-get-caught-in-this-steam-phishing-scam-how-phishers-work.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Wed 29 July 2009, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html" rel="bookmark"
-				title="Permalink to Solving Color Problem (Red Grass, Purple Water) In Age Of Empires 2: Age Of Kings (The Conquerors And Others Too) On Vista And Windows 7">Solving Color Problem (Red Grass, Purple Water) In Age Of Empires 2: Age Of Kings (The Conquerors And Others Too) On Vista And Windows&nbsp;7</a></div>
-			</header>
-			<div class="article-summary">
-					<p><strong>Legacy note</strong>: this program was pretty popular around 2010-2012, but now has fallen out of use, since most games have been patched to prevent this issue. The source code and last binary release have been moved to <a href="https://github.com/Macuyiko/palettestealer-suspender">GitHub</a>, as Google was thinking it was malware and flagging my&nbsp;blog.</p>
-<h3>Changelog …</h3>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2009/solving-color-problem-red-grass-purple-water-in-age-of-empires-2-age-of-kings-the-conquerors-and-others-too-on-vista-and-windows-7.html">Read more</a></p>
 			</div>
 		</article>
 

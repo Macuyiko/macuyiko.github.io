@@ -76,12 +76,12 @@
 		</header>
 	
 	    <p>Instead of&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="ss">(</span><span class="nv">SELECT</span> <span class="nv">COUNT</span><span class="ss">(</span><span class="o">*</span><span class="ss">)</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ... <span class="ss">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+<div class="highlight"><pre><span></span><span class="err">IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0</span>
 </pre></div>
 
 
 <p>use&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="k">IF</span> <span class="nv">EXISTS</span><span class="ss">(</span><span class="nv">SELECT</span> <span class="o">*</span> <span class="nv">FROM</span> <span class="nv">Table1</span> <span class="nv">WHERE</span> ...<span class="ss">)</span>
+<div class="highlight"><pre><span></span><span class="err">IF EXISTS(SELECT * FROM Table1 WHERE ...)</span>
 </pre></div>
 
 

@@ -114,23 +114,23 @@
 <p><strong>(4 - unreliable)</strong> Mess around with the compatibility options, especially <code>Run in 256 colors</code>, <code>Disable visual themes</code>, <code>Disable desktop composition</code>, <code>Display display scaling on high DPI settings</code> and <code>Run as administrator</code>. This works for some games/users, but I don&#8217;t really like this method as it has a lot of drawbacks (desktop windows/icons messed up when you exit&nbsp;etc&#8230;).</p>
 <p><strong>(5 - mostly reliable but annoying)</strong> Close <code>explorer.exe</code> using the Task Manager. This works for most games, but if you&#8217;re like me, you don&#8217;t like to close your 5+ open explorer&nbsp;windows.</p>
 <p>This method has been added to the program (see below). Another way is to create a batch script, if you don&#8217;t want to use the&nbsp;program:</p>
-<div class="highlight"><pre><span></span><span class="nv">REM</span> <span class="nv">kill</span> <span class="nv">explorer</span>.<span class="nv">exe</span>
-<span class="nv">taskkill</span> <span class="o">/</span><span class="nv">f</span> <span class="o">/</span><span class="nv">IM</span> <span class="nv">explorer</span>.<span class="nv">exe</span>
-<span class="nv">REM</span> <span class="nv">start</span> <span class="nv">the</span> <span class="nv">game</span> <span class="nv">and</span> <span class="k">wait</span> <span class="nv">to</span> <span class="nv">finish</span>
-<span class="nv">REM</span> <span class="nv">note</span>: <span class="o">/</span><span class="nv">D</span> <span class="nv">indicates</span> <span class="nv">the</span> <span class="nv">starting</span> <span class="nv">directory</span>, <span class="nv">often</span> <span class="nv">the</span> <span class="nv">same</span> <span class="nv">as</span> <span class="nv">your</span>
-<span class="nv">game</span><span class="s1">&#39;</span><span class="s">s exe</span>
-<span class="nv">start</span> <span class="o">/</span><span class="k">WAIT</span> <span class="o">/</span><span class="nv">D</span> <span class="s2">&quot;</span><span class="s">C:\path</span><span class="se">\t</span><span class="s">o\game.exe</span><span class="s2">&quot;</span> <span class="s2">&quot;</span><span class="s">C:\path</span><span class="se">\t</span><span class="s">o\game.exe</span><span class="s2">&quot;</span>
-<span class="nv">REM</span> <span class="nv">start</span> <span class="nv">explorer</span>.<span class="nv">exe</span> <span class="nv">again</span>
-<span class="nv">start</span> <span class="nv">explorer</span>.<span class="nv">exe</span>
+<div class="highlight"><pre><span></span><span class="err">REM kill explorer.exe</span>
+<span class="err">taskkill /f /IM explorer.exe</span>
+<span class="err">REM start the game and wait to finish</span>
+<span class="err">REM note: /D indicates the starting directory, often the same as your</span>
+<span class="err">game&#39;s exe</span>
+<span class="err">start /WAIT /D &quot;C:\path\to\game.exe&quot; &quot;C:\path\to\game.exe&quot;</span>
+<span class="err">REM start explorer.exe again</span>
+<span class="err">start explorer.exe</span>
 </pre></div>
 
 
 <p>Or, another&nbsp;method:</p>
-<div class="highlight"><pre><span></span><span class="nv">taskkill</span> <span class="o">/</span><span class="nv">f</span> <span class="o">/</span><span class="nv">IM</span> <span class="nv">explorer</span>.<span class="nv">exe</span>
-<span class="s2">&quot;</span><span class="s">C:\path</span><span class="se">\t</span><span class="s">o\game.exe</span><span class="s2">&quot;</span>
-<span class="nv">REM</span> <span class="k">if</span> <span class="nv">the</span> <span class="nv">game</span> <span class="nv">finishes</span> <span class="nv">press</span> <span class="nv">enter</span> <span class="nv">to</span> <span class="nv">restart</span> <span class="nv">explorer</span>
-<span class="k">pause</span>
-<span class="nv">start</span> <span class="nv">explorer</span>.<span class="nv">exe</span>
+<div class="highlight"><pre><span></span><span class="err">taskkill /f /IM explorer.exe</span>
+<span class="err">&quot;C:\path\to\game.exe&quot;</span>
+<span class="err">REM if the game finishes press enter to restart explorer</span>
+<span class="err">pause</span>
+<span class="err">start explorer.exe</span>
 </pre></div>
 
 
@@ -154,32 +154,32 @@
 <p>PCs back then weren&#8217;t really powerful. Everything had to be as fast as possible, even color handling. So something which Directdraw did for you was maintaining a palette of 256 colors. Like a painter, programmers could fill this palette with 256 colors they would use: ten greens for grass, 6 blues for water, and so on. Some of these 256 colors are static (but then again, not always) and cannot be changed. If you&#8217;re interested in the deep and dirty details: <a href="http://www.compuphase.com/palette.htm">this page</a> does a good job explaining&nbsp;it.</p>
 <p>Now this is the thing: if you&#8217;re a fullscreen game, you don&#8217;t want other programs screwing up the system palette, changing your beautiful chosen colors to ugly greens and reds. And this is what&#8217;s happening in Windows 7. If you read <a href="http://msdn.microsoft.com/en-us/library/dd145128(VS.85).aspx">System Palette and Static Colors</a> on <span class="caps">MSDN</span>, it states that &#8220;However, because changing the static colors can have an immediate and dramatic effect on all windows on the display, an application should not call SetSystemPaletteUse, unless it has a maximized window and the input focus.&#8221; Alas, this is not enforced by Windows, and thus <code>explorer.exe</code> (which comes from Microsoft mind you) and other programs will happily call <code>SetSystemPaletteUse</code> and mess the poor fullscreen DirectDraw game&nbsp;up.</p>
 <p>I googled a bit around to see if I could find any clues. <a href="http://stackoverflow.com/questions/1054365/exclusive-directdraw-palette-isnt-actually-exclusive">This message</a> at Stackoverflow describes the same problem. This message is actually posted by the maintainers of Worms: Armageddon. No-one provided an answer though. I opened up Visual Studio (which was still installed) to quickly throw something together in <span class="caps">VB</span>.<span class="caps">NET</span> to intercept the <code>WM_SYSCOLORCHANGE</code>, <code>WM_PALETTECHANGED</code>, <code>WM_PALETTEISCHANGING</code> and <code>WM_QUERYNEWPALETTE</code> messages and look at where they&#8217;re coming from. Basically, three processes are&nbsp;fighting:</p>
-<div class="highlight"><pre><span></span><span class="n">CHANGING</span> <span class="k">from</span> <span class="p">(</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">CHANGED</span> <span class="k">from</span> <span class="n">Age</span> <span class="k">of</span> <span class="n">Empires</span> <span class="n">II</span> <span class="n">Expansion</span> <span class="p">(</span><span class="mi">135458</span><span class="p">)</span>
-<span class="n">Device</span> <span class="n">context</span><span class="p">:</span> <span class="mi">16847861</span>
-<span class="n">Process</span><span class="p">:</span> <span class="mi">4508</span><span class="p">:</span> <span class="n">age2_x1</span>
-<span class="n">Got</span> <span class="mi">256</span> <span class="n">palette</span> <span class="k">size</span> <span class="n">scr</span>
-<span class="p">[...]</span>
-<span class="n">CHANGED</span> <span class="k">from</span> <span class="n">GDI</span><span class="o">+</span> <span class="n">Window</span> <span class="p">(</span><span class="mi">917744</span><span class="p">)</span>
-<span class="n">Device</span> <span class="n">context</span><span class="p">:</span> <span class="mi">184626156</span>
-<span class="n">Process</span><span class="p">:</span> <span class="mi">2452</span><span class="p">:</span> <span class="n">explorer</span>
-<span class="n">Got</span> <span class="mi">256</span> <span class="n">palette</span> <span class="k">size</span> <span class="n">scr</span>
-<span class="n">CHANGED</span> <span class="k">from</span> <span class="p">(</span><span class="mi">65552</span><span class="p">)</span>
-<span class="n">Device</span> <span class="n">context</span><span class="p">:</span> <span class="mi">1744905863</span>
-<span class="n">Process</span><span class="p">:</span> <span class="mi">540</span><span class="p">:</span> <span class="n">csrss</span>
-<span class="n">Got</span> <span class="mi">256</span> <span class="n">palette</span> <span class="k">size</span> <span class="n">scr</span>
-<span class="p">[...]</span>
+<div class="highlight"><pre><span></span><span class="err">CHANGING from (0)</span>
+<span class="err">CHANGED from Age of Empires II Expansion (135458)</span>
+<span class="err">Device context: 16847861</span>
+<span class="c">Process: 4508: age2_x1</span>
+<span class="err">Got 256 palette size scr</span>
+<span class="err">[...]</span>
+<span class="err">CHANGED from GDI+ Window (917744)</span>
+<span class="err">Device context: 184626156</span>
+<span class="c">Process: 2452: explorer</span>
+<span class="err">Got 256 palette size scr</span>
+<span class="err">CHANGED from (65552)</span>
+<span class="err">Device context: 1744905863</span>
+<span class="c">Process: 540: csrss</span>
+<span class="err">Got 256 palette size scr</span>
+<span class="err">[...]</span>
 </pre></div>
 
 
 <p>The game itself, <code>explorer.exe</code>, and <code>csrss.exe</code>.</p>
 <p>I then wanted to make a program which would change the palette back every time an outside process tried to change it. A had a whole list of functions loaded and code written, but it just didn&#8217;t work out and turned out to be too difficult. Also, I was beginning to suspect that this method could work, but would still result in flickering while changing palettes. I was browsing around at the Worms Armageddon <a href="http://forum.team17.com/showthread.php?t=38762">forums</a>, and found out that somebody wrote a <span class="caps">DLL</span> with source code for this problem. The code was written in Delphi and easy enough to read: grab a process, find every thread, and send the suspend message to every thread. I converted this code to <span class="caps">VB</span>.<span class="caps">NET</span> and slapped it on a form which would grab every <code>WM_PALETTECHANGED</code> message to update its list of&nbsp;processes.</p>
 <p>Note that there is actually also a lesser known way to suspend a process with one <span class="caps">API</span> call, without iterating all the threads, which is used in the PsSuspend- and Process Explorer tools made by&nbsp;SysInternals:</p>
-<div class="highlight"><pre><span></span><span class="nv">Public</span> <span class="nv">Shared</span> <span class="nv">Function</span> <span class="nv">NtSuspendProcess</span><span class="ss">(</span><span class="nv">ByVal</span> <span class="nv">ProcessHandle</span> <span class="nv">As</span> <span class="nv">IntPtr</span><span class="ss">)</span> <span class="nv">As</span> <span class="nv">Integer</span>
-<span class="k">End</span> <span class="nv">Function</span>
+<div class="highlight"><pre><span></span><span class="k">Public</span> <span class="n">Shared</span> <span class="k">Function</span> <span class="n">NtSuspendProcess</span><span class="p">(</span><span class="n">ByVal</span> <span class="n">ProcessHandle</span> <span class="k">As</span> <span class="n">IntPtr</span><span class="p">)</span> <span class="k">As</span> <span class="nb">Integer</span>
+<span class="k">End</span> <span class="k">Function</span>
 
-<span class="nv">Public</span> <span class="nv">Shared</span> <span class="nv">Function</span> <span class="nv">NtResumeProcess</span><span class="ss">(</span><span class="nv">ByVal</span> <span class="nv">ProcessHandle</span> <span class="nv">As</span> <span class="nv">IntPtr</span><span class="ss">)</span> <span class="nv">As</span> <span class="nv">Integer</span>
-<span class="k">End</span> <span class="nv">Function</span>
+<span class="k">Public</span> <span class="n">Shared</span> <span class="k">Function</span> <span class="n">NtResumeProcess</span><span class="p">(</span><span class="n">ByVal</span> <span class="n">ProcessHandle</span> <span class="k">As</span> <span class="n">IntPtr</span><span class="p">)</span> <span class="k">As</span> <span class="nb">Integer</span>
+<span class="k">End</span> <span class="k">Function</span>
 </pre></div>
 	</article>
 </div>

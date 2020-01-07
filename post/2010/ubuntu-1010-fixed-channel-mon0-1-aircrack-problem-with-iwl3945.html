@@ -78,17 +78,17 @@
 	    <p><strong>Update for Ubuntu 12.04 users:</strong> <a href="//blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html">see this post</a>.</p>
 <p>After upgrading to Ubuntu Maverick recently, the Aircrack suite stopped working for&nbsp;me.</p>
 <p>After setting <code>airodump</code> to a channel (like&nbsp;usual):</p>
-<div class="highlight"><pre><span></span><span class="n">airodump</span> <span class="c1">--channel **X**</span>
+<div class="highlight"><pre><span></span><span class="err">airodump --channel **X**</span>
 </pre></div>
 
 
 <p>It still displayed its status&nbsp;as:</p>
-<div class="highlight"><pre><span></span><span class="n">fixed</span> <span class="n">channel</span> <span class="n">mon0</span><span class="p">:</span> <span class="o">-</span><span class="mi">1</span>
+<div class="highlight"><pre><span></span><span class="err">fixed channel mon0: -1</span>
 </pre></div>
 
 
 <p>Some forum users advised to&nbsp;use:</p>
-<div class="highlight"><pre><span></span><span class="n">airodump</span> <span class="c1">--channel X,X</span>
+<div class="highlight"><pre><span></span><span class="err">airodump --channel X,X</span>
 </pre></div>
 
 

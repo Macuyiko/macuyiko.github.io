@@ -77,13 +77,13 @@
 	
 	    <p>Say you have video such as <a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/">this one</a> on Facebook. Most of these come with hardcoded subtitles, which we&#8217;d like to extract (for whatever&nbsp;reason).</p>
 <p>Opening the page in Chrome and inspecting the network requests quickly uncovers the media <span class="caps">URL</span>:</p>
-<div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">video</span><span class="o">-</span><span class="n">bru2</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="n">xx</span><span class="p">.</span><span class="n">fbcdn</span><span class="p">.</span><span class="n">net</span><span class="o">/</span><span class="n">v</span><span class="o">/</span><span class="n">t42</span><span class="p">.</span><span class="mi">9040</span><span class="o">-</span><span class="mi">2</span><span class="o">/</span><span class="mi">10000000</span><span class="n">_703970666457205_4416008794480312320_n</span><span class="p">.</span><span class="n">mp4</span><span class="o">?</span><span class="n">efg</span><span class="o">=</span><span class="n">eyJ2ZW5jb2RlX3RhZyI6ImRhc2hfdjNfMTI4MF9jcmZfMjNfaGlnaF8zLjFfZnJhZ18yX3ZpZGVvIn0</span><span class="o">%</span><span class="mi">3</span><span class="n">D</span><span class="o">&amp;</span><span class="n">oh</span><span class="o">=</span><span class="mi">40</span><span class="n">bbd0e0dd5367ed3a2d5ff0e7cbe081</span><span class="o">&amp;</span><span class="n">oe</span><span class="o">=</span><span class="mi">5</span><span class="n">A09D778</span><span class="o">&amp;</span><span class="n">bytestart</span><span class="o">=</span><span class="mi">0</span><span class="o">&amp;</span><span class="n">byteend</span><span class="o">=</span><span class="mi">953</span>
+<div class="highlight"><pre><span></span><span class="c">https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n.mp4?efg=eyJ2ZW5jb2RlX3RhZyI6ImRhc2hfdjNfMTI4MF9jcmZfMjNfaGlnaF8zLjFfZnJhZ18yX3ZpZGVvIn0%3D&amp;oh=40bbd0e0dd5367ed3a2d5ff0e7cbe081&amp;oe=5A09D778&amp;bytestart=0&amp;byteend=953</span>
 </pre></div>
 
 
 <p>By cutting off <code>&amp;bytestart=0&amp;byteend=953</code>, we can download the video file&nbsp;completely.</p>
 <p>Next, we can use <code>ffmpeg</code> to create frames every half&nbsp;second:</p>
-<div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">ffmpeg</span> <span class="o">-</span><span class="n">i</span> <span class="p">.</span><span class="err">\</span><span class="mi">23354483</span><span class="n">_145400712877976_2778300398300037120_n</span><span class="p">.</span><span class="n">mp4</span> <span class="o">-</span><span class="n">r</span> <span class="mi">2</span> <span class="p">.</span><span class="err">\</span><span class="n">frames</span><span class="err">\</span><span class="n">image</span><span class="o">-%</span><span class="mi">07</span><span class="n">d_original</span><span class="p">.</span><span class="n">png</span>
+<div class="highlight"><pre><span></span><span class="err">./ffmpeg -i .\23354483_145400712877976_2778300398300037120_n.mp4 -r 2 .\frames\image-%07d_original.png</span>
 </pre></div>
 
 
@@ -184,19 +184,19 @@
 
 
 <p>The resulting strings should now be easy to manually clean and&nbsp;finalize:</p>
-<div class="highlight"><pre><span></span><span class="n">ENVIRONMENTAL</span> <span class="n">ADVISER</span> <span class="n">WAS</span> <span class="n">A</span> <span class="k">NATURAL</span> <span class="n">DISASTER</span>
-<span class="n">PRESSED</span> <span class="n">HER</span> <span class="k">ON</span> <span class="n">CLIMATE</span> <span class="n">SCIENCE</span>
-<span class="n">It</span> <span class="n">seems</span> <span class="k">to</span> <span class="n">me</span> <span class="n">that</span> <span class="n">you</span> <span class="n">don</span><span class="err">‘</span><span class="n">t</span> <span class="n">believe</span> <span class="n">climate</span> <span class="n">change</span> <span class="k">is</span> <span class="nb">real</span><span class="p">.</span>
-<span class="n">I</span>  <span class="n">l</span> <span class="n">am</span> <span class="n">un</span>
-<span class="n">I</span> <span class="n">am</span> <span class="n">uncertain</span><span class="p">.</span>
-<span class="n">You</span><span class="err">‘</span><span class="n">re</span> <span class="n">uncertain</span><span class="o">?</span>
-<span class="k">No</span><span class="p">,</span> <span class="n">I</span><span class="err">‘</span><span class="n">m</span> <span class="k">not</span><span class="p">.</span> <span class="n">I</span><span class="err">‘</span><span class="n">m</span> <span class="n">sorry</span><span class="p">.</span> <span class="n">I</span> <span class="n">jumped</span> <span class="n">ahead</span><span class="p">.</span>
-<span class="n">Climate</span> <span class="n">change</span> <span class="k">is</span> <span class="k">of</span> <span class="n">course</span> <span class="nb">real</span><span class="p">.</span>
-<span class="n">Human</span> <span class="n">activity</span> <span class="n">affect</span> <span class="n">climate</span> <span class="n">change</span><span class="o">?</span>
-<span class="k">More</span> <span class="k">than</span> <span class="n">likely</span><span class="p">,</span> <span class="n">but</span> <span class="n">the</span> <span class="n">extent</span> <span class="k">to</span> <span class="n">which</span><span class="p">,</span>
-<span class="n">I</span> <span class="n">think</span> <span class="k">is</span> <span class="n">very</span> <span class="n">uncertain</span><span class="p">,</span> <span class="k">and</span> <span class="n">my</span>  <span class="n">Would</span> <span class="n">you</span> <span class="n">rely</span> <span class="k">on</span> <span class="n">scientists</span>
-<span class="k">to</span> <span class="n">give</span> <span class="n">you</span> <span class="n">that</span> <span class="n">answer</span><span class="p">,</span> <span class="k">or</span> <span class="k">not</span><span class="o">?</span>
-<span class="p">[...]</span>
+<div class="highlight"><pre><span></span><span class="err">ENVIRONMENTAL ADVISER WAS A NATURAL DISASTER</span>
+<span class="err">PRESSED HER ON CLIMATE SCIENCE</span>
+<span class="err">It seems to me that you don‘t believe climate change is real.</span>
+<span class="err">I  l am un</span>
+<span class="err">I am uncertain.</span>
+<span class="err">You‘re uncertain?</span>
+<span class="err">No, I‘m not. I‘m sorry. I jumped ahead.</span>
+<span class="err">Climate change is of course real.</span>
+<span class="err">Human activity affect climate change?</span>
+<span class="err">More than likely, but the extent to which,</span>
+<span class="err">I think is very uncertain, and my  Would you rely on scientists</span>
+<span class="err">to give you that answer, or not?</span>
+<span class="err">[...]</span>
 </pre></div>
 	</article>
 </div>

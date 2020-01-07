@@ -78,26 +78,26 @@
 	    <p>(This is part 3 in the Modern Genetic Algorithms Explained series, click <a href="//blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&nbsp;post.)</p>
 <p>In this part, we will look at a &#8220;special&#8221; genetic algorithm, <span class="caps">CHC</span> by Eshelman. The original paper is very hard to find, but it is mentioned in a lot of other&nbsp;works.</p>
 <p>The pseudocode looks like this (thanks to the commenters for sorting some problems&nbsp;out):</p>
-<div class="highlight"><pre><span></span><span class="nv">Create</span> <span class="nv">initial</span> <span class="nv">population</span>: <span class="nv">P</span>
-<span class="nv">L</span> :<span class="o">=</span> <span class="nv">length</span> <span class="nv">of</span> <span class="nv">an</span> <span class="nv">individual</span> <span class="nv">chromosome</span>
-<span class="nv">N</span> :<span class="o">=</span> <span class="nv">population</span> <span class="nv">size</span>
-<span class="nv">Threshold</span> :<span class="o">=</span> <span class="nv">MutProb</span> <span class="o">*</span> <span class="ss">(</span><span class="mi">1</span>.<span class="mi">0</span><span class="o">-</span><span class="nv">MutProb</span><span class="ss">)</span> <span class="o">*</span> <span class="nv">L</span> <span class="ss">(</span><span class="nv">or</span> <span class="nv">L</span><span class="o">/</span><span class="mi">4</span> <span class="nv">is</span> <span class="nv">also</span> <span class="nv">used</span><span class="ss">)</span>
+<div class="highlight"><pre><span></span><span class="k">Create</span> <span class="n">initial</span> <span class="n">population</span><span class="p">:</span> <span class="n">P</span>
+<span class="n">L</span> <span class="p">:</span><span class="o">=</span> <span class="k">length</span> <span class="k">of</span> <span class="n">an</span> <span class="n">individual</span> <span class="n">chromosome</span>
+<span class="n">N</span> <span class="p">:</span><span class="o">=</span> <span class="n">population</span> <span class="k">size</span>
+<span class="n">Threshold</span> <span class="p">:</span><span class="o">=</span> <span class="n">MutProb</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="o">-</span><span class="n">MutProb</span><span class="p">)</span> <span class="o">*</span> <span class="n">L</span> <span class="p">(</span><span class="k">or</span> <span class="n">L</span><span class="o">/</span><span class="mi">4</span> <span class="k">is</span> <span class="n">also</span> <span class="n">used</span><span class="p">)</span>
 
-<span class="nv">Evolution</span> <span class="k">until</span> <span class="nv">time</span> <span class="nv">limit</span> <span class="nv">hit</span> <span class="nv">or</span> <span class="nv">satisfying</span> <span class="nv">solution</span> <span class="nv">found</span>:
-  <span class="nv">CPop</span> :<span class="o">=</span> {}
-  <span class="k">For</span> <span class="nv">i</span> :<span class="o">=</span> <span class="mi">1</span> <span class="nv">to</span> <span class="nv">N</span><span class="o">/</span><span class="mi">2</span> <span class="k">do</span>:
-    <span class="nv">Choose</span> <span class="nv">two</span> <span class="k">random</span> <span class="nv">parents</span>: <span class="nv">P1</span> <span class="nv">and</span> <span class="nv">P2</span>
-    <span class="k">If</span> <span class="ss">(</span><span class="nv">different</span> <span class="nv">bits</span> <span class="nv">between</span> <span class="nv">P1</span> <span class="nv">an</span> <span class="nv">P2</span><span class="ss">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="nv">threshold</span> <span class="k">do</span>:
-      <span class="nv">Create</span> <span class="nv">children</span> <span class="nv">C1</span> <span class="nv">and</span> <span class="nv">C2</span> <span class="nv">using</span> <span class="nv">half</span><span class="o">-</span><span class="nv">uniform</span> <span class="nv">crossover</span>
-      <span class="nv">Add</span> <span class="nv">C1</span> <span class="nv">and</span> <span class="nv">C2</span> <span class="nv">to</span> <span class="nv">CPop</span>
+<span class="n">Evolution</span> <span class="k">until</span> <span class="n">time</span> <span class="k">limit</span> <span class="n">hit</span> <span class="k">or</span> <span class="n">satisfying</span> <span class="n">solution</span> <span class="k">found</span><span class="p">:</span>
+  <span class="n">CPop</span> <span class="p">:</span><span class="o">=</span> <span class="err">{}</span>
+  <span class="k">For</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">N</span><span class="o">/</span><span class="mi">2</span> <span class="k">do</span><span class="p">:</span>
+    <span class="n">Choose</span> <span class="n">two</span> <span class="n">random</span> <span class="n">parents</span><span class="p">:</span> <span class="n">P1</span> <span class="k">and</span> <span class="n">P2</span>
+    <span class="k">If</span> <span class="p">(</span><span class="n">different</span> <span class="n">bits</span> <span class="k">between</span> <span class="n">P1</span> <span class="n">an</span> <span class="n">P2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="o">&gt;</span> <span class="n">threshold</span> <span class="k">do</span><span class="p">:</span>
+      <span class="k">Create</span> <span class="n">children</span> <span class="n">C1</span> <span class="k">and</span> <span class="n">C2</span> <span class="k">using</span> <span class="n">half</span><span class="o">-</span><span class="n">uniform</span> <span class="n">crossover</span>
+      <span class="k">Add</span> <span class="n">C1</span> <span class="k">and</span> <span class="n">C2</span> <span class="k">to</span> <span class="n">CPop</span>
 
-  <span class="k">If</span> <span class="nv">there</span> <span class="nv">are</span> <span class="nv">no</span> <span class="nv">children</span> <span class="nv">in</span> <span class="nv">Cpop</span>:
-    <span class="nv">Threshold</span> :<span class="o">=</span> <span class="nv">threshold</span> <span class="o">-</span> <span class="mi">1</span>
-  <span class="k">Else</span>:
-    <span class="nv">P</span> :<span class="o">=</span> <span class="nv">best</span> <span class="nv">N</span> <span class="nv">individuals</span> <span class="nv">from</span> <span class="nv">P</span> <span class="nv">and</span> <span class="nv">CPop</span>
+  <span class="k">If</span> <span class="n">there</span> <span class="k">are</span> <span class="k">no</span> <span class="n">children</span> <span class="k">in</span> <span class="n">Cpop</span><span class="p">:</span>
+    <span class="n">Threshold</span> <span class="p">:</span><span class="o">=</span> <span class="n">threshold</span> <span class="o">-</span> <span class="mi">1</span>
+  <span class="k">Else</span><span class="p">:</span>
+    <span class="n">P</span> <span class="p">:</span><span class="o">=</span> <span class="n">best</span> <span class="n">N</span> <span class="n">individuals</span> <span class="k">from</span> <span class="n">P</span> <span class="k">and</span> <span class="n">CPop</span>
 
-  <span class="k">If</span> <span class="nv">threshold</span> <span class="o">&lt;</span> <span class="mi">0</span>:
-    <span class="nv">Cataclysmic</span> <span class="nv">creation</span> <span class="nv">of</span> <span class="nv">new</span> <span class="nv">population</span> <span class="nv">P</span>
+  <span class="k">If</span> <span class="n">threshold</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">Cataclysmic</span> <span class="n">creation</span> <span class="k">of</span> <span class="k">new</span> <span class="n">population</span> <span class="n">P</span>
 </pre></div>
 
 
@@ -220,107 +220,107 @@
 
 
 <p>In the first run, it took two cataclysms to reach a completely perfect population (grade is the average score for the complete population, not for the best single individual, it might be possible to have a perfect individual in the first evolution, still, because this problem is so simple, we look at the complete&nbsp;population):</p>
-<div class="highlight"><pre><span></span><span class="k">First</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">66</span><span class="p">.</span><span class="mi">88</span>
-<span class="mi">48</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">30</span><span class="p">.</span><span class="mi">34</span>
-<span class="mi">44</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">18</span><span class="p">.</span><span class="mi">92</span>
-<span class="mi">48</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">10</span><span class="p">.</span><span class="mi">64</span>
-<span class="mi">38</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">6</span><span class="p">.</span><span class="mi">68</span>
-<span class="mi">40</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">4</span><span class="p">.</span><span class="mi">74</span>
-<span class="mi">36</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">3</span><span class="p">.</span><span class="mi">84</span>
-<span class="mi">12</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">3</span><span class="p">.</span><span class="mi">48</span>
-<span class="mi">12</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">3</span><span class="p">.</span><span class="mi">12</span>
-<span class="mi">6</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">3</span><span class="p">.</span><span class="mi">0</span>
-<span class="k">No</span> <span class="n">children</span> <span class="n">evolved</span>
-<span class="k">No</span> <span class="n">children</span> <span class="n">evolved</span>
-<span class="n">Cataclysm</span><span class="p">,</span> <span class="n">newpop</span> <span class="k">length</span><span class="p">:</span> <span class="mi">50</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">48</span><span class="p">.</span><span class="mi">24</span>
-<span class="n">Treshold</span> <span class="k">is</span> <span class="n">now</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">5</span>
-<span class="mi">46</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">17</span><span class="p">.</span><span class="mi">36</span>
-<span class="mi">36</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">7</span><span class="p">.</span><span class="mi">8</span>
-<span class="mi">32</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">4</span><span class="p">.</span><span class="mi">1</span>
-<span class="mi">20</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">2</span><span class="p">.</span><span class="mi">76</span>
-<span class="mi">14</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">2</span><span class="p">.</span><span class="mi">44</span>
-<span class="mi">16</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">2</span><span class="p">.</span><span class="mi">12</span>
-<span class="mi">22</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">68</span>
-<span class="mi">20</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">28</span>
-<span class="mi">18</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="k">No</span> <span class="n">children</span> <span class="n">evolved</span>
-<span class="k">No</span> <span class="n">children</span> <span class="n">evolved</span>
-<span class="n">Cataclysm</span><span class="p">,</span> <span class="n">newpop</span> <span class="k">length</span><span class="p">:</span> <span class="mi">50</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">48</span><span class="p">.</span><span class="mi">86</span>
-<span class="n">Treshold</span> <span class="k">is</span> <span class="n">now</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">5</span>
-<span class="mi">40</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">21</span><span class="p">.</span><span class="mi">04</span>
-<span class="mi">46</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">5</span><span class="p">.</span><span class="mi">3</span>
-<span class="mi">36</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">56</span>
-<span class="mi">40</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">38</span>
-<span class="mi">32</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span>
+<div class="highlight"><pre><span></span><span class="err">First grade: 66.88</span>
+<span class="err">48 children</span>
+<span class="err">50 new population, grade: 30.34</span>
+<span class="err">44 children</span>
+<span class="err">50 new population, grade: 18.92</span>
+<span class="err">48 children</span>
+<span class="err">50 new population, grade: 10.64</span>
+<span class="err">38 children</span>
+<span class="err">50 new population, grade: 6.68</span>
+<span class="err">40 children</span>
+<span class="err">50 new population, grade: 4.74</span>
+<span class="err">36 children</span>
+<span class="err">50 new population, grade: 3.84</span>
+<span class="err">12 children</span>
+<span class="err">50 new population, grade: 3.48</span>
+<span class="err">12 children</span>
+<span class="err">50 new population, grade: 3.12</span>
+<span class="err">6 children</span>
+<span class="err">50 new population, grade: 3.0</span>
+<span class="err">No children evolved</span>
+<span class="err">No children evolved</span>
+<span class="err">Cataclysm, newpop length: 50 grade: 48.24</span>
+<span class="err">Treshold is now: 1.5</span>
+<span class="err">46 children</span>
+<span class="err">50 new population, grade: 17.36</span>
+<span class="err">36 children</span>
+<span class="err">50 new population, grade: 7.8</span>
+<span class="err">32 children</span>
+<span class="err">50 new population, grade: 4.1</span>
+<span class="err">20 children</span>
+<span class="err">50 new population, grade: 2.76</span>
+<span class="err">14 children</span>
+<span class="err">50 new population, grade: 2.44</span>
+<span class="err">16 children</span>
+<span class="err">50 new population, grade: 2.12</span>
+<span class="err">22 children</span>
+<span class="err">50 new population, grade: 1.68</span>
+<span class="err">20 children</span>
+<span class="err">50 new population, grade: 1.28</span>
+<span class="err">18 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">No children evolved</span>
+<span class="err">No children evolved</span>
+<span class="err">Cataclysm, newpop length: 50 grade: 48.86</span>
+<span class="err">Treshold is now: 1.5</span>
+<span class="err">40 children</span>
+<span class="err">50 new population, grade: 21.04</span>
+<span class="err">46 children</span>
+<span class="err">50 new population, grade: 5.3</span>
+<span class="err">36 children</span>
+<span class="err">50 new population, grade: 1.56</span>
+<span class="err">40 children</span>
+<span class="err">50 new population, grade: 0.38</span>
+<span class="err">32 children</span>
+<span class="err">50 new population, grade: 0.0</span>
 </pre></div>
 
 
 <p>Another run only takes four evolutions to reach a perfect population, with a beautiful&nbsp;convergence:</p>
-<div class="highlight"><pre><span></span><span class="k">First</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">51</span><span class="p">.</span><span class="mi">16</span>
-<span class="mi">46</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">24</span><span class="p">.</span><span class="mi">26</span>
-<span class="mi">46</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">12</span><span class="p">.</span><span class="mi">6</span>
-<span class="mi">34</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">5</span><span class="p">.</span><span class="mi">78</span>
-<span class="mi">38</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">94</span>
-<span class="mi">34</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">20</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">0</span><span class="p">.</span><span class="mi">0</span><span class="o">`</span>
+<div class="highlight"><pre><span></span><span class="err">First grade: 51.16</span>
+<span class="err">46 children</span>
+<span class="err">50 new population, grade: 24.26</span>
+<span class="err">46 children</span>
+<span class="err">50 new population, grade: 12.6</span>
+<span class="err">34 children</span>
+<span class="err">50 new population, grade: 5.78</span>
+<span class="err">38 children</span>
+<span class="err">50 new population, grade: 0.94</span>
+<span class="err">34 children</span>
+<span class="err">50 new population, grade: 0.0</span>
+<span class="err">20 children</span>
+<span class="err">50 new population, grade: 0.0`</span>
 </pre></div>
 
 
 <p>Sometimes however, the algorithm gets stuck in a&nbsp;loop:</p>
-<div class="highlight"><pre><span></span><span class="p">...</span>
-<span class="mi">18</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">22</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">24</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">16</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">26</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">24</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">24</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">18</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">18</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">14</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">16</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span>
-<span class="mi">16</span> <span class="n">children</span>
-<span class="mi">50</span> <span class="k">new</span> <span class="n">population</span><span class="p">,</span> <span class="n">grade</span><span class="p">:</span> <span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="o">`</span>
+<div class="highlight"><pre><span></span><span class="err">...</span>
+<span class="err">18 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">22 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">24 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">16 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">26 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">24 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">24 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">18 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">18 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">14 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">16 children</span>
+<span class="err">50 new population, grade: 1.0</span>
+<span class="err">16 children</span>
+<span class="err">50 new population, grade: 1.0`</span>
 </pre></div>
 
 
@@ -334,10 +334,10 @@
 
 
 <p>Both are optimal (but the sum might also be both 299, or 299 and 301, etc)&#8230; Notice that the hamming distance between them is four, far above the threshold, thus the following children can be&nbsp;created:</p>
-<div class="highlight"><pre><span></span><span class="p">[</span><span class="mi">38</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">44</span><span class="p">],</span> <span class="k">sum</span> <span class="mi">264</span>
-<span class="p">[</span><span class="mi">38</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">97</span><span class="p">],</span> <span class="k">sum</span> <span class="mi">291</span>
-<span class="p">[</span><span class="mi">83</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">44</span><span class="p">],</span> <span class="k">sum</span> <span class="mi">292</span>
-<span class="p">[</span><span class="mi">83</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">97</span><span class="p">],</span> <span class="k">sum</span> <span class="mi">336</span><span class="o">`</span>
+<div class="highlight"><pre><span></span><span class="err">[38, 28, 67, 64, 23, 44], sum 264</span>
+<span class="err">[38, 19, 67, 64, 6, 97], sum 291</span>
+<span class="err">[83, 28, 67, 64, 6, 44], sum 292</span>
+<span class="err">[83, 19, 67, 64, 6, 97], sum 336`</span>
 </pre></div>
 
 

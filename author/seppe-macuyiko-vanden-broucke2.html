@@ -71,6 +71,25 @@
         
 		<article>
 			<header>
+				<div class="article-info">Thu 07 December 2017, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2017/note-to-self-fast-android-screen-capture.html" rel="bookmark"
+				title="Permalink to Note to Self: Fast Android Screen Capture">Note to Self: Fast Android Screen&nbsp;Capture</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Getting a reliable, real-time screen of an Android device is more challenging than one might think, e.g. for the purpose of training a reinforcement learning&nbsp;agent.</p>
+<p><a href="https://blog.shvetsov.com/2013/02/grab-android-screenshot-to-computer-via.html">This post</a> describes a basic&nbsp;approach:</p>
+<div class="highlight"><pre><span></span><span class="err">adb shell screencap -p</span>
+</pre></div>
+
+
+<p>Sadly, adb mangles binary output and has a tendency to convert <code>\n</code> to …</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2017/note-to-self-fast-android-screen-capture.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Wed 29 November 2017, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="//blog.macuyiko.com/post/2017/bypassing-android-cert-pinning-using-a-rooted-emulator-avd.html" rel="bookmark"
 				title="Permalink to Bypassing Android Cert Pinning Using a Rooted Emulator (AVD)">Bypassing Android Cert Pinning Using a Rooted Emulator (<span class="caps">AVD</span>)</a></div>
@@ -91,7 +110,7 @@
 			<div class="article-summary">
 					<p>Say you have video such as <a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/">this one</a> on Facebook. Most of these come with hardcoded subtitles, which we&#8217;d like to extract (for whatever&nbsp;reason).</p>
 <p>Opening the page in Chrome and inspecting the network requests quickly uncovers the media <span class="caps">URL</span>:</p>
-<div class="highlight"><pre><span></span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">video</span><span class="o">-</span><span class="n">bru2</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="n">xx</span><span class="p">.</span><span class="n">fbcdn</span><span class="p">.</span><span class="n">net</span><span class="o">/</span><span class="n">v</span><span class="o">/</span><span class="n">t42 …</span></pre></div>
+<div class="highlight"><pre><span></span><span class="c">https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n …</span></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2017/note-to-self-using-tesseract-to-extract-subtitles.html">Read more</a></p>
 			</div>
 		</article>
@@ -203,22 +222,6 @@ $(function() {
 					<p>Our local Belgian media was just reporting on a study showing that air pollution has a negative impact on the cognitive abilities of children (<a href="http://www.demorgen.be/binnenland/wetenschappers-trekken-aan-alarmbel-vuile-lucht-maakt-kind-minder-aandachtig-bc60b3ac/">link in Dutch</a>).</p>
 <p>With that in mind, I was reminded of the <a href="http://aqicn.org/">World Air Quality Index team</a>, which keeps track of pollution values across the world …</p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2017/some-quick-spatial-kriging-fun-with-aqicnorg.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Sat 24 September 2016, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2016/how-to-send-html-mails-with-oauth2-and-gmail-in-python.html" rel="bookmark"
-				title="Permalink to How-to: Send HTML Mails with OAuth2 and Gmail in Python">How-to: Send <span class="caps">HTML</span> Mails with OAuth2 and Gmail in&nbsp;Python</a></div>
-			</header>
-			<div class="article-summary">
-					<p>If you&#8217;ve been trying to send e-mails from a program using your Gmail account, you&#8217;ll probably have encountered the following error&nbsp;message:</p>
-<div class="highlight"><pre><span></span><span class="n">SMTP</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Could</span> <span class="k">not</span> <span class="n">authenticate</span><span class="p">.</span> <span class="n">Error</span><span class="p">:</span> <span class="n">SMTP</span> <span class="n">Error</span><span class="p">:</span> <span class="n">Could</span> <span class="k">not</span> <span class="n">authenticate</span><span class="p">.</span>
-<span class="mi">535</span> <span class="mi">5</span><span class="p">.</span><span class="mi">7</span><span class="p">.</span><span class="mi">1</span> <span class="n">Username</span> <span class="k">and</span> <span class="n">Password</span> <span class="k">not</span> <span class="n">accepted</span><span class="p">.</span> <span class="n">Learn</span> <span class="k">more</span> <span class="k">at</span>
-<span class="mi">535</span> <span class="mi">5</span><span class="p">.</span><span class="mi">7 …</span></pre></div>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2016/how-to-send-html-mails-with-oauth2-and-gmail-in-python.html">Read more</a></p>
 			</div>
 		</article>
 

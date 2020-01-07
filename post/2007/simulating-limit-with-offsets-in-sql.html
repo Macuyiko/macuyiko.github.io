@@ -76,63 +76,63 @@
 		</header>
 	
 	    <p>How can you do this (x is number of rows to fetch, y is offset)&nbsp;(Mysql):</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">LIMIT</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x, y</span>
 </pre></div>
 
 
 <p>or this (PostgreSQL)&nbsp;:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">LIMIT</span> <span class="n">x</span> <span class="k">OFFSET</span> <span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x OFFSET y</span>
 </pre></div>
 
 
 <p>in a <span class="caps">DBMS</span> that doesn&#8217;t support <span class="caps">LIMIT</span> statements (take Oracle for&nbsp;example).</p>
 <p>In Oracle, you can use <span class="caps">ROWNUM</span>, which holds the current row&nbsp;number:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span>
-  <span class="p">(</span><span class="k">SELECT</span> <span class="n">ROWNUM</span> <span class="k">limit</span><span class="p">,</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">order_field</span><span class="p">)</span>
-<span class="k">WHERE</span> <span class="k">limit</span> <span class="k">BETWEEN</span> <span class="n">x</span> <span class="k">AND</span> <span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM</span>
+<span class="err">  (SELECT ROWNUM limit, * FROM my_table ORDER BY order_field)</span>
+<span class="err">WHERE limit BETWEEN x AND y</span>
 </pre></div>
 
 
 <p>In <span class="caps">SQL</span> Server (&gt;2005), you can use a similar trick, using the ROW_NUMBER&nbsp;function:</p>
-<div class="highlight"><pre><span></span><span class="k">WITH</span> <span class="n">ordered</span> <span class="k">AS</span> <span class="p">(</span>
-  <span class="k">SELECT</span> <span class="n">ROW_NUMBER</span><span class="p">()</span> <span class="n">OVER</span> <span class="p">(</span><span class="k">ORDER</span> <span class="k">BY</span> <span class="n">order_field</span><span class="p">)</span> <span class="k">AS</span> <span class="k">limit</span><span class="p">,</span> <span class="o">*</span>
-  <span class="k">FROM</span> <span class="n">my_table</span><span class="p">)</span>
-<span class="k">SELECT</span> <span class="o">*</span>
-<span class="k">FROM</span> <span class="n">ordered</span>
-<span class="k">WHERE</span> <span class="k">limit</span> <span class="k">BETWEEN</span> <span class="n">x</span> <span class="k">AND</span> <span class="n">y</span>
+<div class="highlight"><pre><span></span><span class="err">WITH ordered AS (</span>
+<span class="err">  SELECT ROW_NUMBER() OVER (ORDER BY order_field) AS limit, *</span>
+<span class="err">  FROM my_table)</span>
+<span class="err">SELECT *</span>
+<span class="err">FROM ordered</span>
+<span class="err">WHERE limit BETWEEN x AND y</span>
 </pre></div>
 
 
 <p>When using another database (Access for example), you can use <span class="caps">TOP</span> when&nbsp;available:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span>
-  <span class="p">(</span><span class="k">SELECT</span> <span class="n">TOP</span> <span class="n">x</span> <span class="o">*</span> <span class="k">FROM</span>
-  <span class="p">(</span><span class="k">SELECT</span> <span class="n">TOP</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">order_field</span><span class="p">)</span>
-<span class="k">AS</span> <span class="n">innerT</span>
-<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">order_field</span> <span class="k">DESC</span><span class="p">)</span> <span class="k">AS</span> <span class="n">outerT</span>
-<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">order_field</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM</span>
+<span class="err">  (SELECT TOP x * FROM</span>
+<span class="err">  (SELECT TOP x+y * FROM my_table ORDER BY order_field)</span>
+<span class="err">AS innerT</span>
+<span class="err">ORDER BY order_field DESC) AS outerT</span>
+<span class="err">ORDER BY order_field</span>
 </pre></div>
 
 
 <p>Or, another&nbsp;option:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">TOP</span> <span class="n">x</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span>
-<span class="k">WHERE</span> <span class="n">order_field</span> <span class="k">NOT</span> <span class="k">IN</span>
-<span class="p">(</span><span class="k">SELECT</span> <span class="n">TOP</span> <span class="n">y</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">ORDER</span> <span class="k">BY</span> <span class="n">order_field</span><span class="p">)</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT TOP x * FROM my_table</span>
+<span class="err">WHERE order_field NOT IN</span>
+<span class="err">(SELECT TOP y * FROM my_table ORDER BY order_field)</span>
 </pre></div>
 
 
 <p>Some databases don&#8217;t allow <span class="caps">TOP</span> in subselects, so we have to use yet another&nbsp;method:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="n">outerT</span>
-<span class="k">WHERE</span>
-<span class="p">(</span><span class="k">SELECT</span> <span class="k">COUNT</span><span class="p">(</span><span class="o">*</span><span class="p">)</span>
-<span class="k">FROM</span> <span class="n">my_table</span> <span class="n">innerT</span>
-<span class="k">WHERE</span> <span class="n">innerT</span><span class="p">.</span><span class="n">order_field</span> <span class="n">order_field</span><span class="p">)</span>
-<span class="k">BETWEEN</span> <span class="n">y</span><span class="o">+</span><span class="mi">1</span> <span class="k">AND</span> <span class="n">x</span><span class="o">+</span><span class="n">y</span>
-<span class="k">ORDER</span> <span class="k">BY</span> <span class="n">outerT</span><span class="p">.</span><span class="n">order_field</span> <span class="k">ASC</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table outerT</span>
+<span class="err">WHERE</span>
+<span class="err">(SELECT COUNT(*)</span>
+<span class="err">FROM my_table innerT</span>
+<span class="err">WHERE innerT.order_field order_field)</span>
+<span class="err">BETWEEN y+1 AND x+y</span>
+<span class="err">ORDER BY outerT.order_field ASC;</span>
 </pre></div>
 
 
 <p>Should that fail too, you can always&nbsp;do:</p>
-<div class="highlight"><pre><span></span><span class="k">SELECT</span> <span class="n">TOP</span> <span class="n">x</span> <span class="o">*</span> <span class="k">FROM</span> <span class="n">my_table</span> <span class="k">WHERE</span> <span class="n">order_field</span> <span class="o">&gt;</span> <span class="n">z</span>
+<div class="highlight"><pre><span></span><span class="err">SELECT TOP x * FROM my_table WHERE order_field &gt; z</span>
 </pre></div>
 
 

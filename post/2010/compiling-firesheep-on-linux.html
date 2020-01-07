@@ -78,9 +78,9 @@
 	    <p>If you follow the (security) news a bit, you&#8217;ve undoubtedly heart about Firesheep. This tool makes it very easy to listen in on public WiFi connections and intercept <span class="caps">HTTP</span> Cookies from a plethora of social networking sites and mail&nbsp;services.</p>
 <p>This has been possible for a long time (some tcpdump filters and some cookie setting scripts and you&#8217;re golden), but this tool makes it insanely easy. You can check out the tool and its description on the <a href="http://codebutler.com/firesheep">main site</a>.</p>
 <p>The site mentions that Linux support is on the way, and recently it has become possible to successfully compile the tool on Linux. This is what I did to get it running on Ubuntu&nbsp;10.10.</p>
-<div class="highlight"><pre><span></span><span class="n">cd</span> <span class="o">~</span><span class="n">git</span> <span class="n">clone</span> <span class="n">git</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="o">/</span><span class="n">mickflemm</span><span class="o">/</span><span class="n">firesheep</span><span class="p">.</span><span class="n">git</span>
-<span class="n">cd</span> <span class="n">firesheep</span><span class="o">/</span>
-<span class="p">.</span><span class="o">/</span><span class="n">autogen</span><span class="p">.</span><span class="n">sh</span> <span class="c1">--with-xulrunner-sdk=/usr/lib/xulrunner-devel-1.9.2.12</span>
+<div class="highlight"><pre><span></span><span class="err">cd ~git clone git://github.com/mickflemm/firesheep.git</span>
+<span class="err">cd firesheep/</span>
+<span class="err">./autogen.sh --with-xulrunner-sdk=/usr/lib/xulrunner-devel-1.9.2.12</span>
 </pre></div>
 
 
@@ -93,43 +93,43 @@
 
 
 <p>We now need to make a small change to the&nbsp;makefile.</p>
-<div class="highlight"><pre><span></span><span class="n">gedit</span> <span class="n">mozpopen</span><span class="o">/</span><span class="n">Makefile</span>
+<div class="highlight"><pre><span></span><span class="err">gedit mozpopen/Makefile</span>
 </pre></div>
 
 
 <p>Change the <code>MOZ_CFLAGS = ...</code> line&nbsp;to:</p>
-<div class="highlight"><pre><span></span><span class="nv">MOZ_CFLAGS</span> <span class="o">=</span> <span class="o">-</span><span class="nv">fshort</span><span class="o">-</span><span class="nv">wchar</span> <span class="o">-</span><span class="nv">I</span><span class="o">/</span><span class="nv">usr</span><span class="o">/</span><span class="nv">lib</span><span class="o">/</span><span class="nv">xulrunner</span><span class="o">-</span><span class="nv">devel</span><span class="o">-</span><span class="mi">1</span>.<span class="mi">9</span>.<span class="mi">2</span>.<span class="mi">12</span><span class="o">/</span><span class="k">include</span> <span class="o">-</span><span class="nv">I</span><span class="o">/</span><span class="nv">usr</span><span class="o">/</span><span class="k">include</span><span class="o">/</span><span class="nv">nspr</span>
+<div class="highlight"><pre><span></span><span class="err">MOZ_CFLAGS = -fshort-wchar -I/usr/lib/xulrunner-devel-1.9.2.12/include -I/usr/include/nspr</span>
 </pre></div>
 
 
 <p>Now we start&nbsp;compiling.</p>
-<div class="highlight"><pre><span></span><span class="n">make</span>
+<div class="highlight"><pre><span></span><span class="err">make</span>
 </pre></div>
 
 
 <p>This will probably fail too with the&nbsp;message:</p>
-<div class="highlight"><pre><span></span><span class="n">make</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span> <span class="o">***</span> <span class="k">No</span> <span class="k">rule</span> <span class="k">to</span> <span class="n">make</span> <span class="n">target</span> <span class="o">`</span><span class="n">deps</span><span class="o">/</span><span class="n">http</span><span class="o">-</span><span class="n">parser</span><span class="o">/</span><span class="n">http_parser</span><span class="p">.</span><span class="k">c</span><span class="s1">&#39;, needed by `../xpi/platform/.../firesheep-backend&#39;</span><span class="p">.</span>  <span class="n">Stop</span><span class="p">.</span>
+<div class="highlight"><pre><span></span><span class="err">make[1]: *** No rule to make target `deps/http-parser/http_parser.c&#39;, needed by `../xpi/platform/.../firesheep-backend&#39;.  Stop.</span>
 </pre></div>
 
 
 <p>This is fixed by running a submodule&nbsp;update:</p>
-<div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">submodule</span> <span class="k">update</span> <span class="c1">--init</span>
+<div class="highlight"><pre><span></span><span class="err">git submodule update --init</span>
 </pre></div>
 
 
 <p>And make&nbsp;again:</p>
-<div class="highlight"><pre><span></span><span class="n">make</span>
+<div class="highlight"><pre><span></span><span class="err">make</span>
 </pre></div>
 
 
 <p>You&#8217;ll now have an extension in the <code>build</code> directory. Drag the <code>.xpi</code> to Firefox to install Firesheep, then close Firefox&nbsp;completely.</p>
 <p>Firesheep expects your wireless interface to be in monitor mode. The easiest way to do this is to use <code>airmon-ng</code>:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">airmon</span><span class="o">-</span><span class="n">ng</span> <span class="k">start</span> <span class="n">eth1</span> <span class="o">#</span><span class="n">Substitute</span> <span class="n">your</span> <span class="n">wireless</span> <span class="n">interface</span> <span class="n">name</span>
+<div class="highlight"><pre><span></span><span class="err">sudo airmon-ng start eth1 #Substitute your wireless interface name</span>
 </pre></div>
 
 
 <p>Now start Firefox with root&nbsp;rights:</p>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">firefox</span>
+<div class="highlight"><pre><span></span><span class="err">sudo firefox</span>
 </pre></div>
 
 
