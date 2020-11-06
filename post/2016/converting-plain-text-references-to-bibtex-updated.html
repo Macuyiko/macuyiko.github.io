@@ -80,7 +80,7 @@
 <p>Sadly, upon trying out the new library, Google Scholar was quickly throwing captcha checks up our face. The issue seems to be the way cookie handling is performed in the&nbsp;library.</p>
 <p>Instead of trying to fix the library once more, I realized that we don&#8217;t need its full feature-set in order to accomplish what we&#8217;re trying to do here. The reason why I went hunting for such a library in the original post is probably due to a mixture of tiredness and/or having plans to do more with it in the future. <code>BeautifulSoup</code> and <code>requests</code> are enough to get the job&nbsp;done.</p>
 <p>So, the updated Python 3&nbsp;script:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">string</span>
@@ -185,7 +185,7 @@
     <span class="n">myFile</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">get_citations</span><span class="p">(</span><span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;BibTeX&#39;</span><span class="p">))</span>
 
 <span class="n">myFile</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
-</pre></div>
+</code></pre></div>
 	</article>
 </div>
 		

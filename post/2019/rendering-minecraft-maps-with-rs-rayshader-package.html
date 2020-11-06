@@ -85,7 +85,7 @@
 <p><img alt="In-game screenshot of where we're at" src="/images/2019/minecraft1.png"></p>
 <p>The next question was how to extract map data from the game. There have been a number of tools constructed over the years on how to do so, with <a href="https://mapcrafter.org/index">Mapcrafter</a> and <a href="https://chunky.llbit.se/">Chunky</a> offering something very similar to what we want to do, albeit in&nbsp;R.</p>
 <p>I toyed around a bit with the source code of Mapcrafter before going for an easier route. I maintain a <a href="https://github.com/Macuyiko/minecraft-python">Jython interface to Minecraft</a> which offers full access to the Spigot <span class="caps">API</span> from Python, so I whipped up a quick Python script in order to extract a height&nbsp;map:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mcapi</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="python highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">mcapi</span> <span class="kn">import</span> <span class="o">*</span>
 
 <span class="n">me</span> <span class="o">=</span> <span class="n">player</span><span class="p">(</span><span class="s1">&#39;Macuyiko&#39;</span><span class="p">)</span>
 <span class="n">loc</span> <span class="o">=</span> <span class="n">location</span><span class="p">(</span><span class="n">me</span><span class="p">)</span>
@@ -148,13 +148,12 @@
     <span class="n">csvwriter</span> <span class="o">=</span> <span class="n">csv</span><span class="o">.</span><span class="n">writer</span><span class="p">(</span><span class="n">csvfile</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">result_type</span><span class="p">:</span>
         <span class="n">csvwriter</span><span class="o">.</span><span class="n">writerow</span><span class="p">(</span><span class="n">row</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This script basically goes over a grid of (x,z) values (according to Minecraft&#8217;s <a href="https://minecraft.gamepedia.com/Coordinates">coordinate system</a>) and iterates over the y-values from top (sky) to bottom, until it finds a solid&nbsp;block.</p>
 <p>Note the usage of the <code>ignore_list</code> and <code>include_list</code>. I basically wanted to skip over some block types which I did not want to include in the landscape, such as tree blocks, flowers, and so one. I also skip over water blocks as I want to render these using <code>rayshader</code>.</p>
 <p>At the end, a <span class="caps">CSV</span> file is obtained which height values for each location. We can then render this in R as&nbsp;follows:</p>
-<div class="highlight"><pre><span></span><span class="n">devtools</span><span class="o">::</span><span class="nf">install_github</span><span class="p">(</span><span class="s">&quot;tylermorganwall/rayshader&quot;</span><span class="p">)</span>
+<div class="R highlight"><pre><span></span><code><span class="n">devtools</span><span class="o">::</span><span class="nf">install_github</span><span class="p">(</span><span class="s">&quot;tylermorganwall/rayshader&quot;</span><span class="p">)</span>
 
 <span class="nf">library</span><span class="p">(</span><span class="n">rayshader</span><span class="p">)</span>
 <span class="nf">library</span><span class="p">(</span><span class="n">dplyr</span><span class="p">)</span>
@@ -173,8 +172,7 @@
           <span class="n">water</span><span class="o">=</span><span class="kc">TRUE</span><span class="p">,</span> <span class="n">waterdepth</span><span class="o">=</span><span class="m">64</span><span class="p">,</span> <span class="n">wateralpha</span><span class="o">=</span><span class="m">0.5</span><span class="p">,</span> <span class="n">watercolor</span><span class="o">=</span><span class="s">&quot;lightblue&quot;</span><span class="p">)</span>
 
 <span class="nf">render_snapshot</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Resulting in the following&nbsp;picture:</p>
 <p><img alt="Rendered map" src="/images/2019/minecraft2.png"></p>

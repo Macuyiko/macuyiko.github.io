@@ -83,21 +83,20 @@
 The name and inspiration come from annealing in metallurgy, a technique involving heating and controlled cooling of a material to increase the size of its crystals and reduce their defects. The heat causes the atoms to become unstuck from their initial positions (a local minimum of the internal energy) and wander randomly through states of higher energy; the slow cooling gives them more chances of finding configurations with lower internal energy than the initial&nbsp;one.</p>
 </blockquote>
 <p>Let&#8217;s take a look at some&nbsp;pseudocode:</p>
-<div class="highlight"><pre><span></span><span class="err">Randomly construct a valid solution</span>
-<span class="err">For each temperature do:</span>
-<span class="err">  For number of trials to do at each temperature do:</span>
-<span class="err">    Move solution to a neighbour</span>
-<span class="err">    Accept neighbour with probability(old_score, new_score, temperature)</span>
-<span class="err">    Lower the temperature by a reduction factor</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">Randomly</span> <span class="n">construct</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">solution</span>
+<span class="n">For</span> <span class="n">each</span> <span class="n">temperature</span> <span class="n">do</span><span class="p">:</span>
+  <span class="n">For</span> <span class="n">number</span> <span class="n">of</span> <span class="n">trials</span> <span class="n">to</span> <span class="n">do</span> <span class="n">at</span> <span class="n">each</span> <span class="n">temperature</span> <span class="n">do</span><span class="p">:</span>
+    <span class="n">Move</span> <span class="n">solution</span> <span class="n">to</span> <span class="n">a</span> <span class="n">neighbour</span>
+    <span class="n">Accept</span> <span class="n">neighbour</span> <span class="n">with</span> <span class="n">probability</span><span class="p">(</span><span class="n">old_score</span><span class="p">,</span> <span class="n">new_score</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>
+    <span class="n">Lower</span> <span class="n">the</span> <span class="n">temperature</span> <span class="n">by</span> <span class="n">a</span> <span class="n">reduction</span> <span class="n">factor</span>
+</code></pre></div>
 
 <p>It becomes clear that this method can be used in discrete optimization problems only, so that we can construct neighbours from our current state. E.g., a first solution in the problem we&#8217;ve been discussing might be [10,51,5,18] with a neighbour&nbsp;[10,52,5,18].</p>
 <p>Also, a probability function needs to be defined. Some functions are constructed so that better solutions will always be accepted. Ideally, we would always like to assign a certain probability, so that worse solutions have a chance of being accepted too (or better ones have a chance at rejection). Again: this is to avoid local maxima (comparable with <span class="caps">GA</span>&#8217;s).</p>
 <p>Often, the new solution is accepted with an exponential distribution: <code>exp( (new_score-old_score)/temperature )</code>.</p>
 <p>Note: the pseudocode at the Wikipedia page doesn&#8217;t use trials, for some problems, this is good&nbsp;enough.</p>
 <p>Let&#8217;s see some Python code (again, based on the code mentioned in the previous&nbsp;posts):</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="o">*</span>
 
@@ -154,13 +153,12 @@ The name and inspiration come from annealing in metallurgy, a technique involvin
     <span class="k">print</span> <span class="s2">&quot;Temperature this evolution:&quot;</span><span class="p">,</span><span class="n">temperature</span><span class="p">(</span><span class="n">step</span><span class="p">,</span><span class="n">max_steps</span><span class="p">)</span>
 
   <span class="k">return</span> <span class="n">ind</span><span class="err">`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>If the fitness of the neighbour is better (remember: that means lower), we immediately accept it. We don&#8217;t really need a chance of rejection for this problem. Otherwise, we use <code>exp( (n_fitness-o_fitness) / temperature)</code>.</p>
 <p>We use a separate function to calculate the temperature for each step. This function is kept fairly simple <code>(max steps - this step)</code>, but non-linear temperature can also be&nbsp;implemented.</p>
 <p>Let&#8217;s try it, our starting temperature becomes 100, using 1000 trials per&nbsp;temperature:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">annealing</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>
@@ -175,11 +173,10 @@ The name and inspiration come from annealing in metallurgy, a technique involvin
 <span class="k">while</span> <span class="n">i_k</span> <span class="o">&lt;</span> <span class="n">i_kmax</span><span class="p">:</span>
   <span class="n">i</span> <span class="o">=</span> <span class="n">evolve</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i_trials</span><span class="p">,</span> <span class="n">i_k</span><span class="p">,</span> <span class="n">i_kmax</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
   <span class="n">i_k</span> <span class="o">+=</span> <span class="mi">1</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The&nbsp;output:</p>
-<div class="highlight"><pre><span></span><span class="err">Best fitness this evolution: 34</span>
+<div class="highlight"><pre><span></span><code><span class="err">Best fitness this evolution: 34</span>
 <span class="err">Temperature this evolution: 100</span>
 <span class="err">Best fitness this evolution: 7</span>
 <span class="err">Temperature this evolution: 99</span>
@@ -216,8 +213,7 @@ The name and inspiration come from annealing in metallurgy, a technique involvin
 <span class="err">Best fitness this evolution: 5</span>
 <span class="err">Temperature this evolution: 83</span>
 <span class="err">Best fitness this evolution: 0</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Simulated annealing is easy to program and implement. Provided it is easy to construct neighbours, and a sensible combination of temperature and probability functions can be constructed, and the number of trials is well defined. Still: this method might be too naive to solve more difficult&nbsp;problems.</p>
 <p>The source code can be downloaded <a href="http://www.macuyiko.com/files/ga/ga_annealing.zip">here</a>.</p>

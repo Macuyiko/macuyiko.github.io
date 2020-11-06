@@ -71,6 +71,36 @@
         
 		<article>
 			<header>
+				<div class="article-info">Tue 07 September 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2010/solving-color-problem-in-directdraw-games-update.html" rel="bookmark"
+				title="Permalink to Solving Color Problem In DirectDraw Games Update">Solving Color Problem In DirectDraw Games&nbsp;Update</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I&#8217;ve received a few more e-mails and blog comments containing input and information about the famous DirectDraw palette problem which messes up colors in older&nbsp;games.</p>
+<p>In particular, Windows contains <a href="http://go.hopx.net/2010/05/256-color-issues-with-directdraw-and.html">compatibility entries in the registry</a>, and <a href="http://sol.gfxile.net/ddhack/">Jari Komppa</a> has written a ddraw.dll which wraps&nbsp;DirectDraw.</p>
+<p>I&#8217;ve updated …</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/solving-color-problem-in-directdraw-games-update.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">Wed 18 August 2010, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2010/missing-icons-in-notification-area-tray-bar.html" rel="bookmark"
+				title="Permalink to Missing Icons In Notification Area (Tray Bar)">Missing Icons In Notification Area (Tray&nbsp;Bar)</a></div>
+			</header>
+			<div class="article-summary">
+					<p>A few days ago some of my programs stopped showing their icons in the Windows (7) notification area. A quick peek at the Task Manager revealed that they were, in fact,&nbsp;running.</p>
+<p>Changing the notification settings and peeking around in the task bar configuration revealed&nbsp;nothing.</p>
+<p>It turns out that …</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/missing-icons-in-notification-area-tray-bar.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Tue 17 August 2010, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="//blog.macuyiko.com/post/2010/oldie-but-goodie-privilege-escalation-in-windows.html" rel="bookmark"
 				title="Permalink to Oldie But Goodie: Privilege Escalation In Windows">Oldie But Goodie: Privilege Escalation In&nbsp;Windows</a></div>
@@ -93,14 +123,13 @@
 			<div class="article-summary">
 					<p>Because I always forget these commands and end up double checking&nbsp;them&#8230;</p>
 <h4>Client (Me) -&nbsp;Listening:</h4>
-<div class="highlight"><pre><span></span><span class="err">vncviewer -listen PORT</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">vncviewer -listen PORT</span>
+</code></pre></div>
 
 <p>(Using UltraVNC on&nbsp;Windows.)</p>
 <h4>Server -&nbsp;Initiating:</h4>
-<div class="highlight"><pre><span></span><span class="err">x11vnc -connect IP:PORT</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">x11vnc -connect IP:PORT</span>
+</code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/note-to-self-remote-vnc-listen-connection.html">Read more</a></p>
 			</div>
 		</article>
@@ -114,7 +143,7 @@
 			</header>
 			<div class="article-summary">
 					<p>Using Python and Beautiful Soup. This updates the previous script posted on this&nbsp;blog.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlopen</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
@@ -125,7 +154,7 @@
 <span class="n">CATEGORY_PACKS</span>     <span class="o">=</span> <span class="s1">&#39;996&#39;</span>
 <span class="n">CATEGORY_DLC</span>       <span class="o">=</span> <span class="s1">&#39;21&#39;</span>
 
-<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode …</span></pre></div>
+<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?sort_by=&amp;sort_order=ASC&amp;category1=&#39;</span><span class="o">+</span><span class="n">CATEGORY_GAMES</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode …</span></code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html">Read more</a></p>
 			</div>
 		</article>
@@ -159,12 +188,11 @@
 					<p>&#8230;to remind myself because I always seem to forget how&nbsp;to.</p>
 <p><strong>1.</strong> Put the contents of the <span class="caps">CD</span> somewhere (e.g. <code>/tmp/heroes</code>).</p>
 <p><strong>2.</strong>&nbsp;Install:</p>
-<div class="highlight"><pre><span></span><span class="err">/tmp/heroes$ ./setup.sh</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">/tmp/heroes$ ./setup.sh</span>
+</code></pre></div>
 
 <p><strong>3.</strong> Download and run patch with <code>--keep</code>:</p>
-<div class="highlight"><pre><span></span><span class="err">/tmp/heroes$ wget ftp://mirrors.dotsrc.org/lokigames/updates/heroes3/heroes3-1.3.1a-unified-x86.run …</span></pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">/tmp/heroes$ wget ftp://mirrors.dotsrc.org/lokigames/updates/heroes3/heroes3-1.3.1a-unified-x86.run …</span></code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2010/installing-heroes-of-might-and-magic-iii-3-on-linux-ubuntu.html">Read more</a></p>
 			</div>
 		</article>
@@ -211,42 +239,13 @@ winner: a1k0n, well&nbsp;done!</p>
 			<div class="article-summary">
 					<p><strong>Update</strong>: see <a href="//blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html">here</a>for a new version which works on the new steam&nbsp;site.</p>
 <p>Using Python and <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>. Just a quick (ugly) script thrown together for future&nbsp;reference.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlopen</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">codecs</span>
 
-<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?advanced=0 …</span></pre></div>
+<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?advanced=0 …</span></code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2009/get-a-list-of-steam-games.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Sat 05 December 2009, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2009/building-a-presenter-view-for-linux.html" rel="bookmark"
-				title="Permalink to Building A Presenter View For Linux">Building A Presenter View For&nbsp;Linux</a></div>
-			</header>
-			<div class="article-summary">
-					<p>Recently, I had to give a presentation and wanted to use a &#8220;presenter screen&#8221;, allowing to view a clock, current and next slide, and slide notes on my laptop screen. Of course, the audience only sees the current slide fullscreened on the projector&nbsp;screen.</p>
-<p>Powerpoint comes with this option built-in …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2009/building-a-presenter-view-for-linux.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Mon 02 November 2009, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2009/dont-get-caught-in-this-steam-phishing-scam-how-phishers-work.html" rel="bookmark"
-				title="Permalink to Don’t Get Caught In This Steam Phishing Scam - How Phishers Work">Don&#8217;t Get Caught In This Steam Phishing Scam - How Phishers&nbsp;Work</a></div>
-			</header>
-			<div class="article-summary">
-					<p>So I just got this mail in my&nbsp;inbox:</p>
-<p><img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/Su9YncAJhVI/AAAAAAAAPQQ/NilcjCkx6AY/s400/Screenshot1.png"></p>
-<p>Needless to say, I was pretty surprised, I didn&#8217;t know Steam accounts could expire. Sure enough the e-mail looks legit, it&#8217;s mailed from support@steam.com, didn&#8217;t get caught by Gmail&#8217;s spam filter, and the corporate footer …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2009/dont-get-caught-in-this-steam-phishing-scam-how-phishers-work.html">Read more</a></p>
 			</div>
 		</article>
 

@@ -78,12 +78,12 @@
 			<div class="article-summary">
 					<p><strong>Update</strong>: see <a href="//blog.macuyiko.com/post/2010/get-a-list-of-steam-games-as-of-may-2010.html">here</a>for a new version which works on the new steam&nbsp;site.</p>
 <p>Using Python and <a href="http://www.crummy.com/software/BeautifulSoup/">Beautiful Soup</a>. Just a quick (ugly) script thrown together for future&nbsp;reference.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">BeautifulSoup</span> <span class="kn">import</span> <span class="n">BeautifulSoup</span>
 <span class="kn">from</span> <span class="nn">urllib</span> <span class="kn">import</span> <span class="n">urlopen</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">codecs</span>
 
-<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?advanced=0 …</span></pre></div>
+<span class="n">html_text</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="s1">&#39;http://store.steampowered.com/search/?advanced=0 …</span></code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2009/get-a-list-of-steam-games.html">Read more</a></p>
 			</div>
 		</article>
@@ -170,10 +170,9 @@
 			<div class="article-summary">
 					<p>So, you&#8217;ve just gotten yourself two .iso&#8217;s for Grand Theft Auto: Vice City (your backups, of course), which you want to play in Wine. What do you&nbsp;do?</p>
 <p>That&#8217;s easy, you&nbsp;say:</p>
-<div class="highlight"><pre><span></span><span class="err">sudo mkdir /media/isoimag</span>
+<div class="highlight"><pre><span></span><code><span class="err">sudo mkdir /media/isoimag</span>
 <span class="err">sudo mount -o loop ./cd1.iso /media/isoimage</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>And start the …</p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2009/vice-city-and-perhaps-other-games-in-wine-cd-error-with-iso.html">Read more</a></p>

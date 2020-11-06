@@ -76,65 +76,57 @@
 		</header>
 	
 	    <p>How can you do this (x is number of rows to fetch, y is offset)&nbsp;(Mysql):</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x, y</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">SELECT * FROM my_table LIMIT x, y</span>
+</code></pre></div>
 
 <p>or this (PostgreSQL)&nbsp;:</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x OFFSET y</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">SELECT * FROM my_table LIMIT x OFFSET y</span>
+</code></pre></div>
 
 <p>in a <span class="caps">DBMS</span> that doesn&#8217;t support <span class="caps">LIMIT</span> statements (take Oracle for&nbsp;example).</p>
 <p>In Oracle, you can use <span class="caps">ROWNUM</span>, which holds the current row&nbsp;number:</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT * FROM</span>
+<div class="highlight"><pre><span></span><code><span class="err">SELECT * FROM</span>
 <span class="err">  (SELECT ROWNUM limit, * FROM my_table ORDER BY order_field)</span>
 <span class="err">WHERE limit BETWEEN x AND y</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>In <span class="caps">SQL</span> Server (&gt;2005), you can use a similar trick, using the ROW_NUMBER&nbsp;function:</p>
-<div class="highlight"><pre><span></span><span class="err">WITH ordered AS (</span>
+<div class="highlight"><pre><span></span><code><span class="err">WITH ordered AS (</span>
 <span class="err">  SELECT ROW_NUMBER() OVER (ORDER BY order_field) AS limit, *</span>
 <span class="err">  FROM my_table)</span>
 <span class="err">SELECT *</span>
 <span class="err">FROM ordered</span>
 <span class="err">WHERE limit BETWEEN x AND y</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>When using another database (Access for example), you can use <span class="caps">TOP</span> when&nbsp;available:</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT * FROM</span>
+<div class="highlight"><pre><span></span><code><span class="err">SELECT * FROM</span>
 <span class="err">  (SELECT TOP x * FROM</span>
 <span class="err">  (SELECT TOP x+y * FROM my_table ORDER BY order_field)</span>
 <span class="err">AS innerT</span>
 <span class="err">ORDER BY order_field DESC) AS outerT</span>
 <span class="err">ORDER BY order_field</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Or, another&nbsp;option:</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT TOP x * FROM my_table</span>
+<div class="highlight"><pre><span></span><code><span class="err">SELECT TOP x * FROM my_table</span>
 <span class="err">WHERE order_field NOT IN</span>
 <span class="err">(SELECT TOP y * FROM my_table ORDER BY order_field)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Some databases don&#8217;t allow <span class="caps">TOP</span> in subselects, so we have to use yet another&nbsp;method:</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table outerT</span>
+<div class="highlight"><pre><span></span><code><span class="err">SELECT * FROM my_table outerT</span>
 <span class="err">WHERE</span>
 <span class="err">(SELECT COUNT(*)</span>
 <span class="err">FROM my_table innerT</span>
 <span class="err">WHERE innerT.order_field order_field)</span>
 <span class="err">BETWEEN y+1 AND x+y</span>
 <span class="err">ORDER BY outerT.order_field ASC;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Should that fail too, you can always&nbsp;do:</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT TOP x * FROM my_table WHERE order_field &gt; z</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">SELECT TOP x * FROM my_table WHERE order_field &gt; z</span>
+</code></pre></div>
 
 <p>With z the last fetched order_field value from the previous&nbsp;page.</p>
 <p>You can also find a handy article on the <span class="caps">IBM</span> site describing how you can <a href="http://www-1.ibm.com/support/docview.wss?rs=64&amp;uid=swg27005359">simulate row numbers</a>.</p>

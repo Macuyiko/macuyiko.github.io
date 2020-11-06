@@ -77,25 +77,22 @@
 	
 	    <p>So, you&#8217;ve just gotten yourself two .iso&#8217;s for Grand Theft Auto: Vice City (your backups, of course), which you want to play in Wine. What do you&nbsp;do?</p>
 <p>That&#8217;s easy, you&nbsp;say:</p>
-<div class="highlight"><pre><span></span><span class="err">sudo mkdir /media/isoimag</span>
+<div class="highlight"><pre><span></span><code><span class="err">sudo mkdir /media/isoimag</span>
 <span class="err">sudo mount -o loop ./cd1.iso /media/isoimage</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>And start the setup with&nbsp;Wine.</p>
 <p>Now the installer asks for the second <span class="caps">CD</span>, what do you do? Here we have to &#8220;eject&#8221; our &#8220;cd&#8221;&nbsp;first&#8230;</p>
-<div class="highlight"><pre><span></span><span class="err">wine eject</span>
+<div class="highlight"><pre><span></span><code><span class="err">wine eject</span>
 <span class="err">sudo umount /media/isoimage</span>
 <span class="err">sudo mount -o loop ./cd2.iso /media/isoimage</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>And we&#8217;re done. You want to start the game, but it requires the play disk, even although you&#8217;re sure you&#8217;ve mounted it. Thing is, Vice City isn&#8217;t looking at your <code>/media/isoimage</code> mount point, but it&#8217;s looking at your drive letters&#8230; where could the cd&nbsp;be?</p>
 <p>Take a look in <code>~/.wine/dosdevices</code> (it&#8217;s a hidden directory in your home folder). We&#8217;re going to create two symbolic links there (in my case, there were a lot of symbolic, broken links already there, I deleted every one of them except c: and z:). One for the mount point, and one for the actual device (or in our case: the&nbsp;image).</p>
-<div class="highlight"><pre><span></span><span class="err">ln -sf /media/isoimage ~/.wine/dosdevices/e:</span>
+<div class="highlight"><pre><span></span><code><span class="err">ln -sf /media/isoimage ~/.wine/dosdevices/e:</span>
 <span class="err">ln -sf ~/cd2.iso ~/.wine/dosdevices/e::</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Note the double colons (e::) in the second line. That&#8217;s it, the game should start fine&nbsp;now.</p>
 <p>Be sure to replace <code>/media/isoimage</code>, <code>e:</code>, <code>e::</code>, <code>~/cd1.iso</code>, <code>~/cd2.iso</code> and other displayed paths/locations with the ones relevant for&nbsp;you.</p>

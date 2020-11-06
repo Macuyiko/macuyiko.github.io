@@ -71,22 +71,53 @@
         
 		<article>
 			<header>
+				<div class="article-info">Thu 26 June 2008, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2008/muxtape-downloader-shell-script.html" rel="bookmark"
+				title="Permalink to Muxtape Downloader Shell Script">Muxtape Downloader Shell&nbsp;Script</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I got to confess something: I love Muxtape! Did you know there is a <a href="http://userscripts.org/scripts/show/24382">userscript</a> which lets you download the songs? It&#8217;s not encouraged&nbsp;though&#8230;</p>
+<p>I&#8217;ve been trying to learn Shell Scripting. So I decided: why not make a Muxtape downloader. This is my first shell script (longer …</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/muxtape-downloader-shell-script.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">Fri 14 March 2008, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2008/assembly-component-303994ba-6487-47ae-af1d-7af6088eebdb.html" rel="bookmark"
+				title="Permalink to Assembly Component {303994BA-6487-47AE-AF1D-7AF6088EEBDB}">Assembly Component {<span class="caps">303994BA</span>-6487-<span class="caps">47AE</span>-<span class="caps">AF1D</span>-<span class="caps">7AF6088EEBDB</span>}</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I recently tried to install the Nokia Software Updater, but it gave me this&nbsp;error:</p>
+<blockquote>
+<p>Error 1935. An error occured during the installation of assembly component{<span class="caps">303994BA</span>-6487-<span class="caps">47AE</span>-<span class="caps">AF1D</span>-<span class="caps">7AF6088EEBDB</span>}.</p>
+</blockquote>
+<p>Quick research showed that this had something to do with <span class="caps">MSXML</span> 4.0. So I went <a href="http://www.microsoft.com/downloads/details.aspx?familyid=3144b72b-b4f2-46da-b4b6-c5d7485f2b42&amp;displaylang=en">here</a> and downloaded …</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/assembly-component-303994ba-6487-47ae-af1d-7af6088eebdb.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Sun 20 January 2008, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="//blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html" rel="bookmark"
 				title="Permalink to Javascript Browser Detection using DOM Capabilities">Javascript Browser Detection using <span class="caps">DOM</span>&nbsp;Capabilities</a></div>
 			</header>
 			<div class="article-summary">
 					<p>Just found this, pretty&nbsp;handy!</p>
-<div class="highlight"><pre><span></span><span class="err">// browser detection</span>
-<span class="err">var isIE = document.all;</span>
-<span class="err">var isIE7 = isIE &amp;&amp; window.XMLHttpRequest &amp;&amp; window.ActiveXObject;</span>
-<span class="err">var isIE6 = isIE &amp;&amp; document.implementation;</span>
-<span class="err">var isgteIE6 = isIE7 isIE6;</span>
-<span class="err">var isIE5 = isIE &amp;&amp; window.print &amp;&amp; !isgteIE6;</span>
-<span class="err">var isIEDOM2 = isIE5 isgteIE6;</span>
-<span class="err">var isIE4 = isIE &amp;&amp; !isIEDOM2 &amp;&amp; navigator.cookieEnabled;</span>
-<span class="err">var isIE3 = isIE &amp;&amp; !isIE4 &amp;&amp; !isIEDOM2;</span>
-<span class="err">var isNS …</span></pre></div>
+<div class="highlight"><pre><span></span><code><span class="o">//</span> <span class="n">browser</span> <span class="n">detection</span>
+<span class="k">var</span> <span class="n">isIE</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
+<span class="k">var</span> <span class="n">isIE7</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">XMLHttpRequest</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">ActiveXObject</span><span class="p">;</span>
+<span class="k">var</span> <span class="n">isIE6</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">document</span><span class="o">.</span><span class="n">implementation</span><span class="p">;</span>
+<span class="k">var</span> <span class="n">isgteIE6</span> <span class="o">=</span> <span class="n">isIE7</span> <span class="n">isIE6</span><span class="p">;</span>
+<span class="k">var</span> <span class="n">isIE5</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">print</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isgteIE6</span><span class="p">;</span>
+<span class="k">var</span> <span class="n">isIEDOM2</span> <span class="o">=</span> <span class="n">isIE5</span> <span class="n">isgteIE6</span><span class="p">;</span>
+<span class="k">var</span> <span class="n">isIE4</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span> <span class="o">&amp;&amp;</span> <span class="n">navigator</span><span class="o">.</span><span class="n">cookieEnabled</span><span class="p">;</span>
+<span class="k">var</span> <span class="n">isIE3</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIE4</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span><span class="p">;</span>
+<span class="k">var</span> <span class="n">isNS …</span></code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html">Read more</a></p>
 			</div>
 		</article>
@@ -100,14 +131,12 @@
 			</header>
 			<div class="article-summary">
 					<p>Instead of&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="err">IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0</span>
+</code></pre></div>
 
 <p>use&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="err">IF EXISTS(SELECT * FROM Table1 WHERE ...)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">IF EXISTS(SELECT * FROM Table1 WHERE ...)</span>
+</code></pre></div>
 
 <p>Great tip provided <a href="http://weblogs.sqlteam.com/mladenp/archive/2007/09/13/SQL-Server-The-proper-and-fastest-way-to-check-if.aspx">by this article</a>.</p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/sql-check-existing-rows-matching-a-condition.html">Read more</a></p>
@@ -136,14 +165,12 @@
 			</header>
 			<div class="article-summary">
 					<p>How can you do this (x is number of rows to fetch, y is offset)&nbsp;(Mysql):</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x, y</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">SELECT * FROM my_table LIMIT x, y</span>
+</code></pre></div>
 
 <p>or this (PostgreSQL)&nbsp;:</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT * FROM my_table LIMIT x OFFSET y</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">SELECT * FROM my_table LIMIT x OFFSET y</span>
+</code></pre></div>
 
 <p>in a <span class="caps">DBMS</span> that doesn&#8217;t support <span class="caps">LIMIT</span> statements (take Oracle for&nbsp;example).</p>
 <p>In Oracle, you can use …</p>
@@ -192,7 +219,7 @@ pgetbl_ctl …</p></blockquote>
 			<div class="article-summary">
 					<p>Another problem (on another machine) was that it refused booting the new&nbsp;kernel.</p>
 <p>Also: the live cd didn&#8217;t work either, with the same error. A lot of people have problems of this kind, and most of the times they get the following&nbsp;errors:</p>
-<div class="highlight"><pre><span></span><span class="err">ata2 is slow to respond, please …</span></pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">ata2 is slow to respond, please …</span></code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/ubuntu-feisty-second-problem.html">Read more</a></p>
 			</div>
 		</article>
@@ -209,43 +236,6 @@ pgetbl_ctl …</p></blockquote>
 <p>Then that hack about your contact list getting stolen, try logging into Gmail and go to one of the following&nbsp;links:</p>
 <p><a href="http://docs.google.com/data/contacts?out=js&amp;show=ALL&amp;psort=Affinity&amp;callback=google&amp;max=99999">http://docs.google …</a></p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/gmail.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Thu 26 October 2006, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2006/finished.html" rel="bookmark"
-				title="Permalink to Finished">Finished</a></div>
-			</header>
-			<div class="article-summary">
-					<p>Just updated to Edgy and installed Beryl following <a href="http://doc.gwos.org/index.php/BerylOnEdgy">these instructions</a>.</p>
-<p>Added these to my&nbsp;sources:</p>
-<div class="highlight"><pre><span></span><span class="k">deb</span> <span class="s">http://www.beerorkid.com/compiz</span> <span class="kp">edgy</span> <span class="kp">main-edgy</span>
-<span class="k">deb</span> <span class="s">http://media.blutkind.org/xgl/</span> <span class="kp">edgy</span> <span class="kp">main-edgy</span>
-<span class="k">deb</span> <span class="s">http://compiz-mirror.lupine.me.uk/</span> <span class="kp">edgy</span> <span class="kp">main-edgy</span>
-<span class="k">deb</span> <span class="s">http://ubuntu.compiz.net/</span> <span class="kp">edgy</span> <span class="kp">main-edgy</span>
-</pre></div>
-
-
-<p>Then:</p>
-<div class="highlight"><pre><span></span><span class="err">sudo apt-get update …</span></pre></div>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/finished.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Wed 25 October 2006, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2006/oki-printers-in-ubuntu.html" rel="bookmark"
-				title="Permalink to Oki Printers In Ubuntu">Oki Printers In&nbsp;Ubuntu</a></div>
-			</header>
-			<div class="article-summary">
-					<p>Just wanted to share this quick story: recently I had to install Oki C5700 drivers on an Ubuntu machine. A quick look at the web panel revealed that it was not supporting ipp (Cups). So you have to set it up as a Unix Printer (<span class="caps">LPR</span>).</p>
-<p>After that it seems …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/oki-printers-in-ubuntu.html">Read more</a></p>
 			</div>
 		</article>
 

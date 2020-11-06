@@ -78,9 +78,8 @@
 	    <h3>Number&nbsp;One:</h3>
 <p>Replace <code>C:\Windows\system32\sethc.exe</code> with <code>cmd.exe</code> (e.g. by renaming and/or using a repair <span class="caps">CD</span>: with the Vista repair <span class="caps">CD</span> you can open &#8220;<code>notepad</code>&#8221; in the command prompt and execute file manipulations from the Open&nbsp;Dialog).</p>
 <p>Restart. At the login screen press &#8220;Shift&#8221; five times (at this point, you can guess what <code>sethc.exe</code> originally did) and a command window with full system privileges will appear. Often used to replace forgotten administrator&nbsp;passwords:</p>
-<div class="highlight"><pre><span></span><span class="err">net user administrator *</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">net user administrator *</span>
+</code></pre></div>
 
 <p>Of course, booting some sort of <a href="http://www.sysresccd.org/">live <span class="caps">CD</span></a> or <a href="http://pogostick.net/~pnh/ntpasswd/">tool</a> might be&nbsp;simpler.</p>
 <h3>Number&nbsp;Two:</h3>
@@ -88,15 +87,13 @@
 <h3>Number&nbsp;Three:</h3>
 <p>A.k.a. the famous &#8220;at&#8221;-method, there was a lot of talk about this back in the day (about a year ago). Basically, the concept went like&nbsp;this:</p>
 <p>Open a command prompt as a normal user,&nbsp;type:</p>
-<div class="highlight"><pre><span></span><span class="err">at</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">at</span>
+</code></pre></div>
 
 <p>If it responds with an &#8220;<code>Access denied.</code>&#8221; error, you are out of luck. If it responds with &#8220;<code>There are no entries in the list.</code>&#8221; then you&#8217;re&nbsp;good.</p>
 <p>Now&nbsp;execute:</p>
-<div class="highlight"><pre><span></span><span class="err">at 18:15 /interactive &quot;cmd.exe&quot;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">at 18:15 /interactive &quot;cmd.exe&quot;</span>
+</code></pre></div>
 
 <p>And at a quarter past six a command prompt will appear, with <span class="caps">SYSTEM</span> privileges. Sounds sensible, right? Not really, since the only users able to schedule commands <a href="http://h0bbel.p0ggel.org/windows-xp-privilege-escalation-exploit-no-it-isnt">are already local administrators</a>.</p>
 	</article>

@@ -98,9 +98,8 @@
 <li><code>/INSTALL/patch.key</code></li>
 </ul>
 <p>And then execute the following command from a&nbsp;terminal:</p>
-<div class="highlight"><pre><span></span><span class="err">./fixinstall</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">./fixinstall</span>
+</code></pre></div>
 
 <h3>Step 3: &#8220;Installing Hordes of the Underdark Expansion&nbsp;Pack&#8221;</h3>
 <p>Make sure you completed steps 1 and&nbsp;2.</p>
@@ -123,16 +122,14 @@
 <p>Now update the game, <a href="http://nwn.bioware.com/support/patch.html">download the patch here</a>. To update, just overwrite-extract the archive you have downloaded in the installation&nbsp;map.</p>
 <h3>Step 5:&nbsp;fixing</h3>
 <p>I got the following error when starting Neverwinter with the <code>./nwn</code> command:</p>
-<div class="highlight"><pre><span></span><span class="err">mcop warning: user defined signal handler found for SIG_PIPE, overriding</span>
-<span class="err">Creating link /home/username/.kde/socket-hostname.</span>
-<span class="err">can&#39;t create mcop directory</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">mcop</span> <span class="n">warning</span><span class="p">:</span> <span class="n">user</span> <span class="n">defined</span> <span class="k">signal</span> <span class="n">handler</span> <span class="n">found</span> <span class="k">for</span> <span class="n">SIG_PIPE</span><span class="p">,</span> <span class="n">overriding</span>
+<span class="n">Creating</span> <span class="n">link</span> <span class="o">/</span><span class="n">home</span><span class="o">/</span><span class="n">username</span><span class="o">/.</span><span class="n">kde</span><span class="o">/</span><span class="n">socket</span><span class="o">-</span><span class="n">hostname</span><span class="o">.</span>
+<span class="n">can</span><span class="s1">&#39;t create mcop directory</span>
+</code></pre></div>
 
 <p>To fix this, I&nbsp;executed:</p>
-<div class="highlight"><pre><span></span><span class="err">mkdir ~/.kde/socket-hostname</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">mkdir ~/.kde/socket-hostname</span>
+</code></pre></div>
 
 <p>Replace hostname with your own hostname, of course (it is mentioned in the&nbsp;error).</p>
 <p>Then everything worked perfectly fine: <span class="caps">NWN</span> starts and I can enter my <span class="caps">CD</span> keys, the game doesn&#8217;t run like it does on my gaming machine, but I&#8217;m satisfied that it runs at all with such a small Thinkpad X60 with quite a crappy graphics&nbsp;chip.</p>

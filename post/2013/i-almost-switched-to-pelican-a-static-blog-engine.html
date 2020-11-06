@@ -178,7 +178,7 @@
 33
 34
 35
-36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python</span>
+36</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env python</span>
 <span class="c1"># -*- coding: utf-8 -*- #</span>
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">unicode_literals</span>
 
@@ -214,9 +214,8 @@
 
 <span class="c1"># Template</span>
 <span class="n">THEME</span> <span class="o">=</span> <span class="s2">&quot;themes/custom_theme&quot;</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>I then picked the <a href="https://github.com/getpelican/pelican-themes/tree/master/tuxlite_zf">TuxLite <span class="caps">ZF</span></a> theme from <code>pelican-themes</code> as a starting point to put in <code>custom_theme</code>. I changed the color scheme, header sizes and spacings and fonts (making use of <a href="http://www.google.com/fonts/">Google&#8217;s web fonts</a> to pick out a nice heading font which would work well with large-sized OpenSans for the normal text, which I&#8217;m currently in love with &#8212; it works great for slides as well, try it!). Editing the Jinja2 themes was a breeze and mostly consisted of taking stuff away &#8212; like tags and categories &#8212; which I didn&#8217;t need. Finally, I made sure to made the background &#8220;pop&#8221; behind the single-column content, using inspirational, high resolution&nbsp;foto&#8217;s.</p>
 <p>Next up, the hard part, <em>converting all my Blogger posts to Markdown</em>&#8230; Luckily, Lars Kellogg-Stedman has had the same problem and describes possible approaches in <a href="http://blog.oddbit.com/post/converting-html-to-markdown">this post</a>. I thus created a folder with the&nbsp;following:</p>
 <ul>
@@ -225,9 +224,8 @@
 <li><code>html2text.py</code> from&nbsp;https://raw.github.com/aaronsw/html2text/master/html2text.py</li>
 </ul>
 <p>You&#8217;ll need to install <code>lxml</code> to get everything to work. This didn&#8217;t work for me using <code>pip</code>, but <code>easy_install</code> did the job. Once this is setup, create a new directory <code>posts</code> and&nbsp;run:</p>
-<div class="highlight"><pre><span></span><span class="err">blogger2md.py --html2text --output-dir posts blogger-export.xml</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">blogger2md</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">html2text</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">dir</span> <span class="n">posts</span> <span class="n">blogger</span><span class="o">-</span><span class="k">export</span><span class="o">.</span><span class="n">xml</span>
+</code></pre></div>
 
 <p>The script will start crunching and convert everything. Afterwards, I went through every post to rename the file name, correct the meta data, fix the links (Pelican wants <code>(|filename|FILE_PATH)</code>) and clean up some formatting issues still present after the conversion (quite a lot of them). This took a few evenings, but I now have a collection of Markdown posts for this complete&nbsp;blog.</p>
 <h5>Side track: a trip down&nbsp;memory-lane</h5>

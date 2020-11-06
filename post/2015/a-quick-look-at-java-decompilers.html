@@ -100,40 +100,34 @@
 <p>Very new and promising analytical Java decompiler (becoming an integral part of IntelliJ 14). Supports Java up to version 6 (annotations, generics, enum&nbsp;types).</p>
 <p><a href="https://github.com/fesh0r/fernflower">Download from&nbsp;here</a></p>
 <p>It&#8217;s a command line&nbsp;tool:</p>
-<div class="highlight"><pre><span></span><span class="err">java -jar fernflower.jar .\jartodecompile.jar .\decompiled</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">java -jar fernflower.jar .\jartodecompile.jar .\decompiled</span>
+</code></pre></div>
 
 <p>But this one is able to show the Unicode parameters with their full&nbsp;name:</p>
-<div class="highlight"><pre><span></span><span class="err">public float a(zy ˜ƒ, afi ˜ƒ1) {</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">public float a(zy ˜ƒ, afi ˜ƒ1) {</span>
+</code></pre></div>
 
 <h3><span class="caps">CFR</span></h3>
 <p><a href="http://www.benf.org/other/cfr/">Free, but not open source</a>. This one aims to decompile modern Java features, including Java 8 lambdas (pre and post Java beta 103 changes), Java 7 String switches etc., though is itself written in Java&nbsp;6.</p>
 <p>Also a command line&nbsp;tool:</p>
-<div class="highlight"><pre><span></span><span class="err">java -jar cfr_0_100.jar .\jartodecompile.jar --outputdir .\decompiled</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">java -jar cfr_0_100.jar .\jartodecompile.jar --outputdir .\decompiled</span>
+</code></pre></div>
 
 <p>This one does an even better job and is slightly&nbsp;faster:</p>
-<div class="highlight"><pre><span></span><span class="err">@Override</span>
+<div class="highlight"><pre><span></span><code><span class="err">@Override</span>
 <span class="err">public float a(zy zy, afi afi) {</span>
-</pre></div>
-
+</code></pre></div>
 
 <h3>Procyon</h3>
 <p><a href="https://bitbucket.org/mstrobel/procyon/wiki/Java%20Decompiler">Open source</a>, and also aims to deal with Java 8 features (lambdas, <code>::</code> operator). Needs Java 7 to&nbsp;run.</p>
 <p>Run it as&nbsp;follows:</p>
-<div class="highlight"><pre><span></span><span class="err"> java -jar procyon-decompiler-0.5.28.jar -o .\decompiled .\jartodecompile.jar</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err"> java -jar procyon-decompiler-0.5.28.jar -o .\decompiled .\jartodecompile.jar</span>
+</code></pre></div>
 
 <p>Outputs:</p>
-<div class="highlight"><pre><span></span><span class="err">@Override</span>
+<div class="highlight"><pre><span></span><code><span class="err">@Override</span>
 <span class="err">public float a(final zy \u2603, final afi \u2603) {</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This one is my favorite modern decompiler at the&nbsp;moment.</p>
 <h3>Krakatau</h3>
@@ -143,9 +137,8 @@ Java class files and an assembler to create class&nbsp;files.</p>
 <h3>Soot</h3>
 <p>Soot is a framework for analyzing and transforming Java and Android applications, originally developed by the Sable Research Group of McGill University. It&#8217;s not very commonly used &#8220;just&#8221; as a decompiler, as it also defines an intermediate byte code&nbsp;language.</p>
 <p>Running it requires some fiddling, i.e. this is a minimal command to get things to&nbsp;run:</p>
-<div class="highlight"><pre><span></span><span class="err">java -jar soot-trunk.jar -w -process-dir ./dir_with_class_files/ -pp -cp ./dir_with_libs/ -allow-phantom-refs -d ./decompiled/ -f d</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">java -jar soot-trunk.jar -w -process-dir ./dir_with_class_files/ -pp -cp ./dir_with_libs/ -allow-phantom-refs -d ./decompiled/ -f d</span>
+</code></pre></div>
 
 <h3>Konloch&#8217;s Bytecode&nbsp;Viewer</h3>
 <blockquote>

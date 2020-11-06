@@ -76,11 +76,10 @@
 		</header>
 	
 	    <p>If you&#8217;ve been trying to send e-mails from a program using your Gmail account, you&#8217;ll probably have encountered the following error&nbsp;message:</p>
-<div class="highlight"><pre><span></span><span class="err">SMTP Error: Could not authenticate. Error: SMTP Error: Could not authenticate.</span>
+<div class="highlight"><pre><span></span><code><span class="err">SMTP Error: Could not authenticate. Error: SMTP Error: Could not authenticate.</span>
 <span class="err">535 5.7.1 Username and Password not accepted. Learn more at</span>
 <span class="err">535 5.7.1 http://mail.google.com/support/bin/answer.py?answer=14257 p38sm2467302ybk.16</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>In fact, the internet is flooded with people searching to figure out how to get their Wordpress mailer plugin working with Gmail&#8217;s <span class="caps">SMTP</span>. The answer most people give is to just enable the &#8220;Allow less secure apps&#8221;-option in your Google account&nbsp;settings:</p>
 <p><img alt="This doesn't feel right" src="http://blog.macuyiko.com/images/2016/secure_apps.png"></p>
@@ -95,7 +94,7 @@
 <p>Next up comes the most important screen, giving you your client <span class="caps">ID</span> and secret key. Write both of these down and do not give these out to&nbsp;others!</p>
 <p><img alt="Keep it secret, keep it safe" src="http://blog.macuyiko.com/images/2016/step_4.png"></p>
 <p>Step 3: the Python code we&#8217;ll be using is adapted from (https://github.com/google/gmail-oauth2-tools/blob/master/python/oauth2.py) but works in Python 3 and has been made&nbsp;simpler:</p>
-<div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">Adapted from:</span>
 <span class="sd">https://github.com/google/gmail-oauth2-tools/blob/master/python/oauth2.py</span>
 <span class="sd">https://developers.google.com/identity/protocols/OAuth2</span>
@@ -244,41 +243,35 @@
               <span class="s1">&#39;A mail from you from Python&#39;</span><span class="p">,</span>
               <span class="s1">&#39;&lt;b&gt;A mail from you from Python&lt;/b&gt;&lt;br&gt;&lt;br&gt;&#39;</span> <span class="o">+</span>
               <span class="s1">&#39;So happy to hear from you!&#39;</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Don&#8217;t forget to&nbsp;change:</p>
-<div class="highlight"><pre><span></span><span class="err">GOOGLE_CLIENT_ID = &#39;&lt;FILL ME IN&gt;&#39;</span>
+<div class="highlight"><pre><span></span><code><span class="err">GOOGLE_CLIENT_ID = &#39;&lt;FILL ME IN&gt;&#39;</span>
 <span class="err">GOOGLE_CLIENT_SECRET = &#39;&lt;FILL ME IN&gt;&#39;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Next, just simply run the code. Since we don&#8217;t have a <code>GOOGLE_REFRESH_TOKEN</code> yet, the following will appear on the&nbsp;screen:</p>
-<div class="highlight"><pre><span></span><span class="err">No refresh token found, obtaining one</span>
+<div class="highlight"><pre><span></span><code><span class="err">No refresh token found, obtaining one</span>
 <span class="err">Navigate to the following URL to auth: https://accounts.google.com/o/oauth2/auth?client_id= [...]</span>
 <span class="err">Enter verification code:</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Open the <span class="caps">URL</span> in your browser, you will be greeted with&nbsp;this:</p>
 <p><img alt="Press accept to accept" src="http://blog.macuyiko.com/images/2016/step_5.png"></p>
 <p>After pressing &#8220;Accept&#8221;, Google will present you with a verification&nbsp;code:</p>
 <p><img alt="Press accept to accept" src="http://blog.macuyiko.com/images/2016/step_6.png"></p>
 <p>Enter this in the running&nbsp;prompt:</p>
-<div class="highlight"><pre><span></span><span class="err">Enter verification code: &lt;ENTER YOUR VERIFICATION CODE&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="err">Enter verification code: &lt;ENTER YOUR VERIFICATION CODE&gt;</span>
 <span class="err">Set the following as your GOOGLE_REFRESH_TOKEN: [...] 1bA [...]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Now modify the Python script to fill in the refresh token with the value you got&nbsp;back:</p>
-<div class="highlight"><pre><span></span><span class="err">GOOGLE_REFRESH_TOKEN = &#39;[...] 1bA [...]&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">GOOGLE_REFRESH_TOKEN = &#39;[...] 1bA [...]&#39;</span>
+</code></pre></div>
 
 <p>Step 4: start sending mail. Change the following line with your Gmail&nbsp;address:</p>
-<div class="highlight"><pre><span></span><span class="err">send_mail(&#39;--------@gmail.com&#39;, &#39;--------@gmail.com&#39;,</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">send_mail(&#39;--------@gmail.com&#39;, &#39;--------@gmail.com&#39;,</span>
+</code></pre></div>
 
 <p>And run the script again. If all goes well, it should just terminate and you should see an e-mail popping up in your inbox, formatted with <span class="caps">HTML</span>,&nbsp;too:</p>
 <p><img alt="Done!" src="http://blog.macuyiko.com/images/2016/step_7.png"></p>

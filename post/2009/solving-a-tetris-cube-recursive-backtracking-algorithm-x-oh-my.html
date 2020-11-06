@@ -91,7 +91,7 @@
 <p>But first things first. There are a few ways you could solve this, but first, let&#8217;s take a slight detour to explain backtracking (you may skip this if you already know all this, but if you <em>do</em> know all this, then you probably know the solution to the puzzle as well, or would handle things better than I&nbsp;did):</p>
 <p><strong>Detour: Recursive backtracking in&nbsp;general</strong></p>
 <p>Let&#8217;s see what a recursive backtracking function generally looks&nbsp;like:</p>
-<div class="highlight"><pre><span></span><span class="err">recursive_funtion(level) {</span>
+<div class="highlight"><pre><span></span><code><span class="err">recursive_funtion(level) {</span>
 <span class="err">  for all possible ways for something {</span>
 <span class="err">    try it</span>
 <span class="err">    if solution valid {</span>
@@ -104,13 +104,12 @@
 <span class="err">    (revert this try)</span>
 <span class="err">  }</span>
 <span class="err">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>As you can see, this method consists of a level, which we traverse in each recursive call, and a set of local decisions we make at each level. Take a magic square, for example (image from the <a href="http://en.wikipedia.org/wiki/Magic_square">Wikipedia</a>&nbsp;page):</p>
 <p><img alt="" src="http://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Magicsquareexample.svg/180px-Magicsquareexample.svg.png"></p>
 <p>With the above method, we would define our level as the position in the grid (ranging from 1 to 9, as there are 9 spaces to fill with a number), the decisions at each level would be a number ranging from 1 to 9, our function would&nbsp;be:</p>
-<div class="highlight"><pre><span></span><span class="err">recursive_funtion(position) {</span>
+<div class="highlight"><pre><span></span><code><span class="err">recursive_funtion(position) {</span>
 <span class="err">  for number from 1 to 9, not used elsewhere already {</span>
 <span class="err">    put this number on this position, make it unavailable</span>
 <span class="err">    if solution valid {</span>
@@ -123,8 +122,7 @@
 <span class="err">    (make this space blank again, and the number available)</span>
 <span class="err">  }</span>
 <span class="err">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>A few&nbsp;remarks:</p>
 <p>(1) As each number can only be used once in the whole square, we must keep an array or set somewhere to keep track of the numbers used, which can be easily done in each programming language.
@@ -154,7 +152,7 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <p>If we&#8217;d used position as the level, we have 64 different levels (4x4x4). If we were able to place <em>any</em> remaining block at this position, we could immediately use the next unoccupied space as the position in the next recursive call (since it makes no sense trying all the occupied positions first, since they won&#8217;t validate&nbsp;anyway).</p>
 <p>If we&#8217;d used block as the level, we have 12 different levels. If we are able to place this block at any available position in a specific rotation, we can move on the the next block. It seems a bit more sensible to use this method. This way, our tree will be smaller (less tall), and the decisions inside the function purely concern position and orientation in&nbsp;3d-space.</p>
 <p>Our function now looks&nbsp;like:</p>
-<div class="highlight"><pre><span></span><span class="err">recursive_funtion(block) {</span>
+<div class="highlight"><pre><span></span><code><span class="err">recursive_funtion(block) {</span>
 <span class="err">  for all positions 1 to 64 {</span>
 <span class="err">  for all orientations 1 to 24 {</span>
 <span class="err">    put our block at this position in this orientation</span>
@@ -169,8 +167,7 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <span class="err">  }</span>
 <span class="err">  }</span>
 <span class="err">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>There are still a few questions left we have to answer, mainly: the different rotations, and how we can validate a partial solution. But first: let&#8217;s take a look at the different blocks and how we can encode&nbsp;them.</p>
 <p><strong>The different&nbsp;blocks</strong></p>
@@ -179,22 +176,20 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <p>Did you know I can do animations&nbsp;too?</p>
 <p><img alt="" src="http://static.macuyiko.com/files/tetriscube/animateblock.gif"></p>
 <p>Anyway, now how do we encode them? Each block can be described by a set of tiny 1x1x1 sub-blocks placed along the x, y and z axes. I call the tiny block placed at (0,0,0) the pivot. Take the red L for example, this block can be described as a combination of five little&nbsp;blocks:</p>
-<div class="highlight"><pre><span></span><span class="err">{(0,0,0); (1,0,0); (2,0,0); (0,1,0); (0,2,0)}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">{(0,0,0); (1,0,0); (2,0,0); (0,1,0); (0,2,0)}</span>
+</code></pre></div>
 
 <p>(0,0,0) is the corner-block and our&nbsp;pivot.</p>
 <p>Another way of describing this block with another pivot&nbsp;point:</p>
-<div class="highlight"><pre><span></span><span class="err">{(0,0,0); (1,0,0); (2,0,0); (2,1,0); (2,1,0)}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">{(0,0,0); (1,0,0); (2,0,0); (2,1,0); (2,1,0)}</span>
+</code></pre></div>
 
 <p>As you can see, it doesn&#8217;t matter which sub-block we use as our pivot block or how we places our x,y and z axes. Since our function will try every position and every possible rotation, we try every combination&nbsp;anyway.</p>
 <p>Now why are there 24 rotations? Every block can be placed facing the direction along: x positive, x negative, y positive, y negative, z positive and z negative, which gives 6 possible&nbsp;directions.</p>
 <p>For every direction, we can rotate the block in 4 different ways (0Â°, 90Â°, 180Â° and 270Â°). 4x6=24.&nbsp;Easy.</p>
 <p>Taking the description {(0,0,0); (1,0,0); (2,0,0); (0,1,0); (0,2,0)} and saying: put this block in position 34 facing y negative and rotated 90Â° now just becomes a matter of transforming and rotating objects in 3d. I won&#8217;t describe the details here, it involves some matrix manipulations and such, but are really simple when rotating in the four degrees mentioned above. If you want to know more, take a look <a href="http://www.siggraph.org/education/materials/HyperGraph/modeling/mod_tran/3drota.htm">here</a> or <a href="http://www.google.com/search?q=3d+transformation+and+rotation">Google it</a>.</p>
 <p>In <span class="caps">PHP</span>, the language I was using (I know, I know - remember, I thought this would be a quick and easy job), a block description looks&nbsp;like:</p>
-<div class="highlight"><pre><span></span><span class="err">// 1 1 1</span>
+<div class="highlight"><pre><span></span><code><span class="err">// 1 1 1</span>
 <span class="err">// 1</span>
 <span class="err">// (1)</span>
 <span class="err">$blocks[] = array(array(0,0,0)</span>
@@ -202,8 +197,7 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <span class="err">  ,array(0,2,0)</span>
 <span class="err">  ,array(1,2,0)</span>
 <span class="err">  ,array(2,2,0) );</span>
-</pre></div>
-
+</code></pre></div>
 
 <p><strong>Verifying partial&nbsp;solutions</strong></p>
 <p>Just as with our magic square, we can do a few checks after placing a few blocks, a few of them are&nbsp;necessary:</p>
@@ -234,16 +228,15 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 (2) for each of the 60 spaces, there is the constraint that it must be covered by a pentomino exactly&nbsp;once.</p>
 <p>Thus there are 12+60=72 constraints in&nbsp;total.</p>
 <p>The problem involves many choices, one for each way to place a pentomino on the board. It is convenient to consider each choice as a sets of 6 constraints: 1 constraint for the pentomino being placed and 5 constraints for the five squares where it is placed. For&nbsp;example:</p>
-<div class="highlight"><pre><span></span><span class="err">{F, 12, 13, 21, 22, 32}</span>
+<div class="highlight"><pre><span></span><code><span class="err">{F, 12, 13, 21, 22, 32}</span>
 <span class="err">{F, 13, 14, 22, 23, 33}</span>
 <span class="err">{I, 11, 12, 13, 14, 15}</span>
 <span class="err">{L, 12, 22, 32, 42, 43}</span>
 <span class="err"> ...</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>One of many solutions of this exact cover problem is the following set of 12&nbsp;choices:</p>
-<div class="highlight"><pre><span></span><span class="err">{I, 11, 12, 13, 14, 15}</span>
+<div class="highlight"><pre><span></span><code><span class="err">{I, 11, 12, 13, 14, 15}</span>
 <span class="err">{N, 16, 26, 27, 37, 47}</span>
 <span class="err">{L, 17, 18, 28, 38, 48}</span>
 <span class="err">{U, 21, 22, 31, 41, 42}</span>
@@ -255,11 +248,10 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <span class="err">{T, 61, 71, 72, 73, 81}</span>
 <span class="err">{V, 68, 78, 86, 87, 88}</span>
 <span class="err">{Y, 74, 82, 83, 84, 85}`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>So, in our case, we need a row for every choice we can make, that is: all the combinations of every piece and every possible way of placing it. The following function finds every valid possible combination for every block and constructs rows in the&nbsp;matrix:</p>
-<div class="highlight"><pre><span></span><span class="err">for every block {</span>
+<div class="highlight"><pre><span></span><code><span class="err">for every block {</span>
 <span class="err">  for every position {</span>
 <span class="err">    for every rotation {</span>
 <span class="err">      try this, if this placement is possible (thus if it does not exceed the boundaries of the 4x4x4 box, add it as a row:</span>
@@ -267,14 +259,13 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <span class="err">    }</span>
 <span class="err">  }</span>
 <span class="err">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Now our columns: we have 12 blocks, and 64 positions these blocks can occupy. 12+64=76. For every row,&nbsp;we:</p>
 <p>(1) set a one (1) in one of the first twelve columns according to the block this row uses;
 (2) set a one (1) in every &#8220;position&#8221; this row&nbsp;occupies.</p>
 <p>After quickly throwing some ugly code together, I ran the program. First, it constructs the choices and the&nbsp;matrix:</p>
-<div class="highlight"><pre><span></span><span class="err">Constructing choices:</span>
+<div class="highlight"><pre><span></span><code><span class="err">Constructing choices:</span>
 <span class="c">0: ................................................................</span>
 <span class="c">1: ................................................................</span>
 <span class="c">2: ................................................................</span>
@@ -290,11 +281,10 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <span class="err">Number of choices/rows: 4488 out of 18432 theoretical possibles choices</span>
 <span class="err">Constructing matrix: .................................................................................................................................................................................................................................................................................................................................................................................................................................................................</span>
 <span class="err">Done, number of rows: 4488 and cols: 76`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The matrix itself is a bit large to display here. But here are the first few&nbsp;rows:</p>
-<div class="highlight"><pre><span></span><span class="err">OUTPUTTING MATRIX:</span>
+<div class="highlight"><pre><span></span><code><span class="err">OUTPUTTING MATRIX:</span>
 <span class="err">0 {0; 0; 1; 2; 6; 7; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
 <span class="err">1 {0; 0; 1; 2; 18; 19; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
 <span class="err">2 {0; 0; 4; 8; 9; 13; }: 1 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
@@ -315,12 +305,11 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <span class="err">17 {0; 2; 18; 34; 38; 54; }: 1 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0</span>
 <span class="err">18 {0; 3; 2; 1; 5; 4; }: 1 0 0 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</span>
 <span class="err"> ...</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>As you can see, in these rows, the first block (number zero) is used, so the first column is one (1), the next eleven columns are zero (0). The next 64 columns are one if the row uses that&nbsp;position.</p>
 <p>The program then gives some verbose&nbsp;information:</p>
-<div class="highlight"><pre><span></span><span class="err">==&gt; (0) Number of rows: 4488 and cols: 76</span>
+<div class="highlight"><pre><span></span><code><span class="err">==&gt; (0) Number of rows: 4488 and cols: 76</span>
 <span class="err">Picking 12, has 117</span>
 <span class="err">117 rows to do for column</span>
 <span class="err">==&gt; (1) Number of rows: 3414 and cols: 70</span>
@@ -351,11 +340,10 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <span class="err">Picking 10, has 2</span>
 <span class="err">2 rows to do for column</span>
 <span class="err">==&gt; (12) Number of rows: 0 and cols: 0</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>And finally, a first solution is found, alongside a simple presentation to try it on the&nbsp;cube:</p>
-<div class="highlight"><pre><span></span><span class="k">All</span> <span class="n">done</span><span class="p">,</span> <span class="n">here</span> <span class="k">is</span> <span class="n">a</span> <span class="n">list</span> <span class="k">of</span> <span class="n">choices</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="k">All</span> <span class="n">done</span><span class="p">,</span> <span class="n">here</span> <span class="k">is</span> <span class="n">a</span> <span class="n">list</span> <span class="k">of</span> <span class="n">choices</span><span class="p">:</span>
 <span class="n">CHOICE</span> <span class="n">NR</span> <span class="mi">0</span><span class="p">:</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">6</span> <span class="mi">7</span>
 <span class="n">CHOICE</span> <span class="n">NR</span> <span class="mi">393</span><span class="p">:</span> <span class="mi">1</span> <span class="mi">19</span> <span class="mi">3</span> <span class="mi">23</span> <span class="mi">22</span> <span class="mi">21</span>
 <span class="n">CHOICE</span> <span class="n">NR</span> <span class="mi">741</span><span class="p">:</span> <span class="mi">2</span> <span class="mi">5</span> <span class="mi">9</span> <span class="mi">13</span> <span class="mi">29</span> <span class="mi">30</span> <span class="mi">45</span>
@@ -390,8 +378,7 @@ level 7: 4, level 8: 3 and level 9: 8 gives&nbsp;15.</p>
 <span class="mi">9</span> <span class="mi">8</span> <span class="mi">6</span> <span class="mi">6</span>
 <span class="mi">9</span> <span class="mi">9</span> <span class="mi">11</span> <span class="mi">4</span>
 <span class="mi">9</span> <span class="mi">11</span> <span class="mi">11</span> <span class="mi">4</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Which looks like&nbsp;this:</p>
 <p><img alt="" src="http://static.macuyiko.com/files/tetriscube/animatecube.gif"></p>

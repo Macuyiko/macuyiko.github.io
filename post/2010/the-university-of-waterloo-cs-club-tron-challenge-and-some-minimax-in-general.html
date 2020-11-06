@@ -90,7 +90,7 @@
 </ul>
 <p>(Note: it is possible to find many (free) games on the internet which do include some of these&nbsp;features.)</p>
 <p>For example, one of the maps provided in the package looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="err">########</span>
+<div class="highlight"><pre><span></span><code><span class="err">########</span>
 <span class="err">#1     #</span>
 <span class="err">#      #</span>
 <span class="err">#      #</span>
@@ -98,13 +98,12 @@
 <span class="err">#      #</span>
 <span class="err">#     2#</span>
 <span class="err">########</span>
-</pre></div>
-
+</code></pre></div>
 
 <p><code>#</code> stands for a wall, and <code>1</code> and <code>2</code> are our two players on their starting&nbsp;positions.</p>
 <p>Let&#8217;s pit them against each other and see how they fare. We provide them with a very basic mode of intelligence: just pick any random direction if the space is free if&nbsp;possible.</p>
 <p>After the first move, the board looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="err">########</span>
+<div class="highlight"><pre><span></span><code><span class="err">########</span>
 <span class="err">##     #</span>
 <span class="err">#1     #</span>
 <span class="err">#      #</span>
@@ -112,11 +111,10 @@
 <span class="err">#     2#</span>
 <span class="err">#     ##</span>
 <span class="err">########</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>See how they both leave a wall behind them? Note that diagonal moves are forbidden. A few moves later, the situation looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="err">########</span>
+<div class="highlight"><pre><span></span><code><span class="err">########</span>
 <span class="err">##     #</span>
 <span class="err">##     #</span>
 <span class="err">##     #</span>
@@ -124,11 +122,10 @@
 <span class="err"># 1  ###</span>
 <span class="err">#  2####</span>
 <span class="err">########</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>If player 1 now decides to go right, and player 2 decides to go up, they will crash into each other and the game will end with a draw. This actual run turns out to be a bit more&nbsp;dramatic:</p>
-<div class="highlight"><pre><span></span><span class="err">########</span>
+<div class="highlight"><pre><span></span><code><span class="err">########</span>
 <span class="err">##     #</span>
 <span class="err">##     #</span>
 <span class="err">##     #</span>
@@ -136,11 +133,10 @@
 <span class="err">#1#2 ###</span>
 <span class="err">#  #####</span>
 <span class="err">########</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Player 1 has gone left, and 2 has gone up and the players are now separated from each other. Unless player 2 does something really stupid, it is clear that 1 will&nbsp;lose&#8230;</p>
-<div class="highlight"><pre><span></span><span class="o">########</span>
+<div class="highlight"><pre><span></span><code><span class="o">########</span>
 <span class="o">##</span>     <span class="o">#</span>
 <span class="o">##</span>     <span class="o">#</span>
 <span class="o">##</span>     <span class="o">#</span>
@@ -159,8 +155,7 @@
 <span class="o">########</span>
 <span class="o">##</span><span class="mi">1</span><span class="o">#####</span>
 <span class="o">########</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Player 1 is completely trapped and crashes into a wall. Player 2&nbsp;wins.</p>
 <p>The objective of each participant is to write an <span class="caps">AI</span> which will have to play against the bots of the other players. The more you win, the higher you&nbsp;score&#8230;</p>
@@ -201,7 +196,7 @@
 <li>Once we are separated: try to fill our available moves in the best possible&nbsp;way.</li>
 </ul>
 <p>To find out if we&#8217;re separated (and our available spaces), we can use a <a href="http://en.wikipedia.org/wiki/Flood_fill">flood fill algorithm</a>. An implementation in Python could look like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="n">def</span><span class="w"> </span><span class="n">flood_fill</span><span class="p">(</span><span class="n">board</span><span class="p">,</span><span class="w"> </span><span class="n">startpos</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">def</span><span class="w"> </span><span class="n">flood_fill</span><span class="p">(</span><span class="n">board</span><span class="p">,</span><span class="w"> </span><span class="n">startpos</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
 <span class="w">  </span><span class="n">expand</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">[</span><span class="n">startpos</span><span class="o">]</span><span class="w"></span>
 <span class="w">  </span><span class="n">done</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">[]</span><span class="w"></span>
 <span class="w">  </span><span class="k">while</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">expand</span><span class="p">)</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="mi">0</span><span class="err">:</span><span class="w"></span>
@@ -212,8 +207,7 @@
 <span class="w">      </span><span class="k">if</span><span class="w"> </span><span class="n">board</span><span class="p">.</span><span class="n">passable</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">dest</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">done</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">dest</span><span class="w"> </span><span class="ow">not</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">expand</span><span class="p">:</span><span class="w"></span>
 <span class="w">      </span><span class="n">expand</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span><span class="w"></span>
 <span class="w">  </span><span class="k">return</span><span class="w"> </span><span class="nf">len</span><span class="p">(</span><span class="n">done</span><span class="p">)</span><span class="err">`</span><span class="w"></span>
-</pre></div>
-
+</code></pre></div>
 
 <p>However, figuring out the number of empty squares is not enough. Once we know that we have more space, how do we proceed to fill this space in an optimal way. As we saw in the wall hugging strategy above, it turns out this is deceptively difficult. The Waterloo strategy page describes it&nbsp;best:</p>
 <blockquote>
@@ -260,13 +254,12 @@
 <h3>Before we continue: a quick look at some other&nbsp;projects</h3>
 <p>Now that we have a basic understanding of the workings of a Tron bot and strategy, we can Google around to see if we come up with some interesting projects using these methods. Let&#8217;s see what some of the open source Tron games are using as a&nbsp;strategy.</p>
 <p><strong>KTron</strong>&#8216;s source can be <a href="http://websvn.kde.org/trunk/KDE/kdegames/ktron/intelligence.cpp?view=markup">viewed online</a>. We notice the following&nbsp;comment:</p>
-<div class="highlight"><pre><span></span><span class="err">// This part is partly ported from</span>
+<div class="highlight"><pre><span></span><code><span class="err">// This part is partly ported from</span>
 <span class="err">// xtron-1.1 by Rhett D. Jacobs (rhett@hotel.[...])`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>We thus take a look at <strong>xtron</strong>, you can find the source package <a href="http://packages.debian.org/source/squeeze/xtron">here</a>. <code>main.c</code> contains the <code>think</code> routine:</p>
-<div class="highlight"><pre><span></span><span class="cm">/* artificial intelligence routines for computer player */</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="cm">/* artificial intelligence routines for computer player */</span><span class="w"></span>
 <span class="n">void</span><span class="w"> </span><span class="n">think</span><span class="p">(</span><span class="nc">int</span><span class="w"> </span><span class="n">p_num</span><span class="p">)</span><span class="w"></span>
 <span class="err">{</span><span class="w"></span>
 <span class="w">  </span><span class="n">enum</span><span class="w"> </span><span class="n">directions</span><span class="w"> </span><span class="n">sides</span><span class="o">[</span><span class="n">2</span><span class="o">]</span><span class="p">;</span><span class="w"></span>
@@ -344,8 +337,7 @@
 <span class="w">        </span><span class="err">}</span><span class="w"> </span>
 <span class="w">      </span><span class="err">}</span><span class="w"></span>
 <span class="w">    </span><span class="err">}</span><span class="w"></span>
-</pre></div>
-
+</code></pre></div>
 
 <p>It turns out this code is using a simple strategy. The difficulty of the game lies in the fact that player can move slow (easy) or very fast (very hard). The <span class="caps">AI</span> looks at the distance before reaching a wall while heading in its current direction. The closer it comes, the higher the chance of turning. When we&#8217;re next to a wall, the chance is, of course,&nbsp;100%.</p>
 <p>The code is easily converted to a Python&nbsp;bot:</p>
@@ -448,7 +440,7 @@
  97
  98
  99
-100</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python</span>
+100</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/python</span>
 
 <span class="kn">import</span> <span class="nn">tron</span>
 <span class="kn">import</span> <span class="nn">random</span>
@@ -548,9 +540,8 @@
 
 <span class="k">for</span> <span class="n">board</span> <span class="ow">in</span> <span class="n">tron</span><span class="o">.</span><span class="n">Board</span><span class="o">.</span><span class="n">generate</span><span class="p">():</span>
   <span class="n">tron</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">which_move</span><span class="p">(</span><span class="n">board</span><span class="p">))</span><span class="err">`</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Uploading the converted code to the contest server quickly confirms the fact that this bot is not doing well (in&nbsp;blue):</p>
 <p><img alt="" src="http://static.macuyiko.com/files/tronbot/easybot_lose.gif"></p>
 <p>In this case, it&#8217;s lucky (in&nbsp;red):</p>

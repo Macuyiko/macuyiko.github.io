@@ -76,14 +76,12 @@
 		</header>
 	
 	    <p>Instead of&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="err">IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">IF (SELECT COUNT(*) FROM Table1 WHERE ... ) &gt; 0</span>
+</code></pre></div>
 
 <p>use&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="err">IF EXISTS(SELECT * FROM Table1 WHERE ...)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">IF EXISTS(SELECT * FROM Table1 WHERE ...)</span>
+</code></pre></div>
 
 <p>Great tip provided <a href="http://weblogs.sqlteam.com/mladenp/archive/2007/09/13/SQL-Server-The-proper-and-fastest-way-to-check-if.aspx">by this article</a>.</p>
 	</article>

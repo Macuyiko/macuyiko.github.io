@@ -82,9 +82,8 @@
 <p>All your contacts in <span class="caps">JSON</span> format! Accessible to any website which uses this as a src in a&nbsp;script-tag.</p>
 <p>Solutions? Referrer-checking (not that good: can be spoofed). Better: using unique keys in each request. They probably used a combination of&nbsp;solutions.</p>
 <p>It seems to be already fixed now, the only thing it returns for me now&nbsp;is:</p>
-<div class="highlight"><pre><span></span><span class="err">google ({ Success: false, Errors: []})</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">google ({ Success: false, Errors: []})</span>
+</code></pre></div>
 
 <p>But the <span class="caps">XML</span> output is still accessible though: <a href="http://docs.google.com/data/contacts?out=xml&amp;show=ALL&amp;psort=Affinity&amp;callback=google&amp;max=999999">http://docs.google.com/data/contacts?out=xml&amp;show=<span class="caps">ALL</span>&amp;psort=Affinity&amp;callback=google&amp;max=999999</a>.</p>
 <p>I tried hacking up a little piece of code, but alas: loading the <span class="caps">XML</span> into the frame and then trying to do a frames[&#8216;the_frame&#8217;].document.getElementsByTagName(&#8216;Email&#8217;); does not work. Both Firefox and <span class="caps">IE</span> prevent stealing content from frames across&nbsp;domains.</p>

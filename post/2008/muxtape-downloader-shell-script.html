@@ -120,7 +120,7 @@
 41
 42
 43
-44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+44</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 
 <span class="c1">#Fetch URL</span>
 wget -O /tmp/muxtape_html.out http://<span class="nv">$1</span>.muxtape.com
@@ -164,9 +164,8 @@ sed -n <span class="s1">&#39;/&lt;div class=&quot;name&quot;&gt;/,/&lt;\/div&gt;
 <span class="p">    wget -O </span><span class="si">${</span><span class="nv">titlesa</span><span class="p">[</span><span class="nv">$i</span><span class="p">]</span><span class="si">}</span><span class="p">.mp3 </span><span class="nv">$z</span><span class="p"></span>
 <span class="p">  fi</span>
 <span class="p">done</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Yuck! But it works, save it in <code>script.sh</code>, make it executable and then <code>./script.sh muxtape_username</code>.</p>
 <p>This will save all mp3s. It took me an hour to figure this out, and I&#8217;m sure lots of you could do this much better. Still, it was cool to build&#8230; but in Perl or <span class="caps">PHP</span> I could&#8217;ve done this much quicker and cleaner. Oh and by the way: don&#8217;t abuse this&#8230; Muxtape are friendly&nbsp;people.</p>
 	</article>

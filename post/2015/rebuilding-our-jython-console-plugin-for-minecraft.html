@@ -92,18 +92,16 @@
 <p>Sadly, though, the Bukkit people encountered some legal issues and have ceased developing their server implementation. When this came to my attention, I did some browsing around and it looks like the <a href="http://canarymod.net/">CanaryMod</a> project is now the de facto way to go to set up servers with modding support. The <span class="caps">API</span> even looks similar to&nbsp;Bukkit.</p>
 <p>So to re-iterate, here&#8217;s what we are going to be making&#8230; We&#8217;re thus going to create a Canary (I use &#8220;Canary&#8221;, &#8220;CanaryMod&#8221; and &#8220;CanaryLib&#8221; interchangeably here) plugin which gives server administrators or programming students direct access to the full <a href="http://docs.visualillusionsent.net/CanaryLib/">Canary <span class="caps">API</span></a>. The actual plugin is actually very simple, thanks to the magic of Jython, a Python implementation in Java which allows for Python&lt;-&gt;Java crosstalk and saves us from having to implement any command in the plugin itself. Commands are issued on a separate console window and do not require players or server administrators to be running the game&nbsp;itself.</p>
 <p>To provide an example of what this means, let&#8217;s say you want to make a plugin which makes it rain. Normally, you&#8217;d make a plugin which binds this to a player command, say, <code>/rain</code> and would execute the&nbsp;following:</p>
-<div class="highlight"><pre><span></span><span class="err">Canary.getServer().getDefaultWorld().setRaining(true);</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">Canary.getServer().getDefaultWorld().setRaining(true);</span>
+</code></pre></div>
 
 <p>That&#8217;s nice in case your goal is to deliver a packaged plugin with a well defined set of functionality, but what if a server administrator would like to make it rain, just because they feel like it. Normally, they&#8217;d need to search for a plugin which allows them to do this, install it, restart the server, and type <code>\rain</code> into chat. What our Python console will allow is just to&nbsp;type:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">net.canarymod</span> <span class="kn">import</span> <span class="n">Canary</span>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="kn">from</span> <span class="nn">net.canarymod</span> <span class="kn">import</span> <span class="n">Canary</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">Canary</span><span class="o">.</span><span class="n">getServer</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">w</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">getDefaultWorld</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">broadcastMessage</span><span class="p">(</span><span class="s2">&quot;I&#39;ll make it rain now&quot;</span><span class="p">)</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">w</span><span class="o">.</span><span class="n">setRaining</span><span class="p">(</span><span class="bp">True</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The video below shows some more action shots, including changing the time, weather, creating explosions, lightning, and placing blocks. Read on in case this catches your&nbsp;interest.</p>
 <div class="videowrapper"><iframe src="//www.youtube.com/embed/j4JfwS5hNlw" frameborder="0" allowfullscreen></iframe></div>
@@ -111,13 +109,12 @@
 <h3>Developing the&nbsp;Plugin</h3>
 <p>We&#8217;ll be creating a Canary plugin which will spawn a server listening for incoming connection requests to obtain a Python interactive console, as well as showing a <span class="caps">GUI</span> console for the local administrator. In case you just want to get started as quickly as possible with the plugin, you can skip this&nbsp;section.</p>
 <p>First of all, we&#8217;re going to create a new Java project in Eclipse. I&#8217;ll call this <code>CanaryConsole</code>. We create a <code>Canary.inf</code> file in the project root with some basic&nbsp;information:</p>
-<div class="highlight"><pre><span></span><span class="err">main-class = com.macuyiko.canaryconsole.MainPlugin</span>
+<div class="highlight"><pre><span></span><code><span class="err">main-class = com.macuyiko.canaryconsole.MainPlugin</span>
 <span class="err">name = CanaryConsole</span>
 <span class="err">author = Seppe vanden Broucke</span>
 <span class="err">version = 1.0.0</span>
 <span class="err">isLibrary = false</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Next up, we create a <code>lib</code> folder in which we&#8217;re going to put our main&nbsp;libraries:</p>
 <ul>
@@ -130,7 +127,7 @@
 <p>The <a href="https://github.com/Macuyiko/MinecraftPythonConsole">complete Eclipse project can be found over at GitHub</a>, which you can just clone or download to get&nbsp;started.</p>
 <p>Next, we&#8217;ll create the plugin classes themselves. Create a package under <code>src</code> called <code>com.macuyiko.canaryconsole</code>. We&#8217;re going to add two classes to start&nbsp;with.</p>
 <p><code>MainPlugin.java</code>, this class just loads the libraries from the <code>lib</code> folder and spawns a <code>PythonConsole</code> window:</p>
-<div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">canaryconsole</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">canaryconsole</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">java.io.File</span><span class="p">;</span>
 <span class="kn">import</span> <span class="nn">java.io.IOException</span><span class="p">;</span>
@@ -222,12 +219,11 @@
 
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Note that injecting the libraries in <code>lib</code> is necessary to ensure that the plugin will be able to be aware of Jython while it is running. There are other ways to deal with this as well, such as just extracting the JARs in the final produced <span class="caps">JAR</span> file, if you&nbsp;prefer.</p>
 <p><code>PythonConsole.java</code> contains the&nbsp;following:</p>
-<div class="highlight"><pre><span></span><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">canaryconsole</span><span class="p">;</span>
+<div class="highlight"><pre><span></span><code><span class="n">package</span> <span class="n">com</span><span class="o">.</span><span class="n">macuyiko</span><span class="o">.</span><span class="n">canaryconsole</span><span class="p">;</span>
 
 <span class="kn">import</span> <span class="nn">java.io.File</span><span class="p">;</span>
 
@@ -265,8 +261,7 @@
         <span class="k">return</span> <span class="n">sys</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Just as before, I&#8217;m reusing a Jython <span class="caps">GUI</span> console by <a href="http://don.freeshell.org/jython/">Don Coleman</a>. We also need to ensure that all libraries in the <code>lib</code> folder get added to the system path for any Python interpreter we&nbsp;spawn.</p>
 <p>There are two additional classes, <code>SocketServer.java</code> and <code>ConnectionThread.java</code>, which just allow users to login remotely and get a Python interpreter shell. Again, check <a href="https://github.com/Macuyiko/MinecraftPythonConsole">GitHub</a>. For all the&nbsp;details.</p>
@@ -283,7 +278,7 @@
 <h3>Example&nbsp;Usage</h3>
 <p>The following Python code shows some things you can do from the console using the Canary <span class="caps">API</span>. For more inspiration and ideas, you can look over the <a href="http://docs.visualillusionsent.net/CanaryLib/">Canary <span class="caps">API</span> docs</a>.</p>
 <p>First of, you&#8217;ll want to start of by making sure all your imports are ready to&nbsp;go:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">net.canarymod</span> <span class="kn">import</span> <span class="n">Canary</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">net.canarymod</span> <span class="kn">import</span> <span class="n">Canary</span>
 <span class="kn">from</span> <span class="nn">net.canarymod</span> <span class="kn">import</span> <span class="n">LineTracer</span>
 <span class="kn">from</span> <span class="nn">net.canarymod.api.world.blocks</span> <span class="kn">import</span> <span class="n">BlockType</span>
 <span class="kn">from</span> <span class="nn">net.canarymod.api</span> <span class="kn">import</span> <span class="n">GameMode</span>
@@ -294,58 +289,51 @@
 
 <span class="c1"># Check if the the main object can be found:</span>
 <span class="n">Canary</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>You might also want to set up some helper variables for quick&nbsp;access:</p>
-<div class="highlight"><pre><span></span><span class="err">s = Canary.getServer()</span>
+<div class="highlight"><pre><span></span><code><span class="err">s = Canary.getServer()</span>
 <span class="err">w = s.getDefaultWorld()</span>
 <span class="err">p = s.getPlayer(&quot;Macuyiko&quot;)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>You can now do things such&nbsp;as:</p>
-<div class="highlight"><pre><span></span><span class="err">s.broadcastMessage(&quot;An administrator is present... be aware&quot;)</span>
+<div class="highlight"><pre><span></span><code><span class="err">s.broadcastMessage(&quot;An administrator is present... be aware&quot;)</span>
 <span class="err">w.setTime(1)</span>
 <span class="err">w.setRaining(True)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Explosions can be created like&nbsp;so:</p>
-<div class="highlight"><pre><span></span><span class="err"># Args: spawning entity; position; force; does world damage</span>
+<div class="highlight"><pre><span></span><code><span class="err"># Args: spawning entity; position; force; does world damage</span>
 <span class="err"># This one will not damage the player (except for fall damage)</span>
 <span class="err">w.makeExplosion(p, p.getPosition(), 8, True)</span>
 <span class="err"># This one will</span>
 <span class="err">w.makeExplosion(None, p.getPosition(), 8, True)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>If you want to create an explosion at the position where the player is looking at, you must use another class, called <code>LineTracer</code>. This replaces the Bukkit way of doing things where there was a method immediately returning the position a player was looking&nbsp;at:</p>
-<div class="highlight"><pre><span></span><span class="err">w.makeExplosion(p, LineTracer(p).getTargetBlock().getPosition(), 8, True)</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">w.makeExplosion(p, LineTracer(p).getTargetBlock().getPosition(), 8, True)</span>
+</code></pre></div>
 
 <p>It&#8217;s a good idea to create some helper functions while you&#8217;re at&nbsp;it:</p>
-<div class="highlight"><pre><span></span><span class="err">def glp(p):</span>
+<div class="highlight"><pre><span></span><code><span class="err">def glp(p):</span>
 <span class="err">    return LineTracer(p).getTargetBlock().getPosition()</span>
 <span class="err">def gpp(p):</span>
 <span class="err">    l = p.getPosition()</span>
 <span class="err">    return [int(round(l.getX())),</span>
 <span class="err">        int(round(l.getY())),</span>
 <span class="err">        int(round(l.getZ()))]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Which then allows to&nbsp;do:</p>
-<div class="highlight"><pre><span></span><span class="err">for i in range(0, 20):</span>
+<div class="highlight"><pre><span></span><code><span class="err">for i in range(0, 20):</span>
 <span class="err">    w.makeExplosion(p, glp(p), 6, True)</span>
 <span class="err">    w.makeLightningBolt(glp(p))</span>
 <span class="err">    sleep(1)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Creating blocks is also pretty easy. The following will spawn some pillars around the player complete with&nbsp;lightning:</p>
-<div class="highlight"><pre><span></span><span class="err">for i in range(0, 20):</span>
+<div class="highlight"><pre><span></span><code><span class="err">for i in range(0, 20):</span>
 <span class="err">    pos = gpp(p)</span>
 <span class="err">    pos[0] += randint(-10,10)</span>
 <span class="err">    pos[2] += randint(-10,10)</span>
@@ -353,11 +341,10 @@
 <span class="err">        w.setBlockAt(pos[0], z, pos[2], BlockType.CrackedStoneBrick)</span>
 <span class="err">    w.makeLightningBolt(pos[0], pos[1], pos[2])</span>
 <span class="err">    sleep(1)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Whereas the following creates a wall around the&nbsp;player:</p>
-<div class="highlight"><pre><span></span><span class="err">pos = gpp(p)</span>
+<div class="highlight"><pre><span></span><code><span class="err">pos = gpp(p)</span>
 <span class="err">for z in range(pos[1]-20, pos[1] + 5):</span>
 <span class="err">    for x in range(pos[0]-10, pos[0]+10):</span>
 <span class="err">        w.setBlockAt(x, z, pos[2]+10, BlockType.CrackedStoneBrick)</span>
@@ -365,11 +352,10 @@
 <span class="err">    for y in range(pos[2]-10, pos[2]+10):</span>
 <span class="err">        w.setBlockAt(pos[0]+10, z, y, BlockType.CrackedStoneBrick)</span>
 <span class="err">        w.setBlockAt(pos[0]-10, z, y, BlockType.CrackedStoneBrick)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Finally, it&#8217;s even possible to render fractals. I&#8217;m making a <a href="http://en.wikipedia.org/wiki/Mandelbulb">MandelBulb</a> here from code I borrowed&nbsp;online:</p>
-<div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">vir</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="n">def</span> <span class="n">vir</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">s</span><span class="p">,</span> <span class="n">o</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">l</span><span class="o">+</span><span class="p">((</span><span class="n">h</span><span class="o">-</span><span class="n">l</span><span class="p">)</span><span class="o">/</span><span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">))</span><span class="o">*</span><span class="nb">float</span><span class="p">(</span><span class="n">o</span><span class="p">)</span>
 
 <span class="n">def</span> <span class="n">rp</span><span class="p">(</span><span class="n">cx</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cz</span><span class="p">,</span> <span class="n">maxit</span><span class="p">,</span> <span class="n">mandpow</span><span class="p">):</span>
@@ -411,15 +397,13 @@
                     <span class="n">w</span><span class="p">.</span><span class="n">setBlockAt</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="k">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="k">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">z</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="k">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="p">,</span> <span class="n">BlockType</span><span class="p">.</span><span class="n">WoolWhite</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">w</span><span class="p">.</span><span class="n">setBlockAt</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="k">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">x</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="k">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">z</span><span class="p">,</span> <span class="n">pos</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">-</span><span class="k">size</span><span class="o">/</span><span class="mi">2</span><span class="o">+</span><span class="n">y</span><span class="p">,</span> <span class="n">BlockType</span><span class="p">.</span><span class="n">Air</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Use like&nbsp;so:</p>
-<div class="highlight"><pre><span></span><span class="err">pos = gpp(p)</span>
+<div class="highlight"><pre><span></span><code><span class="err">pos = gpp(p)</span>
 <span class="err">pos[1] += 100 #Put the fractal in the air a bit</span>
 <span class="err">renderFractal(w, pos)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Be careful though when specifying a very large size. Python is not the fastest of languages (at least not the Jython implementation), so rendering a 256^3 sized fractal will take a&nbsp;while.</p>
 	</article>

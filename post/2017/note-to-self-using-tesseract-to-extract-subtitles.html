@@ -77,29 +77,26 @@
 	
 	    <p>Say you have video such as <a href="https://www.facebook.com/NowThisPolitics/videos/1778169845547831/">this one</a> on Facebook. Most of these come with hardcoded subtitles, which we&#8217;d like to extract (for whatever&nbsp;reason).</p>
 <p>Opening the page in Chrome and inspecting the network requests quickly uncovers the media <span class="caps">URL</span>:</p>
-<div class="highlight"><pre><span></span><span class="c">https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n.mp4?efg=eyJ2ZW5jb2RlX3RhZyI6ImRhc2hfdjNfMTI4MF9jcmZfMjNfaGlnaF8zLjFfZnJhZ18yX3ZpZGVvIn0%3D&amp;oh=40bbd0e0dd5367ed3a2d5ff0e7cbe081&amp;oe=5A09D778&amp;bytestart=0&amp;byteend=953</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="c">https://video-bru2-1.xx.fbcdn.net/v/t42.9040-2/10000000_703970666457205_4416008794480312320_n.mp4?efg=eyJ2ZW5jb2RlX3RhZyI6ImRhc2hfdjNfMTI4MF9jcmZfMjNfaGlnaF8zLjFfZnJhZ18yX3ZpZGVvIn0%3D&amp;oh=40bbd0e0dd5367ed3a2d5ff0e7cbe081&amp;oe=5A09D778&amp;bytestart=0&amp;byteend=953</span>
+</code></pre></div>
 
 <p>By cutting off <code>&amp;bytestart=0&amp;byteend=953</code>, we can download the video file&nbsp;completely.</p>
 <p>Next, we can use <code>ffmpeg</code> to create frames every half&nbsp;second:</p>
-<div class="highlight"><pre><span></span><span class="err">./ffmpeg -i .\23354483_145400712877976_2778300398300037120_n.mp4 -r 2 .\frames\image-%07d_original.png</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">./ffmpeg -i .\23354483_145400712877976_2778300398300037120_n.mp4 -r 2 .\frames\image-%07d_original.png</span>
+</code></pre></div>
 
 <p>And apply some cropping using&nbsp;Python:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 
 <span class="k">for</span> <span class="n">png_file</span> <span class="ow">in</span> <span class="n">glob</span><span class="p">(</span><span class="s1">&#39;./frames/*_original.png&#39;</span><span class="p">):</span>
     <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">png_file</span><span class="p">)</span>
     <span class="n">cropped</span> <span class="o">=</span> <span class="n">image</span><span class="o">.</span><span class="n">crop</span><span class="p">((</span><span class="mi">50</span><span class="p">,</span> <span class="mi">850</span><span class="p">,</span> <span class="mi">1080</span><span class="p">,</span> <span class="mi">1080</span><span class="p">))</span>
     <span class="n">cropped</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">png_file</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.png&#39;</span><span class="p">,</span> <span class="s1">&#39;_cropped.png&#39;</span><span class="p">))</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>As well as some leveling to only retain white and yellow&nbsp;text:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">PIL</span> <span class="kn">import</span> <span class="n">Image</span>
 <span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 
 <span class="k">def</span> <span class="nf">level</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
@@ -122,12 +119,11 @@
     <span class="n">image</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">png_file</span><span class="p">)</span>
     <span class="n">leveled</span> <span class="o">=</span> <span class="n">level</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
     <span class="n">leveled</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">png_file</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_cropped.png&#39;</span><span class="p">,</span> <span class="s1">&#39;_leveled.png&#39;</span><span class="p">))</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Next, download <a href="https://github.com/UB-Mannheim/tesseract/wiki">Tesseract</a> (unzip the setup file using 7-Zip and just dump it somwhere, to prevent running the installer &#8212; it works fine in a portable&nbsp;setup).</p>
 <p>Extract the text for every&nbsp;file:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
 <span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">run</span><span class="p">,</span> <span class="n">PIPE</span>
 <span class="kn">from</span> <span class="nn">pickle</span> <span class="kn">import</span> <span class="n">dump</span>
 
@@ -141,11 +137,10 @@
     <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
 
 <span class="n">dump</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;lines.p&#39;</span><span class="p">,</span> <span class="s1">&#39;wb&#39;</span><span class="p">))</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Perform a little cleaning using some regex and the Levenshtein distance to remove duplicate&nbsp;lines:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pickle</span> <span class="kn">import</span> <span class="n">load</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pickle</span> <span class="kn">import</span> <span class="n">load</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="k">def</span> <span class="nf">levenshteinDistance</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">):</span>
@@ -180,11 +175,10 @@
 
 <span class="k">for</span> <span class="n">clean</span> <span class="ow">in</span> <span class="n">cleaned</span><span class="p">:</span>
     <span class="k">print</span><span class="p">(</span><span class="n">clean</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The resulting strings should now be easy to manually clean and&nbsp;finalize:</p>
-<div class="highlight"><pre><span></span><span class="err">ENVIRONMENTAL ADVISER WAS A NATURAL DISASTER</span>
+<div class="highlight"><pre><span></span><code><span class="err">ENVIRONMENTAL ADVISER WAS A NATURAL DISASTER</span>
 <span class="err">PRESSED HER ON CLIMATE SCIENCE</span>
 <span class="err">It seems to me that you don‘t believe climate change is real.</span>
 <span class="err">I  l am un</span>
@@ -197,7 +191,7 @@
 <span class="err">I think is very uncertain, and my  Would you rely on scientists</span>
 <span class="err">to give you that answer, or not?</span>
 <span class="err">[...]</span>
-</pre></div>
+</code></pre></div>
 	</article>
 </div>
 		

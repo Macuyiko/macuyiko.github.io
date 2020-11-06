@@ -82,7 +82,7 @@
 <p>The issue, however, that &#8220;safely&#8221; cleaning up these e-mails is rather tricky. Just deleting all archived e-mails is out of the question&#8230; there might still be important or interesting mails there. Searching based on the &#8220;from&#8221; header and going from there is better, but Gmail forces to paginate over the list (showing hundred e-mails per page) and does not intelligently group e-mails to make ticking their checkboxes easy. To provide an example, I might wish to delete all those Amazon recommended products mails, but do not want to delete my latest shipping confirmations. Gmail&#8217;s interface can also feel sluggish at times when ticking of mails, deleting them, going back to the search field, ticking again, and so on. Finally, Gmail does not provide an easy way to show e-mails grouped by sender, to get an easy overview regarding the most frequent&nbsp;&#8220;spammers&#8221;.</p>
 <p>Probably a solid desktop client (Outlook, even) provides better functionality to do this sort of thing, but I wanted to quicky punch together a Python driven app instead to help clean up my&nbsp;inbox.</p>
 <p>First up was connecting with Gmail&#8217;s <span class="caps">API</span> to create a local database I could work with. You could use <span class="caps">IMAP</span> as well, though using Gmail&#8217;s incantation of <span class="caps">IMAP</span> is somewhat annoying, having to do the whole oauth2 dance, not really providing an easy way to access unique message ids, and trashing e-mails boils down to executing <span class="caps">IMAP</span> move commands. The <span class="caps">API</span> works much&nbsp;better.</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="o">*</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">model</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">httplib2</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">apiclient</span> <span class="kn">import</span> <span class="n">discovery</span>
@@ -179,25 +179,23 @@
 
     <span class="k">print</span><span class="p">(</span><span class="s1">&#39;Updating messages&#39;</span><span class="p">)</span>
     <span class="n">update_db</span><span class="p">()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>I&#8217;m only fetching the unique id here, together with the from and subject headers. Quite annoyingly, even though the Gmail <span class="caps">API</span> provides batch calls to delete and modify a list of e-mails, it does not expose similar functionality to get a list of e-mails. Instead, <code>service.users().messages().list(...)</code> provides a paginated result list of e-mail ids and thread ids, without detailed information. Afterwards, you need to loop through all e-mail ids to <code>service.users().messages().get(...)</code> their details. I&#8217;m using joblib here to speed up this&nbsp;process:</p>
 <p><img alt="" src="/images/2017/gmail1.png"></p>
 <p>A few hours later, the database is filled up and ready for use. A simple <span class="caps">SQL</span> statement can immediately provide a grouped overview of e-mails per&nbsp;sender:</p>
-<div class="highlight"><pre><span></span><span class="err">SELECT header_from, count(*) AS &quot;amount&quot; FROM &quot;email&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="err">SELECT header_from, count(*) AS &quot;amount&quot; FROM &quot;email&quot;</span>
 <span class="err">WHERE &quot;trashed&quot; = 0</span>
 <span class="err">GROUP BY &quot;header_from&quot;</span>
 <span class="err">ORDER BY &quot;amount&quot; DESC</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Next up is making trying to group e-mails (for a particular sender) based on their subjects to make it easier to spot repeating e-mails. Doing so using a string identity based aggregation is easy, though the issue is that subjects will be slightly different over time for many senders, e.g. compary &#8220;your weekly digest for 11/2017&#8221; verus &#8220;your weekly digest for 12/2017&#8221; or &#8220;12 friends have liked your profile&#8221; versus &#8220;1 friend has liked your&nbsp;profile&#8221;.</p>
 <p>It turns out that this problem is heavily related to the field of <a href="https://en.wikipedia.org/wiki/Sequence_alignment">sequence alignment</a>, a common task in bioinformatics were sequences are grouped based on regional similarity as well as visualized in such a manner that the similar fragments are easy to&nbsp;identify:</p>
 <p><img alt="Source: Wikipedia" src="/images/2017/alignment.png"></p>
 <p>Several toolkits exist for sequence (or string) alignment. In Python, there&#8217;s <a href="https://github.com/mbreese/swalign/">swalign</a> which implements a Smith-Waterman local aligner. <a href="http://biopython.org/DIST/docs/tutorial/Tutorial.html#htoc69">BioPython</a> also contains several ways for sequence alignment. There&#8217;s also <a href="https://pypi.python.org/pypi/alignment/1.0.9">alignment</a>. There&#8217;s also <a href="http://mafft.cbrc.jp/alignment/software/"><span class="caps">MAFFT</span></a> in case you want a fast non-Python&nbsp;implementation.</p>
 <p>However, Python also comes with the <code>difflib</code> module, which implements Ratcliff and Obershelp&#8217;s “gestalt pattern matching” algorithm, used to provide <a href="https://en.wikipedia.org/wiki/Diff_utility">diff&#8217;s</a> between two inputs. It basically boils down to finding the smallest set of deletions and insertions to create one input from the other. Normally, diff tools work line-oriented, though difflib&#8217;s <code>SequenceMatcher</code> class can also work&nbsp;character-oriented:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="ss">&quot;You have a message from Name Lastname waiting for 3 days&quot;</span>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="ss">&quot;You have a message from Name Lastname waiting for 3 days&quot;</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="ss">&quot;You have a message from Jon Snow waiting for 393 days&quot;</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">SequenceMatcher</span><span class="p">()</span>
 <span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">.</span><span class="n">set_seq1</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
@@ -208,8 +206,7 @@
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="p">.</span><span class="n">get_matching_blocks</span><span class="p">()</span>
 <span class="p">[</span><span class="k">Match</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="k">size</span><span class="o">=</span><span class="mi">24</span><span class="p">),</span> <span class="k">Match</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">28</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">27</span><span class="p">,</span> <span class="k">size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">Match</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">33</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">29</span><span class="p">,</span> <span class="k">size</span><span class="o">=</span><span class="mi">1</span><span class="p">),</span> <span class="k">Match</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">37</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span> <span class="k">size</span><span class="o">=</span><span class="mi">14</span><span class="p">),</span> <span class="k">Match</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">51</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">48</span><span class="p">,</span> <span class="k">size</span><span class="o">=</span><span class="mi">5</span><span class="p">),</span> <span class="k">Match</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">56</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">53</span><span class="p">,</span> <span class="k">size</span><span class="o">=</span><span class="mi">0</span><span class="p">)]</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This provides us with a &#8220;good enough&#8221; mechanism to find a distance (ratio) between to strings, as well as their matching pieces. The challenge is now to use this building block to group a list of subjects&nbsp;together.</p>
 <p>Whenever you&#8217;re faced with a clustering task such as this, and you have a method to establish a &#8220;distance&#8221; between to elements, it turns out to be easy to turn this into a complete clustering solution. One way to do so is by implementing <a href="https://en.wikipedia.org/wiki/Hierarchical_clustering">Agglomerative Hierarchical Clustering</a>. This algorithm works in a series of steps where in every step a new level in the &#8220;hierarchy&#8221; is&nbsp;constructed.</p>
@@ -222,7 +219,7 @@
 </ul>
 <p>For the first iteration, finding the best linkage criterion is easy. We can just use the <code>.ratio()</code> method from <code>SequenceMatcher</code> between two clusters A and B since they both contain one sequence each. How do we apply the same mechanism once clusters start to contain more than one&nbsp;sequence?</p>
 <p>A first approach was to use a centroid based criterion. This requires us to define a &#8220;centroid&#8221; between sequences with their distance then simply being the distance between the centroids. In this case, we can just use a very naive approach where <code>.get_matching_blocks()</code> is used to keep the similar pieces of two strings, and replace the non matching parts with a replacement character, like&nbsp;so:</p>
-<div class="highlight"><pre><span></span><span class="n">def</span> <span class="n">combine_strings</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="nb">char</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">min_thres</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
+<div class="highlight"><pre><span></span><code><span class="n">def</span> <span class="n">combine_strings</span><span class="p">(</span><span class="n">blocks</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="nb">char</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">min_thres</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
     <span class="n">combined</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="n">last_a</span><span class="p">,</span> <span class="n">last_b</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">block</span> <span class="k">in</span> <span class="n">blocks</span><span class="p">:</span>
@@ -237,12 +234,11 @@
 
 <span class="o">&gt;&gt;&gt;</span> <span class="n">combine_strings</span><span class="p">(</span><span class="n">s</span><span class="p">.</span><span class="n">get_matching_blocks</span><span class="p">(),</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
 <span class="n">You</span> <span class="n">have</span> <span class="n">a</span> <span class="n">message</span> <span class="k">from</span> <span class="c1">------------- waiting for 3-- days--</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The latter is a good aggregated representation of our two subjects and can be easily represented to the&nbsp;user.</p>
 <p>The full Agglomerative Hierarchical Clustering setup then looks like&nbsp;this:</p>
-<div class="highlight"><pre><span></span><span class="n">def</span><span class="w"> </span><span class="n">find_best_match</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span><span class="w"> </span><span class="n">ratio_threshold</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">def</span><span class="w"> </span><span class="n">find_best_match</span><span class="p">(</span><span class="n">clusters</span><span class="p">,</span><span class="w"> </span><span class="n">ratio_threshold</span><span class="p">)</span><span class="err">:</span><span class="w"></span>
 <span class="w">    </span><span class="n">s</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">SequenceMatcher</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="n">best_abval</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="k">None</span><span class="p">,</span><span class="w"> </span><span class="k">None</span><span class="p">,</span><span class="w"> </span><span class="mi">0</span><span class="p">,</span><span class="w"> </span><span class="k">None</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">Find</span><span class="w"> </span><span class="n">best</span><span class="w"> </span><span class="k">match</span><span class="w"> </span><span class="k">using</span><span class="w"> </span><span class="n">centroid</span><span class="w"> </span><span class="k">method</span><span class="w"></span>
@@ -281,11 +277,10 @@
 <span class="w">            </span><span class="n">parents</span><span class="o">=</span><span class="p">(</span><span class="n">best_abval</span><span class="o">[</span><span class="n">0</span><span class="o">]</span><span class="p">,</span><span class="w"> </span><span class="n">best_abval</span><span class="o">[</span><span class="n">1</span><span class="o">]</span><span class="p">)))</span><span class="w"></span>
 <span class="w">        </span><span class="n">dendrogram</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_level</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="n">dendrogram</span><span class="w"></span>
-</pre></div>
-
+</code></pre></div>
 
 <p>And&nbsp;then:</p>
-<div class="highlight"><pre><span></span><span class="o">&gt;&gt;&gt;</span> <span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="ss">&quot;You have a message from Name Lastname waiting for 3 days&quot;</span><span class="p">,</span>
+<div class="highlight"><pre><span></span><code><span class="o">&gt;&gt;&gt;</span> <span class="n">strings</span> <span class="o">=</span> <span class="p">[</span><span class="ss">&quot;You have a message from Name Lastname waiting for 3 days&quot;</span><span class="p">,</span>
            <span class="ss">&quot;You have a message from Jon Snow waiting for 393 days&quot;</span><span class="p">,</span>
            <span class="ss">&quot;You have a message from Bob Bobbert waiting for 4 days&quot;</span><span class="p">,</span>
            <span class="ss">&quot;You have a message from Marc Marcussen waiting for 1 day&quot;</span><span class="p">,</span>
@@ -300,12 +295,11 @@
 <span class="n">Jon</span> <span class="n">Snow</span> <span class="k">is</span> <span class="n">waiting</span> <span class="k">for</span> <span class="n">your</span> <span class="n">reply</span>
 <span class="n">You</span> <span class="n">have</span> <span class="n">a</span> <span class="n">message</span> <span class="k">from</span> <span class="c1">---------------------- waiting for --- day--------------</span>
 <span class="c1">--------------- liked a photo of you</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Looks good. One issue is, however, that <code>SequenceMatcher</code> is quite slow. The two nested for loops in <code>cluster_strings</code> also don&#8217;t help here. What if we could calculate the ratios between all pairs of subjects just once, and go from there? I.e. we&#8217;re going to change the linkage criterion to a single (or minumum) one, so that the distance between clusters A and B is now min(d(a,b) where a is in A and b is in&nbsp;B).</p>
 <p>We&#8217;ll also refactor the code to do away with keeping track of the different levels in the hierarchy, since we only want the final outcome&nbsp;anyway:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">difflib</span> <span class="kn">import</span> <span class="n">SequenceMatcher</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">difflib</span> <span class="kn">import</span> <span class="n">SequenceMatcher</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 
 <span class="k">def</span> <span class="nf">combine_strings</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">char</span><span class="o">=</span><span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">min_thres</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
@@ -366,18 +360,16 @@
         <span class="n">new_level</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">clusters</span><span class="p">[</span><span class="n">best_abval</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">+</span> <span class="n">clusters</span><span class="p">[</span><span class="n">best_abval</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span>
         <span class="n">clusters</span> <span class="o">=</span> <span class="n">new_level</span>
     <span class="k">return</span> <span class="n">combiner</span><span class="p">(</span><span class="n">clusters</span><span class="p">),</span> <span class="n">clusters</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Note that we still combine the clusters together to get a final representation. We&#8217;re also using <code>lru_cache</code> here to solve the pairwise ratio computation issue without adding in additional&nbsp;code.</p>
 <p>Now what remained is to hook this up to a simple Flask application. Note that trashing e-mails using Gmails <span class="caps">API</span> can be done in batch&nbsp;using:</p>
-<div class="highlight"><pre><span></span><span class="err">service.users().messages().batchModify(userId=&#39;me&#39;, body={</span>
+<div class="highlight"><pre><span></span><code><span class="err">service.users().messages().batchModify(userId=&#39;me&#39;, body={</span>
 <span class="err">        &#39;removeLabelIds&#39;: [],</span>
 <span class="err">        &#39;addLabelIds&#39;: [&#39;TRASH&#39;],</span>
 <span class="err">        &#39;ids&#39;: email_ids</span>
 <span class="err">    }).execute()</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This is how the result looks&nbsp;like:</p>
 <p><img alt="" src="/images/2017/gmail2.png"></p>

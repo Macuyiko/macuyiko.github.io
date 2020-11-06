@@ -88,7 +88,7 @@
  9
 10
 11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 <span class="c1"># Change this to the interface you wish to change:</span>
 <span class="nv">IFACE</span><span class="o">=</span><span class="s2">&quot;wlan0&quot;</span>
 
@@ -100,9 +100,8 @@ ifconfig <span class="nv">$IFACE</span> down
 iwconfig <span class="nv">$IFACE</span> mode monitor
 ifconfig <span class="nv">$IFACE</span> up
 iwconfig <span class="nv">$IFACE</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>And everything should work just fine. Just continue to use <code>$IFACE</code> (e.g. <code>wlan0</code>) in all subsequent commands (<code>airodump</code>,&#8230;) you use. Naturally, you do not need to use <code>airmon-ng</code> anymore to put the network card in monitor mode (as <code>$IFACE</code> now already is in monitor&nbsp;mode).</p>
 	</article>
 </div>

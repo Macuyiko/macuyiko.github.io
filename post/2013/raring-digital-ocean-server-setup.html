@@ -100,102 +100,88 @@
 <h2>1. Install&nbsp;Ubuntu</h2>
 <p>This is a single-click process with DigitalOcean. I&#8217;m using Ubuntu Server 13.04 x64. You will get a root account with&nbsp;password.</p>
 <h2>2. Always be updating and&nbsp;upgrading</h2>
-<div class="highlight"><pre><span></span><span class="err">apt-get update</span>
+<div class="highlight"><pre><span></span><code><span class="err">apt-get update</span>
 <span class="err">apt-get upgrade</span>
-</pre></div>
-
+</code></pre></div>
 
 <h2>3. Synchronize the system&nbsp;clock</h2>
 <p>Synchronize the system clock with an <span class="caps">NTP</span> server over the&nbsp;Internet.</p>
-<div class="highlight"><pre><span></span><span class="err">apt-get install ntp ntpdate</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">apt-get install ntp ntpdate</span>
+</code></pre></div>
 
 <p><span class="caps">SSH</span> is installed already, so we skip this. We also don&#8217;t have to configure our network, but you can check the hostname&nbsp;with:</p>
-<div class="highlight"><pre><span></span><span class="err">hostname</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">hostname</span>
+</code></pre></div>
 
 <h2>4. Add&nbsp;users</h2>
 <p>Add some users. Adding a <code>webmaster</code> is&nbsp;recommended:</p>
-<div class="highlight"><pre><span></span><span class="err">useradd -d /home/webmaster -m webmaster</span>
+<div class="highlight"><pre><span></span><code><span class="err">useradd -d /home/webmaster -m webmaster</span>
 <span class="err">passwd webmaster</span>
 <span class="err">adduser webmaster sudo</span>
-</pre></div>
-
+</code></pre></div>
 
 <h2>5. Secure <span class="caps">SSH</span></h2>
 <p>Edit <code>/etc/ssh/sshd_config</code>:</p>
-<div class="highlight"><pre><span></span><span class="o">#</span> <span class="n">Always</span> <span class="n">a</span> <span class="n">good</span> <span class="n">idea</span> <span class="k">to</span> <span class="k">not</span> <span class="k">listen</span> <span class="k">at</span> <span class="n">the</span> <span class="k">default</span> <span class="n">port</span>
+<div class="highlight"><pre><span></span><code><span class="o">#</span> <span class="n">Always</span> <span class="n">a</span> <span class="n">good</span> <span class="n">idea</span> <span class="k">to</span> <span class="k">not</span> <span class="k">listen</span> <span class="k">at</span> <span class="n">the</span> <span class="k">default</span> <span class="n">port</span>
 <span class="n">Port</span>    <span class="mi">44422</span>
 
 <span class="o">#</span> <span class="n">Prohibit</span> <span class="n">root</span> <span class="n">logins</span>
 <span class="n">PermitRootLogin</span> <span class="k">no</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Then restart <span class="caps">SSH</span> and login again with a normal&nbsp;user:</p>
-<div class="highlight"><pre><span></span><span class="err">service ssh restart</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">service ssh restart</span>
+</code></pre></div>
 
 <p>Using <code>sudo su</code> should allow you to continue as&nbsp;root.</p>
 <h2>6.&nbsp;MySQL</h2>
 <p>Install MySQL. You will be asked for a root&nbsp;password.</p>
-<div class="highlight"><pre><span></span><span class="err">apt-get install mysql-server mysql-client</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">apt-get install mysql-server mysql-client</span>
+</code></pre></div>
 
 <p>We keep <code>bind-address = 127.0.0.1</code> in <code>/etc/mysql/my.cnf</code>.</p>
 <p>If you wish, you can also opt to use MariaDB&nbsp;instead.</p>
 <h2>7. Postfix for <span class="caps">SMTP</span>&nbsp;support</h2>
-<div class="highlight"><pre><span></span><span class="err">apt-get install postfix procmail</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">apt-get install postfix procmail</span>
+</code></pre></div>
 
 <p>Make sure to pick the&nbsp;following:</p>
-<div class="highlight"><pre><span></span><span class="err">General type of configuration?</span>
+<div class="highlight"><pre><span></span><code><span class="err">General type of configuration?</span>
 <span class="err"> --&gt; Internet Site</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Run:</p>
-<div class="highlight"><pre><span></span><span class="err">dpkg-reconfigure postfix</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">dpkg-reconfigure postfix</span>
+</code></pre></div>
 
 <p>And would through the questions. Defaults are fine, but you can disable IPv6 if you want&nbsp;to.</p>
 <p>Next, we make sure to listen to local interface&nbsp;only:</p>
-<div class="highlight"><pre><span></span><span class="err">postconf -e &#39;inet_interfaces = loopback-only&#39;</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">postconf -e &#39;inet_interfaces = loopback-only&#39;</span>
+</code></pre></div>
 
 <p>Restart&nbsp;Postfix:</p>
-<div class="highlight"><pre><span></span><span class="err">service postfix restart</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">service postfix restart</span>
+</code></pre></div>
 
 <h2>8. Apache/<span class="caps">PHP5</span></h2>
 <p>Install:</p>
-<div class="highlight"><pre><span></span><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">apache2</span> <span class="n">apache2</span><span class="o">-</span><span class="n">mpm</span><span class="o">-</span><span class="n">prefork</span> <span class="n">apache2</span><span class="o">-</span><span class="n">utils</span> <span class="n">ssl</span><span class="o">-</span><span class="n">cert</span>
+<div class="highlight"><pre><span></span><code><span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">apache2</span> <span class="n">apache2</span><span class="o">-</span><span class="n">mpm</span><span class="o">-</span><span class="n">prefork</span> <span class="n">apache2</span><span class="o">-</span><span class="n">utils</span> <span class="n">ssl</span><span class="o">-</span><span class="n">cert</span>
 
 <span class="n">apt</span><span class="o">-</span><span class="k">get</span> <span class="n">install</span> <span class="n">libapache2</span><span class="o">-</span><span class="k">mod</span><span class="o">-</span><span class="n">php5</span> <span class="n">php5</span> <span class="n">php5</span><span class="o">-</span><span class="n">common</span> <span class="n">php5</span><span class="o">-</span><span class="n">curl</span> <span class="n">php5</span><span class="o">-</span><span class="n">dev</span> <span class="n">php5</span><span class="o">-</span><span class="n">gd</span> <span class="n">php5</span><span class="o">-</span><span class="n">idn</span> <span class="n">php</span><span class="o">-</span><span class="n">pear</span> <span class="n">php5</span><span class="o">-</span><span class="n">imagick</span> <span class="n">php5</span><span class="o">-</span><span class="n">imap</span> <span class="n">php5</span><span class="o">-</span><span class="n">json</span> <span class="n">php5</span><span class="o">-</span><span class="n">mcrypt</span> <span class="n">php5</span><span class="o">-</span><span class="n">memcache</span> <span class="n">php5</span><span class="o">-</span><span class="n">mhash</span> <span class="n">php5</span><span class="o">-</span><span class="n">ming</span> <span class="n">php5</span><span class="o">-</span><span class="n">mysql</span> <span class="n">php5</span><span class="o">-</span><span class="n">ps</span> <span class="n">php5</span><span class="o">-</span><span class="n">pspell</span> <span class="n">php5</span><span class="o">-</span><span class="n">recode</span> <span class="n">php5</span><span class="o">-</span><span class="n">snmp</span> <span class="n">php5</span><span class="o">-</span><span class="n">sqlite</span> <span class="n">php5</span><span class="o">-</span><span class="n">tidy</span> <span class="n">php5</span><span class="o">-</span><span class="n">xmlrpc</span> <span class="n">php5</span><span class="o">-</span><span class="n">xsl</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Enable some&nbsp;modules:</p>
-<div class="highlight"><pre><span></span><span class="n">a2enmod</span> <span class="n">ssl</span>
+<div class="highlight"><pre><span></span><code><span class="n">a2enmod</span> <span class="n">ssl</span>
 <span class="n">a2enmod</span> <span class="n">rewrite</span>
 <span class="n">a2enmod</span> <span class="n">suexec</span>
 <span class="n">a2enmod</span> <span class="n">status</span>
 <span class="n">a2enmod</span> <span class="n">include</span>
 
-<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="p">.</span><span class="n">d</span><span class="o">/</span><span class="n">apache2</span> <span class="k">force</span><span class="o">-</span><span class="n">reload</span>
-</pre></div>
-
+<span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">apache2</span> <span class="n">force</span><span class="o">-</span><span class="n">reload</span>
+</code></pre></div>
 
 <p>Adding subdomains is done with vhosts in <code>/etc/apache2/sites-enabled</code>:</p>
-<div class="highlight"><pre><span></span><span class="nt">&lt;VirtualHost</span> <span class="err">*</span><span class="nt">&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;VirtualHost</span> <span class="err">*</span><span class="nt">&gt;</span>
   ServerAdmin info@sitename.com
   ServerName sitename.com
   ServerAlias *.sitename.com
@@ -220,41 +206,35 @@
   CustomLog /var/log/apache2/access.log combined
   ServerSignature On
 <span class="nt">&lt;/VirtualHost&gt;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Don&#8217;t forget to edit the default virtualhost with a <code>NameVirtualHost *</code> and <code>AllowOverride All</code>.</p>
 <p>Also, edit <code>php.ini</code> if&nbsp;needed.</p>
 <h2>9.&nbsp;Proftpd</h2>
 <p>Install&nbsp;Proftpd:</p>
-<div class="highlight"><pre><span></span><span class="err">apt-get install proftpd ucf</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">apt-get install proftpd ucf</span>
+</code></pre></div>
 
 <p>Make sure to pick <code>standalone</code>.</p>
 <p>Edit <code>/etc/proftpd/proftpd.conf</code>:</p>
-<div class="highlight"><pre><span></span><span class="err">DefaultRoot /</span>
+<div class="highlight"><pre><span></span><code><span class="err">DefaultRoot /</span>
 <span class="err">UseIPv6 off</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>And:</p>
-<div class="highlight"><pre><span></span><span class="err">service proftpd restart</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">service proftpd restart</span>
+</code></pre></div>
 
 <p>We don&#8217;t install phpMyAdmin anymore. <code>apt-get install phpmyadmin</code> if you want&nbsp;to.</p>
 <h2>10. Set <code>/var/www</code> permissions</h2>
 <p>Making it easy for our&nbsp;&#8220;webmaster&#8221;:</p>
-<div class="highlight"><pre><span></span><span class="err">chown -R webmaster:www-data /var/www</span>
-<span class="err">chmod 775 -R /var/www</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">chown</span> <span class="o">-</span><span class="n">R</span> <span class="n">webmaster</span><span class="p">:</span><span class="n">www</span><span class="o">-</span><span class="n">data</span> <span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span>
+<span class="n">chmod</span> <span class="mi">775</span> <span class="o">-</span><span class="n">R</span> <span class="o">/</span><span class="k">var</span><span class="o">/</span><span class="n">www</span>
+</code></pre></div>
 
 <h2>11. Install&nbsp;fail2ban</h2>
-<div class="highlight"><pre><span></span><span class="err">apt-get install fail2ban</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">apt-get install fail2ban</span>
+</code></pre></div>
 
 <p>Don&#8217;t forget to configure a jail.local and add custom filters if&nbsp;needed.</p>
 <p>We do not install Slowloris protection any more. Attacks using this method seem to have&nbsp;stopped/weakened.</p>
@@ -268,9 +248,8 @@
 <li>Move <span class="caps">SSL</span>&nbsp;keys</li>
 </ul>
 <p>Backup&nbsp;script:</p>
-<div class="highlight"><pre><span></span><span class="err">tar cvpzf backup.tgz --exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/usr --exclude=/bin --exclude=/sbin --exclude=/backup.tgz /</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">tar cvpzf backup.tgz --exclude=/proc --exclude=/lost+found --exclude=/mnt --exclude=/sys --exclude=/dev --exclude=/usr --exclude=/bin --exclude=/sbin --exclude=/backup.tgz /</span>
+</code></pre></div>
 
 <p>It&#8217;s a pity this last step can&#8217;t be automated. I guess it would be possible to create an image and move it over the another <span class="caps">VPS</span>, but this will bring along all the extra filler you maybe don&#8217;t want&nbsp;anymore.</p>
 <p>My experience with DigitalOcean was pleasant so far. The <span class="caps">SSD</span> drives make installing <code>apt</code> packages a real breeze. I&#8217;m not migrating completely from Linode yet (hosting too many sites at the moment with them), but I&#8217;ll definitely launch new projects over&nbsp;there.</p>

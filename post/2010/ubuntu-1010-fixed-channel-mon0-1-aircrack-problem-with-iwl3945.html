@@ -78,22 +78,19 @@
 	    <p><strong>Update for Ubuntu 12.04 users:</strong> <a href="//blog.macuyiko.com/post/2012/ubuntu-1204-fixed-channel-mon0-1.html">see this post</a>.</p>
 <p>After upgrading to Ubuntu Maverick recently, the Aircrack suite stopped working for&nbsp;me.</p>
 <p>After setting <code>airodump</code> to a channel (like&nbsp;usual):</p>
-<div class="highlight"><pre><span></span><span class="err">airodump --channel **X**</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">airodump --channel **X**</span>
+</code></pre></div>
 
 <p>It still displayed its status&nbsp;as:</p>
-<div class="highlight"><pre><span></span><span class="err">fixed channel mon0: -1</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">fixed channel mon0: -1</span>
+</code></pre></div>
 
 <p>Some forum users advised to&nbsp;use:</p>
-<div class="highlight"><pre><span></span><span class="err">airodump --channel X,X</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">airodump --channel X,X</span>
+</code></pre></div>
 
 <p>But this didn&#8217;t work. For the record, I&#8217;m using a Thinkpad X60, with the <code>iwl3945</code> driver. <code>lshw</code> output:</p>
-<div class="highlight"><pre><span></span><span class="o">*-</span><span class="n">network</span>
+<div class="highlight"><pre><span></span><code><span class="o">*-</span><span class="n">network</span>
        <span class="nl">description</span><span class="p">:</span> <span class="n">Wireless</span> <span class="n">interface</span>
        <span class="nl">product</span><span class="p">:</span> <span class="n">PRO</span><span class="o">/</span><span class="n">Wireless</span> <span class="mi">3945</span><span class="n">ABG</span> <span class="p">[</span><span class="n">Golan</span><span class="p">]</span> <span class="n">Network</span> <span class="n">Connection</span>
        <span class="nl">vendor</span><span class="p">:</span> <span class="n">Intel</span> <span class="n">Corporation</span>
@@ -104,29 +101,27 @@
        <span class="nl">width</span><span class="p">:</span> <span class="mi">32</span> <span class="n">bits</span>
        <span class="nl">clock</span><span class="p">:</span> <span class="mi">33</span><span class="n">MHz</span>
        <span class="nl">capabilities</span><span class="p">:</span> <span class="n">bus_master</span> <span class="n">cap_list</span> <span class="n">ethernet</span> <span class="n">physical</span> <span class="n">wireless</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Luckily, there is an easy to follow <a href="http://ubuntuforums.org/showthread.php?t=1598930">thread</a> on the forums which fixes the problem for a similar card. This solution also worked with my <span class="caps">3945ABG</span>.</p>
 <p>Here are the&nbsp;commands:</p>
-<div class="highlight"><pre><span></span><span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">wireless</span><span class="p">.</span><span class="n">kernel</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">compat</span><span class="o">-</span><span class="n">wireless</span><span class="o">-</span><span class="mi">2</span><span class="p">.</span><span class="mi">6</span><span class="o">/</span><span class="n">compat</span><span class="o">-</span><span class="n">wireless</span><span class="o">-</span><span class="mi">2010</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">16</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">bz2</span>
-<span class="n">tar</span> <span class="o">-</span><span class="n">jxf</span> <span class="n">compat</span><span class="o">-</span><span class="n">wireless</span><span class="o">-</span><span class="mi">2010</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">16</span><span class="p">.</span><span class="n">tar</span><span class="p">.</span><span class="n">bz2</span>
+<div class="highlight"><pre><span></span><code><span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">wireless</span><span class="o">.</span><span class="n">kernel</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">download</span><span class="o">/</span><span class="n">compat</span><span class="o">-</span><span class="n">wireless</span><span class="o">-</span><span class="mf">2.6</span><span class="o">/</span><span class="n">compat</span><span class="o">-</span><span class="n">wireless</span><span class="o">-</span><span class="mi">2010</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mf">16.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
+<span class="n">tar</span> <span class="o">-</span><span class="n">jxf</span> <span class="n">compat</span><span class="o">-</span><span class="n">wireless</span><span class="o">-</span><span class="mi">2010</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mf">16.</span><span class="n">tar</span><span class="o">.</span><span class="n">bz2</span>
 <span class="n">cd</span> <span class="n">compat</span><span class="o">-</span><span class="n">wireless</span><span class="o">-</span><span class="mi">2010</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mi">16</span>
-<span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">patches</span><span class="p">.</span><span class="n">aircrack</span><span class="o">-</span><span class="n">ng</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">mac80211</span><span class="p">.</span><span class="n">compat08082009</span><span class="p">.</span><span class="n">wl_frag</span><span class="o">+</span><span class="n">ack_v1</span><span class="p">.</span><span class="n">patch</span>
-<span class="n">patch</span> <span class="o">-</span><span class="n">p1</span> <span class="o">&lt;</span> <span class="n">mac80211</span><span class="p">.</span><span class="n">compat08082009</span><span class="p">.</span><span class="n">wl_frag</span><span class="o">+</span><span class="n">ack_v1</span><span class="p">.</span><span class="n">patch</span>
-<span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">patches</span><span class="p">.</span><span class="n">aircrack</span><span class="o">-</span><span class="n">ng</span><span class="p">.</span><span class="n">org</span><span class="o">/</span><span class="n">channel</span><span class="o">-</span><span class="n">negative</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">maxim</span><span class="p">.</span><span class="n">patch</span>
-<span class="n">patch</span> <span class="p">.</span><span class="o">/</span><span class="n">net</span><span class="o">/</span><span class="n">wireless</span><span class="o">/</span><span class="n">chan</span><span class="p">.</span><span class="k">c</span> <span class="n">channel</span><span class="o">-</span><span class="n">negative</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">maxim</span><span class="p">.</span><span class="n">patch</span>
-<span class="n">gedit</span> <span class="n">scripts</span><span class="o">/</span><span class="k">update</span><span class="o">-</span><span class="n">initramfs</span>
+<span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">patches</span><span class="o">.</span><span class="n">aircrack</span><span class="o">-</span><span class="n">ng</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">mac80211</span><span class="o">.</span><span class="n">compat08082009</span><span class="o">.</span><span class="n">wl_frag</span><span class="o">+</span><span class="n">ack_v1</span><span class="o">.</span><span class="n">patch</span>
+<span class="n">patch</span> <span class="o">-</span><span class="n">p1</span> <span class="o">&lt;</span> <span class="n">mac80211</span><span class="o">.</span><span class="n">compat08082009</span><span class="o">.</span><span class="n">wl_frag</span><span class="o">+</span><span class="n">ack_v1</span><span class="o">.</span><span class="n">patch</span>
+<span class="n">wget</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">patches</span><span class="o">.</span><span class="n">aircrack</span><span class="o">-</span><span class="n">ng</span><span class="o">.</span><span class="n">org</span><span class="o">/</span><span class="n">channel</span><span class="o">-</span><span class="n">negative</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">maxim</span><span class="o">.</span><span class="n">patch</span>
+<span class="n">patch</span> <span class="o">./</span><span class="n">net</span><span class="o">/</span><span class="n">wireless</span><span class="o">/</span><span class="n">chan</span><span class="o">.</span><span class="n">c</span> <span class="n">channel</span><span class="o">-</span><span class="n">negative</span><span class="o">-</span><span class="n">one</span><span class="o">-</span><span class="n">maxim</span><span class="o">.</span><span class="n">patch</span>
+<span class="n">gedit</span> <span class="n">scripts</span><span class="o">/</span><span class="n">update</span><span class="o">-</span><span class="n">initramfs</span>
 
-<span class="o">#***</span> <span class="n">FIND</span> <span class="n">LINE</span> <span class="mi">13</span><span class="p">:</span> <span class="n">KLIB</span><span class="o">=/</span><span class="n">lib</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="mi">2</span><span class="p">.</span><span class="mi">6</span><span class="p">.</span><span class="mi">31</span><span class="o">-</span><span class="n">wl</span><span class="o">/</span><span class="n">build</span>
-<span class="o">#***</span> <span class="k">REPLACE</span> <span class="k">WITH</span><span class="p">:</span> <span class="n">KLIB</span><span class="o">=/</span><span class="n">lib</span><span class="o">/</span><span class="n">modules</span><span class="o">/</span><span class="err">$</span><span class="p">(</span><span class="n">uname</span> <span class="o">-</span><span class="n">r</span><span class="p">)</span><span class="o">/</span><span class="n">build</span>
+<span class="c1">#*** FIND LINE 13: KLIB=/lib/modules/2.6.31-wl/build</span>
+<span class="c1">#*** REPLACE WITH: KLIB=/lib/modules/$(uname -r)/build</span>
 
 <span class="n">make</span>
 <span class="n">sudo</span> <span class="n">make</span> <span class="n">install</span>
 <span class="n">sudo</span> <span class="n">make</span> <span class="n">unload</span>
 <span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">iwl3945</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Alternatively you can also use <code>sudo reboot</code> instead of <code>sudo modprobe</code> if you&#8217;re unsure which driver module you need to&nbsp;load.</p>
 <p>Aircrack should work fine again now. Note that kernel updates might overwrite the module again (and, hopefully, fix the bug at the same&nbsp;time).</p>

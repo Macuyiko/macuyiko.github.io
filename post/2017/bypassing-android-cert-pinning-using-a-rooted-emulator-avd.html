@@ -77,16 +77,14 @@
 	
 	    <p>A while ago I was interested in performing some <span class="caps">HTTPS</span> <span class="caps">MITM</span> analysis on an Android app, without having to rely on a real device but instead using an Android Virtual Device, or in other words: an emulated device. It turns out that this is surprisingly tricky with a lot of gotcha&#8217;s, but in the end I managed to get it to&nbsp;work:</p>
 <blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Got it to work&#8230; <a href="https://twitter.com/hashtag/certpinning?src=hash&amp;ref_src=twsrc%5Etfw">#certpinning</a> <a href="https://twitter.com/hashtag/android?src=hash&amp;ref_src=twsrc%5Etfw">#android</a> <a href="https://twitter.com/hashtag/hacking?src=hash&amp;ref_src=twsrc%5Etfw">#hacking</a> <a href="https://twitter.com/hashtag/makesuretoremembertowritethisdownsoon?src=hash&amp;ref_src=twsrc%5Etfw">#makesuretoremembertowritethisdownsoon</a> <a href="https://t.co/i163GAqkQ1">pic.twitter.com/i163GAqkQ1</a></p>&mdash; Seppe vanden Broucke (@Macuyiko) <a href="https://twitter.com/Macuyiko/status/935245648315731969?ref_src=twsrc%5Etfw">November 27, 2017</a></blockquote>
-
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 <p>Here are the steps you need to follow if you want to do this&nbsp;yourself.</p>
 <p>First, get your <span class="caps">MITM</span> proxy tool up and running. I&#8217;m using <a href="https://www.telerik.com/fiddler">Fiddler</a> here, but any <span class="caps">MITM</span> tool which comes with an <span class="caps">HTTPS</span> root cert should&nbsp;work. </p>
 <p>I assume Android Studio is installed. Create a new <span class="caps">AVD</span> device (<code>Tools -&gt; Android -&gt; AVD Manager</code>) with Android 7.1.1 as the target (<span class="caps">API</span> level 25) and <span class="caps">CPU</span> architecture x86. Newer <span class="caps">API</span> levels might also work, but I haven&#8217;t tested this. Older <span class="caps">API</span> levels might work with different, older tools, but don&#8217;t offer support for the app I was planning to analyze, so 7.1.1 is a solid middle&nbsp;ground.</p>
 <p>Open a console window in <code>C:\Users\&lt;USERNAME&gt;\AppData\Local\Android\sdk\platform-tools\</code> or the corresponding installation directory on your system (it should contain an <code>adb.exe</code>). Start the emulator&nbsp;using:</p>
-<div class="highlight"><pre><span></span><span class="cp">..\emulator\emulator.exe -avd Pixel_API_25 -writable-system</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="cp">..\emulator\emulator.exe -avd Pixel_API_25 -writable-system</span>
+</code></pre></div>
 
 <p>Note down the local <span class="caps">IP</span> address of your computer, and use it to set the proxy address in Android&#8217;s WiFi or cellular settings accordingly (your <span class="caps">IP</span> address might&nbsp;vary):</p>
 <p><img alt="Setting the proxy" src="/images/2017/certpin1.png"></p>
@@ -101,15 +99,14 @@
 </ul>
 <p>Note that there&#8217;s also <a href="https://github.com/iSECPartners/Android-SSL-TrustKiller">TrustKiller</a>, though this works through <a href="http://www.cydiasubstrate.com/">Cydia Substrate</a>, which offers similar functionality as Xposed but is outdated and not maintained any longer, so we&#8217;re not using these here. There&#8217;s also <a href="https://github.com/ac-pm/SSLUnpinning_Xposed">this</a>, but this didn&#8217;t work quite well in my&nbsp;setup.</p>
 <p>Once you have all the files downloaded, install&nbsp;them:</p>
-<div class="highlight"><pre><span></span><span class="err">.\adb install app.apk</span>
+<div class="highlight"><pre><span></span><code><span class="err">.\adb install app.apk</span>
 <span class="err">.\adb install eu.chainfire.supersu_v2.82-282_Android-2.3.apk</span>
 <span class="err">.\adb install XposedInstaller_3.1.4.apk</span>
 <span class="err">.\adb install JustTrustMe.apk</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Then&nbsp;run:</p>
-<div class="highlight"><pre><span></span><span class="err">.\adb root</span>
+<div class="highlight"><pre><span></span><code><span class="err">.\adb root</span>
 <span class="err">.\adb shell setenforce 0</span>
 <span class="err">.\adb remount</span>
 <span class="err">.\adb push .\x86\su.pie /system/bin/su</span>
@@ -118,8 +115,7 @@
 <span class="err">.\adb shell chmod 0755 /system/xbin/su</span>
 <span class="err">.\adb shell su --install</span>
 <span class="err">.\adb shell &quot;su --daemon&amp;&quot;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Now switch back to the emulator. First open the SuperSU app. SuperSU will complain about the <span class="caps">SU</span> binary which needs to be updated, but press &#8220;<span class="caps">CANCEL</span>&#8221; instead of &#8220;<span class="caps">CONTINUE</span>&#8221;! Otherwise, you risk ending up stuck in&nbsp;boot.</p>
 <p><img alt="Pick CANCEL here" src="/images/2017/certpin2.png"></p>
@@ -128,7 +124,7 @@
 <p>Press &#8220;<span class="caps">GRANT</span>&#8221; when asked by&nbsp;SuperSU:</p>
 <p><img alt="Press GRANT" src="/images/2017/certpin4.png"></p>
 <p>Your device will automatically reboot. Booting might take a few minutes, but should work. Each time you reboot the device, execute the following commands&nbsp;again:</p>
-<div class="highlight"><pre><span></span><span class="err">.\adb root</span>
+<div class="highlight"><pre><span></span><code><span class="err">.\adb root</span>
 <span class="err">.\adb shell setenforce 0</span>
 <span class="err">.\adb remount</span>
 <span class="err">.\adb push .\x86\su.pie /system/bin/su</span>
@@ -137,8 +133,7 @@
 <span class="err">.\adb shell chmod 0755 /system/xbin/su</span>
 <span class="err">.\adb shell su --install</span>
 <span class="err">.\adb shell &quot;su --daemon&amp;&quot;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>(Note: in case you&#8217;d need to restart the emulator altogether, don&#8217;t forget to start the <code>emulator.exe</code> with the <code>writable-system</code> flag.)</p>
 <p>Try navigating to a page in Chrome to verify your Fiddler setup is still working. Once you&#8217;ve verified the <span class="caps">MITM</span> is working in the browser, you can install the cert pinning remover. Open Xposed Installer again. It should now indicate that the framework is active. In the menu, pick &#8220;Modules&#8221; and activate&nbsp;JustTrustMe.</p>

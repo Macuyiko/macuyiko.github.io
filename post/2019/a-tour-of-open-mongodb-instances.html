@@ -110,7 +110,7 @@
 <p>For which I set up a Python script to connect to each of them, see if MongoDB was still up (and still unsecured), and download a couple of documents from each database and collection. I wasn&#8217;t interesting in dumping the complete set of data out, so I limited extraction to about 5 records for each server, database, collection tuple. I ran this over a bunch of servers and had the results after a couple of days of&nbsp;waiting.</p>
 <p>Out of this initial set, 14861 servers were responding and still&nbsp;up.</p>
 <p>I used <a href="https://pypi.org/project/python-geoip-python3/"><code>python-geoip-python3</code></a> to map each of those to their GeoIP&nbsp;location:</p>
-<div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">ip2info</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
+<div class="python highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">ip2info</span><span class="p">(</span><span class="n">ip</span><span class="p">):</span>
     <span class="n">match</span> <span class="o">=</span> <span class="n">geolite2</span><span class="o">.</span><span class="n">lookup</span><span class="p">(</span><span class="n">ip</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span> <span class="k">return</span> <span class="p">{}</span>
     <span class="n">d</span> <span class="o">=</span> <span class="n">match</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
@@ -123,8 +123,7 @@
 
 <span class="k">for</span> <span class="n">lbl</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;country&#39;</span><span class="p">,</span> <span class="s1">&#39;continent&#39;</span><span class="p">,</span> <span class="s1">&#39;subdivision&#39;</span><span class="p">,</span> <span class="s1">&#39;timezone&#39;</span><span class="p">,</span> <span class="s1">&#39;lat&#39;</span><span class="p">,</span> <span class="s1">&#39;lng&#39;</span><span class="p">]:</span>
     <span class="n">df</span><span class="p">[</span><span class="n">lbl</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;ip&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">ip2info</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">lbl</span><span class="p">))</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>I then exported this to a <span class="caps">CSV</span> file and loaded this into <a href="https://kepler.gl/">kepler.gl</a>. I&#8217;ve been wanting to take a quick look at this tool before and was surprised at how quick it made sense of the&nbsp;data:</p>
 <p><img alt="Final set of open MongoDB servers" src="/images/2019/mongo_kepler.png"></p>
@@ -155,7 +154,7 @@
 </pre></div>
 
 <p>Most of these entries leave a single database with a name like &#8220;Warn&#8221; or &#8220;PLEASE_README&#8221;. The following table shows an overview of such&nbsp;ransom-hacks:</p>
-<div class="highlight"><pre><span></span><span class="err">5614 Warn</span>
+<div class="highlight"><pre><span></span><code><span class="err">5614 Warn</span>
 <span class="err">372  README</span>
 <span class="err">340  Warning</span>
 <span class="err">73   PLEASE_READ</span>
@@ -170,30 +169,27 @@
 <span class="err">1    a1_Where_is_my_data</span>
 <span class="err">1    please</span>
 <span class="err">1    warn</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Some of these are rather&nbsp;polite:</p>
-<div class="highlight"><pre><span></span><span class="err">{&#39;_id&#39;: ObjectId(&#39;5c896be9bf4a8c26d431ab21&#39;), </span>
+<div class="highlight"><pre><span></span><code><span class="err">{&#39;_id&#39;: ObjectId(&#39;5c896be9bf4a8c26d431ab21&#39;), </span>
 <span class="err"> &#39;you_should_not&#39;: &#39;use insecure settings&#39;}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>To see how much ransomers typically ask in order to recover data, I performed a regex to filter out <span class="caps">BTC</span>&nbsp;amounts:</p>
 <p><img alt="How much is your data worth?" src="/images/2019/mongo_bc.png"></p>
 <p>0.6 <span class="caps">BTC</span> (about $3000) seems to be the standard amount. I also wanted to take a look at whether the addresses had already received money in the past. Using a regex found online (<code>[13][a-km-zA-HJ-NP-Z1-9]{25,34}</code>), I extracted 53 distinct addresses. Using blockchain.com, I simply scraped the number of total received coins for each address using <code>requests</code> and <code>Beautiful Soup</code>:</p>
-<div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
+<div class="python highlight"><pre><span></span><code><span class="k">for</span> <span class="n">address</span> <span class="ow">in</span> <span class="n">addresses</span><span class="p">:</span>
     <span class="n">r</span> <span class="o">=</span> <span class="n">BeautifulSoup</span><span class="p">(</span><span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;https://www.blockchain.com/btc/address/</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">address</span><span class="p">))</span><span class="o">.</span><span class="n">text</span><span class="p">)</span>
     <span class="n">el</span> <span class="o">=</span> <span class="n">r</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="n">attrs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="s1">&#39;total_received&#39;</span><span class="p">})</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">el</span><span class="p">:</span> <span class="k">continue</span>
     <span class="n">received</span> <span class="o">=</span> <span class="n">el</span><span class="o">.</span><span class="n">get_text</span><span class="p">(</span><span class="n">strip</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">received</span> <span class="o">==</span> <span class="s1">&#39;0 BTC&#39;</span><span class="p">:</span> <span class="k">continue</span>
     <span class="nb">print</span><span class="p">(</span><span class="n">address</span><span class="p">,</span> <span class="n">received</span><span class="p">)</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Resulting in the following&nbsp;overview:</p>
-<div class="highlight"><pre><span></span><span class="err">12EuPnzMDsqaYBFRwTYnx7TxMuztzdRXWh    0.02748446 BTC</span>
+<div class="highlight"><pre><span></span><code><span class="err">12EuPnzMDsqaYBFRwTYnx7TxMuztzdRXWh    0.02748446 BTC</span>
 <span class="err">1Kss6v4eSUgP4WrYtfYGZGDoRsf74M7CMr    0.68813072 BTC</span>
 <span class="err">1KoCEc5vz9M4ixDWQywXK8KkgRjshjm4AL    0.00007656 BTC</span>
 <span class="err">1Ptza47PgMtFMA6fZpLNzacb1EPkWDAv6n    0.6 BTC</span>
@@ -218,8 +214,7 @@
 <span class="err">3LQREaWvSyVq7E5UrTysadLqWtjHPhcAJX    0.6 BTC</span>
 <span class="err">1Jqw2tHBkUAGY32YzettJiDAwe8A9mUzok    0.2 BTC</span>
 <span class="err">3GKioTFrCFYcTmZR4DXPGatTXXp6Ugcq79    1.59995057 BTC</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Note the <a href="https://www.blockchain.com/btc/address/1J5ADzFv1gx3fsUPUY1AWktuJ6DF9P6hiF">heavy hitter</a> with 11 received Bitcoins, though it is likely that these did not result from ransom payments, as this address doesn&#8217;t show up a lot in the MongoDB instances, unless this account has been at it for a while. The current balance of this account is zero. Most of the coins have been sent to other addresses (most of them looking like they&#8217;re single use&nbsp;washers).</p>
 <p><strong>Observation 3: there&#8217;s a lot of personal information, as well as development around apps which plan to collect a lot of personal&nbsp;information</strong></p>

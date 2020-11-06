@@ -78,12 +78,12 @@
 	    <p>(This is part 3 in the Modern Genetic Algorithms Explained series, click <a href="//blog.macuyiko.com/post/2009/modern-genetic-and-other-algorithms-explained-part-1-introduction.html">here</a> to go to the first post, or browse through all the parts with the Table Of Contents at the end of this&nbsp;post.)</p>
 <p>In this part, we will look at a &#8220;special&#8221; genetic algorithm, <span class="caps">CHC</span> by Eshelman. The original paper is very hard to find, but it is mentioned in a lot of other&nbsp;works.</p>
 <p>The pseudocode looks like this (thanks to the commenters for sorting some problems&nbsp;out):</p>
-<div class="highlight"><pre><span></span><span class="k">Create</span> <span class="n">initial</span> <span class="n">population</span><span class="p">:</span> <span class="n">P</span>
+<div class="highlight"><pre><span></span><code><span class="k">Create</span> <span class="n">initial</span> <span class="n">population</span><span class="p">:</span> <span class="n">P</span>
 <span class="n">L</span> <span class="p">:</span><span class="o">=</span> <span class="k">length</span> <span class="k">of</span> <span class="n">an</span> <span class="n">individual</span> <span class="n">chromosome</span>
 <span class="n">N</span> <span class="p">:</span><span class="o">=</span> <span class="n">population</span> <span class="k">size</span>
 <span class="n">Threshold</span> <span class="p">:</span><span class="o">=</span> <span class="n">MutProb</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span><span class="p">.</span><span class="mi">0</span><span class="o">-</span><span class="n">MutProb</span><span class="p">)</span> <span class="o">*</span> <span class="n">L</span> <span class="p">(</span><span class="k">or</span> <span class="n">L</span><span class="o">/</span><span class="mi">4</span> <span class="k">is</span> <span class="n">also</span> <span class="n">used</span><span class="p">)</span>
 
-<span class="n">Evolution</span> <span class="k">until</span> <span class="n">time</span> <span class="k">limit</span> <span class="n">hit</span> <span class="k">or</span> <span class="n">satisfying</span> <span class="n">solution</span> <span class="k">found</span><span class="p">:</span>
+<span class="n">Evolution</span> <span class="k">until</span> <span class="k">time</span> <span class="k">limit</span> <span class="n">hit</span> <span class="k">or</span> <span class="n">satisfying</span> <span class="n">solution</span> <span class="k">found</span><span class="p">:</span>
   <span class="n">CPop</span> <span class="p">:</span><span class="o">=</span> <span class="err">{}</span>
   <span class="k">For</span> <span class="n">i</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span> <span class="k">to</span> <span class="n">N</span><span class="o">/</span><span class="mi">2</span> <span class="k">do</span><span class="p">:</span>
     <span class="n">Choose</span> <span class="n">two</span> <span class="n">random</span> <span class="n">parents</span><span class="p">:</span> <span class="n">P1</span> <span class="k">and</span> <span class="n">P2</span>
@@ -98,8 +98,7 @@
 
   <span class="k">If</span> <span class="n">threshold</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
     <span class="n">Cataclysmic</span> <span class="n">creation</span> <span class="k">of</span> <span class="k">new</span> <span class="n">population</span> <span class="n">P</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>There is another pseudocode description in the slides found <a href="http://soar.snu.ac.kr/~yhdfly/presentation/MKCP.pps">here</a>.</p>
 <p>A few interesting remarks:
@@ -110,7 +109,7 @@
 (5) A &#8220;cataclysmic event&#8221; occurs when there are no children created for a certain period of time. New children can only be made between parents which are different enough. Basically this means: whenever the population converges towards a certain points, a cataclysm occurs.
 (6) What this cataclysm will do depends on the actual implementation. Originally, and often, the following method is used: take the single best individual, and put it in the new population. Now, mutate each of its bits with a 35% chance, this will be the second individual. Repeat this to create a new population of size N. Sometimes, the mutation chance is set to a higher&nbsp;value.</p>
 <p>My Python - again, based on the <a href="http://lethain.com/entry/2009/jan/02/genetic-algorithms-cool-name-damn-simple/">code found here</a> - implementation looks as follows (the original problem was&nbsp;unchanged):</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span><span class="p">,</span> <span class="n">random</span>
 <span class="kn">from</span> <span class="nn">operator</span> <span class="kn">import</span> <span class="n">add</span>
 
 <span class="k">def</span> <span class="nf">individual</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="nb">min</span><span class="p">,</span> <span class="nb">max</span><span class="p">):</span>
@@ -195,15 +194,14 @@
     <span class="n">treshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">pop</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="mf">4.0</span>
     <span class="k">print</span> <span class="s2">&quot;Treshold is now:&quot;</span><span class="p">,</span><span class="n">treshold</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
   <span class="k">return</span> <span class="n">pop</span><span class="err">`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This reminds me: I should really work on a css class for code (update: done), instead of writing everything in monospace. A few remarks:
 (1) The implementation is a bit hacky. Python passes everything by reference, except immutable objects. I wanted to pass threshold by reference, which did not work, it being a float and such. That&#8217;s why I&#8217;ve wrapped it in a list.
 (2) I&#8217;ll use L/4 as the threshold; and I still use a 35% mutate rate, although we are not using bit encoded individuals, though we could set this a bit higher if we wanted.
 (3) We do crossover by randomly swapping different values with a 0.5 chance, until half of the values are swapped. Probability-wise, this is not the same as randomly picking half of the different bits. This doesn&#8217;t matter that much for this example,&nbsp;though.</p>
 <p>Let&#8217;s test&nbsp;it:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;C:\Users\Me\Desktop&quot;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">chc_eshelman</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="n">target</span> <span class="o">=</span> <span class="mi">300</span>
@@ -216,11 +214,10 @@
 <span class="k">print</span> <span class="s2">&quot;First grade: &quot;</span><span class="p">,</span><span class="n">grade</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">100</span><span class="p">):</span>
   <span class="n">p</span><span class="o">=</span><span class="n">evolve</span><span class="p">(</span><span class="n">p</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">i_min</span><span class="p">,</span> <span class="n">i_max</span><span class="p">,</span> <span class="n">treshold</span><span class="p">)</span><span class="err">`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>In the first run, it took two cataclysms to reach a completely perfect population (grade is the average score for the complete population, not for the best single individual, it might be possible to have a perfect individual in the first evolution, still, because this problem is so simple, we look at the complete&nbsp;population):</p>
-<div class="highlight"><pre><span></span><span class="err">First grade: 66.88</span>
+<div class="highlight"><pre><span></span><code><span class="err">First grade: 66.88</span>
 <span class="err">48 children</span>
 <span class="err">50 new population, grade: 30.34</span>
 <span class="err">44 children</span>
@@ -275,11 +272,10 @@
 <span class="err">50 new population, grade: 0.38</span>
 <span class="err">32 children</span>
 <span class="err">50 new population, grade: 0.0</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Another run only takes four evolutions to reach a perfect population, with a beautiful&nbsp;convergence:</p>
-<div class="highlight"><pre><span></span><span class="err">First grade: 51.16</span>
+<div class="highlight"><pre><span></span><code><span class="err">First grade: 51.16</span>
 <span class="err">46 children</span>
 <span class="err">50 new population, grade: 24.26</span>
 <span class="err">46 children</span>
@@ -292,11 +288,10 @@
 <span class="err">50 new population, grade: 0.0</span>
 <span class="err">20 children</span>
 <span class="err">50 new population, grade: 0.0`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Sometimes however, the algorithm gets stuck in a&nbsp;loop:</p>
-<div class="highlight"><pre><span></span><span class="err">...</span>
+<div class="highlight"><pre><span></span><code><span class="err">...</span>
 <span class="err">18 children</span>
 <span class="err">50 new population, grade: 1.0</span>
 <span class="err">22 children</span>
@@ -321,25 +316,22 @@
 <span class="err">50 new population, grade: 1.0</span>
 <span class="err">16 children</span>
 <span class="err">50 new population, grade: 1.0`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This has something to do with the way the hamming distance is calculated. Sometimes, a pool of two different solutions will be made, but with more than one different values, thus this will always be above the hamming threshold, but will always create the same children, and the same resulting new&nbsp;population.</p>
 <p>For example, the algorithm can get stuck in a pool with two types of&nbsp;parents:</p>
-<div class="highlight"><pre><span></span><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mi">83</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">44</span><span class="p">],</span> <span class="k">sum</span> <span class="mi">300</span>
+<div class="highlight"><pre><span></span><code><span class="mi">1</span><span class="p">:</span> <span class="p">[</span><span class="mi">83</span><span class="p">,</span> <span class="mi">19</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">23</span><span class="p">,</span> <span class="mi">44</span><span class="p">],</span> <span class="k">sum</span> <span class="mi">300</span>
 <span class="p">(</span><span class="n">the</span> <span class="n">target</span> <span class="n">was</span> <span class="mi">300</span><span class="p">,</span> <span class="n">so</span> <span class="n">fitness</span><span class="p">:</span> <span class="mi">300</span><span class="o">-</span><span class="mi">300</span> <span class="o">=</span> <span class="mi">0</span><span class="p">:</span> <span class="n">perfect</span><span class="p">)</span>
 
 <span class="mi">2</span><span class="p">:</span> <span class="p">[</span><span class="mi">38</span><span class="p">,</span> <span class="mi">28</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">97</span><span class="p">],</span> <span class="k">sum</span> <span class="mi">300</span><span class="o">`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Both are optimal (but the sum might also be both 299, or 299 and 301, etc)&#8230; Notice that the hamming distance between them is four, far above the threshold, thus the following children can be&nbsp;created:</p>
-<div class="highlight"><pre><span></span><span class="err">[38, 28, 67, 64, 23, 44], sum 264</span>
+<div class="highlight"><pre><span></span><code><span class="err">[38, 28, 67, 64, 23, 44], sum 264</span>
 <span class="err">[38, 19, 67, 64, 6, 97], sum 291</span>
 <span class="err">[83, 28, 67, 64, 6, 44], sum 292</span>
 <span class="err">[83, 19, 67, 64, 6, 97], sum 336`</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>However, these children all perform worse and will never be considered for the new population, and this is how we get stuck in a&nbsp;loop.</p>
 <p>If we&#8217;d used a bit-representation, or other workarounds, this would&#8217;ve worked better. For example use another check: if there is no change in the population members: do <code>threshold := threshold - 1</code>. Still, it&#8217;s good enough to show the workings of the&nbsp;algorithm.</p>

@@ -77,22 +77,19 @@
 	
 	    <p>Another one of these things I always end up forgetting: setting up a Linux (in this case: Ubuntu) server so that users can login using a <span class="caps">VNC</span> client and get a (slim)&nbsp;desktop.</p>
 <p>First thing you need to do is make sure you have a <span class="caps">VNC</span> server (<code>tightvncserver</code>), desktop apps and window manager installed.&nbsp;E.g.:</p>
-<div class="highlight"><pre><span></span><span class="err">apt-get -y install ubuntu-desktop tightvncserver xfce4 xfce4-goodies</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">apt-get -y install ubuntu-desktop tightvncserver xfce4 xfce4-goodies</span>
+</code></pre></div>
 
 <p>Next, add a user (if you haven&#8217;t already) for the remote user going to&nbsp;login:</p>
-<div class="highlight"><pre><span></span><span class="err">adduser remote_user</span>
+<div class="highlight"><pre><span></span><code><span class="err">adduser remote_user</span>
 <span class="err">passwd remote_user</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Add to sudoers if&nbsp;required.</p>
 <p>Next, set a <span class="caps">VNC</span> password. Best to set this to something else than normal&nbsp;password:</p>
-<div class="highlight"><pre><span></span><span class="err">su - remote_user</span>
+<div class="highlight"><pre><span></span><code><span class="err">su - remote_user</span>
 <span class="err">vncpasswd</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Next, create a <code>vncserver.sh</code> helper script to start to <span class="caps">VNC</span> server for a&nbsp;user:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
@@ -121,7 +118,7 @@
 24
 25
 26
-27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+27</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PATH</span><span class="s2">:/usr/bin/&quot;</span>
 <span class="nb">export</span> <span class="nv">USER</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$2</span><span class="s2">&quot;</span>
 <span class="nb">export</span> <span class="nv">PWD</span><span class="o">=</span><span class="s2">&quot;/home/</span><span class="si">${</span><span class="nv">USER</span><span class="si">}</span><span class="s2">&quot;</span>
@@ -148,13 +145,11 @@ restart<span class="o">)</span>
 <span class="p">;;</span>
 <span class="k">esac</span>
 <span class="nb">exit</span> <span class="m">0</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>And start&nbsp;with:</p>
-<div class="highlight"><pre><span></span><span class="err">./vncserver.sh start remote_user 1</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">./vncserver.sh start remote_user 1</span>
+</code></pre></div>
 
 <p>The remote user is then able to login to port <code>5901</code>.</p>
 <p>Edit <code>/home/remote_user/.vnc/xstartup</code> to your liking. I&#8217;m using <span class="caps">LXDE</span>:</p>
@@ -162,12 +157,12 @@ restart<span class="o">)</span>
 2
 3
 4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/sh</span>
 xrdb <span class="nv">$HOME</span>/.Xresources
 xsetroot -solid black
 lxterminal <span class="p">&amp;</span>
 /usr/bin/lxsession -s LXDE <span class="p">&amp;</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
 	</article>
 </div>

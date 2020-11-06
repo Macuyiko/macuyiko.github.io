@@ -106,13 +106,12 @@ $(function() {
 
 <p>This post is the second part on a small series on cellular automata and graph based systems as found in games. Part 1 can be found <a href="//blog.macuyiko.com/post/2017/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-1.html">here</a>.</p>
 <p>In our last past, we ended up with a general framework to construct cellular automata. To refresh, a cellular automaton is a discrete simulation defined over a grid of cells, each one of which is carrying a state. For each cell, a set of cells called its neighborhood is defined relative to the specified cell. From an initial state, a simulation is started where each new generation is created according to a set of rules that determines the new state of each cell in terms of the current state of the cell and the states of the cells in its&nbsp;neighborhood:</p>
-<div class="highlight"><pre><span></span><span class="n">forever</span><span class="o">:</span>
+<div class="highlight"><pre><span></span><code><span class="n">forever</span><span class="o">:</span>
   <span class="k">for</span> <span class="k">each</span> <span class="n">current</span> <span class="n">cell</span> <span class="k">in</span> <span class="n">current</span> <span class="n">grid</span><span class="o">:</span>
     <span class="kd">get</span> <span class="n">current</span> <span class="n">neighborhood</span>
     <span class="n">determine</span> <span class="n">state</span> <span class="k">for</span> <span class="k">new</span> <span class="n">cell</span> <span class="n">based</span> <span class="n">on</span> <span class="n">current</span> <span class="n">cell</span> <span class="n">and</span> <span class="n">current</span> <span class="n">neighborhood</span>
   <span class="n">swap</span> <span class="k">new</span> <span class="n">grid</span> <span class="n">to</span> <span class="n">current</span> <span class="n">grid</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Left up to us is&nbsp;to:</p>
 <ul>
@@ -136,50 +135,47 @@ $(function() {
 <li>Based on a collection of rules, we only allow materials to &#8220;flow out&#8221;, decreasing the &#8220;remaining&#8221; count and material count in the next state, and increasing the material count in the next state for one of the neighboring&nbsp;cells</li>
 </ul>
 <p>In&nbsp;pseudocode:</p>
-<div class="highlight"><pre><span></span><span class="n">next_board</span> <span class="o">=</span> <span class="k">copy</span><span class="p">(</span><span class="n">this_board</span><span class="p">)</span>
-<span class="n">remaining_board</span> <span class="o">=</span> <span class="k">copy</span><span class="p">(</span><span class="n">this_board</span><span class="p">)</span>
-<span class="k">for</span> <span class="k">each</span> <span class="n">cell</span> <span class="k">in</span> <span class="n">this_board</span><span class="p">:</span>
-  <span class="o">//</span> <span class="n">based</span> <span class="k">on</span> <span class="n">rules</span><span class="p">,</span> <span class="n">perform</span> <span class="n">one</span> <span class="k">or</span> <span class="k">more</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="n">next_board</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">this_board</span><span class="p">)</span>
+<span class="n">remaining_board</span> <span class="o">=</span> <span class="n">copy</span><span class="p">(</span><span class="n">this_board</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">each</span> <span class="n">cell</span> <span class="ow">in</span> <span class="n">this_board</span><span class="p">:</span>
+  <span class="o">//</span> <span class="n">based</span> <span class="n">on</span> <span class="n">rules</span><span class="p">,</span> <span class="n">perform</span> <span class="n">one</span> <span class="ow">or</span> <span class="n">more</span><span class="p">:</span>
   <span class="n">flow</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">,</span> <span class="n">material</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
 <span class="n">this_board</span> <span class="o">=</span> <span class="n">next_board</span>
 
-<span class="n">func</span> <span class="n">flow</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">,</span> <span class="n">material</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
-  <span class="n">cell</span><span class="p">.</span><span class="n">material</span> <span class="k">in</span> <span class="n">remaining_board</span> <span class="o">-=</span> <span class="n">amount</span>
-  <span class="n">cell</span><span class="p">.</span><span class="n">material</span> <span class="k">in</span> <span class="n">next_board</span> <span class="o">-=</span> <span class="n">amount</span>
-  <span class="n">neighbor</span><span class="p">.</span><span class="n">material</span> <span class="k">in</span> <span class="n">next_board</span> <span class="o">+=</span> <span class="n">amount</span>
-</pre></div>
-
+<span class="k">func</span> <span class="n">flow</span><span class="p">(</span><span class="n">cell</span><span class="p">,</span> <span class="n">neighbor</span><span class="p">,</span> <span class="n">material</span><span class="p">,</span> <span class="n">amount</span><span class="p">):</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">material</span> <span class="ow">in</span> <span class="n">remaining_board</span> <span class="o">-=</span> <span class="n">amount</span>
+  <span class="n">cell</span><span class="o">.</span><span class="n">material</span> <span class="ow">in</span> <span class="n">next_board</span> <span class="o">-=</span> <span class="n">amount</span>
+  <span class="n">neighbor</span><span class="o">.</span><span class="n">material</span> <span class="ow">in</span> <span class="n">next_board</span> <span class="o">+=</span> <span class="n">amount</span>
+</code></pre></div>
 
 <h1>Basic&nbsp;example</h1>
 <p>Let&#8217;s try out this approach using a simple system: one with sand and&nbsp;floors.</p>
-<div class="highlight"><pre><span></span><span class="err">function setup() {</span>
-<span class="err">  createCanvas(520, 320);</span>
-<span class="err">  var types = [&#39;sand&#39;, &#39;floor&#39;];</span>
-<span class="err">  var w = 20;</span>
-<span class="err">  var cols = floor(width/w);</span>
-<span class="err">  var rows = floor(height/w);</span>
-<span class="err">  var colors = [[255, 160, 20], [50, 50, 50]];</span>
-<span class="err">  grid = new Grid(cols, rows, w, types, colors);</span>
-<span class="err">}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">function</span> <span class="n">setup</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">createCanvas</span><span class="p">(</span><span class="mi">520</span><span class="p">,</span> <span class="mi">320</span><span class="p">);</span>
+  <span class="k">var</span> <span class="n">types</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;sand&#39;</span><span class="p">,</span> <span class="s1">&#39;floor&#39;</span><span class="p">];</span>
+  <span class="k">var</span> <span class="n">w</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+  <span class="k">var</span> <span class="n">cols</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">width</span><span class="o">/</span><span class="n">w</span><span class="p">);</span>
+  <span class="k">var</span> <span class="n">rows</span> <span class="o">=</span> <span class="nb">floor</span><span class="p">(</span><span class="n">height</span><span class="o">/</span><span class="n">w</span><span class="p">);</span>
+  <span class="k">var</span> <span class="n">colors</span> <span class="o">=</span> <span class="p">[[</span><span class="mi">255</span><span class="p">,</span> <span class="mi">160</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span> <span class="p">[</span><span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">]];</span>
+  <span class="n">grid</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Grid</span><span class="p">(</span><span class="n">cols</span><span class="p">,</span> <span class="n">rows</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="n">colors</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p>Using the following simple update&nbsp;rule:</p>
-<div class="highlight"><pre><span></span><span class="err">function tick() {</span>
-<span class="err">  var downMaxSpeed = 1;</span>
-<span class="err">  grid.update(function(neighborhood) {</span>
-<span class="err">    // Fall sand</span>
-<span class="err">    if (neighborhood.bottom &amp;&amp; !neighborhood.bottom.current(&#39;floor&#39;)) {</span>
-<span class="err">      var sandHere = neighborhood.me.current(&#39;sand&#39;);</span>
-<span class="err">      var spaceBelow = 1 - neighborhood.bottom.current(&#39;sand&#39;);</span>
-<span class="err">      var flow = constrain(sandHere, 0, Math.min(downMaxSpeed, spaceBelow));</span>
-<span class="err">      neighborhood.me.flow(neighborhood.bottom, &#39;sand&#39;, flow);</span>
-<span class="err">    }</span>
-<span class="err">  });</span>
-<span class="err">  grid.finish();</span>
-<span class="err">}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">function</span> <span class="n">tick</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="n">downMaxSpeed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">Fall</span> <span class="n">sand</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">bottom</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">bottom</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;floor&#39;</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">var</span> <span class="n">sandHere</span> <span class="o">=</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;sand&#39;</span><span class="p">);</span>
+      <span class="k">var</span> <span class="n">spaceBelow</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">bottom</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;sand&#39;</span><span class="p">);</span>
+      <span class="k">var</span> <span class="n">flow</span> <span class="o">=</span> <span class="n">constrain</span><span class="p">(</span><span class="n">sandHere</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Math</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">downMaxSpeed</span><span class="p">,</span> <span class="n">spaceBelow</span><span class="p">));</span>
+      <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">flow</span><span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">bottom</span><span class="p">,</span> <span class="s1">&#39;sand&#39;</span><span class="p">,</span> <span class="n">flow</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">finish</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p>You can play around with the result here. Tip: pressing <code>o</code> cycles through the different material types to draw, <code>p</code> (un)pauses the simulation, <code>d</code> toggles debugging mode. Press <code>r</code> to reset everything. You might need to click inside first to give the iframe&nbsp;focus.</p>
 <div src="/iframes/cellular2/index.basic.html"
@@ -187,59 +183,57 @@ $(function() {
 
 <h1>Introducing&nbsp;water</h1>
 <p>This basic example is not that impressive yet. Let&#8217;s change things up a bit by defining a system for water instead. Our update rules now look as&nbsp;follows:</p>
-<div class="highlight"><pre><span></span><span class="err">function tick() {</span>
-<span class="err">  var downMaxSpeed = 1;</span>
-<span class="err">  grid.update(function(neighborhood) {</span>
-<span class="err">    // Water falls downwards</span>
-<span class="err">    var waterHere = neighborhood.me.current(&#39;water&#39;);</span>
-<span class="err">    var bottomPassable = isPassable(neighborhood, &#39;bottom&#39;);</span>
-<span class="err">    if (bottomPassable) {</span>
-<span class="err">      var spaceBelow = 1 - neighborhood.bottom.next(&#39;water&#39;);</span>
-<span class="err">      var flow = constrain(waterHere, 0, Math.min(downMaxSpeed, spaceBelow));</span>
-<span class="err">      neighborhood.me.flow(neighborhood.bottom, &#39;water&#39;, flow);</span>
-<span class="err">      waterHere -= flow;</span>
-<span class="err">    }</span>
-<span class="err">    // And also sideways if their&#39;s a floor beneath or lots of water</span>
-<span class="err">    var waterDown = bottomPassable ? neighborhood.down.current(&#39;water&#39;) : 1;</span>
-<span class="err">    if (waterDown &gt; 0.8 &amp;&amp; waterHere &gt; 0) {</span>
-<span class="err">      var sideFlow = getWaterSideOutFlow(neighborhood, waterHere);</span>
-<span class="err">      if (sideFlow[0] !== false)</span>
-<span class="err">        neighborhood.me.flow(neighborhood.left, &#39;water&#39;, sideFlow[0]);</span>
-<span class="err">      if (sideFlow[1] !== false)</span>
-<span class="err">        neighborhood.me.flow(neighborhood.right, &#39;water&#39;, sideFlow[1]);</span>
-<span class="err">      waterHere -= sideFlow[0] + sideFlow[1];</span>
-<span class="err">    }</span>
-<span class="err">  });</span>
-<span class="err">  grid.finish();</span>
-<span class="err">}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">function</span> <span class="n">tick</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="n">downMaxSpeed</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">)</span> <span class="p">{</span>
+    <span class="o">//</span> <span class="n">Water</span> <span class="n">falls</span> <span class="n">downwards</span>
+    <span class="k">var</span> <span class="n">waterHere</span> <span class="o">=</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">);</span>
+    <span class="k">var</span> <span class="n">bottomPassable</span> <span class="o">=</span> <span class="n">isPassable</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;bottom&#39;</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">bottomPassable</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">var</span> <span class="n">spaceBelow</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">bottom</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">);</span>
+      <span class="k">var</span> <span class="n">flow</span> <span class="o">=</span> <span class="n">constrain</span><span class="p">(</span><span class="n">waterHere</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">Math</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">downMaxSpeed</span><span class="p">,</span> <span class="n">spaceBelow</span><span class="p">));</span>
+      <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">flow</span><span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">bottom</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="n">flow</span><span class="p">);</span>
+      <span class="n">waterHere</span> <span class="o">-=</span> <span class="n">flow</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="o">//</span> <span class="n">And</span> <span class="n">also</span> <span class="n">sideways</span> <span class="k">if</span> <span class="n">their</span><span class="s1">&#39;s a floor beneath or lots of water</span>
+    <span class="k">var</span> <span class="n">waterDown</span> <span class="o">=</span> <span class="n">bottomPassable</span> <span class="err">?</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">down</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">)</span> <span class="p">:</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">waterDown</span> <span class="o">&gt;</span> <span class="mf">0.8</span> <span class="o">&amp;&amp;</span> <span class="n">waterHere</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">var</span> <span class="n">sideFlow</span> <span class="o">=</span> <span class="n">getWaterSideOutFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="n">waterHere</span><span class="p">);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">sideFlow</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!==</span> <span class="bp">false</span><span class="p">)</span>
+        <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">flow</span><span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="n">sideFlow</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">sideFlow</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!==</span> <span class="bp">false</span><span class="p">)</span>
+        <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">flow</span><span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="n">sideFlow</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+      <span class="n">waterHere</span> <span class="o">-=</span> <span class="n">sideFlow</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">sideFlow</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+    <span class="p">}</span>
+  <span class="p">});</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">finish</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p><code>getWaterSideOutFlow</code> is a helper function which determines how much water should be flown out to the left and right respectively to reach a &#8220;stable&#8221;&nbsp;level:</p>
-<div class="highlight"><pre><span></span><span class="err">function getWaterSideOutFlow(neighborhood, currentWater) {</span>
-<span class="err">  var divider = 1;</span>
-<span class="err">  var totalWater = currentWater;</span>
-<span class="err">  var doLeft = isPassable(neighborhood, &#39;left&#39;) &amp;&amp; </span>
-<span class="err">      neighborhood.left.current(&#39;water&#39;) &lt; currentWater;</span>
-<span class="err">  var doRight = isPassable(neighborhood, &#39;right&#39;) &amp;&amp; </span>
-<span class="err">      neighborhood.right.current(&#39;water&#39;) &lt; currentWater;</span>
-<span class="err">  if (doLeft) {</span>
-<span class="err">    divider += 1;</span>
-<span class="err">    totalWater += neighborhood.left.current(&#39;water&#39;);</span>
-<span class="err">  }</span>
-<span class="err">  if (doRight) {</span>
-<span class="err">    divider += 1;</span>
-<span class="err">    totalWater += neighborhood.right.current(&#39;water&#39;);</span>
-<span class="err">  }</span>
-<span class="err">  var stableLevel = totalWater / divider;</span>
-<span class="err">  var toLeft = !isPassable(neighborhood, &#39;left&#39;) ? false :</span>
-<span class="err">      Math.max(0, stableLevel - neighborhood.left.current(&#39;water&#39;));</span>
-<span class="err">  var toRight = !isPassable(neighborhood, &#39;right&#39;) ? false :</span>
-<span class="err">      Math.max(0, stableLevel - neighborhood.right.current(&#39;water&#39;));</span>
-<span class="err">  return [toLeft, toRight];</span>
-<span class="err">}</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="n">function</span> <span class="n">getWaterSideOutFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="n">currentWater</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">var</span> <span class="n">divider</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+  <span class="k">var</span> <span class="n">totalWater</span> <span class="o">=</span> <span class="n">currentWater</span><span class="p">;</span>
+  <span class="k">var</span> <span class="n">doLeft</span> <span class="o">=</span> <span class="n">isPassable</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> 
+      <span class="n">neighborhood</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">currentWater</span><span class="p">;</span>
+  <span class="k">var</span> <span class="n">doRight</span> <span class="o">=</span> <span class="n">isPassable</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> 
+      <span class="n">neighborhood</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">currentWater</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">doLeft</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">divider</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">totalWater</span> <span class="o">+=</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">doRight</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">divider</span> <span class="o">+=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">totalWater</span> <span class="o">+=</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">);</span>
+  <span class="p">}</span>
+  <span class="k">var</span> <span class="n">stableLevel</span> <span class="o">=</span> <span class="n">totalWater</span> <span class="o">/</span> <span class="n">divider</span><span class="p">;</span>
+  <span class="k">var</span> <span class="n">toLeft</span> <span class="o">=</span> <span class="o">!</span><span class="n">isPassable</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">)</span> <span class="err">?</span> <span class="bp">false</span> <span class="p">:</span>
+      <span class="n">Math</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stableLevel</span> <span class="o">-</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">));</span>
+  <span class="k">var</span> <span class="n">toRight</span> <span class="o">=</span> <span class="o">!</span><span class="n">isPassable</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">)</span> <span class="err">?</span> <span class="bp">false</span> <span class="p">:</span>
+      <span class="n">Math</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">stableLevel</span> <span class="o">-</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">current</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">));</span>
+  <span class="k">return</span> <span class="p">[</span><span class="n">toLeft</span><span class="p">,</span> <span class="n">toRight</span><span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p>Of course, we could play around with this &#8212; a much easier option is to move water around to the left or right randomly (which is the option many systems go for), though this leads to a kind of jittery&nbsp;effect.</p>
 <p>You can play around with the result below. Again: pressing <code>o</code> cycles through the different material types to draw, <code>p</code> (un)pauses the simulation, <code>d</code> toggles debugging mode. Press <code>r</code> to reset everything. The simulation below starts from a preset scenario, though feel free to play around with this (break a hole in one of the walls, for instance). One interesting aspect you&#8217;ll note is that this simulation does not adhere to &#8220;real&#8221; pressure dynamics (i.e. modeling &#8220;<a href="https://en.wikipedia.org/wiki/Communicating_vessels">communicating vessels</a>&#8221; is not working here). This is another aspect most cellular automaton based systems fail to model correctly and something we&#8217;ll fix in a&nbsp;bit.</p>
@@ -248,7 +242,7 @@ $(function() {
 
 <h1>Fixing&nbsp;pressure</h1>
 <p>Let&#8217;s expand on the previous example a bit to fix the communicating vessel issue. First, we&#8217;ll add to general purpose methods as follows (note how the &#8220;remaining&#8221; variables come into play&nbsp;here):</p>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">doVerticalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="n">doVerticalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="n">speed</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
 <span class="w">  </span><span class="k">if</span><span class="w"> </span><span class="p">(</span><span class="n">typeof</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">===</span><span class="w"> </span><span class="ss">&quot;undefined&quot;</span><span class="p">)</span><span class="w"> </span><span class="n">speed</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 <span class="w">  </span><span class="nf">var</span><span class="w"> </span><span class="n">passable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isPassable</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="nf">var</span><span class="w"> </span><span class="n">liquid</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="n">type</span><span class="p">);</span><span class="w"></span>
@@ -274,8 +268,7 @@ $(function() {
 <span class="w">      </span><span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">flow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="nf">right</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">sideFlow</span><span class="o">[</span><span class="n">1</span><span class="o">]/</span><span class="n">fluidity</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="err">}</span><span class="w"></span>
 <span class="err">}</span><span class="w"></span>
-</pre></div>
-
+</code></pre></div>
 
 <p>These will be used to update down/upwards (vertical) and side (horizontal) flow respectively, with several parameters to set to determine the &#8220;stickyness&#8221; and so on of horizontal&nbsp;flow.</p>
 <p>To handle pressure, we&#8217;ll utilize a similar &#8220;teleportation&#8221; trick as done in <a href="http://dwarffortresswiki.org/index.php/v0.34:Flow#Fluids_under_pressure.2C_aka_Teleportation">Dwarf Fortress</a>:</p>
@@ -283,7 +276,7 @@ $(function() {
 <p>Fluids moving under pressure do not just move to adjacent tiles, they also trace a path through other full tiles of fluid trying to move to more distant tiles. Fluids moving under pressure can effectively teleport through other tiles that are already filled with fluid. When teleporting, fluids do not generate any flow, neither will they push objects&nbsp;around.</p>
 </blockquote>
 <p>This is handled by the following&nbsp;functions:</p>
-<div class="highlight"><pre><span></span><span class="k">function</span><span class="w"> </span><span class="n">isPressured</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="n">liquid</span><span class="p">,</span><span class="w"> </span><span class="n">minliquid</span><span class="p">,</span><span class="w"> </span><span class="n">minpressure</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
+<div class="highlight"><pre><span></span><code><span class="k">function</span><span class="w"> </span><span class="n">isPressured</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">,</span><span class="w"> </span><span class="n">liquid</span><span class="p">,</span><span class="w"> </span><span class="n">minliquid</span><span class="p">,</span><span class="w"> </span><span class="n">minpressure</span><span class="p">)</span><span class="w"> </span><span class="err">{</span><span class="w"></span>
 <span class="w">  </span><span class="nf">var</span><span class="w"> </span><span class="n">passable</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isPassable</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span><span class="w"> </span><span class="n">direction</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="nf">var</span><span class="w"> </span><span class="n">pressure</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">!</span><span class="n">passable</span><span class="w"> </span><span class="vm">?</span><span class="w"> </span><span class="mi">0</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">neighborhood</span><span class="o">[</span><span class="n">direction</span><span class="o">]</span><span class="p">.</span><span class="k">current</span><span class="p">(</span><span class="n">type</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="nf">var</span><span class="w"> </span><span class="n">pressured</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pressure</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">minpressure</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="n">liquid</span><span class="w"> </span><span class="o">&gt;=</span><span class="w"> </span><span class="n">minliquid</span><span class="p">;</span><span class="w"></span>
@@ -336,11 +329,10 @@ $(function() {
 <span class="w">    </span><span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">flow</span><span class="p">(</span><span class="n">thatneighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">,</span><span class="w"> </span><span class="n">type</span><span class="p">,</span><span class="w"> </span><span class="n">flow</span><span class="p">);</span><span class="w"></span>
 <span class="w">  </span><span class="err">}</span><span class="w"></span>
 <span class="err">}</span><span class="w"></span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Putting everything together in our update rule&nbsp;set:</p>
-<div class="highlight"><pre><span></span><span class="err">function tick() {</span>
+<div class="highlight"><pre><span></span><code><span class="err">function tick() {</span>
 <span class="err">  grid.update(function(neighborhood) {</span>
 <span class="err">    doVerticalFlow(neighborhood, &#39;water&#39;, &#39;down&#39;, 1);</span>
 <span class="err">    doHorizontalFlow(neighborhood, &#39;water&#39;, &#39;down&#39;, 0.7, 0, 1);</span>
@@ -348,8 +340,7 @@ $(function() {
 <span class="err">  });</span>
 <span class="err">  grid.finish();</span>
 <span class="err">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>We get the following result. Again: pressing <code>o</code> cycles through the different material types to draw, <code>p</code> (un)pauses the simulation, <code>d</code> toggles debugging mode. Press <code>r</code> to reset everything. Note how the &#8220;vessels&#8221; now stabilize (try filling up one side by drawing some water in the&nbsp;air):</p>
 <div src="/iframes/cellular2/index.pressure.html"
@@ -357,44 +348,43 @@ $(function() {
 
 <h1>Expansion</h1>
 <p>Expanding on this system is now relatively easy. The following simulation defines three new material types: lava, steam, and ice. Cells that mix lava and water will convert this water to steam, which flows upwards in a more random manner (to allow steam to linger in a cell from time to time). When steam touches an ice block in one of its neighbors, it converts back to water. The teleportation trick is only used for water in the simulation&nbsp;below:</p>
-<div class="highlight"><pre><span></span><span class="k">function</span> <span class="n">tick</span><span class="p">()</span> <span class="err">{</span>
-  <span class="n">grid</span><span class="p">.</span><span class="k">update</span><span class="p">(</span><span class="k">function</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">)</span> <span class="err">{</span>
+<div class="highlight"><pre><span></span><code><span class="n">function</span> <span class="n">tick</span><span class="p">()</span> <span class="p">{</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">function</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">)</span> <span class="p">{</span>
     <span class="n">doVerticalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
     <span class="n">doVerticalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;lava&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="n">doHorizontalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-    <span class="n">doHorizontalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;lava&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="err">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">19</span><span class="p">)</span> <span class="err">{</span>
-        <span class="n">doVerticalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="p">);</span>
-      <span class="err">}</span> <span class="k">else</span> <span class="err">{</span>
-        <span class="n">doVerticalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">4</span><span class="p">);</span>
-      <span class="err">}</span>
-    <span class="err">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="err">{</span>
-      <span class="n">doHorizontalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">.</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
-    <span class="err">}</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;lava&#39;</span><span class="p">))</span> <span class="err">{</span>
-      <span class="n">var</span> <span class="n">vaporation</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="k">min</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">),</span> <span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;lava&#39;</span><span class="p">));</span>
-      <span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">flow</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="n">vaporation</span><span class="p">);</span>
-      <span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">flow</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="o">-</span><span class="n">vaporation</span><span class="p">);</span>
-    <span class="err">}</span>
+    <span class="n">doHorizontalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="n">doHorizontalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;lava&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">7</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">19</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">doVerticalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="s1">&#39;down&#39;</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">);</span>
+      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">doVerticalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="mf">0.4</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">random</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">8</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">doHorizontalFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">,</span> <span class="mf">0.8</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;lava&#39;</span><span class="p">))</span> <span class="p">{</span>
+      <span class="k">var</span> <span class="n">vaporation</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;water&#39;</span><span class="p">),</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;lava&#39;</span><span class="p">));</span>
+      <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">flow</span><span class="p">(</span><span class="nb nb-Type">null</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="n">vaporation</span><span class="p">);</span>
+      <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">flow</span><span class="p">(</span><span class="nb nb-Type">null</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="o">-</span><span class="n">vaporation</span><span class="p">);</span>
+    <span class="p">}</span>
 
-    <span class="n">var</span> <span class="n">icenearby</span> <span class="o">=</span> <span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="n">up</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="p">.</span><span class="n">up</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;ice&#39;</span><span class="p">))</span> <span class="o">||</span>
-      <span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="n">down</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="p">.</span><span class="n">down</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;ice&#39;</span><span class="p">))</span> <span class="o">||</span> 
-      <span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="k">left</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="p">.</span><span class="k">left</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;ice&#39;</span><span class="p">))</span> <span class="o">||</span> 
-      <span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="k">right</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="p">.</span><span class="k">right</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;ice&#39;</span><span class="p">))</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;steam&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">icenearby</span><span class="p">)</span> <span class="err">{</span>
-      <span class="n">var</span> <span class="n">vaporation</span> <span class="o">=</span> <span class="n">Math</span><span class="p">.</span><span class="k">min</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;steam&#39;</span><span class="p">),</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">);</span>
-      <span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">flow</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="n">vaporation</span><span class="p">);</span>
-      <span class="n">neighborhood</span><span class="p">.</span><span class="n">me</span><span class="p">.</span><span class="n">flow</span><span class="p">(</span><span class="k">null</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="o">-</span><span class="n">vaporation</span><span class="p">);</span>
-    <span class="err">}</span>
+    <span class="k">var</span> <span class="n">icenearby</span> <span class="o">=</span> <span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">up</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;ice&#39;</span><span class="p">))</span> <span class="o">||</span>
+      <span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">down</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">down</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;ice&#39;</span><span class="p">))</span> <span class="o">||</span> 
+      <span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">left</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;ice&#39;</span><span class="p">))</span> <span class="o">||</span> 
+      <span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">right</span> <span class="o">&amp;&amp;</span> <span class="n">neighborhood</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;ice&#39;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;steam&#39;</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="n">icenearby</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">var</span> <span class="n">vaporation</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">remaining</span><span class="p">(</span><span class="s1">&#39;steam&#39;</span><span class="p">),</span> <span class="mf">0.2</span><span class="p">);</span>
+      <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">flow</span><span class="p">(</span><span class="nb nb-Type">null</span><span class="p">,</span> <span class="s1">&#39;steam&#39;</span><span class="p">,</span> <span class="n">vaporation</span><span class="p">);</span>
+      <span class="n">neighborhood</span><span class="o">.</span><span class="n">me</span><span class="o">.</span><span class="n">flow</span><span class="p">(</span><span class="nb nb-Type">null</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="o">-</span><span class="n">vaporation</span><span class="p">);</span>
+    <span class="p">}</span>
 
     <span class="n">doPressureFlow</span><span class="p">(</span><span class="n">neighborhood</span><span class="p">,</span> <span class="s1">&#39;water&#39;</span><span class="p">,</span> <span class="s1">&#39;up&#39;</span><span class="p">);</span>
-  <span class="err">}</span><span class="p">);</span>
-  <span class="n">grid</span><span class="p">.</span><span class="n">finish</span><span class="p">();</span>
-<span class="err">}</span>
-</pre></div>
-
+  <span class="p">});</span>
+  <span class="n">grid</span><span class="o">.</span><span class="n">finish</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div>
 
 <p>You can play around with the result below. Again: pressing <code>o</code> cycles through the different material types to draw, <code>p</code> (un)pauses the simulation, <code>d</code> toggles debugging mode. Press <code>r</code> to reset everything. The initial setup loads in a closed system where water is heated, cycled, and cooled&nbsp;down:</p>
 <div src="/iframes/cellular2/index.lava.html"

@@ -81,10 +81,9 @@
 </blockquote>
 <p>Quick research showed that this had something to do with <span class="caps">MSXML</span> 4.0. So I went <a href="http://www.microsoft.com/downloads/details.aspx?familyid=3144b72b-b4f2-46da-b4b6-c5d7485f2b42&amp;displaylang=en">here</a> and downloaded the msi installer. Which alas gave me the same&nbsp;error.</p>
 <p>It turns out you have to force an uninstall of <span class="caps">MSXML</span> 4.0 <span class="caps">SP0</span> or <span class="caps">SP1</span>, open a cmd-window and enter the following two&nbsp;lines:</p>
-<div class="highlight"><pre><span></span><span class="err">msiexec /qn /x {35343FF7-939B-401A-87B3-FF90A5123D88}</span>
+<div class="highlight"><pre><span></span><code><span class="err">msiexec /qn /x {35343FF7-939B-401A-87B3-FF90A5123D88}</span>
 <span class="err">msiexec /qn /x {2AEBE10C-D819-4EBF-BC60-03BF2327D340}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Close and <em>restart</em>. Yes: you must&nbsp;restart.</p>
 <p>Now install the msi. Then install the Nokia software. Everything should work fine&nbsp;now.</p>

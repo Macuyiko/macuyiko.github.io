@@ -82,7 +82,7 @@
 <p>Download Impressive from the <a href="http://impressive.sourceforge.net/">official web page</a>. Make sure you have Python installed. Extract it&nbsp;somewhere.</p>
 <p>Note: you can follow along with the instructions and perform them yourself, or you can read on and download a packaged <span class="caps">ZIP</span>-file at the end if this&nbsp;post.</p>
 <p>Test drive Impressive by running the following command in a terminal (make sure you&#8217;re in the correct&nbsp;directory):</p>
-<div class="highlight"><pre><span></span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">Impressive</span><span class="o">-</span><span class="mf">0.10</span><span class="o">.</span><span class="mi">2</span><span class="err">$</span> <span class="o">./</span><span class="n">impressive</span><span class="o">.</span><span class="n">py</span> <span class="n">demo</span><span class="o">.</span><span class="n">pdf</span>
+<div class="highlight"><pre><span></span><code><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">Impressive</span><span class="o">-</span><span class="mf">0.10</span><span class="o">.</span><span class="mi">2</span><span class="err">$</span> <span class="o">./</span><span class="n">impressive</span><span class="o">.</span><span class="n">py</span> <span class="n">demo</span><span class="o">.</span><span class="n">pdf</span>
 
 <span class="n">Welcome</span> <span class="n">to</span> <span class="n">Impressive</span> <span class="n">version</span> <span class="mf">0.10</span><span class="o">.</span><span class="mi">2</span>
 <span class="o">./</span><span class="n">impressive</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">94</span><span class="p">:</span> <span class="ne">DeprecationWarning</span><span class="p">:</span> <span class="n">the</span> <span class="n">md5</span> <span class="n">module</span> <span class="ow">is</span> <span class="n">deprecated</span><span class="p">;</span> <span class="n">use</span> <span class="n">hashlib</span> <span class="n">instead</span>
@@ -92,8 +92,7 @@
 <span class="n">Using</span> <span class="n">GL_ARB_texture_non_power_of_two</span><span class="o">.</span>
 <span class="n">Note</span><span class="p">:</span> <span class="n">pdftk</span> <span class="n">failed</span><span class="p">,</span> <span class="n">hyperlinks</span> <span class="n">disabled</span><span class="o">.</span>
 <span class="n">Total</span> <span class="n">presentation</span> <span class="n">time</span><span class="p">:</span> <span class="mi">0</span><span class="p">:</span><span class="mf">03.</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Press <span class="caps">ESC</span> to close the presentation. Do you see the demo presentation? Good. Take some time to familiarize yourself with the features (they&#8217;re explained in the demo slide, so you can test them out on the&nbsp;fly.</p>
 <p>Don&#8217;t worry about the DeprecationWarning and the pdftk error. We won&#8217;t be using&nbsp;hyperlinks.</p>
@@ -107,25 +106,22 @@
 <p>In the top-folder (where <code>impressive.py</code> resides), we&#8217;ll create some simple support&nbsp;scripts.</p>
 <p>First: <code>start.sh</code> &#8212; a simple script to start our&nbsp;presentation:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 python impressive.py ./Presentation/presentation.pdf
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Next: <code>clone.sh</code> &#8212; a simple script to clone our two&nbsp;screens:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 xrandr --output LVDS1 --mode 1024x768 --output VGA1 --same-as LVDS1 --mode 1024x768
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Then: <code>dual.sh</code> &#8212; a simple script to enable dualscreen (same resolution, screens above each other, which works best on most&nbsp;configurations):</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 xrandr --output LVDS1 --mode 1024x768 --output VGA1 --above LVDS1 --mode 1024x768<span class="sb">`</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p><code>converter.sh</code> &#8212; script to make thumbnails for our presenter view, this needs&nbsp;ImageMagick:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
  2
@@ -136,7 +132,7 @@ xrandr --output LVDS1 --mode 1024x768 --output VGA1 --above LVDS1 --mode 1024x76
  7
  8
  9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="ch">#!/bin/bash</span>
 <span class="nb">echo</span> Removing old images...<span class="p">;</span>
 rm ./Presentation/Slides/slide-*.png<span class="p">;</span>
 <span class="nb">echo</span> Converting...<span class="p">;</span>
@@ -146,11 +142,10 @@ convert ./Presentation/presentation.pdf -density <span class="m">100</span> slid
   <span class="nb">echo</span> Moving <span class="nv">$filename</span><span class="p">;</span>
   mv <span class="nv">$filename</span> ./Presentation/Slides/<span class="nv">$filename</span><span class="p">;</span>
 <span class="k">done</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p><code>makeinfo.php</code> &#8212; <span class="caps">PHP</span> script to generate our info file Impress will use, needs <span class="caps">PHP</span> <span class="caps">CLI</span>:</p>
-<div class="highlight"><pre><span></span><span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
+<div class="highlight"><pre><span></span><code><span class="o">&lt;</span><span class="err">?</span><span class="n">php</span>
 <span class="k">if</span> <span class="p">(</span><span class="n">count</span><span class="p">(</span><span class="err">$</span><span class="n">argv</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">)</span>
   <span class="n">die</span> <span class="p">(</span><span class="s2">&quot;Provide number of pages</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">);</span>
 <span class="err">$</span><span class="n">nrpages</span> <span class="o">=</span> <span class="err">$</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
@@ -180,15 +175,14 @@ convert ./Presentation/presentation.pdf -density <span class="m">100</span> slid
 <span class="n">file_put_contents</span><span class="p">(</span><span class="s2">&quot;./Presentation/presentation.pdf.info&quot;</span><span class="p">,</span> <span class="n">ob_get_contents</span><span class="p">());</span>
 <span class="n">ob_end_clean</span><span class="p">();</span>
 <span class="err">?</span><span class="o">&gt;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>You now have the following folder&nbsp;structure:</p>
 <p><img alt="" src="http://1.bp.blogspot.com/_X4W-h82Vgjw/SxqK6fLyQEI/AAAAAAAAPRs/nFVKeMvDz_U/s320/Screenshot-1.png"></p>
 <h3>Step 4: create the <span class="caps">HTML</span>&nbsp;page</h3>
 <p>In the Presentation-folder, we&#8217;ll create an <span class="caps">HTML</span>&nbsp;page.</p>
 <p><code>PresenterView.html</code>:</p>
-<div class="highlight"><pre><span></span><span class="nt">&lt;html&gt;</span>
+<div class="highlight"><pre><span></span><code><span class="nt">&lt;html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
   <span class="nt">&lt;title&gt;</span>Presenter View<span class="nt">&lt;/title&gt;</span>
 <span class="nt">&lt;style&gt;</span>
@@ -303,8 +297,7 @@ Current slide:<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
   <span class="nt">&lt;div</span> <span class="na">id=</span><span class="s">&quot;time&quot;</span><span class="nt">&gt;</span>Clock: <span class="nt">&lt;span</span> <span class="na">id=</span><span class="s">&quot;val_time&quot;</span><span class="nt">&gt;</span>?<span class="nt">&lt;/span&gt;&lt;/div&gt;</span>
 <span class="nt">&lt;/body&gt;</span>
 <span class="nt">&lt;/html&gt;</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This page uses <a href="http://docs.jquery.com/Downloading_jQuery#Current_Release">jQuery</a> for a bit of <span class="caps">AJAX</span>-magic. So make sure <code>jquery-1.3.2.min.js</code> is placed in the Presentation-folder as&nbsp;well.</p>
 <p>And we&#8217;re done. We can now start preparing and giving our&nbsp;presentation&#8230;</p>
@@ -312,26 +305,24 @@ Current slide:<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
 <p><strong>(1 - Convert to <span class="caps">PDF</span>)</strong> Create a nice presentation in Openoffice or Powerpoint. Save it as <span class="caps">PDF</span>-slides. Rename your <span class="caps">PDF</span>-file to <code>presentation.pdf</code> and put it in the Presentation-folder. You now have the following folder&nbsp;structure:</p>
 <p><img alt="" src="http://4.bp.blogspot.com/_X4W-h82Vgjw/SxqN-negDAI/AAAAAAAAPRw/o4inpHJvLZ4/s1600/Screenshot-2.png"></p>
 <p><strong>(2 - Make thumbnails)</strong> Open a terminal, cd to your top-folder, and execute the&nbsp;converter.sh-script:</p>
-<div class="highlight"><pre><span></span><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">Impressive</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="err">$</span> <span class="p">.</span><span class="o">/</span><span class="n">converter</span><span class="p">.</span><span class="n">sh</span>
+<div class="highlight"><pre><span></span><code><span class="o">~/</span><span class="n">Desktop</span><span class="o">/</span><span class="n">Impressive</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span><span class="mi">2</span><span class="err">$</span> <span class="p">.</span><span class="o">/</span><span class="n">converter</span><span class="p">.</span><span class="n">sh</span>
 
 <span class="n">Removing</span> <span class="k">old</span> <span class="n">images</span><span class="p">...</span>
 <span class="n">Converting</span><span class="p">...</span>
 <span class="n">Moving</span> <span class="n">slide</span><span class="o">-</span><span class="mi">0</span><span class="p">.</span><span class="n">png</span>
 <span class="n">Moving</span> <span class="n">slide</span><span class="o">-</span><span class="mi">1</span><span class="p">.</span><span class="n">png</span>
 <span class="n">Moving</span> <span class="n">slide</span><span class="o">-</span><span class="mi">2</span><span class="p">.</span><span class="n">png</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>Your Presentation/Slides-folder should now contain a bunch of <span class="caps">PNG</span>-files.</p>
 <p><strong>(3 - Make notes)</strong> In the Presentation/Text folder, create <code>text-n.txt</code> files where <em>n</em> is the number of the slide. In the text file: write short notes you want to see for that slide (you may use <span class="caps">HTML</span>&nbsp;formatting).</p>
 <p><strong>(4 - Create the Impress info script)</strong> Run the <span class="caps">PHP</span>&nbsp;file:</p>
-<div class="highlight"><pre><span></span><span class="err">~/Desktop/Impressive-0.10.2$ php makeinfo.php 3</span>
-</pre></div>
-
+<div class="highlight"><pre><span></span><code><span class="err">~/Desktop/Impressive-0.10.2$ php makeinfo.php 3</span>
+</code></pre></div>
 
 <p>In my example, I have three slides, so I use <code>3</code> as the argument. Make sure the number you use is equal (or higher) than your number of&nbsp;slides!</p>
 <p>This will have created a <code>presentation.pdf.info</code> file in the&nbsp;Presentation-folder:</p>
-<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">json</span>
+<div class="highlight"><pre><span></span><code><span class="kn">import</span> <span class="nn">json</span>
 <span class="k">def</span> <span class="nf">UpdateInfo</span><span class="p">():</span>
   <span class="k">global</span> <span class="n">FileName</span><span class="p">,</span> <span class="n">FileList</span><span class="p">,</span> <span class="n">PageCount</span>
   <span class="k">global</span> <span class="n">DocumentTitle</span>
@@ -355,8 +346,7 @@ Current slide:<span class="nt">&lt;br</span> <span class="nt">/&gt;</span>
   <span class="s1">&#39;OnEnter&#39;</span><span class="p">:</span> <span class="n">UpdateInfo</span>
 <span class="p">},</span>
   <span class="p">}</span>
-</pre></div>
-
+</code></pre></div>
 
 <p>This script provides Impressive with the necessary actions: every time we enter a script, we write some <span class="caps">JSON</span>-information (time, current slide, next slide,&#8230;) to <code>json.txt</code>. This file will be polled continuously by jQuery in our <span class="caps">HTML</span>-page. Also note that I&#8217;m not using transitions. (You can change that if you&nbsp;want.)</p>
 <p>One last time, your structure should look like&nbsp;this:</p>
