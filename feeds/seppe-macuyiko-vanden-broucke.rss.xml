@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<rss version="2.0"><channel><title>Bed Against The Wall - Seppe "Macuyiko" vanden Broucke</title><link>//blog.macuyiko.com/</link><description></description><lastBuildDate>Wed, 04 Nov 2020 22:30:00 +0100</lastBuildDate><item><title>Rigging Match 3 Games</title><link>//blog.macuyiko.com/post/2020/rigging-match-3-games.html</link><description>&lt;script&gt;
+<rss version="2.0"><channel><title>Bed Against The Wall - Seppe "Macuyiko" vanden Broucke</title><link>//blog.macuyiko.com/</link><description></description><lastBuildDate>Sun, 08 Nov 2020 22:31:00 +0100</lastBuildDate><item><title>An Exploration of Cellular Automata and Graph Based Game Systems: Part 4</title><link>//blog.macuyiko.com/post/2020/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-4.html</link><description>&lt;script&gt;
+$(function() {
+    $('.toggle').each(function(index) {
+        var toggler = $('&lt;div style="margin: 8px 0; background-color: #E3E0FF; cursor: pointer; padding: 8px;"&gt;Toggle iframe&lt;/div&gt;');
+        toggler.insertBefore($(this));
+        toggler.click(function() {
+            var elt = $(this).next('.toggle');
+            var newElt = $("&lt;iframe&gt;&lt;/iframe&gt;")
+            Array.prototype.slice.call(elt.get(0).attributes).forEach(function(a) {
+                newElt.attr(a …&lt;/script&gt;</description><dc:creator xmlns:dc="http://purl.org/dc/elements/1.1/">Seppe "Macuyiko" vanden Broucke</dc:creator><pubDate>Sun, 08 Nov 2020 22:31:00 +0100</pubDate><guid isPermaLink="false">tag:blog.macuyiko.com,2020-11-08:/post/2020/an-exploration-of-cellular-automata-and-graph-based-game-systems-part-4.html</guid><category>2020</category></item><item><title>Rigging Match 3 Games</title><link>//blog.macuyiko.com/post/2020/rigging-match-3-games.html</link><description>&lt;script&gt;
 $(function() {
     $('.toggle').each(function(index) {
         var toggler = $('&lt;div style="margin: 8px 0; background-color: #E3E0FF; cursor: pointer; padding: 8px;"&gt;Toggle iframe&lt;/div&gt;');
