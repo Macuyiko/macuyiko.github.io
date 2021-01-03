@@ -2416,16 +2416,16 @@ tag::before { content: "#"; }
 &lt;p&gt;Feature importance rankings are great, but they&amp;#8217;re not all-revealing. A common practice for instance is to use random forests or other ensemble models as a feature selection tool by first training them on the full feature set, and then using the feature importance rankings to select the top-n variables to keep in the productionized model (and hence retraining the model on the selected model). Think data-driven feature selection. This is a somewhat common approach which has been operationalized in packages such as &lt;a href="https://cran.r-project.org/web/packages/Boruta/index.html"&gt;Boruta&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;The problem, however, is that it is easy to drop features using this strategy in case when they interact with other&amp;nbsp;features.&lt;/p&gt;
 &lt;p&gt;As an example, let us construct a synthetic data set where &lt;code&gt;y ~ x0 * x1 + x2 + noise&lt;/code&gt;. I.e. x0 and x1 interact. If we train a random forest or gradient boosting model even such a simple data set and assess the feature importance scores using scikit-learn, the problem becomes&amp;nbsp;clear:&lt;/p&gt;
-&lt;div class="plain highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gbr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;feature_importances_&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
-&lt;span class="n"&gt;print&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;rfr&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;feature_importances_&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;div class="text highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;print(gbr.feature_importances_)
+print(rfr.feature_importances_)
 
-&lt;span class="n"&gt;gradient&lt;/span&gt; &lt;span class="n"&gt;boosting&lt;/span&gt; &lt;span class="n"&gt;rankings&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;     &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;17174317&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;19054922&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;6377076&lt;/span&gt; &lt;span class="p"&gt;]&lt;/span&gt;
-&lt;span class="n"&gt;random&lt;/span&gt; &lt;span class="n"&gt;forest&lt;/span&gt; &lt;span class="n"&gt;rankings&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;         &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;19065131&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;18586131&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;62348737&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+gradient boosting rankings:     [0.17174317, 0.19054922, 0.6377076 ]
+random forest rankings:         [0.19065131, 0.18586131, 0.62348737]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;scikit-learn doesn&amp;#8217;t implement permutation based importance rankings (at the time of writing; note that &lt;code&gt;feature_importances_&lt;/code&gt; uses impurity based importance), but using &lt;code&gt;rfpimp&lt;/code&gt; yields a similar&amp;nbsp;result:&lt;/p&gt;
-&lt;div class="plain highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;gradient boosting rankings:     [0.35668364, 0.37945421], 1.17092419]&lt;/span&gt;
-&lt;span class="err"&gt;random forest rankings:         [0.42673270, 0.43211179], 1.24873006]&lt;/span&gt;
+&lt;div class="text highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gradient boosting rankings:     [0.35668364, 0.37945421], 1.17092419]
+random forest rankings:         [0.42673270, 0.43211179], 1.24873006]
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Again, as we&amp;#8217;ve stated, one needs to be careful using feature importance implementations as-is: variable x2 gets all the attention whilst the importance of the first two variables seems rather&amp;nbsp;weak.&lt;/p&gt;
@@ -2487,15 +2487,15 @@ tag::before { content: "#"; }
 &lt;/ul&gt;
 &lt;h2&gt;A manual Python&amp;nbsp;implementation&lt;/h2&gt;
 &lt;p&gt;Especially in Python, the situation regarding the H-measure looks a bit bleak. Using &lt;code&gt;pdpbox&lt;/code&gt; to extract partial dependence values, we can however set up an implementation of both measures which work for any model. For two-way interactions (hiding the exact calculation of the H-measure until a bit later), we can compare our result with what &lt;code&gt;sklearn_gbmi&lt;/code&gt; tells us for&amp;nbsp;H2(jk):&lt;/p&gt;
-&lt;div class="plain highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;gradient&lt;/span&gt; &lt;span class="n"&gt;boosting&lt;/span&gt; &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="k"&gt;first&lt;/span&gt; &lt;span class="n"&gt;result&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;`sklearn_gbmi`&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="k"&gt;second&lt;/span&gt; &lt;span class="k"&gt;is&lt;/span&gt; &lt;span class="n"&gt;ours&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mf"&gt;0.3694527407798142&lt;/span&gt;     &lt;span class="mf"&gt;0.21799393342197507&lt;/span&gt;
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mf"&gt;0.04741546008708799&lt;/span&gt;    &lt;span class="mf"&gt;0.037965435191138985&lt;/span&gt;
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt; &lt;span class="mf"&gt;0.0350484030284537&lt;/span&gt;     &lt;span class="mf"&gt;0.03754977728770199&lt;/span&gt;
+&lt;div class="text highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gradient boosting (first result is sklearn_gbmi, second is ours):
+(&amp;#39;x0&amp;#39;, &amp;#39;x1&amp;#39;) 0.3694527407798142     0.21799393342197507
+(&amp;#39;x0&amp;#39;, &amp;#39;x2&amp;#39;) 0.04741546008708799    0.037965435191138985
+(&amp;#39;x1&amp;#39;, &amp;#39;x2&amp;#39;) 0.0350484030284537     0.03754977728770199
 
-&lt;span class="k"&gt;random&lt;/span&gt; &lt;span class="n"&gt;forest&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;                        &lt;span class="mf"&gt;0.252313467519671&lt;/span&gt;
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;                        &lt;span class="mf"&gt;0.03840902079127481&lt;/span&gt;
-&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;                        &lt;span class="mf"&gt;0.034315016474317464&lt;/span&gt;
+random forest:
+(&amp;#39;x0&amp;#39;, &amp;#39;x1&amp;#39;)                        0.252313467519671
+(&amp;#39;x0&amp;#39;, &amp;#39;x2&amp;#39;)                        0.03840902079127481
+(&amp;#39;x1&amp;#39;, &amp;#39;x2&amp;#39;)                        0.034315016474317464
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Small differences are due to handling of the construction of the values for the features under observation to &amp;#8220;slide&amp;#8221; over. &lt;code&gt;sklearn_gbmi&lt;/code&gt; uses the values as seen in the data set whereas &lt;code&gt;pdpbox&lt;/code&gt; using a grid based approach, but the results are comparable: both models show that variables x0 and x1&amp;nbsp;interact.&lt;/p&gt;
@@ -2612,14 +2612,14 @@ tag::before { content: "#"; }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;And can now&amp;nbsp;call:&lt;/p&gt;
-&lt;div class="plain highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="n"&gt;pdp_multi_interact&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;gbr&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;tr_X&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;xs&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="n"&gt;columns&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;x0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;x2&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;])&lt;/span&gt;
+&lt;div class="text highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;pdp_multi_interact(gbr, tr_X, xs.columns, [&amp;#39;x0&amp;#39;, &amp;#39;x1&amp;#39;, &amp;#39;x2&amp;#39;])
 
-    &lt;span class="n"&gt;x0&lt;/span&gt;          &lt;span class="n"&gt;x1&lt;/span&gt;          &lt;span class="n"&gt;x2&lt;/span&gt;          &lt;span class="n"&gt;preds&lt;/span&gt;
-&lt;span class="mi"&gt;0&lt;/span&gt;   &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000356&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000016&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000074&lt;/span&gt;    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;122989&lt;/span&gt;
-&lt;span class="mi"&gt;1&lt;/span&gt;   &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000356&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000016&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;111043&lt;/span&gt;    &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;005618&lt;/span&gt;
-&lt;span class="mi"&gt;2&lt;/span&gt;   &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000356&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000016&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;220973&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;149123&lt;/span&gt;
-&lt;span class="mi"&gt;3&lt;/span&gt;   &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000356&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;000016&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;338448&lt;/span&gt;    &lt;span class="mi"&gt;0&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="mi"&gt;305684&lt;/span&gt;
-&lt;span class="p"&gt;...&lt;/span&gt;
+    x0          x1          x2          preds
+0   0.000356    0.000016    0.000074    -0.122989
+1   0.000356    0.000016    0.111043    -0.005618
+2   0.000356    0.000016    0.220973    0.149123
+3   0.000356    0.000016    0.338448    0.305684
+...
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Next, we implement a function to calculate F values (i.e. partial dependence values) for (jkl&amp;#8230;) and all&amp;nbsp;subsets:&lt;/p&gt;
@@ -2679,21 +2679,23 @@ tag::before { content: "#"; }
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;Testing this on one of our models, we get, for the first-order H&amp;nbsp;measure:&lt;/p&gt;
-&lt;div class="plain highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;&lt;span class="err"&gt;x0 is in interaction: 0.2688984990347688&lt;/span&gt;
-&lt;span class="err"&gt;x1 is in interaction: 0.26778914050926556&lt;/span&gt;
-&lt;span class="err"&gt;x2 is in interaction: 0.10167180905369481&lt;/span&gt;
+&lt;div class="text highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;x0 is in interaction: 0.2688984990347688
+x1 is in interaction: 0.26778914050926556
+x2 is in interaction: 0.10167180905369481
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 
 &lt;p&gt;We can then calculate the second-order H-measure, also for higher-order&amp;nbsp;interactions:&lt;/p&gt;
-&lt;p&gt;&lt;code&gt;``plain
-gradient boosting (first result is&lt;/code&gt;sklearn_gbmi`, second is ours):
-(&amp;#8216;x0&amp;#8217;, &amp;#8216;x1&amp;#8217;)        0.3694527407798142      0.3965718336359157
-(&amp;#8216;x0&amp;#8217;, &amp;#8216;x2&amp;#8217;)        0.04741546008708799     0.04546491988445405
-(&amp;#8216;x0&amp;#8217;, &amp;#8216;x1&amp;#8217;, &amp;#8216;x2&amp;#8217;)  0.030489287134804244&amp;nbsp;0.028760391025931864&lt;/p&gt;
-&lt;p&gt;random forest:
-(&amp;#8216;x0&amp;#8217;, &amp;#8216;x1&amp;#8217;)                                0.42558760788710415
-(&amp;#8216;x0&amp;#8217;, &amp;#8216;x2&amp;#8217;)                                0.05978441740731955
-(&amp;#8216;x0&amp;#8217;, &amp;#8216;x1&amp;#8217;, &amp;#8216;x2&amp;#8217;)                          0.07713738471773776&amp;nbsp;&amp;#8220;`plain&lt;/p&gt;
+&lt;div class="text highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;code&gt;gradient boosting (first result is sklearn_gbmi, second is ours):
+(&amp;#39;x0&amp;#39;, &amp;#39;x1&amp;#39;)        0.3694527407798142      0.3965718336359157
+(&amp;#39;x0&amp;#39;, &amp;#39;x2&amp;#39;)        0.04741546008708799     0.04546491988445405
+(&amp;#39;x0&amp;#39;, &amp;#39;x1&amp;#39;, &amp;#39;x2&amp;#39;)  0.030489287134804244    0.028760391025931864
+
+random forest:
+(&amp;#39;x0&amp;#39;, &amp;#39;x1&amp;#39;)                                0.42558760788710415
+(&amp;#39;x0&amp;#39;, &amp;#39;x2&amp;#39;)                                0.05978441740731955
+(&amp;#39;x0&amp;#39;, &amp;#39;x1&amp;#39;, &amp;#39;x2&amp;#39;)                          0.07713738471773776
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
+
 &lt;p&gt;And that&amp;#8217;s it; a lot of &amp;#8220;set-up&amp;#8221; for a relatively simple payoff, though it does reveal how a deep understanding of the techniques you use is necessary to know in which cases they can fail, as well as the importance of taking a look at implementations to see what exactly they implement and what they do&amp;nbsp;not.&lt;/p&gt;
 &lt;p&gt;In my search on &amp;#8220;white washing&amp;#8221; black box models, I also discovered the following clever&amp;nbsp;approaches:&lt;/p&gt;
 &lt;ul&gt;
