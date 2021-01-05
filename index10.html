@@ -80,6 +80,20 @@
         
 		<article>
 			<header>
+				<div class="article-info">Sun 07 September 2008, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2008/virtualbox-expanding-a-disk-drive.html" rel="bookmark"
+				title="Permalink to Virtualbox: Expanding A Disk Drive">Virtualbox: Expanding A Disk&nbsp;Drive</a></div>
+			</header>
+			<div class="article-summary">
+					<p>I love Virtualbox, it&#8217;s definitely my virtualization platform of choice for daily tasks [1] on a Linux-host, and it&#8217;s quickly replacing VMware on Windows hosts as&nbsp;well.</p>
+<p>However, recently I had to expand a virtual partition of a Windows guest. There are already lots of options and methods …</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/virtualbox-expanding-a-disk-drive.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
 				<div class="article-info">Thu 17 July 2008, by Seppe "Macuyiko" vanden Broucke</div>
 				<div class="article-title"><a href="//blog.macuyiko.com/post/2008/odbc-missing-driver-64-bit.html" rel="bookmark"
 				title="Permalink to ODBC Missing Driver… 64 Bit"><span class="caps">ODBC</span> Missing Driver&#8230; 64&nbsp;Bit</a></div>
@@ -148,16 +162,16 @@
 			</header>
 			<div class="article-summary">
 					<p>Just found this, pretty&nbsp;handy!</p>
-<div class="highlight"><pre><span></span><code><span class="o">//</span> <span class="n">browser</span> <span class="n">detection</span>
-<span class="k">var</span> <span class="n">isIE</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE7</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">XMLHttpRequest</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">ActiveXObject</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE6</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">document</span><span class="o">.</span><span class="n">implementation</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isgteIE6</span> <span class="o">=</span> <span class="n">isIE7</span> <span class="n">isIE6</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE5</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">print</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isgteIE6</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIEDOM2</span> <span class="o">=</span> <span class="n">isIE5</span> <span class="n">isgteIE6</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE4</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span> <span class="o">&amp;&amp;</span> <span class="n">navigator</span><span class="o">.</span><span class="n">cookieEnabled</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE3</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIE4</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isNS …</span></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">// browser detection</span>
+<span class="err">var isIE = document.all;</span>
+<span class="err">var isIE7 = isIE &amp;&amp; window.XMLHttpRequest &amp;&amp; window.ActiveXObject;</span>
+<span class="err">var isIE6 = isIE &amp;&amp; document.implementation;</span>
+<span class="err">var isgteIE6 = isIE7 isIE6;</span>
+<span class="err">var isIE5 = isIE &amp;&amp; window.print &amp;&amp; !isgteIE6;</span>
+<span class="err">var isIEDOM2 = isIE5 isgteIE6;</span>
+<span class="err">var isIE4 = isIE &amp;&amp; !isIEDOM2 &amp;&amp; navigator.cookieEnabled;</span>
+<span class="err">var isIE3 = isIE &amp;&amp; !isIE4 &amp;&amp; !isIEDOM2;</span>
+<span class="err">var isNS …</span></code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html">Read more</a></p>
 			</div>
 		</article>
@@ -229,23 +243,6 @@
 					<p>The Internet is going crazy about some random number (and it&#8217;s not&nbsp;23).</p>
 <p>Apparently, typing out an hexadecimal value will get you killed / deleted / censored / jailed / destroyed / ignored / access to <span class="caps">HD</span>-<span class="caps">DVD</span> content. It goes something like: <code>09 F9 11 02</code>. But it also has <code>9D 74 E3 5B …</code></p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/the-number.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Mon 30 April 2007, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2007/feisty-upgrade-first-problem.html" rel="bookmark"
-				title="Permalink to Feisty Upgrade - First Problem">Feisty Upgrade - First&nbsp;Problem</a></div>
-			</header>
-			<div class="article-summary">
-					<p>We recently updated all our Ubuntu machines from Edgy to Feisty. Updating went smooth, apart from a few&nbsp;problems.</p>
-<p>The first problem was that X was freezing at random intervals. Xorg log mentioned nothing special, but the <span class="caps">GDM</span> log&nbsp;did:</p>
-<blockquote>
-<p>Error in I830WaitLpRing(), now is 7023360, start is 7021359
-pgetbl_ctl …</p></blockquote>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2007/feisty-upgrade-first-problem.html">Read more</a></p>
 			</div>
 		</article>
 

@@ -233,7 +233,7 @@
 <li><code>html2text.py</code> from&nbsp;https://raw.github.com/aaronsw/html2text/master/html2text.py</li>
 </ul>
 <p>You&#8217;ll need to install <code>lxml</code> to get everything to work. This didn&#8217;t work for me using <code>pip</code>, but <code>easy_install</code> did the job. Once this is setup, create a new directory <code>posts</code> and&nbsp;run:</p>
-<div class="highlight"><pre><span></span><code><span class="n">blogger2md</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">html2text</span> <span class="o">--</span><span class="n">output</span><span class="o">-</span><span class="n">dir</span> <span class="n">posts</span> <span class="n">blogger</span><span class="o">-</span><span class="k">export</span><span class="o">.</span><span class="n">xml</span>
+<div class="highlight"><pre><span></span><code><span class="err">blogger2md.py --html2text --output-dir posts blogger-export.xml</span>
 </code></pre></div>
 
 <p>The script will start crunching and convert everything. Afterwards, I went through every post to rename the file name, correct the meta data, fix the links (Pelican wants <code>(|filename|FILE_PATH)</code>) and clean up some formatting issues still present after the conversion (quite a lot of them). This took a few evenings, but I now have a collection of Markdown posts for this complete&nbsp;blog.</p>

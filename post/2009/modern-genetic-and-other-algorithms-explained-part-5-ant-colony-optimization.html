@@ -92,25 +92,25 @@ This algorithm is a member of Ant colony algorithms family, in Swarm intelligenc
 </blockquote>
 <p><span class="dquo">&#8220;</span>Good paths through graphs&#8221;. I have not converted our sample problem from the previous posts to a graphing problem. So no Python sample this time,&nbsp;sorry.</p>
 <p>You do get to see some pseudocode&nbsp;though:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Given</span> <span class="n">a</span> <span class="n">number</span> <span class="n">of</span> <span class="n">nodes</span>
-<span class="n">Given</span> <span class="n">some</span> <span class="n">edges</span> <span class="n">between</span> <span class="n">nodes</span> <span class="p">(</span><span class="n">paths</span><span class="p">)</span>
-<span class="n">Given</span> <span class="n">BT</span> <span class="p">:</span><span class="o">=</span> <span class="p">{},</span> <span class="n">this</span> <span class="n">will</span> <span class="n">contain</span> <span class="n">our</span> <span class="n">best</span> <span class="n">tour</span>
-<span class="n">Randomly</span> <span class="n">construct</span> <span class="n">a</span> <span class="n">tour</span> <span class="n">T</span>
-<span class="n">Create</span> <span class="n">a</span> <span class="n">number</span> <span class="n">of</span> <span class="s2">&quot;ants&quot;</span> <span class="p">(</span><span class="n">often</span> <span class="n">equal</span> <span class="n">to</span> <span class="n">number</span> <span class="n">of</span> <span class="n">nodes</span><span class="p">)</span>
-<span class="n">Associate</span> <span class="n">a</span> <span class="n">distance</span><span class="p">,</span> <span class="n">pheromone</span> <span class="n">value</span><span class="p">,</span> <span class="ow">and</span> <span class="n">delta</span> <span class="n">pheromone</span> <span class="n">value</span> <span class="n">to</span> <span class="n">every</span> <span class="n">edge</span>
-<span class="n">Iterate</span> <span class="n">until</span> <span class="n">time</span> <span class="n">limit</span> <span class="n">hit</span> <span class="ow">or</span> <span class="n">satisfiable</span> <span class="n">solution</span> <span class="n">found</span><span class="p">:</span>
-  <span class="n">For</span> <span class="n">each</span> <span class="n">ant</span> <span class="n">do</span><span class="p">:</span>
-    <span class="n">Do</span> <span class="n">until</span> <span class="n">tour</span> <span class="n">constructed</span><span class="p">:</span>
-    <span class="n">Next</span> <span class="n">node</span> <span class="k">is</span> <span class="n">chosen</span> <span class="n">depending</span> <span class="n">on</span> <span class="n">visibility</span> <span class="p">(</span><span class="n">e</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="mi">1</span><span class="o">/</span><span class="n">distance</span><span class="p">)</span> <span class="ow">and</span> <span class="n">pheromone</span> <span class="n">trail</span>
-    <span class="n">E</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="n">choose</span> <span class="n">next</span> <span class="n">node</span> <span class="n">with</span> <span class="n">probability</span> <span class="p">(</span><span class="n">visibility</span><span class="o">^</span><span class="n">a</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="n">pheromone</span> <span class="n">trail</span><span class="o">^</span><span class="n">b</span><span class="p">)</span>
-    <span class="n">Calculate</span> <span class="n">fitness</span> <span class="n">of</span> <span class="n">this</span> <span class="n">tour</span>
-    <span class="n">Copy</span> <span class="n">this</span> <span class="n">tour</span> <span class="n">to</span> <span class="n">the</span> <span class="n">best</span> <span class="n">tour</span> <span class="k">if</span> <span class="n">fitness</span> <span class="k">is</span> <span class="n">better</span>
-    <span class="n">Update</span> <span class="n">the</span> <span class="n">pheromone</span> <span class="n">trail</span> <span class="n">of</span> <span class="n">each</span> <span class="n">edge</span> <span class="n">of</span> <span class="n">this</span> <span class="n">ant</span><span class="s1">&#39;s tour:</span>
-    <span class="n">E</span><span class="o">.</span><span class="n">g</span><span class="o">.</span> <span class="n">delta</span> <span class="n">pheromone</span> <span class="k">for</span> <span class="n">edge</span> <span class="p">:</span><span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="n">tour</span> <span class="n">cost</span><span class="p">)</span>
-  <span class="n">For</span> <span class="n">each</span> <span class="n">edge</span><span class="p">:</span>
-    <span class="n">Lower</span> <span class="n">pheromone</span> <span class="n">value</span> <span class="n">by</span> <span class="n">a</span> <span class="n">factor</span>
-    <span class="n">Add</span> <span class="n">delta</span> <span class="n">pheromone</span> <span class="n">value</span> <span class="n">to</span> <span class="n">pheromone</span> <span class="n">value</span>
-    <span class="n">Set</span> <span class="n">delta</span> <span class="n">pheromone</span> <span class="p">:</span><span class="o">=</span> <span class="mi">0</span>
+<div class="highlight"><pre><span></span><code><span class="err">Given a number of nodes</span>
+<span class="err">Given some edges between nodes (paths)</span>
+<span class="err">Given BT := {}, this will contain our best tour</span>
+<span class="err">Randomly construct a tour T</span>
+<span class="err">Create a number of &quot;ants&quot; (often equal to number of nodes)</span>
+<span class="err">Associate a distance, pheromone value, and delta pheromone value to every edge</span>
+<span class="err">Iterate until time limit hit or satisfiable solution found:</span>
+<span class="err">  For each ant do:</span>
+<span class="err">    Do until tour constructed:</span>
+<span class="err">    Next node is chosen depending on visibility (e.g. 1/distance) and pheromone trail</span>
+<span class="err">    E.g. choose next node with probability (visibility^a)*(pheromone trail^b)</span>
+<span class="err">    Calculate fitness of this tour</span>
+<span class="err">    Copy this tour to the best tour if fitness is better</span>
+<span class="err">    Update the pheromone trail of each edge of this ant&#39;s tour:</span>
+<span class="err">    E.g. delta pheromone for edge := 1/(tour cost)</span>
+<span class="err">  For each edge:</span>
+<span class="err">    Lower pheromone value by a factor</span>
+<span class="err">    Add delta pheromone value to pheromone value</span>
+<span class="err">    Set delta pheromone := 0</span>
 </code></pre></div>
 
 <p><span class="caps">ACO</span> is an interesting method, again, we see certain aspects already used in the previous posts, like using pheromone trails to avoid local maxima. Since the algorithm is closely tied to graphs, nodes and paths, it&#8217;s no wonder it&#8217;s often used to find shortest paths, or to solve the traveling salesman&nbsp;problem.</p>

@@ -90,7 +90,7 @@
 </code></pre></div>
 
 <h4>2. Find out the phone&#8217;s <span class="caps">MAC</span> address. Enable Bluetooth on phone and laptop, and enter the following&nbsp;command:</h4>
-<div class="highlight"><pre><span></span><code><span class="n">hcitool</span> <span class="n">scan</span>
+<div class="highlight"><pre><span></span><code><span class="err">hcitool scan</span>
 </code></pre></div>
 
 <p>Output&nbsp;example:</p>
@@ -101,7 +101,7 @@ Scanning ...
 
 <p>And note your <span class="caps">MAC</span>-address of your&nbsp;phone.</p>
 <h4>3. Find out the phone&#8217;s channel, with the N95, this might change from time to&nbsp;time:</h4>
-<div class="highlight"><pre><span></span><code><span class="n">sdptool</span> <span class="n">search</span> <span class="o">--</span><span class="n">bdaddr</span> <span class="n">MAC</span> <span class="n">DUN</span> <span class="o">|</span> <span class="n">grep</span> <span class="n">Channel</span>
+<div class="highlight"><pre><span></span><code><span class="err">sdptool search --bdaddr MAC DUN | grep Channel</span>
 </code></pre></div>
 
 <p>Replace <span class="caps">MAC</span> with your phone&#8217;s <span class="caps">MAC</span>&nbsp;address.</p>

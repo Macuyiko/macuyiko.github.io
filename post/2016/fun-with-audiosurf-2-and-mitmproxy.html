@@ -112,113 +112,113 @@
 
 <p>You can enable a postprocessor in <code>youtube_dl</code> (the Python library we&#8217;ll be using to handle the actual downloads from YouTube) to convert any movie to an <span class="caps">MP3</span> with FFmpeg, though this can take up a lot of time. The <code>'bestaudio[ext=mp3]/bestaudio[ext=m4a]/bestaudio'</code> format setting works&nbsp;better.</p>
 <p>Next up, we need to set up a YouTube <span class="caps">API</span> key and a fake response dict representing a track as it would come from the Soundcloud <span class="caps">API</span>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">YOUTUBE_API_KEY</span> <span class="o">=</span> <span class="s1">&#39;--- get a youtube api key and set this here ---&#39;</span>
-<span class="n">SOUNDCLOUD_TRACK_TEMPLATE</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;download_url&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;key_signature&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;user_favorite&quot;</span><span class="p">:</span><span class="n">False</span><span class="p">,</span>
-    <span class="s2">&quot;likes_count&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
-    <span class="s2">&quot;release&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;attachments_uri&quot;</span><span class="p">:</span><span class="s2">&quot;https://api.soundcloud.com/tracks/{}/attachments&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;waveform_url&quot;</span><span class="p">:</span><span class="s2">&quot;https://api.soundcloud.com/tracks/{}/waveform&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;purchase_url&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;video_url&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;streamable&quot;</span><span class="p">:</span><span class="n">True</span><span class="p">,</span>
-    <span class="s2">&quot;artwork_url&quot;</span><span class="p">:</span><span class="s2">&quot;https://api.soundcloud.com/tracks/{}/artwork&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;comment_count&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
-    <span class="s2">&quot;commentable&quot;</span><span class="p">:</span><span class="n">True</span><span class="p">,</span>
-    <span class="s2">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;download_count&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;downloadable&quot;</span><span class="p">:</span><span class="n">False</span><span class="p">,</span>
-    <span class="s2">&quot;embeddable_by&quot;</span><span class="p">:</span><span class="s2">&quot;all&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;favoritings_count&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span>
-    <span class="s2">&quot;genre&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;isrc&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;label_id&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;label_name&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;license&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;original_content_size&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span>
-    <span class="s2">&quot;original_format&quot;</span><span class="p">:</span><span class="s2">&quot;mp3&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;playback_count&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span>
-    <span class="s2">&quot;purchase_title&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;release_day&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;release_month&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;release_year&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;reposts_count&quot;</span><span class="p">:</span><span class="mi">10000</span><span class="p">,</span>
-    <span class="s2">&quot;state&quot;</span><span class="p">:</span><span class="s2">&quot;finished&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;tag_list&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;track_type&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;user&quot;</span><span class="p">:{</span>
-        <span class="s2">&quot;avatar_url&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="mi">111111</span><span class="p">,</span>
-        <span class="s2">&quot;kind&quot;</span><span class="p">:</span><span class="s2">&quot;user&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;permalink_url&quot;</span><span class="p">:</span><span class="s2">&quot;https://soundcloud.com/&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;uri&quot;</span><span class="p">:</span><span class="s2">&quot;https://api.soundcloud.com/users/111111&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;username&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;permalink&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;last_modified&quot;</span><span class="p">:</span><span class="s2">&quot;2010/02/16 17:41:26 +0000&quot;</span><span class="p">},</span>
-    <span class="s2">&quot;bpm&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;user_playback_count&quot;</span><span class="p">:</span><span class="n">None</span><span class="p">,</span>
-    <span class="s2">&quot;id&quot;</span><span class="p">:</span><span class="mi">1</span><span class="p">,</span>
-    <span class="s2">&quot;kind&quot;</span><span class="p">:</span><span class="s2">&quot;track&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;created_at&quot;</span><span class="p">:</span><span class="s2">&quot;2010/04/14 20:46:00 +0000&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;last_modified&quot;</span><span class="p">:</span><span class="s2">&quot;2016/08/09 23:59:27 +0000&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;permalink&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;permalink_url&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;title&quot;</span><span class="p">:</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;duration&quot;</span><span class="p">:</span><span class="mi">253300</span><span class="p">,</span>
-    <span class="s2">&quot;sharing&quot;</span><span class="p">:</span><span class="s2">&quot;public&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;stream_url&quot;</span><span class="p">:</span><span class="s2">&quot;https://api.soundcloud.com/tracks/{}/stream&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;uri&quot;</span><span class="p">:</span><span class="s2">&quot;https://api.soundcloud.com/tracks/{}&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;user_id&quot;</span><span class="p">:</span><span class="mi">111111</span>
-<span class="p">}</span>
+<div class="highlight"><pre><span></span><code><span class="err">YOUTUBE_API_KEY = &#39;--- get a youtube api key and set this here ---&#39;</span>
+<span class="err">SOUNDCLOUD_TRACK_TEMPLATE = {</span>
+<span class="err">    &quot;download_url&quot;:None,</span>
+<span class="err">    &quot;key_signature&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;user_favorite&quot;:False,</span>
+<span class="err">    &quot;likes_count&quot;:1,</span>
+<span class="err">    &quot;release&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;attachments_uri&quot;:&quot;https://api.soundcloud.com/tracks/{}/attachments&quot;,</span>
+<span class="err">    &quot;waveform_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/waveform&quot;,</span>
+<span class="err">    &quot;purchase_url&quot;:None,</span>
+<span class="err">    &quot;video_url&quot;:None,</span>
+<span class="err">    &quot;streamable&quot;:True,</span>
+<span class="err">    &quot;artwork_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/artwork&quot;,</span>
+<span class="err">    &quot;comment_count&quot;:1,</span>
+<span class="err">    &quot;commentable&quot;:True,</span>
+<span class="err">    &quot;description&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;download_count&quot;:0,</span>
+<span class="err">    &quot;downloadable&quot;:False,</span>
+<span class="err">    &quot;embeddable_by&quot;:&quot;all&quot;,</span>
+<span class="err">    &quot;favoritings_count&quot;:0,</span>
+<span class="err">    &quot;genre&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;isrc&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;label_id&quot;:None,</span>
+<span class="err">    &quot;label_name&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;license&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;original_content_size&quot;:10000,</span>
+<span class="err">    &quot;original_format&quot;:&quot;mp3&quot;,</span>
+<span class="err">    &quot;playback_count&quot;:10000,</span>
+<span class="err">    &quot;purchase_title&quot;:None,</span>
+<span class="err">    &quot;release_day&quot;:None,</span>
+<span class="err">    &quot;release_month&quot;:None,</span>
+<span class="err">    &quot;release_year&quot;:None,</span>
+<span class="err">    &quot;reposts_count&quot;:10000,</span>
+<span class="err">    &quot;state&quot;:&quot;finished&quot;,</span>
+<span class="err">    &quot;tag_list&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;track_type&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;user&quot;:{</span>
+<span class="err">        &quot;avatar_url&quot;:&quot;&quot;,</span>
+<span class="err">        &quot;id&quot;:111111,</span>
+<span class="err">        &quot;kind&quot;:&quot;user&quot;,</span>
+<span class="err">        &quot;permalink_url&quot;:&quot;https://soundcloud.com/&quot;,</span>
+<span class="err">        &quot;uri&quot;:&quot;https://api.soundcloud.com/users/111111&quot;,</span>
+<span class="err">        &quot;username&quot;:&quot;&quot;,</span>
+<span class="err">        &quot;permalink&quot;:&quot;&quot;,</span>
+<span class="err">        &quot;last_modified&quot;:&quot;2010/02/16 17:41:26 +0000&quot;},</span>
+<span class="err">    &quot;bpm&quot;:None,</span>
+<span class="err">    &quot;user_playback_count&quot;:None,</span>
+<span class="err">    &quot;id&quot;:1,</span>
+<span class="err">    &quot;kind&quot;:&quot;track&quot;,</span>
+<span class="err">    &quot;created_at&quot;:&quot;2010/04/14 20:46:00 +0000&quot;,</span>
+<span class="err">    &quot;last_modified&quot;:&quot;2016/08/09 23:59:27 +0000&quot;,</span>
+<span class="err">    &quot;permalink&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;permalink_url&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;title&quot;:&quot;&quot;,</span>
+<span class="err">    &quot;duration&quot;:253300,</span>
+<span class="err">    &quot;sharing&quot;:&quot;public&quot;,</span>
+<span class="err">    &quot;stream_url&quot;:&quot;https://api.soundcloud.com/tracks/{}/stream&quot;,</span>
+<span class="err">    &quot;uri&quot;:&quot;https://api.soundcloud.com/tracks/{}&quot;,</span>
+<span class="err">    &quot;user_id&quot;:111111</span>
+<span class="err">}</span>
 </code></pre></div>
 
 <p>Next, we set up the actual hook to intercept all requests to <code>api.soundcloud.com</code>:</p>
-<div class="highlight"><pre><span></span><code><span class="n">def</span> <span class="n">request</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">flow</span><span class="p">):</span>
-    <span class="n">YDL_OPTS</span><span class="p">[</span><span class="s1">&#39;progress_hooks&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">lambda</span> <span class="n">d</span><span class="p">:</span> <span class="n">youtube_download_hook</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">d</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">ENABLED</span> <span class="ow">and</span> <span class="n">flow</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">pretty_host</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;api.soundcloud.com&quot;</span><span class="p">):</span>
-        <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">flow</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">pretty_host</span> <span class="o">+</span> <span class="n">flow</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s1">&#39;/stream&#39;</span> <span class="ow">in</span> <span class="n">flow</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
-            <span class="n">flow</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="n">make_reply_stream</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">flow</span><span class="p">))</span>
-        <span class="k">elif</span> <span class="s1">&#39;q=&#39;</span> <span class="ow">in</span> <span class="n">flow</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
-            <span class="n">flow</span><span class="o">.</span><span class="n">reply</span><span class="p">(</span><span class="n">make_reply_query</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">flow</span><span class="p">))</span>
+<div class="highlight"><pre><span></span><code><span class="err">def request(context, flow):</span>
+<span class="err">    YDL_OPTS[&#39;progress_hooks&#39;].append(lambda d: youtube_download_hook(context, d))</span>
+<span class="err">    if ENABLED and flow.request.pretty_host.endswith(&quot;api.soundcloud.com&quot;):</span>
+<span class="err">        context.log(flow.request.pretty_host + flow.request.path)</span>
+<span class="err">        if &#39;/stream&#39; in flow.request.path:</span>
+<span class="err">            flow.reply(make_reply_stream(context, flow))</span>
+<span class="err">        elif &#39;q=&#39; in flow.request.path:</span>
+<span class="err">            flow.reply(make_reply_query(context, flow))</span>
 </code></pre></div>
 
 <p>If the request contains <code>q=</code>, Audiosurf is performing a query. The other option we handle is <code>/stream</code> which whill stream back the&nbsp;track:</p>
 <div class="highlight"><pre><span></span><code><span class="n">def</span> <span class="n">download_youtube_video</span><span class="p">(</span><span class="n">id</span><span class="p">):</span>
-    <span class="n">with</span> <span class="n">youtube_dl</span><span class="o">.</span><span class="n">YoutubeDL</span><span class="p">(</span><span class="n">YDL_OPTS</span><span class="p">)</span> <span class="k">as</span> <span class="n">ydl</span><span class="p">:</span>
-        <span class="n">result</span> <span class="o">=</span> <span class="n">ydl</span><span class="o">.</span><span class="n">extract_info</span><span class="p">(</span><span class="s1">&#39;http://www.youtube.com/watch?v=&#39;</span><span class="o">+</span><span class="n">id</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="n">True</span><span class="p">)</span>
-        <span class="n">video</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;entries&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;entries&#39;</span> <span class="ow">in</span> <span class="n">result</span> <span class="k">else</span> <span class="n">result</span>
-    <span class="k">return</span> <span class="n">result</span><span class="p">,</span> <span class="n">video</span>
+    <span class="k">with</span> <span class="n">youtube_dl</span><span class="p">.</span><span class="n">YoutubeDL</span><span class="p">(</span><span class="n">YDL_OPTS</span><span class="p">)</span> <span class="k">as</span> <span class="n">ydl</span><span class="p">:</span>
+        <span class="k">result</span> <span class="o">=</span> <span class="n">ydl</span><span class="p">.</span><span class="n">extract_info</span><span class="p">(</span><span class="s1">&#39;http://www.youtube.com/watch?v=&#39;</span><span class="o">+</span><span class="n">id</span><span class="p">,</span> <span class="n">download</span><span class="o">=</span><span class="k">True</span><span class="p">)</span>
+        <span class="n">video</span> <span class="o">=</span> <span class="k">result</span><span class="p">[</span><span class="s1">&#39;entries&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="s1">&#39;entries&#39;</span> <span class="k">in</span> <span class="k">result</span> <span class="k">else</span> <span class="k">result</span>
+    <span class="k">return</span> <span class="k">result</span><span class="p">,</span> <span class="n">video</span>
 
 
 <span class="n">def</span> <span class="n">youtube_download_hook</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;finished&#39;</span><span class="p">:</span>
-        <span class="n">context</span><span class="o">.</span><span class="n">__filename</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
+        <span class="n">context</span><span class="p">.</span><span class="n">__filename</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;filename&#39;</span><span class="p">]</span>
 
 
 <span class="n">def</span> <span class="n">make_reply_stream</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">flow</span><span class="p">):</span>
-    <span class="n">resp</span> <span class="o">=</span> <span class="n">HTTPResponse</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;HTTP/1.1&quot;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
-            <span class="n">Headers</span><span class="p">(</span><span class="n">Content_Type</span><span class="o">=</span><span class="s2">&quot;audio/mpeg&quot;</span><span class="p">),</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">id</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
-    <span class="n">context</span><span class="o">.</span><span class="n">__filename</span> <span class="o">=</span> <span class="n">None</span>
-    <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
-    <span class="n">result</span><span class="p">,</span> <span class="n">video</span> <span class="o">=</span> <span class="n">download_youtube_video</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
-    <span class="k">while</span> <span class="ow">not</span> <span class="n">context</span><span class="o">.</span><span class="n">__filename</span><span class="p">:</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">HTTPResponse</span><span class="p">(</span><span class="n">b</span><span class="ss">&quot;HTTP/1.1&quot;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">b</span><span class="ss">&quot;OK&quot;</span><span class="p">,</span>
+            <span class="n">Headers</span><span class="p">(</span><span class="n">Content_Type</span><span class="o">=</span><span class="ss">&quot;audio/mpeg&quot;</span><span class="p">),</span> <span class="n">b</span><span class="ss">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">id</span> <span class="o">=</span> <span class="n">flow</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">path</span><span class="p">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="mi">2</span><span class="p">]</span>
+    <span class="n">context</span><span class="p">.</span><span class="n">__filename</span> <span class="o">=</span> <span class="k">None</span>
+    <span class="n">context</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="k">result</span><span class="p">,</span> <span class="n">video</span> <span class="o">=</span> <span class="n">download_youtube_video</span><span class="p">(</span><span class="n">id</span><span class="p">)</span>
+    <span class="n">while</span> <span class="k">not</span> <span class="n">context</span><span class="p">.</span><span class="n">__filename</span><span class="p">:</span>
         <span class="n">sleep</span><span class="p">(</span><span class="mi">200</span><span class="p">)</span>
-    <span class="n">context</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">__filename</span><span class="p">)</span>
-    <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">open</span><span class="p">(</span><span class="n">context</span><span class="o">.</span><span class="n">__filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
+    <span class="n">context</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">__filename</span><span class="p">)</span>
+    <span class="n">resp</span><span class="p">.</span><span class="n">content</span> <span class="o">=</span> <span class="k">open</span><span class="p">(</span><span class="n">context</span><span class="p">.</span><span class="n">__filename</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">).</span><span class="k">read</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">resp</span>
 
 
 <span class="n">def</span> <span class="n">make_reply_query</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="n">flow</span><span class="p">):</span>
-    <span class="n">resp</span> <span class="o">=</span> <span class="n">HTTPResponse</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;HTTP/1.1&quot;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="sa">b</span><span class="s2">&quot;OK&quot;</span><span class="p">,</span>
-            <span class="n">Headers</span><span class="p">(</span><span class="n">Content_Type</span><span class="o">=</span><span class="s2">&quot;application/json&quot;</span><span class="p">),</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-    <span class="n">bits</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">flow</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">query</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">bits</span><span class="o">.</span><span class="n">query</span><span class="p">)[</span><span class="s1">&#39;q&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">resp</span> <span class="o">=</span> <span class="n">HTTPResponse</span><span class="p">(</span><span class="n">b</span><span class="ss">&quot;HTTP/1.1&quot;</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="n">b</span><span class="ss">&quot;OK&quot;</span><span class="p">,</span>
+            <span class="n">Headers</span><span class="p">(</span><span class="n">Content_Type</span><span class="o">=</span><span class="ss">&quot;application/json&quot;</span><span class="p">),</span> <span class="n">b</span><span class="ss">&quot;&quot;</span><span class="p">)</span>
+    <span class="n">bits</span> <span class="o">=</span> <span class="n">urlparse</span><span class="p">(</span><span class="n">flow</span><span class="p">.</span><span class="n">request</span><span class="p">.</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">query</span> <span class="o">=</span> <span class="n">parse_qs</span><span class="p">(</span><span class="n">bits</span><span class="p">.</span><span class="n">query</span><span class="p">)[</span><span class="s1">&#39;q&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
     <span class="n">list</span> <span class="o">=</span> <span class="n">make_song_list</span><span class="p">(</span><span class="n">query</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
-    <span class="n">resp</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">list</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
+    <span class="n">resp</span><span class="p">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">json</span><span class="p">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">list</span><span class="p">).</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">resp</span>
 </code></pre></div>
 

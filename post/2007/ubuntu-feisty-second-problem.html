@@ -115,7 +115,7 @@
 
 <p>Then type exit to continue booting. You don&#8217;t have to try them all at once. I first tried <code>ide-disk</code> and <code>ide-generic</code> but those didn&#8217;t work, then I tried only <code>piix</code>, which worked! If that doesn&#8217;t work, I would suggest trying <code>piix</code>, <code>libata</code>, <code>pata_jmicron</code>, <code>ata_piix</code>, <code>ahci</code> and <code>ata_generic</code>.</p>
 <p>Once you get it running, we must make sure these modules get loaded automatically (instead of always adding break=top). Edit the following file: <code>/etc/initramfs-tools/modules/</code>. E.g.,&nbsp;type:</p>
-<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">gedit</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">initramfs</span><span class="o">-</span><span class="n">tools</span><span class="o">/</span><span class="n">modules</span>
+<div class="highlight"><pre><span></span><code><span class="err">sudo gedit /etc/initramfs-tools/modules</span>
 </code></pre></div>
 
 <p>And add the modules which worked for you (without <code>modprobe</code>). In my case, I only had to add <code>piix</code>. Save and exit the editor, then execute the following&nbsp;command:</p>
