@@ -198,16 +198,16 @@
 			</header>
 			<div class="article-summary">
 					<p>Just found this, pretty&nbsp;handy!</p>
-<div class="highlight"><pre><span></span><code><span class="o">//</span> <span class="n">browser</span> <span class="n">detection</span>
-<span class="k">var</span> <span class="n">isIE</span> <span class="o">=</span> <span class="n">document</span><span class="o">.</span><span class="n">all</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE7</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">XMLHttpRequest</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">ActiveXObject</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE6</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">document</span><span class="o">.</span><span class="n">implementation</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isgteIE6</span> <span class="o">=</span> <span class="n">isIE7</span> <span class="n">isIE6</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE5</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="n">window</span><span class="o">.</span><span class="n">print</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isgteIE6</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIEDOM2</span> <span class="o">=</span> <span class="n">isIE5</span> <span class="n">isgteIE6</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE4</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span> <span class="o">&amp;&amp;</span> <span class="n">navigator</span><span class="o">.</span><span class="n">cookieEnabled</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isIE3</span> <span class="o">=</span> <span class="n">isIE</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIE4</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">isIEDOM2</span><span class="p">;</span>
-<span class="k">var</span> <span class="n">isNS …</span></code></pre></div>
+<div class="highlight"><pre><span></span><code><span class="err">// browser detection</span>
+<span class="err">var isIE = document.all;</span>
+<span class="err">var isIE7 = isIE &amp;&amp; window.XMLHttpRequest &amp;&amp; window.ActiveXObject;</span>
+<span class="err">var isIE6 = isIE &amp;&amp; document.implementation;</span>
+<span class="err">var isgteIE6 = isIE7 isIE6;</span>
+<span class="err">var isIE5 = isIE &amp;&amp; window.print &amp;&amp; !isgteIE6;</span>
+<span class="err">var isIEDOM2 = isIE5 isgteIE6;</span>
+<span class="err">var isIE4 = isIE &amp;&amp; !isIEDOM2 &amp;&amp; navigator.cookieEnabled;</span>
+<span class="err">var isIE3 = isIE &amp;&amp; !isIE4 &amp;&amp; !isIEDOM2;</span>
+<span class="err">var isNS …</span></code></pre></div>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2008/javascript-browser-detection-using-dom-capabilities.html">Read more</a></p>
 			</div>
 		</article>

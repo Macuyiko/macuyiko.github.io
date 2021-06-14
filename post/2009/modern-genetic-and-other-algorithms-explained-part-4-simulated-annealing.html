@@ -86,12 +86,12 @@
 The name and inspiration come from annealing in metallurgy, a technique involving heating and controlled cooling of a material to increase the size of its crystals and reduce their defects. The heat causes the atoms to become unstuck from their initial positions (a local minimum of the internal energy) and wander randomly through states of higher energy; the slow cooling gives them more chances of finding configurations with lower internal energy than the initial&nbsp;one.</p>
 </blockquote>
 <p>Let&#8217;s take a look at some&nbsp;pseudocode:</p>
-<div class="highlight"><pre><span></span><code><span class="n">Randomly</span> <span class="n">construct</span> <span class="n">a</span> <span class="n">valid</span> <span class="n">solution</span>
-<span class="n">For</span> <span class="n">each</span> <span class="n">temperature</span> <span class="n">do</span><span class="p">:</span>
-  <span class="n">For</span> <span class="n">number</span> <span class="n">of</span> <span class="n">trials</span> <span class="n">to</span> <span class="n">do</span> <span class="n">at</span> <span class="n">each</span> <span class="n">temperature</span> <span class="n">do</span><span class="p">:</span>
-    <span class="n">Move</span> <span class="n">solution</span> <span class="n">to</span> <span class="n">a</span> <span class="n">neighbour</span>
-    <span class="n">Accept</span> <span class="n">neighbour</span> <span class="n">with</span> <span class="n">probability</span><span class="p">(</span><span class="n">old_score</span><span class="p">,</span> <span class="n">new_score</span><span class="p">,</span> <span class="n">temperature</span><span class="p">)</span>
-    <span class="n">Lower</span> <span class="n">the</span> <span class="n">temperature</span> <span class="n">by</span> <span class="n">a</span> <span class="n">reduction</span> <span class="n">factor</span>
+<div class="highlight"><pre><span></span><code><span class="err">Randomly construct a valid solution</span>
+<span class="err">For each temperature do:</span>
+<span class="err">  For number of trials to do at each temperature do:</span>
+<span class="err">    Move solution to a neighbour</span>
+<span class="err">    Accept neighbour with probability(old_score, new_score, temperature)</span>
+<span class="err">    Lower the temperature by a reduction factor</span>
 </code></pre></div>
 
 <p>It becomes clear that this method can be used in discrete optimization problems only, so that we can construct neighbours from our current state. E.g., a first solution in the problem we&#8217;ve been discussing might be [10,51,5,18] with a neighbour&nbsp;[10,52,5,18].</p>
