@@ -100,7 +100,7 @@
 <p>Feature importance rankings are great, but they&#8217;re not all-revealing. A common practice for instance is to use random forests or other ensemble models as a feature selection tool by first training them on the full feature set, and then using the feature importance rankings to select the top-n variables to keep in the productionized model (and hence retraining the model on the selected model). Think data-driven feature selection. This is a somewhat common approach which has been operationalized in packages such as <a href="https://cran.r-project.org/web/packages/Boruta/index.html">Boruta</a>.</p>
 <p>The problem, however, is that it is easy to drop features using this strategy in case when they interact with other&nbsp;features.</p>
 <p>As an example, let us construct a synthetic data set where <code>y ~ x0 * x1 + x2 + noise</code>. I.e. x0 and x1 interact. If we train a random forest or gradient boosting model even such a simple data set and assess the feature importance scores using scikit-learn, the problem becomes&nbsp;clear:</p>
-<div class="highlight"><pre><span></span><code>print(gbr.feature_importances_)
+<div class="text highlight"><pre><span></span><code>print(gbr.feature_importances_)
 print(rfr.feature_importances_)
 
 gradient boosting rankings:     [0.17174317, 0.19054922, 0.6377076 ]
@@ -108,7 +108,7 @@ random forest rankings:         [0.19065131, 0.18586131, 0.62348737]
 </code></pre></div>
 
 <p>scikit-learn doesn&#8217;t implement permutation based importance rankings (at the time of writing; note that <code>feature_importances_</code> uses impurity based importance), but using <code>rfpimp</code> yields a similar&nbsp;result:</p>
-<div class="highlight"><pre><span></span><code>gradient boosting rankings:     [0.35668364, 0.37945421], 1.17092419]
+<div class="text highlight"><pre><span></span><code>gradient boosting rankings:     [0.35668364, 0.37945421], 1.17092419]
 random forest rankings:         [0.42673270, 0.43211179], 1.24873006]
 </code></pre></div>
 
@@ -171,7 +171,7 @@ random forest rankings:         [0.42673270, 0.43211179], 1.24873006]
 </ul>
 <h2>A manual Python&nbsp;implementation</h2>
 <p>Especially in Python, the situation regarding the H-measure looks a bit bleak. Using <code>pdpbox</code> to extract partial dependence values, we can however set up an implementation of both measures which work for any model. For two-way interactions (hiding the exact calculation of the H-measure until a bit later), we can compare our result with what <code>sklearn_gbmi</code> tells us for&nbsp;H2(jk):</p>
-<div class="highlight"><pre><span></span><code>gradient boosting (first result is sklearn_gbmi, second is ours):
+<div class="text highlight"><pre><span></span><code>gradient boosting (first result is sklearn_gbmi, second is ours):
 (&#39;x0&#39;, &#39;x1&#39;) 0.3694527407798142     0.21799393342197507
 (&#39;x0&#39;, &#39;x2&#39;) 0.04741546008708799    0.037965435191138985
 (&#39;x1&#39;, &#39;x2&#39;) 0.0350484030284537     0.03754977728770199
@@ -185,7 +185,7 @@ random forest:
 <p>Small differences are due to handling of the construction of the values for the features under observation to &#8220;slide&#8221; over. <code>sklearn_gbmi</code> uses the values as seen in the data set whereas <code>pdpbox</code> using a grid based approach, but the results are comparable: both models show that variables x0 and x1&nbsp;interact.</p>
 <p>However, for H2(jkl) and higher-order interactions, we need to modify <code>pdpbox</code> so that is is able to calculate partial dependence values for more than two variables under consideration. (In fact, <code>pdpbox</code> does silently accept more than two features when calling it, but will simply ignore everything apart from the first&nbsp;two.)</p>
 <p>As such, we define a function as&nbsp;follows:</p>
-<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pdpbox.pdp_calc_utils</span> <span class="kn">import</span> <span class="n">_calc_ice_lines_inter</span>
+<div class="python highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">pdpbox.pdp_calc_utils</span> <span class="kn">import</span> <span class="n">_calc_ice_lines_inter</span>
 <span class="kn">from</span> <span class="nn">pdpbox.pdp</span> <span class="kn">import</span> <span class="n">pdp_isolate</span><span class="p">,</span> <span class="n">PDPInteract</span>
 <span class="kn">from</span> <span class="nn">pdpbox.utils</span> <span class="kn">import</span> <span class="p">(</span><span class="n">_check_model</span><span class="p">,</span> <span class="n">_check_dataset</span><span class="p">,</span> <span class="n">_check_percentile_range</span><span class="p">,</span> <span class="n">_check_feature</span><span class="p">,</span>
                     <span class="n">_check_grid_type</span><span class="p">,</span> <span class="n">_check_memory_limit</span><span class="p">,</span> <span class="n">_make_list</span><span class="p">,</span>
@@ -296,7 +296,7 @@ random forest:
 </code></pre></div>
 
 <p>And can now&nbsp;call:</p>
-<div class="highlight"><pre><span></span><code>pdp_multi_interact(gbr, tr_X, xs.columns, [&#39;x0&#39;, &#39;x1&#39;, &#39;x2&#39;])
+<div class="text highlight"><pre><span></span><code>pdp_multi_interact(gbr, tr_X, xs.columns, [&#39;x0&#39;, &#39;x1&#39;, &#39;x2&#39;])
 
     x0          x1          x2          preds
 0   0.000356    0.000016    0.000074    -0.122989
@@ -307,7 +307,7 @@ random forest:
 </code></pre></div>
 
 <p>Next, we implement a function to calculate F values (i.e. partial dependence values) for (jkl&#8230;) and all&nbsp;subsets:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span> <span class="k">return</span> <span class="n">arr</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<div class="python highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">center</span><span class="p">(</span><span class="n">arr</span><span class="p">):</span> <span class="k">return</span> <span class="n">arr</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
 
 <span class="k">def</span> <span class="nf">compute_f_vals</span><span class="p">(</span><span class="n">mdl</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">features</span><span class="p">,</span> <span class="n">selectedfeatures</span><span class="p">,</span> <span class="n">num_grid_points</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">use_data_grid</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="n">f_vals</span> <span class="o">=</span> <span class="p">{}</span>
@@ -336,7 +336,7 @@ random forest:
 </code></pre></div>
 
 <p>From which we can define the second-order&nbsp;H-measure:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_h_val</span><span class="p">(</span><span class="n">f_vals</span><span class="p">,</span> <span class="n">selectedfeatures</span><span class="p">):</span>
+<div class="python highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_h_val</span><span class="p">(</span><span class="n">f_vals</span><span class="p">,</span> <span class="n">selectedfeatures</span><span class="p">):</span>
     <span class="n">denom_els</span> <span class="o">=</span> <span class="n">f_vals</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">selectedfeatures</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">numer_els</span> <span class="o">=</span> <span class="n">f_vals</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">selectedfeatures</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
     <span class="n">sign</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span>
@@ -350,7 +350,7 @@ random forest:
 </code></pre></div>
 
 <p>And first-order H-measure as&nbsp;well:</p>
-<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_h_val_any</span><span class="p">(</span><span class="n">f_vals</span><span class="p">,</span> <span class="n">allfeatures</span><span class="p">,</span> <span class="n">selectedfeature</span><span class="p">):</span>
+<div class="python highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_h_val_any</span><span class="p">(</span><span class="n">f_vals</span><span class="p">,</span> <span class="n">allfeatures</span><span class="p">,</span> <span class="n">selectedfeature</span><span class="p">):</span>
     <span class="n">otherfeatures</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">allfeatures</span><span class="p">)</span>
     <span class="n">otherfeatures</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">selectedfeature</span><span class="p">)</span>
     <span class="n">denom_els</span> <span class="o">=</span> <span class="n">f_vals</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">allfeatures</span><span class="p">)]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
@@ -363,13 +363,13 @@ random forest:
 </code></pre></div>
 
 <p>Testing this on one of our models, we get, for the first-order H&nbsp;measure:</p>
-<div class="highlight"><pre><span></span><code>x0 is in interaction: 0.2688984990347688
+<div class="text highlight"><pre><span></span><code>x0 is in interaction: 0.2688984990347688
 x1 is in interaction: 0.26778914050926556
 x2 is in interaction: 0.10167180905369481
 </code></pre></div>
 
 <p>We can then calculate the second-order H-measure, also for higher-order&nbsp;interactions:</p>
-<div class="highlight"><pre><span></span><code>gradient boosting (first result is sklearn_gbmi, second is ours):
+<div class="text highlight"><pre><span></span><code>gradient boosting (first result is sklearn_gbmi, second is ours):
 (&#39;x0&#39;, &#39;x1&#39;)        0.3694527407798142      0.3965718336359157
 (&#39;x0&#39;, &#39;x2&#39;)        0.04741546008708799     0.04546491988445405
 (&#39;x0&#39;, &#39;x1&#39;, &#39;x2&#39;)  0.030489287134804244    0.028760391025931864

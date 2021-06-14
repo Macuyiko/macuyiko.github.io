@@ -103,7 +103,7 @@
 
 <p>Activate bluetooth in your phone. Make sure it is visible to other&nbsp;devices.</p>
 <p>Now&nbsp;do:</p>
-<div class="highlight"><pre><span></span><code><span class="err">hcitool scan</span>
+<div class="highlight"><pre><span></span><code><span class="n">hcitool</span> <span class="n">scan</span>
 </code></pre></div>
 
 <p>You should see something like&nbsp;this:</p>
@@ -125,7 +125,7 @@
 </code></pre></div>
 
 <p>You may wonder how we got this channel, you can find out by entering this&nbsp;command:</p>
-<div class="highlight"><pre><span></span><code><span class="err">sdptool browse ADDRESS_OF_YOUR_PHONE</span>
+<div class="highlight"><pre><span></span><code><span class="n">sdptool</span> <span class="n">browse</span> <span class="n">ADDRESS_OF_YOUR_PHONE</span>
 </code></pre></div>
 
 <p>Somewhere in the output you find the&nbsp;following:</p>
@@ -149,7 +149,7 @@
 
 <p>See?</p>
 <p>Now add the Nokia channel to communicate with the&nbsp;phone:</p>
-<div class="highlight"><pre><span></span><code><span class="err">sudo sdptool add --channel=10 OPUSH</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">sdptool</span> <span class="n">add</span> <span class="o">--</span><span class="n">channel</span><span class="o">=</span><span class="mi">10</span> <span class="n">OPUSH</span>
 </code></pre></div>
 
 <p>And bind it with <code>rfcomm</code>:</p>
@@ -171,14 +171,14 @@
 <p>(1) <code>gnome-obex-send /path/to/file</code></p>
 <p>It should find your phone and prompt&nbsp;you.</p>
 <p>Don&#8217;t forget that you must use these commands every reboot again (or you could make a&nbsp;script):</p>
-<div class="highlight"><pre><span></span><code><span class="err">sudo modprobe l2cap</span>
-<span class="err">sudo modprobe rfcomm</span>
-<span class="err"># (re)start (if necessary):</span>
-<span class="err">sudo /etc/init.d/bluez-utils</span>
-<span class="err">echo enable &gt; /proc/acpi/ibm/bluetooth</span>
-<span class="err">sudo mknod /dev/rfcomm0 c 216 0</span>
-<span class="err">sdptool add --channel=10 OPUSH</span>
-<span class="err">sudo rfcomm bind /dev/rfcomm0 YOUR_PHONE_ADDRESS 10</span>
+<div class="highlight"><pre><span></span><code><span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">l2cap</span>
+<span class="n">sudo</span> <span class="n">modprobe</span> <span class="n">rfcomm</span>
+<span class="c1"># (re)start (if necessary):</span>
+<span class="n">sudo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">bluez</span><span class="o">-</span><span class="n">utils</span>
+<span class="n">echo</span> <span class="n">enable</span> <span class="o">&gt;</span> <span class="o">/</span><span class="n">proc</span><span class="o">/</span><span class="n">acpi</span><span class="o">/</span><span class="n">ibm</span><span class="o">/</span><span class="n">bluetooth</span>
+<span class="n">sudo</span> <span class="n">mknod</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">rfcomm0</span> <span class="n">c</span> <span class="mi">216</span> <span class="mi">0</span>
+<span class="n">sdptool</span> <span class="n">add</span> <span class="o">--</span><span class="n">channel</span><span class="o">=</span><span class="mi">10</span> <span class="n">OPUSH</span>
+<span class="n">sudo</span> <span class="n">rfcomm</span> <span class="n">bind</span> <span class="o">/</span><span class="n">dev</span><span class="o">/</span><span class="n">rfcomm0</span> <span class="n">YOUR_PHONE_ADDRESS</span> <span class="mi">10</span>
 </code></pre></div>
 
 <p>When you&#8217;re done, I find it neat the disable the integrated bluetooth device (let&#8217;s conserve power) this is easy as&nbsp;pie:</p>
