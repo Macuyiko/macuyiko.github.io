@@ -11,15 +11,9 @@
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
 	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
-	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
 	<link rel="preconnect" href="https://fonts.gstatic.com">
-	<link href="https://fonts.googleapis.com/css2?family=Bitter:wght@400;700&display=swap" rel="stylesheet">
-	<style>
-		@font-face {
-			font-family: JuliaMono-Regular;
-			src: url("https://cdn.jsdelivr.net/gh/cormullion/juliamono/webfonts/JuliaMono-Regular.woff2");
-		}
-	</style>
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
+
 
 	<script type="text/javascript">
 		var waitForFinalEvent = (function () {
@@ -77,6 +71,48 @@
 	<div class="row contentwrapper">
 		<div class="row">
 <div class="large-9 columns">
+        
+		<article>
+			<header>
+				<div class="article-info">Fri 22 April 2016, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2016/fixing-flask-url_for-when-behind-mod_proxy.html" rel="bookmark"
+				title="Permalink to Fixing Flask url_for when Behind mod_proxy">Fixing Flask url_for when Behind&nbsp;mod_proxy</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Imagine you have an Apache server set up with a virtualhost configuration listening to some domain,&nbsp;e.g.</p>
+<div class="highlight"><pre><span></span><code><span class="err">my.domain:8080</span>
+</code></pre></div>
+
+<p>You have a Flask app running&nbsp;at:</p>
+<div class="highlight"><pre><span></span><code><span class="n">localhost</span><span class="o">:</span><span class="mi">5000</span>
+</code></pre></div>
+
+<p>You want to add a mod_proxy directive so&nbsp;that:</p>
+<div class="highlight"><pre><span></span><code><span class="c">http://my.domain:8080/app_location/  ---&gt;  http://localhost:5000</span>
+</code></pre></div>
+
+<p>Most resources will …</p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2016/fixing-flask-url_for-when-behind-mod_proxy.html">Read more</a></p>
+			</div>
+		</article>
+
+        
+		<article>
+			<header>
+				<div class="article-info">Sun 27 September 2015, by Seppe "Macuyiko" vanden Broucke</div>
+				<div class="article-title"><a href="//blog.macuyiko.com/post/2015/list-of-apps-updated.html" rel="bookmark"
+				title="Permalink to List of Apps (Updated)">List of Apps&nbsp;(Updated)</a></div>
+			</header>
+			<div class="article-summary">
+					<p>Again that time of the year where Windows&#8217;s being reinstalled, so <a href="//blog.macuyiko.com/post/2014/list-of-apps.html">once again</a> I&#8217;m jotting down a list of apps I normally install right away, slightly updated versus last&nbsp;year.</p>
+<p>(This list last updated in May&nbsp;2016.)</p>
+<h2>Web</h2>
+<ul>
+<li><a href="https://www.skype.com/en/">Skype</a> is back. The web version was not robust&nbsp;enough …</li></ul>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2015/list-of-apps-updated.html">Read more</a></p>
+			</div>
+		</article>
+
         
 		<article>
 			<header>
@@ -194,35 +230,6 @@
 					<p>Just a small post. I&#8217;ve been using <a href="https://github.com/Xeoncross/jr">this project</a> lately to set up some quick static-only-but-Markdown-enabled project pages for a while&nbsp;now.</p>
 <p>Basically, it allows you to set up a static website with minimal theming, but with the content rendering offloaded to the browser (in Javascript) instead of relying …</p>
 				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/small-jrjs-junior-modification.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Thu 31 July 2014, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2014/windows-8-annoyances-and-the-sad-state-of-operating-systems-and-everything-really.html" rel="bookmark"
-				title="Permalink to Windows 8 Annoyances (and the Sad State of Operating Systems and Everything, Really)">Windows 8 Annoyances (and the Sad State of Operating Systems and Everything,&nbsp;Really)</a></div>
-			</header>
-			<div class="article-summary">
-					<p>This was going to be a short &#8220;list&#8221; post, but expanded to something a little bit&nbsp;larger.</p>
-<p>Recently, I&#8217;ve acquired a shiny new Dell <span class="caps">XPS</span> laptop. The exact specs are not important; compared to almost a <a href="//blog.macuyiko.com/post/2014/converting-plain-text-references-to-bibtex-or-endnote-or.html">decennia ago</a>, phones, laptops, desktops and tablets have gained such a commodity-status that …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/windows-8-annoyances-and-the-sad-state-of-operating-systems-and-everything-really.html">Read more</a></p>
-			</div>
-		</article>
-
-        
-		<article>
-			<header>
-				<div class="article-info">Sun 29 June 2014, by Seppe "Macuyiko" vanden Broucke</div>
-				<div class="article-title"><a href="//blog.macuyiko.com/post/2014/replacing-bibtex-references-with-dblp-entries.html" rel="bookmark"
-				title="Permalink to Replacing BibTeX References With DBLP Entries">Replacing BibTeX References With <span class="caps">DBLP</span>&nbsp;Entries</a></div>
-			</header>
-			<div class="article-summary">
-					<ul>
-<li><em>Update (2014-08-08):</em> commenters on <a href="https://twitter.com/macuyiko">Twitter</a> have notified me about <a href="http://www.snowelm.com/~t/doc/tips/makebib.en.html">this script</a> which aims to accomplish something similar, without <span class="caps">DBLP</span>, however. Fellow researcher Joos Buijs has also started working on a <span class="caps">DBLP</span>-enabled BibTeX cleaner over <a href="https://github.com/joosbuijs/bibcleaner">here</a>.</li>
-<li><em>Update (2014-10-17):</em> all code is now up on a separate <a href="http://blog.macuyiko.com/post/2014/replacing-bibtex-references-with-dblp-entries.html">GitHub repository</a>. <a href="https://twitter.com/macuyiko">Let me …</a></li></ul>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/replacing-bibtex-references-with-dblp-entries.html">Read more</a></p>
 			</div>
 		</article>
 
