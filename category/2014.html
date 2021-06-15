@@ -7,45 +7,11 @@
 	<title>Bed Against The Wall - 2014 category</title>
 
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
-	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.5.1.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
 
-
-	<script type="text/javascript">
-		var waitForFinalEvent = (function () {
-			var timers = {};
-			return function (callback, ms, uniqueId) {
-				if (!uniqueId) uniqueId = "_";
-				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
-				timers[uniqueId] = setTimeout(callback, ms);
-			};
-		})();
-		var insertCaptions = function () {
-			$('#articlecontainer .caption').remove();
-			var width = $(window).width();
-			var onmobile = width < 1400; //>
-			var capclass = onmobile ? 'caption-below' : 'caption-aside';
-			$.each($('#articlecontainer img'), function (index, value) {
-				if ($(value).attr('alt') != undefined) {
-					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
-					if (onmobile) elem.insertAfter(value);
-					else elem.insertBefore(value);
-				}
-			});
-		};
-		$(function () {
-			$(window).resize(function () {
-				waitForFinalEvent(function () {
-					insertCaptions();
-				}, 500, "window.resize");
-			});
-			insertCaptions();
-		});
-	</script>
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-60406-11']);
@@ -61,16 +27,13 @@
 
 <body>
 
-	<nav>
-		<div class="top-bar large-12 columns">
-			<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
-		</div>
-	</nav>
+	<header id="header">
+		<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</header>
 
 
-	<div class="row contentwrapper">
-		<div class="row">
-<div class="large-9 columns">
+	<div id="container">
+<div class="col" id="content">
         
 		<article>
 			<header>
@@ -84,7 +47,7 @@
 <p>They are approaching it like most of their&nbsp;offerings:</p>
 <ol>
 <li>Explore and learn from foreign&nbsp;competitors …</li></ol>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/this-is-what-the-chinese-cloud-looks-like.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2014/this-is-what-the-chinese-cloud-looks-like.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -99,7 +62,7 @@
 					<p>I&#8217;ve been reinstalling a lot of Windows machines lately (cleaning house and such), and just wanted to jot down a list of apps I&#8217;ll install before doing anything else. To get the base system running, so to speak, mostly as a reminder to my future&nbsp;self.</p>
 <h2>Web</h2>
 <h3>Chrome …</h3>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/list-of-apps.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2014/list-of-apps.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -112,7 +75,7 @@
 			</header>
 			<div class="article-summary">
 					<p>Although I now have moved on &#8212; for most part &#8212; from <span class="caps">PHP</span>, I am still maintaining a number of websites build on top of Joomla. Ever since Joomla 3.0 was released, Joomla 1.5 has reached end-of-life status, meaning that there will be no more updates nor security fixes for …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/joomla-15-security-fixes.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2014/joomla-15-security-fixes.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -126,7 +89,7 @@
 			<div class="article-summary">
 					<p>Just a small post. I&#8217;ve been using <a href="https://github.com/Xeoncross/jr">this project</a> lately to set up some quick static-only-but-Markdown-enabled project pages for a while&nbsp;now.</p>
 <p>Basically, it allows you to set up a static website with minimal theming, but with the content rendering offloaded to the browser (in Javascript) instead of relying …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/small-jrjs-junior-modification.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2014/small-jrjs-junior-modification.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -140,7 +103,7 @@
 			<div class="article-summary">
 					<p>This was going to be a short &#8220;list&#8221; post, but expanded to something a little bit&nbsp;larger.</p>
 <p>Recently, I&#8217;ve acquired a shiny new Dell <span class="caps">XPS</span> laptop. The exact specs are not important; compared to almost a <a href="//blog.macuyiko.com/post/2014/converting-plain-text-references-to-bibtex-or-endnote-or.html">decennia ago</a>, phones, laptops, desktops and tablets have gained such a commodity-status that …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/windows-8-annoyances-and-the-sad-state-of-operating-systems-and-everything-really.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2014/windows-8-annoyances-and-the-sad-state-of-operating-systems-and-everything-really.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -155,7 +118,7 @@
 					<ul>
 <li><em>Update (2014-08-08):</em> commenters on <a href="https://twitter.com/macuyiko">Twitter</a> have notified me about <a href="http://www.snowelm.com/~t/doc/tips/makebib.en.html">this script</a> which aims to accomplish something similar, without <span class="caps">DBLP</span>, however. Fellow researcher Joos Buijs has also started working on a <span class="caps">DBLP</span>-enabled BibTeX cleaner over <a href="https://github.com/joosbuijs/bibcleaner">here</a>.</li>
 <li><em>Update (2014-10-17):</em> all code is now up on a separate <a href="http://blog.macuyiko.com/post/2014/replacing-bibtex-references-with-dblp-entries.html">GitHub repository</a>. <a href="https://twitter.com/macuyiko">Let me …</a></li></ul>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/replacing-bibtex-references-with-dblp-entries.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2014/replacing-bibtex-references-with-dblp-entries.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -169,23 +132,20 @@
 			<div class="article-summary">
 					<p><strong>Update:</strong> <a href="//blog.macuyiko.com/post/2016/converting-plain-text-references-to-bibtex-updated.html">new post and source code here</a>.</p>
 <p>So last weekend, I&#8217;d almost finished editing a Word manuscript draft to submit to a particular journal, except for one final item on the todo list: converting the existing list of references (inserted and formatted as a plain text list) to another …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2014/converting-plain-text-references-to-bibtex-or-endnote-or.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2014/converting-plain-text-references-to-bibtex-or-endnote-or.html">Read more</a></p>
 			</div>
 		</article>
 
-<div class="pagination-centered">
-
-<h6 class="subheader">
-	&laquo; Prev
-	Page 1 of 1	
-	Next &raquo;
-</h6>
-
+<div class="pagination">
+	<h6>
+		&laquo; Prev
+		Page 1 of 1	
+		Next &raquo;
+	</h6>
 </div>
 </div>
-
  
-<aside class="large-3 columns">
+<aside class="col" id="navigation">
 	<div style="text-align: center;">
 		<img src="/images/avatar.jpg" width="100" class="avatar" />
 	</div>
@@ -217,20 +177,17 @@
 			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
 		</form>
 	</div>
-	
 </aside>
-		</div>
-
-		<footer class="row">
-			<div class="large-12 columns">
-				<hr />
-				<div class="row">
-					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
-						Unless mentioned otherwise, this work is licensed under a <a
-							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
-							Attribution-Share Alike 2.0 Belgium License</a>.<br>
-						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
-				</div>
-			</div>
-		</footer>
 	</div>
+
+
+	<footer id="footer">
+		<hr />
+		<div class="row">
+			<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a
+					href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">
+					Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+		</div>
+	</footer>

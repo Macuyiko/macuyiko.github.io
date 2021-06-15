@@ -7,45 +7,11 @@
 	<title>Bed Against The Wall - 2006 category</title>
 
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
-	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
-	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.5.1.min.js"></script>
 	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
 
-
-	<script type="text/javascript">
-		var waitForFinalEvent = (function () {
-			var timers = {};
-			return function (callback, ms, uniqueId) {
-				if (!uniqueId) uniqueId = "_";
-				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
-				timers[uniqueId] = setTimeout(callback, ms);
-			};
-		})();
-		var insertCaptions = function () {
-			$('#articlecontainer .caption').remove();
-			var width = $(window).width();
-			var onmobile = width < 1400; //>
-			var capclass = onmobile ? 'caption-below' : 'caption-aside';
-			$.each($('#articlecontainer img'), function (index, value) {
-				if ($(value).attr('alt') != undefined) {
-					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
-					if (onmobile) elem.insertAfter(value);
-					else elem.insertBefore(value);
-				}
-			});
-		};
-		$(function () {
-			$(window).resize(function () {
-				waitForFinalEvent(function () {
-					insertCaptions();
-				}, 500, "window.resize");
-			});
-			insertCaptions();
-		});
-	</script>
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-60406-11']);
@@ -61,16 +27,13 @@
 
 <body>
 
-	<nav>
-		<div class="top-bar large-12 columns">
-			<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
-		</div>
-	</nav>
+	<header id="header">
+		<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
+	</header>
 
 
-	<div class="row contentwrapper">
-		<div class="row">
-<div class="large-9 columns">
+	<div id="container">
+<div class="col" id="content">
         
 		<article>
 			<header>
@@ -89,7 +52,7 @@
 
 <p>Then:</p>
 <div class="highlight"><pre><span></span><code><span class="err">sudo apt-get update …</span></code></pre></div>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/finished.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/finished.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -103,7 +66,7 @@
 			<div class="article-summary">
 					<p>Just wanted to share this quick story: recently I had to install Oki C5700 drivers on an Ubuntu machine. A quick look at the web panel revealed that it was not supporting ipp (Cups). So you have to set it up as a Unix Printer (<span class="caps">LPR</span>).</p>
 <p>After that it seems …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/oki-printers-in-ubuntu.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/oki-printers-in-ubuntu.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -117,7 +80,7 @@
 			<div class="article-summary">
 					<p>Recently we got a new <span class="caps">HP</span> Scanner. It&#8217;s a good, nice, and generally works without any&nbsp;complaints.</p>
 <p>The scanner I used before was a crappy scanner with a no-name brand nobody knows, picked up for almost nothing at some cheapskate-store (since I very rarely need to scan something). The …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/crappy-scanners-and-linux.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/crappy-scanners-and-linux.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -130,7 +93,7 @@
 			</header>
 			<div class="article-summary">
 					<p>Today I finally decided to spend some time and try to install Neverwinter Nights on my laptop, since I absolutely still love that game. Of course: you could follow <a href="http://ubuntuforums.org/showthread.php?t=113259">this howto</a>, but since I don&#8217;t have <span class="caps">NWN</span> Platinum or Diamond, I had to follow other instructions. I didn&#8217;t …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/neverwinter-nights-on-my-ubuntu-laptop.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -145,7 +108,7 @@
 					<p>I&#8217;ve been checking out some games for my Linux machine recently (that almost sounds like an oxymoron). I&#8217;m not going to go all whiny on you with a &#8220;Linux does have games!&#8221;-post, but will just review a few of them (the most popular&nbsp;ones).</p>
 <ul>
 <li><a href="http://projects.planetpenguin.de/racer/">Planet Penguin Racer …</a></li></ul>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/linux-games.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/linux-games.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -160,7 +123,7 @@
 					<p>Latest Ubuntu xorg-core update breaks X, oh&nbsp;boy&#8230;</p>
 <p>If you are already in trouble just want some general info: head over to <a href="http://ubuntuforums.org/showthread.php?t=241254">this thread</a>. The package itself has been fixed (already). Be sure to download the point 4 and not the point 3&nbsp;release.</p>
 <p>So what&#8217;s this all about …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/close-call.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/close-call.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -175,7 +138,7 @@
 					<p>Here it is, as&nbsp;promised&#8230;</p>
 <p>Yesterday I decided to &#8220;quickly give <span class="caps">AIGLX</span>/Compiz a go&#8221;. I use <span class="caps">AIGLX</span> because I do this on my Thinkpad and it has an Intel card. <span class="caps">AIGLX</span> gives better performance with these&nbsp;cards.</p>
 <p>There are already nice how-to&#8217;s at <a href="http://doc.gwos.org/index.php/Xorg_Aiglx_Compiz">this</a> and <a href="http://corvillus.com/2006/08/03/how-to-set-up-aiglx-and-compiz-on-ubuntu-606-running-gnome/">this</a> location, but …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/visiting-aiglxcompix-and-back-again.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -190,7 +153,7 @@
 					<p>Story number 5&nbsp;already.</p>
 <p>Here is the background talk: now that I finally have bluetooth support (I never had an <span class="caps">USB</span> dongle) I could finally copy my pictures over from my Nokia phone (since I don&#8217;t want to invest in an expensive non-standard <span class="caps">USB</span>&nbsp;cable).</p>
 <p>I followed some advice …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/thinkpad-stories-5-already-bluetooth-and-nokia-phones.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -204,7 +167,7 @@
 			<div class="article-summary">
 					<p>If you&#8217;re a <a href="http://digg.com/">Digg</a>&#8216;er, you&#8217;ll probably know the <a href="http://labs.digg.com/">Digg Labs</a>: the site where you can track how users are digging stories. In&nbsp;realtime.</p>
 <p>Most of you will know that Digg is programmed in <span class="caps">PHP</span>. The two Flash applications provided in Digg labs have to get their data …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/realtime-monitoring-with-php.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/realtime-monitoring-with-php.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -218,23 +181,20 @@
 			<div class="article-summary">
 					<p>After quickly setting up Windows <span class="caps">XP</span> and removing all the unnecessary software (who wants Symantec for God&#8217;s sake?) it was time to think about booting the Ubuntu&nbsp;installer.</p>
 <p>This would be a non-trivial task for me, because my <span class="caps">CD</span>/<span class="caps">DVD</span>-burner/reader has not arrived yet and I could …</p>
-				<p>&rarr; <a href="//blog.macuyiko.com/post/2006/thinkpad-stories-1-so-ya-wanna-boot-ubuntu.html">Read more</a></p>
+				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2006/thinkpad-stories-1-so-ya-wanna-boot-ubuntu.html">Read more</a></p>
 			</div>
 		</article>
 
-<div class="pagination-centered">
-
-<h6 class="subheader">
-	&laquo; Prev
-	Page 1 of 2	
-	<a href="//blog.macuyiko.com/category/20062.html">Next &raquo;</a>
-</h6>
-
+<div class="pagination">
+	<h6>
+		&laquo; Prev
+		Page 1 of 2	
+		<a href="//blog.macuyiko.com/category/20062.html">Next &raquo;</a>
+	</h6>
 </div>
 </div>
-
  
-<aside class="large-3 columns">
+<aside class="col" id="navigation">
 	<div style="text-align: center;">
 		<img src="/images/avatar.jpg" width="100" class="avatar" />
 	</div>
@@ -266,20 +226,17 @@
 			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
 		</form>
 	</div>
-	
 </aside>
-		</div>
-
-		<footer class="row">
-			<div class="large-12 columns">
-				<hr />
-				<div class="row">
-					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
-						Unless mentioned otherwise, this work is licensed under a <a
-							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
-							Attribution-Share Alike 2.0 Belgium License</a>.<br>
-						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
-				</div>
-			</div>
-		</footer>
 	</div>
+
+
+	<footer id="footer">
+		<hr />
+		<div class="row">
+			<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+				Unless mentioned otherwise, this work is licensed under a <a
+					href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">
+					Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
+				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+		</div>
+	</footer>
