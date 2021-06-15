@@ -7,11 +7,45 @@
 	<title>Bed Against The Wall - 2013 category</title>
 
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
 	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
-	<script src="//blog.macuyiko.com/theme/js/jquery-3.5.1.min.js"></script>
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Source+Code+Pro&display=swap" rel="stylesheet">
 
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
 	<script type="text/javascript">
 		var _gaq = _gaq || [];
 		_gaq.push(['_setAccount', 'UA-60406-11']);
@@ -27,13 +61,16 @@
 
 <body>
 
-	<header id="header">
-		<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
-	</header>
+	<nav>
+		<div class="top-bar large-12 columns">
+			<h1><a href="//blog.macuyiko.com/">Bed Against The Wall</a></h1>
+		</div>
+	</nav>
 
 
-	<div id="container">
-<div class="col" id="content">
+	<div class="row contentwrapper">
+		<div class="row">
+<div class="large-9 columns">
         
 		<article>
 			<header>
@@ -44,7 +81,7 @@
 			<div class="article-summary">
 					<p>Another one of these things I always end up forgetting: setting up a Linux (in this case: Ubuntu) server so that users can login using a <span class="caps">VNC</span> client and get a (slim)&nbsp;desktop.</p>
 <p>First thing you need to do is make sure you have a <span class="caps">VNC</span> server (<code>tightvncserver</code>), desktop apps …</p>
-				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2013/note-to-self-setting-up-vnc-desktop-for-remote-user.html">Read more</a></p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2013/note-to-self-setting-up-vnc-desktop-for-remote-user.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -59,7 +96,7 @@
 					<p>Phew, all internal links on the blog should work fine now. There are a bunch left which link to the <em>old</em> Blogger pages, but that&#8217;s fine I guess; I&#8217;ll fix these as they&nbsp;come.</p>
 <p>I promised to <a href="//blog.macuyiko.com/post/2013/i-did-switch-to-pelican.html">follow-up</a> with some more details, so here&nbsp;goes&#8230;</p>
 <p>Quickly after writing …</p>
-				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2013/pelican-switch-follow-up.html">Read more</a></p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2013/pelican-switch-follow-up.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -74,7 +111,7 @@
 					<p>Just a quick heads up to let you know that this blog will look a bit different &#8212; once&nbsp;again!</p>
 <p>Although indicated <a href="//blog.macuyiko.com/post/2013/i-almost-switched-to-pelican-a-static-blog-engine.html">otherwise</a> about a week ago, I&#8217;ve nevertheless decided to move away from Blogger and migrate to&nbsp;Pelican.</p>
 <p>I&#8217;ll make sure to go into the details in a …</p>
-				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2013/i-did-switch-to-pelican.html">Read more</a></p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2013/i-did-switch-to-pelican.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -89,7 +126,7 @@
 					<h3>Summary and&nbsp;Changes</h3>
 <p>This post describes how you can create a Python interpreter for a Bukkit Minecraft server, providing access to the full internal <span class="caps">API</span>. Commands are issued on a separate console window and do not require players or server administrators to be running the game&nbsp;itself.</p>
 <p>Following list provides …</p>
-				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2013/a-bukkit-jython-console-plugin-for-minecraft.html">Read more</a></p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2013/a-bukkit-jython-console-plugin-for-minecraft.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -103,7 +140,7 @@
 			<div class="article-summary">
 					<p>Visitors familiar with my blog will notice a pretty big change when viewing this post. The blog&#8217;s been due for a redesign for some time now, so a few days ago I finally went through with&nbsp;it.</p>
 <p>The redesign took more time than expected, since I spent quite a …</p>
-				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2013/i-almost-switched-to-pelican-a-static-blog-engine.html">Read more</a></p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2013/i-almost-switched-to-pelican-a-static-blog-engine.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -117,7 +154,7 @@
 			<div class="article-summary">
 					<p>Two years after having moved to Linode, coming <a href="//blog.macuyiko.com/post/2011/oneiric-linode-server-migration.html">from Slicehost</a>, it seems that a new competitor is once again at the horizon, namely <a href="https://www.digitalocean.com">Digital Ocean</a>.</p>
 <p>I&#8217;d heard good things about them already, especially on Hacker News, praising their competitive pricing and clean dashboard. However, being newcomers to the field …</p>
-				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2013/raring-digital-ocean-server-setup.html">Read more</a></p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2013/raring-digital-ocean-server-setup.html">Read more</a></p>
 			</div>
 		</article>
 
@@ -133,20 +170,23 @@
 <p>First of all, let&#8217;s revisit 2012&#8230; Here are the games I was interested in last year, together with the outcome &#8212; at least according to&nbsp;me:</p>
 <ul>
 <li>Star Wars: The …</li></ul>
-				<p class="article-readmore">&rarr; <a href="//blog.macuyiko.com/post/2013/games-ill-keep-an-eye-on-in-2013.html">Read more</a></p>
+				<p>&rarr; <a href="//blog.macuyiko.com/post/2013/games-ill-keep-an-eye-on-in-2013.html">Read more</a></p>
 			</div>
 		</article>
 
-<div class="pagination">
-	<h6>
-		&laquo; Prev
-		Page 1 of 1	
-		Next &raquo;
-	</h6>
+<div class="pagination-centered">
+
+<h6 class="subheader">
+	&laquo; Prev
+	Page 1 of 1	
+	Next &raquo;
+</h6>
+
 </div>
 </div>
+
  
-<aside class="col" id="navigation">
+<aside class="large-3 columns">
 	<div style="text-align: center;">
 		<img src="/images/avatar.jpg" width="100" class="avatar" />
 	</div>
@@ -178,17 +218,20 @@
 			<input type="hidden" name="sitesearch" value="blog.macuyiko.com" />
 		</form>
 	</div>
+	
 </aside>
-	</div>
-
-
-	<footer id="footer">
-		<hr />
-		<div class="row">
-			<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
-				Unless mentioned otherwise, this work is licensed under a <a
-					href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">
-					Creative Commons Attribution-Share Alike 2.0 Belgium License</a>.<br>
-				Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
 		</div>
-	</footer>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>
