@@ -100,7 +100,7 @@ This is enough to understand what most resources refer to as the "tiled" mode of
 The tiles themselves are just visualized in a solid color, and running the algorithm then gives the following result:
 
 <div src="/iframes/wfc/index1.html"
-	class="toggle" scrolling="no" frameborder="0" width="620" height="660"></div>
+	class="toggle" scrolling="no" frameborder="0" width="620" height="640"></div>
 
 ## Moving to the Overlapping Mode
 
@@ -121,17 +121,17 @@ The final "trick" to understand is that to visualize our grid G, we need to over
 And then we get the following end result for a 2x2 set of tiles:
 
 <div src="/iframes/wfc/index2.html"
-	class="toggle" scrolling="no" frameborder="0" width="320" height="320"></div>
+	class="toggle" scrolling="no" frameborder="0" width="320" height="300"></div>
 
 If we try this with one of the 3x3 examples, however, we might find that it does not work as expected:
 
 <div src="/iframes/wfc/index3b.html"
-	class="toggle" scrolling="no" frameborder="0" width="320" height="320"></div>
+	class="toggle" scrolling="no" frameborder="0" width="320" height="300"></div>
 
 The "mistake" made here is that we didn't allow sliding window to go outside the boundaries of the template image and wrap around. Once we fix that, we get the expected result (the grayscale color used here indicates the number of possibilities left for non-collapsed cells):
 
 <div src="/iframes/wfc/index3.html"
-	class="toggle" scrolling="no" frameborder="0" width="560" height="560"></div>
+	class="toggle" scrolling="no" frameborder="0" width="560" height="540"></div>
 
 ## More Tiles
 
@@ -142,7 +142,7 @@ When this is done, one however needs to be careful when constructing the set of 
 [This website](https://www.kchapelier.com/wfc-example/overlapping-model.html) allows you to play around with a fast implementation of the overlapping mode and lets you draw your own pattern as well. I'm embedding it below so you can play around with it:
 
 <div src="https://www.kchapelier.com/wfc-example/overlapping-model.html"
-	class="toggle" scrolling="no" frameborder="0" width="620" height="940"></div>
+	class="toggle" scrolling="no" frameborder="0" width="620" height="900"></div>
 
 ## Supervised WFC?
 
@@ -152,15 +152,15 @@ There are different approaches to tacke this. Perhaps the easiest would just be 
 
 Something which I have been exploring a while ago whilst looking through [loackme's](https://x.com/loackme_/status/1796133541312426096) work was whether WFC would also lend itself to creating this kind of glitch art. Starting from a target image, instead of using `tile_to_use = random(G[cell_to_collapse])`, I instead picked the tile which pattern was closest to the corresponding spot in the target image. I first used RMSE to do so but later switched to using the [Euclidean distance between two points in Lab color space](https://scikit-image.org/docs/stable/api/skimage.color.html#skimage.color.deltaE_cie76) instead, which worked a lot better.
 
-Since my implementation was very slow, I perform the generation in a multi-threaded way by just slicing up the image into smaller squares and running WFC on each of them. This breaks the local constraints at the edges of the smaller squares, which can be mitigated if you're careful how you go over the squares (i.e. with the neighborhood above, a checkerboard pattern would work), but I found it makes the results look a interesting as well.
-
-Depending on the template used, you can get pretty good results this way.
-
 ![](/images/2024/out3.png)
 
-![](/images/2024/out11.png)
+Since my implementation was very slow, I perform the generation in a multi-threaded way by just slicing up the image into smaller squares and running WFC on each of them. This breaks the local constraints at the edges of the smaller squares, which can be mitigated if you're careful how you go over the squares (i.e. with the neighborhood above, a checkerboard pattern would work), but I found it makes the results look interesting as well.
 
-![This one is very glitchy](/images/2024/out6.png)
+Depending on the template used, you can pretty good or at least diverse results this way:
+
+![Ghost in the shell](/images/2024/out11.png)
+
+![This one is very glitchy but you can still recognize the reference image](/images/2024/out6.png)
 
 ![A weird Ryan Gosling](/images/2024/out12.png)
 
