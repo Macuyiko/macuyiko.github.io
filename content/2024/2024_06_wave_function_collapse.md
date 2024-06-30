@@ -408,7 +408,7 @@ For relatively small images, CP-SAT is actually quite capable at this, as seen i
 
 This solution is very close to its bound, but proving optimality does take a very long time. Nevertheless, a good-enough solution is reached after 10 minutes. Even though it's similarity to the target image is less, it is correct in terms of WFC constraints and the additional glitchiness makes it look good as well:
 
-![](/images/2024/test_00040.png)
+![](/images/2024/test_00033.png)
 
 What's even cooler is that we can keep track of the different solutions as they are being produced (each with a better similarity to the target image), stick them in a GIF, and show them.
 
