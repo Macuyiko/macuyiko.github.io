@@ -97,7 +97,7 @@ That's all there is to it.
 
 This is enough to understand what most resources refer to as the "tiled" mode of WFC. For example, say that we have *T* = {mountain, grass, beach, water} and *C* = {(L, water, water), (L, water, beach), (L, beach, water), (L, beach, beach), (L, beach, grass), (L, grass, beach), (L, grass, grass), (L, grass, mountain), (L, mountain, grass), (L, mountain, mountain), ... (repeat for the other offsets)}. In other words, we have a simplistic and symmetric set of allowances here where water can be next to water or beach, a beach can be next to water, beach or grass, and so on.
 
-The tiles themselves are just visualized in a solid color, and running the algorithm then gives up the following result:
+The tiles themselves are just visualized in a solid color, and running the algorithm then gives the following result:
 
 <div src="/iframes/wfc/index1.html"
 	class="toggle" scrolling="no" frameborder="0" width="620" height="660"></div>
