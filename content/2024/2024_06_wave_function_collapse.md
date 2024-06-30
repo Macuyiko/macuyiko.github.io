@@ -281,7 +281,7 @@ Which looks like this:
    ┏┛       ┏┛ ┏┛┗━┓┗┛┗┛   ┗┛ ┗━┓
 ```
 
-What we can also easily do since we're using CP-SAT is add an objective. E.g. to ensure we get enough variation, we could maximize the entropy of the generated pattern using something like Σ -sum(*p* \* log(*p*)) for each cell with p being the number of times the tile appears in the map divided by the map size. The issue is that this is difficult to implement in CP-SAT.
+What we can also easily do since we're using CP-SAT is add an objective. E.g. to ensure we get enough variation, we could maximize the entropy of the generated pattern using something like Σ -sum(*p* \* log(*p*)) for each cell with *p* being the number of times the tile appears in the map divided by the map size. The issue is that this is difficult to implement in CP-SAT.
 
 An easier proxy is to minimize the difference between the maximum and minimum times a tile appears:
 
