@@ -346,9 +346,9 @@ That seems to work pretty well:
                               ┗┓    ┏┓
 ```
 
-We could in fact add the same constraint for all of the tiles. An extension could also entail checking this for sizes from NHigh to NLow and then including minimization of the size in the objective.
+(We could in fact add the same constraint for all of the tiles. An extension could also entail checking this for sizes from NHigh to NLow and then including minimization of the size in the objective.)
 
-To end with something fun, we could also try to generate a space filling curve. We can do so by first creating a Hamiltonian cycle over the cells and then maximize the length of the cycle in the objective. We keep in the previous constraints to make it challenging.
+We can also try to generate a space filling curve. We can do so by first creating a Hamiltonian cycle over the cells and then maximize the length of the cycle in the objective. We keep in the previous constraints to make it challenging.
 
 ```python
 # Construct Hamiltonian cycle
