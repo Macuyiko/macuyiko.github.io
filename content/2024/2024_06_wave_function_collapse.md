@@ -2,6 +2,9 @@ Title: Some Fun with Wave Function Collapse
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2024-06-29 09:22
 
+
+If you're at all interested in procedural generation, digital art or game development, it's very likely that you've heard about the [wave function collapse](https://github.com/mxgmn/WaveFunctionCollapse) (WFC) algorithm before. It's incredible popular, [has been ported to virtually every language](https://github.com/mxgmn/WaveFunctionCollapse?tab=readme-ov-file#notable-ports-forks-and-spinoffs) and engine, and used in several games.
+
 <script>
 $(function() {
 	$('.toggle').each(function(index) {
@@ -24,8 +27,6 @@ $(function() {
 	});
 });
 </script>
-
-If you're at all interested in procedural generation, digital art or game development, it's very likely that you've heard about the [wave function collapse](https://github.com/mxgmn/WaveFunctionCollapse) (WFC) algorithm before. It's incredible popular, [has been ported to virtually every language](https://github.com/mxgmn/WaveFunctionCollapse?tab=readme-ov-file#notable-ports-forks-and-spinoffs) and engine, and used in several games.
 
 In essence, WFC is a texture synthesis algorithm that generates an output image with a desired size that is as similar as possible to a given sample image. WFC tries to ensure local similarity, meaning that the output image can only contain NxN patterns of pixels that are prersent in the input.
 
