@@ -37,6 +37,6 @@ Het Vaticaan				|	2024	|	Rik Torfs						|	great
 Calling Bullshit			|	2020	|	Carl Bergstrom, Jevin West		| 	good
 Entangled Life				|	2020	|	Merlin Sheldrake				| 	good
 
-Don't read too much into the rating system, I'm using a generally bad-ok-good-great assignment (inspired by [https://davidmytton.blog/reading/](https://davidmytton.blog/reading/) but this is based mostly on subjective aspects.
+Don't read too much into the rating system, I'm using a generally bad-ok-good-great assignment (inspired by [https://davidmytton.blog/reading/](https://davidmytton.blog/reading/)) but this is based mostly on subjective aspects.
 
 What I find particularly interesting is how the genre and book themes changed throughout the year. I hope to continue this in 2025.
