@@ -13,7 +13,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 
 RUN apt-get update \
-    && apt-get install --no-install-recommends -qy git curl bash ca-certificates gnupg
+    && apt-get install --no-install-recommends -qy git curl bash ca-certificates gnupg wget
 
 # Pre-requisites for Pillow, a key requirement for many python-based pelican installs.
 # Per https://pillow.readthedocs.io/en/stable/installation.html#
