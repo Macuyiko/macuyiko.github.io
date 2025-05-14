@@ -19,6 +19,5 @@ jobs:
           GH_PAGES_CNAME:         'blog.macuyiko.com'
           PELICAN_CONFIG_FILE:    'pelicanconf.py'
           PELICAN_CONTENT_FOLDER: 'content'
-          PELICAN_THEME_FOLDER:   'theme'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
