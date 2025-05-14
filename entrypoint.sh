@@ -9,6 +9,7 @@ remote_branch=${GH_PAGES_BRANCH}
 
 echo 'Installing UV…'
 wget -qO- https://astral.sh/uv/install.sh | sh
+source $HOME/.local/bin/env
 
 echo 'Initializing UV environment…'
 uv sync
