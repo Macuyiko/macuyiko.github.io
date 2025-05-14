@@ -1,40 +1,29 @@
 name: GitHub Pages Pelican Build Action
-description: Build a Pelican project and deploy it to GitHub Pages via a Docker container.
+description: Build a Pelican site via UV/Pelican and deploy it to GitHub Pages.
 branding:
   icon: home
   color: red
 
 inputs:
   GH_PAGES_BRANCH:
-    description: 'Override the default `gh-pages` deployment branch'
+    description: 'Deployment branch (defaults to gh-pages)'
     required: false
     default: 'gh-pages'
   GH_PAGES_CNAME:
-    description: 'Specify the custom domain (CNAME) for GitHub Pages'
+    description: 'Custom domain for CNAME (omit or set to "none" if none)'
     required: false
-    default: ''
+    default: 'none'
   PELICAN_CONFIG_FILE:
-    description: 'Override the default Pelican config file'
+    description: 'Pelican config file'
     required: false
-    default: pelicanconf.py
+    default: 'pelicanconf.py'
   PELICAN_CONTENT_FOLDER:
-    description: 'Override the default Pelican content folder'
+    description: 'Pelican content folder'
     required: false
-    default: content
-  PELICAN_THEME_FOLDER:
-    description: 'Theme folder (with package.json) if you need to install Node modules'
-    required: false
-    default: ''
+    default: 'content'
 
 runs:
   using: 'docker'
   image: 'Dockerfile'
-  args:
-    - '${{ inputs.PELICAN_CONFIG_FILE }}'
-    - '${{ inputs.PELICAN_CONTENT_FOLDER }}'
-    - '${{ inputs.PELICAN_THEME_FOLDER }}'
-    - '${{ inputs.GH_PAGES_BRANCH }}'
-    - '${{ inputs.GH_PAGES_CNAME }}'
-env:
-  # allow the Docker container to push back to the repo
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  env:
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
