@@ -27,6 +27,7 @@ pushd output
 
   # CNAME if requested
   if [[ -n "$GH_PAGES_CNAME" && "$GH_PAGES_CNAME" != "none" ]]; then
+    echo "CNAME: $GH_PAGES_CNAME"
     echo "$GH_PAGES_CNAME" > CNAME
   fi
 
