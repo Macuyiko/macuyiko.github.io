@@ -14,10 +14,9 @@ jobs:
 
       - name: Pelican → GitHub Pages
         uses: ./
-        with:
-          GH_PAGES_BRANCH:        'gh-pages'
-          GH_PAGES_CNAME:         'blog.macuyiko.com'
-          PELICAN_CONFIG_FILE:    'pelicanconf.py'
-          PELICAN_CONTENT_FOLDER: 'content'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_PAGES_BRANCH: 'gh-pages'
+          GH_PAGES_CNAME: 'blog.macuyiko.com'
+          PELICAN_CONFIG_FILE: 'pelicanconf.py'
+          PELICAN_CONTENT_FOLDER: 'content'
