@@ -14,7 +14,6 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com">
 	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
 
-
 	<script type="text/javascript">
 		var waitForFinalEvent = (function () {
 			var timers = {};
@@ -63,7 +62,12 @@
 
 	<nav>
 		<div class="top-bar large-12 columns">
-			<h1><a href="{{ SITEURL }}/">{{ SITENAME }}</a></h1>
+			<div class="top-bar large-12 columns">
+				<a href="{{ SITEURL }}/">
+					<h1 class="header-name">{{ SITENAME }}</h1>
+    				<h5 class="header-tagline">It's all good</h5>
+				</a>
+			</div>
 		</div>
 	</nav>
 

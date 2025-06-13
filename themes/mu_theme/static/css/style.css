@@ -163,12 +163,13 @@ code {
 	margin-bottom: 1.5em;
 }
 
-.top-bar h1 {
+.top-bar .header-name {
 	margin-top: 0.4em;
+	color: #fff;
 }
 
-.top-bar a {
-	color: #fff;
+.top-bar .header-tagline {
+	font-style: oblique;
 }
 
 .avatar {
