@@ -319,7 +319,7 @@ This provides us with this:
     ┏┓             ┗┓┏┓ ┏┛ ┏┛┗┛┃┏┓┃┗┓┏┛┃
 ```
 
-Though this is still a bit imbalanced topology-wise. Perhaps we can do better by looking at repetitions of NxN patterns instead? This is quite a challenge to express as an objective. Perhaps we can take a different approach: what we want to avoid is having that large areas filled with space on the left, so lets tackle that. One obvious way would just be to say that for and NxN area, we disallow that area from being filled up with space:
+Though this is still a bit imbalanced topology-wise. Perhaps we can do better by looking at repetitions of NxN patterns instead? This is quite a challenge to express as an objective. Perhaps we can take a different approach: what we want to avoid is having that large areas filled with space on the left, so lets tackle that. One obvious way would just be to say that for any NxN area, we disallow that area from being filled up with space:
 
 ```python
 # Avoid large space
