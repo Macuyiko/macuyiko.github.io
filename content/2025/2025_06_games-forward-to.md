@@ -29,3 +29,10 @@ In any case, this is what I have noted down so far (alphabetically):
 - **Suikoden I & II HD Remaster** – Enhanced visual fidelity and quality‑of‑life updates to classic JRPG duology.
 - **Suikoden Star Leap** – Is similar, if I ever find time to actually play all these RPGs.
 - **Titan Quest 2** – Evolves the beloved mythic‑action‑RPG formula. And I'm kinda in the mood for some hack 'n' slash again.
+
+A couple of additional demos from Steam Next I enjoyed:
+
+- **Cleared Hot**
+- **Dead as Disco**
+- **THYSIASTERY**
+- **MIO: Memories in Orbit**
