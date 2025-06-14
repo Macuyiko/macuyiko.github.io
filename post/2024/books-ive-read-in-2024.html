@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Books I’ve Read in 2024</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">We do it until we get bored</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Tue 24 December 2024, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2024/books-ive-read-in-2024.html" rel="bookmark"
+			title="Permalink to Books I’ve Read in 2024">Books I&#8217;ve Read in&nbsp;2024</a></div>
+		</header>
+	
+	    <p>At the end of 2023, certain events in my life led to a realization that I was spending way too little time on reading in the years past, even though I have always been an avid reader in my youth and adult life. Facing some &#8220;weltschmerz&#8221; and not finding enjoyment in series, movies or games that much anymore, I decided to set out to read more in&nbsp;2024.</p>
+<p>Overall, this has been a success. I found that I still enjoy reading, and the initial months of surpassing the brainrot and having to learn to focus again have been generally beneficial. These are the books I&#8217;ve&nbsp;read:</p>
+<table>
+<thead>
+<tr>
+<th>Title</th>
+<th>Year</th>
+<th>Author</th>
+<th>Rating</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Determined</td>
+<td>2023</td>
+<td>Robert M. Sapolsky</td>
+<td>good</td>
+</tr>
+<tr>
+<td>Behave</td>
+<td>2017</td>
+<td>Robert M. Sapolsky</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>Venomous</td>
+<td>2016</td>
+<td>Christie Wilcox</td>
+<td>good</td>
+</tr>
+<tr>
+<td>Zero</td>
+<td>2000</td>
+<td>Charles Seife</td>
+<td>book</td>
+</tr>
+<tr>
+<td>The Courage to Be Disliked</td>
+<td>2013</td>
+<td>Ichiro Kishimi, Fumitake Koga</td>
+<td>book</td>
+</tr>
+<tr>
+<td>Broken Stars</td>
+<td>2019</td>
+<td>Ken Liu</td>
+<td>great</td>
+</tr>
+<tr>
+<td>Scattered Minds</td>
+<td>1999</td>
+<td>Gabor Maté</td>
+<td>book</td>
+</tr>
+<tr>
+<td>Invisible Planets</td>
+<td>2017</td>
+<td>Ken Liu</td>
+<td>great</td>
+</tr>
+<tr>
+<td>Exhalation</td>
+<td>2019</td>
+<td>Ted Chiang</td>
+<td>great</td>
+</tr>
+<tr>
+<td>All Tomorrows</td>
+<td>2006</td>
+<td><span class="caps">C.M.</span> Kösemen</td>
+<td>bad</td>
+</tr>
+<tr>
+<td>Surrounded by Idiots</td>
+<td>2014</td>
+<td>Thomas Erikson</td>
+<td>bad</td>
+</tr>
+<tr>
+<td>Stories of Your Life and Others</td>
+<td>2002</td>
+<td>Ted Chiang</td>
+<td>great</td>
+</tr>
+<tr>
+<td>The Hidden Girl and Other Stories</td>
+<td>2020</td>
+<td>Ken Liu</td>
+<td>good</td>
+</tr>
+<tr>
+<td>The Paper Menagerie</td>
+<td>2011</td>
+<td>Ken Liu</td>
+<td>great</td>
+</tr>
+<tr>
+<td>Rubicon</td>
+<td>2003</td>
+<td>Tom Holland</td>
+<td>book</td>
+</tr>
+<tr>
+<td>The Body Keeps the Score</td>
+<td>2014</td>
+<td>Bessel van der Kolk</td>
+<td>good</td>
+</tr>
+<tr>
+<td>How to Live</td>
+<td>2021</td>
+<td>Derek Sivers</td>
+<td>book</td>
+</tr>
+<tr>
+<td>Blockchain Chicken Farm</td>
+<td>2020</td>
+<td>Xiaowei Wang</td>
+<td>good</td>
+</tr>
+<tr>
+<td>The Molecule of More</td>
+<td>2018</td>
+<td>Daniel Lieberman, Michael Long</td>
+<td>good</td>
+</tr>
+<tr>
+<td>The Gene: An Intimate History</td>
+<td>2016</td>
+<td>Siddhartha Mukherjee</td>
+<td>book</td>
+</tr>
+<tr>
+<td>Building Simcity</td>
+<td>2024</td>
+<td>Chaim Gingold</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>This is Why You Dream</td>
+<td>2024</td>
+<td>Rahul Jandial</td>
+<td>good</td>
+</tr>
+<tr>
+<td>An Immense World</td>
+<td>2022</td>
+<td>Ed Yong</td>
+<td>good</td>
+</tr>
+<tr>
+<td>No Longer Human</td>
+<td>1948</td>
+<td>Osamu Dazai</td>
+<td>great</td>
+</tr>
+<tr>
+<td>Save Me an Orange</td>
+<td>2024</td>
+<td>Hayley Grace</td>
+<td>ok</td>
+</tr>
+<tr>
+<td>Het Vaticaan</td>
+<td>2024</td>
+<td>Rik Torfs</td>
+<td>great</td>
+</tr>
+<tr>
+<td>Calling Bullshit</td>
+<td>2020</td>
+<td>Carl Bergstrom, Jevin West</td>
+<td>good</td>
+</tr>
+<tr>
+<td>Entangled Life</td>
+<td>2020</td>
+<td>Merlin Sheldrake</td>
+<td>good</td>
+</tr>
+</tbody>
+</table>
+<p>Don&#8217;t read too much into the rating system, I&#8217;m using a generally bad-ok-good-great assignment (inspired by <a href="https://davidmytton.blog/reading/">https://davidmytton.blog/reading/</a>) but this is based mostly on subjective&nbsp;aspects.</p>
+<p>What I find particularly interesting is how the genre and book themes changed throughout the year. I hope to continue this in&nbsp;2025.</p>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>
