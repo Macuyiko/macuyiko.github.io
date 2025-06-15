@@ -1,4 +1,4 @@
-Title: Fun with Audiosurf 2 and Mitmproxy
+Title: Fun With Audiosurf 2 And Mitmproxy
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2016-09-24 15:57
 

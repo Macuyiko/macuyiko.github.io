@@ -1,4 +1,4 @@
-Title: Some Games to Look Forward to in 2015
+Title: Some Games To Look Forward To In 2015
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2015-01-18 11:39
 Subtitle: Most of these are indie titles

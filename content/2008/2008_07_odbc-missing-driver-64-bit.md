@@ -1,4 +1,4 @@
-Title: ODBC Missing Driver... 64 Bit
+Title: ODBC Missing Driver On 64 Bit
 Date: 2008-07-17
 Author: Seppe "Macuyiko" vanden Broucke
 

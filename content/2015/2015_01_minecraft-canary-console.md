@@ -1,4 +1,4 @@
-Title: Rebuilding our Jython Console Plugin for Minecraft
+Title: Rebuilding Our Jython Console Plugin For Minecraft
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2015-01-21
 Subtitle: A Python interpreter for a CanaryMod Minecraft server

@@ -1,4 +1,4 @@
-Title: A Bukkit Jython Console Plugin for Minecraft
+Title: A Bukkit Jython Console Plugin For Minecraft
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2013-06-29
 Subtitle: A Python interpreter for a Bukkit Minecraft server

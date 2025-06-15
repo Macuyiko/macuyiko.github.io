@@ -1,4 +1,4 @@
-Title: I Almost Switched to Pelican, a Static Blog Engine
+Title: I Almost Switched To Pelican, A Static Blog Engine
 Date: 2013-06-20
 Author: Seppe "Macuyiko" vanden Broucke
 

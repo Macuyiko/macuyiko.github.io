@@ -1,4 +1,4 @@
-Title: Programming Languages to Try
+Title: Programming Languages To Try
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2016-06-13 10:44
 

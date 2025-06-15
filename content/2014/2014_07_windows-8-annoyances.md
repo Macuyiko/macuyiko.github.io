@@ -1,6 +1,7 @@
-Title: Windows 8 Annoyances (and the Sad State of Operating Systems and Everything, Really)
+Title: Windows 8 Annoyances
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2014-07-31 12:04
+Subtitle: The sad state of operating systems and everything, really
 
 This was going to be a short "list" post, but expanded to something a little bit larger.
 

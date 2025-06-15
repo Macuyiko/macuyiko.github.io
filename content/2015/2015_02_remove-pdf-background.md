@@ -1,4 +1,4 @@
-Title: Removing Background Color from a PDF Presentation
+Title: Removing Background Color From A PDF Presentation
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2015-02-08
 

@@ -1,4 +1,4 @@
-Title: Thinkpad Stories 1: "So ya wanna boot Ubuntu?"
+Title: Thinkpad Stories 1: "So You Want To Boot Ubuntu?"
 Date: 2006-08-11
 Author: Seppe "Macuyiko" vanden Broucke
 

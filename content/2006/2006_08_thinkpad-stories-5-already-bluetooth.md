@@ -1,4 +1,4 @@
-Title: Thinkpad Stories (5 already): "Bluetooth and Nokia phones."
+Title: Thinkpad Stories 5: "Bluetooth And Nokia Phones"
 Date: 2006-08-14
 Author: Seppe "Macuyiko" vanden Broucke
 

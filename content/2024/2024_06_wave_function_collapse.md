@@ -1,4 +1,4 @@
-Title: Some Fun with Wave Function Collapse
+Title: Some Fun With Wave Function Collapse
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2024-06-29 09:22
 

@@ -1,4 +1,4 @@
-Title: I Did Switch to Pelican
+Title: I Did Switch To Pelican
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2013-07-11 01:05
 

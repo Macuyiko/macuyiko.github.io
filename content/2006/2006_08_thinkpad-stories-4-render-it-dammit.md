@@ -1,4 +1,4 @@
-Title: Thinkpad Stories 4: "Render it dammit!"
+Title: Thinkpad Stories 4: "Render It Already"
 Date: 2006-08-11
 Author: Seppe "Macuyiko" vanden Broucke
 

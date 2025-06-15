@@ -1,4 +1,4 @@
-Title: Simulating LIMIT with offsets in SQL
+Title: Simulating LIMIT With Offsets In SQL
 Date: 2007-07-29
 Author: Seppe "Macuyiko" vanden Broucke
 

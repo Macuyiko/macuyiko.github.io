@@ -1,4 +1,4 @@
-Title: This is What the Chinese Cloud Looks Like
+Title: This Is What The Chinese Cloud Looks Like
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2014-12-29 22:34
 Image: clouds.jpg

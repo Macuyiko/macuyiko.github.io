@@ -1,4 +1,4 @@
-Title: Ubuntu Jauntu: Skype Worked Before, Now: "Problem with audio capture"
+Title: Ubuntu Jauntu: Skype Worked Before, Now: "Problem With Audio Capture"
 Date: 2009-04-28
 Author: Seppe "Macuyiko" vanden Broucke
 

@@ -1,4 +1,4 @@
-Title: A Quick Look at Java Decompilers
+Title: A Quick Look At Java Decompilers
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2015-05-11 19:34
 

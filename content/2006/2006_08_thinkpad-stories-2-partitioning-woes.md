@@ -1,4 +1,4 @@
-Title: Thinkpad Stories 2: "Partitioning woes."
+Title: Thinkpad Stories 2: "Partitioning Woes"
 Date: 2006-08-11
 Author: Seppe "Macuyiko" vanden Broucke
 

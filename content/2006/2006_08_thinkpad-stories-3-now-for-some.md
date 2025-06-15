@@ -1,4 +1,4 @@
-Title: Thinkpad Stories 3: "Now for some colours..."
+Title: Thinkpad Stories 3: "Now For Some Colour"
 Date: 2006-08-11
 Author: Seppe "Macuyiko" vanden Broucke
 

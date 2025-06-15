@@ -1,4 +1,4 @@
-Title: How-to: Send HTML Mails with OAuth2 and Gmail in Python
+Title: How To Send HTML Mails With OAuth2 And Gmail In Python
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2016-09-24 15:59
 

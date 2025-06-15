@@ -1,6 +1,7 @@
-Title: Sacrifice RAM Problem (Or: Fixing an Old Game)
+Title: Sacrifice RAM Problem
 Date: 2006-07-13
 Author: Seppe "Macuyiko" vanden Broucke
+Subtitle:  Or: Fixing An Old Game
 
 Update: check out new post with updated instructions [over here](|filename/2008_10_sacrifice-revisited.md).
 

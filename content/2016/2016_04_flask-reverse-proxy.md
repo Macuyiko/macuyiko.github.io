@@ -1,4 +1,4 @@
-Title: Fixing Flask url_for when Behind mod_proxy
+Title: Fixing Flask url_for When Behind mod_proxy
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2016-04-22 10:01
 

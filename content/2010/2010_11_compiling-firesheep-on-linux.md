@@ -1,4 +1,4 @@
-Title: Compiling Firesheep on Linux
+Title: Compiling Firesheep On Linux
 Date: 2010-11-19
 Author: Seppe "Macuyiko" vanden Broucke
 
