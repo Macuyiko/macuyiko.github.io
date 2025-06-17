@@ -32,8 +32,41 @@ In any case, this is what I have noted down so far (alphabetically):
 
 A couple of additional demos from Steam Next I enjoyed:
 
-- **Cleared Hot**
-- **Dead as Disco**
-- **THYSIASTERY**
-- **MIO: Memories in Orbit**
-- **Ball x Pit**
+- Cleared Hot
+- Dead as Disco
+- THYSIASTERY
+- MIO: Memories in Orbit
+- Ball x Pit
+
+And a couple more indies I found (these look very interesting):
+
+- Night of the Consumers
+- Beta Decay
+- HALLOW BLADE
+- Fractal Sailor
+- Forbidden Solitaire 
+- OMUT
+- Haunted Lands
+- Lady Dracula
+- Dust Front RTS
+- Kriegsfront Tactics
+- Winnie's Hole
+- Darkenstein 3D
+- Moros Protocol
+- POSTAL: Brain Damaged
+- Deep State 
+- CYBRLICH and the Death Cult of Labor
+- Easy Delivery Co.
+- Cleared Hot
+- Over The Hill
+- Nightrunners 
+- SSR Wives: The Murder Of My Winter Crush
+- Dreams of Another
+- Neo junk City
+- Queen's Domain
+- The Backworld
+- CARIMARA: Beneath the forlorn limbs
+- Effulgence
+- Kingdoms of the Dump
+- Whisper Mountain Outbreak
+- WALK
