@@ -32,7 +32,6 @@ In any case, this is what I have noted down so far (alphabetically):
 
 A couple of additional demos from Steam Next I enjoyed:
 
-- Cleared Hot
 - Dead as Disco
 - THYSIASTERY
 - MIO: Memories in Orbit
@@ -53,7 +52,6 @@ And a couple more indies I found (these look very interesting):
 - Winnie's Hole
 - Darkenstein 3D
 - Moros Protocol
-- POSTAL: Brain Damaged
 - Deep State 
 - CYBRLICH and the Death Cult of Labor
 - Easy Delivery Co.
@@ -69,4 +67,4 @@ And a couple more indies I found (these look very interesting):
 - Effulgence
 - Kingdoms of the Dump
 - Whisper Mountain Outbreak
-- WALK
+- 散歩 WALK
