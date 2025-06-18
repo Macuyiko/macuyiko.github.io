@@ -19,7 +19,7 @@ uv init --python 3.12
 uv add torch==2.7.0 torchvision torchaudio
 ```
 
-The make sure Command Line Tools are installed:
+Then make sure Command Line Tools are installed:
 
 ```bash
 xcode-select --install
