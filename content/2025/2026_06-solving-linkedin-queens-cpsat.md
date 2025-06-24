@@ -15,7 +15,7 @@ Recently, we saw it solved using:
 
 I wanted to solve it using the [CP-SAT constraint programming solver](https://developers.google.com/optimization/cp/cp_solver), which is part of Google's OR Tools.
 
-Installing this in a Python equivalent is easy: `uv add ortools requests`.
+Installing this in a Python environment is easy: `uv add ortools requests`.
 
 Next, we set up some basic information and fetch a level:
 
