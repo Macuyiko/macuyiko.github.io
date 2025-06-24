@@ -136,7 +136,7 @@ class VarArraySolutionPrinter(cp_model.CpSolverSolutionCallback):
     def __init__(self, variables):
         cp_model.CpSolverSolutionCallback.__init__(self)
         self.__variables = variables
-    def on_solution_callback(self) -> None:
+    def on_solution_callback(self):
         pr_sol(self, self.__variables)
 
 solver = cp_model.CpSolver()
