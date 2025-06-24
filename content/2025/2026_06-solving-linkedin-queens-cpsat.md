@@ -17,7 +17,7 @@ I wanted to solve it using the [CP-SAT constraint programming solver](https://de
 
 Installing this in a Python equivalent is easy: `uv add ortools requests`.
 
-Next, we set of some basic information and fetch a level:
+Next, we set up some basic information and fetch a level:
 
 ```python
 from ortools.sat.python import cp_model
