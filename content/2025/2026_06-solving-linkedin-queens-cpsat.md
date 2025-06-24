@@ -90,7 +90,7 @@ for r in range(ROWS - 1):
             model.Add(solution[r + 1][c + 1] == 0).OnlyEnforceIf(solution[r][c])
 ```
 
-And finally we can solve and print out the solution:
+And finally we can solve and print out a solution:
 
 ```python
 def pr_sol(sol, solution):
@@ -127,4 +127,38 @@ gap_integral: 0
   a    d   *H*   d    b    f    g    g  
   h    d    h    d    b    f   *F*   g  
   h    h    h    h   *G*   g    g    g
+```
+
+We can also easily confirm whether this is the **only** feasible solution:
+
+```python
+class VarArraySolutionPrinter(cp_model.CpSolverSolutionCallback):
+    def __init__(self, variables):
+        cp_model.CpSolverSolutionCallback.__init__(self)
+        self.__variables = variables
+    def on_solution_callback(self) -> None:
+        pr_sol(self, self.__variables)
+
+solver = cp_model.CpSolver()
+solver.parameters.log_search_progress = True
+solver.parameters.enumerate_all_solutions = True
+result = solver.Solve(model, VarArraySolutionPrinter(solution))
+```
+
+Which indeed is the case:
+
+```plain
+Starting subsolver 'main' hint search at 0.01s
+Starting subsolver 'main' search at 0.01s
+#1       0.01s main
+  a    a    b   *B*   b    c    c    c  
+  a    d    b    d    b   *E*   c    c  
+  a   *D*   b    d    b    c    c    c  
+  a    d    d    d    b    f    g   *C* 
+ *A*   d    d    d    b    f    g    g  
+  a    d   *H*   d    b    f    g    g  
+  h    d    h    d    b    f   *F*   g  
+  h    h    h    h   *G*   g    g    g  
+
+#Done    0.01s main
 ```
