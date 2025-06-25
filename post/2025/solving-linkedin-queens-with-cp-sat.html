@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Solving LinkedIn Queens With CP-SAT</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">We do it until we get bored</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Tue 24 June 2025, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2025/solving-linkedin-queens-with-cp-sat.html" rel="bookmark"
+			title="Permalink to Solving LinkedIn Queens With CP-SAT">Solving LinkedIn Queens With <span class="caps">CP</span>-<span class="caps">SAT</span></a></div>
+<div class="article-subtitle">... and Zip and Tango, too</div>		</header>
+	
+	    <p>On LinkedIn, you can <a href="https://www.linkedin.com/games/queens">play</a> a variant of the N-Queens problem. A community version of the puzzle can be found <a href="https://queensgame.vercel.app/">here</a>.</p>
+<p>An example puzzle looks like&nbsp;this:</p>
+<p><img alt="" src="/images/2025/queens.png"></p>
+<p>The idea is that each row, column, and colored region must contain exactly one queen. Queens cannot be placed in adjacent cells, including&nbsp;diagonally.</p>
+<p>Recently, we saw it solved&nbsp;using:</p>
+<ul>
+<li><a href="https://ryanberger.me/posts/queens/"><span class="caps">SAT</span>&nbsp;solvers</a></li>
+<li><a href="https://buttondown.com/hillelwayne/archive/solving-linkedin-queens-with-smt/"><span class="caps">SMT</span>&nbsp;Solvers</a></li>
+<li><a href="https://pitr.ca/2025-06-14-queens"><span class="caps">APL</span></a></li>
+<li><a href="https://zayenz.se/blog/post/linkedin-queens/">MiniZinc</a></li>
+<li><a href="https://imiron.io/post/linkedin-queens/">Haskell</a></li>
+</ul>
+<p>I wanted to solve it using the <a href="https://developers.google.com/optimization/cp/cp_solver"><span class="caps">CP</span>-<span class="caps">SAT</span> constraint programming solver</a>, which is part of Google&#8217;s <span class="caps">OR</span>&nbsp;Tools.</p>
+<p>Installing this in a Python environment is&nbsp;easy: <code>uv add ortools requests</code>.</p>
+<p>Next, we set up some basic information and fetch a&nbsp;level:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ortools.sat.python</span> <span class="kn">import</span> <span class="n">cp_model</span>
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">ast</span>
+
+
+<span class="n">level_source</span> <span class="o">=</span> <span class="n">requests</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+    <span class="s2">&quot;https://raw.githubusercontent.com/samimsu/queens-game-linkedin/&quot;</span>
+    <span class="o">+</span> <span class="s2">&quot;refs/heads/main/src/utils/levels/level1.ts&quot;</span>
+<span class="p">)</span><span class="o">.</span><span class="n">text</span>
+<span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">search</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s2">&quot;colorRegions:\s*(\[[^\]]+\](?:,\s*\[[^\]]+\])*)&quot;</span><span class="p">,</span> <span class="n">level_source</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">DOTALL</span>
+<span class="p">)</span>
+
+<span class="n">LEVEL</span> <span class="o">=</span> <span class="n">ast</span><span class="o">.</span><span class="n">literal_eval</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">]&quot;</span><span class="p">)</span>
+<span class="n">ZONES</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="n">letter</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">LEVEL</span> <span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">row</span><span class="p">])</span>
+<span class="n">ROWS</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LEVEL</span><span class="p">)</span>
+<span class="n">COLS</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LEVEL</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div>
+
+<p>I&#8217;m just grabbing the level file from the aforementioned community version of the puzzle. The <a href="https://github.com/samimsu/queens-game-linkedin/tree/main/src/utils/levels">other levels are in the GitHub repo</a>.</p>
+<p>Next, we set up the model and create boolean variables indicating whether a position has a queen or&nbsp;not:</p>
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpModel</span><span class="p">()</span>
+<span class="n">solution</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">NewBoolVar</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">)]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>Next, we add the basic constraints: only one queen per row, column, and colored&nbsp;region:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Exactly one per row</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Exactly one per column</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">))</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Exactly one per region</span>
+<span class="k">for</span> <span class="n">letter</span> <span class="ow">in</span> <span class="n">ZONES</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span>
+        <span class="nb">sum</span><span class="p">(</span>
+            <span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="n">letter</span>
+        <span class="p">)</span>
+        <span class="o">==</span> <span class="mi">1</span>
+    <span class="p">)</span>
+</code></pre></div>
+
+<p>Finally, queens cannot touch each other, including on the diagonals.
+Since the previous constraints already cover horizontal and vertical touching, we only need to prohibit a queen to be present diagonally in the row below a given queen.
+We don&#8217;t need to prohibit the row above as this is&nbsp;symmetric.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># No queens on the same diagonal</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">c</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">OnlyEnforceIf</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span>
+        <span class="k">if</span> <span class="n">c</span> <span class="o">&lt;</span> <span class="n">COLS</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span> <span class="o">+</span> <span class="mi">1</span><span class="p">][</span><span class="n">c</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">OnlyEnforceIf</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span>
+</code></pre></div>
+
+<p>And finally we can solve and print out a&nbsp;solution:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">pr_sol</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">solution</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">sol</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; *</span><span class="si">{</span><span class="n">LEVEL</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span><span class="si">}</span><span class="s2">* &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">LEVEL</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">  &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpSolver</span><span class="p">()</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">log_search_progress</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">Solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">pr_sol</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">solution</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Success:</p>
+<div class="highlight"><pre><span></span><code>CpSolverResponse summary:
+status: OPTIMAL
+walltime: 0.003608
+usertime: 0.003608
+deterministic_time: 4.7637e-05
+gap_integral: 0
+
+  a    a    b   <span class="gs">*B*</span>   b    c    c    c  
+  a    d    b    d    b   <span class="gs">*E*</span>   c    c  
+  a   <span class="gs">*D*</span>   b    d    b    c    c    c  
+  a    d    d    d    b    f    g   <span class="gs">*C*</span> 
+ <span class="gs">*A*</span>   d    d    d    b    f    g    g  
+  a    d   <span class="gs">*H*</span>   d    b    f    g    g  
+  h    d    h    d    b    f   <span class="gs">*F*</span>   g  
+  h    h    h    h   <span class="gs">*G*</span>   g    g    g
+</code></pre></div>
+
+<p>We can also easily confirm whether this is the <strong>only</strong> feasible&nbsp;solution:</p>
+<div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">VarArraySolutionPrinter</span><span class="p">(</span><span class="n">cp_model</span><span class="o">.</span><span class="n">CpSolverSolutionCallback</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">variables</span><span class="p">):</span>
+        <span class="n">cp_model</span><span class="o">.</span><span class="n">CpSolverSolutionCallback</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__variables</span> <span class="o">=</span> <span class="n">variables</span>
+    <span class="k">def</span> <span class="nf">on_solution_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">pr_sol</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__variables</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpSolver</span><span class="p">()</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">log_search_progress</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">enumerate_all_solutions</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">Solve</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">VarArraySolutionPrinter</span><span class="p">(</span><span class="n">solution</span><span class="p">))</span>
+</code></pre></div>
+
+<p>Which indeed is the&nbsp;case:</p>
+<div class="highlight"><pre><span></span><code>Starting subsolver &#39;main&#39; hint search at 0.01s
+Starting subsolver &#39;main&#39; search at 0.01s
+<span class="gh">#</span>1       0.01s main
+  a    a    b   <span class="gs">*B*</span>   b    c    c    c  
+  a    d    b    d    b   <span class="gs">*E*</span>   c    c  
+  a   <span class="gs">*D*</span>   b    d    b    c    c    c  
+  a    d    d    d    b    f    g   <span class="gs">*C*</span> 
+ <span class="gs">*A*</span>   d    d    d    b    f    g    g  
+  a    d   <span class="gs">*H*</span>   d    b    f    g    g  
+  h    d    h    d    b    f   <span class="gs">*F*</span>   g  
+  h    h    h    h   <span class="gs">*G*</span>   g    g    g  
+
+<span class="gh">#</span>Done    0.01s main
+</code></pre></div>
+
+<h2>Bonus:&nbsp;Tango</h2>
+<p>LinkedIn also has another puzzle, called Tango, which looks like&nbsp;this:</p>
+<p><img alt="" src="/images/2025/tango.png"></p>
+<p>With these rules: fill each cell with either a sun or moon. No more than two of the same symbol may be next (vertically or horizontally) to each other. Each row and column must have an equal number of suns and moons. Cells separated by &#8220;=&#8221; must be the same type. Cells separated by &#8220;×&#8221; must be opposite&nbsp;types.</p>
+<p>This is also easy to solve with constraint programming (as a Mixed Integer Program it is a bit harder but also possible). First we prepare the level data and some constants. No easy way to load in level data in this case, so we just define it&nbsp;hardcoded:</p>
+<div class="highlight"><pre><span></span><code><span class="n">level</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">......</span>
+<span class="s2">......</span>
+<span class="s2">..00..</span>
+<span class="s2">......</span>
+<span class="s2">.1..0.</span>
+<span class="s2">..11..</span>
+<span class="s2">&quot;&quot;&quot;</span>
+<span class="n">equal</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)],</span>
+    <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">)],</span>
+    <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span>
+    <span class="p">[(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span>
+<span class="p">]</span>
+<span class="n">opposite</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)],</span>
+    <span class="p">[(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">)],</span>
+<span class="p">]</span>
+
+
+<span class="n">LEVEL</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span> <span class="k">if</span> <span class="n">nr</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span> <span class="k">else</span> <span class="o">-</span><span class="mi">1</span> <span class="k">for</span> <span class="n">nr</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">level</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">row</span>
+<span class="p">]</span>
+<span class="n">ROWS</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LEVEL</span><span class="p">)</span>
+<span class="n">COLS</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LEVEL</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div>
+
+<p>0 is a moon and 1 is a sun (or vice versa). The dots are empty spots and get converted to -1. Next we set up the solution variables which can just be&nbsp;bools:</p>
+<div class="highlight"><pre><span></span><code><span class="n">model</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpModel</span><span class="p">()</span>
+<span class="n">solution</span> <span class="o">=</span> <span class="p">[[</span><span class="n">model</span><span class="o">.</span><span class="n">NewBoolVar</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;x_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">)]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">)]</span>
+</code></pre></div>
+
+<p>And then we can add the&nbsp;constraints:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Set known values</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span>
+
+<span class="c1"># No more than three in a row and col</span>
+<span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)])</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">Not</span><span class="p">()</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)])</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">):</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)])</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span><span class="o">.</span><span class="n">Not</span><span class="p">()</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span> <span class="o">-</span> <span class="mi">2</span><span class="p">)])</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Equality and opposite constraints</span>
+<span class="k">for</span> <span class="n">eq</span> <span class="ow">in</span> <span class="n">equal</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">eq</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]][</span><span class="n">eq</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">==</span> <span class="n">solution</span><span class="p">[</span><span class="n">eq</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]][</span><span class="n">eq</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+<span class="k">for</span> <span class="n">neq</span> <span class="ow">in</span> <span class="n">opposite</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">neq</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]][</span><span class="n">neq</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">]]</span> <span class="o">!=</span> <span class="n">solution</span><span class="p">[</span><span class="n">neq</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">]][</span><span class="n">neq</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]])</span>
+</code></pre></div>
+
+<p>And then can run the solver and print out the&nbsp;solution:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">pr_sol</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">solution</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpSolver</span><span class="p">()</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">log_search_progress</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">Solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">pr_sol</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">solution</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code> 0  1  1  0  0  0 
+ 0  0  1  1  0  0 
+ 1  1  0  0  1  1 
+ 1  0  0  1  1  1 
+ 0  1  0  1  0  0 
+ 0  0  1  1  0  0
+</code></pre></div>
+
+<p>Here too, the presolver of <span class="caps">CP</span>-<span class="caps">SAT</span> can immediately reduce this to a trivial problem without having to run any further&nbsp;search.</p>
+<h2>Bonus:&nbsp;Zip</h2>
+<p>LinkedIn also has another puzzle, called Zip, which looks like&nbsp;this:</p>
+<p><img alt="" src="/images/2025/zip.png"></p>
+<p>With these rules: draw a single path that fills every cell. Follow the numbered cells in&nbsp;order.</p>
+<p>It seems that additionally paths start at 1 and end at the highest number. This problem is a little bit more interesting as it basically involves finding a Hamiltonian cycle, but with <span class="caps">CP</span>-<span class="caps">SAT</span> that is pretty&nbsp;easy.</p>
+<div class="highlight"><pre><span></span><code><span class="n">level</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">1.....</span>
+<span class="s2">....7.</span>
+<span class="s2">.4.8..</span>
+<span class="s2">..6.5.</span>
+<span class="s2">.3....</span>
+<span class="s2">.....2</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+
+<span class="n">LEVEL</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span> <span class="k">if</span> <span class="n">nr</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span> <span class="k">else</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">nr</span> <span class="ow">in</span> <span class="n">row</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">level</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">row</span>
+<span class="p">]</span>
+<span class="n">NUMBERS</span> <span class="o">=</span> <span class="nb">set</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">nr</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">LEVEL</span> <span class="k">for</span> <span class="n">nr</span> <span class="ow">in</span> <span class="n">row</span> <span class="k">if</span> <span class="n">nr</span> <span class="o">!=</span> <span class="s2">&quot;.&quot;</span><span class="p">])</span>
+<span class="n">ROWS</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LEVEL</span><span class="p">)</span>
+<span class="n">COLS</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">LEVEL</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpModel</span><span class="p">()</span>
+
+<span class="n">solution</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="p">[</span><span class="n">model</span><span class="o">.</span><span class="n">NewIntVar</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">ROWS</span> <span class="o">*</span> <span class="n">COLS</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;x_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">)</span>
+<span class="p">]</span>
+</code></pre></div>
+
+<p>We will use integer variables as our solution variables here, basically numbering each cell from 1 to <span class="caps">ROWS</span>*<span class="caps">COLS</span> to indicate the order in which they are&nbsp;visited.</p>
+<p>Making sure that we visit the numbers in the right order is easy&nbsp;enough:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Enforce ordering of known numbers</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">product</span>
+
+<span class="k">for</span> <span class="n">r1</span><span class="p">,</span> <span class="n">c1</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">r2</span><span class="p">,</span> <span class="n">c2</span> <span class="ow">in</span> <span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">r1</span><span class="p">,</span> <span class="n">c1</span><span class="p">)</span> <span class="o">==</span> <span class="p">(</span><span class="n">r2</span><span class="p">,</span> <span class="n">c2</span><span class="p">)</span> <span class="ow">or</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r1</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r2</span><span class="p">][</span><span class="n">c2</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r1</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r2</span><span class="p">][</span><span class="n">c2</span><span class="p">]:</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r1</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">solution</span><span class="p">[</span><span class="n">r2</span><span class="p">][</span><span class="n">c2</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r1</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r1</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">LEVEL</span><span class="p">[</span><span class="n">r1</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">max</span><span class="p">(</span><span class="n">NUMBERS</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r1</span><span class="p">][</span><span class="n">c1</span><span class="p">]</span> <span class="o">==</span> <span class="n">ROWS</span> <span class="o">*</span> <span class="n">COLS</span><span class="p">)</span>
+</code></pre></div>
+
+<p>But this doesn&#8217;t lead to a valid path (we can just jump over neighbors). So to make sure our path is valid, we construct a Hamiltonian cycle. Probably an alternative method is constraining each cell to have neighbor equal to itself minus one (except for the starting position) and a neighbor to itself plus one (except for the ending position), but this leads to having to manually introduce a bunch of helper variables so just using the constraints <span class="caps">CP</span>-<span class="caps">SAT</span> provides is&nbsp;easier:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Construct Hamiltonian cycle</span>
+<span class="n">arcs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">pos_to_nr</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span> <span class="n">i</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">)))</span>
+<span class="p">}</span>
+<span class="n">nr_to_pos</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">i</span><span class="p">:</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">product</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">)))</span>
+<span class="p">}</span>
+<span class="n">offsets</span> <span class="o">=</span> <span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">),</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)]</span>
+
+<span class="k">for</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">),</span> <span class="n">number</span> <span class="ow">in</span> <span class="n">pos_to_nr</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">lit_to</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">NewBoolVar</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lit_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">_to_dummy&quot;</span><span class="p">)</span>
+    <span class="n">lit_from</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">NewBoolVar</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lit_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">_from_dummy&quot;</span><span class="p">)</span>
+    <span class="n">arcs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">number</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nr_to_pos</span><span class="p">),</span> <span class="n">lit_to</span><span class="p">))</span>
+    <span class="n">arcs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">nr_to_pos</span><span class="p">),</span> <span class="n">number</span><span class="p">,</span> <span class="n">lit_from</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">offset</span> <span class="ow">in</span> <span class="n">offsets</span><span class="p">:</span>
+        <span class="n">nr</span><span class="p">,</span> <span class="n">nc</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">nr</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nc</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nr</span> <span class="o">&gt;=</span> <span class="n">ROWS</span> <span class="ow">or</span> <span class="n">nc</span> <span class="o">&gt;=</span> <span class="n">COLS</span><span class="p">:</span>
+            <span class="k">continue</span>
+        <span class="n">lit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">NewBoolVar</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lit_</span><span class="si">{</span><span class="n">r</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">c</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">nr</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">nc</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># If this arc is chosen in our path then the neighbor must be one higher than this cell</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">nr</span><span class="p">][</span><span class="n">nc</span><span class="p">]</span> <span class="o">-</span> <span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">OnlyEnforceIf</span><span class="p">(</span><span class="n">lit</span><span class="p">)</span>
+        <span class="n">arcs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">number</span><span class="p">,</span> <span class="n">pos_to_nr</span><span class="p">[(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)],</span> <span class="n">lit</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add_circuit</span><span class="p">(</span><span class="n">arcs</span><span class="p">)</span>
+</code></pre></div>
+
+<p>In case you&#8217;re wondering how this works in terms of this being a closed &#8220;cycle&#8221;: the first and last cell are connected to a &#8220;dummy&#8221;&nbsp;cell.</p>
+<p>Solving:</p>
+<div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">pr_sol</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">solution</span><span class="p">):</span>
+    <span class="n">chars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;←&quot;</span><span class="p">,</span> <span class="s2">&quot;→&quot;</span><span class="p">,</span> <span class="s2">&quot;↑&quot;</span><span class="p">,</span> <span class="s2">&quot;↓&quot;</span><span class="p">,</span> <span class="s2">&quot;.&quot;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ROWS</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">COLS</span><span class="p">):</span>
+            <span class="n">val</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">])</span>
+            <span class="k">for</span> <span class="n">oi</span><span class="p">,</span> <span class="n">offset</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">offsets</span><span class="p">):</span>
+                <span class="n">nr</span><span class="p">,</span> <span class="n">nc</span> <span class="o">=</span> <span class="n">r</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">nr</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nc</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nr</span> <span class="o">&gt;=</span> <span class="n">ROWS</span> <span class="ow">or</span> <span class="n">nc</span> <span class="o">&gt;=</span> <span class="n">COLS</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">val_neigh</span> <span class="o">=</span> <span class="n">sol</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">solution</span><span class="p">[</span><span class="n">nr</span><span class="p">][</span><span class="n">nc</span><span class="p">])</span>
+                <span class="k">if</span> <span class="n">val_neigh</span> <span class="o">==</span> <span class="n">val</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">oi</span> <span class="o">=</span> <span class="mi">4</span>
+            <span class="nb">print</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot; </span><span class="si">{</span><span class="n">chars</span><span class="p">[</span><span class="n">oi</span><span class="p">]</span><span class="si">}{</span><span class="n">LEVEL</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="n">c</span><span class="p">]</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39; &#39;</span><span class="si">}</span><span class="s2"> &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+            <span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpSolver</span><span class="p">()</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">log_search_progress</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">Solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+
+<span class="n">pr_sol</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">solution</span><span class="p">)</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code> ↓1  →   →   →   →   ↓  
+ ↓   ↑   →   →   ↓7  ↓  
+ ↓   ↑4  ↑   .8  ←   ↓  
+ ↓   ↑   ↑6  ←   ←5  ←  
+ ↓   ↑3  ←   ←   ←   ←  
+ →   →   →   →   →   ↑2 
+</code></pre></div>
+
+<p>This problem cannot be fully reduced during the&nbsp;presolve:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Preloading</span><span class="w"> </span><span class="n">model</span><span class="o">.</span>
+<span class="c1">#Model   0.01s var:136/137 constraints:221/221</span>
+
+<span class="n">Starting</span><span class="w"> </span><span class="n">search</span><span class="w"> </span><span class="n">at</span><span class="w"> </span><span class="mf">0.01</span><span class="n">s</span><span class="w"> </span><span class="n">with</span><span class="w"> </span><span class="mi">16</span><span class="w"> </span><span class="n">workers</span><span class="o">.</span>
+
+<span class="n">CpSolverResponse</span><span class="w"> </span><span class="n">summary</span><span class="p">:</span>
+<span class="n">status</span><span class="p">:</span><span class="w"> </span><span class="n">OPTIMAL</span>
+<span class="n">objective</span><span class="p">:</span><span class="w"> </span><span class="n">NA</span>
+<span class="n">best_bound</span><span class="p">:</span><span class="w"> </span><span class="n">NA</span>
+<span class="n">integers</span><span class="p">:</span><span class="w"> </span><span class="mi">34</span>
+<span class="n">booleans</span><span class="p">:</span><span class="w"> </span><span class="mi">109</span>
+<span class="n">conflicts</span><span class="p">:</span><span class="w"> </span><span class="mi">54</span>
+<span class="n">branches</span><span class="p">:</span><span class="w"> </span><span class="mi">808</span>
+<span class="n">propagations</span><span class="p">:</span><span class="w"> </span><span class="mi">5261</span>
+<span class="n">integer_propagations</span><span class="p">:</span><span class="w"> </span><span class="mi">7070</span>
+<span class="n">restarts</span><span class="p">:</span><span class="w"> </span><span class="mi">427</span>
+<span class="n">lp_iterations</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+<span class="n">walltime</span><span class="p">:</span><span class="w"> </span><span class="mf">0.013788</span>
+<span class="n">usertime</span><span class="p">:</span><span class="w"> </span><span class="mf">0.013788</span>
+<span class="n">deterministic_time</span><span class="p">:</span><span class="w"> </span><span class="mf">0.0410384</span>
+<span class="n">gap_integral</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span>
+</code></pre></div>
+
+<p>The actual version of the puzzle also introduces walls in some levels that cannot be crossed by the path, but this is trivial to add, essentialy something&nbsp;like:</p>
+<div class="highlight"><pre><span></span><code><span class="k">if</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">)</span> <span class="ow">in</span> <span class="n">walls</span> <span class="ow">or</span> <span class="p">(</span><span class="n">nr</span><span class="p">,</span> <span class="n">nc</span><span class="p">,</span> <span class="n">r</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span> <span class="ow">in</span> <span class="n">walls</span><span class="p">:</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">lit</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+
+<p>In the for loop&nbsp;above.</p>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>
