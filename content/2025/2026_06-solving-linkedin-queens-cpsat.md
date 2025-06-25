@@ -427,7 +427,7 @@ deterministic_time: 0.0410384
 gap_integral: 0
 ```
 
-Some versions of the puzzle also introduce walls that cannot be crossed by the path, but this is trivial to add, essentialy something like:
+The actual version of the puzzle also introduces walls in some levels that cannot be crossed by the path, but this is trivial to add, essentialy something like:
 
 ```python
 if (r, c, nr, nc) in walls or (nr, nc, r, c) in walls:
