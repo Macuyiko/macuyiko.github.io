@@ -7,7 +7,7 @@ On LinkedIn, you can [play](https://www.linkedin.com/games/queens) a variant of 
 
 An example puzzle looks like this:
 
-![](/images/2025/queens.webp)
+![](/images/2025/queens.png)
 
 The idea is that each row, column, and colored region must contain exactly one queen. Queens cannot be placed in adjacent cells, including diagonally.
 
