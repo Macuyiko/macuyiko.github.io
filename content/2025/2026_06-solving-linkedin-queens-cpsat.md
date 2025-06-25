@@ -176,7 +176,7 @@ LinkedIn also has another puzzle, called Tango, which looks like this:
 
 With these rules: fill each cell with either a sun or moon. No more than two of the same symbol may be next (vertically or horizontally) to each other. Each row and column must have an equal number of suns and moons. Cells separated by "=" must be the same type. Cells separated by "×" must be opposite types.
 
-This is also easy to solve with constraint programming (as a Mixed Integer Program it is a bit harder but also possible). First we prepare the level data and some constants. No easy way to load in level data so we just define it hardcoded:
+This is also easy to solve with constraint programming (as a Mixed Integer Program it is a bit harder but also possible). First we prepare the level data and some constants. No easy way to load in level data in this case, so we just define it hardcoded:
 
 ```python
 level = """
@@ -239,7 +239,7 @@ for neq in opposite:
     model.Add(solution[neq[0][0]][neq[0][1]] != solution[neq[1][0]][neq[1][1]])
 ```
 
-And then can run the sover and print out the solution:
+And then can run the solver and print out the solution:
 
 ```python
 def pr_sol(sol, solution):
