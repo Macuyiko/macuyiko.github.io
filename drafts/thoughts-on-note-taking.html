@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Thoughts on Note Taking</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">We do it until we get bored</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Wed 12 November 2025, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/drafts/thoughts-on-note-taking.html" rel="bookmark"
+			title="Permalink to Thoughts on Note Taking">Thoughts on Note&nbsp;Taking</a></div>
+		</header>
+	
+	    <p>I never realized it, but I’ve spent years trying to organize my thoughts. Since I was 15, there’s only been one truly reliable way: pen and paper. The notebook was always close, and just writing something down was&nbsp;enough.  </p>
+<p>There’s something about the tactile feel. Over time, the notebook becomes a running log of thoughts, and every ten or thirty pages, I copy over a to-do list by&nbsp;hand.  </p>
+<p>That’s the part that always bothered me: carrying those long-term, global tasks through every page. Even though the pages in between break them down further, you still have to thumb&nbsp;back.  </p>
+<p>But the alternatives are sadly worse. E-ink tablets, note-taking apps… I can’t handle systems that need 100 plugins just to feel “personal.” I don’t want to spend hours building knowledge graphs or perfect tagging systems. It always leads to the same&nbsp;place:  </p>
+<ol>
+<li>You keep it in your head&nbsp;anyway.  </li>
+<li>You forget to model something and worry about&nbsp;it.  </li>
+<li>You spend more time maintaining the system than the&nbsp;content.  </li>
+</ol>
+<p>You end up optimizing your anxiety. So I tried to find something simpler. My pick was <a href="https://joplinapp.org/">Joplin</a>. Open source, Markdown-based, no <span class="caps">AI</span>. It works well, until it does&#8217;t. Because every note-taking tool eventually leads you to the same place: a hierarchy. You organize, categorize, label. Everything in its tree structure, or neatly tagged. Then you start wondering: how do I organize <em>the tags</em>? What’s the best “semantic” naming scheme? You think, “It should be year first, then category, then&nbsp;note: <code>2XXX / CATEGORY / NOTE</code> — that’ll sort&nbsp;beautifully!”  </p>
+<p>But it never&nbsp;does.  </p>
+<p>You either end up&nbsp;with:</p>
+<ul>
+<li><strong>A bush</strong> with too many leaves but no depth, too messy to&nbsp;navigate.  </li>
+<li><strong>A dead tree</strong> with no leaves at all, just empty&nbsp;branches.  </li>
+</ul>
+<p>So here’s what I plan to&nbsp;do:  </p>
+<ol>
+<li>
+<p><strong>Keep a running log.</strong> Use pen and paper. Any tech will sneak structure back in. I recently bought the iA Writer notebook, not because it’s pretty (though it is), or sponsored (it’s not), but because it reminded me of the stack of unwritten notebooks in my drawer. I missed that. Anything goes in this. And it’s always more fun flipping through old notebooks than scrolling through the ghost of some abandoned markdown&nbsp;folder.  </p>
+</li>
+<li>
+<p><strong>Handle only the main themes elsewhere.</strong> The things that showed up again and again every ten pages in the paper notebook. Just find the patterns that stuck. Don&#8217;t make the organization to deep, work topic / project - based&nbsp;instead.</p>
+</li>
+</ol>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>

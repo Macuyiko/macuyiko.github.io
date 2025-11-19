@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Games I’ve Played With My Kid</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">We do it until we get bored</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Tue 15 July 2025, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/drafts/games-ive-played-with-my-kid.html" rel="bookmark"
+			title="Permalink to Games I’ve Played With My Kid">Games I&#8217;ve Played With My&nbsp;Kid</a></div>
+		</header>
+	
+	    <p>My daughter was born in 2019 so by now, she&#8217;s almost six years old. Ever since she was born I have been trying to find ways to connect to her by introducing interests I enjoy &#8212; or at least did when I was young. This includes reading (not a success at first but now getting better), playing with constructive toys (wooden blocks are not her thing but Lego starts to slowly be), and games, which worked from pretty early on. Perhaps a result of giving her way more screen time than is proper for a kid, but kids also explore their own interests. Luckily she has a lot of off-screen activities as well, so by now she identifies solo screen time mainly as a way to wind down and relax and joint screen time as a way to have fun with dad &#8212;&nbsp;me.</p>
+<p>I mention &#8220;at least did when I was young&#8221; because I receive less pleasure from actual gaming than I used to. The past months, however, I have been surprised by how playing together with my child has sparked my love for games again. Initially somewhat rooted in frustration (this game is boring and why do I have to lose every time?), but now finding shared laughter and enjoyment of gameplay systems that work for both of us and being happily surprised that she can also recognize what makes for a fun&nbsp;game.</p>
+<p>As someone who knows a lot about games, I thought it would be an easy job to find and identify such games &#8212; meaning good to play with a child, but that turned out to be a struggle. So this post is twofold: first as a memory to myself about what I played with my kid to look back at at a later time, but also to give some guidance for others. Organized by time but my memory is&nbsp;hazy.</p>
+<p><strong>Year&nbsp;0</strong></p>
+<ul>
+<li>Too early. Tip: don&#8217;t introduce electronic games into your house. Keep it&nbsp;tactile.</li>
+</ul>
+<p><strong>Year&nbsp;1</strong></p>
+<ul>
+<li>I remember coding a fireworks game (no idea why it had to be fireworks, I thought all kids like it), following this <a href="https://thecodingtrain.com/challenges/27-fireworks">Coding Train</a> tutorial, using <a href="https://processing.org/">Processing</a> which I already knew well. I teach her to click the mouse (which didn&#8217;t work), so I edit the code so she can just slam the keyboard. After some examples she does like&nbsp;it.</li>
+<li>Mainly likes to sit on my lap and watch the pretty colors. A bit later she figures out to slam to mouse, so&nbsp;success.</li>
+</ul>
+<p><strong>Year&nbsp;2-3</strong></p>
+<ul>
+<li>She is crazy about dinosaurs. I think all kids are, but surprised girls are as well. I code a dino game using Godot. You walk around and bump cars in a procedurally generated city and need to bring your large egg&nbsp;home.</li>
+<li>At some point the materials shader got broken and the dino looks all shiny, but she loves the &#8220;diamond&#8221;&nbsp;look.</li>
+<li>I also try coding up some other games, including a shark waterslide (she loves sharks as&nbsp;well).</li>
+</ul>
+<p><strong>Year&nbsp;4</strong></p>
+<ul>
+<li>Dinosaurs are slowly on the way&nbsp;out.</li>
+<li>She&#8217;s going through a grow-up phase so I try to play relaxing games together with her. <a href="https://store.steampowered.com/app/1055540/A_Short_Hike/">A Short Hike</a> didn&#8217;t land but <a href="https://store.steampowered.com/app/1586800/Lil_Gator_Game/">Lil Gator Game</a> does. She likes me doing the animal voices and the story did make me cry. It&#8217;s a fantastic short game you should&nbsp;play.</li>
+<li>I also try installing some old games I know about. We try the <span class="caps">RV</span> car racing game &#8220;Revolt&#8221; but the controls are not easy yet (though she is intrigued). We also try Neverball (too hard), SuperTuxKart, and Tux Racer (that one she&nbsp;likes).</li>
+</ul>
+<p><strong>Year&nbsp;5</strong></p>
+<ul>
+<li>She discovers Roblox and is totally crazy about it, consuming most of her screen time for a couple of months, motivated by the YouTube movies she saw. Controlling the character on an iPad is not easy, but over time she gets very good at it, maybe because her favorite games to play are parkour&nbsp;games.</li>
+<li>pokemon</li>
+<li>stadium</li>
+<li>the&nbsp;sims</li>
+<li>garfield</li>
+<li>phogs</li>
+<li>little kitty big&nbsp;city</li>
+<li>pikuniku</li>
+<li>lego&nbsp;horizon</li>
+<li>miraculous</li>
+<li>minecraft</li>
+</ul>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>

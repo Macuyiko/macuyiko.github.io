@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Some Fun With Wave Function Collapse</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">We do it until we get bored</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Sat 29 June 2024, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2024/some-fun-with-wave-function-collapse.html" rel="bookmark"
+			title="Permalink to Some Fun With Wave Function Collapse">Some Fun With Wave Function&nbsp;Collapse</a></div>
+		</header>
+	
+	    <p>If you&#8217;re at all interested in procedural generation, digital art or game development, it&#8217;s very likely that you&#8217;ve heard about the <a href="https://github.com/mxgmn/WaveFunctionCollapse">wave function collapse</a> (<span class="caps">WFC</span>) algorithm before. It&#8217;s incredible popular, <a href="https://github.com/mxgmn/WaveFunctionCollapse?tab=readme-ov-file#notable-ports-forks-and-spinoffs">has been ported to virtually every language</a> and engine, and used in several&nbsp;games.</p>
+<script>
+$(function() {
+    $('.toggle').each(function(index) {
+        var toggler = $('<div style="margin: 8px 0; background-color: #E3E0FF; cursor: pointer; padding: 8px;">Toggle iframe</div>');
+        toggler.insertBefore($(this));
+        toggler.click(function() {
+            var elt = $(this).next('.toggle');
+            var newElt = $("<iframe></iframe>")
+            Array.prototype.slice.call(elt.get(0).attributes).forEach(function(a) {
+                newElt.attr(a.name, a.value);
+            });
+            if (!$(this).hasClass('toggled')) {
+                elt.append(newElt);
+                $(this).addClass('toggled');
+            } else {
+                elt.html('');
+                $(this).removeClass('toggled');
+            }
+        });
+    });
+});
+</script>
+
+<p>In essence, <span class="caps">WFC</span> is a texture synthesis algorithm that generates an output image with a desired size that is as similar as possible to a given sample image. <span class="caps">WFC</span> tries to ensure local similarity, meaning that the output image can only contain NxN patterns of pixels that are prersent in the&nbsp;input.</p>
+<p>The following example (taken from <a href="https://github.com/mxgmn/WaveFunctionCollapse">the best known <span class="caps">WFC</span> repo</a>) shows an example of the technique. The given image is on the left, with the generated output on the right. N = 3 here, so every 3x3 tile in the output can be found in the&nbsp;input.</p>
+<p><img alt="" src="/images/2024/wfc-example.png"></p>
+<h2>A Little bit of&nbsp;Formalization</h2>
+<p>The name &#8220;wave function collapse&#8221; sounds cool and refers to a <a href="https://en.wikipedia.org/wiki/Wave_function_collapse">quantum mechanics</a>, but the technique is actually very&nbsp;simple.</p>
+<p>Many sources make an explicit distinction between the so called &#8220;overlapping&#8221; and &#8220;tiled&#8221; mode of <span class="caps">WFC</span>. For example, <a href="https://www.boristhebrave.com/2020/04/13/wave-function-collapse-explained/">this</a> and <a href="https://robertheaton.com/2018/12/17/wavefunction-collapse-algorithm/">this</a> page do a good job of explaining the latter, but both techniques can in fact be cleanly expressed in the same general&nbsp;framework.</p>
+<p>Let <em>T</em> be a set of tiles (small sprites) with dimensions <em>w</em> x <em>h</em>. The goal is to fill up a grid so that each cell contains exactly one tile. In the initial state, each tile is possible at every cell so that: <em>G</em>[<em>x</em>][<em>y</em>] = <em>T</em> for each <em>x</em>, <em>y</em>. The user also needs to define a neighborhood function <em>N</em>: ℕxℕ ↦ P(ℕxℕ). In most cases, this is simply the von Neumann neighborhood (or 4-neighborhood) so that <em>N</em>(<em>x</em>,<em>y</em>) = {(<em>x</em>-1,<em>y</em>), (<em>x</em>+1,<em>y</em>), (<em>x</em>,<em>y</em>-1), (<em>x</em>,<em>y</em>+1)} (without crossing the grid boundaries, but setups where the grid wraps around are also sometimes&nbsp;used).</p>
+<p>For the sake of notation, it is perhaps easier to define a set of named offsets instead, e.g. <em>O</em> = {L: (-1, 0), R: (1, 0), U: (0, 1), D: (0, -1)} and write something like <em>neighbor</em>(L, 1, 3) (coordinates for cell on the left of the one at <em>x</em>=1, <em>y</em>=3). The exact definitions are trivial but verbose so omitted&nbsp;here.</p>
+<p>Finally, the user provides a set of constraints <em>C</em> which states which tiles are <em>allowed</em> to be a neighbor of others for the different offsets. (Constraints expressing which tiles are not allowed is also possible; it doesn&#8217;t change the setup, but the former makes the algorithm below read a bit&nbsp;easer.)</p>
+<p>The algorithm itself then works as&nbsp;follows:</p>
+<div class="highlight"><pre><span></span><code><span class="k">while</span><span class="w"> </span><span class="n">there</span><span class="w"> </span><span class="n">still</span><span class="w"> </span><span class="n">cells</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">more</span><span class="w"> </span><span class="k">than</span><span class="w"> </span><span class="n">one</span><span class="w"> </span><span class="nl">tile</span><span class="p">:</span>
+<span class="w">    </span><span class="n">min_val</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nf">min</span><span class="p">(</span><span class="err">{∀</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="o">|</span><span class="n">G</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]|</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="n">G</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]|</span><span class="w"> </span><span class="o">&gt;</span><span class="w"> </span><span class="mi">1</span><span class="w"> </span><span class="err">}</span><span class="p">)</span>
+<span class="w">    </span><span class="n">min_cells</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{∀</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="nl">y</span><span class="p">:</span><span class="w"> </span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="o">|</span><span class="n">G</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]|</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">min_val</span><span class="w"> </span><span class="err">}</span>
+<span class="w">    </span><span class="n">cell_to_collapse</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="n">min_cells</span><span class="p">)</span>
+<span class="w">    </span><span class="n">tile_to_use</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">random</span><span class="p">(</span><span class="n">G</span><span class="o">[</span><span class="n">cell_to_collapse</span><span class="o">]</span><span class="p">)</span>
+<span class="w">    </span><span class="n">G</span><span class="o">[</span><span class="n">cell_to_collapse</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="n">tile_to_use</span><span class="err">}</span>
+<span class="w">    </span><span class="n">propagate</span><span class="p">(</span><span class="n">cell_to_collapse</span><span class="p">)</span>
+</code></pre></div>
+
+<p>In short, as long as there are still cells to &#8220;collapse&#8221; (i.e. decide their tile), pick a random cell out of the set which allows for the least amount of choices and pick a random valid tile for it. This follows a minimum entropy heuristic and is similar how to humans perform search. This procedure is not guaranteed to end in a state where all tiles can be collapsed and so some restarts might be required, but in most cases (with a generous set of tiles and constraints), it works well&nbsp;enough.</p>
+<p>The <code>propagate</code> function starts from the <em>x</em>, <em>y</em> coordinates of the cell we have just &#8220;collapsed&#8221; and updates the neighboring cells based on this new information we have obtained. That is, we can take out potential tile choices from surrounding cells as we know based on the constraints they will not be valid any longer,&nbsp;i.e.:</p>
+<div class="highlight"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="n">Wrong</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">propagate</span>
+<span class="n">propagate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="err">:</span>
+<span class="w">    </span><span class="k">for</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">O</span><span class="p">:</span>
+<span class="w">        </span><span class="n">neighbor_coords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neighbor</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<span class="w">        </span><span class="n">G</span><span class="o">[</span><span class="n">neighbor_coords</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{∀</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">allowed</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="err">}</span>
+
+<span class="n">allowed</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">candidate_tile</span><span class="p">)</span><span class="err">:</span>
+<span class="w">    </span><span class="n">neighbor_coords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neighbor</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="k">Is</span><span class="w"> </span><span class="n">there</span><span class="w"> </span><span class="n">a</span><span class="w"> </span><span class="n">tile</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="ss">&quot;center&quot;</span><span class="w"> </span><span class="n">cell</span><span class="w"> </span>
+<span class="w">    </span><span class="err">#</span><span class="w"> </span><span class="n">which</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">compatible</span><span class="w"> </span><span class="k">with</span><span class="w"> </span><span class="n">the</span><span class="w"> </span><span class="n">candidate</span><span class="w"> </span><span class="n">tile</span><span class="vm">?</span>
+<span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="err">∃</span><span class="w"> </span><span class="err">∀</span><span class="w"> </span><span class="n">ct</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">G</span><span class="o">[</span><span class="n">x</span><span class="o">][</span><span class="n">y</span><span class="o">]</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">ct</span><span class="p">,</span><span class="w"> </span><span class="n">candidate_tile</span><span class="p">)</span><span class="w"> </span><span class="err">∈</span><span class="w"> </span><span class="n">C</span><span class="w"> </span>
+</code></pre></div>
+
+<p>Why is this wrong? Because this fails to take into account that if we change the set of possible tiles for a cell based on the one we just collapsed, that information, too, should be propagated to its neighbors. So we need to keep track of a stack&nbsp;instead:</p>
+<div class="highlight"><pre><span></span><code><span class="err">#</span><span class="w"> </span><span class="n">Correct</span><span class="w"> </span><span class="n">version</span><span class="w"> </span><span class="k">of</span><span class="w"> </span><span class="n">propagate</span>
+<span class="n">propagate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="err">:</span>
+<span class="w">    </span><span class="n">to_do</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span><span class="err">}</span>
+<span class="w">    </span><span class="k">while</span><span class="w"> </span><span class="o">|</span><span class="n">to_do</span><span class="o">|</span><span class="err">:</span>
+<span class="w">        </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pop</span><span class="p">(</span><span class="n">to_do</span><span class="p">)</span>
+<span class="w">        </span><span class="k">for</span><span class="w"> </span><span class="n">offset</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="nl">O</span><span class="p">:</span>
+<span class="w">            </span><span class="n">neighbor_coords</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">neighbor</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">)</span>
+<span class="w">            </span><span class="n">len_before</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="o">|</span><span class="n">G</span><span class="o">[</span><span class="n">neighbor_coords</span><span class="o">]|</span>
+<span class="w">            </span><span class="n">G</span><span class="o">[</span><span class="n">neighbor_coords</span><span class="o">]</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="err">{∀</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">T</span><span class="w"> </span><span class="err">:</span><span class="w"> </span><span class="n">t</span><span class="w"> </span><span class="o">|</span><span class="w"> </span><span class="n">allowed</span><span class="p">(</span><span class="n">offset</span><span class="p">,</span><span class="w"> </span><span class="n">x</span><span class="p">,</span><span class="w"> </span><span class="n">y</span><span class="p">,</span><span class="w"> </span><span class="n">t</span><span class="p">)</span><span class="err">}</span>
+<span class="w">            </span><span class="k">if</span><span class="w"> </span><span class="o">|</span><span class="n">G</span><span class="o">[</span><span class="n">neighbor_coords</span><span class="o">]|</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="nl">len_before</span><span class="p">:</span>
+<span class="w">                </span><span class="n">to_do</span><span class="w"> </span><span class="o">+=</span><span class="w"> </span><span class="err">{</span><span class="n">neighbor_coords</span><span class="err">}</span>
+</code></pre></div>
+
+<p>That&#8217;s all there is to&nbsp;it.</p>
+<h2>Small&nbsp;Example</h2>
+<p>This is enough to understand what most resources refer to as the &#8220;tiled&#8221; mode of <span class="caps">WFC</span>. For example, say that we have <em>T</em> = {mountain, grass, beach, water} and <em>C</em> = {(L, water, water), (L, water, beach), (L, beach, water), (L, beach, beach), (L, beach, grass), (L, grass, beach), (L, grass, grass), (L, grass, mountain), (L, mountain, grass), (L, mountain, mountain), &#8230; (repeat for the other offsets)}. In other words, we have a simplistic and symmetric set of allowances here where water can be next to water or beach, a beach can be next to water, beach or grass, and so&nbsp;on.</p>
+<p>The tiles themselves are just visualized in a solid color, and running the algorithm then gives the following&nbsp;result:</p>
+<div src="/iframes/wfc/index1.html"
+    class="toggle" scrolling="no" frameborder="0" width="620" height="640"></div>
+
+<h2>Moving to the Overlapping&nbsp;Mode</h2>
+<p>Once you understand the above, it is very easy to make the jump to the so called &#8220;overlapping&#8221; mode. Let&#8217;s try this out with the typical &#8220;flowers&#8221;&nbsp;example:</p>
+<p><img alt="" src="/images/2024/wfc-flowers.png"></p>
+<p>The set of tiles <em>T</em> here is simply extracted by sliding a window with dimensions <em>w</em> x <em>h</em> over the input&nbsp;image:</p>
+<p><img alt="" src="/images/2024/wfc-overlap1.png"></p>
+<p>Typically, a 2x2 or 3x3 pattern is used to do&nbsp;so.</p>
+<p>The set of allowances <em>C</em> is then simply based on whether to tiles where next to each other somewhere in the given input image for the given (offset)&nbsp;direction.</p>
+<p>The final &#8220;trick&#8221; to understand is that to visualize our grid G, we need to overlap the tiles again with each other (each tile needs to move <em>w</em>-1 to the left and <em>h</em>-1&nbsp;upwards). </p>
+<p>And then we get the following end result for a 2x2 set of&nbsp;tiles:</p>
+<div src="/iframes/wfc/index2.html"
+    class="toggle" scrolling="no" frameborder="0" width="320" height="300"></div>
+
+<p>If we try this with one of the 3x3 examples, however, we might find that it does not work as&nbsp;expected:</p>
+<div src="/iframes/wfc/index3b.html"
+    class="toggle" scrolling="no" frameborder="0" width="320" height="300"></div>
+
+<p>The &#8220;mistake&#8221; made here is that we didn&#8217;t allow sliding window to go outside the boundaries of the template image and wrap around. Once we fix that, we get the expected result (the grayscale color used here indicates the number of possibilities left for non-collapsed&nbsp;cells):</p>
+<div src="/iframes/wfc/index3.html"
+    class="toggle" scrolling="no" frameborder="0" width="560" height="540"></div>
+
+<h2>More&nbsp;Tiles</h2>
+<p>A final gotcha to be aware of when working in overlapping mode especially is the fact that in most cases, we do not only want the sliding window to go outside the boundaries of the template image, but we also want to create additional tiles from each of the ones we extract by rotating them, or flipping them along the horizontal and/or vertical&nbsp;axis.</p>
+<p>When this is done, one however needs to be careful when constructing the set of allowance constraints as we can&#8217;t simply do so by matching tiles with the input image. Hence, the set of allowances should be constructed dynamically by iterating over each pair of tiles, iterating over all the offsets, and checking whether the pixel colors match. In other words, whether the pair of tiles overlaps according to the given&nbsp;offset.</p>
+<p><a href="https://www.kchapelier.com/wfc-example/overlapping-model.html">This website</a> allows you to play around with a fast implementation of the overlapping mode and lets you draw your own pattern as well. I&#8217;m embedding it below so you can play around with&nbsp;it:</p>
+<div src="https://www.kchapelier.com/wfc-example/overlapping-model.html"
+    class="toggle" scrolling="no" frameborder="0" width="620" height="900"></div>
+
+<h2>Supervised <span class="caps">WFC</span>?</h2>
+<p>Continuing from this basic setup, a lot of people have been working to create more constrained versions of <span class="caps">WFC</span>, typically by coming up with methods to also make the technique globally constrained. A simple example would be to insure for instance in our first example that there is a walkable path of grassland from, say, top to bottom. Such global constraints are typically necessary when applying <span class="caps">WFC</span> in&nbsp;games.</p>
+<p>There are different approaches to tacke this. Perhaps the easiest would just be to continue restarting the algorithm until a solution is found which satisfies the global constraints. Another one is to tackle the global constraints by post-processing the generated image (and accept the fact that the image might not be fully locally consistent any longer). Other approaches implement a form of backtracking and checking inside of the <span class="caps">WFC</span> algorithm itself. The Caves of Qud developer <a href="https://www.youtube.com/watch?v=AdCgi9E90jw">has a good talk on this</a>, and so does the dev of <a href="https://www.youtube.com/watch?v=0bcZb-SsnrA">Bad North</a>.</p>
+<p>Something which I have been exploring a while ago whilst looking through <a href="https://x.com/loackme_/status/1796133541312426096">loackme&#8217;s</a> work was whether <span class="caps">WFC</span> would also lend itself to creating this kind of glitch art. Starting from a target image, instead of&nbsp;using <code>tile_to_use = random(G[cell_to_collapse])</code>, I instead picked the tile which pattern was closest to the corresponding spot in the target image. I first used <span class="caps">RMSE</span> to do so but later switched to using the <a href="https://scikit-image.org/docs/stable/api/skimage.color.html#skimage.color.deltaE_cie76">Euclidean distance between two points in Lab color space</a> instead, which worked a lot&nbsp;better.</p>
+<p><img alt="" src="/images/2024/out3.png"></p>
+<p>Since my implementation was very slow, I perform the generation in a multi-threaded way by just slicing up the image into smaller squares and running <span class="caps">WFC</span> on each of them. This breaks the local constraints at the edges of the smaller squares, which can be mitigated if you&#8217;re careful how you go over the squares (i.e. with the neighborhood above, a checkerboard pattern would work), but I found it makes the results look interesting as&nbsp;well.</p>
+<p>Depending on the template used, you can pretty good or at least diverse results this&nbsp;way:</p>
+<p><img alt="Ghost in the shell" src="/images/2024/out11.png"></p>
+<p><img alt="This one is very glitchy but you can still recognize the reference image" src="/images/2024/out6.png"></p>
+<p><img alt="A weird Ryan Gosling" src="/images/2024/out12.png"></p>
+<h2><span class="caps">WFC</span> as Constraint&nbsp;Programming</h2>
+<p>Whilst playing around with this, I also realized you could probably implement <span class="caps">WFC</span> as a constraint programming problem. I was heavily using <a href="https://developers.google.com/optimization/cp/cp_solver"><span class="caps">CP</span>-<span class="caps">SAT</span></a> for a serious project at the time. I got quite excited about the possibility to potentially write a short conference paper on this, but Isaac and Adam at the University of California Santa Cruz already <a href="https://adamsmith.as/papers/wfc_is_constraint_solving_in_the_wild.pdf">beat me to it in 2017</a>.</p>
+<p>Oh well, they implement it using Choco, so we can at least have a bit of programming exercise using <span class="caps">CP</span>-<span class="caps">SAT</span>.</p>
+<p>A basic implementation boils down to&nbsp;this:</p>
+<div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">ortools.sat.python</span> <span class="kn">import</span> <span class="n">cp_model</span>
+<span class="kn">from</span> <span class="nn">random</span> <span class="kn">import</span> <span class="n">randint</span>
+
+<span class="n">OFFSETS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;dn&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">+</span><span class="mi">1</span><span class="p">),</span>
+    <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+    <span class="s2">&quot;ri&quot;</span><span class="p">:</span> <span class="p">(</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+<span class="p">}</span>
+
+<span class="n">RULES</span> <span class="o">=</span> <span class="p">{</span> <span class="c1"># My &lt;dir&gt; neighbor can be any of this</span>
+    <span class="s2">&quot;━&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s1">&#39;━┗┛ &#39;</span><span class="p">,</span> <span class="s2">&quot;dn&quot;</span><span class="p">:</span> <span class="s1">&#39;━┏┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="s1">&#39;━┏┗&#39;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">:</span> <span class="s1">&#39;━┛┓&#39;</span><span class="p">},</span>
+    <span class="s2">&quot;┃&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┏┓&#39;</span><span class="p">,</span> <span class="s2">&quot;dn&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┗┛&#39;</span><span class="p">,</span> <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┛┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┏┗ &#39;</span><span class="p">},</span>
+    <span class="s2">&quot;┏&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s1">&#39;━┗┛ &#39;</span><span class="p">,</span> <span class="s2">&quot;dn&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┗┛&#39;</span><span class="p">,</span> <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┛┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">:</span> <span class="s1">&#39;┛┓━&#39;</span><span class="p">},</span>
+    <span class="s2">&quot;┓&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s1">&#39;━┗┛ &#39;</span><span class="p">,</span> <span class="s2">&quot;dn&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┗┛&#39;</span><span class="p">,</span> <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="s1">&#39;━┏┗&#39;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┏┗ &#39;</span><span class="p">},</span>
+    <span class="s2">&quot;┗&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┏┓&#39;</span><span class="p">,</span> <span class="s2">&quot;dn&quot;</span><span class="p">:</span> <span class="s1">&#39;━┏┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┛┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">:</span> <span class="s1">&#39;━┛┓&#39;</span><span class="p">},</span>
+    <span class="s2">&quot;┛&quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┏┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;dn&quot;</span><span class="p">:</span> <span class="s1">&#39;━┏┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="s1">&#39;━┏┗&#39;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">:</span> <span class="s1">&#39;┃┏┗ &#39;</span><span class="p">},</span>
+    <span class="s2">&quot; &quot;</span><span class="p">:</span> <span class="p">{</span><span class="s2">&quot;up&quot;</span><span class="p">:</span> <span class="s1">&#39;━┗┛ &#39;</span><span class="p">,</span> <span class="s2">&quot;dn&quot;</span><span class="p">:</span> <span class="s1">&#39;━┏┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;le&quot;</span><span class="p">:</span> <span class="s1">&#39;━┛┓ &#39;</span><span class="p">,</span> <span class="s2">&quot;ri&quot;</span><span class="p">:</span> <span class="s1">&#39;━┏┗ &#39;</span><span class="p">},</span>
+<span class="p">}</span>
+
+<span class="n">TILES</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">RULES</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+<span class="n">GRID_SIZE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">40</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpModel</span><span class="p">()</span>
+<span class="n">position_to_tiles</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">tiles_to_amount</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="c1"># Exactly one tile per cell</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">position_to_tiles</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)]</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">model</span><span class="o">.</span><span class="n">NewBoolVar</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;position_to_tile_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> \
+                <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">TILES</span><span class="p">))</span>
+        <span class="p">]</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">position_to_tiles</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)])</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="c1"># Ensure local consistency</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">c_var</span> <span class="o">=</span> <span class="n">position_to_tiles</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">offset_key</span><span class="p">,</span> <span class="n">offset</span> <span class="ow">in</span> <span class="n">OFFSETS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">n_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">n_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">n_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">TILES</span><span class="p">)):</span>
+                <span class="n">allowable_bools</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">position_to_tiles</span><span class="p">[</span><span class="n">n_pos</span><span class="p">][</span><span class="n">TILES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">allowed</span><span class="p">)]</span> \
+                        <span class="k">for</span> <span class="n">allowed</span> <span class="ow">in</span> <span class="n">RULES</span><span class="p">[</span><span class="n">TILES</span><span class="p">[</span><span class="n">t</span><span class="p">]][</span><span class="n">offset_key</span><span class="p">]</span>
+                <span class="p">]</span>
+                <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">allowable_bools</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">OnlyEnforceIf</span><span class="p">(</span><span class="n">c_var</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+
+<span class="k">def</span> <span class="nf">pr_sol</span><span class="p">(</span><span class="n">sol</span><span class="p">,</span> <span class="n">position_to_tiles</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">TILES</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">sol</span><span class="o">.</span><span class="n">Value</span><span class="p">(</span><span class="n">position_to_tiles</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)][</span><span class="n">t</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="n">TILES</span><span class="p">[</span><span class="n">t</span><span class="p">],</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">);</span> <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+
+<span class="n">solver</span> <span class="o">=</span> <span class="n">cp_model</span><span class="o">.</span><span class="n">CpSolver</span><span class="p">()</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">random_seed</span> <span class="o">=</span> <span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10000</span><span class="p">)</span>
+<span class="n">solver</span><span class="o">.</span><span class="n">parameters</span><span class="o">.</span><span class="n">log_search_progress</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="n">result</span> <span class="o">=</span> <span class="n">solver</span><span class="o">.</span><span class="n">Solve</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+<span class="n">pr_sol</span><span class="p">(</span><span class="n">solver</span><span class="p">,</span> <span class="n">position_to_tiles</span><span class="p">)</span>
+</code></pre></div>
+
+<p>A random seed is set to generate a different solution every time. When we run this, we&nbsp;see:</p>
+<div class="highlight"><pre><span></span><code>┓┏┛ ┏┓┃┗┓┃┃┏━┓┃┃┃┏━━┛ ┏━┛┗┛ ┗┛┗┛ ┗━━━━┓┗
+┛┗┓ ┗┛┃┏┛┃┗┛ ┗┛┗┛┗┓┏┓┏┛┏┓   ┏┓┏━┓┏┓┏┓ ┗┓
+━━┛┏━┓┃┗┓┗━┓┏┓┏━━━┛┗┛┗┓┃┗━┓ ┗┛┗┓┃┃┗┛┗━━┛
+┏━┓┃┏┛┗━┛ ┏┛┃┗┛ ┏┓  ┏┓┗┛  ┗━━━━┛┃┗┓┏━━┓┏
+┗┓┃┃┃┏┓┏━━┛ ┗━┓ ┗┛┏┓┃┃┏┓┏━┓  ┏┓ ┗┓┃┃┏━┛┗
+┓┃┃┃┃┃┗┛┏━┓┏┓ ┗┓┏┓┃┃┗┛┃┗┛ ┗━━┛┃┏━┛┃┗┛┏━━
+┛┗┛┃┗┛  ┗┓┃┃┗┓┏┛┗┛┗┛┏━┛┏━━━━┓ ┗┛  ┗┓┏┛
+┓  ┗━━┓  ┗┛┗┓┃┃┏┓ ┏┓┗━━┛┏━━━┛ ┏━━━━┛┗━┓
+┛   ┏━┛ ┏┓┏━┛┃┃┃┗━┛┗┓┏━┓┃┏━━┓┏┛ ┏━━━┓ ┗━
+┏━━┓┗━┓ ┗┛┃┏━┛┃┃┏┓┏━┛┗━┛┗┛┏┓┗┛  ┗━┓ ┗┓┏┓
+</code></pre></div>
+
+<p>A benefit of this is that this setup lends itself extremely well to adding additional constraints. For instance, we can easily add a constraint that states that at least 200 cells must be&nbsp;spaces:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># At least 200 cells must be spaces</span>
+<span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">position_to_tiles</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)][</span><span class="n">TILES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)]</span> \
+              <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span> <span class="o">&gt;=</span> <span class="mi">200</span><span class="p">)</span>
+</code></pre></div>
+
+<p>Which looks like&nbsp;this:</p>
+<div class="highlight"><pre><span></span><code> ┗┛    ┏┓  ┏┛ ┏┛┃┗┛ ┗┓  ┗┛┃┗┛┏┓      ┗━━
+       ┗┛  ┗━┓┃┏┛  ┏━┛  ┏━┛  ┗┛
+     ┏┓    ┏━┛┗┛   ┗┓   ┗━━━┓┏┓      ┏━━
+     ┗┛┏┓ ┏┛        ┗━┓   ┏┓┃┃┗┓     ┗┓
+  ┏━━━┓┃┗━┛        ┏━┓┗━━━┛┃┃┃┏┛   ┏┓ ┗━
+  ┗┓ ┏┛┗━┓         ┗━┛     ┗┛┗┛ ┏┓ ┗┛
+  ┏┛┏┛   ┗┓   ┏┓          ┏┓  ┏━┛┃┏━━┓
+┓┏┛┏┛     ┗━┓ ┗┛      ┏━┓ ┗┛ ┏┛  ┗┛ ┏┛ ┏
+┗┛ ┗┓       ┗┓  ┏┓  ┏┓┃┏┛  ┏┓┗┓     ┗━━┛
+   ┏┛       ┏┛ ┏┛┗━┓┗┛┗┛   ┗┛ ┗━┓
+</code></pre></div>
+
+<p>What we can also easily do since we&#8217;re using <span class="caps">CP</span>-<span class="caps">SAT</span> is add an objective. E.g. to ensure we get enough variation, we could maximize the entropy of the generated pattern using something like Σ -sum(<em>p</em> * log(<em>p</em>)) for each cell with <em>p</em> being the number of times the tile appears in the map divided by the map size. The issue is that this is difficult to implement in <span class="caps">CP</span>-<span class="caps">SAT</span>.</p>
+<p>An easier proxy is to minimize the difference between the maximum and minimum times a tile&nbsp;appears:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Attempt to maximize entropy: minimize max(t) - min(t)</span>
+<span class="n">t_counts</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">TILES</span><span class="p">)):</span>
+    <span class="n">t_counts</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">NewIntVar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;weight_of_</span><span class="si">{</span><span class="n">t</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">))</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">t_counts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="nb">sum</span><span class="p">([</span>
+        <span class="n">position_to_tiles</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)][</span><span class="n">t</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="p">]))</span>
+<span class="n">max_t</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">NewIntVar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;max_t&quot;</span><span class="p">)</span>
+<span class="n">min_t</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">NewIntVar</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="sa">f</span><span class="s2">&quot;min_t&quot;</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">AddMaxEquality</span><span class="p">(</span><span class="n">max_t</span><span class="p">,</span> <span class="n">t_counts</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">AddMinEquality</span><span class="p">(</span><span class="n">min_t</span><span class="p">,</span> <span class="n">t_counts</span><span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">Minimize</span><span class="p">(</span><span class="n">max_t</span> <span class="o">-</span> <span class="n">min_t</span><span class="p">)</span>
+</code></pre></div>
+
+<p>This provides us with&nbsp;this:</p>
+<div class="highlight"><pre><span></span><code> ┏┛┗━┛       ┗┛    ┏┓┃┗┓┗━┛┗┓┃┃┃┏┓┃┏┛┗┓
+━┛                 ┗┛┗┓┃┏┓┏━┛┃┃┃┗┛┃┗━━┛
+                    ┏━┛┗┛┗┛┏┓┃┃┗━┓┃┏━━━┓
+                    ┗━━┓ ┏━┛┃┗┛┏┓┗┛┗━━┓┗
+                       ┗━┛┏━┛┏┓┃┗━┓   ┗┓
+                     ┏━┓┏┓┗━┓┃┃┃┏━┛ ┏━┓┃
+                     ┗┓┗┛┃┏━┛┃┃┃┗━┓┏┛ ┗┛
+                    ┏┓┗━━┛┃┏┓┗┛┃┏━┛┃┏┓┏━
+                   ┏┛┗━━━┓┗┛┃┏┓┃┗━┓┃┗┛┃┏
+    ┏┓             ┗┓┏┓ ┏┛ ┏┛┗┛┃┏┓┃┗┓┏┛┃
+</code></pre></div>
+
+<p>Though this is still a bit imbalanced topology-wise. Perhaps we can do better by looking at repetitions of NxN patterns instead? This is quite a challenge to express as an objective. Perhaps we can take a different approach: what we want to avoid is having that large areas filled with space on the left, so lets tackle that. One obvious way would just be to say that for any NxN area, we disallow that area from being filled up with&nbsp;space:</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Avoid large space</span>
+<span class="n">N_size</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">N_size</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">N_size</span><span class="p">):</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span>
+            <span class="n">position_to_tiles</span><span class="p">[(</span><span class="n">xp</span><span class="p">,</span> <span class="n">yp</span><span class="p">)][</span><span class="n">TILES</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)]</span> \
+                <span class="k">for</span> <span class="n">xp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="o">+</span><span class="n">N_size</span><span class="p">)</span> <span class="k">for</span> <span class="n">yp</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="o">+</span><span class="n">N_size</span><span class="p">)</span>
+            <span class="p">)</span> <span class="o">&lt;</span> <span class="n">N_size</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+</code></pre></div>
+
+<p>That seems to work pretty&nbsp;well:</p>
+<div class="highlight"><pre><span></span><code>       ┏┛                ┏┛       ┗┓
+       ┗┓┏┓       ┏━━┓ ┏━┛       ┏┓┗┓  ┏
+ ┏━━━━━┓┃┃┃┏━━━┓┏┓┗━━┛ ┗━┓  ┏━┓  ┗┛ ┗━━┛
+┏┛  ┏┓ ┗┛┃┃┗┓  ┗┛┗┓    ┏┓┗━━┛┏┛
+┛   ┗┛  ┏┛┗━┛    ┏┛  ┏┓┃┃┏┓  ┗┓   ┏┓ ┏┓┏
+       ┏┛     ┏━┓┃┏━┓┃┃┃┃┗┛   ┗━━┓┃┗┓┃┃┃
+  ┏┓ ┏━┛  ┏┓  ┗━┛┃┗┓┃┃┃┃┃┏━┓    ┏┛┗┓┃┃┃┃
+━┓┃┃┏┛    ┗┛     ┗━┛┃┃┃┃┗┛┏┛    ┗━┓┃┗┛┗┛
+ ┗┛┗┛               ┗┛┗┛  ┗━━━┓   ┗┛
+                              ┗┓    ┏┓
+</code></pre></div>
+
+<p>(We could in fact add the same constraint for all of the tiles. An extension could also entail checking this for sizes from NHigh to NLow and then including minimization of the size in the&nbsp;objective.)</p>
+<p>We can also try to generate a space filling curve. We can do so by first creating a Hamiltonian cycle over the cells and then maximize the length of the cycle in the objective. We keep in the previous constraints to make it&nbsp;challenging.</p>
+<div class="highlight"><pre><span></span><code><span class="c1"># Construct Hamiltonian cycle</span>
+<span class="n">arcs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">pos_to_nr</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">nr_to_pos</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">pos_nr</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">pos_to_nr</span><span class="p">[(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)]</span> <span class="o">=</span> <span class="n">pos_nr</span>
+        <span class="n">nr_to_pos</span><span class="p">[</span><span class="n">pos_nr</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">pos_nr</span> <span class="o">+=</span> <span class="mi">1</span>
+
+<span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+    <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+        <span class="n">c_var</span> <span class="o">=</span> <span class="n">position_to_tiles</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span>
+        <span class="n">self_lit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">new_bool_var</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;self_lit_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">arcs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pos_to_nr</span><span class="p">[</span><span class="n">pos</span><span class="p">],</span> <span class="n">pos_to_nr</span><span class="p">[</span><span class="n">pos</span><span class="p">],</span> <span class="n">self_lit</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">offset_key</span><span class="p">,</span> <span class="n">offset</span> <span class="ow">in</span> <span class="n">OFFSETS</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">n_pos</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">y</span> <span class="o">+</span> <span class="n">offset</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">n_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">n_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">n_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">GRID_SIZE</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">continue</span>
+            <span class="n">lit</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">new_bool_var</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;lit_</span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">y</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">n_pos</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">n_pos</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">TILES</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="s2">&quot; &quot;</span> <span class="ow">in</span> <span class="n">RULES</span><span class="p">[</span><span class="n">TILES</span><span class="p">[</span><span class="n">t</span><span class="p">]][</span><span class="n">offset_key</span><span class="p">]:</span>
+                    <span class="n">model</span><span class="o">.</span><span class="n">Add</span><span class="p">(</span><span class="n">lit</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">OnlyEnforceIf</span><span class="p">(</span><span class="n">c_var</span><span class="p">[</span><span class="n">t</span><span class="p">])</span>
+            <span class="n">arcs</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">pos_to_nr</span><span class="p">[</span><span class="n">pos</span><span class="p">],</span> <span class="n">pos_to_nr</span><span class="p">[</span><span class="n">n_pos</span><span class="p">],</span> <span class="n">lit</span><span class="p">))</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">add_circuit</span><span class="p">(</span><span class="n">arcs</span><span class="p">)</span>
+
+<span class="c1"># Change the objective:</span>
+<span class="n">model</span><span class="o">.</span><span class="n">Maximize</span><span class="p">(</span><span class="nb">sum</span><span class="p">([</span><span class="n">a</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">arcs</span> <span class="k">if</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">]]))</span>
+</code></pre></div>
+
+<p>This is actually a hard task given that the underlying graph is pretty large but after half an hour we get an optimal&nbsp;solution:</p>
+<div class="highlight"><pre><span></span><code>┏┓
+┃┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━┓
+┃┏━┓                     ┏━━┓    ┏━━━┛
+┃┗┓┗┓            ┏━┓  ┏━┓┗┓ ┗┓┏┓ ┗━━┓
+┗┓┗┓┗━┓  ┏━━━┓  ┏┛ ┗┓┏┛ ┗┓┗┓ ┗┛┗━━━┓┗┓
+ ┗━┛  ┗┓ ┗┓  ┗┓ ┗━━┓┗┛   ┗┓┗━━━━━━┓┗┓┗━┓
+       ┗┓ ┗┓  ┗┓   ┗━━━┓  ┗┓      ┗┓┃┏━┛
+        ┗┓ ┗━┓ ┗┓  ┏━━┓┗━┓ ┗━━━━━━┓┃┃┗━┓
+         ┗━━━┛  ┗━━┛  ┗━━┛        ┗┛┗━━┛
+</code></pre></div>
+
+<h2>Supervised Generation with <span class="caps">CP</span></h2>
+<p>Finally, we can attempt to convert the &#8220;supervised generation to look similar to a given image&#8221; approach to work within the <span class="caps">CP</span> framework. The basic setup is not even that difficult as for each possible tile and each possible location, we can pre-calculate what the similarity between them is, and then just maximize the similarity over the whole&nbsp;map.</p>
+<p>For relatively small images, <span class="caps">CP</span>-<span class="caps">SAT</span> is actually quite capable at this, as seen in the following&nbsp;example:</p>
+<p><img alt="" src="/images/2024/test_00040.png"></p>
+<p>This solution is very close to its bound, but proving optimality does take a very long time. Nevertheless, a good-enough solution is reached after 10 minutes. Even though it&#8217;s similarity to the target image is less, it is correct in terms of <span class="caps">WFC</span> constraints and the additional glitchiness makes it look good as&nbsp;well:</p>
+<p><img alt="" src="/images/2024/test_00033.png"></p>
+<p>What&#8217;s even cooler is that we can keep track of the different solutions as they are being produced (each with a better similarity to the target image), stick them in a <span class="caps">GIF</span>, and show&nbsp;them.</p>
+<p><img alt="Wave function collapse diffusion :)" src="/images/2024/wfc-animation.gif"></p>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>

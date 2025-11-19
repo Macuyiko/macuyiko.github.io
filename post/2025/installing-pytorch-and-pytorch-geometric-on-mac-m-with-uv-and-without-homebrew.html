@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Installing PyTorch and PyTorch Geometric on Mac M* With uv And Without Homebrew.</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">We do it until we get bored</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Wed 18 June 2025, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2025/installing-pytorch-and-pytorch-geometric-on-mac-m-with-uv-and-without-homebrew.html" rel="bookmark"
+			title="Permalink to Installing PyTorch and PyTorch Geometric on Mac M* With uv And Without Homebrew.">Installing PyTorch and PyTorch Geometric on Mac M* With uv And Without&nbsp;Homebrew.</a></div>
+		</header>
+	
+	    <p>A <a href="https://github.com/pyg-team/pytorch_geometric/issues/10178">huge</a> mess at the moment. Binary wheels point to the wrong location (&#8220;Library&#8221; Python install).
+I don&#8217;t want to use Homebrew on this Mac so resorted to compile from&nbsp;source.</p>
+<p>First set up a project&nbsp;directory:</p>
+<div class="highlight"><pre><span></span><code>mkdir<span class="w"> </span>pygtest<span class="w"> </span>
+<span class="nb">cd</span><span class="w"> </span>pygtest
+</code></pre></div>
+
+<p>Init with a Python version and Torch&nbsp;version:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>init<span class="w"> </span>--python<span class="w"> </span><span class="m">3</span>.12
+uv<span class="w"> </span>add<span class="w"> </span><span class="nv">torch</span><span class="o">==</span><span class="m">2</span>.7.0<span class="w"> </span>torchvision<span class="w"> </span>torchaudio
+</code></pre></div>
+
+<p>Then make sure Command Line Tools are&nbsp;installed:</p>
+<div class="highlight"><pre><span></span><code>xcode-select<span class="w"> </span>--install
+</code></pre></div>
+
+<p>Set up build&nbsp;tools:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>cmake<span class="w"> </span>ninja
+</code></pre></div>
+
+<p>Export compile&nbsp;variables:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">CC</span><span class="o">=</span>clang
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXX</span><span class="o">=</span>clang++
+<span class="nb">export</span><span class="w"> </span><span class="nv">CFLAGS</span><span class="o">=</span><span class="s2">&quot;-Xclang -fopenmp -I/usr/local/include&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CXXFLAGS</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$CFLAGS</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">LDFLAGS</span><span class="o">=</span><span class="s2">&quot;-L/usr/local/lib -lomp&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">CMAKE_OSX_ARCHITECTURES</span><span class="o">=</span><span class="k">$(</span>uname<span class="w"> </span>-m<span class="k">)</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">MACOSX_DEPLOYMENT_TARGET</span><span class="o">=</span><span class="k">$(</span>sw_vers<span class="w"> </span>-productVersion<span class="w"> </span><span class="p">|</span><span class="w"> </span>cut<span class="w"> </span>-d.<span class="w"> </span>-f1-2<span class="k">)</span>
+</code></pre></div>
+
+<p>Compile the easy packages that have source&nbsp;wheels:</p>
+<div class="highlight"><pre><span></span><code><span class="k">for</span><span class="w"> </span>pkg<span class="w"> </span><span class="k">in</span><span class="w"> </span>torch_scatter<span class="w"> </span>torch_sparse<span class="w"> </span>torch_cluster<span class="w"> </span>torch_spline_conv
+<span class="k">do</span><span class="w"> </span>uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-build-isolation<span class="w"> </span>--no-binary<span class="w"> </span><span class="nv">$pkg</span><span class="w"> </span><span class="nv">$pkg</span><span class="p">;</span><span class="w"> </span><span class="k">done</span>
+</code></pre></div>
+
+<p>Download and extract the&nbsp;right <code>openmp</code> binary (will be placed&nbsp;in <code>/usr/local/include</code>):</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>-O<span class="w"> </span>https://mac.r-project.org/openmp/openmp-19.1.0-darwin20-Release.tar.gz<span class="w"> </span>
+sudo<span class="w"> </span>tar<span class="w"> </span>fvxz<span class="w"> </span>openmp-19.1.0-darwin20-Release.tar.gz<span class="w"> </span>-C<span class="w"> </span>/<span class="w"> </span>
+</code></pre></div>
+
+<p>Compile <code>pyg-lib</code>;</p>
+<div class="highlight"><pre><span></span><code><span class="nb">export</span><span class="w"> </span><span class="nv">PYG_TAG</span><span class="o">=</span><span class="m">0</span>.4.0
+uv<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--no-binary<span class="w"> </span>:all:<span class="w"> </span>--no-build-isolation<span class="w"> </span><span class="s2">&quot;git+https://github.com/pyg-team/pyg-lib.git@</span><span class="nv">$PYG_TAG</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<p>Add <code>torch_geometric</code>:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>add<span class="w"> </span>torch_geometric
+</code></pre></div>
+
+<p>And&nbsp;test:</p>
+<div class="highlight"><pre><span></span><code>uv<span class="w"> </span>run<span class="w"> </span>python<span class="w"> </span>-<span class="w"> </span><span class="s">&lt;&lt;&#39;PY&#39;                                    </span>
+<span class="s">import torch, torch_geometric, pyg_lib, torch_scatter</span>
+<span class="s">print(&quot;Torch           :&quot;, torch.__version__)</span>
+<span class="s">print(&quot;PyG             :&quot;, torch_geometric.__version__)</span>
+<span class="s">print(&quot;pyg_lib         :&quot;, pyg_lib.__version__)</span>
+<span class="s">print(&quot;torch_scatter   :&quot;, torch_scatter.__version__)</span>
+<span class="s">print(&quot;MPS available   :&quot;, torch.backends.mps.is_available())</span>
+<span class="s">PY</span>
+</code></pre></div>
+
+<div class="highlight"><pre><span></span><code><span class="n">Torch</span><span class="w">           </span><span class="o">:</span><span class="w"> </span><span class="mf">2.7</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">PyG</span><span class="w">             </span><span class="o">:</span><span class="w"> </span><span class="mf">2.6</span><span class="o">.</span><span class="mi">1</span>
+<span class="n">pyg_lib</span><span class="w">         </span><span class="o">:</span><span class="w"> </span><span class="mf">0.4</span><span class="o">.</span><span class="mi">0</span>
+<span class="n">torch_scatter</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="mf">2.1</span><span class="o">.</span><span class="mi">2</span>
+<span class="n">MPS</span><span class="w"> </span><span class="n">available</span><span class="w">   </span><span class="o">:</span><span class="w"> </span><span class="n">True</span>
+</code></pre></div>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>
