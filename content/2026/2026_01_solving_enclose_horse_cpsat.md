@@ -246,6 +246,10 @@ Walls: 12
 🟦⬜🟦🟦⬜🟦⬜🟦⬜⬜🧱🟦
 ```
 
+And indeed as verified by the daily:
+
+![](/images/2026/horse2.png)
+
 However, as a user [pointed out to me](https://news.ycombinator.com/item?id=46515350), this can end up being problematic for maps such as this one:
 
 ```plain
