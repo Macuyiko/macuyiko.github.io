@@ -13,7 +13,7 @@ The game is played on a grid of grass or water tiles. The goal is to place walls
 Walls can only be placed on grass tiles, and the horse cannot traverse over water either. The neighborhood is a von Neumann one. The score is calculated as the number of tiles in the enclosure (including the one the horse stands on).
 Interesting extra: tiles can also contain a cherry, on which no walls can be placed either but which add an additional three points if they are within the enclosure.
 
-Just as I've done in [the past](https://blog.macuyiko.com/post/2025/solving-linkedin-queens-with-cp-sat.html), I wanted to have a quick step towards finding the optimal solution using the [CP-SAT constraint programming solver](https://developers.google.com/optimization/cp/cp_solver), which is part of Google's OR Tools. My initial feeling was that the "flood fill" would be hard to tackle and/or the solve time would be large for this grid size, but CP-SAT has no trouble with it.
+Just as I've done in [the past](https://blog.macuyiko.com/post/2025/solving-linkedin-queens-with-cp-sat.html), I wanted to have a quick stab towards finding the optimal solution using the [CP-SAT constraint programming solver](https://developers.google.com/optimization/cp/cp_solver), which is part of Google's OR Tools. My initial feeling was that the "flood fill" would be hard to tackle and/or the solve time would be large for this grid size, but CP-SAT has no trouble with it.
 
 First, we perform some necessary imports, load in a level from a daily, and parse the map:
 
