@@ -198,7 +198,7 @@ for r in range(ROWS - 1):
             model.Add(solution[r + 1][c + 1] == 0).OnlyEnforceIf(solution[r][c])
 ```
 
-And finally we can solve and print out a solution:
+And we can solve and print out a solution:
 
 ```python
 def render_solution(lines, grid_water, is_cherry, horse_pos, walls_set, reachable_set):
