@@ -10,6 +10,8 @@ An example puzzle looks like this:
 
 The game is played on a grid of grass or water tiles. The goal is to place walls so that the horse cannot escape (i.e. exit the map) whilst keeping the area of the enclosure as large as possible.
 
+(By "escape", we mean here that no path should exist between the horse and the map border. There are no time dynamics present here; as this seemed to confused some readers of the HN post.)
+
 Walls can only be placed on grass tiles, and the horse cannot traverse over water either. The neighborhood is a von Neumann one. The score is calculated as the number of tiles in the enclosure (including the one the horse stands on).
 Interesting extra: tiles can also contain a cherry, on which no walls can be placed either but which add an additional three points if they are within the enclosure.
 
