@@ -265,7 +265,7 @@ Walls: 6
 ⬜⬜⬜⬜⬜🧱⬜⬜⬜⬜⬜⬜
 ```
 
-The problem is that by closing of "horseless areas", the solver can freely assign these to be reachable as well, erroneously adding these to the objective.
+The problem is the closing off of "horseless areas", since the solver can freely assign these to be reachable as well, erroneously adding these to the objective.
 
 Hence, we also need to add single flow commodity constraints, flowing from the horse:
 
