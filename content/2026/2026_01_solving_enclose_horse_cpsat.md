@@ -188,12 +188,6 @@ This base setup is actually rather simple. Our main decision boolean just determ
 
 Finally, we can render out the solution:
 
-```
-
-Finally, queens cannot touch each other, including on the diagonals.
-Since the previous constraints already cover horizontal and vertical touching, we only need to prohibit a queen to be present diagonally in the row below a given queen.
-We don't need to prohibit the row above as this is symmetric.
-
 ```python
 # No queens on the same diagonal
 for r in range(ROWS - 1):
