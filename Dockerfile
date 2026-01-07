@@ -6,11 +6,11 @@ LABEL "com.github.actions.icon"="home"
 LABEL "com.github.actions.color"="red"
 
 LABEL "Name"="Pelican for GitHub Pages"
-LABEL "Version"="0.1.0"
+LABEL "Version"="0.1.1"
 
-ENV LC_ALL C.UTF-8
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL=C.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US.UTF-8
 
 RUN apt-get update \
     && apt-get install --no-install-recommends -qy git curl bash ca-certificates gnupg wget locales
@@ -18,8 +18,7 @@ RUN apt-get update \
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen \
     && locale-gen en_US.UTF-8
     
-# Pre-requisites for Pillow, a key requirement for many python-based pelican installs.
-# Per https://pillow.readthedocs.io/en/stable/installation.html#
+# Pre-requisites for Pillow
 RUN apt-get install -y \
     libffi-dev \
     libfreetype6-dev \
