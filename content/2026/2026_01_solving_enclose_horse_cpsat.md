@@ -2,7 +2,7 @@ Title: Solving Enclose.Horse With CP-SAT
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2026-01-07 18:54
 
-Yesterday (6 Jan), someone showed up a [small clever puzzle game on Hacker News, called enclose.horse](https://news.ycombinator.com/item?id=46509211).
+Yesterday (6 Jan), someone showed off a [small clever puzzle game on Hacker News, called enclose.horse](https://news.ycombinator.com/item?id=46509211).
 
 An example puzzle looks like this:
 
