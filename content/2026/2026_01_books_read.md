@@ -12,11 +12,11 @@ Not a Speck of Light: Stories | 2024 | Laird Barron | good
 The City and Its Uncertain Walls | 2023 | Haruki Murakami | great
 The Wager | 2023 | David Grann | great
 Babel | 2022 | R.F. Kuang | great
-Zoo | 2003 | Otsuichi | great
+Zoo | 2003 | Otsuichi | good
 All Systems Red | 2017 | Marta Wells | bad
 Goth | 2002 | Otsuichi | good
 Our Mathematical Universe | 2012 | Max Tegmark | good
-Immaculate Conception | 2025 | Ling Ling Huang | good
+Immaculate Conception | 2025 | Ling Ling Huang | great
 Intermittent Living | 2023 | Siebe Hannosset | ok
 De verovering van Belgie | 2025 | Wouter Verschelden | good
 Wonder Drug | 2025 | Jennifer Vanderbes | great
