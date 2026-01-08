@@ -37,6 +37,39 @@
 			});
 		};
 		$(function () {
+			var quotes = [
+				'Last seen 2026: "Everything is boring now"',
+				'We do it until we get bored',
+				'Are blogs still a thing?',
+				'Updated rarely, regretted often',
+				'No hot takes, only lukewarm confusion',
+				'ChatGPT gave me these quote examples but I wrote the JS, I swear...',
+				'I manually update this page but I have a GitHub Action - you should hire me',
+				'Remember when we used to share quotes.txt on UseNet?',
+				'Nothing here is finished',
+				'Writing on the internet used to be a form of procrastination',
+				'No, still no newsletter',
+				'Not medicated enough for LinkedIn',
+				'Abandoned drafts are doing most of the work',
+				'Opinions loading… wait they were already',
+				'Low frequency posting',
+				'This site has no KPI',
+				'If this were good, it would be shorter',
+				'Hosted forever, updated emotionally',
+				'The algorithm does not know this exists',
+				'Written without consulting an audience',
+				'This could have been a README, somewhere',
+				'Still better than a Medium post',
+				'Time passes, Geocities remains',
+				'No comments because peace matters',
+			];
+
+			var $tagline = $('.header-tagline');
+			if ($tagline.length === 0) return;
+
+			var randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+			$tagline.text(randomQuote);
+
 			$(window).resize(function () {
 				waitForFinalEvent(function () {
 					insertCaptions();
