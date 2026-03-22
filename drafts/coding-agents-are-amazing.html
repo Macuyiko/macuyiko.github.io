@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Coding Agents Are Amazing</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			var quotes = [
+				'Last seen 2026: "Everything is boring now"',
+				'We do it until we get bored',
+				'Are blogs still a thing?',
+				'Updated rarely, regretted often',
+				'No hot takes, only lukewarm confusion',
+				'ChatGPT gave me these quote examples but I wrote the JS, I swear...',
+				'I manually update this page but I have a GitHub Action - you should hire me',
+				'Remember when we used to share quotes.txt on UseNet?',
+				'Nothing here is finished',
+				'Writing on the internet used to be a form of procrastination',
+				'No, still no newsletter',
+				'Not medicated enough for LinkedIn',
+				'Abandoned drafts are doing most of the work',
+				'Opinions loading… wait they were already',
+				'Low frequency posting',
+				'This site has no KPI',
+				'If this were good, it would be shorter',
+				'Hosted forever, updated emotionally',
+				'The algorithm does not know this exists',
+				'Written without consulting an audience',
+				'This could have been a README, somewhere',
+				'Still better than a Medium post',
+				'Time passes, Geocities remains',
+				'No comments because peace matters',
+			];
+
+			var $tagline = $('.header-tagline');
+			if ($tagline.length === 0) return;
+
+			var randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+			$tagline.text(randomQuote);
+
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">Last seen 2026: &quot;Everything is boring now&quot;</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Sun 22 March 2026, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/drafts/coding-agents-are-amazing.html" rel="bookmark"
+			title="Permalink to Coding Agents Are Amazing">Coding Agents Are&nbsp;Amazing</a></div>
+		</header>
+	
+	    <p>In the days of <a href="https://openclaw.ai/">OpenClaw</a>, <a href="https://github.com/qwibitai/nanoclaw">NanoClaw</a>, <a href="https://github.com/sipeed/picoclaw">PicoClaw</a> and <a href="https://www.nvidia.com/en-us/ai/nemoclaw/">Nvidia&#8217;s Lobster</a>, there&#8217;s no one waiting for another blog post on how good <span class="caps">AI</span> coding agents have&nbsp;gotten.</p>
+<p>Especially not with <span class="caps">GPT</span>-5.4-normal, mini, nano, etc.<br>
+And the choice between OpenCode, Claude-Code, Codex, Cursor, etc.<br>
+Nonetheless, I am in awe in terms of how good these coding agents have&nbsp;gotten.</p>
+<!--
+*(This draft started as a quick post about some recent very real use cases but developed in a stream of conciousness. Part 2 can return to some cool examples. It's my blog.)*
+-->
+
+<p>I&#8217;m not a big fan of switching <span class="caps">IDE</span> paradigms, which is why I took way longer than it had to to go beyond using the web chat interface before playing around with <span class="caps">CLI</span> tools, which require having an editor open somewhere anyway, before eventually realizing <span class="caps">VS</span> Code has pretty good extensions now. Which don&#8217;t require setting up an <span class="caps">API</span> key, but just work on your subscription. Copilot (and it&#8217;s fun aggressive autocomplete) was the first, running Ollama locally with a random extension was next, before settling on Codex. Not that I am glued to it, far from it, but in terms of style I like it most so far. And no idea how they continue to pay for&nbsp;it.</p>
+<p>Something happened over the past months. <span class="caps">GPT</span>-5.3 was already impressive, with it&#8217;s depressive genius-meets-depressed-wagie personality and tonality. And without Claude&#8217;s rate limits or lengthy weird auto compacting. But 5.4 today is downright scary how it &#8220;gets&#8221; my prompts. Often starting from scratch, just pointing it to some code already present from a previous round or the long past and it going off calmly exploring it, getting the intent, without any of the shortcuts Claude is want to&nbsp;do.</p>
+<!--
+It's weird, by the way, to ask people to personalize those different agents. For me it is: Claude is a clown, which is always eager to support you, but takes shortcuts and is deeply expressed. Gemini is a researcher, who loves to discuss the idea and will give you lots of prior work but will not get off its chair to start coding. OpenAI is the most constrained and just does it. And probably feels the most pain. It also depends on the task and use case. I use these models most for coding but I do know GPT would convert this draft into a random X-style post (5 things I learned. It's not this but that) which doesn't match the intent at all unless you carefully prompt it.
+
+*(Another tangent is to ask them to be creative and which default things they go for. Claude loves an ethereal castle in another Minecraft experiment I've been running, GPT has a either a meltdown or takes it safe, and Gemini loves wizards. Kimi loves pagoda... For what that's worth. Nothing, of course, without a true experiment, but that's a story for another day.)*
+-->
+
+<p>It has made programming fun again, to be honest, even though I don&#8217;t program manually that much anymore. We just prompt things into existence&nbsp;now.</p>
+<p>I still try to convince myself that the prompt still matters. Asking the right question matters. But if I am honest that is exactly what I found so pompous of managerial types in the past, so I&#8217;m not that sure what to critique. Perhaps that if the size and scope of a codebase increases, these tools seems to get stuck in the spaghetti of it all? But so do humans. And perhaps asking to do a thorough restructure pass is just a prompt&nbsp;away.</p>
+<p>Perhaps the most important thing I&#8217;ve found is to discuss the architecture beforehand. I&#8217;ve always loathed <span class="caps">IT</span> architects as it has always been more about control and a lack of true understanding rather than the <em>literal</em> fundamentals, but I feel that exactly this will change going forward. Not senior engineers to fix the <span class="caps">AI</span> juniors. But architects that can sketch the blueprint. Discussion before code. Get the domain model, class layout, separation of concerns, or whatever you want to call it&nbsp;right.</p>
+<p>And that is not a lack of the <span class="caps">AI</span> tool at hand. Many of them are eager to discuss with you if only you push them a bit towards that side, I just guess they have been <span class="caps">RLHF</span>&#8217;d out of that route and just act to &#8220;materialize the thing&#8221;. Some of those have gotten better &#8212; finally &#8212; and act a bit more neckbeardy: they spot bugs apart from the thing you asked to do, as an &#8220;akshually&#8221;, they warn for potential issues, and they will tell you this is just a <span class="caps">POC</span>. Not perfect, but again&nbsp;improving.</p>
+<p>As a tangent, I believe there are three ways forward. (i) Either we find a Great Next Architecture (<span class="caps">GNA</span>) which might be state models or block diffusion or back to <span class="caps">RNN</span> but so far we&#8217;re just scaling dot products so the half-time increases. (ii) We continue to carefully prepare our training data, but it seems that this has been <a href="https://arstechnica.com/ai/2025/06/anthropic-destroyed-millions-of-print-books-to-build-its-ai-models/">explored to death</a>. (iii) We start to carefully prepare and select the humans. The latter is without any positive reference to eugenics or the Great Green idea of having too much of&nbsp;us.</p>
+<p>Nevertheless, I wanted to share two concrete cases that have made using these tools so fun and quick for me. Especially since both are related to my now seven year old&nbsp;daughter.</p>
+<hr>
+<p>The first example has to do with 3d-printing, which I&#8217;ve been exploring recently but only besides real life and with the attention span of an old person. Motivated by a yound kid who apparantly has seen this on YouTube and wants to print her own characters, however, I had to figure out in a couple of weeks how to set up Bambu Studio, explore available models, what slicing even is, which buffers to put in if you ever <em>do</em> want to print something for home-improvement, 3d file formats, Blender juggling, cutting parts, image-to-mesh models etc&#8230; Again it helps if you know what and how to ask (I keep telling myself), but just chatting away with ChatGPT has been, well,&nbsp;great.</p>
+<p>Until I had a Blender model open with a <span class="caps">UV</span> mapped texture which didn&#8217;t want to load the different fillament colors correctly in Bambu Studio. An annoying problem &#8212; you can repaint in Bambu &#8212; with with 100k+&nbsp;faces</p>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>
