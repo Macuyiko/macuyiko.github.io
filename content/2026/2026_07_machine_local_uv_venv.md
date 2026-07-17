@@ -214,11 +214,9 @@ if ([string]::IsNullOrWhiteSpace($projectRoot)) {
 }
 
 # Windows paths are case-insensitive, so normalize the path before hashing.
-$normalizedRoot = (
-    [System.IO.Path]::GetFullPath($projectRoot)
-        .TrimEnd('\')
-        .ToLowerInvariant()
-)
+$normalizedRoot = [System.IO.Path]::GetFullPath($projectRoot)
+$normalizedRoot = $normalizedRoot.TrimEnd([char]'\')
+$normalizedRoot = $normalizedRoot.ToLowerInvariant()
 
 $bytes = [System.Text.Encoding]::UTF8.GetBytes($normalizedRoot)
 $sha = [System.Security.Cryptography.SHA256]::Create()
