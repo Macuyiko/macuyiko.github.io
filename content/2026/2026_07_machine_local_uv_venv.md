@@ -12,17 +12,16 @@ The solution would be to stop putting project folders in Google Drive and just u
 So my ideal setup is therefore:
 
 - Google Drive:
-  - project/
-    - pyproject.toml
-    - uv.lock
-    - .python-version
-    - src/
-    - README.MD
-    - ...
-
+    - project/
+        - pyproject.toml
+        - uv.lock
+        - .python-version
+        - src/
+        - README.MD
+        - ...
 - Local machine (somewhere and somehow):
-  - uv-project-envs/
-    - project-a1b2c3d4e5f6/
+    - uv-project-envs/
+        - project-a1b2c3d4e5f6/
 
 At the same time, I still want to type: `uv run python main.py`, `uv sync` or `uv add pandas` (or more often: want AI agents to run this if they want to without issue). I do not want to remember `--active` or teach every coding agent to use a custom command or flag. It should also work on all platforms and not rely on [symlink hocus pocus](https://github.com/c0rychu/uvlink).
 
@@ -39,10 +38,10 @@ Make sure each project includes a Python version pin: e.g. `uv python pin 3.12`,
 3. `nano "$HOME/bin/uv"` and paste the script below
 4. `chmod +x "$HOME/bin/uv"`
 5. Put the wrapper first in PATH
-  - For macOS using zsh, add this to `~/.zprofile`: `export PATH="$HOME/bin:$PATH"`
-  - For Linux, add it to `~/.profile`: `export PATH="$HOME/bin:$PATH"`
-  - Depending on how the Linux terminal starts Bash, it may also be useful to add the same line to `~/.bashrc`
-  - `source ~/.zprofile` or `source ~/.profile` or open a new Terminal
+    - For macOS using zsh, add this to `~/.zprofile`: `export PATH="$HOME/bin:$PATH"`
+    - For Linux, add it to `~/.profile`: `export PATH="$HOME/bin:$PATH"`
+    - Depending on how the Linux terminal starts Bash, it may also be useful to add the same line to `~/.bashrc`
+    - `source ~/.zprofile` or `source ~/.profile` or open a new Terminal
 6. `type -a uv` to verify the wrapper appears first `uv --version` to make sure `uv` works
 
 Script `$HOME/bin/uv`:
@@ -148,9 +147,9 @@ On Windows, the most compatible solution is a small `uv.cmd` launcher combined w
 3. `notepad "$env:USERPROFILE\bin\uv-wrapper.ps1"` and paste the script below
 4. `notepad "$env:USERPROFILE\bin\uv.cmd"` and paste the second script below
 5. Put the wrapper first in PATH
-  - "Edit environment variables for your account"
-  - Add `%USERPROFILE%\bin` and make sure it is above the uv path
-  - Close all open terminals
+    - "Edit environment variables for your account"
+    - Add `%USERPROFILE%\bin` and make sure it is above the uv path
+    - Close all open terminals
 6. `Get-Command uv -All` to verify the wrapper appears first `uv --version` to make sure `uv` works
 
 Script `$env:USERPROFILE\bin\uv-wrapper.ps1`:
