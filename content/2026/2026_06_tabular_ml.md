@@ -1,7 +1,6 @@
 Title: Tabular ML: Solved, But Still Risky
 Author: Seppe "Macuyiko" vanden Broucke
 Date: 2026-08-04 14:14
-Status: draft
 
 Right before the arrival of the first LLMs, I co-authored [a book on Model Risk](https://www.managingmodelriskbook.com/) from a machine learning perspective. Rather than taking a (purely) financial view on the topic, we wanted to break open the term Model Risk to cover all predictive modelling failure cases that lead to harm down the line. The book covered problems such as data leakage and incorrect model use, failures caused by ignoring the wider organizational needs or culture and even included some early deep learning aspects such as buggy digital twins and faulty reward functions. At some point there was an opportunity to write a second edition to cover all the hot new AI aspects going on, but that did not happen in the end. One of the reasons was that the field now evolves so fast that it is hard to cover with a static book. Book publishing itself has become a source of risk due to "AI slop" (I'm a heavy user of AI tools myself, but the slop has been a negative).
 
