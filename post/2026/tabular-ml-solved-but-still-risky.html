@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Tabular ML: Solved, But Still Risky</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			var quotes = [
+				'Last seen 2026: "Everything is boring now"',
+				'We do it until we get bored',
+				'Are blogs still a thing?',
+				'Updated rarely, regretted often',
+				'No hot takes, only lukewarm confusion',
+				'ChatGPT gave me these quote examples but I wrote the JS, I swear...',
+				'I manually update this page but I have a GitHub Action -- you should hire me',
+				'Remember when we used to share quotes.txt on UseNet?',
+				'Nothing here is finished',
+				'Writing on the internet used to be a form of procrastination',
+				'No, still no newsletter',
+				'Not medicated enough for LinkedIn',
+				'Abandoned drafts are doing most of the work',
+				'Opinions loading… wait they were already',
+				'Low frequency posting',
+				'This site has no KPI',
+				'If this were good, it would be shorter',
+				'Hosted forever, updated emotionally',
+				'The algorithm does not know this exists',
+				'Written without consulting an audience',
+				'This could have been a README, somewhere',
+				'Still better than a Medium post',
+				'Time passes, Geocities remains',
+				'No comments because peace matters',
+				'Powered by a .py file and spite',
+				'RSS feed available for the three of you',
+				'Neither this page nor my life choices validate',
+				'Back online after a three-year coffee break',
+				'"Per my last post (2021)"',
+				'Load time: fast. Update time: geological',
+				'No dark mode, adjust your soul instead',
+				'Deprecated before it shipped',
+				'My drafts folder has seniority',
+				'View Source -- there\'s nothing to steal',
+				'Analytics: one visitor, and it was me',
+				'I had a Substack. We don\'t talk about it',
+				'This quote array is the most maintained thing I own',
+				'Now with 100% more trailing commas',
+				'Somewhere a linter is screaming',
+				'If found, please return to 2007',
+			];
+
+			var $tagline = $('.header-tagline');
+			if ($tagline.length === 0) return;
+
+			var randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+			$tagline.text(randomQuote);
+
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">Last seen 2026: &quot;Everything is boring now&quot;</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Tue 04 August 2026, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2026/tabular-ml-solved-but-still-risky.html" rel="bookmark"
+			title="Permalink to Tabular ML: Solved, But Still Risky">Tabular <span class="caps">ML</span>: Solved, But Still&nbsp;Risky</a></div>
+		</header>
+	
+	    <p>Right before the arrival of the first LLMs, I co-authored <a href="https://www.managingmodelriskbook.com/">a book on Model Risk</a> from a machine learning perspective. Rather than taking a (purely) financial view on the topic, we wanted to break open the term Model Risk to cover all predictive modelling failure cases that lead to harm down the line. The book covered problems such as data leakage and incorrect model use, failures caused by ignoring the wider organizational needs or culture and even included some early deep learning aspects such as buggy digital twins and faulty reward functions. At some point there was an opportunity to write a second edition to cover all the hot new <span class="caps">AI</span> aspects going on, but that did not happen in the end. One of the reasons was that the field now evolves so fast that it is hard to cover with a static book. Book publishing itself has become a source of risk due to &#8220;<span class="caps">AI</span> slop&#8221; (I&#8217;m a heavy user of <span class="caps">AI</span> tools myself, but the slop has been a&nbsp;negative).</p>
+<p>Anyway, my latent feeling nowadays has settled on the notion that tabular learning is more or less solved. We all know how to set up the pipelines, throw XGBoost or your favorite booster on top of it (or TabPFN/Net/<span class="caps">FM</span> if you want to be extra fancy) and be done with it. No one would dare to make those old-fashioned mistakes anymore today, especially when it&#8217;s Claude doing the coding,&nbsp;right?</p>
+<p>In an &#8220;Advanced Analytics&#8221; course I&#8217;ve been teaching since 2017 (oof), we (meaning me and each year&#8217;s new cohort of students) have been going through a similar flow. From explaining new <span class="caps">ML</span> models (Random Forest after starting from SVMs) to the importance of thinking about validation and generalization (test set, not goodness of fit), to talking about production and MLOps, from Big Data and Hadoop to just using Snowflake, to the arrival of LLMs and ultimately accepting that tabular learning is solved and perhaps even all of <span class="caps">ML</span> is solved once <span class="caps">AI</span> becomes good enough that it can just do 99% of the work we did manually before anyway. It&#8217;s been a wild&nbsp;ride.</p>
+<p>A while ago, I came across the following article: <a href="https://scrapfly.io/blog/posts/post-quantum-tls-bot-detection">Post-Quantum <span class="caps">TLS</span> and Wire-Level Fingerprints Broke the Basic Scraper</a>. It&#8217;s at the intersection of two things I like: scraping and <span class="caps">ML</span>. The article mainly leverages an arXiv paper to show that your simple ways of scraping are easy to spot and hence you should buy our product. Fun observation number one is that the article was clearly written by <span class="caps">AI</span>:</p>
+<blockquote>
+<p>This is the part most bot detection tutorials skip. Most posts on anti-bot evasion still revolve around User-Agent rotation, cookies, and CAPTCHAs. Those are the easy layers. But the connection layer is the one you can&#8217;t bluff with a&nbsp;header.</p>
+</blockquote>
+<p>I don&#8217;t want to be too critical here. We all use <span class="caps">AI</span> nowadays. I&#8217;m not sure whether it actively improves engagement or sales, but perhaps there is still an untapped or unaware audience for which the <span class="caps">AI</span> writing style&nbsp;works.</p>
+<p>The paper they refer to, <a href="https://arxiv.org/html/2602.09606v1">&#8220;When Handshakes Tell the Truth: Detecting Web Bad Bots via <span class="caps">TLS</span> Fingerprints&#8221;</a> shows incredible&nbsp;results:</p>
+<ul>
+<li>Uses <span class="caps">TLS</span> fingerprint signals (<span class="caps">JA4DB</span>) to predict whether a website visitor is a bot or&nbsp;benign</li>
+<li>Labeling is a bit weak based on the user agent self-reporting it&#8217;s a bot, but that&#8217;s&nbsp;fair</li>
+<li>Features include <span class="caps">OS</span>, app, a unique <span class="caps">TLS</span> cipher fingerprint,&nbsp;etc.</li>
+<li>99%+ <span class="caps">ROC</span> <span class="caps">AUC</span> with XGBoost or&nbsp;CatBoost</li>
+<li>Random train/test&nbsp;split</li>
+</ul>
+<p>This figure from the paper makes it more or less clear which features were&nbsp;used:</p>
+<p><img alt="" src="https://arxiv.org/html/2602.09606v1/JA4.png"></p>
+<p>With these being the most important&nbsp;ones:</p>
+<p><img alt="" src="https://arxiv.org/html/2602.09606v1/XGBoostFeatureImportance.png"></p>
+<p>99%+ <span class="caps">ROC</span> <span class="caps">AUC</span> is certainly spectacular. Or as the celebratory blog post put&nbsp;it:</p>
+<blockquote>
+<p>98.6%. That&#8217;s the classification accuracy a CatBoost model hit using only connection-level features. No headers. No IPs. No behavior. Just the shape of the initial&nbsp;handshake.</p>
+</blockquote>
+<p>Thanks Claude (or <span class="caps">GPT</span>, or&#8230;). It&#8217;s unfair to expect it, but I still find it appalling how little LLMs push back and apparently don&#8217;t go &#8220;Wow, wait a second, I&#8217;m not sure whether I&#8217;d use this paper. Seems too good to be true.&#8221; Even with a more open-ended prompt, it might take some time. These are all the questions I went through with a fresh <span class="caps">GPT</span> 5.5 session after having given it the&nbsp;paper:</p>
+<blockquote>
+<p>I want to ask questions about this paper
+<strong>Reply:</strong> It’s “When Handshakes Tell the Truth: Detecting Web Bad Bots via <span class="caps">TLS</span> Fingerprints”, about using <span class="caps">JA4</span> <span class="caps">TLS</span> fingerprints plus XGBoost/CatBoost to distinguish malicious bots from benign/human traffic. The paper reports very high test performance, with CatBoost slightly ahead: <span class="caps">AUC</span> 0.998, F1 0.9734, accuracy 0.9863. Ask me anything about it: summary, methodology, critique, assumptions, threat model, results, weaknesses, or how convincing the <span class="caps">ML</span> setup is.
+the most important feature is which one? 
+<strong>Reply:</strong> (more blabbering)
+ja4_b &#8212; what is this exactly? (me trying to help it)
+<strong>Reply:</strong> ja4_b is the “middle” part of a <span class="caps">JA4</span> <span class="caps">TLS</span> client fingerprint: a hash of the client’s offered cipher suites.
+And the way the train/test split is done is 80/20?
+<strong>Reply:</strong> Yes. The paper says the data was split into 80% training and 20% test, using a fixed random seed for consistency. (more blabbering) One important critique: the paper does not clearly say whether the split was done in a way that prevents the same or near-identical ja4_b / <span class="caps">JA4</span> fingerprints from appearing in both train and test. If identical fingerprint categories occur in both sets, the model may partly be learning a lookup table of known fingerprints rather than generalizing to unseen&nbsp;bots.</p>
+</blockquote>
+<p>Ah, finally it gets the issue, but we had to push sufficiently long. Ok, let&#8217;s see if we can reproduce and show that this is an issue. At least that part does go very fast with an <span class="caps">LLM</span>.</p>
+<p>The original <span class="caps">JA4DB</span> download endpoint&nbsp;(<code>https://ja4db.com/api/download/</code>) has disappeared, but I was able to fetch the original <span class="caps">JSON</span> dump in time and have <a href="https://e.pcloud.link/publink/show?code=XZv3Jy7ZtONXp1mK4nktV9FXuHHEAYmXr6AX">placed it here</a>. It contains 195,622 records, almost all of which have a usable <span class="caps">JA4</span> fingerprint. I reconstructed the label from the application and user-agent text, following the general idea in the paper, and removed user agents matching known good bots. The resulting data contains 141,954 rows and 28,130 bad-bot labels, a positive rate of 19.8%. Note that the labeling rules are my own reconstruction of what the paper describes, and I deliberately restricted the model features to information parsed from <span class="caps">JA4</span>. The absolute scores should therefore not be compared too literally with those in the paper. The behavior under different train/test splits is the part I care&nbsp;about.</p>
+<p>I started with a random row split, similar to what the paper does. I then grouped rows on the full <span class="caps">JA4</span> fingerprint so that one fingerprint could only occur on one side of the train/test divide. A stricter version groups on the&nbsp;combined <code>ja4_b + ja4_c</code> hash pair. I ran every split with all <span class="caps">JA4</span> fields and then without the two hash fields. The latter still gets the protocol fields and the counts encoded in the first part of <span class="caps">JA4</span>.</p>
+<p>The result is as follows. All threshold-dependent metrics use the default probability threshold of 0.5. Model used is just CatBoost with default hyperparams, no&nbsp;tuning.</p>
+<table>
+<thead>
+<tr>
+<th>Split</th>
+<th>Features</th>
+<th style="text-align: right;">Test bot rate</th>
+<th style="text-align: right;"><span class="caps">ROC</span> <span class="caps">AUC</span></th>
+<th style="text-align: right;">F1</th>
+<th style="text-align: right;">Precision</th>
+<th style="text-align: right;">Recall</th>
+<th style="text-align: right;">Accuracy</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Random rows</td>
+<td>All <span class="caps">JA4</span></td>
+<td style="text-align: right;">19.8%</td>
+<td style="text-align: right;">0.986</td>
+<td style="text-align: right;">0.890</td>
+<td style="text-align: right;">0.930</td>
+<td style="text-align: right;">0.853</td>
+<td style="text-align: right;">0.958</td>
+</tr>
+<tr>
+<td>Random rows</td>
+<td>No hashes</td>
+<td style="text-align: right;">19.8%</td>
+<td style="text-align: right;">0.978</td>
+<td style="text-align: right;">0.860</td>
+<td style="text-align: right;">0.881</td>
+<td style="text-align: right;">0.841</td>
+<td style="text-align: right;">0.946</td>
+</tr>
+<tr>
+<td>Group by full <span class="caps">JA4</span></td>
+<td>All <span class="caps">JA4</span></td>
+<td style="text-align: right;">14.0%</td>
+<td style="text-align: right;">0.676</td>
+<td style="text-align: right;">0.185</td>
+<td style="text-align: right;">0.912</td>
+<td style="text-align: right;">0.103</td>
+<td style="text-align: right;">0.873</td>
+</tr>
+<tr>
+<td>Group by full <span class="caps">JA4</span></td>
+<td>No hashes</td>
+<td style="text-align: right;">14.0%</td>
+<td style="text-align: right;">0.811</td>
+<td style="text-align: right;">0.226</td>
+<td style="text-align: right;">0.400</td>
+<td style="text-align: right;">0.158</td>
+<td style="text-align: right;">0.849</td>
+</tr>
+<tr>
+<td>Group&nbsp;by <code>ja4_b + ja4_c</code></td>
+<td>All <span class="caps">JA4</span></td>
+<td style="text-align: right;">3.4%</td>
+<td style="text-align: right;">0.730</td>
+<td style="text-align: right;">0.074</td>
+<td style="text-align: right;">0.403</td>
+<td style="text-align: right;">0.041</td>
+<td style="text-align: right;">0.966</td>
+</tr>
+<tr>
+<td>Group&nbsp;by <code>ja4_b + ja4_c</code></td>
+<td>No hashes</td>
+<td style="text-align: right;">3.4%</td>
+<td style="text-align: right;">0.591</td>
+<td style="text-align: right;">0.179</td>
+<td style="text-align: right;">0.170</td>
+<td style="text-align: right;">0.188</td>
+<td style="text-align: right;">0.942</td>
+</tr>
+</tbody>
+</table>
+<p>The random split&#8217;s 0.986 <span class="caps">AUC</span> gets close to the paper&#8217;s reported 0.998. However, the overlap diagnostic makes this less impressive. Of the unique <span class="caps">JA4</span> fingerprints in the random test set, 90.3% (!) also occur in training. <strong>Because the common fingerprints contain many rows, 99.7% of all test rows have a full <span class="caps">JA4</span> value that the model has already&nbsp;seen.</strong></p>
+<p>The 141,954 modeled rows contain only 1,131 distinct full fingerprints. The most common fingerprint accounts for 11.5% of the data. The ten largest account for 46.8%. There are 140 fingerprints associated with both labels, and these mixed-label fingerprints cover 66.3% of all rows. Since rows with the same full <span class="caps">JA4</span> have identical model features, the model cannot separate them. What it can learn under a random split is the historical bot rate associated with a familiar <span class="caps">TLS</span>&nbsp;configuration.</p>
+<p>Once full fingerprints are kept on one side of the split, <span class="caps">AUC</span> drops from 0.986 to 0.676! Grouping on the hash pair gives an <span class="caps">AUC</span> of 0.730. That&#8217;s some signal, but it is a different result from a random row split where almost every test row belongs to a known fingerprint&nbsp;family.</p>
+<p>Removing <code>ja4_b</code> and <code>ja4_c</code> does surprisingly little under the random split: <span class="caps">AUC</span> moves from 0.986 to 0.978. Direct memorization of those two hashes is therefore only part of the story. The coarse fields carry a lot of client-family information themselves. In fact, a dumb model&nbsp;using <code>cipher_count</code> only reaches an <span class="caps">AUC</span> of 0.903 on a random split! Bad-bot rows have an average cipher count of 22.0, compared with 17.9 for benign rows. The relationship also has strong local buckets. A cipher count of 30 occurs 16,410 times and has a bad-bot rate of 70.9%; a cipher count of 9 occurs 7,041 times and is 97.5% bad-bot. This might be a true stable signal. Perhaps bots use particular installations or package versions and so forth that cause this exact cipher&nbsp;count.</p>
+<p>But here too, the grouped splits tell a different story. Under the strictest split (grouping&nbsp;on <code>ja4_b + ja4_c</code>), the no-hash model falls to an <span class="caps">AUC</span> of 0.591, barely above chance. So on unseen hash-pair families, the coarse <span class="caps">JA4</span> fields by themselves carry almost no transferable signal, and a simple monotonic rule&nbsp;on <code>cipher_count</code> is weak as well (<span class="caps">AUC</span> 0.61 for &#8220;high cipher count means bot&#8221;). The strong cipher-count buckets learned under a random split are largely properties of fingerprint families that are already represented in&nbsp;training.</p>
+<p>In any case, whilst <span class="caps">TLS</span> fingerprints do contain useful information about the labels in this database, what the random split measures is largely performance on more observations from fingerprint families that were already represented in training. It provides weak evidence for how the model will generalize to new client families or approaches. Which is exactly bound to appear in scenarios where you present your work to catch &#8220;bad&nbsp;bots&#8221;.</p>
+<p>Hence that would be the true generalization question an anti-bot model has to answer. So the old question of what exactly is allowed to appear on both sides of the train/test split is still important, no? Tabular <span class="caps">ML</span> may be solved, but we should still be careful not to use it&nbsp;wrongly.</p>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width" />
+
+	<title>Keeping uv Virtual Environments Out of Google Drive</title>
+
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/normalize.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/foundation.min.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/style.css" />
+	<link rel="stylesheet" href="//blog.macuyiko.com/theme/css/pygments.css" />
+	<script src="//blog.macuyiko.com/theme/js/jquery-3.4.1.min.js"></script>
+	<link rel="preconnect" href="https://fonts.gstatic.com">
+	<link href="https://fonts.googleapis.com/css?family=Bitter:400,700|Fira+Code&display=swap" rel="stylesheet">
+
+	<script type="text/javascript">
+		var waitForFinalEvent = (function () {
+			var timers = {};
+			return function (callback, ms, uniqueId) {
+				if (!uniqueId) uniqueId = "_";
+				if (timers[uniqueId]) clearTimeout(timers[uniqueId]);
+				timers[uniqueId] = setTimeout(callback, ms);
+			};
+		})();
+		var insertCaptions = function () {
+			$('#articlecontainer .caption').remove();
+			var width = $(window).width();
+			var onmobile = width < 1400; //>
+			var capclass = onmobile ? 'caption-below' : 'caption-aside';
+			$.each($('#articlecontainer img'), function (index, value) {
+				if ($(value).attr('alt') != undefined) {
+					var elem = $('<div class="caption ' + capclass + '">' + $(value).attr('alt') + '</div>');
+					if (onmobile) elem.insertAfter(value);
+					else elem.insertBefore(value);
+				}
+			});
+		};
+		$(function () {
+			var quotes = [
+				'Last seen 2026: "Everything is boring now"',
+				'We do it until we get bored',
+				'Are blogs still a thing?',
+				'Updated rarely, regretted often',
+				'No hot takes, only lukewarm confusion',
+				'ChatGPT gave me these quote examples but I wrote the JS, I swear...',
+				'I manually update this page but I have a GitHub Action -- you should hire me',
+				'Remember when we used to share quotes.txt on UseNet?',
+				'Nothing here is finished',
+				'Writing on the internet used to be a form of procrastination',
+				'No, still no newsletter',
+				'Not medicated enough for LinkedIn',
+				'Abandoned drafts are doing most of the work',
+				'Opinions loading… wait they were already',
+				'Low frequency posting',
+				'This site has no KPI',
+				'If this were good, it would be shorter',
+				'Hosted forever, updated emotionally',
+				'The algorithm does not know this exists',
+				'Written without consulting an audience',
+				'This could have been a README, somewhere',
+				'Still better than a Medium post',
+				'Time passes, Geocities remains',
+				'No comments because peace matters',
+				'Powered by a .py file and spite',
+				'RSS feed available for the three of you',
+				'Neither this page nor my life choices validate',
+				'Back online after a three-year coffee break',
+				'"Per my last post (2021)"',
+				'Load time: fast. Update time: geological',
+				'No dark mode, adjust your soul instead',
+				'Deprecated before it shipped',
+				'My drafts folder has seniority',
+				'View Source -- there\'s nothing to steal',
+				'Analytics: one visitor, and it was me',
+				'I had a Substack. We don\'t talk about it',
+				'This quote array is the most maintained thing I own',
+				'Now with 100% more trailing commas',
+				'Somewhere a linter is screaming',
+				'If found, please return to 2007',
+			];
+
+			var $tagline = $('.header-tagline');
+			if ($tagline.length === 0) return;
+
+			var randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+			$tagline.text(randomQuote);
+
+			$(window).resize(function () {
+				waitForFinalEvent(function () {
+					insertCaptions();
+				}, 500, "window.resize");
+			});
+			insertCaptions();
+		});
+	</script>
+	<script type="text/javascript">
+		var _gaq = _gaq || [];
+		_gaq.push(['_setAccount', 'UA-60406-11']);
+		_gaq.push(['_trackPageview']);
+
+		(function () {
+			var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+			ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+			var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+		})();
+	</script>
+</head>
+
+<body>
+
+	<nav>
+		<div class="top-bar large-12 columns">
+			<div class="top-bar large-12 columns">
+				<a href="//blog.macuyiko.com/">
+					<h1 class="header-name">Bed Against The Wall</h1>
+    				<h5 class="header-tagline">Last seen 2026: &quot;Everything is boring now&quot;</h5>
+				</a>
+			</div>
+		</div>
+	</nav>
+
+
+	<div class="row contentwrapper">
+		<div class="row">
+<div id="articlecontainer" class="large-9 columns large-centered">
+	<article>
+		<header>
+			<div class="article-info">Fri 17 July 2026, by Seppe "Macuyiko" vanden Broucke</div>
+			<div class="article-title"><a href="//blog.macuyiko.com/post/2026/keeping-uv-virtual-environments-out-of-google-drive.html" rel="bookmark"
+			title="Permalink to Keeping uv Virtual Environments Out of Google Drive">Keeping uv Virtual Environments Out of Google&nbsp;Drive</a></div>
+		</header>
+	
+	    <p>I have a nasty habbit of starting quick new Python projects somewhere in my chronologically organized Google&nbsp;Drive, <code>uv init</code>-ing them, and start adding&nbsp;packages.</p>
+<p>By default, this means every project gets&nbsp;a <code>.venv</code> directory alongside&nbsp;its <code>pyproject.toml</code>. That works perfectly on a single machine. It also works as intended if you sync your projects with e.g. GitHub as those&nbsp;local <code>.venv</code> folders are just ignored. It&#8217;s less pleasant when the project directory lives in Google Drive, Dropbox, OneDrive, pCloud, or another synchronized folder and you switch between machines often. A Python virtual environment contains thousands of small files, compiled binaries, interpreter-specific paths, and platform-specific packages. Synchronizing it creates two problems. First, the sync client spends a disproportionate amount of time&nbsp;processing <code>.venv</code> (and a lot of sync engines hate a lot of small files). Second, a virtual environment created on Windows will not work correctly on macOS or Linux, which also&nbsp;causes <code>uv run</code> complaints.</p>
+<p>The solution would be to stop putting project folders in Google Drive and just use Git. But I&#8217;m stubborn and don&#8217;t want to start a new repo for any small experiment or idea that more often than not turns out to go&nbsp;nowhere.</p>
+<p>So my ideal setup is&nbsp;therefore:</p>
+<ul>
+<li>Google Drive:<ul>
+<li>project/<ul>
+<li>pyproject.toml</li>
+<li>uv.lock</li>
+<li>.python-version</li>
+<li>src/</li>
+<li><span class="caps">README</span>.<span class="caps">MD</span></li>
+<li>&#8230;</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Local machine (somewhere and somehow):<ul>
+<li>uv-project-envs/<ul>
+<li>project-a1b2c3d4e5f6/</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>At the same time, I still want to&nbsp;type: <code>uv run python main.py</code>, <code>uv sync</code> or <code>uv add pandas</code> (or more often: want <span class="caps">AI</span> agents to run this if they want to without issue). I do not want to&nbsp;remember <code>--active</code> or teach every coding agent to use a custom command or flag. It should also work on all platforms and not rely on <a href="https://github.com/c0rychu/uvlink">symlink hocus pocus</a>.</p>
+<p>And thus, the solution is to put a small wrapper&nbsp;named <code>uv</code> earlier in the system <span class="caps">PATH</span>. This wrapper should find the current project root, create a short hash from the project’s absolute path,&nbsp;set <code>UV_PROJECT_ENVIRONMENT</code> to a machine-local directory and then call the&nbsp;real <code>uv</code> executable (which picks&nbsp;up <code>UV_PROJECT_ENVIRONMENT</code>). Renaming or moving the project creates a new local environment, but that&#8217;s ok and even&nbsp;desirable.</p>
+<h2>Setup</h2>
+<p>Make sure each project includes a Python version pin:&nbsp;e.g. <code>uv python pin 3.12</code>, i.e. that you have&nbsp;a <code>.python-version</code>. Normally this is already the case&nbsp;for <code>uv</code> projects. Also, it&#8217;s a good idea to still&nbsp;add <code>.venv</code> to <code>.gitignore</code> even though the wrapper will no longer create&nbsp;it.</p>
+<h3>macOS and&nbsp;Linux</h3>
+<ol>
+<li>Locate the real uv executable&nbsp;using <code>command -v uv</code> (I&#8217;ll&nbsp;use <code>/Users/seppe/.local/bin/uv</code>)</li>
+<li><code>mkdir -p "$HOME/bin</code> or another directory where we will make the&nbsp;wrapper</li>
+<li><code>nano "$HOME/bin/uv"</code> and paste the script&nbsp;below</li>
+<li><code>chmod +x "$HOME/bin/uv"</code></li>
+<li>Put the wrapper first in <span class="caps">PATH</span><ul>
+<li>For macOS using zsh, add this&nbsp;to <code>~/.zprofile</code>: <code>export PATH="$HOME/bin:$PATH"</code></li>
+<li>For Linux, add it&nbsp;to <code>~/.profile</code>: <code>export PATH="$HOME/bin:$PATH"</code></li>
+<li>Depending on how the Linux terminal starts Bash, it may also be useful to add the same line&nbsp;to <code>~/.bashrc</code></li>
+<li><code>source ~/.zprofile</code> or <code>source ~/.profile</code> or open a new&nbsp;Terminal</li>
+</ul>
+</li>
+<li><code>type -a uv</code> to verify the wrapper appears&nbsp;first <code>uv --version</code> to make&nbsp;sure <code>uv</code> works</li>
+</ol>
+<p>Script <code>$HOME/bin/uv</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="ch">#!/usr/bin/env bash</span>
+<span class="nb">set</span><span class="w"> </span>-euo<span class="w"> </span>pipefail
+
+<span class="c1"># === IMPORTANT =========================================</span>
+<span class="c1"># Replace this with the result of:</span>
+<span class="c1"># command -v uv</span>
+<span class="nv">REAL_UV</span><span class="o">=</span><span class="s2">&quot;/absolute/path/to/the/real/uv&quot;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>!<span class="w"> </span>-x<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REAL_UV</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;uv wrapper: real uv executable not found at:&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;  </span><span class="nv">$REAL_UV</span><span class="s2">&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Update REAL_UV in </span><span class="nv">$0</span><span class="s2">.&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+find_project_root<span class="o">()</span><span class="w"> </span><span class="o">{</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$PWD</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="nb">local</span><span class="w"> </span><span class="nv">candidate</span><span class="o">=</span><span class="s2">&quot;&quot;</span>
+
+<span class="w">    </span><span class="k">while</span><span class="w"> </span>true<span class="p">;</span><span class="w"> </span><span class="k">do</span>
+<span class="w">        </span><span class="c1"># A lockfile is the strongest indication of the actual uv root.</span>
+<span class="w">        </span><span class="c1"># This also behaves more sensibly for uv workspaces.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">/uv.lock&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;%s\n&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">&quot;</span>
+<span class="w">            </span><span class="k">return</span>
+<span class="w">        </span><span class="k">fi</span>
+
+<span class="w">        </span><span class="c1"># Remember the nearest project marker in case there is no lockfile yet.</span>
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$candidate</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="o">{</span>
+<span class="w">            </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">/pyproject.toml&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span>
+<span class="w">            </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">/uv.toml&quot;</span><span class="w"> </span><span class="o">]]</span><span class="w"> </span><span class="o">||</span>
+<span class="w">            </span><span class="o">[[</span><span class="w"> </span>-f<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">/.python-version&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span>
+<span class="w">        </span><span class="o">}</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="nv">candidate</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">&quot;</span>
+<span class="w">        </span><span class="k">fi</span>
+
+<span class="w">        </span><span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="s2">&quot;/&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">            </span><span class="k">break</span>
+<span class="w">        </span><span class="k">fi</span>
+
+<span class="w">        </span><span class="nv">dir</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>dirname<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$dir</span><span class="s2">&quot;</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="w">    </span><span class="k">done</span>
+
+<span class="w">    </span><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;%s\n&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$candidate</span><span class="s2">&quot;</span>
+<span class="o">}</span>
+
+<span class="nv">project_root</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>find_project_root<span class="k">)</span><span class="s2">&quot;</span>
+
+<span class="c1"># Outside a Python project, behave exactly like the real uv command.</span>
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$project_root</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REAL_UV</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+<span class="c1"># macOS normally provides shasum; Linux normally provides sha256sum.</span>
+<span class="k">if</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>sha256sum<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">project_hash</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>
+<span class="w">        </span><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;%s&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$project_root</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span>
+<span class="w">        </span>sha256sum<span class="w"> </span><span class="p">|</span>
+<span class="w">        </span>cut<span class="w"> </span>-c1-12
+<span class="w">    </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="k">elif</span><span class="w"> </span><span class="nb">command</span><span class="w"> </span>-v<span class="w"> </span>shasum<span class="w"> </span>&gt;/dev/null<span class="w"> </span><span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">project_hash</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>
+<span class="w">        </span><span class="nb">printf</span><span class="w"> </span><span class="s1">&#39;%s&#39;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$project_root</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span>
+<span class="w">        </span>shasum<span class="w"> </span>-a<span class="w"> </span><span class="m">256</span><span class="w"> </span><span class="p">|</span>
+<span class="w">        </span>cut<span class="w"> </span>-c1-12
+<span class="w">    </span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+<span class="w">    </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;uv wrapper: sha256sum or shasum is required.&quot;</span><span class="w"> </span>&gt;<span class="p">&amp;</span><span class="m">2</span>
+<span class="w">    </span><span class="nb">exit</span><span class="w"> </span><span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="nv">project_name</span><span class="o">=</span><span class="s2">&quot;</span><span class="k">$(</span>
+<span class="w">    </span>basename<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$project_root</span><span class="s2">&quot;</span><span class="w"> </span><span class="p">|</span>
+<span class="w">    </span>tr<span class="w"> </span>-cd<span class="w"> </span><span class="s1">&#39;[:alnum:]_.-&#39;</span>
+<span class="k">)</span><span class="s2">&quot;</span>
+
+<span class="k">if</span><span class="w"> </span><span class="o">[[</span><span class="w"> </span>-z<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$project_name</span><span class="s2">&quot;</span><span class="w"> </span><span class="o">]]</span><span class="p">;</span><span class="w"> </span><span class="k">then</span>
+<span class="w">    </span><span class="nv">project_name</span><span class="o">=</span><span class="s2">&quot;project&quot;</span>
+<span class="k">fi</span>
+
+<span class="nv">env_root</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span>
+<span class="p">    UV_LOCAL_ENV_ROOT</span><span class="k">:-</span><span class="si">${</span>
+<span class="p">        XDG_DATA_HOME</span><span class="k">:-</span><span class="nv">$HOME</span><span class="p">/.local/share</span>
+<span class="p">    </span><span class="si">}</span><span class="p">/uv-project-envs</span>
+<span class="si">}</span><span class="s2">&quot;</span>
+
+mkdir<span class="w"> </span>-p<span class="w"> </span><span class="s2">&quot;</span><span class="nv">$env_root</span><span class="s2">&quot;</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">UV_PROJECT_ENVIRONMENT</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$env_root</span><span class="s2">/</span><span class="si">${</span><span class="nv">project_name</span><span class="si">}</span><span class="s2">-</span><span class="si">${</span><span class="nv">project_hash</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="nb">exec</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$REAL_UV</span><span class="s2">&quot;</span><span class="w"> </span><span class="s2">&quot;</span><span class="nv">$@</span><span class="s2">&quot;</span>
+</code></pre></div>
+
+<h3>Windows</h3>
+<p>On Windows, the most compatible solution is a&nbsp;small <code>uv.cmd</code> launcher combined with a PowerShell script. Using a .cmd launcher means the wrapper can be found by: PowerShell, Command Prompt, <span class="caps">VS</span> Code terminals,&nbsp;etc.</p>
+<ol>
+<li>Locate the real uv executable&nbsp;using <code>(Get-Command uv.exe).Source</code> (I&#8217;ll&nbsp;use <code>C:\Users\Seppe\.local\bin\uv.exe</code>)</li>
+<li><code>New-Item -ItemType Directory -Force "$env:USERPROFILE\bin"</code> or another directory where we will make the&nbsp;wrapper</li>
+<li><code>notepad "$env:USERPROFILE\bin\uv-wrapper.ps1"</code> and paste the script&nbsp;below</li>
+<li><code>notepad "$env:USERPROFILE\bin\uv.cmd"</code> and paste the second script&nbsp;below</li>
+<li>Put the wrapper first in <span class="caps">PATH</span><ul>
+<li><span class="dquo">&#8220;</span>Edit environment variables for your&nbsp;account&#8221;</li>
+<li>Add <code>%USERPROFILE%\bin</code> and make sure it is above the uv&nbsp;path</li>
+<li>Close all open&nbsp;terminals</li>
+</ul>
+</li>
+<li><code>Get-Command uv -All</code> to verify the wrapper appears&nbsp;first <code>uv --version</code> to make&nbsp;sure <code>uv</code> works</li>
+</ol>
+<p>Script <code>$env:USERPROFILE\bin\uv-wrapper.ps1</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">$ErrorActionPreference</span> <span class="p">=</span> <span class="s2">&quot;Stop&quot;</span>
+
+<span class="c"># === IMPORTANT =========================================</span>
+<span class="c"># Replace this with the result of:</span>
+<span class="c"># (Get-Command uv.exe).Source</span>
+<span class="nv">$RealUv</span> <span class="p">=</span> <span class="s2">&quot;C:\absolute\path\to\the\real\uv.exe&quot;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">-not</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="n">-LiteralPath</span> <span class="nv">$RealUv</span> <span class="n">-PathType</span> <span class="n">Leaf</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nb">Write-Error</span> <span class="s2">&quot;uv wrapper: real uv executable not found at: $RealUv&quot;</span>
+    <span class="n">exit</span> <span class="n">1</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nb">Find-UvProjectRoot</span> <span class="p">{</span>
+    <span class="nv">$dir</span> <span class="p">=</span> <span class="p">(</span><span class="nb">Get-Location</span><span class="p">).</span><span class="n">ProviderPath</span>
+    <span class="nv">$candidate</span> <span class="p">=</span> <span class="nv">$null</span>
+
+    <span class="k">while</span> <span class="p">(</span><span class="nv">$true</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$lockfile</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="nv">$dir</span> <span class="s2">&quot;uv.lock&quot;</span>
+
+        <span class="c"># Prefer the nearest uv.lock. This is also more suitable</span>
+        <span class="c"># for projects contained in a uv workspace.</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nb">Test-Path</span> <span class="n">-LiteralPath</span> <span class="nv">$lockfile</span> <span class="n">-PathType</span> <span class="n">Leaf</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nv">$dir</span>
+        <span class="p">}</span>
+
+        <span class="nv">$hasProjectMarker</span> <span class="p">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="nb">Test-Path</span> <span class="n">-LiteralPath</span> <span class="p">(</span><span class="nb">Join-Path</span> <span class="nv">$dir</span> <span class="s2">&quot;pyproject.toml&quot;</span><span class="p">)</span> <span class="n">-PathType</span> <span class="n">Leaf</span><span class="p">)</span> <span class="o">-or</span>
+            <span class="p">(</span><span class="nb">Test-Path</span> <span class="n">-LiteralPath</span> <span class="p">(</span><span class="nb">Join-Path</span> <span class="nv">$dir</span> <span class="s2">&quot;uv.toml&quot;</span><span class="p">)</span> <span class="n">-PathType</span> <span class="n">Leaf</span><span class="p">)</span> <span class="o">-or</span>
+            <span class="p">(</span><span class="nb">Test-Path</span> <span class="n">-LiteralPath</span> <span class="p">(</span><span class="nb">Join-Path</span> <span class="nv">$dir</span> <span class="s2">&quot;.python-version&quot;</span><span class="p">)</span> <span class="n">-PathType</span> <span class="n">Leaf</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$candidate</span> <span class="o">-and</span> <span class="nv">$hasProjectMarker</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$candidate</span> <span class="p">=</span> <span class="nv">$dir</span>
+        <span class="p">}</span>
+
+        <span class="nv">$parent</span> <span class="p">=</span> <span class="nb">Split-Path</span> <span class="n">-Path</span> <span class="nv">$dir</span> <span class="n">-Parent</span>
+
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="no">[string]</span><span class="p">::</span><span class="n">IsNullOrEmpty</span><span class="p">(</span><span class="nv">$parent</span><span class="p">)</span> <span class="o">-or</span>
+            <span class="nv">$parent</span> <span class="o">-eq</span> <span class="nv">$dir</span>
+        <span class="p">)</span> <span class="p">{</span>
+            <span class="k">break</span>
+        <span class="p">}</span>
+
+        <span class="nv">$dir</span> <span class="p">=</span> <span class="nv">$parent</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$candidate</span>
+<span class="p">}</span>
+
+<span class="nv">$projectRoot</span> <span class="p">=</span> <span class="nb">Find-UvProjectRoot</span>
+
+<span class="c"># Outside a project, call the real uv normally.</span>
+<span class="k">if</span> <span class="p">(</span><span class="no">[string]</span><span class="p">::</span><span class="n">IsNullOrWhiteSpace</span><span class="p">(</span><span class="nv">$projectRoot</span><span class="p">))</span> <span class="p">{</span>
+    <span class="p">&amp;</span> <span class="nv">$RealUv</span> <span class="nv">@args</span>
+    <span class="n">exit</span> <span class="nv">$LASTEXITCODE</span>
+<span class="p">}</span>
+
+<span class="c"># Windows paths are case-insensitive, so normalize the path before hashing.</span>
+<span class="nv">$normalizedRoot</span> <span class="p">=</span> <span class="no">[System.IO.Path]</span><span class="p">::</span><span class="n">GetFullPath</span><span class="p">(</span><span class="nv">$projectRoot</span><span class="p">)</span>
+<span class="nv">$normalizedRoot</span> <span class="p">=</span> <span class="nv">$normalizedRoot</span><span class="p">.</span><span class="n">TrimEnd</span><span class="p">(</span><span class="no">[char]</span><span class="s1">&#39;\&#39;</span><span class="p">)</span>
+<span class="nv">$normalizedRoot</span> <span class="p">=</span> <span class="nv">$normalizedRoot</span><span class="p">.</span><span class="n">ToLowerInvariant</span><span class="p">()</span>
+
+<span class="nv">$bytes</span> <span class="p">=</span> <span class="no">[System.Text.Encoding]</span><span class="p">::</span><span class="n">UTF8</span><span class="p">.</span><span class="n">GetBytes</span><span class="p">(</span><span class="nv">$normalizedRoot</span><span class="p">)</span>
+<span class="nv">$sha</span> <span class="p">=</span> <span class="no">[System.Security.Cryptography.SHA256]</span><span class="p">::</span><span class="n">Create</span><span class="p">()</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$hashBytes</span> <span class="p">=</span> <span class="nv">$sha</span><span class="p">.</span><span class="n">ComputeHash</span><span class="p">(</span><span class="nv">$bytes</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="k">finally</span> <span class="p">{</span>
+    <span class="nv">$sha</span><span class="p">.</span><span class="n">Dispose</span><span class="p">()</span>
+<span class="p">}</span>
+
+<span class="nv">$projectHash</span> <span class="p">=</span> <span class="p">(</span>
+    <span class="nv">$hashBytes</span> <span class="p">|</span>
+    <span class="k">ForEach</span><span class="n">-Object</span> <span class="p">{</span> <span class="nv">$_</span><span class="p">.</span><span class="n">ToString</span><span class="p">(</span><span class="s2">&quot;x2&quot;</span><span class="p">)</span> <span class="p">}</span>
+<span class="p">)</span> <span class="n">-join</span> <span class="s2">&quot;&quot;</span>
+
+<span class="nv">$projectHash</span> <span class="p">=</span> <span class="nv">$projectHash</span><span class="p">.</span><span class="n">Substring</span><span class="p">(</span><span class="n">0</span><span class="p">,</span> <span class="n">12</span><span class="p">)</span>
+
+<span class="nv">$projectName</span> <span class="p">=</span> <span class="nb">Split-Path</span> <span class="n">-Path</span> <span class="nv">$projectRoot</span> <span class="n">-Leaf</span>
+<span class="nv">$projectName</span> <span class="p">=</span> <span class="nv">$projectName</span> <span class="o">-replace</span> <span class="s1">&#39;[^A-Za-z0-9_.-]&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="no">[string]</span><span class="p">::</span><span class="n">IsNullOrWhiteSpace</span><span class="p">(</span><span class="nv">$projectName</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$projectName</span> <span class="p">=</span> <span class="s2">&quot;project&quot;</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="no">[string]</span><span class="p">::</span><span class="n">IsNullOrWhiteSpace</span><span class="p">(</span><span class="nv">$env:UV_LOCAL_ENV_ROOT</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$envRoot</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="nv">$env:LOCALAPPDATA</span> <span class="s2">&quot;uv-project-envs&quot;</span>
+<span class="p">}</span>
+<span class="k">else</span> <span class="p">{</span>
+    <span class="nv">$envRoot</span> <span class="p">=</span> <span class="nv">$env:UV_LOCAL_ENV_ROOT</span>
+<span class="p">}</span>
+
+<span class="nb">New-Item</span> <span class="n">-ItemType</span> <span class="n">Directory</span> <span class="n">-Force</span> <span class="n">-Path</span> <span class="nv">$envRoot</span> <span class="p">|</span>
+    <span class="nb">Out-Null</span>
+
+<span class="nv">$projectEnvironment</span> <span class="p">=</span> <span class="nb">Join-Path</span> <span class="p">`</span>
+    <span class="nv">$envRoot</span> <span class="p">`</span>
+    <span class="s2">&quot;$projectName-$projectHash&quot;</span>
+
+<span class="nv">$previousProjectEnvironment</span> <span class="p">=</span> <span class="nv">$env:UV_PROJECT_ENVIRONMENT</span>
+<span class="nv">$exitCode</span> <span class="p">=</span> <span class="n">1</span>
+
+<span class="k">try</span> <span class="p">{</span>
+    <span class="nv">$env:UV_PROJECT_ENVIRONMENT</span> <span class="p">=</span> <span class="nv">$projectEnvironment</span>
+
+    <span class="p">&amp;</span> <span class="nv">$RealUv</span> <span class="nv">@args</span>
+    <span class="nv">$exitCode</span> <span class="p">=</span> <span class="nv">$LASTEXITCODE</span>
+<span class="p">}</span>
+<span class="k">finally</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$null</span> <span class="o">-eq</span> <span class="nv">$previousProjectEnvironment</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nb">Remove-Item</span> <span class="p">`</span>
+            <span class="n">Env</span><span class="p">:\</span><span class="n">UV_PROJECT_ENVIRONMENT</span> <span class="p">`</span>
+            <span class="n">-ErrorAction</span> <span class="n">SilentlyContinue</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="nv">$env:UV_PROJECT_ENVIRONMENT</span> <span class="p">=</span> <span class="nv">$previousProjectEnvironment</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">exit</span> <span class="nv">$exitCode</span>
+</code></pre></div>
+
+<p>Script <code>$env:USERPROFILE\bin\uv.cmd</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nv">@echo</span><span class="w"> </span><span class="k">off</span>
+<span class="n">REM</span><span class="w"> </span><span class="n">You</span><span class="w"> </span><span class="n">can</span><span class="w"> </span><span class="n">also</span><span class="w"> </span><span class="k">use</span><span class="w"> </span><span class="n">pwsh</span><span class="p">.</span><span class="n">exe</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">PowerShell</span><span class="w"> </span><span class="mi">7</span><span class="w"> </span><span class="k">is</span><span class="w"> </span><span class="n">installed</span><span class="w"> </span><span class="o">/</span><span class="w"> </span><span class="n">preferred</span>
+<span class="n">powershell</span><span class="p">.</span><span class="n">exe</span><span class="w"> </span><span class="o">-</span><span class="n">NoLogo</span><span class="w"> </span><span class="o">-</span><span class="n">NoProfile</span><span class="w"> </span><span class="o">-</span><span class="n">ExecutionPolicy</span><span class="w"> </span><span class="n">Bypass</span><span class="w"> </span><span class="o">-</span><span class="k">File</span><span class="w"> </span><span class="ss">&quot;%~dp0uv-wrapper.ps1&quot;</span><span class="w"> </span><span class="o">%*</span>
+<span class="k">exit</span><span class="w"> </span><span class="o">/</span><span class="n">b</span><span class="w"> </span><span class="o">%</span><span class="n">ERRORLEVEL</span><span class="o">%</span>
+</code></pre></div>
+
+<h2>Notes</h2>
+<ul>
+<li>The main reason for naming the wrapper uv, rather than something like uvw, is compatibility with automated&nbsp;tools</li>
+<li>Important&nbsp;caveat: <code>uv pip</code>. <code>UV_PROJECT_ENVIRONMENT</code> applies to uv’s project workflow, but it does not affect the&nbsp;low-level <code>uv pip</code> interface. When this usage is required, explicitly activate the environment&nbsp;first</li>
+<li>Uninstall: simply remove from path, delete wrapper scripts and clean&nbsp;up <code>uv-project-envs</code> folder</li>
+</ul>
+	</article>
+</div>
+
+		</div>
+
+		<footer class="row">
+			<div class="large-12 columns">
+				<hr />
+				<div class="row">
+					<p>Bed Against The Wall by Seppe "Macuyiko" vanden Broucke<br>
+						Unless mentioned otherwise, this work is licensed under a <a
+							href="http://creativecommons.org/licenses/by-sa/2.0/be/" rel="license">Creative Commons
+							Attribution-Share Alike 2.0 Belgium License</a>.<br>
+						Static blog engine powered by <a href="http://getpelican.com">Pelican</a>.</p>
+				</div>
+			</div>
+		</footer>
+	</div>
